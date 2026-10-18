@@ -1,0 +1,11 @@
+**/node_modules
+**/dist
+**/coverage
+**/.next
+**/.turbo
+**/src/generated
+**/.env
+.git
+.github
+docs
+assets
