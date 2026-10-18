@@ -5,6 +5,7 @@ import {
   HealthModule,
   IdempotencyModule,
   RedisIdempotencyStore,
+  ZOD_PROVIDERS,
 } from '@zelqune/common';
 import { type Redis } from 'ioredis';
 import { gatewayEnvSchema } from './config/gateway-env';
@@ -28,5 +29,6 @@ import { ServicesModule } from './services/services.module';
       probes: gatewayProbes,
     }),
   ],
+  providers: [...ZOD_PROVIDERS],
 })
 export class AppModule {}

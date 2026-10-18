@@ -1,6 +1,11 @@
 import { type INestApplication, RequestMethod } from '@nestjs/common';
 import { DocumentBuilder, type OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
-import { configureHttpApp, IDEMPOTENCY_HEADER, REQUEST_ID_HEADER } from '@zelqune/common';
+import {
+  configureHttpApp,
+  finalizeOpenApiDocument,
+  IDEMPOTENCY_HEADER,
+  REQUEST_ID_HEADER,
+} from '@zelqune/common';
 import { type GatewayEnv } from './config/gateway-env';
 
 export const API_PREFIX = 'v1';
@@ -24,7 +29,7 @@ export function setupGateway(
 }
 
 export function createOpenApiDocument(app: INestApplication): OpenAPIObject {
-  return SwaggerModule.createDocument(
+  const document = SwaggerModule.createDocument(
     app,
     new DocumentBuilder()
       .setTitle('Zelqune API')
@@ -33,4 +38,5 @@ export function createOpenApiDocument(app: INestApplication): OpenAPIObject {
       .addBearerAuth()
       .build(),
   );
+  return finalizeOpenApiDocument(document);
 }

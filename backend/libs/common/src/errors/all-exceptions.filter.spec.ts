@@ -1,4 +1,5 @@
 import { type ArgumentsHost, BadRequestException, NotFoundException } from '@nestjs/common';
+import { ZodValidationException } from 'nestjs-zod';
 import { lastValueFrom, type Observable } from 'rxjs';
 import { z } from 'zod';
 import { requestContext } from '../context/request-context';
@@ -66,5 +67,14 @@ describe('AllExceptionsFilter', () => {
       message: 'x',
       details: undefined,
     });
+  });
+});
+
+describe('toErrorPayload with nestjs-zod', () => {
+  it('maps request validation errors to 400 VALIDATION_FAILED with issues', () => {
+    const zodError = z.object({ a: z.string() }).safeParse({}).error;
+    const payload = toErrorPayload(new ZodValidationException(zodError));
+    expect(payload).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
+    expect(Array.isArray(payload.details)).toBe(true);
   });
 });

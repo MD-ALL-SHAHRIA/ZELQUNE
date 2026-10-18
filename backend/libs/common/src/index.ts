@@ -22,3 +22,4 @@ export * from './rpc/rpc-context.interceptor';
 export * from './rpc/service-client';
 export * from './service/service-core.module';
 export * from './bootstrap/bootstrap';
+export * from './validation/validation';
