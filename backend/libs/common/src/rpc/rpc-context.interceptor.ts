@@ -1,4 +1,9 @@
-import { type CallHandler, type ExecutionContext, Injectable, type NestInterceptor } from '@nestjs/common';
+import {
+  type CallHandler,
+  type ExecutionContext,
+  Injectable,
+  type NestInterceptor,
+} from '@nestjs/common';
 import { type RpcRequest } from '@zelqune/contracts';
 import { randomUUID } from 'node:crypto';
 import { Observable } from 'rxjs';

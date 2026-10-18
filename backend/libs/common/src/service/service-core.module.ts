@@ -9,7 +9,11 @@ import { databaseProbe } from '../health/health.types';
 import { createLoggerModule } from '../logger/logger.module';
 import { EventConsumer } from '../messaging/event-consumer';
 import { EventPublisher } from '../messaging/event-publisher';
-import { MESSAGING_OPTIONS, type MessagingOptions, RabbitMqConnection } from '../messaging/rabbitmq.connection';
+import {
+  MESSAGING_OPTIONS,
+  type MessagingOptions,
+  RabbitMqConnection,
+} from '../messaging/rabbitmq.connection';
 import { OutboxRelay, OUTBOX_RELAY_OPTIONS, type OutboxRelayOptions } from '../outbox/outbox.relay';
 import { OutboxService } from '../outbox/outbox.service';
 import { HealthRpcController, SERVICE_NAME } from './health-rpc.controller';

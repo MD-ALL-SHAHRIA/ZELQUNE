@@ -10,7 +10,10 @@ import { setupGateway } from '../src/setup';
 
 describe('gateway (e2e)', () => {
   let app: INestApplication;
-  const redis = { ping: jest.fn().mockResolvedValue('PONG'), quit: jest.fn().mockResolvedValue('OK') };
+  const redis = {
+    ping: jest.fn().mockResolvedValue('PONG'),
+    quit: jest.fn().mockResolvedValue('OK'),
+  };
   const clients = SERVICE_KEYS.map((key) => ({
     name: SERVICES[key].name,
     send: jest.fn().mockResolvedValue({ status: 'ok' }),
@@ -73,10 +76,14 @@ describe('gateway (e2e)', () => {
   });
 
   it('propagates an incoming x-request-id and generates one otherwise', async () => {
-    const echoed = await request(app.getHttpServer()).get('/health').set('x-request-id', 'req-abc-123');
+    const echoed = await request(app.getHttpServer())
+      .get('/health')
+      .set('x-request-id', 'req-abc-123');
     expect(echoed.headers['x-request-id']).toBe('req-abc-123');
 
-    const generated = await request(app.getHttpServer()).get('/health').set('x-request-id', 'bad id!');
+    const generated = await request(app.getHttpServer())
+      .get('/health')
+      .set('x-request-id', 'bad id!');
     expect(generated.headers['x-request-id']).toMatch(/^[0-9a-f-]{36}$/);
   });
 });

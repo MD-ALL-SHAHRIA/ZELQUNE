@@ -15,7 +15,10 @@ describe('ServiceClient', () => {
     const p = proxy(of('pong'));
     const client = new ServiceClient('catalog-service', p);
     await requestContext.run({ requestId: 'req-7' }, () => client.send('health.ping', { a: 1 }));
-    expect(p.send).toHaveBeenCalledWith('health.ping', { meta: { requestId: 'req-7' }, data: { a: 1 } });
+    expect(p.send).toHaveBeenCalledWith('health.ping', {
+      meta: { requestId: 'req-7' },
+      data: { a: 1 },
+    });
   });
 
   it('maps service errors, timeouts and connection failures to AppError', async () => {

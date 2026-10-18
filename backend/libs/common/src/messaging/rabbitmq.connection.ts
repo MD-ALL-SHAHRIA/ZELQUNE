@@ -1,4 +1,10 @@
-import { Inject, Injectable, Logger, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  type OnModuleDestroy,
+  type OnModuleInit,
+} from '@nestjs/common';
 import { type ConfirmChannel } from 'amqplib';
 import { type AmqpConnectionManager, type ChannelWrapper, connect } from 'amqp-connection-manager';
 import { assertTopology } from './topology';

@@ -21,7 +21,10 @@ export function serviceEnvPrefix(key: ServiceKey): string {
 const serviceAddressShape = Object.fromEntries(
   SERVICE_KEYS.flatMap((key) => [
     [`${serviceEnvPrefix(key)}_HOST`, z.string().min(1).default('localhost')],
-    [`${serviceEnvPrefix(key)}_PORT`, z.coerce.number().int().positive().default(DEFAULT_TCP_PORTS[key])],
+    [
+      `${serviceEnvPrefix(key)}_PORT`,
+      z.coerce.number().int().positive().default(DEFAULT_TCP_PORTS[key]),
+    ],
   ]),
 ) as Record<string, z.ZodDefault<z.ZodString> | z.ZodDefault<z.ZodCoercedNumber>>;
 
@@ -31,14 +34,22 @@ export const gatewayEnvSchema = baseEnvSchema.extend({
   CORS_ORIGINS: z
     .string()
     .default('')
-    .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
+    .transform((v) =>
+      v
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean),
+    ),
   RPC_TIMEOUT_MS: z.coerce.number().int().positive().default(5000),
   ...serviceAddressShape,
 });
 
 export type GatewayEnv = z.infer<typeof gatewayEnvSchema>;
 
-export function serviceAddress(config: GatewayEnv, key: ServiceKey): { host: string; port: number } {
+export function serviceAddress(
+  config: GatewayEnv,
+  key: ServiceKey,
+): { host: string; port: number } {
   const env = config as unknown as Record<string, string | number>;
   const prefix = serviceEnvPrefix(key);
   return { host: String(env[`${prefix}_HOST`]), port: Number(env[`${prefix}_PORT`]) };

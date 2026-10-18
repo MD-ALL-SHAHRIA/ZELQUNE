@@ -1,15 +1,14 @@
-import {
-  Inject,
-  Injectable,
-  Logger,
-  type OnApplicationBootstrap,
-} from '@nestjs/common';
+import { Inject, Injectable, Logger, type OnApplicationBootstrap } from '@nestjs/common';
 import { type EventEnvelope, parseEnvelope } from '@zelqune/contracts';
 import { type ConfirmChannel, type ConsumeMessage } from 'amqplib';
 import { randomUUID } from 'node:crypto';
 import { requestContext } from '../context/request-context';
 import { TRANSACTIONAL_DB, type SqlExecutor, type TransactionalDb } from '../db/db.types';
-import { MESSAGING_OPTIONS, type MessagingOptions, RabbitMqConnection } from './rabbitmq.connection';
+import {
+  MESSAGING_OPTIONS,
+  type MessagingOptions,
+  RabbitMqConnection,
+} from './rabbitmq.connection';
 import { EVENTS_EXCHANGE, serviceQueues } from './topology';
 
 /** Runs inside the same DB transaction that records the event as processed. */

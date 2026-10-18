@@ -40,7 +40,12 @@ export function toErrorPayload(exception: unknown): RpcErrorPayload {
     }
     const { message } = response as { message?: unknown };
     if (Array.isArray(message)) {
-      return { status, code: codeForStatus(status), message: 'Validation failed', details: message };
+      return {
+        status,
+        code: codeForStatus(status),
+        message: 'Validation failed',
+        details: message,
+      };
     }
     return {
       status,

@@ -7,7 +7,7 @@
     },
     "lint": {},
     "typecheck": { "dependsOn": ["^build"] },
-    "test": { "dependsOn": ["^build"], "outputs": ["coverage/**"] },
+    "test": { "dependsOn": ["^build"], "outputs": [] },
     "gen": { "cache": false }
   }
 }

@@ -13,7 +13,10 @@ import { PrismaClient } from '../generated/prisma/client';
 export class PrismaService extends PrismaClient implements TransactionalDb, OnModuleDestroy {
   constructor(@InjectConfig() config: ServiceEnv) {
     super({
-      adapter: new PrismaPg({ connectionString: config.DATABASE_URL }, { schema: config.DB_SCHEMA }),
+      adapter: new PrismaPg(
+        { connectionString: config.DATABASE_URL },
+        { schema: config.DB_SCHEMA },
+      ),
     });
   }
 

@@ -6,7 +6,10 @@ import { type GatewayEnv } from './config/gateway-env';
 export const API_PREFIX = 'v1';
 
 /** Everything main.ts applies, shared with e2e tests. */
-export function setupGateway(app: INestApplication, config: Pick<GatewayEnv, 'CORS_ORIGINS'>): void {
+export function setupGateway(
+  app: INestApplication,
+  config: Pick<GatewayEnv, 'CORS_ORIGINS'>,
+): void {
   configureHttpApp(app);
   app.setGlobalPrefix(API_PREFIX, { exclude: [{ path: 'health', method: RequestMethod.GET }] });
   app.enableCors({

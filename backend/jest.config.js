@@ -10,7 +10,12 @@ const shared = {
 };
 
 module.exports = {
-  collectCoverageFrom: ['apps/**/src/**/*.ts', 'libs/**/src/**/*.ts', '!**/src/generated/**', '!**/main.ts'],
+  collectCoverageFrom: [
+    'apps/**/src/**/*.ts',
+    'libs/**/src/**/*.ts',
+    '!**/src/generated/**',
+    '!**/main.ts',
+  ],
   projects: [
     { ...shared, displayName: 'unit', testRegex: '(apps|libs)/.*\\.spec\\.ts$' },
     { ...shared, displayName: 'e2e', testRegex: 'apps/.*/test/.*\\.e2e-spec\\.ts$' },

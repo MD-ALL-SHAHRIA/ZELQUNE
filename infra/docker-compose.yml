@@ -14,7 +14,13 @@ x-app: &app
   restart: unless-stopped
   networks: [backend]
   healthcheck:
-    test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:'+process.env.HTTP_PORT+'/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+    test:
+      [
+        'CMD',
+        'node',
+        '-e',
+        "fetch('http://127.0.0.1:'+process.env.HTTP_PORT+'/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))",
+      ]
     interval: 10s
     timeout: 5s
     retries: 6
@@ -44,10 +50,10 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d:ro
-    ports: ["127.0.0.1:5432:5432"]
+    ports: ['127.0.0.1:5432:5432']
     networks: [backend]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-zelqune} -d ${POSTGRES_DB:-zelqune}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-zelqune} -d ${POSTGRES_DB:-zelqune}']
       interval: 5s
       timeout: 5s
       retries: 10
@@ -61,10 +67,10 @@ services:
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
     # 5672 AMQP, 15672 management UI (http://localhost:15672)
-    ports: ["127.0.0.1:5672:5672", "127.0.0.1:15672:15672"]
+    ports: ['127.0.0.1:5672:5672', '127.0.0.1:15672:15672']
     networks: [backend]
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
       interval: 10s
       timeout: 10s
       retries: 10
@@ -74,10 +80,10 @@ services:
     restart: unless-stopped
     volumes:
       - redis-data:/data
-    ports: ["127.0.0.1:6379:6379"]
+    ports: ['127.0.0.1:6379:6379']
     networks: [backend]
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
       timeout: 5s
       retries: 10
@@ -110,7 +116,7 @@ services:
       NOTIFICATION_SERVICE_PORT: 4007
       ANALYTICS_SERVICE_HOST: analytics-service
       ANALYTICS_SERVICE_PORT: 4008
-    ports: ["127.0.0.1:3000:3000"]
+    ports: ['127.0.0.1:3000:3000']
     depends_on:
       redis:
         condition: service_healthy
@@ -140,7 +146,7 @@ services:
       TCP_PORT: 4001
       DB_SCHEMA: identity
       DATABASE_URL: postgresql://identity_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=identity
-    ports: ["127.0.0.1:3001:3001"]
+    ports: ['127.0.0.1:3001:3001']
     depends_on: *service-deps
 
   catalog-service:
@@ -152,7 +158,7 @@ services:
       TCP_PORT: 4002
       DB_SCHEMA: catalog
       DATABASE_URL: postgresql://catalog_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=catalog
-    ports: ["127.0.0.1:3002:3002"]
+    ports: ['127.0.0.1:3002:3002']
     depends_on: *service-deps
 
   inventory-service:
@@ -164,7 +170,7 @@ services:
       TCP_PORT: 4003
       DB_SCHEMA: inventory
       DATABASE_URL: postgresql://inventory_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=inventory
-    ports: ["127.0.0.1:3003:3003"]
+    ports: ['127.0.0.1:3003:3003']
     depends_on: *service-deps
 
   order-service:
@@ -176,7 +182,7 @@ services:
       TCP_PORT: 4004
       DB_SCHEMA: orders
       DATABASE_URL: postgresql://orders_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=orders
-    ports: ["127.0.0.1:3004:3004"]
+    ports: ['127.0.0.1:3004:3004']
     depends_on: *service-deps
 
   payment-service:
@@ -188,7 +194,7 @@ services:
       TCP_PORT: 4005
       DB_SCHEMA: payments
       DATABASE_URL: postgresql://payments_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=payments
-    ports: ["127.0.0.1:3005:3005"]
+    ports: ['127.0.0.1:3005:3005']
     depends_on: *service-deps
 
   shipping-service:
@@ -200,7 +206,7 @@ services:
       TCP_PORT: 4006
       DB_SCHEMA: shipping
       DATABASE_URL: postgresql://shipping_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=shipping
-    ports: ["127.0.0.1:3006:3006"]
+    ports: ['127.0.0.1:3006:3006']
     depends_on: *service-deps
 
   notification-service:
@@ -212,7 +218,7 @@ services:
       TCP_PORT: 4007
       DB_SCHEMA: notifications
       DATABASE_URL: postgresql://notifications_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=notifications
-    ports: ["127.0.0.1:3007:3007"]
+    ports: ['127.0.0.1:3007:3007']
     depends_on: *service-deps
 
   analytics-service:
@@ -224,7 +230,7 @@ services:
       TCP_PORT: 4008
       DB_SCHEMA: analytics
       DATABASE_URL: postgresql://analytics_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=analytics
-    ports: ["127.0.0.1:3008:3008"]
+    ports: ['127.0.0.1:3008:3008']
     depends_on: *service-deps
 
 networks:

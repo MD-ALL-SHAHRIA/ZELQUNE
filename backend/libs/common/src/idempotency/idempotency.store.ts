@@ -6,7 +6,11 @@ export interface IdempotencyRecord {
 
 export interface IdempotencyStore {
   /** Atomically claims `key`. Returns null if claimed, otherwise the existing record. */
-  acquire(key: string, fingerprint: string, lockTtlSeconds: number): Promise<IdempotencyRecord | null>;
+  acquire(
+    key: string,
+    fingerprint: string,
+    lockTtlSeconds: number,
+  ): Promise<IdempotencyRecord | null>;
   complete(key: string, record: IdempotencyRecord, ttlSeconds: number): Promise<void>;
   release(key: string): Promise<void>;
 }
@@ -17,7 +21,11 @@ export const IDEMPOTENCY_STORE = Symbol('IDEMPOTENCY_STORE');
 export class InMemoryIdempotencyStore implements IdempotencyStore {
   private readonly records = new Map<string, { record: IdempotencyRecord; expiresAt: number }>();
 
-  acquire(key: string, fingerprint: string, lockTtlSeconds: number): Promise<IdempotencyRecord | null> {
+  acquire(
+    key: string,
+    fingerprint: string,
+    lockTtlSeconds: number,
+  ): Promise<IdempotencyRecord | null> {
     const existing = this.records.get(key);
     if (existing && existing.expiresAt > Date.now()) return Promise.resolve(existing.record);
     this.set(key, { state: 'processing', fingerprint }, lockTtlSeconds);

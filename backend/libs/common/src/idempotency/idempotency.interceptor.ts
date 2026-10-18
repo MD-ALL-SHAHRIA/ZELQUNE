@@ -76,7 +76,9 @@ export class IdempotencyInterceptor implements NestInterceptor {
     const routePath = (req.route as { path?: string } | undefined)?.path ?? req.path;
     const storeKey = `idem:${req.method}:${routePath}:${key}`;
     const fingerprint = createHash('sha256')
-      .update(JSON.stringify({ method: req.method, url: req.originalUrl, body: req.body as unknown }))
+      .update(
+        JSON.stringify({ method: req.method, url: req.originalUrl, body: req.body as unknown }),
+      )
       .digest('hex');
 
     const existing = await this.store.acquire(storeKey, fingerprint, this.options.lockTtlSeconds);

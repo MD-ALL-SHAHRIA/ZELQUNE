@@ -38,7 +38,16 @@ export const typography = {
     en: "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
   },
   /** rem, mobile-first */
-  fontSize: { xs: 0.75, sm: 0.875, base: 1, lg: 1.125, xl: 1.25, '2xl': 1.5, '3xl': 1.875, '4xl': 2.25 },
+  fontSize: {
+    xs: 0.75,
+    sm: 0.875,
+    base: 1,
+    lg: 1.125,
+    xl: 1.25,
+    '2xl': 1.5,
+    '3xl': 1.875,
+    '4xl': 2.25,
+  },
   fontWeight: { regular: 400, medium: 500, semibold: 600, bold: 700 },
   /** Bangla script needs more line height than Latin. */
   lineHeight: { bn: 1.7, en: 1.5, heading: 1.25 },

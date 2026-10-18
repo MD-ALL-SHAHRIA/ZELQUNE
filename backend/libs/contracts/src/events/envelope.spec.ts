@@ -36,9 +36,9 @@ describe('event envelope contract', () => {
   });
 
   it('enforces <entity>.<pastTenseVerb> naming', () => {
-    expect(() => defineEvent({ type: 'Sample-Created', version: 1, payload: z.object({}) })).toThrow(
-      /Invalid event type/,
-    );
+    expect(() =>
+      defineEvent({ type: 'Sample-Created', version: 1, payload: z.object({}) }),
+    ).toThrow(/Invalid event type/);
     expect(() => parseEnvelope({ id: 'not-a-uuid' })).toThrow();
   });
 });

@@ -10,3 +10,6 @@ packages/api-client/openapi.json
 packages/api-client/src/schema.d.ts
 docs/website-build-plan.md
 docs/website-spec.md
+
+# Markdown is hand-formatted (CLAUDE.md blocks are kept verbatim)
+*.md

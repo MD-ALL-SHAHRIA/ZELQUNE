@@ -15,7 +15,10 @@ export class ServiceRegistry implements OnApplicationShutdown {
         key,
         new ServiceClient(
           SERVICES[key].name,
-          ClientProxyFactory.create({ transport: Transport.TCP, options: serviceAddress(config, key) }),
+          ClientProxyFactory.create({
+            transport: Transport.TCP,
+            options: serviceAddress(config, key),
+          }),
           config.RPC_TIMEOUT_MS,
         ),
       ]),

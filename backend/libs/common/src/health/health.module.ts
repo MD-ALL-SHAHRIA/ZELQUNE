@@ -1,4 +1,9 @@
-import { type DynamicModule, type InjectionToken, Module, type ModuleMetadata } from '@nestjs/common';
+import {
+  type DynamicModule,
+  type InjectionToken,
+  Module,
+  type ModuleMetadata,
+} from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health.controller';
 import { HEALTH_PROBES, type HealthProbe } from './health.types';

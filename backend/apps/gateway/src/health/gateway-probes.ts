@@ -13,13 +13,15 @@ export function gatewayProbes(redis: Redis, registry: ServiceRegistry): HealthPr
         await redis.ping();
       },
     },
-    ...registry.all().map(
-      (client): HealthProbe => ({
-        name: client.name,
-        check: async () => {
-          await client.send<HealthPingResponse>(RPC_PATTERNS.health.ping, {}, { timeoutMs: PING_TIMEOUT_MS });
-        },
-      }),
-    ),
+    ...registry.all().map((client): HealthProbe => ({
+      name: client.name,
+      check: async () => {
+        await client.send<HealthPingResponse>(
+          RPC_PATTERNS.health.ping,
+          {},
+          { timeoutMs: PING_TIMEOUT_MS },
+        );
+      },
+    })),
   ];
 }
