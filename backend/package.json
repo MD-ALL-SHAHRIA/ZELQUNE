@@ -22,7 +22,7 @@
     "@nestjs/config": "^4",
     "@nestjs/core": "^11",
     "@nestjs/microservices": "^11",
-    "@nestjs/platform-express": "^11",
+    "@nestjs/platform-express": "^12",
     "@nestjs/swagger": "^11",
     "@nestjs/terminus": "^11",
     "@prisma/adapter-pg": "7.10.1",
