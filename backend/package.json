@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^11",
-    "@nestjs/config": "^4",
+    "@nestjs/config": "^12",
     "@nestjs/core": "^11",
     "@nestjs/microservices": "^11",
     "@nestjs/platform-express": "^11",
