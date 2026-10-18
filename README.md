@@ -120,9 +120,15 @@ ZELQUNE/
 ```sh
 git clone https://github.com/MD-ALL-SHAHRIA/ZELQUNE.git && cd ZELQUNE
 pnpm install          # all workspaces + Prisma clients
+pnpm keys:dev         # dev-only JWT keys + storage secret into infra/.env (gitignored)
+# set OWNER_PHONE / OWNER_PASSWORD (>= 12 chars) / OWNER_NAME in infra/.env
 pnpm infra:up         # build and start Postgres, RabbitMQ, Redis and all 9 backend apps
+pnpm seed             # OWNER admin + the Alo-Arch Panel pre-order catalog (idempotent)
 pnpm health           # every /health should return 200
 ```
+
+Try it: `curl 'http://localhost:3000/v1/catalog/products/alo-arch-panel?p=b'` (price experiment
+b = ৳4,290), or sign in with `POST /v1/admin/auth/login` in Swagger at http://localhost:3000/docs.
 
 <details>
 <summary><b>URLs and ports (all bound to 127.0.0.1)</b></summary>
@@ -173,6 +179,8 @@ Stop everything with `pnpm infra:down` (data is kept; add `-v` to the compose co
 | `pnpm format` / `pnpm format:check` | Prettier |
 | `pnpm infra:up` / `pnpm infra:down` / `pnpm infra:logs` | dev stack |
 | `pnpm health` | curl every `/health` |
+| `pnpm keys:dev` | generate dev JWT keys and storage secret into `infra/.env` |
+| `pnpm seed` | seed OWNER admin and catalog in the running stack |
 | `pnpm gen:api` | export gateway OpenAPI and regenerate `@zelqune/api-client` |
 | `pnpm --filter @zelqune/<pkg> <script>` | run a script in one workspace |
 
@@ -196,8 +204,11 @@ pnpm --filter @zelqune/backend test:cov     # backend with coverage
 
 - **Unit:** `libs/common` (config, request id, error filter, idempotency, outbox relay, idempotent
   consumer, RPC client) and `libs/contracts` (event envelope contract).
-- **e2e:** every app's `/health` via Supertest; gateway Swagger, routing, error format and
-  request-id propagation.
+- **e2e (mocked services):** every app's `/health`; gateway Swagger, routing, error format,
+  request ids, guards, cookies, rate limits.
+- **End-to-end on real infrastructure** (`pnpm --filter @zelqune/backend test:integration`, needs
+  `pnpm infra:up` locally; service containers in CI): gateway + identity + catalog over TCP on
+  Postgres, RabbitMQ and Redis.
 - CI runs lint, typecheck and tests per area on every PR, plus build and an OpenAPI drift check
   for the backend.
 
@@ -226,7 +237,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 <summary><b>M1 — Start selling</b> (pre-order test + first sales)</summary>
 
 - [x] 1.0 Monorepo and backend skeleton (gateway, 8 services, outbox, messaging, CI)
-- [ ] 1.1 identity and catalog services (admin auth, products, sale modes, price experiment)
+- [x] 1.1 identity and catalog services (admin auth, products, sale modes, price experiment)
 - [ ] 1.2 inventory, order, payment, shipping + checkout saga
 - [ ] 1.3 analytics, notification and admin API (GO counter, audit log)
 - [ ] 1.4 Storefront (product page, cart, guest checkout, COD / bKash, tracking, Pixel)
