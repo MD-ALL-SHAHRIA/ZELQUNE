@@ -32,7 +32,10 @@ export const bdPhoneSchema = z
   .transform((value, ctx) => {
     const normalized = normalizeBdPhone(value);
     if (!normalized) {
-      ctx.addIssue({ code: 'custom', message: 'Must be a Bangladeshi mobile number (01XXXXXXXXX)' });
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Must be a Bangladeshi mobile number (01XXXXXXXXX)',
+      });
       return z.NEVER;
     }
     return normalized;
