@@ -1,0 +1,20 @@
+/* Tailwind v4: `@import "@zelqune/ui-tokens/tailwind-theme.css";` after `@import "tailwindcss";` */
+@theme {
+  --color-walnut: #4a3426;
+  --color-cream: #f4ecdf;
+  --color-amber: #e3a857;
+  --color-ink: #2a1e16;
+  --color-muted: #7a6a5d;
+  --color-line: #e3d6c4;
+  --color-surface: #ffffff;
+  --color-success: #2f7d4f;
+  --color-warning: #b7791f;
+  --color-danger: #b3261e;
+
+  --font-bn: 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
+  --font-en: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}

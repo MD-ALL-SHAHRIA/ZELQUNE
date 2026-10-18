@@ -1,0 +1,26 @@
+{
+  "name": "zelqune",
+  "private": true,
+  "description": "Zelqune e-commerce platform monorepo",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "gen:api": "pnpm --filter @zelqune/backend openapi:export && pnpm --filter @zelqune/api-client gen",
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d --build",
+    "infra:down": "docker compose -f infra/docker-compose.yml down",
+    "infra:logs": "docker compose -f infra/docker-compose.yml logs -f",
+    "health": "sh backend/scripts/check-health.sh"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10",
+    "turbo": "2.11.9"
+  }
+}
