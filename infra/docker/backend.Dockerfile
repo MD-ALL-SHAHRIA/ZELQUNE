@@ -7,6 +7,8 @@ WORKDIR /repo
 
 # Dependency layer depends only on the lockfile.
 FROM base AS deps
+# Toolchain for native modules without a musl prebuild (argon2 on arm64). Not in the runtime image.
+RUN apk add --no-cache python3 make g++
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 RUN pnpm fetch
 
