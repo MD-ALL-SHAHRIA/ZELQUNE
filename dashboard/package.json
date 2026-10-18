@@ -1,0 +1,11 @@
+{
+  "name": "@zelqune/dashboard",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Zelqune admin dashboard (Next.js App Router, OWNER/STAFF). Placeholder until step 1.5.",
+  "scripts": {
+    "lint": "echo 'dashboard: no app yet (step 1.5)'",
+    "typecheck": "echo 'dashboard: no app yet (step 1.5)'",
+    "test": "echo 'dashboard: no app yet (step 1.5)'"
+  }
+}

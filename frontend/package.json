@@ -1,0 +1,11 @@
+{
+  "name": "@zelqune/frontend",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Zelqune storefront (Next.js App Router, Bangla default + English). Placeholder until step 1.4.",
+  "scripts": {
+    "lint": "echo 'frontend: no app yet (step 1.4)'",
+    "typecheck": "echo 'frontend: no app yet (step 1.4)'",
+    "test": "echo 'frontend: no app yet (step 1.4)'"
+  }
+}
