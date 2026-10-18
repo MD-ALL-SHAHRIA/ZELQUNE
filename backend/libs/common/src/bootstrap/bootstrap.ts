@@ -1,4 +1,9 @@
-import { type INestApplication, Logger as NestLogger, type Type } from '@nestjs/common';
+import {
+  type INestApplication,
+  type INestApplicationContext,
+  Logger as NestLogger,
+  type Type,
+} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { type MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { type ServiceName } from '@zelqune/contracts';
@@ -39,9 +44,41 @@ export function connectTcpTransport(app: INestApplication, config: ServiceEnv): 
   microservice.useGlobalInterceptors(new RpcContextInterceptor());
 }
 
+export type ServiceCommand = (app: INestApplicationContext) => Promise<void>;
+
+export interface ServiceBootstrapOptions {
+  /** One-off commands run as `node main.js <command>` (e.g. `seed`), then the process exits. */
+  commands?: Record<string, ServiceCommand>;
+}
+
+/** Runs a named command in an application context (no HTTP/TCP listeners). */
+async function runCommand(module: Type, name: string, command: ServiceCommand): Promise<void> {
+  const ctx = await NestFactory.createApplicationContext(module, { bufferLogs: true });
+  ctx.useLogger(ctx.get(Logger));
+  try {
+    await command(ctx);
+  } finally {
+    await ctx.close();
+  }
+  new NestLogger('Bootstrap').log(`${name}: command finished`);
+}
+
 /** Boots an internal service: TCP microservice (gateway calls) + HTTP (only /health). */
-export async function bootstrapService(module: Type, name: ServiceName): Promise<void> {
+export async function bootstrapService(
+  module: Type,
+  name: ServiceName,
+  options: ServiceBootstrapOptions = {},
+): Promise<void> {
   loadLocalEnv(name);
+  const commandName = process.argv[2];
+  if (commandName) {
+    const command = options.commands?.[commandName];
+    if (!command) {
+      const available = Object.keys(options.commands ?? {}).join(', ') || 'none';
+      throw new Error(`Unknown command "${commandName}" for ${name} (available: ${available})`);
+    }
+    return runCommand(module, `${name} ${commandName}`, command);
+  }
   const app = await NestFactory.create(module, { bufferLogs: true });
   configureHttpApp(app);
   const config = app.get<ServiceEnv>(APP_CONFIG);
