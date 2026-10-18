@@ -52,6 +52,30 @@ jobs:
     if: ${{ !cancelled() && (github.event_name != 'pull_request' || needs.changes.outputs.relevant == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # Real infrastructure for the end-to-end suite (backend/test/integration).
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: zelqune
+          POSTGRES_PASSWORD: zelqune_dev
+          POSTGRES_DB: zelqune
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U zelqune" --health-interval 5s --health-timeout 5s --health-retries 10
+      rabbitmq:
+        image: rabbitmq:4-alpine
+        env:
+          RABBITMQ_DEFAULT_USER: zelqune
+          RABBITMQ_DEFAULT_PASS: zelqune_dev
+        ports: ['5672:5672']
+        options: >-
+          --health-cmd "rabbitmq-diagnostics -q ping" --health-interval 10s --health-timeout 10s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 5s --health-timeout 5s --health-retries 10
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -68,6 +92,8 @@ jobs:
         run: pnpm turbo run typecheck --filter=@zelqune/backend
       - name: Test
         run: pnpm turbo run test --filter=@zelqune/backend
+      - name: End-to-end tests (gateway + services on real Postgres/RabbitMQ/Redis)
+        run: pnpm --filter @zelqune/backend test:integration
       - name: Build
         run: pnpm turbo run build --filter=@zelqune/backend
       - name: OpenAPI types are up to date

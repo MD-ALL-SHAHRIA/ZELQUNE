@@ -15,7 +15,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "openapi:export": "ts-node -r tsconfig-paths/register --transpile-only scripts/export-openapi.ts ../packages/api-client/openapi.json"
+    "openapi:export": "ts-node -r tsconfig-paths/register --transpile-only scripts/export-openapi.ts ../packages/api-client/openapi.json",
+    "test:integration": "jest -c jest.integration.config.js --runInBand"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1152.0",

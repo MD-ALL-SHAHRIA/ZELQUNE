@@ -14,6 +14,7 @@ export default tseslint.config(
       'apps/*/prisma.config.ts',
       'eslint.config.mjs',
       'jest.config.js',
+      'jest.integration.config.js',
     ],
   },
   eslint.configs.recommended,
@@ -38,11 +39,12 @@ export default tseslint.config(
   },
   {
     // supertest response bodies are untyped; allow inspecting them in tests only.
-    files: ['**/*.spec.ts', '**/*.e2e-spec.ts'],
+    files: ['**/*.spec.ts', '**/*.e2e-spec.ts', '**/*.int-spec.ts'],
     rules: {
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/unbound-method': 'off',
     },
   },

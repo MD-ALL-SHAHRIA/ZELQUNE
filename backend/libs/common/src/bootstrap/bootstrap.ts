@@ -36,12 +36,15 @@ export function configureHttpApp(app: INestApplication): void {
 
 /** Attaches the private TCP transport to a service app. */
 export function connectTcpTransport(app: INestApplication, config: ServiceEnv): void {
-  const microservice = app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-    options: { host: config.TCP_HOST, port: config.TCP_PORT },
-  });
-  microservice.useGlobalFilters(new AllExceptionsFilter());
-  microservice.useGlobalInterceptors(new RpcContextInterceptor());
+  // Filters/interceptors registered on a hybrid app's microservice instance are not applied,
+  // so the TCP transport inherits the app's globals instead. Both are context-aware:
+  // AllExceptionsFilter answers rpc errors with an RpcErrorPayload, RpcContextInterceptor
+  // passes HTTP through untouched. (Verified by test/integration.)
+  app.useGlobalInterceptors(new RpcContextInterceptor());
+  app.connectMicroservice<MicroserviceOptions>(
+    { transport: Transport.TCP, options: { host: config.TCP_HOST, port: config.TCP_PORT } },
+    { inheritAppConfig: true },
+  );
 }
 
 export type ServiceCommand = (app: INestApplicationContext) => Promise<void>;
