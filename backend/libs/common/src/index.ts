@@ -2,6 +2,7 @@ export * from './config/env';
 export * from './config/config.module';
 export * from './context/request-context';
 export * from './http/request-id';
+export * from './http/public.decorator';
 export * from './logger/logger.module';
 export * from './errors/app-error';
 export * from './errors/all-exceptions.filter';
