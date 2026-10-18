@@ -3,7 +3,7 @@ import { type OutboxService, requestContext } from '@zelqune/common';
 import { type PrismaService } from '../prisma/prisma.service';
 import { type StorageProvider } from '../storage/storage.provider';
 import { CatalogAdminService } from './catalog-admin.service';
-import { changedFields } from './changed-fields';
+import { changedFields, sameOptions } from './changed-fields';
 
 const productId = '0b6f0a3e-7f2a-4c35-9a5e-2f1d0c1b2a3e';
 const variantId = '1c7e1b4f-8a3b-4d46-8b6f-3a2e1d2c3b4f';
@@ -45,17 +45,15 @@ function setup(state: {
       upsert: jest.fn().mockResolvedValue({}),
     },
     media: {
-      findUnique: jest
-        .fn()
-        .mockResolvedValue({
-          id: mediaId,
-          productId,
-          storageKey: `media/${mediaId}.webp`,
-          bytes: 10,
-          mimeType: 'image/webp',
-          status: 'PENDING',
-          ...state.media,
-        }),
+      findUnique: jest.fn().mockResolvedValue({
+        id: mediaId,
+        productId,
+        storageKey: `media/${mediaId}.webp`,
+        bytes: 10,
+        mimeType: 'image/webp',
+        status: 'PENDING',
+        ...state.media,
+      }),
       update: jest.fn().mockResolvedValue({}),
     },
   };
@@ -72,6 +70,17 @@ function setup(state: {
   } as unknown as StorageProvider;
   return { service: new CatalogAdminService(prisma, outbox, storage), tx, events, outbox, storage };
 }
+
+describe('sameOptions', () => {
+  it('ignores key order and detects value/key changes', () => {
+    expect(sameOptions({ size: 'L', finish: 'WALNUT' }, { finish: 'WALNUT', size: 'L' })).toBe(
+      true,
+    );
+    expect(sameOptions({ finish: 'WALNUT' }, { finish: 'NATURAL' })).toBe(false);
+    expect(sameOptions({ finish: 'WALNUT' }, {})).toBe(false);
+    expect(sameOptions(null, {})).toBe(true);
+  });
+});
 
 describe('changedFields', () => {
   it('reports only real changes; arrays compared as sets', () => {

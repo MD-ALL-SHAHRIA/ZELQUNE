@@ -17,7 +17,9 @@
     "infra:up": "docker compose -f infra/docker-compose.yml up -d --build",
     "infra:down": "docker compose -f infra/docker-compose.yml down",
     "infra:logs": "docker compose -f infra/docker-compose.yml logs -f",
-    "health": "sh backend/scripts/check-health.sh"
+    "health": "sh backend/scripts/check-health.sh",
+    "keys:dev": "node infra/scripts/dev-keys.mjs",
+    "seed": "docker compose -f infra/docker-compose.yml exec identity-service node dist/apps/identity-service/main.js seed && docker compose -f infra/docker-compose.yml exec catalog-service node dist/apps/catalog-service/main.js seed"
   },
   "devDependencies": {
     "prettier": "3.9.10",

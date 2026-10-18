@@ -9,7 +9,11 @@ export const catalogEnvSchema = serviceEnvSchema
     MEDIA_PUBLIC_BASE_URL: z.string().url().default('http://localhost:3002/dev-storage'),
     LOCAL_STORAGE_DIR: z.string().default('/tmp/zelqune-media'),
     /** Signs local upload URLs. If unset a random per-process secret is used (dev only). */
-    LOCAL_STORAGE_SIGNING_SECRET: z.string().min(32).optional(),
+    LOCAL_STORAGE_SIGNING_SECRET: z
+      .string()
+      .optional()
+      .transform((v) => v || undefined)
+      .refine((v) => v === undefined || v.length >= 32, 'must be at least 32 characters'),
     UPLOAD_URL_TTL_SECONDS: z.coerce.number().int().min(60).max(3600).default(600),
     R2_ACCOUNT_ID: z.string().optional(),
     R2_ACCESS_KEY_ID: z.string().optional(),

@@ -24,5 +24,7 @@ COPY --from=build --chown=node:node /repo/backend/package.json ./package.json
 COPY --from=build --chown=node:node /repo/backend/dist ./dist
 COPY --from=build --chown=node:node /repo/backend/apps ./apps
 COPY --chown=node:node infra/docker/entrypoint.sh ./entrypoint.sh
+# Writable media dir for the dev storage fake (named volumes inherit this ownership).
+RUN mkdir -p /app/storage && chown node:node /app/storage
 USER node
 ENTRYPOINT ["sh", "/app/entrypoint.sh"]

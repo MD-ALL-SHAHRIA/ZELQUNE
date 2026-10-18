@@ -28,7 +28,7 @@ import { type z } from 'zod';
 import { type Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { STORAGE_PROVIDER, type StorageProvider } from '../storage/storage.provider';
-import { changedFields } from './changed-fields';
+import { changedFields, sameOptions } from './changed-fields';
 
 const SOURCE = 'catalog-service';
 const EXTENSIONS: Record<string, string> = {
@@ -151,6 +151,12 @@ export class CatalogAdminService {
       const existing = await tx.productVariant.findUnique({ where: { sku } });
       if (existing && existing.productId !== productId) {
         throw new AppError('SKU_TAKEN', `SKU ${sku} belongs to another product`, 409);
+      }
+      if (existing) {
+        const { options, ...scalars } = fields;
+        const unchanged =
+          changedFields(existing, scalars).length === 0 && sameOptions(existing.options, options);
+        if (unchanged) return { id: existing.id, created: false };
       }
       const variant = existing
         ? await tx.productVariant.update({ where: { id: existing.id }, data: fields })

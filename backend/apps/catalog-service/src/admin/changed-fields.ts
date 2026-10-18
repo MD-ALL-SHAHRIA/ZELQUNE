@@ -13,3 +13,14 @@ export function changedFields<T extends object>(
     return next !== prev;
   });
 }
+
+/** Compares variant option maps independent of key order (jsonb does not preserve it). */
+export function sameOptions(stored: unknown, next: Record<string, string>): boolean {
+  if (!stored || typeof stored !== 'object' || Array.isArray(stored))
+    return Object.keys(next).length === 0;
+  const a = Object.entries(stored as Record<string, unknown>).sort(([x], [y]) =>
+    x.localeCompare(y),
+  );
+  const b = Object.entries(next).sort(([x], [y]) => x.localeCompare(y));
+  return a.length === b.length && a.every(([k, v], i) => k === b[i][0] && v === b[i][1]);
+}
