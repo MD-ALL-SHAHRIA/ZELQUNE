@@ -18,7 +18,7 @@
     "openapi:export": "ts-node -r tsconfig-paths/register --transpile-only scripts/export-openapi.ts ../packages/api-client/openapi.json"
   },
   "dependencies": {
-    "@nestjs/common": "^11",
+    "@nestjs/common": "^12",
     "@nestjs/config": "^4",
     "@nestjs/core": "^11",
     "@nestjs/microservices": "^11",
