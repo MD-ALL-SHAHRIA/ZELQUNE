@@ -1,0 +1,23 @@
+# dependencies and build output
+node_modules/
+dist/
+coverage/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+
+# generated
+**/src/generated/
+
+# env and secrets: only .env.example files are committed
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+*.log
+.idea/
+.vscode/*
+!.vscode/extensions.json

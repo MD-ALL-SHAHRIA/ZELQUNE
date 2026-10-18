@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.next
+.turbo
+pnpm-lock.yaml
+**/src/generated
+**/prisma/migrations
+packages/api-client/openapi.json
+packages/api-client/src/schema.d.ts
+docs/website-build-plan.md
+docs/website-spec.md
