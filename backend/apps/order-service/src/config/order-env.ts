@@ -17,6 +17,10 @@ export const orderEnvSchema = serviceEnvSchema
     /** Unfinished checkout sagas older than this are compensated. */
     SAGA_RECOVERY_AFTER_SECONDS: z.coerce.number().int().positive().default(60),
     CART_TTL_DAYS: z.coerce.number().int().positive().default(30),
+    /** Secret for the pseudonymous customerKey sent to analytics (pnpm keys:dev). */
+    CUSTOMER_KEY_SECRET: z.string().min(32),
+    /** Storefront per-line cap; B2B quotes have none (MAX_QUOTE_LINE_QTY is a sanity bound). */
+    MAX_LINE_QTY_B2C: z.coerce.number().int().positive().default(10),
   })
   .superRefine((env, ctx) => {
     if (env.ADVANCE_MODE === 'percent' && env.ADVANCE_PERCENT === undefined) {

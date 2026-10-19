@@ -132,7 +132,7 @@ export async function startStack(options: StackOptions): Promise<Stack> {
       MEDIA_PUBLIC_BASE_URL: `http://127.0.0.1:${SERVICES.catalog.http}/dev-storage`,
     },
     inventory: {},
-    order: {},
+    order: { CUSTOMER_KEY_SECRET: 'it-customer-key-secret-0123456789abcdef' },
     payment: { PAYMENT_BKASH_NUMBER: TEST_BKASH_NUMBER, PAYMENT_NAGAD_NUMBER: '' },
     shipping: {},
   };

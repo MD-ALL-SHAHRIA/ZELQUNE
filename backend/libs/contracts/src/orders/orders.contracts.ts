@@ -45,7 +45,8 @@ export const orderCodeSchema = z
   .meta({ example: 'ZQ-7K3M9P' });
 
 export const MAX_CART_LINES = 20;
-export const MAX_LINE_QTY = 10;
+/** Sanity bound for one cart line; the business cap is MAX_LINE_QTY_B2C in order-service config. */
+export const MAX_LINE_QTY = 100;
 
 // ---------- Cart ----------
 

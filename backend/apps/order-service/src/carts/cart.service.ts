@@ -65,6 +65,16 @@ export class CartService {
 
   /** qty 0 removes the line. Only sellable variants can be added. */
   async setItem(token: string, variantId: string, qty: number): Promise<CartView> {
+    if (qty > this.config.MAX_LINE_QTY_B2C) {
+      throw new AppError(
+        'QTY_LIMIT',
+        `At most ${this.config.MAX_LINE_QTY_B2C} of one item per order; ask us for a bulk quote`,
+        422,
+        {
+          max: this.config.MAX_LINE_QTY_B2C,
+        },
+      );
+    }
     const cart = await this.loadActive(token);
     if (qty === 0) {
       await this.prisma.cartItem.deleteMany({ where: { cartId: cart.id, variantId } });

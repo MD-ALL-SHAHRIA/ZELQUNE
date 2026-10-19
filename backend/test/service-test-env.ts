@@ -8,5 +8,6 @@ export function serviceTestEnv(schema: string): Record<string, string> {
     DB_SCHEMA: schema,
     DATABASE_URL: `postgresql://test:test@localhost:5432/test?schema=${schema}`,
     RABBITMQ_URL: 'amqp://test:test@localhost:5672',
+    CUSTOMER_KEY_SECRET: 'test-customer-key-secret-32-chars!!',
   };
 }

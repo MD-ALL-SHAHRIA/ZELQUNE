@@ -192,6 +192,7 @@ services:
     environment:
       <<: *service-env
       APP: order-service
+      CUSTOMER_KEY_SECRET: ${CUSTOMER_KEY_SECRET:?run pnpm keys:dev}
       # saga participants (ADR 0008)
       CATALOG_SERVICE_HOST: catalog-service
       CATALOG_SERVICE_PORT: 4002

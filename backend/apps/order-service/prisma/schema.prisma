@@ -66,6 +66,11 @@ enum PaymentMethod {
   NAGAD_MANUAL
 }
 
+enum OrderChannel {
+  B2C
+  B2B
+}
+
 enum CartStatus {
   ACTIVE
   CHECKED_OUT
@@ -114,11 +119,17 @@ model CartItem {
 model Order {
   id                    String        @id @db.Uuid
   code                  String        @unique
-  cartId                String        @unique @map("cart_id") @db.Uuid
+  /// Set for storefront orders; B2B orders come from a quote instead.
+  cartId                String?       @unique @map("cart_id") @db.Uuid
   customerName          String        @map("customer_name")
   customerPhone         String        @map("customer_phone")
   address               Json
   saleMode              SaleMode      @map("sale_mode")
+  /// B2C (storefront) or B2B (converted quote). organizationId is for M2 business accounts.
+  channel               OrderChannel  @default(B2C)
+  organizationId        String?       @map("organization_id") @db.Uuid
+  /// Anonymous analytics session that placed the order.
+  sessionId             String?       @map("session_id")
   status                OrderStatus
   paymentMethod         PaymentMethod @map("payment_method")
   subtotalPaisa         Int           @map("subtotal_paisa")
@@ -138,8 +149,10 @@ model Order {
 
   items   OrderItem[]
   history OrderStatusChange[]
+  notes   OrderNote[]
 
   @@index([status, createdAt])
+  @@index([channel, createdAt])
   @@index([customerPhone])
   @@map("orders")
 }
@@ -183,7 +196,8 @@ model OrderStatusChange {
 /// creates the order, so a non-completed saga never has an order and can be compensated.
 model CheckoutSaga {
   id             String     @id @db.Uuid
-  cartId         String     @map("cart_id") @db.Uuid
+  cartId         String?    @map("cart_id") @db.Uuid
+  quoteId        String?    @map("quote_id") @db.Uuid
   code           String     @unique
   status         SagaStatus
   stockReserved  Boolean    @default(false) @map("stock_reserved")
@@ -194,4 +208,30 @@ model CheckoutSaga {
 
   @@index([status, updatedAt])
   @@map("checkout_sagas")
+}
+
+/// Internal staff notes on an order.
+model OrderNote {
+  id         String   @id @default(uuid()) @db.Uuid
+  orderId    String   @map("order_id") @db.Uuid
+  authorId   String   @map("author_id")
+  authorRole String   @map("author_role")
+  text       String
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("order_notes")
+}
+
+/// Per-phone customer flags (no customer accounts until M2). isFriend orders never count for GO.
+model Customer {
+  phone     String   @id
+  isFriend  Boolean  @default(false) @map("is_friend")
+  updatedBy String?  @map("updated_by")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("customers")
 }
