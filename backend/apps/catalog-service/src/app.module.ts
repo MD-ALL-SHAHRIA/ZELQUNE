@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ServiceCoreModule } from '@zelqune/common';
 import { CatalogAdminRpcController } from './admin/catalog-admin.rpc.controller';
+import { CatalogAdminQueries } from './admin/catalog-admin.queries';
 import { CatalogAdminService } from './admin/catalog-admin.service';
 import { CatalogRepository } from './catalog/catalog.repository';
 import { CatalogRpcController } from './catalog/catalog.rpc.controller';
@@ -19,6 +20,6 @@ import { StorageModule } from './storage/storage.module';
     StorageModule,
   ],
   controllers: [CatalogRpcController, CatalogAdminRpcController],
-  providers: [CatalogRepository, PublicCatalogService, CatalogAdminService],
+  providers: [CatalogRepository, PublicCatalogService, CatalogAdminService, CatalogAdminQueries],
 })
 export class AppModule {}

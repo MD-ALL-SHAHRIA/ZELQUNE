@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { APP_CONFIG, AppError, OutboxService, requestContext } from '@zelqune/common';
+import { APP_CONFIG, AppError, OutboxService, recordAudit, requestContext } from '@zelqune/common';
 import {
   confirmCodInputSchema,
   type ConfirmCodInput,
@@ -179,6 +179,16 @@ export class PaymentService {
         amountReceivedPaisa: input.amountReceivedPaisa,
       });
       await this.emitVerified(tx, updated, input.verifiedBy, verifiedAt);
+      await recordAudit(this.outbox, tx, SOURCE, {
+        action: 'payment.verify',
+        entityType: 'payment',
+        entityId: payment.id,
+        summary: `${payment.orderCode}: ${payment.method} ${payment.amountPaisa} paisa verified`,
+        changes: {
+          amountReceivedPaisa: input.amountReceivedPaisa,
+          trxIdLast4: payment.trxId?.slice(-4) ?? null,
+        },
+      });
       return toSummary(updated);
     });
   }
@@ -194,6 +204,13 @@ export class PaymentService {
         verifiedAt,
       });
       await this.emitVerified(tx, updated, input.confirmedBy, verifiedAt);
+      await recordAudit(this.outbox, tx, SOURCE, {
+        action: 'payment.confirmCod',
+        entityType: 'payment',
+        entityId: payment.id,
+        summary: `${payment.orderCode}: COD ${payment.amountPaisa} paisa confirmed with customer`,
+        changes: null,
+      });
       return toSummary(updated);
     });
   }
@@ -203,11 +220,24 @@ export class PaymentService {
     const input = rejectPaymentInputSchema.parse(raw);
     return this.prisma.$transaction(async (tx) => {
       const payment = await this.lock(tx, input.paymentId);
-      return toSummary(
-        await this.transition(tx, payment, 'REJECTED', input.rejectedBy, input.reason, {
+      const updated = await this.transition(
+        tx,
+        payment,
+        'REJECTED',
+        input.rejectedBy,
+        input.reason,
+        {
           rejectionReason: input.reason,
-        }),
+        },
       );
+      await recordAudit(this.outbox, tx, SOURCE, {
+        action: 'payment.reject',
+        entityType: 'payment',
+        entityId: payment.id,
+        summary: `${payment.orderCode}: ${payment.method} payment rejected (${input.reason})`,
+        changes: { reason: input.reason },
+      });
+      return toSummary(updated);
     });
   }
 

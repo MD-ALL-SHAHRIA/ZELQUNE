@@ -9,6 +9,7 @@ import {
   type RpcRequest,
   type StockLevels,
   stockLevelsRequestSchema,
+  stockListQuerySchema,
 } from '@zelqune/contracts';
 import { InventoryService } from './inventory.service';
 
@@ -31,6 +32,11 @@ export class InventoryRpcController {
   @MessagePattern(P.levels)
   levels(@Payload() req: RpcRequest<unknown>): Promise<StockLevels> {
     return this.inventory.levels(stockLevelsRequestSchema.parse(req.data).variantIds);
+  }
+
+  @MessagePattern(P.admin.list)
+  list(@Payload() req: RpcRequest<unknown>) {
+    return this.inventory.list(stockListQuerySchema.parse(req.data ?? {}).variantIds);
   }
 
   @MessagePattern(P.admin.adjust)

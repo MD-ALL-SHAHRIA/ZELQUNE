@@ -1,4 +1,5 @@
 import { type ShippingEnv } from '../config/shipping-env';
+import { type OutboxService } from '@zelqune/common';
 import { type PrismaService } from '../prisma/prisma.service';
 import { FakeCourierProvider, ManualCourierProvider } from './courier.provider';
 import { ShippingService } from './shipping.service';
@@ -23,6 +24,7 @@ const aloArch = {
 
 describe('ShippingService', () => {
   const prisma = {
+    $transaction: (fn: (tx: unknown) => unknown) => fn(prisma),
     shipment: {
       findUnique: jest.fn().mockResolvedValue(null),
       create: jest.fn((args: { data: Record<string, unknown> }) =>
@@ -31,7 +33,8 @@ describe('ShippingService', () => {
     },
   } as unknown as PrismaService;
   const fake = new FakeCourierProvider('STEADFAST');
-  const service = new ShippingService(prisma, config, [new ManualCourierProvider(), fake]);
+  const outbox = { add: jest.fn().mockResolvedValue(undefined) } as unknown as OutboxService;
+  const service = new ShippingService(prisma, outbox, config, [new ManualCourierProvider(), fake]);
 
   it('quotes by district/area with chargeable weight', () => {
     expect(service.quote({ district: 'dhaka', area: 'Mirpur', lines: [aloArch] })).toEqual({

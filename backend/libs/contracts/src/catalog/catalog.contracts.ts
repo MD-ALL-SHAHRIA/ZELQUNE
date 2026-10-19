@@ -264,3 +264,95 @@ export interface VariantCheckoutSnapshot {
 }
 /** variantId -> snapshot; missing = not sellable (unknown, inactive, unpublished). */
 export type CheckoutSnapshotResponse = Record<string, VariantCheckoutSnapshot>;
+
+// ---------- Admin read models and extra inputs (step 1.3) ----------
+
+export const adminVariantSchema = z.object({
+  id: z.uuid(),
+  sku: z.string(),
+  options: z.record(z.string(), z.string()),
+  isActive: z.boolean(),
+  position: z.number().int(),
+  weightGrams: z.number().int().nullable(),
+  widthMm: z.number().int().nullable(),
+  heightMm: z.number().int().nullable(),
+  depthMm: z.number().int().nullable(),
+  packageLengthMm: z.number().int().nullable(),
+  packageWidthMm: z.number().int().nullable(),
+  packageHeightMm: z.number().int().nullable(),
+  packageWeightGrams: z.number().int().nullable(),
+  /** Current RETAIL base price. */
+  basePrice: z
+    .object({ amountPaisa: paisaSchema, compareAtPaisa: paisaSchema.nullable() })
+    .nullable(),
+  experiments: z.array(
+    z.object({ key: experimentKeySchema, amountPaisa: paisaSchema, active: z.boolean() }),
+  ),
+});
+
+export const adminMediaSchema = mediaSchema.extend({
+  status: z.enum(['PENDING', 'READY']),
+  bytes: z.number().int(),
+});
+
+export const adminProductSchema = z.object({
+  id: z.uuid(),
+  slug: z.string(),
+  nameBn: z.string(),
+  nameEn: z.string(),
+  descriptionBn: z.string().nullable(),
+  descriptionEn: z.string().nullable(),
+  saleMode: saleModeSchema,
+  leadTimeDays: z.number().int().nullable(),
+  status: productStatusSchema,
+  seoTitleBn: z.string().nullable(),
+  seoTitleEn: z.string().nullable(),
+  seoDescriptionBn: z.string().nullable(),
+  seoDescriptionEn: z.string().nullable(),
+  categoryIds: z.array(z.uuid()),
+  publishedAt: z.string().nullable(),
+  updatedAt: z.string(),
+  variants: z.array(adminVariantSchema),
+  media: z.array(adminMediaSchema),
+});
+export type AdminProduct = z.infer<typeof adminProductSchema>;
+
+export const adminProductListQuerySchema = z.object({
+  status: productStatusSchema.optional(),
+  q: z.string().trim().max(100).optional(),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(100).default(25),
+});
+export type AdminProductListQuery = z.output<typeof adminProductListQuerySchema>;
+
+export const adminProductListSchema = z.object({
+  items: z.array(
+    adminProductSchema
+      .omit({ variants: true, media: true })
+      .extend({ variantCount: z.number().int() }),
+  ),
+  page: z.number().int(),
+  limit: z.number().int(),
+  total: z.number().int(),
+});
+export type AdminProductList = z.infer<typeof adminProductListSchema>;
+
+export const adminCategorySchema = categorySchema.extend({ isActive: z.boolean() });
+
+export const updateCategoryInputSchema = z.object({
+  categoryId: z.uuid(),
+  changes: z
+    .object({
+      slug: slugSchema,
+      nameBn: textBn,
+      nameEn: textBn,
+      parentId: z.uuid().nullable(),
+      position: z.number().int(),
+      isActive: z.boolean(),
+    })
+    .partial()
+    .refine((c) => Object.keys(c).length > 0, 'No changes'),
+});
+export type UpdateCategoryInput = z.input<typeof updateCategoryInputSchema>;
+
+export const mediaIdInputSchema = z.object({ mediaId: z.uuid() });

@@ -62,13 +62,26 @@ function setup(state: {
     $transaction: (fn: (t: typeof tx) => unknown) => fn(tx),
   } as unknown as PrismaService;
   const events: EventEnvelope[] = [];
+  const audits: EventEnvelope[] = [];
   const outbox = {
-    add: jest.fn((_tx: unknown, e: EventEnvelope) => (events.push(e), Promise.resolve())),
+    add: jest.fn(
+      (_tx: unknown, e: EventEnvelope) => (
+        (e.type === 'audit.recorded' ? audits : events).push(e),
+        Promise.resolve()
+      ),
+    ),
   } as unknown as OutboxService;
   const storage = {
     head: jest.fn().mockResolvedValue({ bytes: 10, contentType: 'image/webp' }),
   } as unknown as StorageProvider;
-  return { service: new CatalogAdminService(prisma, outbox, storage), tx, events, outbox, storage };
+  return {
+    service: new CatalogAdminService(prisma, outbox, storage),
+    tx,
+    events,
+    audits,
+    outbox,
+    storage,
+  };
 }
 
 describe('sameOptions', () => {
@@ -193,5 +206,31 @@ describe('CatalogAdminService events', () => {
       code: 'MEDIA_NOT_UPLOADED',
     });
     expect(mismatch.tx.media.update).not.toHaveBeenCalled();
+  });
+
+  it('audits every change with the request actor, in the same transaction', async () => {
+    const { service, audits, outbox, tx } = setup({
+      currentPrice: { amountPaisa: 349000, compareAtPaisa: null },
+    });
+    await requestContext.run({ requestId: 'r', actor: { id: 'admin-1', role: 'OWNER' } }, () =>
+      service.setBasePrice({ variantId, amountPaisa: 399000 }),
+    );
+    expect(audits).toHaveLength(1);
+    expect(audits[0].payload).toMatchObject({
+      actor: { id: 'admin-1', role: 'OWNER' },
+      action: 'price.setBase',
+      entityType: 'variant',
+      entityId: variantId,
+      changes: { from: 349000, to: 399000, priceListId: 'RETAIL' },
+    });
+    for (const call of (outbox.add as jest.Mock).mock.calls) expect(call[0]).toBe(tx);
+  });
+
+  it('no-op changes are not audited', async () => {
+    const { service, audits } = setup({
+      currentPrice: { amountPaisa: 349000, compareAtPaisa: null },
+    });
+    await service.setBasePrice({ variantId, amountPaisa: 349000 });
+    expect(audits).toHaveLength(0);
   });
 });

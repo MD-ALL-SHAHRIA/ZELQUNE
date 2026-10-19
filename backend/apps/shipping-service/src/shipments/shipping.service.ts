@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { APP_CONFIG, AppError } from '@zelqune/common';
+import { APP_CONFIG, AppError, OutboxService, recordAudit } from '@zelqune/common';
 import {
   createShipmentInputSchema,
   type CreateShipmentInput,
@@ -18,12 +18,15 @@ import { chargeableWeight, type FeeConfig, shippingFee } from '../zones/shipping
 import { COURIER_PROVIDERS, type CourierProvider } from './courier.provider';
 import { canTransitionShipment } from './shipment-state';
 
+const SOURCE = 'shipping-service';
+
 @Injectable()
 export class ShippingService {
   private readonly fees: FeeConfig;
 
   constructor(
     private readonly prisma: PrismaService,
+    private readonly outbox: OutboxService,
     @Inject(APP_CONFIG) config: ShippingEnv,
     @Inject(COURIER_PROVIDERS) private readonly couriers: CourierProvider[],
   ) {
@@ -85,15 +88,25 @@ export class ShippingService {
       trackingUrl: input.trackingUrl,
     });
     const status = booking.booked ? 'BOOKED' : 'PENDING';
-    const shipment = await this.prisma.shipment.create({
-      data: {
-        orderId: input.orderId,
-        courier: input.courier,
-        consignmentId: booking.consignmentId,
-        trackingUrl: booking.trackingUrl,
-        status,
-        history: { create: { from: null, to: status } },
-      },
+    const shipment = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.shipment.create({
+        data: {
+          orderId: input.orderId,
+          courier: input.courier,
+          consignmentId: booking.consignmentId,
+          trackingUrl: booking.trackingUrl,
+          status,
+          history: { create: { from: null, to: status } },
+        },
+      });
+      await recordAudit(this.outbox, tx, SOURCE, {
+        action: 'shipment.create',
+        entityType: 'order',
+        entityId: input.orderId,
+        summary: `Shipment created: ${input.courier}${booking.consignmentId ? ` ${booking.consignmentId}` : ''} (${status})`,
+        changes: { courier: input.courier, consignmentId: booking.consignmentId, status },
+      });
+      return created;
     });
     return {
       courier: shipment.courier,
@@ -120,6 +133,13 @@ export class ShippingService {
       const s = await tx.shipment.update({
         where: { orderId },
         data: { status, history: { create: { from: current.status, to: status } } },
+      });
+      await recordAudit(this.outbox, tx, SOURCE, {
+        action: 'shipment.updateStatus',
+        entityType: 'order',
+        entityId: orderId,
+        summary: `Shipment ${current.status} -> ${status}`,
+        changes: { from: current.status, to: status },
       });
       return {
         courier: s.courier,

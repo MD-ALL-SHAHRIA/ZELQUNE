@@ -1,5 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { AppError, OutboxService, requestContext, type SqlExecutor } from '@zelqune/common';
+import {
+  type AuditEntry,
+  AppError,
+  OutboxService,
+  recordAudit,
+  requestContext,
+  type SqlExecutor,
+} from '@zelqune/common';
 import {
   confirmMediaUploadInputSchema,
   createCategoryInputSchema,
@@ -7,6 +14,7 @@ import {
   type CreateCategoryInput,
   type CreateProductInput,
   type EventDefinition,
+  mediaIdInputSchema,
   type MediaUploadTicket,
   priceChanged,
   productIdInputSchema,
@@ -18,6 +26,8 @@ import {
   type SetBasePriceInput,
   setExperimentPriceInputSchema,
   type SetExperimentPriceInput,
+  updateCategoryInputSchema,
+  type UpdateCategoryInput,
   updateProductInputSchema,
   type UpdateProductInput,
   upsertVariantInputSchema,
@@ -42,7 +52,7 @@ type Tx = Prisma.TransactionClient;
 
 /**
  * Catalog write use-cases (admin). Every change that other services care about writes its
- * event to the outbox in the same transaction. Exposed over TCP; gateway routes in step 1.3.
+ * event to the outbox in the same transaction, and every change is audited (audit.recorded).
  */
 @Injectable()
 export class CatalogAdminService {
@@ -54,25 +64,71 @@ export class CatalogAdminService {
 
   async createCategory(raw: CreateCategoryInput): Promise<{ id: string }> {
     const input = createCategoryInputSchema.parse(raw);
-    if (input.parentId)
-      await this.mustExist(
-        this.prisma.category.findUnique({ where: { id: input.parentId } }),
+    return this.prisma.$transaction(async (tx) => {
+      if (input.parentId)
+        await this.mustExist(
+          tx.category.findUnique({ where: { id: input.parentId } }),
+          'CATEGORY_NOT_FOUND',
+        );
+      const category = await tx.category.create({ data: input, select: { id: true } });
+      await this.audit(tx, {
+        action: 'category.create',
+        entityType: 'category',
+        entityId: category.id,
+        summary: `Category ${input.slug} created`,
+        changes: { ...input },
+      });
+      return category;
+    });
+  }
+
+  async updateCategory(raw: UpdateCategoryInput): Promise<{ id: string; changedFields: string[] }> {
+    const { categoryId, changes } = updateCategoryInputSchema.parse(raw);
+    return this.prisma.$transaction(async (tx) => {
+      const current = await this.mustExist(
+        tx.category.findUnique({ where: { id: categoryId } }),
         'CATEGORY_NOT_FOUND',
       );
-    return this.prisma.category.create({ data: input, select: { id: true } });
+      if (changes.parentId === categoryId) {
+        throw new AppError('INVALID_CATEGORY_PARENT', 'A category cannot be its own parent', 422);
+      }
+      const changed = changedFields(current, changes);
+      if (changed.length === 0) return { id: categoryId, changedFields: [] };
+      await tx.category.update({ where: { id: categoryId }, data: changes });
+      await this.audit(tx, {
+        action: 'category.update',
+        entityType: 'category',
+        entityId: categoryId,
+        summary: `Category ${current.slug} updated: ${changed.join(', ')}`,
+        changes: Object.fromEntries(
+          changed.map((k) => [k, (changes as Record<string, unknown>)[k]]),
+        ),
+      });
+      return { id: categoryId, changedFields: changed };
+    });
   }
 
   async createProduct(raw: CreateProductInput): Promise<{ id: string; slug: string }> {
     const { categoryIds, ...fields } = createProductInputSchema.parse(raw);
-    return this.prisma.product.create({
-      data: {
-        ...fields,
-        status: 'DRAFT',
-        categories: {
-          create: categoryIds.map((categoryId, position) => ({ categoryId, position })),
+    return this.prisma.$transaction(async (tx) => {
+      const product = await tx.product.create({
+        data: {
+          ...fields,
+          status: 'DRAFT',
+          categories: {
+            create: categoryIds.map((categoryId, position) => ({ categoryId, position })),
+          },
         },
-      },
-      select: { id: true, slug: true },
+        select: { id: true, slug: true },
+      });
+      await this.audit(tx, {
+        action: 'product.create',
+        entityType: 'product',
+        entityId: product.id,
+        summary: `Product ${product.slug} created (DRAFT)`,
+        changes: { slug: fields.slug, saleMode: fields.saleMode },
+      });
+      return product;
     });
   }
 
@@ -102,6 +158,15 @@ export class CatalogAdminService {
         slug: updated.slug,
         status: updated.status,
         changedFields: changed,
+      });
+      await this.audit(tx, {
+        action: 'product.update',
+        entityType: 'product',
+        entityId: productId,
+        summary: `Product ${updated.slug} updated: ${changed.join(', ')}`,
+        changes: Object.fromEntries(
+          changed.map((k) => [k, (changes as Record<string, unknown>)[k]]),
+        ),
       });
       return { id: productId, changedFields: changed };
     });
@@ -139,7 +204,38 @@ export class CatalogAdminService {
         saleMode: product.saleMode,
         publishedAt: publishedAt.toISOString(),
       });
+      await this.audit(tx, {
+        action: 'product.publish',
+        entityType: 'product',
+        entityId: productId,
+        summary: `Product ${product.slug} published`,
+        changes: { from: product.status, to: 'ACTIVE' },
+      });
       return { id: productId, status: 'ACTIVE' as const };
+    });
+  }
+
+  /** ACTIVE/DRAFT -> ARCHIVED: hidden from the storefront, kept for order history. Idempotent. */
+  async archiveProduct(raw: { productId: string }): Promise<{ id: string; status: 'ARCHIVED' }> {
+    const { productId } = productIdInputSchema.parse(raw);
+    return this.prisma.$transaction(async (tx) => {
+      const product = await this.lockProduct(tx, productId);
+      if (product.status === 'ARCHIVED') return { id: productId, status: 'ARCHIVED' as const };
+      await tx.product.update({ where: { id: productId }, data: { status: 'ARCHIVED' } });
+      await this.emit(tx, productUpdated, {
+        productId,
+        slug: product.slug,
+        status: 'ARCHIVED',
+        changedFields: ['status'],
+      });
+      await this.audit(tx, {
+        action: 'product.archive',
+        entityType: 'product',
+        entityId: productId,
+        summary: `Product ${product.slug} archived`,
+        changes: { from: product.status, to: 'ARCHIVED' },
+      });
+      return { id: productId, status: 'ARCHIVED' as const };
     });
   }
 
@@ -152,11 +248,14 @@ export class CatalogAdminService {
       if (existing && existing.productId !== productId) {
         throw new AppError('SKU_TAKEN', `SKU ${sku} belongs to another product`, 409);
       }
+      let changed: string[] = Object.keys(fields);
       if (existing) {
         const { options, ...scalars } = fields;
-        const unchanged =
-          changedFields(existing, scalars).length === 0 && sameOptions(existing.options, options);
-        if (unchanged) return { id: existing.id, created: false };
+        changed = [
+          ...changedFields(existing, scalars),
+          ...(sameOptions(existing.options, options) ? [] : ['options']),
+        ];
+        if (changed.length === 0) return { id: existing.id, created: false };
       }
       const variant = existing
         ? await tx.productVariant.update({ where: { id: existing.id }, data: fields })
@@ -169,6 +268,15 @@ export class CatalogAdminService {
           changedFields: ['variants'],
         });
       }
+      await this.audit(tx, {
+        action: existing ? 'variant.update' : 'variant.create',
+        entityType: 'variant',
+        entityId: variant.id,
+        summary: `${sku} ${existing ? `updated: ${changed.join(', ')}` : 'created'}`,
+        changes: Object.fromEntries(
+          changed.map((k) => [k, (fields as Record<string, unknown>)[k]]),
+        ),
+      });
       return { id: variant.id, created: !existing };
     });
   }
@@ -216,6 +324,18 @@ export class CatalogAdminService {
         previousAmountPaisa: current?.amountPaisa ?? null,
         experimentKey: null,
       });
+      await this.audit(tx, {
+        action: 'price.setBase',
+        entityType: 'variant',
+        entityId: variant.id,
+        summary: `${variant.sku} ${input.priceListId} price ${current?.amountPaisa ?? '-'} -> ${input.amountPaisa} paisa`,
+        changes: {
+          priceListId: input.priceListId,
+          from: current?.amountPaisa ?? null,
+          to: input.amountPaisa,
+          compareAtPaisa: input.compareAtPaisa,
+        },
+      });
       return { changed: true };
     });
   }
@@ -251,6 +371,18 @@ export class CatalogAdminService {
         previousAmountPaisa: existing?.amountPaisa ?? null,
         experimentKey: input.key,
       });
+      await this.audit(tx, {
+        action: 'price.setExperiment',
+        entityType: 'variant',
+        entityId: variant.id,
+        summary: `${variant.sku} experiment ${input.key}: ${existing?.amountPaisa ?? '-'} -> ${input.amountPaisa} paisa${input.active ? '' : ' (inactive)'}`,
+        changes: {
+          key: input.key,
+          from: existing?.amountPaisa ?? null,
+          to: input.amountPaisa,
+          active: input.active,
+        },
+      });
       return { changed: true };
     });
   }
@@ -272,7 +404,20 @@ export class CatalogAdminService {
     }
     const id = randomUUID();
     const storageKey = `media/${id}.${EXTENSIONS[input.mimeType]}`;
-    await this.prisma.media.create({ data: { id, ...input, storageKey, status: 'PENDING' } });
+    await this.prisma.$transaction(async (tx) => {
+      await tx.media.create({ data: { id, ...input, storageKey, status: 'PENDING' } });
+      await this.audit(tx, {
+        action: 'media.requestUpload',
+        entityType: 'media',
+        entityId: id,
+        summary: `Upload requested for product ${input.productId} (${input.mimeType}, ${input.bytes} bytes)`,
+        changes: {
+          productId: input.productId,
+          variantId: input.variantId,
+          mimeType: input.mimeType,
+        },
+      });
+    });
     const target = await this.storage.createUploadUrl({
       key: storageKey,
       contentType: input.mimeType,
@@ -311,7 +456,41 @@ export class CatalogAdminService {
           changedFields: ['media'],
         });
       }
+      await this.audit(tx, {
+        action: 'media.confirm',
+        entityType: 'media',
+        entityId: mediaId,
+        summary: `Media ready on ${product.slug}`,
+        changes: null,
+      });
       return { id: mediaId, status: 'READY' as const };
+    });
+  }
+
+  /** Removes a media item from the product (the stored object is cleaned up separately). */
+  async removeMedia(raw: { mediaId: string }): Promise<{ removed: boolean }> {
+    const { mediaId } = mediaIdInputSchema.parse(raw);
+    return this.prisma.$transaction(async (tx) => {
+      const media = await tx.media.findUnique({ where: { id: mediaId } });
+      if (!media) return { removed: false };
+      const product = await this.lockProduct(tx, media.productId);
+      await tx.media.delete({ where: { id: mediaId } });
+      if (product.status === 'ACTIVE' && media.status === 'READY') {
+        await this.emit(tx, productUpdated, {
+          productId: product.id,
+          slug: product.slug,
+          status: product.status,
+          changedFields: ['media'],
+        });
+      }
+      await this.audit(tx, {
+        action: 'media.remove',
+        entityType: 'media',
+        entityId: mediaId,
+        summary: `Media removed from ${product.slug}`,
+        changes: { storageKey: media.storageKey },
+      });
+      return { removed: true };
     });
   }
 
@@ -324,6 +503,10 @@ export class CatalogAdminService {
       tx,
       event.create(payload, { source: SOURCE, requestId: requestContext.requestId() }),
     );
+  }
+
+  private audit(tx: SqlExecutor, entry: AuditEntry): Promise<void> {
+    return recordAudit(this.outbox, tx, SOURCE, entry);
   }
 
   /** Row-locks the product for the rest of the transaction (serialises concurrent admin edits). */
