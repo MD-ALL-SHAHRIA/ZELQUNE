@@ -292,3 +292,63 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Sending:** Sending your request…
 - **After sending:** Thank you! Your request code is {code}. Our designer will call you within [[1 working day]].
 - **Quote track label:** Interior design request · Space: {space}
+
+## Header, listing, services and construction (added in step 1.4 RH-style redesign, for owner review)
+> Same structure in copy-bn.md.
+
+### Header and search
+- **Header:** Search · Account · Construction · Close search
+- **Search:** Search products and services · Products · Services and pages · Nothing found for "{q}".
+
+### Account
+- **Heading:** Your account
+- **Text:** Signing in with your mobile number is coming soon. Until then, track any order or quote with its code and your phone number.
+- **Buttons:** Track an order · Check a quote
+
+### Product listing
+- **Results:** {n} products
+- **Availability:** Availability · All · Pre-order · Made to order · In stock
+- **Sort:** Sort · Featured · Price: low to high · Price: high to low
+- **Finishes:** {n} finishes
+- **Clear:** Clear filters
+
+### Home services
+- **Services eyebrow:** Services
+- **Services heading:** From one wall to a whole building
+- **Services:**
+  - **Interior Design:** Homes, offices, restaurants and cafés designed and installed.
+  - **Construction:** Homes and commercial buildings from the ground up, interiors included.
+  - **Bulk & Corporate:** Pieces in quantity for offices, hotels and gifting.
+
+### Construction
+- **Eyebrow:** Zelqune Construction
+- **Heading:** From the ground up to the last light
+- **Lead:** One team from the first drawing to the finished interior: we plan, build and furnish, so the building and everything inside it work together.
+- **Types heading:** What we build
+- **Types:**
+  - **Family home:** Single-family houses and duplexes.
+  - **Apartment building:** Multi-storey residential buildings.
+  - **Commercial building:** Offices, shops and showrooms.
+  - **Restaurant & hospitality:** Restaurants, cafés and small hotels.
+- **Stages heading:** From land to living
+- **Stages:**
+  - **Plan & design:** Site survey, architectural and structural drawings ([[engineers and licences: confirm]]).
+  - **Approvals:** Help with building approvals ([[confirm scope]]).
+  - **Structure:** Foundation, frame and roof, with quality checks at each stage.
+  - **Finishing:** Walls, floors, plumbing and electrical work.
+  - **Interiors:** Woodwork, lighting and furniture by Zelqune.
+  - **Handover:** A finished space, ready to live or work in ([[warranty terms to decide]]).
+- **Why heading:** Why one team
+- **Why:** One contract from foundation to furniture · Interiors planned with the structure, not after it · Clear stage-by-stage costs · Our own workshop for woodwork and lighting
+- **Projects placeholder:** [[Our first construction projects will appear here]]
+- **Button:** Start your project
+
+### Construction enquiry form
+- **Heading:** Start your building project
+- **Text:** Tell us about your land and plans; our team will call you.
+- **Fields:** Your name · Mobile number · Email (optional) · Type of building · Land or floor area (sq ft) · Number of floors · District · Budget · When would you like to start? · Tell us about the project
+- **Building types:** Family home · Commercial building · Restaurant & hospitality · Hotel · Shop & showroom · Apartment building
+- **Budgets:** Under ৳50 lakh · ৳50 lakh–1 crore · ৳1–3 crore · Above ৳3 crore · Not sure yet
+- **Button:** Request a call
+- **After sending:** Thank you! Your request code is {code}. Our team will call you within [[1 working day]].
+- **Track label:** Construction request · {n} floors

@@ -104,6 +104,39 @@ export const SAMPLE = {
     credit: 'Markus Winkler (wd6xbwsjqpU)',
   },
   dining: { src: unsplash('photo-1773847521422-77ff84e29353'), credit: 'Clay Banks (bcaFHquzu3M)' },
+  villa: {
+    src: unsplash('photo-1613977257363-707ba9348227'),
+    credit: 'John Fornander (Id7u0EkTjBE)',
+  },
+  modernHouse: {
+    src: unsplash('photo-1783125127143-d4e18726bab3'),
+    credit: 'Salvo Media (W7XqqixNnII)',
+  },
+  classicHouse: {
+    src: unsplash('photo-1778910554261-837b19e25c26'),
+    credit: 'unknown (_TJ5YqJlJAE)',
+  },
+  woodFacade: {
+    src: unsplash('photo-1758450062546-4629a717c5fc'),
+    credit: 'Fer Troulik (LID9JdOx22I)',
+  },
+  plans: {
+    src: unsplash('photo-1608303588026-884930af2559'),
+    credit: 'Pedro Miranda (3QzMBrvCeyQ)',
+  },
+  foundation: {
+    src: unsplash('photo-1610079732288-72a77bd816c9'),
+    credit: 'Scott Blake (rsGd-rXFGkM)',
+  },
+  structure: { src: unsplash('photo-1684497404598-6e844dff9cde'), credit: 'unknown (4BTjXeMwcb8)' },
+  rebar: {
+    src: unsplash('photo-1489514354504-1653aa90e34e'),
+    credit: 'Guilherme Cunha (4zwozQxDbD4)',
+  },
+  engineers: {
+    src: unsplash('photo-1742112125567-3e8967bad60f'),
+    credit: 'Ronnakorn Triraganon (IvEYfb-3B70)',
+  },
 } as const;
 
 type SampleKey = keyof typeof SAMPLE;
