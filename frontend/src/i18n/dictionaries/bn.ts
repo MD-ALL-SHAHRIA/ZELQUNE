@@ -133,6 +133,7 @@ export const bn: Dictionary = {
     added: 'কার্টে যোগ হয়েছে',
     qtyLimit: 'প্রতিটা পণ্য সর্বোচ্চ {max}টি',
     unavailable: 'এই পণ্যটা এখন পাওয়া যাচ্ছে না।',
+    related: 'আরও পছন্দ হতে পারে',
   },
   checkout: {
     heading: 'অর্ডার নিশ্চিত করুন',
@@ -473,6 +474,11 @@ export const bn: Dictionary = {
     priceDesc: 'দাম: বেশি থেকে কম',
     finishes: '{n}টি ফিনিশ',
     clear: 'ফিল্টার মুছুন',
+    categoryLines: {
+      'wall-panels': 'ফিচার ওয়ালের জন্য খোদাই করা কাঠ আর উষ্ণ আলো।',
+      shelves: 'হাতে বানানো সাহসী আকারের ভাসমান তাক।',
+      lighting: 'নরম, কম ভোল্টেজের আলো, যা কাঠকে বাতি বানিয়ে দেয়।',
+    },
   },
   services: {
     eyebrow: 'সেবা',
@@ -523,7 +529,9 @@ export const bn: Dictionary = {
       'ধাপে ধাপে পরিষ্কার খরচ',
       'কাঠের কাজ আর আলোর জন্য নিজেদের ওয়ার্কশপ',
     ],
+    projectsHeading: 'আমাদের ভবন',
     projectsPlaceholder: '[[আমাদের প্রথম নির্মাণ প্রজেক্টগুলো এখানে দেখাবে]]',
+    sampleNote: 'নমুনা ছবি। আমাদের নিজেদের প্রজেক্টের ছবি শিগগির আসছে।',
     button: 'আপনার প্রজেক্ট শুরু করুন',
   },
   build: {
@@ -557,9 +565,12 @@ export const bn: Dictionary = {
       NOT_SURE: 'এখনো ঠিক করিনি',
     },
     button: 'ফোন করার অনুরোধ পাঠান',
+    sending: 'অনুরোধ পাঠানো হচ্ছে…',
+    errors: { floors: '১ থেকে ৬০ তলার মধ্যে লিখুন।' },
     after: 'ধন্যবাদ! আপনার অনুরোধ কোড {code}। আমাদের দল [[১ কর্মদিবসের]] মধ্যে আপনাকে ফোন করবে।',
     trackLabel: 'নির্মাণের অনুরোধ',
     trackFloors: '{n} তলা',
+    trackFloor: '{n} তলা',
   },
   shop: { title: 'সব পণ্য', empty: 'এখানে এখনো কোনো পণ্য নেই।' },
   ui: {

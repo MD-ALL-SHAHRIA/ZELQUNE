@@ -352,3 +352,12 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Button:** Request a call
 - **After sending:** Thank you! Your request code is {code}. Our team will call you within [[1 working day]].
 - **Track label:** Construction request · {n} floors
+
+### Additions from the RH-style build (for owner review)
+- **Construction form:** Sending your request… · Please enter 1 to 60 floors. · {n} floor (one floor)
+- **Construction:** Our buildings · Sample photo. Photos of our own projects are coming soon.
+- **Product page:** You may also like
+- **Category lines:**
+  - **Wall panels:** Sculpted wood and warm light for a feature wall.
+  - **Shelves:** Floating shelves in bold, handcrafted shapes.
+  - **Lighting:** Soft, low-voltage light that turns wood into a lamp.

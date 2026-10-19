@@ -141,6 +141,7 @@ export const en = {
     added: 'Added to cart',
     qtyLimit: 'Up to {max} per item',
     unavailable: "This item isn't available right now.",
+    related: 'You may also like',
   },
   checkout: {
     heading: 'Confirm your order',
@@ -492,6 +493,11 @@ export const en = {
     priceDesc: 'Price: high to low',
     finishes: '{n} finishes',
     clear: 'Clear filters',
+    categoryLines: {
+      'wall-panels': 'Sculpted wood and warm light for a feature wall.',
+      shelves: 'Floating shelves in bold, handcrafted shapes.',
+      lighting: 'Soft, low-voltage light that turns wood into a lamp.',
+    } as Record<string, string | undefined>,
   },
   services: {
     eyebrow: 'Services',
@@ -545,7 +551,9 @@ export const en = {
       'Clear stage-by-stage costs',
       'Our own workshop for woodwork and lighting',
     ],
+    projectsHeading: 'Our buildings',
     projectsPlaceholder: '[[Our first construction projects will appear here]]',
+    sampleNote: 'Sample photo. Photos of our own projects are coming soon.',
     button: 'Start your project',
   },
   build: {
@@ -579,10 +587,13 @@ export const en = {
       NOT_SURE: 'Not sure yet',
     },
     button: 'Request a call',
+    sending: 'Sending your request…',
+    errors: { floors: 'Please enter 1 to 60 floors.' },
     after:
       'Thank you! Your request code is {code}. Our team will call you within [[1 working day]].',
     trackLabel: 'Construction request',
     trackFloors: '{n} floors',
+    trackFloor: '{n} floor',
   },
   shop: { title: 'All products', empty: 'No products here yet.' },
   ui: {
