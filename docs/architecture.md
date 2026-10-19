@@ -141,3 +141,21 @@ sequenceDiagram
 
 The dashboard and API must be on the same site in production (`admin.<domain>` and
 `api.<domain>`) for the SameSite=Strict cookie to work; see ADR 0006.
+
+## Admin, analytics and B2B (step 1.3, ADR 0010–0011)
+
+```mermaid
+flowchart LR
+  DB[dashboard] -->|/v1/admin/* JWT OWNER/STAFF| GW[gateway]
+  SF[storefront] -->|/v1/events beacon, /v1/quote-requests| GW
+  GW -->|actor in RPC meta| OR[order] & CA[catalog] & IN[inventory] & PA[payment] & SH[shipping]
+  OR & CA & IN & PA & SH -. audit.recorded, order/payment events .-> MQ{{RabbitMQ}}
+  MQ -.-> AN[analytics: funnel, revenue, GO, audit log]
+  MQ -.-> NO[notification: SMS]
+  GW -->|dashboard, audit log| AN
+```
+
+- GO = B2C + not isFriend + active status + VERIFIED advance > 0 (COD never counts).
+- analytics stores only the HMAC `customerKey`, never phone numbers.
+- B2B: RFQ -> Quote (QT-XXXXXX) -> priced (discount guard) -> accepted -> converted to a B2B
+  order through the checkout saga at the quoted prices.

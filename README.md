@@ -243,7 +243,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 - [x] 1.0 Monorepo and backend skeleton (gateway, 8 services, outbox, messaging, CI)
 - [x] 1.1 identity and catalog services (admin auth, products, sale modes, price experiment)
 - [x] 1.2 inventory, order, payment, shipping + checkout saga
-- [ ] 1.3 analytics, notification and admin API (GO counter, audit log)
+- [x] 1.3 analytics, notification and admin API (GO counter, audit log) + B2B quotes (5ক)
 - [ ] 1.4 Storefront (product page, cart, guest checkout, COD / bKash, tracking, Pixel)
 - [ ] 1.5 Admin dashboard (orders, payment verification, products, GO counter)
 - [ ] 1.6 Production readiness (Dockerfiles, VPS compose, HTTPS, backups, OpenTelemetry, Sentry)
@@ -253,6 +253,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 <details>
 <summary><b>M2 — Full shop</b></summary>
 
+- [ ] B2B accounts (organizations), wholesale price lists, quantity tiers, MOQ, bank transfer, credit terms, PDF quotes/invoices
+- [ ] TOTP 2FA for OWNER/STAFF (#18)
 - [ ] OTP accounts, stock reservations, coupons
 - [ ] Categories, filters and search, CMS
 - [ ] Invoices and reports

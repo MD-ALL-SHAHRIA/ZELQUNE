@@ -7,6 +7,18 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Step 1.3: analytics-service (funnel from beacons + order events, revenue by BD day, channels,
+  per-experiment conversion, **GO counter** = B2C, not isFriend, active status, verified advance;
+  audit log), notification-service (SmsProvider with console fake, Bangla templates per order
+  stage, owner alert for bulk requests).
+- Gateway admin API (OWNER/STAFF): orders list/filter/detail/CSV, notes, transitions,
+  shipments, payment verify/reject/confirm-COD, customer isFriend, catalog CRUD (categories,
+  products, variants, prices, experiments, media), stock, dashboard; audit log OWNER only.
+- Audit trail: every admin change writes `audit.recorded` in the same transaction (ADR 0010).
+- B2B (section 5ক, M1): public RFQ, quotes with pricing, 20% discount guard (OWNER override),
+  7-day validity and auto-expiry, conversion to B2B orders at quoted prices (ADR 0011);
+  `Order.channel`, `Order.organizationId`, `Price.priceListId` (RETAIL).
+- Analytics beacon `POST /v1/events`; `CUSTOMER_KEY_SECRET` (HMAC customer key for analytics).
 - Step 1.2: inventory-service (stock, 15-min reservations held for 48 h after ordering,
   movements, no overselling under concurrency), shipping-service (64 districts, DHAKA ৳70 /
   SUBURB ৳110 / OUTSIDE ৳130 + ৳20 per extra kg on chargeable weight = max(actual,

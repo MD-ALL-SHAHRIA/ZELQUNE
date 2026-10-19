@@ -14,5 +14,7 @@ accepted ADR; supersede it with a new one.
 | [0007](0007-media-storage-provider.md) | Product media through a StorageProvider (R2 / local fake) | Accepted |
 | [0008](0008-checkout-saga.md) | Checkout: orchestrated saga with synchronous steps, persisted log and TTL holds | Accepted |
 | [0009](0009-event-retry-topology.md) | Event consumers retry through delay queues before the DLQ | Accepted |
+| [0010](0010-events-audit-and-analytics-privacy.md) | Event evolution, audit trail, and what analytics may store | Accepted |
+| [0011](0011-b2b-quotes.md) | B2B in M1: RFQ -> priced quote -> B2B order | Accepted |
 
 Template: copy `0000-template.md`, take the next number, keep it under a page.
