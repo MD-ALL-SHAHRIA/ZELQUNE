@@ -241,6 +241,589 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/quote-requests': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Bulk / corporate order request (RFQ). We reply with a priced quote. */
+    post: operations['PublicB2bController_request'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/quote-requests/track': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Status of a quote by code and phone. */
+    get: operations['PublicB2bController_track'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/events': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Analytics beacon: VIEW / ADD_TO_CART with an anonymous session id. */
+    post: operations['PublicB2bController_beacon'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/orders': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** List orders (filters: status, channel, saleMode, paymentMethod, from/to, q, isFriend). */
+    get: operations['AdminOrdersController_list'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/orders.csv': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** CSV export (same filters, up to 10 000 rows, formula-injection safe). */
+    get: operations['AdminOrdersController_exportCsv'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/orders/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminOrdersController_detail'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/orders/{id}/transitions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Change the order status (state machine enforced). */
+    post: operations['AdminOrdersController_transition'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/orders/{id}/notes': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminOrdersController_addNote'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/orders/{id}/shipment': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create the shipment (MANUAL: record the courier consignment id). */
+    post: operations['AdminOrdersController_createShipment'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['AdminOrdersController_updateShipment'];
+    trace?: never;
+  };
+  '/v1/admin/payments/{id}/verify': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** bKash/Nagad trxId received with this amount -> VERIFIED (confirms the order). */
+    post: operations['AdminOrdersController_verify'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/payments/{id}/reject': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminOrdersController_reject'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/payments/{id}/confirm-cod': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** COD confirmed with the customer by phone -> order CONFIRMED. */
+    post: operations['AdminOrdersController_confirmCod'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/customers/{phone}/friend': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Mark a customer (by phone) as friend/family: their orders never count for GO. */
+    put: operations['AdminOrdersController_setFriend'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/categories': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminCatalogController_categories'];
+    put?: never;
+    post: operations['AdminCatalogController_createCategory'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/categories/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['AdminCatalogController_updateCategory'];
+    trace?: never;
+  };
+  '/v1/admin/products': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** All products in every status (search by name, slug or SKU). */
+    get: operations['AdminCatalogController_products'];
+    put?: never;
+    /** Create a DRAFT product. */
+    post: operations['AdminCatalogController_createProduct'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/products/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Product with all variants, current RETAIL prices, experiments and media. */
+    get: operations['AdminCatalogController_product'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['AdminCatalogController_updateProduct'];
+    trace?: never;
+  };
+  '/v1/admin/products/{id}/publish': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminCatalogController_publish'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/products/{id}/archive': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminCatalogController_archive'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/products/{id}/variants/{sku}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Create or update a variant by SKU (incl. packaged size/weight for shipping). */
+    put: operations['AdminCatalogController_upsertVariant'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/variants/{id}/price': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Set the base price (integer paisa; RETAIL list). */
+    put: operations['AdminCatalogController_setPrice'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/variants/{id}/experiments/{key}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Set a price experiment arm (?p=a|b). */
+    put: operations['AdminCatalogController_setExperiment'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/products/{id}/media/uploads': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Get a presigned upload URL; PUT the file there, then confirm. */
+    post: operations['AdminCatalogController_requestUpload'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/media/{id}/confirm': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminCatalogController_confirmMedia'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/media/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete: operations['AdminCatalogController_removeMedia'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/stock': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Stock levels (optionally ?variantIds=id1,id2). */
+    get: operations['AdminCatalogController_stock'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/stock/{id}/adjustments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Receipt / correction / return for a variant (never below reserved). */
+    post: operations['AdminCatalogController_adjust'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/dashboard': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Funnel, revenue, GO counter, price-experiment conversion (BD calendar days). */
+    get: operations['AdminInsightsController_dashboard'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/audit-log': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Who changed what (OWNER only). */
+    get: operations['AdminInsightsController_auditLog'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/quotes': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminInsightsController_quotes'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/quotes/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminInsightsController_quote'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/quotes/{id}/pricing': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Price a quote: variant + unit price per line, shipping, advance, validUntil (default 7 days). */
+    put: operations['AdminInsightsController_price'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/quotes/{id}/accept': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminInsightsController_accept'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/quotes/{id}/reject': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminInsightsController_reject'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/quotes/{id}/convert': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Accepted quote -> B2B order at the quoted prices (advance 0 / COD: OWNER only). */
+    post: operations['AdminInsightsController_convert'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/health': {
     parameters: {
       query?: never;
@@ -576,6 +1159,7 @@ export interface components {
         content?: string;
         term?: string;
       };
+      sessionId?: string;
     };
     CheckoutResponseDto_Output: {
       orderCode: string;
@@ -718,6 +1302,851 @@ export interface components {
         consignmentId: string | null;
         trackingUrl: string | null;
       } | null;
+    };
+    RfqRequestDto: {
+      organizationName: string;
+      contactName: string;
+      /** @example 01712345678 */
+      phone: string;
+      /**
+       * Format: email
+       * @default null
+       */
+      email: string | null;
+      items: {
+        /** @default null */
+        productSlug: string | null;
+        /**
+         * Format: uuid
+         * @default null
+         */
+        variantId: string | null;
+        description: string;
+        qty: number;
+      }[];
+      /**
+       * Format: date
+       * @default null
+       */
+      neededBy: string | null;
+      /** @default null */
+      customizationNotes: string | null;
+      /** @default null */
+      notes: string | null;
+      utm?: {
+        source?: string;
+        medium?: string;
+        campaign?: string;
+        content?: string;
+        term?: string;
+      };
+    };
+    RfqResponseDto_Output: {
+      quoteCode: string;
+      /** @enum {string} */
+      status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+    };
+    PublicQuoteDto_Output: {
+      code: string;
+      /** @enum {string} */
+      status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+      organizationName: string;
+      neededBy: string[];
+      validUntil: string[];
+      lines: {
+        /** Format: uuid */
+        id: string;
+        description: string;
+        qty: number;
+        /** @example 349000 */
+        unitPricePaisa: number | null;
+        /** @example 349000 */
+        lineTotalPaisa: number | null;
+      }[];
+      totals: {
+        /** @example 349000 */
+        subtotalPaisa: number;
+        /** @example 349000 */
+        shippingFeePaisa: number;
+        /** @example 349000 */
+        totalPaisa: number;
+        /** @example 349000 */
+        advanceRequiredPaisa: number;
+      } | null;
+      orderCode: string[];
+    };
+    BeaconEventDto: {
+      /** @enum {string} */
+      type: 'VIEW' | 'ADD_TO_CART';
+      sessionId: string;
+      /** Format: uuid */
+      productId?: string;
+      /** Format: uuid */
+      variantId?: string;
+      p?: string;
+      path?: string;
+      utm?: {
+        source?: string;
+        medium?: string;
+        campaign?: string;
+        content?: string;
+        term?: string;
+      };
+    };
+    AdminOrderListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        code: string;
+        /** @enum {string} */
+        channel: 'B2C' | 'B2B';
+        /** @enum {string} */
+        status:
+          | 'PENDING_PAYMENT'
+          | 'CONFIRMED'
+          | 'IN_PRODUCTION'
+          | 'READY_TO_SHIP'
+          | 'SHIPPED'
+          | 'DELIVERED'
+          | 'CANCELLED'
+          | 'RETURN_REQUESTED'
+          | 'RETURNED'
+          | 'REFUNDED';
+        /** @enum {string} */
+        saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+        customerName: string;
+        customerPhone: string;
+        isFriend: boolean;
+        /** @enum {string} */
+        paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+        /** @example 349000 */
+        subtotalPaisa: number;
+        /** @example 349000 */
+        shippingFeePaisa: number;
+        /** @example 349000 */
+        totalPaisa: number;
+        /** @example 349000 */
+        advanceRequiredPaisa: number;
+        district: string;
+        experimentKey: string | null;
+        placedAt: string;
+      }[];
+      page: number;
+      limit: number;
+      total: number;
+    };
+    AdminOrderDetailDto_Output: {
+      /** Format: uuid */
+      id: string;
+      code: string;
+      /** @enum {string} */
+      channel: 'B2C' | 'B2B';
+      /** @enum {string} */
+      status:
+        | 'PENDING_PAYMENT'
+        | 'CONFIRMED'
+        | 'IN_PRODUCTION'
+        | 'READY_TO_SHIP'
+        | 'SHIPPED'
+        | 'DELIVERED'
+        | 'CANCELLED'
+        | 'RETURN_REQUESTED'
+        | 'RETURNED'
+        | 'REFUNDED';
+      /** @enum {string} */
+      saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+      customerName: string;
+      customerPhone: string;
+      isFriend: boolean;
+      /** @enum {string} */
+      paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+      /** @example 349000 */
+      subtotalPaisa: number;
+      /** @example 349000 */
+      shippingFeePaisa: number;
+      /** @example 349000 */
+      totalPaisa: number;
+      /** @example 349000 */
+      advanceRequiredPaisa: number;
+      district: string;
+      experimentKey: string[];
+      placedAt: string;
+      address: {
+        district: string;
+        area: string;
+        line: string;
+        note: string | null;
+      };
+      items: {
+        sku: string;
+        nameBn: string;
+        nameEn: string;
+        options: {
+          [key: string]: string;
+        };
+        qty: number;
+        /** @example 349000 */
+        unitPricePaisa: number;
+        /** @example 349000 */
+        lineTotalPaisa: number;
+      }[];
+      totals: {
+        /** @example 349000 */
+        subtotalPaisa: number;
+        /** @example 349000 */
+        discountPaisa: number;
+        /** @example 349000 */
+        shippingFeePaisa: number;
+        /** @example 349000 */
+        totalPaisa: number;
+        /** @example 349000 */
+        advanceRequiredPaisa: number;
+      };
+      history: {
+        /** @enum {string|null} */
+        from:
+          | 'PENDING_PAYMENT'
+          | 'CONFIRMED'
+          | 'IN_PRODUCTION'
+          | 'READY_TO_SHIP'
+          | 'SHIPPED'
+          | 'DELIVERED'
+          | 'CANCELLED'
+          | 'RETURN_REQUESTED'
+          | 'RETURNED'
+          | 'REFUNDED'
+          | null;
+        /** @enum {string} */
+        to:
+          | 'PENDING_PAYMENT'
+          | 'CONFIRMED'
+          | 'IN_PRODUCTION'
+          | 'READY_TO_SHIP'
+          | 'SHIPPED'
+          | 'DELIVERED'
+          | 'CANCELLED'
+          | 'RETURN_REQUESTED'
+          | 'RETURNED'
+          | 'REFUNDED';
+        actor: string;
+        reason: string | null;
+        at: string;
+      }[];
+      notes: {
+        /** Format: uuid */
+        id: string;
+        author: string;
+        text: string;
+        at: string;
+      }[];
+      utm: {
+        [key: string]: string;
+      } | null;
+      /** Format: uuid */
+      organizationId: string | null;
+      quoteCode: string[];
+      cancelReason: string[];
+      payment: {
+        /** Format: uuid */
+        id: string;
+        /** @enum {string} */
+        method: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+        /** @enum {string} */
+        kind: 'ADVANCE' | 'FULL' | 'COD';
+        /** @enum {string} */
+        status:
+          | 'SUBMITTED'
+          | 'VERIFIED'
+          | 'REJECTED'
+          | 'COD_PENDING'
+          | 'COD_CONFIRMED'
+          | 'COLLECTED'
+          | 'VOID';
+        /** @example 349000 */
+        amountPaisa: number;
+        trxIdLast4: string | null;
+      } | null;
+      shipment: {
+        /** @enum {string} */
+        courier: 'MANUAL' | 'STEADFAST' | 'PAPERFLY' | 'PATHAO';
+        /** @enum {string} */
+        status:
+          | 'PENDING'
+          | 'BOOKED'
+          | 'PICKED_UP'
+          | 'IN_TRANSIT'
+          | 'DELIVERED'
+          | 'RETURNED'
+          | 'CANCELLED';
+        consignmentId: string | null;
+        trackingUrl: string | null;
+      } | null;
+    };
+    TransitionRequestDto: {
+      /** @enum {string} */
+      to:
+        | 'PENDING_PAYMENT'
+        | 'CONFIRMED'
+        | 'IN_PRODUCTION'
+        | 'READY_TO_SHIP'
+        | 'SHIPPED'
+        | 'DELIVERED'
+        | 'CANCELLED'
+        | 'RETURN_REQUESTED'
+        | 'RETURNED'
+        | 'REFUNDED';
+      /** @default null */
+      reason: string | null;
+    };
+    StatusDto_Output: {
+      status: string;
+    };
+    AddOrderNoteDto: {
+      text: string;
+    };
+    IdDto_Output: {
+      /** Format: uuid */
+      id: string;
+    };
+    CreateShipmentDto: {
+      /**
+       * @default MANUAL
+       * @enum {string}
+       */
+      courier: 'MANUAL' | 'STEADFAST' | 'PAPERFLY' | 'PATHAO';
+      /** @default null */
+      consignmentId: string | null;
+      /**
+       * Format: uri
+       * @default null
+       */
+      trackingUrl: string | null;
+    };
+    ShipmentDto_Output: {
+      /** @enum {string} */
+      courier: 'MANUAL' | 'STEADFAST' | 'PAPERFLY' | 'PATHAO';
+      /** @enum {string} */
+      status:
+        'PENDING' | 'BOOKED' | 'PICKED_UP' | 'IN_TRANSIT' | 'DELIVERED' | 'RETURNED' | 'CANCELLED';
+      consignmentId: string[];
+      trackingUrl: string[];
+    };
+    UpdateShipmentDto: {
+      /** @enum {string} */
+      status:
+        'PENDING' | 'BOOKED' | 'PICKED_UP' | 'IN_TRANSIT' | 'DELIVERED' | 'RETURNED' | 'CANCELLED';
+    };
+    VerifyPaymentDto: {
+      /** @example 349000 */
+      amountReceivedPaisa: number;
+    };
+    PaymentDto_Output: {
+      /** Format: uuid */
+      id: string;
+      /** @enum {string} */
+      method: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+      /** @enum {string} */
+      kind: 'ADVANCE' | 'FULL' | 'COD';
+      /** @enum {string} */
+      status:
+        | 'SUBMITTED'
+        | 'VERIFIED'
+        | 'REJECTED'
+        | 'COD_PENDING'
+        | 'COD_CONFIRMED'
+        | 'COLLECTED'
+        | 'VOID';
+      /** @example 349000 */
+      amountPaisa: number;
+      trxIdLast4: string[];
+    };
+    RejectPaymentDto: {
+      reason: string;
+    };
+    SetFriendDto: {
+      isFriend: boolean;
+    };
+    FriendDto_Output: {
+      phone: string;
+      isFriend: boolean;
+    };
+    AdminCategoryListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        /** Format: uuid */
+        parentId: string | null;
+        slug: string;
+        nameBn: string;
+        nameEn: string;
+        position: number;
+        isActive: boolean;
+      }[];
+    };
+    CreateCategoryDto: {
+      slug: string;
+      nameBn: string;
+      nameEn: string;
+      /**
+       * Format: uuid
+       * @default null
+       */
+      parentId: string | null;
+      /** @default 0 */
+      position: number;
+    };
+    UpdateCategoryDto: {
+      slug?: string;
+      nameBn?: string;
+      nameEn?: string;
+      /**
+       * Format: uuid
+       * @default null
+       */
+      parentId: string | null;
+      /** @default 0 */
+      position: number;
+      isActive?: boolean;
+    };
+    ChangedDto_Output: {
+      /** Format: uuid */
+      id: string;
+      changedFields: string[];
+    };
+    AdminProductListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        slug: string;
+        nameBn: string;
+        nameEn: string;
+        descriptionBn: string | null;
+        descriptionEn: string | null;
+        /** @enum {string} */
+        saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+        leadTimeDays: number | null;
+        /** @enum {string} */
+        status: 'DRAFT' | 'ACTIVE' | 'ARCHIVED';
+        seoTitleBn: string | null;
+        seoTitleEn: string | null;
+        seoDescriptionBn: string | null;
+        seoDescriptionEn: string | null;
+        categoryIds: string[];
+        publishedAt: string | null;
+        updatedAt: string;
+        variantCount: number;
+      }[];
+      page: number;
+      limit: number;
+      total: number;
+    };
+    CreateProductDto: {
+      slug: string;
+      nameBn: string;
+      nameEn: string;
+      /** @default null */
+      descriptionBn: string | null;
+      /** @default null */
+      descriptionEn: string | null;
+      /** @enum {string} */
+      saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+      /** @default null */
+      leadTimeDays: number | null;
+      /** @default null */
+      seoTitleBn: string | null;
+      /** @default null */
+      seoTitleEn: string | null;
+      /** @default null */
+      seoDescriptionBn: string | null;
+      /** @default null */
+      seoDescriptionEn: string | null;
+      /** @default [] */
+      categoryIds: string[];
+    };
+    AdminProductDto_Output: {
+      /** Format: uuid */
+      id: string;
+      slug: string;
+      nameBn: string;
+      nameEn: string;
+      descriptionBn: string[];
+      descriptionEn: string[];
+      /** @enum {string} */
+      saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+      leadTimeDays: number | null;
+      /** @enum {string} */
+      status: 'DRAFT' | 'ACTIVE' | 'ARCHIVED';
+      seoTitleBn: string[];
+      seoTitleEn: string[];
+      seoDescriptionBn: string[];
+      seoDescriptionEn: string[];
+      categoryIds: string[];
+      publishedAt: string[];
+      updatedAt: string;
+      variants: {
+        /** Format: uuid */
+        id: string;
+        sku: string;
+        options: {
+          [key: string]: string;
+        };
+        isActive: boolean;
+        position: number;
+        weightGrams: number | null;
+        widthMm: number | null;
+        heightMm: number | null;
+        depthMm: number | null;
+        packageLengthMm: number | null;
+        packageWidthMm: number | null;
+        packageHeightMm: number | null;
+        packageWeightGrams: number | null;
+        basePrice: {
+          /** @example 349000 */
+          amountPaisa: number;
+          /** @example 349000 */
+          compareAtPaisa: number | null;
+        } | null;
+        experiments: {
+          /** @enum {string} */
+          key: 'a' | 'b';
+          /** @example 349000 */
+          amountPaisa: number;
+          active: boolean;
+        }[];
+      }[];
+      media: {
+        /** Format: uuid */
+        id: string;
+        url: string;
+        mimeType: string;
+        altBn: string | null;
+        altEn: string | null;
+        position: number;
+        /** Format: uuid */
+        variantId: string | null;
+        /** @enum {string} */
+        status: 'PENDING' | 'READY';
+        bytes: number;
+      }[];
+    };
+    UpdateProductDto: {
+      slug?: string;
+      nameBn?: string;
+      nameEn?: string;
+      /** @default null */
+      descriptionBn: string | null;
+      /** @default null */
+      descriptionEn: string | null;
+      /** @enum {string} */
+      saleMode?: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+      /** @default null */
+      leadTimeDays: number | null;
+      /** @default null */
+      seoTitleBn: string | null;
+      /** @default null */
+      seoTitleEn: string | null;
+      /** @default null */
+      seoDescriptionBn: string | null;
+      /** @default null */
+      seoDescriptionEn: string | null;
+      /** @default [] */
+      categoryIds: string[];
+    };
+    UpsertVariantDto: {
+      /** @default {} */
+      options: {
+        [key: string]: string;
+      };
+      /** @default null */
+      weightGrams: number | null;
+      /** @default null */
+      widthMm: number | null;
+      /** @default null */
+      heightMm: number | null;
+      /** @default null */
+      depthMm: number | null;
+      /** @default 0 */
+      position: number;
+      /** @default true */
+      isActive: boolean;
+      /** @default null */
+      packageLengthMm: number | null;
+      /** @default null */
+      packageWidthMm: number | null;
+      /** @default null */
+      packageHeightMm: number | null;
+      /** @default null */
+      packageWeightGrams: number | null;
+    };
+    SetPriceDto: {
+      /** @example 349000 */
+      amountPaisa: number;
+      /**
+       * @default null
+       * @example 349000
+       */
+      compareAtPaisa: number | null;
+      /**
+       * @default RETAIL
+       * @enum {string}
+       */
+      priceListId: 'RETAIL';
+    };
+    ChangedFlagDto_Output: {
+      changed: boolean;
+    };
+    SetExperimentDto: {
+      /** @example 349000 */
+      amountPaisa: number;
+      /** @default true */
+      active: boolean;
+    };
+    RequestMediaUploadDto: {
+      /**
+       * Format: uuid
+       * @default null
+       */
+      variantId: string | null;
+      /** @enum {string} */
+      mimeType: 'image/webp' | 'image/jpeg' | 'image/png' | 'image/avif';
+      bytes: number;
+      /** @default null */
+      altBn: string | null;
+      /** @default null */
+      altEn: string | null;
+      /** @default 0 */
+      position: number;
+    };
+    MediaTicketDto_Output: {
+      /** Format: uuid */
+      mediaId: string;
+      uploadUrl: string;
+      /** @enum {string} */
+      method: 'PUT';
+      headers: {
+        [key: string]: string;
+      };
+      expiresAt: string;
+    };
+    StockListDto_Output: {
+      items: {
+        /** Format: uuid */
+        variantId: string;
+        sku: string;
+        onHand: number;
+        reserved: number;
+        available: number;
+        updatedAt: string;
+      }[];
+    };
+    AdjustStockDto: {
+      sku: string;
+      delta: number;
+      /** @enum {string} */
+      reason: 'RECEIPT' | 'ADJUSTMENT' | 'RETURN';
+      /** @default null */
+      note: string | null;
+    };
+    StockAdjustedDto_Output: {
+      onHand: number;
+      reserved: number;
+    };
+    DashboardStatsDto_Output: {
+      range: {
+        from: string;
+        to: string;
+      };
+      today: {
+        orders: number;
+        /** @example 349000 */
+        revenuePaisa: number;
+      };
+      funnel: {
+        views: number;
+        addToCart: number;
+        checkout: number;
+        purchase: number;
+      };
+      revenueByDay: {
+        date: string;
+        orders: number;
+        /** @example 349000 */
+        revenuePaisa: number;
+      }[];
+      go: {
+        count: number;
+        target: number;
+        reached: boolean;
+      };
+      experiments: {
+        /** @enum {string} */
+        key: 'a' | 'b';
+        sessions: number;
+        checkouts: number;
+        purchases: number;
+        conversionRate: number;
+      }[];
+      channels: {
+        b2c: {
+          orders: number;
+          /** @example 349000 */
+          revenuePaisa: number;
+        };
+        b2b: {
+          orders: number;
+          /** @example 349000 */
+          revenuePaisa: number;
+        };
+      };
+    };
+    AuditLogPageDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        occurredAt: string;
+        source: string;
+        actor: {
+          id: string;
+          /** @enum {string} */
+          role: 'CUSTOMER' | 'STAFF' | 'OWNER' | 'SYSTEM';
+        };
+        action: string;
+        entityType: string;
+        entityId: string;
+        summary: string;
+        changes: {
+          [key: string]: unknown;
+        } | null;
+        requestId: string | null;
+      }[];
+      page: number;
+      limit: number;
+      total: number;
+    };
+    AdminQuoteListDto_Output: {
+      items: {
+        code: string;
+        /** @enum {string} */
+        status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+        organizationName: string;
+        neededBy: string | null;
+        validUntil: string | null;
+        totals: {
+          /** @example 349000 */
+          subtotalPaisa: number;
+          /** @example 349000 */
+          shippingFeePaisa: number;
+          /** @example 349000 */
+          totalPaisa: number;
+          /** @example 349000 */
+          advanceRequiredPaisa: number;
+        } | null;
+        orderCode: string | null;
+        /** Format: uuid */
+        id: string;
+        contactName: string;
+        phone: string;
+        email: string | null;
+        customizationNotes: string | null;
+        notes: string | null;
+        quotedAt: string | null;
+        quotedBy: string | null;
+        createdAt: string;
+        /** Format: uuid */
+        orderId: string | null;
+      }[];
+      page: number;
+      limit: number;
+      total: number;
+    };
+    AdminQuoteDto_Output: {
+      code: string;
+      /** @enum {string} */
+      status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+      organizationName: string;
+      neededBy: string[];
+      validUntil: string[];
+      lines: {
+        /** Format: uuid */
+        id: string;
+        description: string;
+        qty: number;
+        /** Format: uuid */
+        variantId: string | null;
+        sku: string | null;
+        /** @example 349000 */
+        unitPricePaisa: number | null;
+        /** @example 349000 */
+        lineTotalPaisa: number | null;
+      }[];
+      totals: {
+        /** @example 349000 */
+        subtotalPaisa: number;
+        /** @example 349000 */
+        shippingFeePaisa: number;
+        /** @example 349000 */
+        totalPaisa: number;
+        /** @example 349000 */
+        advanceRequiredPaisa: number;
+      } | null;
+      orderCode: string[];
+      /** Format: uuid */
+      id: string;
+      contactName: string;
+      phone: string;
+      email: string[];
+      customizationNotes: string[];
+      notes: string[];
+      quotedAt: string[];
+      quotedBy: string[];
+      createdAt: string;
+      /** Format: uuid */
+      orderId: string | null;
+    };
+    PriceQuoteDto: {
+      lines: {
+        /** Format: uuid */
+        lineId: string;
+        /** Format: uuid */
+        variantId: string;
+        /** @example 349000 */
+        unitPricePaisa: number;
+      }[];
+      /**
+       * @default 0
+       * @example 349000
+       */
+      shippingFeePaisa: number;
+      /** @example 349000 */
+      advanceRequiredPaisa: number;
+      /** Format: date-time */
+      validUntil?: string;
+      /** @default false */
+      allowDeepDiscount: boolean;
+    };
+    DecideQuoteDto: {
+      /** @default null */
+      reason: string | null;
+    };
+    ConvertQuoteDto: {
+      address: {
+        district: string;
+        area: string;
+        line: string;
+        /** @default null */
+        note: string | null;
+      };
+      /** @enum {string} */
+      paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+      /** @example 8N7A6B5C4D */
+      trxId?: string | null;
+      /** @example 01712345678 */
+      payerPhone?: string | null;
+    };
+    ConvertedQuoteDto_Output: {
+      orderCode: string;
+      /** Format: uuid */
+      orderId: string;
     };
   };
   responses: never;
@@ -1063,6 +2492,949 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['OrderTrackingDto_Output'];
+        };
+      };
+    };
+  };
+  PublicB2bController_request: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Cloudflare Turnstile token */
+        'cf-turnstile-response': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RfqRequestDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['RfqResponseDto_Output'];
+        };
+      };
+    };
+  };
+  PublicB2bController_track: {
+    parameters: {
+      query: {
+        code: string;
+        phone: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicQuoteDto_Output'];
+        };
+      };
+    };
+  };
+  PublicB2bController_beacon: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['BeaconEventDto'];
+      };
+    };
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AdminOrdersController_list: {
+    parameters: {
+      query?: {
+        status?:
+          | 'PENDING_PAYMENT'
+          | 'CONFIRMED'
+          | 'IN_PRODUCTION'
+          | 'READY_TO_SHIP'
+          | 'SHIPPED'
+          | 'DELIVERED'
+          | 'CANCELLED'
+          | 'RETURN_REQUESTED'
+          | 'RETURNED'
+          | 'REFUNDED';
+        channel?: 'B2C' | 'B2B';
+        saleMode?: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+        paymentMethod?: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+        from?: string;
+        to?: string;
+        q?: string;
+        isFriend?: unknown;
+        page?: number;
+        limit?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminOrderListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_exportCsv: {
+    parameters: {
+      query?: {
+        status?:
+          | 'PENDING_PAYMENT'
+          | 'CONFIRMED'
+          | 'IN_PRODUCTION'
+          | 'READY_TO_SHIP'
+          | 'SHIPPED'
+          | 'DELIVERED'
+          | 'CANCELLED'
+          | 'RETURN_REQUESTED'
+          | 'RETURNED'
+          | 'REFUNDED';
+        channel?: 'B2C' | 'B2B';
+        saleMode?: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+        paymentMethod?: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+        from?: string;
+        to?: string;
+        q?: string;
+        isFriend?: unknown;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AdminOrdersController_detail: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminOrderDetailDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_transition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['TransitionRequestDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['StatusDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_addNote: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AddOrderNoteDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['IdDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_createShipment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateShipmentDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ShipmentDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_updateShipment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateShipmentDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ShipmentDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_verify: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VerifyPaymentDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaymentDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_reject: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RejectPaymentDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaymentDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_confirmCod: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaymentDto_Output'];
+        };
+      };
+    };
+  };
+  AdminOrdersController_setFriend: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        phone: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SetFriendDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['FriendDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_categories: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminCategoryListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_createCategory: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateCategoryDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['IdDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_updateCategory: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateCategoryDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ChangedDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_products: {
+    parameters: {
+      query?: {
+        status?: 'DRAFT' | 'ACTIVE' | 'ARCHIVED';
+        q?: string;
+        page?: number;
+        limit?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminProductListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_createProduct: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateProductDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['IdDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_product: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminProductDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_updateProduct: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateProductDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ChangedDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_publish: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['StatusDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_archive: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['StatusDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_upsertVariant: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+        sku: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpsertVariantDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['IdDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_setPrice: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SetPriceDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ChangedFlagDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_setExperiment: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+        key: 'a' | 'b';
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SetExperimentDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ChangedFlagDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_requestUpload: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RequestMediaUploadDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MediaTicketDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_confirmMedia: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['StatusDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_removeMedia: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AdminCatalogController_stock: {
+    parameters: {
+      query?: {
+        variantIds?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['StockListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminCatalogController_adjust: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AdjustStockDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['StockAdjustedDto_Output'];
+        };
+      };
+    };
+  };
+  AdminInsightsController_dashboard: {
+    parameters: {
+      query?: {
+        from?: string;
+        to?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DashboardStatsDto_Output'];
+        };
+      };
+    };
+  };
+  AdminInsightsController_auditLog: {
+    parameters: {
+      query?: {
+        from?: string;
+        to?: string;
+        entityType?: string;
+        entityId?: string;
+        actorId?: string;
+        action?: string;
+        page?: number;
+        limit?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AuditLogPageDto_Output'];
+        };
+      };
+    };
+  };
+  AdminInsightsController_quotes: {
+    parameters: {
+      query?: {
+        status?: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+        q?: string;
+        page?: number;
+        limit?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminQuoteListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminInsightsController_quote: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminQuoteDto_Output'];
+        };
+      };
+    };
+  };
+  AdminInsightsController_price: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PriceQuoteDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminQuoteDto_Output'];
+        };
+      };
+    };
+  };
+  AdminInsightsController_accept: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminQuoteDto_Output'];
+        };
+      };
+    };
+  };
+  AdminInsightsController_reject: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['DecideQuoteDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AdminQuoteDto_Output'];
+        };
+      };
+    };
+  };
+  AdminInsightsController_convert: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ConvertQuoteDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ConvertedQuoteDto_Output'];
         };
       };
     };

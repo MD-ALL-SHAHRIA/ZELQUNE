@@ -48,6 +48,8 @@ export const gatewayEnvSchema = baseEnvSchema
     CHECKOUT_IP_WINDOW_SECONDS: z.coerce.number().int().positive().default(600),
     CART_WRITES_PER_MINUTE: z.coerce.number().int().positive().default(60),
     TRACK_PER_MINUTE: z.coerce.number().int().positive().default(20),
+    RFQ_PER_HOUR: z.coerce.number().int().positive().default(5),
+    BEACON_PER_MINUTE: z.coerce.number().int().positive().default(120),
     /** Bot check on checkout: fake (dev/tests) or Cloudflare Turnstile. */
     TURNSTILE_DRIVER: z.enum(['fake', 'cloudflare']).default('fake'),
     TURNSTILE_SECRET_KEY: z.string().optional(),

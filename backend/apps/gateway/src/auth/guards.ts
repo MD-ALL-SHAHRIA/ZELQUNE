@@ -6,7 +6,7 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AppError, IS_PUBLIC_METADATA } from '@zelqune/common';
+import { AppError, IS_PUBLIC_METADATA, requestContext } from '@zelqune/common';
 import { type Role } from '@zelqune/contracts';
 import { type AuthenticatedRequest, type AuthenticatedUser } from './auth.types';
 import { JwtVerifierService } from './jwt-verifier.service';
@@ -46,6 +46,8 @@ export class JwtAuthGuard implements CanActivate {
     } catch {
       throw new AppError('INVALID_TOKEN', 'Invalid or expired access token', 401);
     }
+    // Every downstream RPC of this request carries the admin for audit (ADR 0010).
+    requestContext.setActor({ id: req.user.id, role: req.user.role });
     return true;
   }
 }

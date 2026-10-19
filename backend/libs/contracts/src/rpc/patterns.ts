@@ -16,6 +16,12 @@ export const RPC_PATTERNS = {
     pricesResolve: 'catalog.prices.resolve',
     checkoutSnapshot: 'catalog.variants.checkoutSnapshot',
     admin: {
+      listCategories: 'catalog.admin.categories.list',
+      updateCategory: 'catalog.admin.categories.update',
+      listProducts: 'catalog.admin.products.list',
+      getProduct: 'catalog.admin.products.get',
+      archiveProduct: 'catalog.admin.products.archive',
+      removeMedia: 'catalog.admin.media.remove',
       createCategory: 'catalog.admin.categories.create',
       createProduct: 'catalog.admin.products.create',
       updateProduct: 'catalog.admin.products.update',
@@ -31,7 +37,7 @@ export const RPC_PATTERNS = {
     reserve: 'inventory.reservations.reserve',
     release: 'inventory.reservations.release',
     levels: 'inventory.stock.levels',
-    admin: { adjust: 'inventory.admin.stock.adjust' },
+    admin: { adjust: 'inventory.admin.stock.adjust', list: 'inventory.admin.stock.list' },
   },
   payment: {
     create: 'payment.payments.create',
@@ -60,7 +66,32 @@ export const RPC_PATTERNS = {
     quote: 'order.carts.quote',
     checkout: 'order.checkout.checkout',
     track: 'order.orders.track',
-    admin: { transition: 'order.admin.orders.transition' },
+    admin: {
+      transition: 'order.admin.orders.transition',
+      list: 'order.admin.orders.list',
+      detail: 'order.admin.orders.detail',
+      export: 'order.admin.orders.export',
+      addNote: 'order.admin.orders.addNote',
+      setFriend: 'order.admin.customers.setFriend',
+      orderIdByCode: 'order.admin.orders.idByCode',
+    },
+    quotes: {
+      request: 'order.quotes.request',
+      track: 'order.quotes.track',
+      admin: {
+        list: 'order.admin.quotes.list',
+        get: 'order.admin.quotes.get',
+        price: 'order.admin.quotes.price',
+        accept: 'order.admin.quotes.accept',
+        reject: 'order.admin.quotes.reject',
+        convert: 'order.admin.quotes.convert',
+      },
+    },
+  },
+  analytics: {
+    track: 'analytics.events.track',
+    dashboard: 'analytics.stats.dashboard',
+    auditLog: 'analytics.audit.list',
   },
 } as const;
 

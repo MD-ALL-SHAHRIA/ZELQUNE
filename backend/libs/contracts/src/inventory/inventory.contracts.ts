@@ -51,3 +51,13 @@ export const adjustStockInputSchema = z.object({
   note: z.string().max(300).nullable().default(null),
 });
 export type AdjustStockInput = z.input<typeof adjustStockInputSchema>;
+
+export const stockListQuerySchema = z.object({ variantIds: z.array(z.uuid()).max(200).optional() });
+export interface StockLevelView {
+  variantId: string;
+  sku: string;
+  onHand: number;
+  reserved: number;
+  available: number;
+  updatedAt: string;
+}

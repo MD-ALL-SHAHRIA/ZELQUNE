@@ -10,16 +10,21 @@ import {
   type CheckoutRequest,
   checkoutRequestSchema,
   type CheckoutResponse,
+  type OrderChannel,
   orderPlaced,
+  type PaymentKind,
+  type PaymentMethod,
   type PaymentSummary,
+  type SaleMode,
 } from '@zelqune/contracts';
 import { randomUUID } from 'node:crypto';
-import { type CartService, type PreparedCheckout } from '../carts/cart.service';
+import { type CartService } from '../carts/cart.service';
 import { type OrderEnv } from '../config/order-env';
+import { customerKey } from '../domain/customer-key';
 import { generateOrderCode } from '../domain/order-code';
-import { paymentPlan } from '../domain/pricing';
+import { paymentPlan, type Totals } from '../domain/pricing';
 import { CHECKOUT_PARTICIPANTS, type CheckoutParticipants } from './participants';
-import { OrderCodeTakenError, SAGA_STORE, type SagaStore } from './saga.store';
+import { OrderCodeTakenError, SAGA_STORE, type SagaSource, type SagaStore } from './saga.store';
 
 export const CART_SERVICE = Symbol('CART_SERVICE');
 const SOURCE = 'order-service';
@@ -30,13 +35,59 @@ const message = (err: unknown): string => (err instanceof Error ? err.message : 
 /** Business rejections (4xx) need no compensation of the step that raised them. */
 const isBusinessError = (err: unknown): boolean => err instanceof AppError && err.status < 500;
 
+export interface SpecLine {
+  variantId: string;
+  productId: string;
+  sku: string;
+  nameBn: string;
+  nameEn: string;
+  options: Record<string, string>;
+  saleMode: SaleMode;
+  unitPricePaisa: number;
+  qty: number;
+}
+
+/** Everything needed to place an order, whatever it came from (cart or B2B quote). */
+export interface OrderSpec {
+  source: SagaSource;
+  channel: OrderChannel;
+  saleMode: SaleMode;
+  customer: { name: string; phone: string };
+  address: { district: string; area: string; line: string; note: string | null };
+  lines: SpecLine[];
+  totals: Totals;
+  shipping: { zone: string; chargeableWeightGrams: number };
+  payment: {
+    method: PaymentMethod;
+    kind: PaymentKind;
+    amountPaisa: number;
+    trxId: string | null;
+    payerPhone: string | null;
+  };
+  experimentKey: 'a' | 'b' | null;
+  utm?: Record<string, string>;
+  sessionId?: string;
+  organizationId?: string | null;
+}
+
+export interface PlacedOrder {
+  orderId: string;
+  code: string;
+  payment: PaymentSummary;
+}
+
+type CheckoutConfig = Pick<
+  OrderEnv,
+  'NODE_ENV' | 'SAGA_RECOVERY_AFTER_SECONDS' | 'ORDER_SWEEP_INTERVAL_MS' | 'CUSTOMER_KEY_SECRET'
+>;
+
 /**
- * Checkout saga orchestrator (ADR 0008):
+ * Order placement saga orchestrator (ADR 0008):
  *   1. reserve stock (IN_STOCK only)          compensation: release stock
  *   2. create payment                          compensation: void payment
  *   3. create order + order.placed (one tx)    -> COMPLETED
- * Every step and compensation is idempotent per order id; unfinished sagas are compensated by
- * a recovery poller after SAGA_RECOVERY_AFTER_SECONDS.
+ * Used by storefront checkout (cart) and B2B quote conversion. Every step and compensation is
+ * idempotent per order id; unfinished sagas are compensated by a recovery poller.
  */
 @Injectable()
 export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy {
@@ -47,11 +98,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
     @Inject(CART_SERVICE) private readonly carts: Pick<CartService, 'loadActive' | 'prepare'>,
     @Inject(CHECKOUT_PARTICIPANTS) private readonly participants: CheckoutParticipants,
     @Inject(SAGA_STORE) private readonly store: SagaStore,
-    @Inject(APP_CONFIG)
-    private readonly config: Pick<
-      OrderEnv,
-      'NODE_ENV' | 'SAGA_RECOVERY_AFTER_SECONDS' | 'ORDER_SWEEP_INTERVAL_MS'
-    >,
+    @Inject(APP_CONFIG) private readonly config: CheckoutConfig,
   ) {}
 
   onApplicationBootstrap(): void {
@@ -66,6 +113,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
     clearInterval(this.recoveryTimer);
   }
 
+  /** Storefront checkout of a guest cart (always B2C). */
   async checkout(cartToken: string, raw: CheckoutRequest): Promise<CheckoutResponse> {
     const request = checkoutRequestSchema.parse(raw);
     const cart = await this.carts.loadActive(cartToken);
@@ -76,18 +124,66 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       prepared.totals,
       prepared.allowedMethods,
     );
+    const bucket = prepared.cart.experimentKey;
+    const experimentKey = bucket === 'a' || bucket === 'b' ? bucket : null;
 
+    const placed = await this.runSaga({
+      source: { kind: 'cart', cartId: cart.id },
+      channel: 'B2C',
+      saleMode: prepared.saleMode,
+      customer: request.customer,
+      address: request.address,
+      lines: prepared.lines.map((l) => ({
+        variantId: l.variantId,
+        productId: l.snapshot.productId,
+        sku: l.snapshot.sku,
+        nameBn: l.snapshot.nameBn,
+        nameEn: l.snapshot.nameEn,
+        options: l.snapshot.options,
+        saleMode: l.snapshot.saleMode,
+        unitPricePaisa: l.unitPricePaisa,
+        qty: l.qty,
+      })),
+      totals: prepared.totals,
+      shipping: {
+        zone: prepared.shipping.zone,
+        chargeableWeightGrams: prepared.shipping.chargeableWeightGrams,
+      },
+      payment: {
+        method: request.paymentMethod,
+        kind: plan.kind,
+        amountPaisa: plan.amountPaisa,
+        trxId: request.trxId,
+        payerPhone:
+          request.payerPhone ?? (request.paymentMethod === 'COD' ? null : request.customer.phone),
+      },
+      experimentKey,
+      utm: request.utm,
+      sessionId: request.sessionId,
+    });
+
+    return {
+      orderCode: placed.code,
+      status: 'PENDING_PAYMENT',
+      saleMode: prepared.saleMode,
+      totals: prepared.totals,
+      payment: placed.payment,
+    };
+  }
+
+  /** Runs the three saga steps with compensations. The spec is fully priced by the caller. */
+  async runSaga(spec: OrderSpec): Promise<PlacedOrder> {
     const orderId = randomUUID();
-    const code = await this.startSaga(orderId, cart.id);
+    const code = await this.startSaga(orderId, spec.source);
     let status: 'STARTED' | 'STOCK_RESERVED' = 'STARTED';
 
     // Step 1: reserve stock (pre-orders and made-to-order skip it).
-    const reserveStock = prepared.saleMode === 'IN_STOCK';
+    const reserveStock = spec.saleMode === 'IN_STOCK';
     if (reserveStock) {
       try {
         await this.participants.reserveStock({
           orderId,
-          items: prepared.lines.map(({ variantId, qty }) => ({ variantId, qty })),
+          items: spec.lines.map(({ variantId, qty }) => ({ variantId, qty })),
         });
         await this.mustAdvance(orderId, 'STARTED', 'STOCK_RESERVED', { stockReserved: true });
         status = 'STOCK_RESERVED';
@@ -104,12 +200,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       payment = await this.participants.createPayment({
         orderId,
         orderCode: code,
-        method: request.paymentMethod,
-        kind: plan.kind,
-        amountPaisa: plan.amountPaisa,
-        trxId: request.trxId,
-        payerPhone:
-          request.payerPhone ?? (request.paymentMethod === 'COD' ? null : request.customer.phone),
+        ...spec.payment,
       });
       await this.mustAdvance(orderId, status, 'PAYMENT_CREATED', { paymentCreated: true });
     } catch (err) {
@@ -121,8 +212,9 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
     try {
       await this.store.complete(
         orderId,
-        this.orderDraft(orderId, code, cart.id, request, prepared),
-        this.placedEvent(orderId, code, request, prepared, reserveStock),
+        this.orderDraft(orderId, code, spec),
+        this.placedEvent(orderId, code, spec, reserveStock),
+        spec.source,
       );
     } catch (err) {
       await this.compensate(orderId, err);
@@ -133,14 +225,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
         503,
       );
     }
-
-    return {
-      orderCode: code,
-      status: 'PENDING_PAYMENT',
-      saleMode: prepared.saleMode,
-      totals: prepared.totals,
-      payment,
-    };
+    return { orderId, code, payment };
   }
 
   /** Releases stock and voids the payment (both idempotent), then marks the saga COMPENSATED. */
@@ -180,11 +265,11 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
     }
   }
 
-  private async startSaga(orderId: string, cartId: string): Promise<string> {
+  private async startSaga(orderId: string, source: SagaSource): Promise<string> {
     for (let attempt = 1; attempt <= CODE_ATTEMPTS; attempt++) {
       const code = generateOrderCode();
       try {
-        await this.store.start({ id: orderId, cartId, code });
+        await this.store.start({ id: orderId, source, code });
         return code;
       } catch (err) {
         if (!(err instanceof OrderCodeTakenError)) throw err;
@@ -203,71 +288,53 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
     }
   }
 
-  private orderDraft(
-    orderId: string,
-    code: string,
-    cartId: string,
-    request: ReturnType<typeof checkoutRequestSchema.parse>,
-    p: PreparedCheckout,
-  ) {
+  private orderDraft(orderId: string, code: string, spec: OrderSpec) {
     return {
       id: orderId,
       code,
-      cartId,
-      customerName: request.customer.name,
-      customerPhone: request.customer.phone,
-      address: request.address,
-      saleMode: p.saleMode,
+      cartId: spec.source.kind === 'cart' ? spec.source.cartId : null,
+      channel: spec.channel,
+      organizationId: spec.organizationId ?? null,
+      sessionId: spec.sessionId ?? null,
+      customerName: spec.customer.name,
+      customerPhone: spec.customer.phone,
+      address: spec.address,
+      saleMode: spec.saleMode,
       status: 'PENDING_PAYMENT' as const,
-      paymentMethod: request.paymentMethod,
-      ...p.totals,
-      shippingZone: p.shipping.zone,
-      chargeableWeightGrams: p.shipping.chargeableWeightGrams,
-      experimentKey: p.cart.experimentKey,
-      utm: request.utm ?? undefined,
-      items: p.lines.map((l) => ({
-        variantId: l.variantId,
-        productId: l.snapshot.productId,
-        sku: l.snapshot.sku,
-        nameBn: l.snapshot.nameBn,
-        nameEn: l.snapshot.nameEn,
-        options: l.snapshot.options,
-        saleMode: l.snapshot.saleMode,
-        unitPricePaisa: l.unitPricePaisa,
-        qty: l.qty,
-        lineTotalPaisa: l.unitPricePaisa * l.qty,
-      })),
+      paymentMethod: spec.payment.method,
+      ...spec.totals,
+      shippingZone: spec.shipping.zone,
+      chargeableWeightGrams: spec.shipping.chargeableWeightGrams,
+      experimentKey: spec.experimentKey,
+      utm: spec.utm ?? undefined,
+      items: spec.lines.map((l) => ({ ...l, lineTotalPaisa: l.unitPricePaisa * l.qty })),
     };
   }
 
-  private placedEvent(
-    orderId: string,
-    code: string,
-    request: ReturnType<typeof checkoutRequestSchema.parse>,
-    p: PreparedCheckout,
-    stockReserved: boolean,
-  ) {
+  private placedEvent(orderId: string, code: string, spec: OrderSpec, stockReserved: boolean) {
     return orderPlaced.create(
       {
         orderId,
         code,
-        saleMode: p.saleMode,
-        items: p.lines.map((l) => ({
+        saleMode: spec.saleMode,
+        items: spec.lines.map((l) => ({
           variantId: l.variantId,
-          sku: l.snapshot.sku,
+          sku: l.sku,
           qty: l.qty,
           unitPricePaisa: l.unitPricePaisa,
         })),
-        subtotalPaisa: p.totals.subtotalPaisa,
-        shippingFeePaisa: p.totals.shippingFeePaisa,
-        totalPaisa: p.totals.totalPaisa,
-        advanceRequiredPaisa: p.totals.advanceRequiredPaisa,
-        paymentMethod: request.paymentMethod,
-        experimentKey:
-          p.cart.experimentKey === 'a' || p.cart.experimentKey === 'b'
-            ? p.cart.experimentKey
-            : null,
+        subtotalPaisa: spec.totals.subtotalPaisa,
+        shippingFeePaisa: spec.totals.shippingFeePaisa,
+        totalPaisa: spec.totals.totalPaisa,
+        advanceRequiredPaisa: spec.totals.advanceRequiredPaisa,
+        paymentMethod: spec.payment.method,
+        experimentKey: spec.experimentKey,
         stockReserved,
+        channel: spec.channel,
+        customer: spec.customer,
+        customerKey: customerKey(this.config.CUSTOMER_KEY_SECRET, spec.customer.phone),
+        sessionId: spec.sessionId,
+        utm: spec.utm,
       },
       { source: SOURCE, requestId: requestContext.requestId() },
     );

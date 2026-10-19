@@ -40,3 +40,97 @@ model ProcessedEvent {
   @@id([eventId, handler])
   @@map("processed_events")
 }
+
+enum TrackedEventType {
+  VIEW
+  ADD_TO_CART
+  CHECKOUT
+  PURCHASE
+}
+
+enum Channel {
+  B2C
+  B2B
+}
+
+/// Funnel events. VIEW/ADD_TO_CART come from the storefront beacon; CHECKOUT/PURCHASE are
+/// derived from order events (one per order and type).
+model TrackedEvent {
+  id            String           @id @default(uuid()) @db.Uuid
+  type          TrackedEventType
+  sessionId     String?          @map("session_id")
+  productId     String?          @map("product_id") @db.Uuid
+  variantId     String?          @map("variant_id") @db.Uuid
+  orderId       String?          @map("order_id") @db.Uuid
+  experimentKey String?          @map("experiment_key")
+  channel       Channel          @default(B2C)
+  utmSource     String?          @map("utm_source")
+  utmMedium     String?          @map("utm_medium")
+  utmCampaign   String?          @map("utm_campaign")
+  utmContent    String?          @map("utm_content")
+  utmTerm       String?          @map("utm_term")
+  path          String?
+  occurredAt    DateTime         @default(now()) @map("occurred_at") @db.Timestamptz(3)
+
+  @@unique([orderId, type])
+  @@index([type, occurredAt])
+  @@index([sessionId])
+  @@map("tracked_events")
+}
+
+/// One row per order, kept current from order/payment events (upserts: events may arrive out
+/// of order). Never stores the customer's phone: only the HMAC customerKey (ADR 0010).
+model OrderFact {
+  orderId              String    @id @map("order_id") @db.Uuid
+  code                 String
+  channel              Channel   @default(B2C)
+  saleMode             String    @default("") @map("sale_mode")
+  status               String    @default("PENDING_PAYMENT")
+  statusChangedAt      DateTime? @map("status_changed_at") @db.Timestamptz(3)
+  customerKey          String?   @map("customer_key")
+  totalPaisa           Int       @default(0) @map("total_paisa")
+  advanceRequiredPaisa Int       @default(0) @map("advance_required_paisa")
+  /// Sum of VERIFIED advance payments; > 0 is required for GO.
+  advanceVerifiedPaisa Int       @default(0) @map("advance_verified_paisa")
+  experimentKey        String?   @map("experiment_key")
+  sessionId            String?   @map("session_id")
+  utmSource            String?   @map("utm_source")
+  utmCampaign          String?   @map("utm_campaign")
+  placedAt             DateTime? @map("placed_at") @db.Timestamptz(3)
+  confirmedAt          DateTime? @map("confirmed_at") @db.Timestamptz(3)
+  cancelledAt          DateTime? @map("cancelled_at") @db.Timestamptz(3)
+  updatedAt            DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([placedAt])
+  @@index([confirmedAt])
+  @@index([customerKey])
+  @@map("order_facts")
+}
+
+model CustomerFlag {
+  customerKey String   @id @map("customer_key")
+  isFriend    Boolean  @map("is_friend")
+  changedAt   DateTime @map("changed_at") @db.Timestamptz(3)
+
+  @@map("customer_flags")
+}
+
+/// Append-only audit trail (id = audit.recorded event id, so redelivery is harmless).
+model AuditLog {
+  id         String   @id @db.Uuid
+  occurredAt DateTime @map("occurred_at") @db.Timestamptz(3)
+  source     String
+  actorId    String   @map("actor_id")
+  actorRole  String   @map("actor_role")
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String   @map("entity_id")
+  summary    String
+  changes    Json?
+  requestId  String?  @map("request_id")
+
+  @@index([occurredAt])
+  @@index([entityType, entityId])
+  @@index([actorId])
+  @@map("audit_logs")
+}

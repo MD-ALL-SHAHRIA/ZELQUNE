@@ -5,7 +5,7 @@ import {
   type OnApplicationBootstrap,
   type OnModuleDestroy,
 } from '@nestjs/common';
-import { APP_CONFIG, AppError, OutboxService, requestContext } from '@zelqune/common';
+import { APP_CONFIG, AppError, OutboxService, recordAudit, requestContext } from '@zelqune/common';
 import {
   adjustStockInputSchema,
   type AdjustStockInput,
@@ -15,6 +15,7 @@ import {
   reserveStockRequestSchema,
   type ReserveStockRequest,
   type StockLevels,
+  type StockLevelView,
   stockReleased,
   stockReserved,
 } from '@zelqune/contracts';
@@ -212,6 +213,23 @@ export class InventoryService implements OnApplicationBootstrap, OnModuleDestroy
     return released;
   }
 
+  /** Admin view: all stock rows (or the given variants). */
+  async list(variantIds?: string[]): Promise<StockLevelView[]> {
+    const rows = await this.prisma.inventoryItem.findMany({
+      where: variantIds?.length ? { variantId: { in: variantIds } } : {},
+      orderBy: { sku: 'asc' },
+      take: 500,
+    });
+    return rows.map((r) => ({
+      variantId: r.variantId,
+      sku: r.sku,
+      onHand: r.onHand,
+      reserved: r.reserved,
+      available: r.onHand - r.reserved,
+      updatedAt: r.updatedAt.toISOString(),
+    }));
+  }
+
   async levels(variantIds: string[]): Promise<StockLevels> {
     const rows = await this.prisma.inventoryItem.findMany({
       where: { variantId: { in: variantIds } },
@@ -247,6 +265,18 @@ export class InventoryService implements OnApplicationBootstrap, OnModuleDestroy
           delta: input.delta,
           reason: input.reason,
           note: input.note,
+        },
+      });
+      await recordAudit(this.outbox, tx, SOURCE, {
+        action: 'stock.adjust',
+        entityType: 'variant',
+        entityId: input.variantId,
+        summary: `${input.sku}: ${input.delta > 0 ? '+' : ''}${input.delta} (${input.reason}) -> on hand ${item.onHand}`,
+        changes: {
+          delta: input.delta,
+          reason: input.reason,
+          note: input.note,
+          onHand: item.onHand,
         },
       });
       return { onHand: item.onHand, reserved: item.reserved };

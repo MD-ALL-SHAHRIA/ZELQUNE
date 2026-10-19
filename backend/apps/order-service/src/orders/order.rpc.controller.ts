@@ -1,6 +1,12 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
+  addOrderNoteSchema,
+  type AdminOrderDetailCore,
+  adminOrderExportQuerySchema,
+  type AdminOrderList,
+  adminOrderListQuerySchema,
+  type AdminOrderSummary,
   type CartView,
   type CheckoutQuote,
   type CheckoutRequest,
@@ -74,5 +80,41 @@ export class OrderRpcController {
   @MessagePattern(P.admin.transition)
   transition(@Payload() req: RpcRequest<TransitionOrderInput>) {
     return this.orders.transition(req.data);
+  }
+
+  @MessagePattern(P.admin.list)
+  list(@Payload() req: RpcRequest<unknown>): Promise<AdminOrderList> {
+    return this.orders.list(adminOrderListQuerySchema.parse(req.data));
+  }
+
+  @MessagePattern(P.admin.export)
+  exportRows(@Payload() req: RpcRequest<unknown>): Promise<AdminOrderSummary[]> {
+    return this.orders.exportRows(adminOrderExportQuerySchema.parse(req.data));
+  }
+
+  @MessagePattern(P.admin.detail)
+  detail(@Payload() req: RpcRequest<{ orderId: string }>): Promise<AdminOrderDetailCore> {
+    return this.orders.detail(z.uuid().parse(req.data.orderId));
+  }
+
+  @MessagePattern(P.admin.orderIdByCode)
+  idByCode(@Payload() req: RpcRequest<{ code: string }>): Promise<string> {
+    return this.orders.idByCode(z.string().min(4).max(20).parse(req.data.code));
+  }
+
+  @MessagePattern(P.admin.addNote)
+  addNote(@Payload() req: RpcRequest<{ orderId: string; text: string }>): Promise<{ id: string }> {
+    return this.orders.addNote(
+      z.uuid().parse(req.data.orderId),
+      addOrderNoteSchema.parse(req.data).text,
+    );
+  }
+
+  @MessagePattern(P.admin.setFriend)
+  setFriend(@Payload() req: RpcRequest<{ phone: string; isFriend: boolean }>) {
+    return this.orders.setFriend(
+      z.string().max(32).parse(req.data.phone),
+      z.boolean().parse(req.data.isFriend),
+    );
   }
 }

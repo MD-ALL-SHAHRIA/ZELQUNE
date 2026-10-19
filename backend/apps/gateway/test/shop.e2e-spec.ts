@@ -76,7 +76,7 @@ describe('shop routes (e2e, services mocked)', () => {
     await request(h.app.getHttpServer())
       .put(`/v1/carts/current/items/${ORDER_ID}`)
       .set('x-cart-token', TOKEN)
-      .send({ qty: 11 })
+      .send({ qty: 101 })
       .expect(400);
     expect(h.clients.order.send).not.toHaveBeenCalled();
   });

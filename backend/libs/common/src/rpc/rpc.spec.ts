@@ -52,3 +52,53 @@ describe('RpcContextInterceptor', () => {
     await expect(lastValueFrom(of(requestContext.requestId()))).resolves.toBeUndefined();
   });
 });
+
+describe('actor propagation', () => {
+  it('ServiceClient forwards the request actor; RpcContextInterceptor restores it', async () => {
+    const send = jest.fn(() => of('ok'));
+    const client = new ServiceClient('order-service', {
+      send,
+      close: jest.fn(),
+    } as unknown as ClientProxy);
+    await requestContext.run({ requestId: 'r1', actor: { id: 'admin-1', role: 'OWNER' } }, () =>
+      client.send('x', {}),
+    );
+    expect(send).toHaveBeenCalledWith('x', {
+      meta: { requestId: 'r1', actor: { id: 'admin-1', role: 'OWNER' } },
+      data: {},
+    });
+
+    const ctx = {
+      getType: () => 'rpc',
+      switchToRpc: () => ({
+        getData: () => ({
+          meta: { requestId: 'r2', actor: { id: 'admin-1', role: 'STAFF' } },
+          data: {},
+        }),
+      }),
+    } as unknown as ExecutionContext;
+    const seen = await new Promise((resolve) =>
+      new RpcContextInterceptor()
+        .intercept(ctx, { handle: () => new Observable((s) => s.next(requestContext.actor())) })
+        .subscribe(resolve),
+    );
+    expect(seen).toEqual({ id: 'admin-1', role: 'STAFF' });
+  });
+
+  it('ignores malformed actors', async () => {
+    const ctx = {
+      getType: () => 'rpc',
+      switchToRpc: () => ({
+        getData: () => ({ meta: { requestId: 'r3', actor: { id: 'x', role: 'GOD' } }, data: {} }),
+      }),
+    } as unknown as ExecutionContext;
+    const seen = await new Promise((resolve) =>
+      new RpcContextInterceptor()
+        .intercept(ctx, {
+          handle: () => new Observable((s) => s.next(requestContext.actor() ?? 'none')),
+        })
+        .subscribe(resolve),
+    );
+    expect(seen).toBe('none');
+  });
+});

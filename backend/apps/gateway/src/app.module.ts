@@ -10,6 +10,7 @@ import {
   ServiceClientsModule,
 } from '@zelqune/common';
 import { type Redis } from 'ioredis';
+import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { CatalogModule } from './catalog/catalog.module';
 import { ShopModule } from './shop/shop.module';
@@ -29,6 +30,7 @@ import { ThrottlingModule } from './throttling/throttling.module';
     AuthModule,
     CatalogModule,
     ShopModule,
+    AdminModule,
     IdempotencyModule.forRoot({
       inject: [REDIS],
       store: (redis: Redis) => new RedisIdempotencyStore(redis),

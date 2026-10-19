@@ -109,6 +109,7 @@ describe('public catalog read model', () => {
     expect(include.media.where).toEqual({ status: 'READY' });
     expect(include.variants.include.experiments.where).toEqual({ active: true });
     expect(include.variants.include.prices.where).toEqual({
+      priceListId: 'RETAIL',
       startsAt: { lte: now },
       OR: [{ endsAt: null }, { endsAt: { gt: now } }],
     });

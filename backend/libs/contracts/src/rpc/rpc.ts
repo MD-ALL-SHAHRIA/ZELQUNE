@@ -1,6 +1,10 @@
+import { type Actor } from '../audit/audit.contracts';
+
 /** Metadata carried on every gateway -> service TCP message. */
 export interface RpcMeta {
   requestId: string;
+  /** The authenticated admin making the call (for audit), if any. */
+  actor?: Actor;
 }
 
 export interface RpcRequest<TData = unknown> {

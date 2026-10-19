@@ -45,7 +45,8 @@ export const orderCodeSchema = z
   .meta({ example: 'ZQ-7K3M9P' });
 
 export const MAX_CART_LINES = 20;
-export const MAX_LINE_QTY = 10;
+/** Sanity bound for one cart line; the business cap is MAX_LINE_QTY_B2C in order-service config. */
+export const MAX_LINE_QTY = 100;
 
 // ---------- Cart ----------
 
@@ -139,6 +140,11 @@ export const checkoutRequestSchema = z
     /** The number the customer paid from (defaults to the customer phone). */
     payerPhone: bdPhoneSchema.nullable().default(null),
     utm: utmSchema,
+    /** Anonymous analytics session (links storefront events to the order). */
+    sessionId: z
+      .string()
+      .regex(/^[A-Za-z0-9_-]{16,64}$/)
+      .optional(),
   })
   .refine((v) => v.paymentMethod === 'COD' || v.trxId !== null, {
     message: 'Transaction ID is required for bKash/Nagad payments',
@@ -202,3 +208,97 @@ export const transitionOrderInputSchema = z.object({
   reason: z.string().max(300).nullable().default(null),
 });
 export type TransitionOrderInput = z.input<typeof transitionOrderInputSchema>;
+
+// ---------- Admin (step 1.3) ----------
+
+export const ORDER_CHANNELS = ['B2C', 'B2B'] as const;
+export const orderChannelSchema = z.enum(ORDER_CHANNELS);
+export type OrderChannel = z.infer<typeof orderChannelSchema>;
+
+const orderFilterShape = {
+  status: orderStatusSchema.optional(),
+  channel: orderChannelSchema.optional(),
+  saleMode: saleModeSchema.optional(),
+  paymentMethod: paymentMethodSchema.optional(),
+  from: z.iso.date().optional(),
+  to: z.iso.date().optional(),
+  /** Order code, phone or customer name. */
+  q: z.string().trim().max(100).optional(),
+  /** "true"/"false" in a query string; booleans when re-validated by a service. */
+  isFriend: z.union([z.boolean(), z.stringbool()]).optional(),
+};
+
+export const adminOrderListQuerySchema = z.object({
+  ...orderFilterShape,
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(100).default(25),
+});
+export type AdminOrderListQuery = z.output<typeof adminOrderListQuerySchema>;
+export const adminOrderExportQuerySchema = z.object(orderFilterShape);
+export type AdminOrderExportQuery = z.output<typeof adminOrderExportQuerySchema>;
+export const MAX_EXPORT_ROWS = 10_000;
+
+export const adminOrderSummarySchema = z.object({
+  id: z.uuid(),
+  code: z.string(),
+  channel: orderChannelSchema,
+  status: orderStatusSchema,
+  saleMode: saleModeSchema,
+  customerName: z.string(),
+  customerPhone: z.string(),
+  isFriend: z.boolean(),
+  paymentMethod: paymentMethodSchema,
+  subtotalPaisa: paisaSchema,
+  shippingFeePaisa: paisaSchema,
+  totalPaisa: paisaSchema,
+  advanceRequiredPaisa: paisaSchema,
+  district: z.string(),
+  experimentKey: z.string().nullable(),
+  placedAt: z.string(),
+});
+export type AdminOrderSummary = z.infer<typeof adminOrderSummarySchema>;
+
+export const adminOrderListSchema = z.object({
+  items: z.array(adminOrderSummarySchema),
+  page: z.number().int(),
+  limit: z.number().int(),
+  total: z.number().int(),
+});
+export type AdminOrderList = z.infer<typeof adminOrderListSchema>;
+
+export const adminOrderDetailSchema = adminOrderSummarySchema.extend({
+  address: z.object({
+    district: z.string(),
+    area: z.string(),
+    line: z.string(),
+    note: z.string().nullable(),
+  }),
+  items: z.array(orderItemViewSchema),
+  totals: orderTotalsSchema,
+  history: z.array(
+    z.object({
+      from: orderStatusSchema.nullable(),
+      to: orderStatusSchema,
+      actor: z.string(),
+      reason: z.string().nullable(),
+      at: z.string(),
+    }),
+  ),
+  notes: z.array(z.object({ id: z.uuid(), author: z.string(), text: z.string(), at: z.string() })),
+  utm: z.record(z.string(), z.string()).nullable(),
+  organizationId: z.uuid().nullable(),
+  quoteCode: z.string().nullable(),
+  cancelReason: z.string().nullable(),
+  payment: paymentSummarySchema.nullable(),
+  shipment: shipmentSummarySchema.nullable(),
+});
+export type AdminOrderDetail = z.infer<typeof adminOrderDetailSchema>;
+/** order-service part; the gateway adds payment and shipment. */
+export type AdminOrderDetailCore = Omit<AdminOrderDetail, 'payment' | 'shipment'>;
+
+export const addOrderNoteSchema = z.object({ text: z.string().trim().min(1).max(2000) });
+export const transitionRequestSchema = z.object({
+  to: orderStatusSchema,
+  reason: z.string().trim().max(300).nullable().default(null),
+});
+export const setFriendSchema = z.object({ isFriend: z.boolean() });

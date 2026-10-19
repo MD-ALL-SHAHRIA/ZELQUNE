@@ -23,7 +23,10 @@ export class ServiceClient {
     options: SendOptions = {},
   ): Promise<TResult> {
     const request: RpcRequest<TData> = {
-      meta: { requestId: requestContext.requestId() ?? randomUUID() },
+      meta: {
+        requestId: requestContext.requestId() ?? randomUUID(),
+        ...(requestContext.actor() ? { actor: requestContext.actor() } : {}),
+      },
       data,
     };
     try {

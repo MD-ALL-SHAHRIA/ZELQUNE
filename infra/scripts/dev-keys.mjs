@@ -2,6 +2,7 @@
 // Generates local-only secrets into infra/.env (created from .env.example if missing):
 //   JWT_PRIVATE_KEY / JWT_PUBLIC_KEY  ES256 (P-256) pair, PEM with "\n" escapes
 //   LOCAL_STORAGE_SIGNING_SECRET      signs dev media upload URLs
+//   CUSTOMER_KEY_SECRET               HMAC key for the pseudonymous customerKey (ADR 0010)
 // Existing non-empty values are kept unless --force. Never use these keys in production.
 import { generateKeyPairSync, randomBytes } from 'node:crypto';
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -37,6 +38,10 @@ if (force || keysMissing) {
   console.log('JWT ES256 key pair written to infra/.env');
 } else {
   console.log('JWT keys already present (use --force to replace)');
+}
+if (force || !current('CUSTOMER_KEY_SECRET')) {
+  set('CUSTOMER_KEY_SECRET', randomBytes(32).toString('hex'));
+  console.log('CUSTOMER_KEY_SECRET written to infra/.env');
 }
 if (force || !current('LOCAL_STORAGE_SIGNING_SECRET')) {
   set('LOCAL_STORAGE_SIGNING_SECRET', randomBytes(32).toString('hex'));

@@ -7,6 +7,7 @@ import {
   type OrderDraft,
   OrderCodeTakenError,
   type SagaRecord,
+  type SagaSource,
   type SagaStore,
 } from './saga.store';
 
@@ -19,12 +20,20 @@ class FakeStore implements SagaStore {
   takenCodes = 0;
   failComplete: Error | null = null;
 
-  start(s: Pick<SagaRecord, 'id' | 'cartId' | 'code'>) {
+  start(s: { id: string; source: SagaSource; code: string }) {
     if (this.takenCodes > 0) {
       this.takenCodes--;
       return Promise.reject(new OrderCodeTakenError(s.code));
     }
-    this.sagas.set(s.id, { ...s, status: 'STARTED', stockReserved: false, paymentCreated: false });
+    this.sagas.set(s.id, {
+      id: s.id,
+      code: s.code,
+      cartId: s.source.kind === 'cart' ? s.source.cartId : null,
+      quoteId: s.source.kind === 'quote' ? s.source.quoteId : null,
+      status: 'STARTED',
+      stockReserved: false,
+      paymentCreated: false,
+    });
     return Promise.resolve();
   }
   advance(id: string, from: SagaRecord['status'], to: SagaRecord['status'], flags = {}) {
@@ -173,6 +182,7 @@ function setup(saleMode: SaleMode, overrides: Partial<CheckoutParticipants> = {}
     NODE_ENV: 'test',
     SAGA_RECOVERY_AFTER_SECONDS: 60,
     ORDER_SWEEP_INTERVAL_MS: 1000,
+    CUSTOMER_KEY_SECRET: 'x'.repeat(32),
   });
   return { service, store, calls, p };
 }
@@ -307,6 +317,7 @@ describe('CheckoutService saga', () => {
     store.sagas.set('crashed', {
       id: 'crashed',
       cartId: 'c',
+      quoteId: null,
       code: 'ZQ-CRASH2',
       status: 'STOCK_RESERVED',
       stockReserved: true,
@@ -315,6 +326,7 @@ describe('CheckoutService saga', () => {
     store.sagas.set('done', {
       id: 'done',
       cartId: 'c',
+      quoteId: null,
       code: 'ZQ-DONE22',
       status: 'COMPLETED',
       stockReserved: true,
@@ -331,6 +343,7 @@ describe('CheckoutService saga', () => {
     store.sagas.set('x', {
       id: 'x',
       cartId: 'c',
+      quoteId: null,
       code: 'ZQ-XXXXX2',
       status: 'PAYMENT_CREATED',
       stockReserved: true,

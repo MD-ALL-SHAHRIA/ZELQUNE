@@ -178,6 +178,8 @@ model Media {
 model Price {
   id             String    @id @default(uuid()) @db.Uuid
   variantId      String    @map("variant_id") @db.Uuid
+  /// RETAIL for storefront prices; WHOLESALE / per-organization lists arrive in M2 (5ক).
+  priceListId    String    @default("RETAIL") @map("price_list_id")
   amountPaisa    Int       @map("amount_paisa")
   compareAtPaisa Int?      @map("compare_at_paisa")
   startsAt       DateTime  @default(now()) @map("starts_at") @db.Timestamptz(3)
@@ -186,7 +188,7 @@ model Price {
 
   variant ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 
-  @@index([variantId, startsAt])
+  @@index([variantId, priceListId, startsAt])
   @@map("prices")
 }
 

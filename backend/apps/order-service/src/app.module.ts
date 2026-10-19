@@ -9,6 +9,8 @@ import { OrderEventHandlers } from './orders/order.handlers';
 import { OrderRpcController } from './orders/order.rpc.controller';
 import { OrderService } from './orders/order.service';
 import { PrismaService } from './prisma/prisma.service';
+import { QuoteRpcController } from './quotes/quote.rpc.controller';
+import { QuoteService } from './quotes/quote.service';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { PrismaService } from './prisma/prisma.service';
     }),
     ServiceClientsModule,
   ],
-  controllers: [OrderRpcController],
+  controllers: [OrderRpcController, QuoteRpcController],
   providers: [
     CartService,
     { provide: CART_SERVICE, useExisting: CartService },
@@ -28,6 +30,7 @@ import { PrismaService } from './prisma/prisma.service';
     CheckoutService,
     OrderService,
     OrderEventHandlers,
+    QuoteService,
   ],
 })
 export class AppModule {}
