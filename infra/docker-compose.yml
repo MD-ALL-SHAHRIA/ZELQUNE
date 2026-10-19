@@ -179,6 +179,7 @@ services:
     environment:
       <<: *service-env
       APP: inventory-service
+      ORDER_HOLD_HOURS: ${ORDER_HOLD_HOURS:-48}
       HTTP_PORT: 3003
       TCP_PORT: 4003
       DB_SCHEMA: inventory
@@ -191,6 +192,18 @@ services:
     environment:
       <<: *service-env
       APP: order-service
+      # saga participants (ADR 0008)
+      CATALOG_SERVICE_HOST: catalog-service
+      CATALOG_SERVICE_PORT: 4002
+      INVENTORY_SERVICE_HOST: inventory-service
+      INVENTORY_SERVICE_PORT: 4003
+      PAYMENT_SERVICE_HOST: payment-service
+      PAYMENT_SERVICE_PORT: 4005
+      SHIPPING_SERVICE_HOST: shipping-service
+      SHIPPING_SERVICE_PORT: 4006
+      ADVANCE_MODE: fixed
+      ADVANCE_FIXED_PAISA: ${ADVANCE_FIXED_PAISA:-30000}
+      ORDER_HOLD_HOURS: ${ORDER_HOLD_HOURS:-48}
       HTTP_PORT: 3004
       TCP_PORT: 4004
       DB_SCHEMA: orders
@@ -203,6 +216,10 @@ services:
     environment:
       <<: *service-env
       APP: payment-service
+      PAYMENT_BKASH_NUMBER: ${PAYMENT_BKASH_NUMBER:-}
+      PAYMENT_BKASH_ACCOUNT_TYPE: ${PAYMENT_BKASH_ACCOUNT_TYPE:-personal}
+      PAYMENT_NAGAD_NUMBER: ${PAYMENT_NAGAD_NUMBER:-}
+      PAYMENT_NAGAD_ACCOUNT_TYPE: ${PAYMENT_NAGAD_ACCOUNT_TYPE:-personal}
       HTTP_PORT: 3005
       TCP_PORT: 4005
       DB_SCHEMA: payments
