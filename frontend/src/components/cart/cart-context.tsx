@@ -32,7 +32,7 @@ interface CartState {
   busy: boolean;
   error: string | null;
   setOpen(open: boolean): void;
-  add(input: AddToCartDetail): Promise<boolean>;
+  add(input: AddToCartDetail, options?: { openDrawer?: boolean }): Promise<boolean>;
   setQty(variantId: string, qty: number): Promise<void>;
   /** Called after checkout: the cart is closed server-side. */
   forget(): void;
@@ -126,12 +126,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const add = useCallback(
-    async (input: AddToCartDetail) => {
+    async (input: AddToCartDetail, options: { openDrawer?: boolean } = {}) => {
       const current = cart?.items.find((i) => i.variantId === input.variantId)?.qty ?? 0;
       const done = await run(() => write(input.variantId, clampQty(current + input.qty)));
       if (done) {
         window.dispatchEvent(new CustomEvent(ADD_TO_CART_EVENT, { detail: input }));
-        setOpen(true);
+        if (options.openDrawer !== false) setOpen(true);
       }
       return done;
     },
