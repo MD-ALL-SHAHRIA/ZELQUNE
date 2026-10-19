@@ -1,3 +1,4 @@
+import { RETAIL_PRICE_LIST } from '@zelqune/contracts';
 import { Injectable } from '@nestjs/common';
 import { type Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -10,7 +11,12 @@ export function publicProductInclude(now: Date) {
       orderBy: [{ position: 'asc' }, { sku: 'asc' }],
       include: {
         prices: {
-          where: { startsAt: { lte: now }, OR: [{ endsAt: null }, { endsAt: { gt: now } }] },
+          // Storefront prices are always the RETAIL list (wholesale lists arrive in M2).
+          where: {
+            priceListId: RETAIL_PRICE_LIST,
+            startsAt: { lte: now },
+            OR: [{ endsAt: null }, { endsAt: { gt: now } }],
+          },
         },
         experiments: { where: { active: true } },
       },

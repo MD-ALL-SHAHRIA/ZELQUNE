@@ -183,9 +183,15 @@ export const upsertVariantInputSchema = z.object({
 });
 export type UpsertVariantInput = z.input<typeof upsertVariantInputSchema>;
 
+/** Only RETAIL exists in M1; the field is here so M2 price lists need no contract change. */
+export const PRICE_LISTS = ['RETAIL'] as const;
+export const priceListIdSchema = z.enum(PRICE_LISTS);
+export const RETAIL_PRICE_LIST = 'RETAIL';
+
 export const setBasePriceInputSchema = z
   .object({
     variantId: z.uuid(),
+    priceListId: priceListIdSchema.default('RETAIL'),
     amountPaisa: paisaSchema,
     compareAtPaisa: paisaSchema.nullable().default(null),
   })

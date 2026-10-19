@@ -182,6 +182,7 @@ export class CatalogAdminService {
       const current = await tx.price.findFirst({
         where: {
           variantId: variant.id,
+          priceListId: input.priceListId,
           startsAt: { lte: now },
           OR: [{ endsAt: null }, { endsAt: { gt: now } }],
         },
@@ -195,12 +196,13 @@ export class CatalogAdminService {
         return { changed: false };
       }
       await tx.price.updateMany({
-        where: { variantId: variant.id, endsAt: null },
+        where: { variantId: variant.id, priceListId: input.priceListId, endsAt: null },
         data: { endsAt: now },
       });
       await tx.price.create({
         data: {
           variantId: variant.id,
+          priceListId: input.priceListId,
           amountPaisa: input.amountPaisa,
           compareAtPaisa: input.compareAtPaisa,
           startsAt: now,
