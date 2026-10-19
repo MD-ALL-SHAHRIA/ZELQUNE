@@ -244,7 +244,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 - [x] 1.1 identity and catalog services (admin auth, products, sale modes, price experiment)
 - [x] 1.2 inventory, order, payment, shipping + checkout saga
 - [x] 1.3 analytics, notification and admin API (GO counter, audit log) + B2B quotes (5ক)
-- [ ] 1.4 Storefront (product page, cart, guest checkout, COD / bKash, tracking, Pixel)
+- [x] 1.4 Storefront (/en + /bn, product page, cart, guest checkout, COD / bKash, tracking, bulk RFQ, Pixel flag)
 - [ ] 1.5 Admin dashboard (orders, payment verification, products, GO counter)
 - [ ] 1.6 Production readiness (Dockerfiles, VPS compose, HTTPS, backups, OpenTelemetry, Sentry)
 
