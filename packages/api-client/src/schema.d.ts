@@ -887,8 +887,8 @@ export interface components {
       id: string;
       /** @example +8801712345678 */
       phone: string;
-      name: string[];
-      email: string[];
+      name: string | null;
+      email: string | null;
       /** @enum {string} */
       role: 'CUSTOMER' | 'STAFF' | 'OWNER';
     };
@@ -970,8 +970,8 @@ export interface components {
         /** Format: uuid */
         variantId: string | null;
       } | null;
-      descriptionBn: string[];
-      descriptionEn: string[];
+      descriptionBn: string | null;
+      descriptionEn: string | null;
       seo: {
         titleBn: string | null;
         titleEn: string | null;
@@ -1376,8 +1376,8 @@ export interface components {
       /** @enum {string} */
       status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
       organizationName: string;
-      neededBy: string[];
-      validUntil: string[];
+      neededBy: string | null;
+      validUntil: string | null;
       lines: {
         /** Format: uuid */
         id: string;
@@ -1398,7 +1398,7 @@ export interface components {
         /** @example 349000 */
         advanceRequiredPaisa: number;
       } | null;
-      orderCode: string[];
+      orderCode: string | null;
     };
     BeaconEventDto: {
       /** @enum {string} */
@@ -1494,7 +1494,7 @@ export interface components {
       /** @example 349000 */
       advanceRequiredPaisa: number;
       district: string;
-      experimentKey: string[];
+      experimentKey: string | null;
       placedAt: string;
       address: {
         district: string;
@@ -1569,8 +1569,8 @@ export interface components {
       } | null;
       /** Format: uuid */
       organizationId: string | null;
-      quoteCode: string[];
-      cancelReason: string[];
+      quoteCode: string | null;
+      cancelReason: string | null;
       payment: {
         /** Format: uuid */
         id: string;
@@ -1653,8 +1653,8 @@ export interface components {
       /** @enum {string} */
       status:
         'PENDING' | 'BOOKED' | 'PICKED_UP' | 'IN_TRANSIT' | 'DELIVERED' | 'RETURNED' | 'CANCELLED';
-      consignmentId: string[];
-      trackingUrl: string[];
+      consignmentId: string | null;
+      trackingUrl: string | null;
     };
     UpdateShipmentDto: {
       /** @enum {string} */
@@ -1683,7 +1683,7 @@ export interface components {
         | 'VOID';
       /** @example 349000 */
       amountPaisa: number;
-      trxIdLast4: string[];
+      trxIdLast4: string | null;
     };
     RejectPaymentDto: {
       reason: string;
@@ -1794,19 +1794,19 @@ export interface components {
       slug: string;
       nameBn: string;
       nameEn: string;
-      descriptionBn: string[];
-      descriptionEn: string[];
+      descriptionBn: string | null;
+      descriptionEn: string | null;
       /** @enum {string} */
       saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
       leadTimeDays: number | null;
       /** @enum {string} */
       status: 'DRAFT' | 'ACTIVE' | 'ARCHIVED';
-      seoTitleBn: string[];
-      seoTitleEn: string[];
-      seoDescriptionBn: string[];
-      seoDescriptionEn: string[];
+      seoTitleBn: string | null;
+      seoTitleEn: string | null;
+      seoDescriptionBn: string | null;
+      seoDescriptionEn: string | null;
       categoryIds: string[];
-      publishedAt: string[];
+      publishedAt: string | null;
       updatedAt: string;
       variants: {
         /** Format: uuid */
@@ -2089,8 +2089,8 @@ export interface components {
       /** @enum {string} */
       status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
       organizationName: string;
-      neededBy: string[];
-      validUntil: string[];
+      neededBy: string | null;
+      validUntil: string | null;
       lines: {
         /** Format: uuid */
         id: string;
@@ -2114,16 +2114,16 @@ export interface components {
         /** @example 349000 */
         advanceRequiredPaisa: number;
       } | null;
-      orderCode: string[];
+      orderCode: string | null;
       /** Format: uuid */
       id: string;
       contactName: string;
       phone: string;
-      email: string[];
-      customizationNotes: string[];
-      notes: string[];
-      quotedAt: string[];
-      quotedBy: string[];
+      email: string | null;
+      customizationNotes: string | null;
+      notes: string | null;
+      quotedAt: string | null;
+      quotedBy: string | null;
       createdAt: string;
       /** Format: uuid */
       orderId: string | null;

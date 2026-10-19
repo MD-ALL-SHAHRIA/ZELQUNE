@@ -24,4 +24,29 @@ describe('finalizeOpenApiDocument', () => {
     expect(Object.keys(out.paths['/b'].post!.responses)).toEqual(['default']);
     expect(Object.keys(out.paths['/c'].get!.responses)).toEqual(['200', '503']);
   });
+
+  it('restores top-level nullable properties that Swagger turned into string arrays', () => {
+    const out = finalizeOpenApiDocument({
+      ...doc(),
+      components: {
+        schemas: {
+          Dto: {
+            type: 'object',
+            properties: {
+              note: {
+                'x-nestjs_zod-empty-type': true,
+                type: 'array',
+                items: { type: 'string' },
+              } as object,
+              tags: { type: 'array', items: { type: 'string' } },
+            },
+          },
+        },
+      },
+    });
+    const props = (out.components?.schemas?.Dto as { properties: Record<string, object> })
+      .properties;
+    expect(props.note).toEqual({ type: ['string', 'null'] });
+    expect(props.tags).toEqual({ type: 'array', items: { type: 'string' } });
+  });
 });

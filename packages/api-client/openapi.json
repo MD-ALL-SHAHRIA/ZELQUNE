@@ -2866,16 +2866,16 @@
             "example": "+8801712345678"
           },
           "name": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "email": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "role": {
             "type": "string",
@@ -3234,16 +3234,16 @@
             "nullable": true
           },
           "descriptionBn": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "descriptionEn": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "seo": {
             "type": "object",
@@ -4767,16 +4767,16 @@
             "type": "string"
           },
           "neededBy": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "validUntil": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "lines": {
             "type": "array",
@@ -4859,10 +4859,10 @@
             "nullable": true
           },
           "orderCode": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "required": [
@@ -5171,10 +5171,10 @@
             "type": "string"
           },
           "experimentKey": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "placedAt": {
             "type": "string"
@@ -5405,16 +5405,16 @@
             "nullable": true
           },
           "quoteCode": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "cancelReason": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "payment": {
             "type": "object",
@@ -5675,16 +5675,16 @@
             ]
           },
           "consignmentId": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "trackingUrl": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "required": [
@@ -5772,10 +5772,10 @@
             "example": 349000
           },
           "trxIdLast4": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "required": [
@@ -6234,16 +6234,16 @@
             "type": "string"
           },
           "descriptionBn": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "descriptionEn": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "saleMode": {
             "type": "string",
@@ -6268,28 +6268,28 @@
             ]
           },
           "seoTitleBn": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "seoTitleEn": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "seoDescriptionBn": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "seoDescriptionEn": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "categoryIds": {
             "type": "array",
@@ -6300,10 +6300,10 @@
             }
           },
           "publishedAt": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "updatedAt": {
             "type": "string"
@@ -7490,16 +7490,16 @@
             "type": "string"
           },
           "neededBy": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "validUntil": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "lines": {
             "type": "array",
@@ -7596,10 +7596,10 @@
             "nullable": true
           },
           "orderCode": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "id": {
             "type": "string",
@@ -7613,34 +7613,34 @@
             "type": "string"
           },
           "email": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "customizationNotes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "notes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "quotedAt": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "quotedBy": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "createdAt": {
             "type": "string"

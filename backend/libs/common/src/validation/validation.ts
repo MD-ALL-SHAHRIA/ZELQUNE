@@ -22,6 +22,7 @@ export const ZOD_PROVIDERS: Provider[] = [
  * `@HttpCode` says otherwise (and then ZodResponse carries that status), so document it as 200.
  */
 export function finalizeOpenApiDocument(document: OpenAPIObject): OpenAPIObject {
+  restoreNullableProperties(document);
   const cleaned = cleanupOpenApiDoc(document);
   for (const item of Object.values(cleaned.paths)) {
     for (const method of ['get', 'put', 'patch', 'delete'] as const) {
@@ -33,4 +34,26 @@ export function finalizeOpenApiDocument(document: OpenAPIObject): OpenAPIObject 
     }
   }
   return cleaned;
+}
+
+const EMPTY_TYPE_KEY = 'x-nestjs_zod-empty-type';
+
+/**
+ * nestjs-zod hands Swagger a top-level nullable property as `type: ['string', 'null']`; Swagger
+ * reads the array as "array of string" and emits `{ type: 'array', items: { type: 'string' } }`.
+ * Only those properties carry nestjs-zod's empty-type marker (a real `z.array()` has
+ * `type: 'array'`), so turn them back into `type: [<item type>, 'null']` before cleanup.
+ */
+function restoreNullableProperties(document: OpenAPIObject): void {
+  for (const schema of Object.values(document.components?.schemas ?? {})) {
+    const properties = (schema as { properties?: Record<string, Record<string, unknown>> })
+      .properties;
+    for (const property of Object.values(properties ?? {})) {
+      const items = property.items as Record<string, unknown> | undefined;
+      if (!property[EMPTY_TYPE_KEY] || property.type !== 'array' || !items) continue;
+      if (typeof items.type !== 'string') continue;
+      delete property.items;
+      Object.assign(property, { ...items, type: [items.type, 'null'] });
+    }
+  }
 }
