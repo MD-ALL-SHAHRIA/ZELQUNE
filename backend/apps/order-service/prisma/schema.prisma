@@ -40,3 +40,158 @@ model ProcessedEvent {
   @@id([eventId, handler])
   @@map("processed_events")
 }
+
+enum SaleMode {
+  IN_STOCK
+  MADE_TO_ORDER
+  PRE_ORDER
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  IN_PRODUCTION
+  READY_TO_SHIP
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURN_REQUESTED
+  RETURNED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  COD
+  BKASH_MANUAL
+  NAGAD_MANUAL
+}
+
+enum CartStatus {
+  ACTIVE
+  CHECKED_OUT
+}
+
+enum SagaStatus {
+  STARTED
+  STOCK_RESERVED
+  PAYMENT_CREATED
+  COMPLETED
+  COMPENSATING
+  COMPENSATED
+  FAILED
+}
+
+/// Guest cart identified by an opaque bearer token (only its SHA-256 is stored).
+model Cart {
+  id            String     @id @default(uuid()) @db.Uuid
+  tokenHash     String     @unique @map("token_hash")
+  status        CartStatus @default(ACTIVE)
+  experimentKey String?    @map("experiment_key")
+  orderId       String?    @unique @map("order_id") @db.Uuid
+  expiresAt     DateTime   @map("expires_at") @db.Timestamptz(3)
+  createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  items CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  cartId    String   @map("cart_id") @db.Uuid
+  variantId String   @map("variant_id") @db.Uuid
+  qty       Int
+  addedAt   DateTime @default(now()) @map("added_at") @db.Timestamptz(3)
+
+  cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  @@id([cartId, variantId])
+  @@map("cart_items")
+}
+
+/// Order with full snapshots (prices, names, address). Money is integer paisa.
+/// Status changes only through the order state machine and are recorded in history.
+model Order {
+  id                    String        @id @db.Uuid
+  code                  String        @unique
+  cartId                String        @unique @map("cart_id") @db.Uuid
+  customerName          String        @map("customer_name")
+  customerPhone         String        @map("customer_phone")
+  address               Json
+  saleMode              SaleMode      @map("sale_mode")
+  status                OrderStatus
+  paymentMethod         PaymentMethod @map("payment_method")
+  subtotalPaisa         Int           @map("subtotal_paisa")
+  discountPaisa         Int           @default(0) @map("discount_paisa")
+  shippingFeePaisa      Int           @map("shipping_fee_paisa")
+  totalPaisa            Int           @map("total_paisa")
+  advanceRequiredPaisa  Int           @map("advance_required_paisa")
+  shippingZone          String        @map("shipping_zone")
+  chargeableWeightGrams Int           @map("chargeable_weight_grams")
+  experimentKey         String?       @map("experiment_key")
+  utm                   Json?
+  cancelReason          String?       @map("cancel_reason")
+  confirmedAt           DateTime?     @map("confirmed_at") @db.Timestamptz(3)
+  cancelledAt           DateTime?     @map("cancelled_at") @db.Timestamptz(3)
+  createdAt             DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt             DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  items   OrderItem[]
+  history OrderStatusChange[]
+
+  @@index([status, createdAt])
+  @@index([customerPhone])
+  @@map("orders")
+}
+
+model OrderItem {
+  id             String   @id @default(uuid()) @db.Uuid
+  orderId        String   @map("order_id") @db.Uuid
+  variantId      String   @map("variant_id") @db.Uuid
+  productId      String   @map("product_id") @db.Uuid
+  sku            String
+  nameBn         String   @map("name_bn")
+  nameEn         String   @map("name_en")
+  options        Json
+  saleMode       SaleMode @map("sale_mode")
+  unitPricePaisa Int      @map("unit_price_paisa")
+  qty            Int
+  lineTotalPaisa Int      @map("line_total_paisa")
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+model OrderStatusChange {
+  id        String       @id @default(uuid()) @db.Uuid
+  orderId   String       @map("order_id") @db.Uuid
+  from      OrderStatus?
+  to        OrderStatus
+  actor     String
+  reason    String?
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("order_status_changes")
+}
+
+/// Checkout saga log (id = the order id). COMPLETED is written in the same transaction that
+/// creates the order, so a non-completed saga never has an order and can be compensated.
+model CheckoutSaga {
+  id             String     @id @db.Uuid
+  cartId         String     @map("cart_id") @db.Uuid
+  code           String     @unique
+  status         SagaStatus
+  stockReserved  Boolean    @default(false) @map("stock_reserved")
+  paymentCreated Boolean    @default(false) @map("payment_created")
+  lastError      String?    @map("last_error")
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([status, updatedAt])
+  @@map("checkout_sagas")
+}
