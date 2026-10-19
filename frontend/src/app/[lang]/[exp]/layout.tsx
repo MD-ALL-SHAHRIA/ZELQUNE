@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { SiteAnalytics } from '@/components/analytics/site-analytics';
 import { CartProvider } from '@/components/cart/cart-context';
 import { cartCopy } from '@/components/cart/cart-copy';
 import { CartButton } from '@/components/cart/cart-drawer';
@@ -25,6 +27,9 @@ export default async function SiteLayout({
         {children}
       </main>
       <Footer lang={lang} dict={dict} />
+      <Suspense fallback={null}>
+        <SiteAnalytics />
+      </Suspense>
     </CartProvider>
   );
 }

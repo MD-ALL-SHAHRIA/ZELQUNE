@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { PurchaseSignal } from '@/components/analytics/purchase-signal';
 import { notFound } from 'next/navigation';
 import { ORDER_CODE } from '@/lib/forms';
 import { resolvePage } from '@/lib/page-params';
@@ -17,6 +18,7 @@ export default async function OrderPlaced({ params }: { params: Params }) {
   const [before, after] = dict.success.text.split('{code}');
   return (
     <div className="mx-auto max-w-xl space-y-6 py-8 text-center">
+      <PurchaseSignal code={code} />
       <h1 className="text-3xl font-semibold text-walnut">{dict.success.heading}</h1>
       <p className="text-lg">
         {before}

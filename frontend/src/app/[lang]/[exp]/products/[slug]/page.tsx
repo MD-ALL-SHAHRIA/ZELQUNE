@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ProductView } from '@/components/analytics/product-view';
 import { Gallery } from '@/components/product/gallery';
 import { Purchase } from '@/components/product/purchase';
 import { SaleBadge } from '@/components/sale-badge';
@@ -55,6 +56,11 @@ export default async function ProductPage({ params }: { params: Params }) {
         dangerouslySetInnerHTML={{
           __html: jsonForScript(productJsonLd(product, name, description, url)),
         }}
+      />
+      <ProductView
+        productId={product.id}
+        variantId={product.variants[0]?.id}
+        pricePaisa={product.variants[0]?.price?.amountPaisa}
       />
       <Gallery media={product.media} name={name} lang={lang} dict={dict} />
       <div className="space-y-5">
