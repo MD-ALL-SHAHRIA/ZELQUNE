@@ -99,3 +99,17 @@ export function conversionPayment(
   }
   return { kind: 'ADVANCE', amountPaisa: advancePaisa };
 }
+
+/**
+ * Only PRODUCT requests are priced and converted through quotes. DESIGN consultations are
+ * leads for now: the owner contacts the client; design fees are invoiced outside (ADR 0014).
+ */
+export function assertProductQuote(kind: 'PRODUCT' | 'DESIGN'): void {
+  if (kind !== 'PRODUCT') {
+    throw new AppError(
+      'DESIGN_REQUEST_NOT_PRICEABLE',
+      'Design consultations are not priced as product quotes',
+      422,
+    );
+  }
+}

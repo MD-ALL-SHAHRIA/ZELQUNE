@@ -187,4 +187,27 @@ describe('NotificationService', () => {
     }).onQuoteRequested(event, fakeTx().tx);
     expect(silent.sent).toHaveLength(0);
   });
+
+  it('alerts the owner about interior design requests, naming the space', async () => {
+    const event = quoteRequested.create(
+      {
+        quoteId: randomUUID(),
+        code: 'QT-9N5K3Q',
+        kind: 'DESIGN',
+        spaceType: 'RESTAURANT_CAFE',
+        organizationName: null,
+        contactName: 'Rafiq',
+        itemCount: 0,
+        totalQty: 0,
+        neededBy: null,
+      },
+      { source: 'order-service' },
+    );
+    const sms = new FakeSmsProvider();
+    await new NotificationService(sms, config).onQuoteRequested(event, fakeTx().tx);
+    expect(sms.sent).toHaveLength(1);
+    expect(sms.sent[0]?.body).toContain('ইন্টেরিয়র ডিজাইন');
+    expect(sms.sent[0]?.body).toContain('রেস্টুরেন্ট/ক্যাফে');
+    expect(sms.sent[0]?.body).toContain('Rafiq');
+  });
 });

@@ -3,6 +3,7 @@ import { paisaSchema } from '../catalog/catalog.contracts';
 import { addressSchema, utmSchema } from '../orders/orders.contracts';
 import { paymentMethodSchema, trxIdSchema } from '../payments/payments.contracts';
 import { bdPhoneSchema } from '../phone';
+import { districtCodeSchema } from '../shipping/shipping.contracts';
 
 export const QUOTE_STATUSES = ['NEW', 'QUOTED', 'ACCEPTED', 'REJECTED', 'EXPIRED'] as const;
 export const quoteStatusSchema = z.enum(QUOTE_STATUSES);
@@ -21,29 +22,93 @@ export const MAX_QUOTE_LINE_QTY = 100_000;
 
 // ---------- Public RFQ ----------
 
-export const rfqRequestSchema = z.object({
-  organizationName: z.string().trim().min(2).max(150),
-  contactName: z.string().trim().min(2).max(100),
-  phone: bdPhoneSchema,
-  email: z.email().max(200).nullable().default(null),
-  items: z
-    .array(
-      z.object({
-        /** Optional link to a catalog product/variant if the customer picked one. */
-        productSlug: z.string().max(120).nullable().default(null),
-        variantId: z.uuid().nullable().default(null),
-        description: z.string().trim().min(2).max(300),
-        qty: z.number().int().min(1).max(MAX_QUOTE_LINE_QTY),
-      }),
-    )
-    .min(1)
-    .max(50),
-  neededBy: z.iso.date().nullable().default(null),
-  /** Custom work: logo engraving, size changes, finishes. */
-  customizationNotes: z.string().trim().max(2000).nullable().default(null),
-  notes: z.string().trim().max(2000).nullable().default(null),
-  utm: utmSchema,
+/**
+ * PRODUCT: bulk/corporate order of catalog products (priced into a B2B order, ADR 0011).
+ * DESIGN: interior design consultation for a space (a lead for now; ADR 0014).
+ */
+export const QUOTE_KINDS = ['PRODUCT', 'DESIGN'] as const;
+export const quoteKindSchema = z.enum(QUOTE_KINDS);
+export type QuoteKind = z.infer<typeof quoteKindSchema>;
+
+export const SPACE_TYPES = [
+  'HOME',
+  'OFFICE',
+  'RESTAURANT_CAFE',
+  'HOTEL',
+  'RETAIL',
+  'OTHER',
+] as const;
+export const spaceTypeSchema = z.enum(SPACE_TYPES);
+export type SpaceType = z.infer<typeof spaceTypeSchema>;
+
+export const BUDGET_RANGES = [
+  'UNDER_1_LAKH',
+  'LAKH_1_TO_5',
+  'LAKH_5_TO_15',
+  'ABOVE_15_LAKH',
+  'NOT_SURE',
+] as const;
+export const budgetRangeSchema = z.enum(BUDGET_RANGES);
+
+/** What the client tells us about the space for a design consultation. */
+export const designBriefSchema = z.object({
+  spaceType: spaceTypeSchema,
+  sizeSqft: z.number().int().min(20).max(1_000_000).nullable().default(null),
+  district: districtCodeSchema.nullable().default(null),
+  budget: budgetRangeSchema.default('NOT_SURE'),
 });
+export type DesignBrief = z.output<typeof designBriefSchema>;
+
+export const designBriefViewSchema = z.object({
+  spaceType: spaceTypeSchema,
+  sizeSqft: z.number().int().nullable(),
+  district: z.string().nullable(),
+  budget: budgetRangeSchema,
+});
+
+export const rfqRequestSchema = z
+  .object({
+    kind: quoteKindSchema.default('PRODUCT'),
+    /** Required for PRODUCT requests; optional for DESIGN (a home has no company). */
+    organizationName: z.string().trim().min(2).max(150).nullable().default(null),
+    contactName: z.string().trim().min(2).max(100),
+    phone: bdPhoneSchema,
+    email: z.email().max(200).nullable().default(null),
+    items: z
+      .array(
+        z.object({
+          /** Optional link to a catalog product/variant if the customer picked one. */
+          productSlug: z.string().max(120).nullable().default(null),
+          variantId: z.uuid().nullable().default(null),
+          description: z.string().trim().min(2).max(300),
+          qty: z.number().int().min(1).max(MAX_QUOTE_LINE_QTY),
+        }),
+      )
+      .max(50)
+      .default([]),
+    /** Required for DESIGN requests. */
+    design: designBriefSchema.nullable().default(null),
+    neededBy: z.iso.date().nullable().default(null),
+    /** Custom work: logo engraving, size changes, finishes. */
+    customizationNotes: z.string().trim().max(2000).nullable().default(null),
+    notes: z.string().trim().max(2000).nullable().default(null),
+    utm: utmSchema,
+  })
+  .superRefine((v, ctx) => {
+    if (v.kind === 'PRODUCT') {
+      if (!v.organizationName) {
+        ctx.addIssue({ code: 'custom', path: ['organizationName'], message: 'Required' });
+      }
+      if (!v.items.length) {
+        ctx.addIssue({ code: 'custom', path: ['items'], message: 'At least one item' });
+      }
+      if (v.design) {
+        ctx.addIssue({ code: 'custom', path: ['design'], message: 'Only for DESIGN requests' });
+      }
+    } else if (!v.design) {
+      ctx.addIssue({ code: 'custom', path: ['design'], message: 'Required for DESIGN requests' });
+    }
+  });
 export type RfqRequest = z.input<typeof rfqRequestSchema>;
 
 export const rfqResponseSchema = z.object({
@@ -74,8 +139,10 @@ export const quoteTotalsSchema = z.object({
 /** What the requester can see with code + phone. */
 export const publicQuoteSchema = z.object({
   code: z.string(),
+  kind: quoteKindSchema,
+  design: designBriefViewSchema.nullable(),
   status: quoteStatusSchema,
-  organizationName: z.string(),
+  organizationName: z.string().nullable(),
   neededBy: z.string().nullable(),
   validUntil: z.string().nullable(),
   lines: z.array(quoteLineViewSchema.omit({ variantId: true, sku: true })),
@@ -103,6 +170,7 @@ export type AdminQuote = z.infer<typeof adminQuoteSchema>;
 
 export const adminQuoteListQuerySchema = z.object({
   status: quoteStatusSchema.optional(),
+  kind: quoteKindSchema.optional(),
   q: z.string().trim().max(100).optional(),
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(20),

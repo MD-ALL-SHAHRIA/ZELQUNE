@@ -1,6 +1,7 @@
 import { QUOTE_STATUSES } from '@zelqune/contracts';
 import {
   assertDiscountsAllowed,
+  assertProductQuote,
   canTransitionQuote,
   conversionPayment,
   discountPercent,
@@ -91,6 +92,15 @@ describe('quote conversion payment', () => {
     );
     expect(() => conversionPayment('BKASH_MANUAL', 0, 5000000, OWNER)).toThrow(
       expect.objectContaining({ code: 'INVALID_PAYMENT_METHOD' }) as Error,
+    );
+  });
+});
+
+describe('assertProductQuote', () => {
+  it('lets product quotes through and refuses design consultations', () => {
+    expect(() => assertProductQuote('PRODUCT')).not.toThrow();
+    expect(() => assertProductQuote('DESIGN')).toThrow(
+      expect.objectContaining({ code: 'DESIGN_REQUEST_NOT_PRICEABLE', status: 422 }),
     );
   });
 });

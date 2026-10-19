@@ -38,10 +38,27 @@ export const templates = {
   },
   quoteRequested(q: {
     code: string;
-    organizationName: string;
+    kind: 'PRODUCT' | 'DESIGN';
+    spaceType: string | null;
+    organizationName: string | null;
+    contactName: string;
     itemCount: number;
     totalQty: number;
   }): string {
-    return `Zelqune: নতুন বাল্ক অনুরোধ ${q.code}: ${q.organizationName}, ${q.itemCount}টি আইটেম, মোট ${q.totalQty} পিস। ড্যাশবোর্ডে দেখুন।`;
+    if (q.kind === 'DESIGN') {
+      const space = SPACE_LABELS[q.spaceType ?? ''] ?? 'জায়গা';
+      return `Zelqune: নতুন ইন্টেরিয়র ডিজাইনের অনুরোধ ${q.code}: ${q.organizationName ?? q.contactName}, ${space}। ড্যাশবোর্ডে দেখুন।`;
+    }
+    return `Zelqune: নতুন বাল্ক অনুরোধ ${q.code}: ${q.organizationName ?? q.contactName}, ${q.itemCount}টি আইটেম, মোট ${q.totalQty} পিস। ড্যাশবোর্ডে দেখুন।`;
   },
+};
+
+/** Space types in owner SMS (docs/copy-bn.md, SMS section). */
+const SPACE_LABELS: Record<string, string> = {
+  HOME: 'বাসা',
+  OFFICE: 'অফিস',
+  RESTAURANT_CAFE: 'রেস্টুরেন্ট/ক্যাফে',
+  HOTEL: 'হোটেল',
+  RETAIL: 'দোকান/শোরুম',
+  OTHER: 'অন্যান্য',
 };
