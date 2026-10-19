@@ -6,6 +6,16 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Services (ADR 0014): Zelqune Interior Design (homes, offices, restaurants and cafés, hotels,
+  shops) and Zelqune Construction (ground up to finished interiors). Requests are RFQs of kind
+  `DESIGN` / `CONSTRUCTION` with a brief (space/building type, area, district, budget, floors),
+  tracked by code + phone, listed for admins by kind, owner alerted by SMS; never priced as
+  product quotes.
+- Product range in a dev-only demo catalog (`pnpm seed:demo`): Diamond Shelf, Wave Shelf,
+  Half-Moon Planter Light, Fluted Niche Panel, Capsule Vase Light; categories Wall panels,
+  Shelves, Lighting.
+
 ### Changed
 - Storefront redesign (references: RH, Ferm Living): brand v2 from the owner's logo (vector
   arch mark, ink on cream, walnut and amber glow), Cormorant Garamond + Manrope (Hind
