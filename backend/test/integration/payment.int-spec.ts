@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { AppModule } from '../../apps/payment-service/src/app.module';
 import { PaymentService } from '../../apps/payment-service/src/payments/payment.service';
 import { PrismaService } from '../../apps/payment-service/src/prisma/prisma.service';
+import { prepareDatabase } from './database';
 import { IT, SCHEMAS, serviceDbUrl } from './it-env';
 
 describe('payment-service on real Postgres', () => {
@@ -13,13 +14,14 @@ describe('payment-service on real Postgres', () => {
   const admin = randomUUID();
 
   beforeAll(async () => {
+    const database = await prepareDatabase('zelqune_it_payment', ['payments']);
     Object.assign(process.env, {
       NODE_ENV: 'test',
       LOG_LEVEL: 'silent',
       HTTP_PORT: '39205',
       TCP_PORT: '49205',
       DB_SCHEMA: SCHEMAS.payments,
-      DATABASE_URL: serviceDbUrl(SCHEMAS.payments),
+      DATABASE_URL: serviceDbUrl(SCHEMAS.payments, database),
       RABBITMQ_URL: IT.rabbitUrl,
       PAYMENT_BKASH_NUMBER: '01711111111',
     });

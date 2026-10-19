@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { AppModule } from '../../apps/inventory-service/src/app.module';
 import { PrismaService } from '../../apps/inventory-service/src/prisma/prisma.service';
 import { InventoryService } from '../../apps/inventory-service/src/stock/inventory.service';
+import { prepareDatabase } from './database';
 import { IT, SCHEMAS, serviceDbUrl } from './it-env';
 
 describe('inventory-service on real Postgres', () => {
@@ -13,13 +14,14 @@ describe('inventory-service on real Postgres', () => {
   const variant = randomUUID();
 
   beforeAll(async () => {
+    const database = await prepareDatabase('zelqune_it_inventory', ['inventory']);
     Object.assign(process.env, {
       NODE_ENV: 'test', // no sweeper/relay timers; the test drives them
       LOG_LEVEL: 'silent',
       HTTP_PORT: '39201',
       TCP_PORT: '49201',
       DB_SCHEMA: SCHEMAS.inventory,
-      DATABASE_URL: serviceDbUrl(SCHEMAS.inventory),
+      DATABASE_URL: serviceDbUrl(SCHEMAS.inventory, database),
       RABBITMQ_URL: IT.rabbitUrl,
       RESERVATION_TTL_SECONDS: '900',
       ORDER_HOLD_HOURS: '48',
