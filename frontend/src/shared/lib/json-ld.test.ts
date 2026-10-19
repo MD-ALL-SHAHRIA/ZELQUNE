@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { type ProductDetail } from './api-types';
+import { type ProductDetail } from '@/shared/api/types';
 import { jsonForScript, productJsonLd } from './json-ld';
 
 const product = {

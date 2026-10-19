@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
-import { RfqForm } from '@/components/bulk/rfq-form';
-import { listProducts } from '@/lib/api-server';
-import { resolvePage, type PageParams } from '@/lib/page-params';
-import { productName } from '@/lib/product-copy';
-import { alternates } from '@/lib/site';
+import Image from 'next/image';
+import { SAMPLE } from '@/content/sample-images';
+import { productName } from '@/features/catalog/product-copy';
+import { RfqForm } from '@/features/quotes/rfq-form';
+import { listProducts } from '@/shared/api/server';
+import { resolvePage, type PageParams } from '@/shared/lib/page-params';
+import { alternates } from '@/shared/lib/site';
+import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 
 export const revalidate = 300;
 
@@ -23,21 +26,42 @@ export default async function BulkPage({ params }: { params: PageParams }) {
     name: productName(p, lang, dict),
   }));
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-      <h1 className="text-3xl font-semibold text-walnut">{dict.bulk.heading}</h1>
-      <p className="text-lg">{dict.bulk.text}</p>
-      <ul className="flex flex-wrap gap-2">
-        {dict.bulk.whoOrders.map((who) => (
-          <li key={who} className="rounded-full bg-surface px-3 py-1 text-sm ring-1 ring-line">
-            {who}
-          </li>
-        ))}
-      </ul>
-      <RfqForm
-        lang={lang}
-        products={products}
-        copy={{ bulk: dict.bulk, checkout: dict.checkout }}
-      />
-    </div>
+    <>
+      <section className="relative isolate overflow-hidden bg-ink text-paper">
+        <Image
+          src={SAMPLE.cafe.src}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="-z-10 object-cover opacity-50"
+        />
+        <Container className="space-y-6 py-24 sm:py-32">
+          <Eyebrow className="text-paper/70">{dict.landing.businessEyebrow}</Eyebrow>
+          <Heading as="h1" level="h1" className="max-w-4xl">
+            {dict.bulk.heading}
+          </Heading>
+          <p className="max-w-2xl text-lg text-paper/85">{dict.bulk.text}</p>
+          <ul className="flex flex-wrap gap-2 pt-2">
+            {dict.bulk.whoOrders.map((who) => (
+              <li key={who} className="border border-paper/30 px-3 py-1.5 text-xs tracking-wide">
+                {who}
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+      <Container className="grid gap-14 py-16 sm:py-24 lg:grid-cols-[1fr_2fr] lg:gap-24">
+        <div className="space-y-6 lg:sticky lg:top-28 lg:self-start">
+          <Heading level="h3">{dict.bulk.button}</Heading>
+          <Lead className="text-base">{dict.home.bulkBanner}</Lead>
+        </div>
+        <RfqForm
+          lang={lang}
+          products={products}
+          copy={{ bulk: dict.bulk, checkout: dict.checkout }}
+        />
+      </Container>
+    </>
   );
 }

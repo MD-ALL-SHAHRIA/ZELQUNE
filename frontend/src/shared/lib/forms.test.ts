@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ApiError } from './api-types';
+import { ApiError } from '@/shared/api/types';
 import { checkoutErrorText, normalizePhone, normalizeTrxId } from './forms';
 
 const copy = {

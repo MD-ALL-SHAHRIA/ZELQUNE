@@ -1,8 +1,8 @@
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { fill, formatNumber } from '@/i18n/format';
 import { type Locale } from '@/i18n/config';
-import { type SaleMode } from '@/lib/api-types';
-import { Text } from './text';
+import { type SaleMode } from '@/shared/api/types';
+import { CopyText } from '@/shared/ui/copy-text';
 
 /**
  * Badge text for a sale mode. The lead time comes from the catalog; until it is set it stays the
@@ -24,14 +24,22 @@ export function SaleBadge(props: {
   saleMode: SaleMode;
   leadTimeDays: number | null | undefined;
 }) {
-  const tone =
-    props.saleMode === 'IN_STOCK' ? 'bg-success/10 text-success' : 'bg-amber/25 text-walnut';
   return (
     <span
       data-sale-mode={props.saleMode}
-      className={`inline-block rounded-full px-3 py-1 text-sm font-semibold ${tone}`}
+      className="inline-flex items-center gap-2 bg-paper/90 px-2.5 py-1 text-[0.68rem] font-medium uppercase tracking-[0.12em] text-ink [:lang(bn)_&]:text-xs [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal"
     >
-      <Text>{saleBadgeText(props.dict, props.lang, props.saleMode, props.leadTimeDays)}</Text>
+      <span
+        aria-hidden
+        className={
+          props.saleMode === 'IN_STOCK'
+            ? 'size-1.5 rounded-full bg-success'
+            : 'size-1.5 rounded-full bg-amber'
+        }
+      />
+      <CopyText>
+        {saleBadgeText(props.dict, props.lang, props.saleMode, props.leadTimeDays)}
+      </CopyText>
     </span>
   );
 }

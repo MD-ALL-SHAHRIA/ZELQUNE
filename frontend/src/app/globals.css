@@ -1,22 +1,137 @@
 @import 'tailwindcss';
 @import '@zelqune/ui-tokens/tailwind-theme.css';
 
-html {
-  background: var(--color-cream);
-  color: var(--color-ink);
-  -webkit-text-size-adjust: 100%;
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 0.975rem;
+    line-height: 1.6;
+  }
+  html[lang='bn'] body {
+    font-family: var(--font-hind), var(--font-manrope), system-ui, sans-serif;
+    line-height: 1.75;
+  }
+  html[lang='bn'] .font-display {
+    font-family: var(--font-noto-serif-bn), var(--font-cormorant), Georgia, serif;
+  }
+  ::selection {
+    background: var(--color-glow);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 1.5px solid var(--color-ink);
+    outline-offset: 3px;
+  }
 }
 
-body {
-  font-family: var(--font-inter), var(--font-hind), system-ui, sans-serif;
+@layer utilities {
+  /* Warm lamp glow behind light sections (the "light" in wood and light). */
+  .glow {
+    background:
+      radial-gradient(
+        60% 55% at 70% 40%,
+        color-mix(in oklab, var(--color-glow) 45%, transparent),
+        transparent 70%
+      ),
+      var(--color-paper);
+  }
+  /* Fine paper grain: an inline SVG noise, no extra request. */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-html[lang='bn'] body {
-  font-family: var(--font-hind), var(--font-inter), system-ui, sans-serif;
-  line-height: 1.65;
+/* Scroll reveal with CSS scroll-driven animations only (no JS). Browsers without support, and
+   people who prefer reduced motion, simply see the content. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-walnut);
-  outline-offset: 2px;
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Bangla has no letter case and its conjuncts break when tracked: labels styled as tracked
+   uppercase (eyebrows, buttons, table heads) render naturally on /bn. The Latin wordmark keeps
+   its caps. Unlayered on purpose so it wins over utility classes. */
+html[lang='bn'] .uppercase:not(.font-display) {
+  text-transform: none;
+  letter-spacing: normal;
 }

@@ -20,6 +20,8 @@ export default function config(phase: string): NextConfig {
     poweredByHeader: false,
     transpilePackages: ['@zelqune/api-client', '@zelqune/ui-tokens'],
     images: {
+      loader: 'custom',
+      loaderFile: './src/shared/lib/image-loader.ts',
       formats: ['image/webp'],
       remotePatterns: [
         {
@@ -28,6 +30,8 @@ export default function config(phase: string): NextConfig {
           port: mediaBase.port,
           pathname: `${mediaBase.pathname.replace(/\/$/, '')}/**`,
         },
+        // Sample photography until real product photos exist (src/content/sample-images.ts).
+        { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/photo-*' },
       ],
     },
   };

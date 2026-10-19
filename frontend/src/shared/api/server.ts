@@ -1,7 +1,7 @@
 import 'server-only';
 import { createApiClient } from '@zelqune/api-client';
-import { ApiError, type Category, type District, ok, type ProductDetail } from './api-types';
-import { isExperimentKey, type PriceSegment } from './visitor';
+import { ApiError, type Category, type District, ok, type ProductDetail } from '@/shared/api/types';
+import { isExperimentKey, type PriceSegment } from '@/shared/lib/visitor';
 
 /** Catalog pages are ISR: data is refetched at most every 5 minutes. */
 export const REVALIDATE_SECONDS = 300;

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { TrackOrder } from '@/components/track/track-order';
-import { resolvePage, type PageParams } from '@/lib/page-params';
-import { alternates } from '@/lib/site';
+import { TrackOrder } from '@/features/orders/track-order';
+import { resolvePage, type PageParams } from '@/shared/lib/page-params';
+import { alternates } from '@/shared/lib/site';
+import { PageHeader } from '@/shared/ui/page-header';
+import { Container } from '@/shared/ui/typography';
 
 export const revalidate = 300;
 
@@ -17,20 +19,22 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 export default async function TrackPage({ params }: { params: PageParams }) {
   const { lang, dict } = await resolvePage(params);
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-      <h1 className="text-3xl font-semibold text-walnut">{dict.track.heading}</h1>
-      <Suspense fallback={null}>
-        <TrackOrder
-          lang={lang}
-          copy={{
-            track: dict.track,
-            checkout: dict.checkout,
-            ui: dict.ui,
-            names: {},
-            variants: dict.product.variants,
-          }}
-        />
-      </Suspense>
-    </div>
+    <>
+      <PageHeader eyebrow={dict.nav.track} title={dict.track.heading} />
+      <Container className="py-16">
+        <Suspense fallback={null}>
+          <TrackOrder
+            lang={lang}
+            copy={{
+              track: dict.track,
+              checkout: dict.checkout,
+              ui: dict.ui,
+              products: dict.products,
+              product: dict.product,
+            }}
+          />
+        </Suspense>
+      </Container>
+    </>
   );
 }

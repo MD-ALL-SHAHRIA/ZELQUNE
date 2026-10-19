@@ -1,14 +1,17 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
-import { Text } from '@/components/text';
-import { Turnstile } from '@/components/turnstile';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { asciiDigits, checkoutErrorText, normalizePhone } from '@/lib/forms';
-import { api, ok, visitor } from '@/lib/api-browser';
-import { href } from '@/lib/site';
+import { toApiError } from '@/shared/api/errors';
+import { asciiDigits, checkoutErrorText, normalizePhone } from '@/shared/lib/forms';
+import { href } from '@/shared/lib/site';
+import { visitor } from '@/shared/lib/visitor-client';
+import { Button, ButtonLink } from '@/shared/ui/button';
+import { CopyText } from '@/shared/ui/copy-text';
+import { Field, Input, Select, Textarea } from '@/shared/ui/field';
+import { Turnstile } from '@/shared/ui/turnstile';
+import { useRequestQuoteMutation } from '@/store/api';
 
 const OTHER = '__other__';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,7 +46,7 @@ export function RfqForm({
   const [notes, setNotes] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
-  const [sending, setSending] = useState(false);
+  const [requestQuote, { isLoading: sending }] = useRequestQuoteMutation();
   const [token, setToken] = useState('');
   const [turnstileKey, setTurnstileKey] = useState(0);
   const [done, setDone] = useState<string | null>(null);
@@ -76,233 +79,183 @@ export function RfqForm({
     if (Object.keys(found).length || !mobile) return;
 
     const { utm } = visitor();
-    setSending(true);
     try {
-      const res = ok(
-        await api.POST('/v1/quote-requests', {
-          params: { header: { 'cf-turnstile-response': token } },
-          body: {
-            organizationName: org.trim(),
-            contactName: contact.trim(),
-            phone: mobile,
-            ...(email.trim() ? { email: email.trim() } : {}),
-            items,
-            ...(neededBy ? { neededBy } : {}),
-            ...(customization.trim() ? { customizationNotes: customization.trim() } : {}),
-            ...(notes.trim() ? { notes: notes.trim() } : {}),
-            ...(utm ? { utm } : {}),
-          },
-        }),
-      );
+      const res = await requestQuote({
+        'cf-turnstile-response': token,
+        rfqRequestDto: {
+          organizationName: org.trim(),
+          contactName: contact.trim(),
+          phone: mobile,
+          ...(email.trim() ? { email: email.trim() } : {}),
+          items,
+          ...(neededBy ? { neededBy } : {}),
+          ...(customization.trim() ? { customizationNotes: customization.trim() } : {}),
+          ...(notes.trim() ? { notes: notes.trim() } : {}),
+          ...(utm ? { utm } : {}),
+        },
+      }).unwrap();
       setDone(res.quoteCode);
     } catch (error) {
-      setFormError(checkoutErrorText(error, copy.checkout.errors));
+      setFormError(checkoutErrorText(toApiError(error), copy.checkout.errors));
       setToken('');
       setTurnstileKey((k) => k + 1);
-    } finally {
-      setSending(false);
     }
   }
 
   if (done) {
     const [before, after] = b.after.split('{code}');
     return (
-      <div role="status" className="space-y-4 rounded-lg bg-surface p-6 ring-1 ring-line">
-        <p className="text-lg">
+      <div role="status" className="space-y-8 bg-cream/70 p-8 sm:p-12">
+        <p className="font-display text-3xl font-light leading-snug">
           {before}
-          <strong data-testid="quote-code" className="font-mono text-walnut">
+          <strong
+            data-testid="quote-code"
+            className="mx-1 inline-block border border-ink px-3 py-1 font-mono text-lg font-normal tracking-[0.16em]"
+          >
             {done}
           </strong>
           {after}
         </p>
-        <Link
-          href={`${href(lang, '/bulk/track')}?code=${done}`}
-          className="inline-block rounded-md bg-walnut px-6 py-3 font-semibold text-cream"
-        >
+        <ButtonLink href={`${href(lang, '/bulk/track')}?code=${done}`} size="lg">
           {b.trackHeading}
-        </Link>
+        </ButtonLink>
       </div>
     );
   }
 
-  const input = 'w-full rounded-md border border-line bg-surface px-3 py-2.5';
-  const label = 'block text-sm font-semibold';
-  const err = (key: string) =>
-    errors[key] ? <p className="text-sm text-danger">{errors[key]}</p> : null;
+  const err = (key: string) => errors[key];
 
   return (
-    <form onSubmit={submit} noValidate className="space-y-5">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1">
-          <label htmlFor="r-org" className={label}>
-            {b.fields.organizationName}
-          </label>
-          <input
+    <form onSubmit={submit} noValidate className="space-y-10">
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field id="r-org" label={b.fields.organizationName} error={err('org')}>
+          <Input
             id="r-org"
             value={org}
             onChange={(e) => setOrg(e.target.value)}
             autoComplete="organization"
-            className={input}
+            aria-invalid={!!err('org')}
           />
-          {err('org')}
-        </div>
-        <div className="space-y-1">
-          <label htmlFor="r-contact" className={label}>
-            {b.fields.contactName}
-          </label>
-          <input
+        </Field>
+        <Field id="r-contact" label={b.fields.contactName} error={err('contact')}>
+          <Input
             id="r-contact"
             value={contact}
             onChange={(e) => setContact(e.target.value)}
             autoComplete="name"
-            className={input}
+            aria-invalid={!!err('contact')}
           />
-          {err('contact')}
-        </div>
-        <div className="space-y-1">
-          <label htmlFor="r-phone" className={label}>
-            {b.fields.phone}
-          </label>
-          <input
+        </Field>
+        <Field id="r-phone" label={b.fields.phone} error={err('phone')}>
+          <Input
             id="r-phone"
             type="tel"
             inputMode="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             autoComplete="tel"
-            className={input}
+            aria-invalid={!!err('phone')}
           />
-          {err('phone')}
-        </div>
-        <div className="space-y-1">
-          <label htmlFor="r-email" className={label}>
-            {b.fields.email}
-          </label>
-          <input
+        </Field>
+        <Field id="r-email" label={b.fields.email} error={err('email')}>
+          <Input
             id="r-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
-            className={input}
+            aria-invalid={!!err('email')}
           />
-          {err('email')}
-        </div>
+        </Field>
       </div>
 
-      {lines.map((line, i) => (
-        <fieldset
-          key={i}
-          className="grid gap-3 rounded-lg bg-surface p-4 ring-1 ring-line sm:grid-cols-[1fr_8rem]"
-        >
-          <div className="space-y-1">
-            <label htmlFor={`r-product-${i}`} className={label}>
-              {b.fields.product}
-            </label>
-            <select
-              id={`r-product-${i}`}
-              value={line.product}
-              onChange={(e) => setLine(i, { product: e.target.value })}
-              className={input}
-            >
-              {products.map((p) => (
-                <option key={p.slug} value={p.slug}>
-                  {p.name}
-                </option>
-              ))}
-              <option value={OTHER}>{b.somethingElse}</option>
-            </select>
-          </div>
-          <div className="space-y-1">
-            <label htmlFor={`r-qty-${i}`} className={label}>
-              {b.fields.qty}
-            </label>
-            <input
-              id={`r-qty-${i}`}
-              inputMode="numeric"
-              value={line.qty}
-              onChange={(e) => setLine(i, { qty: e.target.value })}
-              className={input}
-            />
-            {err(`qty${i}`)}
-          </div>
-          <div className="space-y-1 sm:col-span-2">
-            <label htmlFor={`r-desc-${i}`} className={label}>
-              {b.describe}
-            </label>
-            <input
+      <div className="space-y-4">
+        {lines.map((line, i) => (
+          <fieldset
+            key={i}
+            className="grid gap-6 border border-line bg-surface p-6 sm:grid-cols-[1fr_9rem]"
+          >
+            <Field id={`r-product-${i}`} label={b.fields.product}>
+              <Select
+                id={`r-product-${i}`}
+                value={line.product}
+                onChange={(e) => setLine(i, { product: e.target.value })}
+              >
+                {products.map((p) => (
+                  <option key={p.slug} value={p.slug}>
+                    {p.name}
+                  </option>
+                ))}
+                <option value={OTHER}>{b.somethingElse}</option>
+              </Select>
+            </Field>
+            <Field id={`r-qty-${i}`} label={b.fields.qty} error={err(`qty${i}`)}>
+              <Input
+                id={`r-qty-${i}`}
+                inputMode="numeric"
+                value={line.qty}
+                onChange={(e) => setLine(i, { qty: e.target.value })}
+                aria-invalid={!!err(`qty${i}`)}
+              />
+            </Field>
+            <Field
               id={`r-desc-${i}`}
-              value={line.description}
-              onChange={(e) => setLine(i, { description: e.target.value })}
-              className={input}
-            />
-            {err(`desc${i}`)}
-          </div>
-        </fieldset>
-      ))}
-      {lines.length < 10 ? (
-        <button
-          type="button"
-          onClick={() => setLines((ls) => [...ls, { product: OTHER, description: '', qty: '' }])}
-          className="text-sm underline"
-        >
-          + {b.addLine}
-        </button>
-      ) : null}
+              label={b.describe}
+              error={err(`desc${i}`)}
+              className="sm:col-span-2"
+            >
+              <Input
+                id={`r-desc-${i}`}
+                value={line.description}
+                onChange={(e) => setLine(i, { description: e.target.value })}
+                aria-invalid={!!err(`desc${i}`)}
+              />
+            </Field>
+          </fieldset>
+        ))}
+        {lines.length < 10 ? (
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => setLines((ls) => [...ls, { product: OTHER, description: '', qty: '' }])}
+          >
+            + {b.addLine}
+          </Button>
+        ) : null}
+      </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1">
-          <label htmlFor="r-needed" className={label}>
-            {b.fields.neededBy}
-          </label>
-          <input
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field id="r-needed" label={b.fields.neededBy}>
+          <Input
             id="r-needed"
             type="date"
             value={neededBy}
             onChange={(e) => setNeededBy(e.target.value)}
-            className={input}
           />
-        </div>
+        </Field>
       </div>
-      <div className="space-y-1">
-        <label htmlFor="r-custom" className={label}>
-          {b.fields.customization}
-        </label>
-        <textarea
+      <Field id="r-custom" label={b.fields.customization}>
+        <Textarea
           id="r-custom"
           rows={3}
           value={customization}
           onChange={(e) => setCustomization(e.target.value)}
-          className={input}
         />
-      </div>
-      <div className="space-y-1">
-        <label htmlFor="r-notes" className={label}>
-          {b.fields.notes}
-        </label>
-        <textarea
-          id="r-notes"
-          rows={3}
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          className={input}
-        />
-      </div>
+      </Field>
+      <Field id="r-notes" label={b.fields.notes}>
+        <Textarea id="r-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} />
+      </Field>
 
       <Turnstile key={turnstileKey} lang={lang} onToken={setToken} />
-      {err('turnstile')}
+      {err('turnstile') ? <p className="text-sm text-danger">{err('turnstile')}</p> : null}
       {formError ? (
-        <p role="alert" className="rounded-md bg-danger/10 p-3 text-sm text-danger">
-          <Text>{formError}</Text>
+        <p role="alert" className="bg-danger/10 p-4 text-sm text-danger">
+          <CopyText>{formError}</CopyText>
         </p>
       ) : null}
-      <button
-        type="submit"
-        disabled={sending}
-        className="rounded-md bg-walnut px-6 py-3 font-semibold text-cream disabled:opacity-50"
-      >
+      <Button type="submit" size="lg" disabled={sending}>
         {sending ? b.sending : b.button}
-      </button>
+      </Button>
     </form>
   );
 }

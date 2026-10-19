@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { type OrderTracking } from './api-types';
+import { type OrderTracking } from '@/shared/api/types';
 import { displayStatus } from './order-status';
 
 const order = (status: OrderTracking['status'], payment: string | null) =>

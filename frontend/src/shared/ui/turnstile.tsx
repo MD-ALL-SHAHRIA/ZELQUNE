@@ -2,7 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 
-const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+import { env } from '@/config/env';
+
+const SITE_KEY = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 /** Dev/CI only (no site key): the gateway's fake verifier accepts any non-empty token. */
 export const DEV_TURNSTILE_TOKEN = 'dev-pass';
 

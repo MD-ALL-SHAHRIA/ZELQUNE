@@ -4,7 +4,7 @@ import { splitPlaceholders } from '@/i18n/format';
  * Renders copy with `[[...]]` placeholders highlighted, so unfinished copy is obvious on the page
  * (and in screenshots) instead of silently missing.
  */
-export function Text({ children }: { children: string }) {
+export function CopyText({ children }: { children: string }) {
   return (
     <>
       {splitPlaceholders(children).map((part, i) =>
@@ -12,7 +12,7 @@ export function Text({ children }: { children: string }) {
           <mark
             key={i}
             data-placeholder
-            className="rounded-sm border border-dashed border-walnut bg-amber px-1 text-ink"
+            className="border border-dashed border-walnut bg-glow px-1 text-ink not-italic"
           >
             {part.text}
           </mark>

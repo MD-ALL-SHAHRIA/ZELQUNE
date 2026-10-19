@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import { ContentPage } from '@/components/content-page';
-import { Text } from '@/components/text';
-import { resolvePage, type PageParams } from '@/lib/page-params';
-import { alternates } from '@/lib/site';
+import { resolvePage, type PageParams } from '@/shared/lib/page-params';
+import { alternates } from '@/shared/lib/site';
+import { Accordion } from '@/shared/ui/accordion';
+import { PageHeader } from '@/shared/ui/page-header';
+import { Container } from '@/shared/ui/typography';
 
 export const revalidate = 3600;
 
@@ -14,17 +15,20 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 export default async function FaqPage({ params }: { params: PageParams }) {
   const { dict } = await resolvePage(params);
   return (
-    <ContentPage title={dict.faq.title}>
-      <div className="space-y-3">
-        {dict.faq.items.map((item) => (
-          <details key={item.q} className="rounded-lg bg-surface p-4 ring-1 ring-line">
-            <summary className="cursor-pointer font-semibold text-walnut">{item.q}</summary>
-            <p className="mt-2">
-              <Text>{item.a}</Text>
-            </p>
-          </details>
-        ))}
-      </div>
-    </ContentPage>
+    <>
+      <PageHeader eyebrow={dict.layout.columns.help} title={dict.faq.title} />
+      <Container className="py-16 sm:py-20">
+        <div className="mx-auto max-w-3xl">
+          <Accordion
+            defaultOpen="faq-0"
+            items={dict.faq.items.map((item, i) => ({
+              id: `faq-${i}`,
+              title: item.q,
+              body: item.a,
+            }))}
+          />
+        </div>
+      </Container>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { type OrderTracking } from './api-types';
+import { type OrderTracking } from '@/shared/api/types';
 
 export type DisplayStatus = OrderTracking['status'] | 'PAYMENT_SUBMITTED';
 

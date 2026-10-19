@@ -2,13 +2,16 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useCart } from '@/components/cart/cart-context';
-import { Text } from '@/components/text';
+import { useCart } from '@/features/cart/use-cart';
 import { type Locale } from '@/i18n/config';
 import { fill, formatTaka } from '@/i18n/format';
-import { api, ok } from '@/lib/api-browser';
-import { type District, type ProductDetail } from '@/lib/api-types';
-import { href } from '@/lib/site';
+import { type District, type ProductDetail } from '@/shared/api/types';
+import { cn } from '@/shared/lib/cn';
+import { href } from '@/shared/lib/site';
+import { Button } from '@/shared/ui/button';
+import { CopyText } from '@/shared/ui/copy-text';
+import { Select } from '@/shared/ui/field';
+import { useLazyShippingEstimateQuery } from '@/store/api';
 
 export interface PurchaseCopy {
   variantLabel: string;
@@ -26,7 +29,10 @@ type Variant = ProductDetail['variants'][number];
 const optionValue = (v: Variant) =>
   Object.values(v.options).find((x): x is string => typeof x === 'string') ?? v.sku;
 
-/** Variant picker, price, add-to-cart and the delivery fee estimate for the chosen variant. */
+/** Finish colours for the swatches (walnut and natural veneer). */
+const SWATCH: Record<string, string> = { WALNUT: '#4A3426', NATURAL: '#C9A67A' };
+
+/** Variant swatches, price, add-to-cart and the delivery estimate for the chosen finish. */
 export function Purchase({
   product,
   districts,
@@ -43,54 +49,40 @@ export function Purchase({
   const [variantId, setVariantId] = useState(product.variants[0]?.id ?? '');
   const variant = product.variants.find((v) => v.id === variantId);
   const [district, setDistrict] = useState('');
-  const [estimate, setEstimate] = useState<{ text: string; failed: boolean } | null>(null);
+  const [estimate, { data: fee, isError, isFetching }] = useLazyShippingEstimateQuery();
 
-  async function updateEstimate(code: string, forVariant: string) {
+  const districtName = (code: string) => {
+    const d = districts.find((x) => x.code === code);
+    return (lang === 'bn' ? d?.nameBn : d?.nameEn) ?? code;
+  };
+  const updateEstimate = (code: string, forVariant: string) => {
     setDistrict(code);
-    setEstimate(null);
-    if (!code || !forVariant) return;
-    const name = districts.find((d) => d.code === code);
-    try {
-      const result = ok(
-        await api.GET('/v1/shipping/estimate', {
-          params: { query: { district: code, variantId: forVariant, qty: 1 } },
-        }),
-      );
-      setEstimate({
-        text: fill(copy.estimate.result, {
-          district: (lang === 'bn' ? name?.nameBn : name?.nameEn) ?? code,
-          fee: formatTaka(result.feePaisa, lang),
-        }),
-        failed: false,
-      });
-    } catch {
-      setEstimate({ text: copy.estimate.failed, failed: true });
-    }
-  }
+    if (code && forVariant) void estimate({ district: code, variantId: forVariant, qty: 1 }, true);
+  };
 
   async function buy(goToCheckout: boolean) {
     if (!variant?.price) return;
-    const added = await add(
-      {
-        productId: product.id,
-        variantId: variant.id,
-        qty: 1,
-        unitPricePaisa: variant.price.amountPaisa,
-      },
-      { openDrawer: !goToCheckout },
-    );
+    const added = await add({
+      productId: product.id,
+      variantId: variant.id,
+      qty: 1,
+      unitPricePaisa: variant.price.amountPaisa,
+      openDrawer: !goToCheckout,
+    });
     if (added && goToCheckout) router.push(href(lang, '/checkout'));
   }
 
   const sorted = [...districts].sort((a, b) =>
     (lang === 'bn' ? a.nameBn : a.nameEn).localeCompare(lang === 'bn' ? b.nameBn : b.nameEn),
   );
+  const price = variant?.price ? formatTaka(variant.price.amountPaisa, lang) : null;
+  const primaryLabel = copy.preOrder ? copy.preOrderNow : copy.addToCart;
 
   return (
-    <div className="space-y-5">
-      {variant?.price ? (
-        <p data-testid="price" className="text-3xl font-semibold">
-          {formatTaka(variant.price.amountPaisa, lang)}
+    <div className="space-y-8">
+      {price ? (
+        <p data-testid="price" className="font-display text-4xl font-light">
+          {price}
         </p>
       ) : (
         <p className="text-danger">{copy.unavailable}</p>
@@ -98,65 +90,72 @@ export function Purchase({
 
       {product.variants.length > 1 ? (
         <fieldset>
-          <legend className="mb-2 font-semibold">{copy.variantLabel}</legend>
-          <div className="flex flex-wrap gap-2">
-            {product.variants.map((v) => (
-              <label
-                key={v.id}
-                className="cursor-pointer rounded-md border border-line bg-surface px-4 py-2 has-[:checked]:border-walnut has-[:checked]:ring-2 has-[:checked]:ring-walnut"
-              >
-                <input
-                  type="radio"
-                  name="variant"
-                  value={v.id}
-                  checked={v.id === variantId}
-                  onChange={() => {
-                    setVariantId(v.id);
-                    if (district) void updateEstimate(district, v.id);
-                  }}
-                  className="sr-only"
-                />
-                {copy.variants[optionValue(v)] ?? optionValue(v)}
-              </label>
-            ))}
+          <legend className="mb-3 text-[0.7rem] font-medium uppercase tracking-eyebrow text-stone [:lang(bn)_&]:text-sm [:lang(bn)_&]:tracking-normal">
+            {copy.variantLabel}:{' '}
+            <span className="normal-case tracking-normal text-ink">
+              {variant ? (copy.variants[optionValue(variant)] ?? optionValue(variant)) : ''}
+            </span>
+          </legend>
+          <div className="flex flex-wrap gap-3">
+            {product.variants.map((v) => {
+              const value = optionValue(v);
+              return (
+                <label
+                  key={v.id}
+                  title={copy.variants[value] ?? value}
+                  className="group relative cursor-pointer rounded-full p-1 ring-1 ring-transparent transition has-[:checked]:ring-ink has-[:focus-visible]:outline has-[:focus-visible]:outline-2"
+                >
+                  <input
+                    type="radio"
+                    name="variant"
+                    value={v.id}
+                    checked={v.id === variantId}
+                    onChange={() => {
+                      setVariantId(v.id);
+                      if (district) updateEstimate(district, v.id);
+                    }}
+                    className="sr-only"
+                  />
+                  <span
+                    aria-hidden
+                    className="block size-9 rounded-full border border-ink/10"
+                    style={{ background: SWATCH[value] ?? '#EDE3D3' }}
+                  />
+                  <span className="sr-only">{copy.variants[value] ?? value}</span>
+                </label>
+              );
+            })}
           </div>
         </fieldset>
       ) : null}
 
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="grid gap-3">
+        <Button size="lg" disabled={busy || !variant?.price} onClick={() => buy(copy.preOrder)}>
+          {primaryLabel}
+        </Button>
         {copy.preOrder ? (
-          <button
-            type="button"
+          <Button
+            size="lg"
+            variant="outline"
             disabled={busy || !variant?.price}
-            onClick={() => buy(true)}
-            className="rounded-md bg-walnut px-6 py-3 font-semibold text-cream disabled:opacity-50"
+            onClick={() => buy(false)}
           >
-            {copy.preOrderNow}
-          </button>
+            {copy.addToCart}
+          </Button>
         ) : null}
-        <button
-          type="button"
-          disabled={busy || !variant?.price}
-          onClick={() => buy(false)}
-          className={
-            copy.preOrder
-              ? 'rounded-md border border-walnut px-6 py-3 font-semibold text-walnut disabled:opacity-50'
-              : 'rounded-md bg-walnut px-6 py-3 font-semibold text-cream disabled:opacity-50'
-          }
-        >
-          {copy.addToCart}
-        </button>
       </div>
 
-      <div className="space-y-2 rounded-lg bg-surface p-4 ring-1 ring-line">
-        <label htmlFor="estimate-district" className="block text-sm font-semibold">
+      <div className="space-y-2 border-t border-line pt-6">
+        <label
+          htmlFor="estimate-district"
+          className="block text-[0.7rem] font-medium uppercase tracking-eyebrow text-stone [:lang(bn)_&]:text-sm [:lang(bn)_&]:tracking-normal"
+        >
           {copy.estimate.district}
         </label>
-        <select
+        <Select
           id="estimate-district"
           value={district}
-          onChange={(e) => void updateEstimate(e.target.value, variantId)}
-          className="w-full rounded-md border border-line bg-cream px-3 py-2"
+          onChange={(e) => updateEstimate(e.target.value, variantId)}
         >
           <option value="">{copy.estimate.choose}</option>
           {sorted.map((d) => (
@@ -164,15 +163,36 @@ export function Purchase({
               {lang === 'bn' ? d.nameBn : d.nameEn}
             </option>
           ))}
-        </select>
+        </Select>
         <p
           aria-live="polite"
           data-testid="delivery-estimate"
-          className={estimate?.failed ? 'text-sm text-danger' : 'text-sm'}
+          className={cn('text-sm', isError && 'text-danger', isFetching && 'opacity-50')}
         >
-          <Text>{estimate?.text ?? copy.deliveryFee}</Text>
+          <CopyText>
+            {!district
+              ? copy.deliveryFee
+              : isError
+                ? copy.estimate.failed
+                : fee
+                  ? fill(copy.estimate.result, {
+                      district: districtName(district),
+                      fee: formatTaka(fee.feePaisa, lang),
+                    })
+                  : copy.deliveryFee}
+          </CopyText>
         </p>
       </div>
+
+      {/* Mobile: the buy button stays reachable while reading. */}
+      {price ? (
+        <div className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-4 border-t border-line bg-paper/95 px-5 py-3 backdrop-blur lg:hidden">
+          <span className="font-display text-2xl font-light">{price}</span>
+          <Button disabled={busy} onClick={() => buy(copy.preOrder)} className="flex-1">
+            {primaryLabel}
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 }

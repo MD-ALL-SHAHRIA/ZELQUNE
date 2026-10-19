@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { decideRoute } from './lib/routing';
+import { decideRoute } from './shared/lib/routing';
 
 export function proxy(request: NextRequest) {
   const cookies = Object.fromEntries(request.cookies.getAll().map((c) => [c.name, c.value]));

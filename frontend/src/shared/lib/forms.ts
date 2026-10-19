@@ -1,4 +1,4 @@
-import { ApiError } from './api-types';
+import { ApiError } from '@/shared/api/types';
 
 const BANGLA_DIGITS = '০১২৩৪৫৬৭৮৯';
 

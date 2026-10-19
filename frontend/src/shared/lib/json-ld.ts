@@ -1,4 +1,4 @@
-import { type ProductDetail } from './api-types';
+import { type ProductDetail } from '@/shared/api/types';
 
 const AVAILABILITY: Record<ProductDetail['saleMode'], string> = {
   IN_STOCK: 'https://schema.org/InStock',
