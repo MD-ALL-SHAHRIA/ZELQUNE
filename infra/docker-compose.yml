@@ -245,6 +245,8 @@ services:
     environment:
       <<: *service-env
       APP: notification-service
+      OWNER_NOTIFY_PHONE: ${OWNER_NOTIFY_PHONE:-}
+      STOREFRONT_URL: ${STOREFRONT_URL:-http://localhost:3100}
       HTTP_PORT: 3007
       TCP_PORT: 4007
       DB_SCHEMA: notifications
