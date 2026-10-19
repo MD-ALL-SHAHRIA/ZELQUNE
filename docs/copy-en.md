@@ -214,3 +214,81 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 ### Our story
 - **Heading:** Our story
 - **Text:** [[Owner's story: who makes Zelqune, where, and why]]
+
+## Product range and interior design (added in step 1.4 interior design, for owner review)
+> New demo products (dev seed) and the Zelqune Interior Design service. Same structure in copy-bn.md.
+
+### Products
+- **Diamond Shelf (pair):** Two diamond-shaped walnut panels with floating shelves: bold geometry for plants, books and small treasures.
+  - Size: [[45 × 65 cm each, confirm]]
+  - Wood: walnut-tone veneer ([[confirm finish with supplier]])
+  - Two panels with floating shelves
+  - Wall-mounting kit (screws and hooks)
+- **Wave Shelf:** A curved walnut spine with a black wave and six floating shelves, part bookcase, part sculpture.
+  - Size: [[60 × 100 cm, confirm]]
+  - Wood: walnut-tone veneer with black accents
+  - Six floating shelves and a planter pocket
+  - Wall-mounting kit (screws and hooks)
+- **Half-Moon Planter Light:** A slatted half-moon, a walnut planter column and a warm LED ring: a living wall light.
+  - Size: [[70 × 90 cm, confirm]]
+  - Light: 5V USB, warm white LED ring
+  - Three planter cups for real or faux plants
+  - Wall-mounting kit (screws and hooks)
+- **Fluted Niche Panel:** Fluted walnut with warm LED lines, a lit niche for a sculpture and two floating shelves.
+  - Size: [[90 × 180 cm, confirm]]
+  - Light: low-voltage warm white LED lines
+  - Lit niche and two floating shelves
+  - Installation by our team ([[confirm areas]])
+- **Capsule Vase Light:** A capsule frame with a soft LED halo and a glass vase for fresh stems.
+  - Size: [[35 × 70 cm, confirm]]
+  - Light: 5V USB, warm white halo
+  - Removable glass vase
+  - Wall-mounting kit (screws and hooks)
+
+### Navigation
+- **Menu:** Shop · Interior Design · Bulk & Corporate · Our story
+- **Shop menu:** Shop by category · All products
+
+### Home page
+- **Categories eyebrow:** Shop by category
+- **Categories heading:** Pieces for every wall
+- **Design band eyebrow:** Interior design
+- **Design band heading:** Let us design the whole space
+- **Design band text:** Homes, offices, restaurants and cafés: we plan the space, make the woodwork and lighting, and install it.
+- **Design band buttons:** Explore interior design · Book a consultation
+
+### Interior design
+- **Eyebrow:** Zelqune Interior Design
+- **Heading:** Spaces designed around wood and light
+- **Lead:** From one feature wall to a whole café, we plan the space, make the woodwork and lighting in our workshop, and install it.
+- **Sectors heading:** What we design
+- **Sectors:**
+  - **Home:** Living rooms, bedrooms and entrances that feel warm and calm.
+  - **Office:** Reception walls, meeting rooms and workspaces with character.
+  - **Restaurant & Café:** Feature walls, lighting and corners your guests remember.
+  - **Hotel:** Lobbies and rooms with one handcrafted signature.
+  - **Shop & Showroom:** Displays and walls that make your products glow.
+- **Process heading:** How it works
+- **Process steps:**
+  - **Consultation:** We visit or call to understand your space, budget and timeline.
+  - **Concept:** A layout, materials and a clear quote for the woodwork and lighting.
+  - **Making:** Our workshop makes every piece to your measurements.
+  - **Installation:** We install, style and hand over the finished space.
+- **Included heading:** What's included
+- **Included:** Site visit or video call · Layout and material plan · Custom woodwork and lighting · Installation and styling
+- **Fees:** [[Consultation fee or free first visit: owner to decide]]
+- **Projects heading:** Selected projects
+- **Projects placeholder:** [[Our first projects will appear here]]
+- **Button:** Book a consultation
+- **Sector page link:** Explore
+
+### Design consultation form
+- **Heading:** Book a design consultation
+- **Text:** Tell us about your space and our designer will call you.
+- **Fields:** Your name · Mobile number · Email (optional) · Type of space · Approximate size (sq ft) · District · Budget · When would you like to start? · Tell us about the space
+- **Space types:** Home · Office · Restaurant & Café · Hotel · Shop & Showroom · Other
+- **Budgets:** Under ৳1 lakh · ৳1–5 lakh · ৳5–15 lakh · Above ৳15 lakh · Not sure yet
+- **Button:** Request consultation
+- **Sending:** Sending your request…
+- **After sending:** Thank you! Your request code is {code}. Our designer will call you within [[1 working day]].
+- **Quote track label:** Interior design request · Space: {space}
