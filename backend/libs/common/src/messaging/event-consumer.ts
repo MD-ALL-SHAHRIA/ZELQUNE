@@ -96,7 +96,7 @@ export class EventConsumer implements OnApplicationBootstrap {
   private async onMessage(channel: ConfirmChannel, msg: ConsumeMessage): Promise<void> {
     try {
       await this.handle(msg.content);
-      channel.ack(msg);
+      settle(() => channel.ack(msg));
     } catch (err) {
       await this.onFailure(channel, msg, err);
     }
@@ -124,7 +124,7 @@ export class EventConsumer implements OnApplicationBootstrap {
           ...headers,
           [RETRY_COUNT_HEADER]: action.attempt,
         });
-        channel.ack(msg);
+        settle(() => channel.ack(msg));
         this.logger.warn(
           context,
           `Event handling failed; retry ${action.attempt}/${retryQueues.length} via ${action.queue}`,
@@ -139,7 +139,7 @@ export class EventConsumer implements OnApplicationBootstrap {
         `Event handling failed (${action.reason}); dead-lettering message`,
       );
     }
-    channel.nack(msg, false, false);
+    settle(() => channel.nack(msg, false, false));
   }
 }
 
@@ -158,4 +158,16 @@ function publishConfirmed(
       (err) => (err ? reject(err instanceof Error ? err : new Error(String(err))) : resolve()),
     );
   });
+}
+
+/**
+ * ack/nack on a channel that is closing (service shutdown) throws; the broker redelivers the
+ * unacked message to the next consumer, so it is safe to ignore.
+ */
+function settle(fn: () => void): void {
+  try {
+    fn();
+  } catch {
+    /* channel closed: message will be redelivered */
+  }
 }

@@ -224,7 +224,8 @@ const orderFilterShape = {
   to: z.iso.date().optional(),
   /** Order code, phone or customer name. */
   q: z.string().trim().max(100).optional(),
-  isFriend: z.stringbool().optional(),
+  /** "true"/"false" in a query string; booleans when re-validated by a service. */
+  isFriend: z.union([z.boolean(), z.stringbool()]).optional(),
 };
 
 export const adminOrderListQuerySchema = z.object({

@@ -16,7 +16,9 @@ import { AppModule as CatalogModule } from '../../apps/catalog-service/src/app.m
 import { AppModule as GatewayModule } from '../../apps/gateway/src/app.module';
 import { setupGateway } from '../../apps/gateway/src/setup';
 import { AppModule as IdentityModule } from '../../apps/identity-service/src/app.module';
+import { AppModule as AnalyticsModule } from '../../apps/analytics-service/src/app.module';
 import { AppModule as InventoryModule } from '../../apps/inventory-service/src/app.module';
+import { AppModule as NotificationModule } from '../../apps/notification-service/src/app.module';
 import { AppModule as OrderModule } from '../../apps/order-service/src/app.module';
 import { AppModule as PaymentModule } from '../../apps/payment-service/src/app.module';
 import { AppModule as ShippingModule } from '../../apps/shipping-service/src/app.module';
@@ -26,7 +28,15 @@ export const OWNER = { phone: '01712345678', password: 'integration-owner-pass',
 export const ALLOWED_ORIGIN = 'http://localhost:3200';
 export const TEST_BKASH_NUMBER = '01711111111';
 
-type ServiceKey = 'identity' | 'catalog' | 'inventory' | 'order' | 'payment' | 'shipping';
+type ServiceKey =
+  | 'identity'
+  | 'catalog'
+  | 'inventory'
+  | 'order'
+  | 'payment'
+  | 'shipping'
+  | 'notification'
+  | 'analytics';
 
 const SERVICES: Record<
   ServiceKey,
@@ -67,6 +77,20 @@ const SERVICES: Record<
     schema: 'shipping',
     tcp: 49106,
     http: 39106,
+  },
+  notification: {
+    module: NotificationModule,
+    name: 'notification-service',
+    schema: 'notifications',
+    tcp: 49107,
+    http: 39107,
+  },
+  analytics: {
+    module: AnalyticsModule,
+    name: 'analytics-service',
+    schema: 'analytics',
+    tcp: 49108,
+    http: 39108,
   },
 };
 
@@ -139,6 +163,11 @@ export async function startStack(options: StackOptions): Promise<Stack> {
     order: { CUSTOMER_KEY_SECRET: 'it-customer-key-secret-0123456789abcdef' },
     payment: { PAYMENT_BKASH_NUMBER: TEST_BKASH_NUMBER, PAYMENT_NAGAD_NUMBER: '' },
     shipping: {},
+    notification: {
+      OWNER_NOTIFY_PHONE: '+8801900000000',
+      STOREFRONT_URL: 'https://shop.zelqune.test',
+    },
+    analytics: {},
   };
 
   const stack: Partial<Record<ServiceKey, INestApplication>> = {};
