@@ -123,19 +123,24 @@ model ProductCategory {
 }
 
 model ProductVariant {
-  id          String   @id @default(uuid()) @db.Uuid
-  productId   String   @map("product_id") @db.Uuid
-  sku         String   @unique
+  id                 String   @id @default(uuid()) @db.Uuid
+  productId          String   @map("product_id") @db.Uuid
+  sku                String   @unique
   /// e.g. {"finish":"WALNUT"}
-  options     Json     @default("{}")
-  weightGrams Int?     @map("weight_grams")
-  widthMm     Int?     @map("width_mm")
-  heightMm    Int?     @map("height_mm")
-  depthMm     Int?     @map("depth_mm")
-  position    Int      @default(0)
-  isActive    Boolean  @default(true) @map("is_active")
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  options            Json     @default("{}")
+  weightGrams        Int?     @map("weight_grams")
+  widthMm            Int?     @map("width_mm")
+  heightMm           Int?     @map("height_mm")
+  depthMm            Int?     @map("depth_mm")
+  /// Packaged size/weight for shipping (chargeable weight), separate from the product's own size.
+  packageLengthMm    Int?     @map("package_length_mm")
+  packageWidthMm     Int?     @map("package_width_mm")
+  packageHeightMm    Int?     @map("package_height_mm")
+  packageWeightGrams Int?     @map("package_weight_grams")
+  position           Int      @default(0)
+  isActive           Boolean  @default(true) @map("is_active")
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   product     Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
   prices      Price[]

@@ -5,10 +5,11 @@ import {
   type ProductDetail,
   type ProductListQuery,
   type ProductListResponse,
+  type CheckoutSnapshotResponse,
   type ResolvePriceRpcResponse,
 } from '@zelqune/contracts';
 import { STORAGE_PROVIDER, type StorageProvider } from '../storage/storage.provider';
-import { CatalogMapper, toCategoryView, variantPrice } from './catalog.mappers';
+import { CatalogMapper, toCategoryView, toOptions, variantPrice } from './catalog.mappers';
 import { CatalogRepository } from './catalog.repository';
 
 /** Storefront reads: only ACTIVE products, active variants and READY media are ever returned. */
@@ -60,6 +61,33 @@ export class PublicCatalogService {
         const v = byId.get(id);
         return [id, v ? variantPrice({ ...v }, p, now) : null];
       }),
+    );
+  }
+
+  /** Price + snapshot data for checkout; variants that aren't sellable are left out. */
+  async checkoutSnapshot(variantIds: string[], p?: string): Promise<CheckoutSnapshotResponse> {
+    const now = new Date();
+    const variants = await this.repo.findCheckoutVariants(variantIds, now);
+    return Object.fromEntries(
+      variants.map((v) => [
+        v.id,
+        {
+          variantId: v.id,
+          productId: v.productId,
+          productSlug: v.product.slug,
+          sku: v.sku,
+          nameBn: v.product.nameBn,
+          nameEn: v.product.nameEn,
+          options: toOptions(v.options),
+          saleMode: v.product.saleMode,
+          leadTimeDays: v.product.leadTimeDays,
+          packageWeightGrams: v.packageWeightGrams,
+          packageLengthMm: v.packageLengthMm,
+          packageWidthMm: v.packageWidthMm,
+          packageHeightMm: v.packageHeightMm,
+          price: variantPrice(v, p, now),
+        },
+      ]),
     );
   }
 }
