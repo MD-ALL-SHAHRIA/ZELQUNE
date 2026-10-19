@@ -24,6 +24,7 @@ export function ProductCard({
   finishes = [],
   priority = false,
   sizes = DEFAULT_SIZES,
+  headingLevel = 'h3',
 }: {
   product: ProductSummary;
   lang: Locale;
@@ -32,7 +33,10 @@ export function ProductCard({
   finishes?: string[];
   priority?: boolean;
   sizes?: string;
+  /** h2 where the cards sit directly under the page h1 (listings), else h3. */
+  headingLevel?: 'h2' | 'h3';
 }) {
+  const Title = headingLevel;
   const name = productName(product, lang, dict);
   const [first, second] = productImages(
     product.primaryMedia ? [product.primaryMedia] : [],
@@ -86,9 +90,9 @@ export function ProductCard({
       </div>
       <div className="mt-4 space-y-2">
         <div className="flex items-baseline justify-between gap-4">
-          <h3 className="font-display text-[1.45rem] font-light leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
+          <Title className="font-display text-[1.45rem] font-light leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
             {name}
-          </h3>
+          </Title>
           {product.fromPrice ? (
             <p className="shrink-0 text-sm tabular-nums tracking-wide">
               {formatTaka(product.fromPrice.amountPaisa, lang)}

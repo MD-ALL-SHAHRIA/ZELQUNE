@@ -160,7 +160,15 @@ export function ListingPage({
             id: p.id,
             saleMode: p.saleMode,
             pricePaisa: p.fromPrice?.amountPaisa ?? null,
-            card: <ProductCard product={p} lang={lang} dict={dict} finishes={p.finishes} />,
+            card: (
+              <ProductCard
+                product={p}
+                lang={lang}
+                dict={dict}
+                finishes={p.finishes}
+                headingLevel="h2"
+              />
+            ),
           }))}
         />
         {anySample && products.length ? (
