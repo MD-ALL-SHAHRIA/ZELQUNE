@@ -7,6 +7,11 @@ import { alternates } from '@/shared/lib/site';
 
 export const revalidate = 300;
 
+// ISR: paths are rendered on first request, then cached (an empty list enables runtime ISR).
+export function generateStaticParams() {
+  return [];
+}
+
 type Params = Promise<{ lang: string; exp: string; slug: string }>;
 
 async function load(params: Params) {

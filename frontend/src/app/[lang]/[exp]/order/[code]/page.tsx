@@ -7,6 +7,13 @@ import { href } from '@/shared/lib/site';
 import { ButtonLink } from '@/shared/ui/button';
 import { Container, Heading } from '@/shared/ui/typography';
 
+// ISR: paths are rendered on first request, then cached (an empty list enables runtime ISR).
+export function generateStaticParams() {
+  return [];
+}
+
+export const revalidate = 300;
+
 type Params = Promise<{ lang: string; exp: string; code: string }>;
 
 export const metadata: Metadata = { robots: { index: false } };
