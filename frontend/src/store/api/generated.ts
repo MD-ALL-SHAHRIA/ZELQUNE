@@ -602,7 +602,16 @@ export type RfqRequestDto = {
     spaceType: 'HOME' | 'OFFICE' | 'RESTAURANT_CAFE' | 'HOTEL' | 'RETAIL' | 'OTHER';
     sizeSqft?: number | null;
     district?: string | null;
-    budget?: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+    budget?:
+      | 'UNDER_1_LAKH'
+      | 'LAKH_1_TO_5'
+      | 'LAKH_5_TO_15'
+      | 'ABOVE_15_LAKH'
+      | 'UNDER_50_LAKH'
+      | 'LAKH_50_TO_1_CRORE'
+      | 'CRORE_1_TO_3'
+      | 'ABOVE_3_CRORE'
+      | 'NOT_SURE';
     floors?: number | null;
   } | null;
   neededBy?: string | null;
@@ -623,7 +632,16 @@ export type PublicQuoteDtoOutput = {
     spaceType: 'HOME' | 'OFFICE' | 'RESTAURANT_CAFE' | 'HOTEL' | 'RETAIL' | 'OTHER';
     sizeSqft: number | null;
     district: string | null;
-    budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+    budget:
+      | 'UNDER_1_LAKH'
+      | 'LAKH_1_TO_5'
+      | 'LAKH_5_TO_15'
+      | 'ABOVE_15_LAKH'
+      | 'UNDER_50_LAKH'
+      | 'LAKH_50_TO_1_CRORE'
+      | 'CRORE_1_TO_3'
+      | 'ABOVE_3_CRORE'
+      | 'NOT_SURE';
     floors: number | null;
   } | null;
   status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';

@@ -47,6 +47,11 @@ export const BUDGET_RANGES = [
   'LAKH_1_TO_5',
   'LAKH_5_TO_15',
   'ABOVE_15_LAKH',
+  // Construction budgets (whole buildings).
+  'UNDER_50_LAKH',
+  'LAKH_50_TO_1_CRORE',
+  'CRORE_1_TO_3',
+  'ABOVE_3_CRORE',
   'NOT_SURE',
 ] as const;
 export const budgetRangeSchema = z.enum(BUDGET_RANGES);

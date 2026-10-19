@@ -1368,7 +1368,16 @@ export interface components {
          * @default NOT_SURE
          * @enum {string}
          */
-        budget?: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+        budget?:
+          | 'UNDER_1_LAKH'
+          | 'LAKH_1_TO_5'
+          | 'LAKH_5_TO_15'
+          | 'ABOVE_15_LAKH'
+          | 'UNDER_50_LAKH'
+          | 'LAKH_50_TO_1_CRORE'
+          | 'CRORE_1_TO_3'
+          | 'ABOVE_3_CRORE'
+          | 'NOT_SURE';
         /** @default null */
         floors?: number | null;
       } | null;
@@ -1404,7 +1413,16 @@ export interface components {
         sizeSqft: number | null;
         district: string | null;
         /** @enum {string} */
-        budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+        budget:
+          | 'UNDER_1_LAKH'
+          | 'LAKH_1_TO_5'
+          | 'LAKH_5_TO_15'
+          | 'ABOVE_15_LAKH'
+          | 'UNDER_50_LAKH'
+          | 'LAKH_50_TO_1_CRORE'
+          | 'CRORE_1_TO_3'
+          | 'ABOVE_3_CRORE'
+          | 'NOT_SURE';
         floors: number | null;
       } | null;
       /** @enum {string} */
@@ -2093,7 +2111,16 @@ export interface components {
           sizeSqft: number | null;
           district: string | null;
           /** @enum {string} */
-          budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+          budget:
+            | 'UNDER_1_LAKH'
+            | 'LAKH_1_TO_5'
+            | 'LAKH_5_TO_15'
+            | 'ABOVE_15_LAKH'
+            | 'UNDER_50_LAKH'
+            | 'LAKH_50_TO_1_CRORE'
+            | 'CRORE_1_TO_3'
+            | 'ABOVE_3_CRORE'
+            | 'NOT_SURE';
           floors: number | null;
         } | null;
         /** @enum {string} */
@@ -2139,7 +2166,16 @@ export interface components {
         sizeSqft: number | null;
         district: string | null;
         /** @enum {string} */
-        budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+        budget:
+          | 'UNDER_1_LAKH'
+          | 'LAKH_1_TO_5'
+          | 'LAKH_5_TO_15'
+          | 'ABOVE_15_LAKH'
+          | 'UNDER_50_LAKH'
+          | 'LAKH_50_TO_1_CRORE'
+          | 'CRORE_1_TO_3'
+          | 'ABOVE_3_CRORE'
+          | 'NOT_SURE';
         floors: number | null;
       } | null;
       /** @enum {string} */
