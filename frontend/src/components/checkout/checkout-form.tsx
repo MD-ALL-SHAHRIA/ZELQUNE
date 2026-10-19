@@ -271,6 +271,11 @@ export function CheckoutForm({
           <legend className="mb-2 text-xl font-semibold text-walnut">{c.sections.payment}</legend>
           {!quote ? (
             <p className="text-sm text-muted">{c.feePending}</p>
+          ) : !quote.allowedPaymentMethods.length ? (
+            // No payment method configured for this cart (e.g. bKash/Nagad numbers missing).
+            <p role="alert" className="rounded-md bg-danger/10 p-3 text-sm text-danger">
+              <Text>{c.errors.generic}</Text>
+            </p>
           ) : (
             <>
               <div className="space-y-2">
