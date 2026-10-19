@@ -13,6 +13,7 @@ test('a company sends a bulk request and checks its status', async ({ page }) =>
   await page.locator('#r-org').fill('E2E Cafe Ltd');
   await page.locator('#r-contact').fill('Nadia Rahman');
   await page.locator('#r-phone').fill(phone);
+  await page.locator('#r-product-0').selectOption('alo-arch-panel');
   await page.locator('#r-qty-0').fill('25');
   await page.locator('#r-desc-0').fill('Walnut, logo engraving');
   await page.getByRole('button', { name: 'Send request' }).click();

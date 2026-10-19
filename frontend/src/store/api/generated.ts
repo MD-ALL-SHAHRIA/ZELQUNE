@@ -587,16 +587,23 @@ export type RfqResponseDtoOutput = {
   status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
 };
 export type RfqRequestDto = {
-  organizationName: string;
+  kind?: 'PRODUCT' | 'DESIGN';
+  organizationName?: string | null;
   contactName: string;
   phone: string;
   email?: string | null;
-  items: {
+  items?: {
     productSlug?: string | null;
     variantId?: string | null;
     description: string;
     qty: number;
   }[];
+  design?: {
+    spaceType: 'HOME' | 'OFFICE' | 'RESTAURANT_CAFE' | 'HOTEL' | 'RETAIL' | 'OTHER';
+    sizeSqft?: number | null;
+    district?: string | null;
+    budget?: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+  } | null;
   neededBy?: string | null;
   customizationNotes?: string | null;
   notes?: string | null;
@@ -610,8 +617,15 @@ export type RfqRequestDto = {
 };
 export type PublicQuoteDtoOutput = {
   code: string;
+  kind: 'PRODUCT' | 'DESIGN';
+  design: {
+    spaceType: 'HOME' | 'OFFICE' | 'RESTAURANT_CAFE' | 'HOTEL' | 'RETAIL' | 'OTHER';
+    sizeSqft: number | null;
+    district: string | null;
+    budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+  } | null;
   status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
-  organizationName: string;
+  organizationName: string | null;
   neededBy: string | null;
   validUntil: string | null;
   lines: {

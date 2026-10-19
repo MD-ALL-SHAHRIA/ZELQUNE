@@ -60,7 +60,7 @@ export default async function ProductPage({ params }: { params: Params }) {
   const districts = await listDistricts();
   const preOrder = product.saleMode !== 'IN_STOCK';
   const url = `${SITE_URL}${href(lang, `/products/${product.slug}`)}`;
-  const images = productImages(product.media, name, lang);
+  const images = productImages(product.media, name, lang, product.slug);
   const category = product.categories[0];
   const faq = dict.faq.items;
   return (

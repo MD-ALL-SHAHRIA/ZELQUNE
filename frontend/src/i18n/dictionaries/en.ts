@@ -60,6 +60,60 @@ export const en = {
         'Wall-mounting kit (screws and hooks)',
       ],
     },
+    'diamond-shelf-pair': {
+      name: 'Diamond Shelf (pair)',
+      short:
+        'Two diamond-shaped walnut panels with floating shelves: bold geometry for plants, books and small treasures.',
+      whatYouGet: [
+        'Size: [[45 × 65 cm each, confirm]]',
+        'Wood: walnut-tone veneer ([[confirm finish with supplier]])',
+        'Two panels with floating shelves',
+        'Wall-mounting kit (screws and hooks)',
+      ],
+    },
+    'wave-shelf': {
+      name: 'Wave Shelf',
+      short:
+        'A curved walnut spine with a black wave and six floating shelves, part bookcase, part sculpture.',
+      whatYouGet: [
+        'Size: [[60 × 100 cm, confirm]]',
+        'Wood: walnut-tone veneer with black accents',
+        'Six floating shelves and a planter pocket',
+        'Wall-mounting kit (screws and hooks)',
+      ],
+    },
+    'half-moon-planter-light': {
+      name: 'Half-Moon Planter Light',
+      short:
+        'A slatted half-moon, a walnut planter column and a warm LED ring: a living wall light.',
+      whatYouGet: [
+        'Size: [[70 × 90 cm, confirm]]',
+        'Light: 5V USB, warm white LED ring',
+        'Three planter cups for real or faux plants',
+        'Wall-mounting kit (screws and hooks)',
+      ],
+    },
+    'fluted-niche-panel': {
+      name: 'Fluted Niche Panel',
+      short:
+        'Fluted walnut with warm LED lines, a lit niche for a sculpture and two floating shelves.',
+      whatYouGet: [
+        'Size: [[90 × 180 cm, confirm]]',
+        'Light: low-voltage warm white LED lines',
+        'Lit niche and two floating shelves',
+        'Installation by our team ([[confirm areas]])',
+      ],
+    },
+    'capsule-vase-light': {
+      name: 'Capsule Vase Light',
+      short: 'A capsule frame with a soft LED halo and a glass vase for fresh stems.',
+      whatYouGet: [
+        'Size: [[35 × 70 cm, confirm]]',
+        'Light: 5V USB, warm white halo',
+        'Removable glass vase',
+        'Wall-mounting kit (screws and hooks)',
+      ],
+    },
   } as Record<string, { name: string; short: string; whatYouGet: string[] } | undefined>,
   product: {
     whatYouGetHeading: 'What you get',
@@ -308,6 +362,107 @@ export const en = {
   },
   productSections: { details: 'Details', delivery: 'Delivery and payment', care: 'Care' },
   story: { title: 'Our story', text: "[[Owner's story: who makes Zelqune, where, and why]]" },
+  nav2: {
+    design: 'Interior Design',
+    byCategory: 'Shop by category',
+    allProducts: 'All products',
+  },
+  home2: {
+    categoriesEyebrow: 'Shop by category',
+    categoriesHeading: 'Pieces for every wall',
+    designEyebrow: 'Interior design',
+    designHeading: 'Let us design the whole space',
+    designText:
+      'Homes, offices, restaurants and cafés: we plan the space, make the woodwork and lighting, and install it.',
+    designCta: 'Explore interior design',
+    designSecondary: 'Book a consultation',
+  },
+  design: {
+    eyebrow: 'Zelqune Interior Design',
+    heading: 'Spaces designed around wood and light',
+    lead: 'From one feature wall to a whole café, we plan the space, make the woodwork and lighting in our workshop, and install it.',
+    sectorsHeading: 'What we design',
+    sectors: {
+      HOME: {
+        title: 'Home',
+        text: 'Living rooms, bedrooms and entrances that feel warm and calm.',
+      },
+      OFFICE: {
+        title: 'Office',
+        text: 'Reception walls, meeting rooms and workspaces with character.',
+      },
+      RESTAURANT_CAFE: {
+        title: 'Restaurant & Café',
+        text: 'Feature walls, lighting and corners your guests remember.',
+      },
+      HOTEL: { title: 'Hotel', text: 'Lobbies and rooms with one handcrafted signature.' },
+      RETAIL: {
+        title: 'Shop & Showroom',
+        text: 'Displays and walls that make your products glow.',
+      },
+    },
+    processHeading: 'How it works',
+    steps: [
+      {
+        title: 'Consultation',
+        text: 'We visit or call to understand your space, budget and timeline.',
+      },
+      {
+        title: 'Concept',
+        text: 'A layout, materials and a clear quote for the woodwork and lighting.',
+      },
+      { title: 'Making', text: 'Our workshop makes every piece to your measurements.' },
+      { title: 'Installation', text: 'We install, style and hand over the finished space.' },
+    ],
+    includedHeading: "What's included",
+    included: [
+      'Site visit or video call',
+      'Layout and material plan',
+      'Custom woodwork and lighting',
+      'Installation and styling',
+    ],
+    fees: '[[Consultation fee or free first visit: owner to decide]]',
+    projectsHeading: 'Selected projects',
+    projectsPlaceholder: '[[Our first projects will appear here]]',
+    button: 'Book a consultation',
+    explore: 'Explore',
+  },
+  consult: {
+    heading: 'Book a design consultation',
+    text: 'Tell us about your space and our designer will call you.',
+    fields: {
+      name: 'Your name',
+      phone: 'Mobile number',
+      email: 'Email (optional)',
+      space: 'Type of space',
+      size: 'Approximate size (sq ft)',
+      district: 'District',
+      budget: 'Budget',
+      start: 'When would you like to start?',
+      notes: 'Tell us about the space',
+    },
+    spaces: {
+      HOME: 'Home',
+      OFFICE: 'Office',
+      RESTAURANT_CAFE: 'Restaurant & Café',
+      HOTEL: 'Hotel',
+      RETAIL: 'Shop & Showroom',
+      OTHER: 'Other',
+    },
+    budgets: {
+      UNDER_1_LAKH: 'Under ৳1 lakh',
+      LAKH_1_TO_5: '৳1–5 lakh',
+      LAKH_5_TO_15: '৳5–15 lakh',
+      ABOVE_15_LAKH: 'Above ৳15 lakh',
+      NOT_SURE: 'Not sure yet',
+    },
+    button: 'Request consultation',
+    sending: 'Sending your request…',
+    after:
+      'Thank you! Your request code is {code}. Our designer will call you within [[1 working day]].',
+    trackLabel: 'Interior design request',
+    trackSpace: 'Space: {space}',
+  },
   shop: { title: 'All products', empty: 'No products here yet.' },
   ui: {
     language: 'Language',

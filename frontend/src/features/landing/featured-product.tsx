@@ -23,7 +23,12 @@ export function FeaturedProduct({
 }) {
   const name = productName(product, lang, dict);
   const copy = dict.products[product.slug];
-  const images = productImages(product.primaryMedia ? [product.primaryMedia] : [], name, lang);
+  const images = productImages(
+    product.primaryMedia ? [product.primaryMedia] : [],
+    name,
+    lang,
+    product.slug,
+  );
   return (
     <section className="glow relative py-24 sm:py-32">
       <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-24">

@@ -26,6 +26,7 @@ export function ProductCard({
     product.primaryMedia ? [product.primaryMedia] : [],
     name,
     lang,
+    product.slug,
   );
   return (
     <Link href={href(lang, `/products/${product.slug}`)} className="group block">

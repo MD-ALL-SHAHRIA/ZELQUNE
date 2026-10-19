@@ -3,11 +3,13 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
+import { type Category } from '@/shared/api/types';
 import { href } from '@/shared/lib/site';
 import { CopyText } from '@/shared/ui/copy-text';
 import { LogoMark } from '@/shared/ui/logo';
 import { Container } from '@/shared/ui/typography';
 import { LanguageSwitcher } from './language-switcher';
+import { categoryLinks } from './nav';
 
 const VALUE_ICONS = [Hammer, Lightbulb, HandCoins, Truck];
 
@@ -30,16 +32,22 @@ export function ValuesBand({ dict }: { dict: Dictionary }) {
   );
 }
 
-export function Footer({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+export function Footer({
+  lang,
+  dict,
+  categories,
+}: {
+  lang: Locale;
+  dict: Dictionary;
+  categories: Category[];
+}) {
   const columns = [
     {
       title: dict.layout.columns.shop,
       links: [
         { href: href(lang, '/shop'), label: dict.shop.title },
-        {
-          href: href(lang, '/products/alo-arch-panel'),
-          label: dict.products['alo-arch-panel']?.name ?? '',
-        },
+        ...categoryLinks(lang, categories),
+        { href: href(lang, '/design'), label: dict.nav2.design },
         { href: href(lang, '/bulk'), label: dict.nav.bulk },
       ],
     },

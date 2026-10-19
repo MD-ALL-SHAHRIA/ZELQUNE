@@ -22,7 +22,7 @@ export function Hero({
   return (
     <section className="relative isolate flex min-h-[calc(100svh-6.5rem)] items-end overflow-hidden bg-ink text-paper">
       <Image
-        src={SAMPLE.hero.src}
+        src={SAMPLE.homeHero.src}
         alt=""
         fill
         priority

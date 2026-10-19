@@ -25,7 +25,7 @@ export default async function QuoteTrackPage({ params }: { params: PageParams })
         <Suspense fallback={null}>
           <QuoteTrack
             lang={lang}
-            copy={{ bulk: dict.bulk, checkout: dict.checkout, ui: dict.ui }}
+            copy={{ bulk: dict.bulk, checkout: dict.checkout, ui: dict.ui, consult: dict.consult }}
           />
         </Suspense>
       </Container>
