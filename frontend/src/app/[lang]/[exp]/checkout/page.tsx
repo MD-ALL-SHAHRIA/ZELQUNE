@@ -10,6 +10,7 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
   const { lang, dict } = await resolvePage(params);
   return {
     title: `${dict.checkout.heading} · ${dict.brand.name}`,
+    description: dict.brand.seoDescription,
     alternates: alternates(lang, '/checkout'),
     robots: { index: false },
   };

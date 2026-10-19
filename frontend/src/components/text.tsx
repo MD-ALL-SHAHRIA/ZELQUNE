@@ -12,7 +12,7 @@ export function Text({ children }: { children: string }) {
           <mark
             key={i}
             data-placeholder
-            className="rounded-sm border border-dashed border-amber bg-amber/20 px-1 text-ink"
+            className="rounded-sm border border-dashed border-walnut bg-amber px-1 text-ink"
           >
             {part.text}
           </mark>
