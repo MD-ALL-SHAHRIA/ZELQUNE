@@ -10,7 +10,7 @@ import {
   RabbitMqConnection,
 } from './rabbitmq.connection';
 import { decideFailureAction, retryCountOf } from './retry-policy';
-import { EVENTS_EXCHANGE, RETRY_COUNT_HEADER, serviceQueues } from './topology';
+import { assertTopology, EVENTS_EXCHANGE, RETRY_COUNT_HEADER, serviceQueues } from './topology';
 
 /**
  * Runs inside the same DB transaction that records the event as processed. `tx` is the
@@ -58,6 +58,8 @@ export class EventConsumer implements OnApplicationBootstrap {
     if (this.handlers.size === 0) return;
     const { queue } = serviceQueues(this.options.serviceName, this.options.retryDelaysMs);
     await this.connection.channel.addSetup(async (channel: ConfirmChannel) => {
+      // Setups may run concurrently with the connection's own topology setup: assert first.
+      await assertTopology(channel, this.options.serviceName, this.options.retryDelaysMs);
       for (const eventType of this.handlers.keys()) {
         await channel.bindQueue(queue, EVENTS_EXCHANGE, eventType);
       }

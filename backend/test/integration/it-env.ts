@@ -10,7 +10,24 @@ export const IT = {
   redisUrl: process.env.IT_REDIS_URL ?? 'redis://localhost:6379/15',
 };
 
-export const SCHEMAS = { identity: 'identity', catalog: 'catalog' } as const;
+export const SCHEMAS = {
+  identity: 'identity',
+  catalog: 'catalog',
+  inventory: 'inventory',
+  orders: 'orders',
+  payments: 'payments',
+  shipping: 'shipping',
+} as const;
+
+/** Postgres schema -> app that owns it (for migrations). */
+export const SCHEMA_APPS: Record<(typeof SCHEMAS)[keyof typeof SCHEMAS], string> = {
+  identity: 'identity-service',
+  catalog: 'catalog-service',
+  inventory: 'inventory-service',
+  orders: 'order-service',
+  payments: 'payment-service',
+  shipping: 'shipping-service',
+};
 
 export function serviceDbUrl(schema: string): string {
   return `postgresql://${schema}_svc:${IT.serviceDbPassword}@${IT.pgHost}/${IT.database}?schema=${schema}`;

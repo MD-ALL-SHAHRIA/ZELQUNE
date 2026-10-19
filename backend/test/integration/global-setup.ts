@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { Client } from 'pg';
-import { IT, SCHEMAS, serviceDbUrl } from './it-env';
+import { IT, SCHEMA_APPS, SCHEMAS, serviceDbUrl } from './it-env';
 
 /**
  * Fresh database `zelqune_it` with the same layout as production: one schema + one
@@ -43,10 +43,7 @@ export default async function globalSetup(): Promise<void> {
   }
 
   const backendRoot = resolve(__dirname, '../..');
-  for (const [schema, app] of [
-    [SCHEMAS.identity, 'identity-service'],
-    [SCHEMAS.catalog, 'catalog-service'],
-  ] as const) {
+  for (const [schema, app] of Object.entries(SCHEMA_APPS)) {
     execFileSync(
       'pnpm',
       ['exec', 'prisma', 'migrate', 'deploy', '--config', `apps/${app}/prisma.config.ts`],

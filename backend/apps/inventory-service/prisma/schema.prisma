@@ -40,3 +40,71 @@ model ProcessedEvent {
   @@id([eventId, handler])
   @@map("processed_events")
 }
+
+enum ReservationStatus {
+  PENDING
+  HELD
+  COMMITTED
+  RELEASED
+}
+
+enum MovementReason {
+  RECEIPT
+  ADJUSTMENT
+  SALE
+  RETURN
+}
+
+/// Stock per variant. available = onHand - reserved. CHECKs in the migration keep 0 <= reserved <= onHand.
+model InventoryItem {
+  variantId String   @id @map("variant_id") @db.Uuid
+  sku       String
+  onHand    Int      @default(0) @map("on_hand")
+  reserved  Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("inventory_items")
+}
+
+/// One reservation per order. PENDING (checkout TTL) -> HELD (order placed, awaiting
+/// confirmation) -> COMMITTED (stock deducted) | RELEASED.
+model StockReservation {
+  id            String            @id @default(uuid()) @db.Uuid
+  orderId       String            @unique @map("order_id") @db.Uuid
+  status        ReservationStatus @default(PENDING)
+  expiresAt     DateTime          @map("expires_at") @db.Timestamptz(3)
+  releaseReason String?           @map("release_reason")
+  createdAt     DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime          @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  items StockReservationItem[]
+
+  @@index([status, expiresAt])
+  @@map("stock_reservations")
+}
+
+model StockReservationItem {
+  reservationId String @map("reservation_id") @db.Uuid
+  variantId     String @map("variant_id") @db.Uuid
+  qty           Int
+
+  reservation StockReservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@id([reservationId, variantId])
+  @@map("stock_reservation_items")
+}
+
+/// Append-only ledger of on-hand changes.
+model StockMovement {
+  id        String         @id @default(uuid()) @db.Uuid
+  variantId String         @map("variant_id") @db.Uuid
+  delta     Int
+  reason    MovementReason
+  refId     String?        @map("ref_id")
+  note      String?
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([variantId, createdAt])
+  @@map("stock_movements")
+}
