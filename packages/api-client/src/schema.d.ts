@@ -2250,7 +2250,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2269,7 +2269,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2294,7 +2294,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2317,7 +2317,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2336,7 +2336,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2359,7 +2359,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2404,7 +2404,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2432,7 +2432,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2456,7 +2456,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2534,7 +2534,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2582,7 +2582,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2643,7 +2643,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2700,7 +2700,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2800,7 +2800,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2896,7 +2896,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2915,7 +2915,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2963,7 +2963,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2987,7 +2987,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3031,7 +3031,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3056,7 +3056,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3124,7 +3124,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3149,7 +3149,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3175,7 +3175,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3261,7 +3261,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3308,7 +3308,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3336,7 +3336,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3360,7 +3360,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3381,7 +3381,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3406,7 +3406,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
