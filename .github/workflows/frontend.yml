@@ -31,6 +31,7 @@ jobs:
       pull-requests: read
     outputs:
       relevant: ${{ steps.filter.outputs.relevant }}
+      e2e: ${{ steps.filter.outputs.e2e }}
     steps:
       - uses: dorny/paths-filter@v3
         id: filter
@@ -43,6 +44,13 @@ jobs:
               - 'pnpm-workspace.yaml'
               - 'package.json'
               - 'turbo.json'
+              - '.github/workflows/frontend.yml'
+            e2e:
+              - 'frontend/**'
+              - 'backend/**'
+              - 'packages/**'
+              - 'infra/**'
+              - 'pnpm-lock.yaml'
               - '.github/workflows/frontend.yml'
 
   frontend:
@@ -64,3 +72,47 @@ jobs:
         run: pnpm turbo run typecheck --filter=@zelqune/frontend --filter=./packages/*
       - name: Test
         run: pnpm turbo run test --filter=@zelqune/frontend --filter=./packages/*
+
+  # Checkout and RFQ paths in a real browser against the real backend (Docker stack + seed).
+  storefront-e2e:
+    needs: changes
+    if: ${{ !cancelled() && (github.event_name != 'pull_request' || needs.changes.outputs.e2e == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Dev secrets and test owner (CI only)
+        run: |
+          pnpm keys:dev
+          {
+            echo "OWNER_PHONE=01700000001"
+            echo "OWNER_PASSWORD=ci-only-owner-password-$(openssl rand -hex 8)"
+            echo "OWNER_NAME=CI Owner"
+            echo "OWNER_NOTIFY_PHONE=01900000000"
+          } >> infra/.env
+      - name: Start backend stack
+        run: docker compose -f infra/docker-compose.yml up -d --build --wait
+      - name: Seed
+        run: pnpm seed
+      - name: Install Chromium
+        run: pnpm --filter @zelqune/frontend exec playwright install --with-deps chromium
+      - name: Playwright (checkout + RFQ)
+        run: pnpm --filter @zelqune/frontend e2e --project=mobile
+        env:
+          CI: 'true'
+          NEXT_PUBLIC_API_URL: http://localhost:3000
+      - name: Backend logs on failure
+        if: failure()
+        run: docker compose -f infra/docker-compose.yml logs --tail=200 gateway order-service catalog-service
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: frontend/playwright-report
+          retention-days: 7
