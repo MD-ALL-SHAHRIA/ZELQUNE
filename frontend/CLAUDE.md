@@ -5,6 +5,13 @@ openapi-typescript (`pnpm gen:api`); never hand-write API types.
 - Storefront: English default + Bangla (/en and /bn routes; the URL decides the language), mobile-first, SSG/ISR, next/image, Lighthouse mobile >= 90, minimal client JS.
 - All copy comes from ../docs/copy-en.md and ../docs/copy-bn.md; `[[...]]` items stay visible placeholders.
 - Never invent reviews, ratings, sold counts, scarcity or fake countdowns. Never say "in stock" for a PRE_ORDER product.
+- Structure (ADR 0013): `app/` routes only; `features/<domain>/`; `shared/ui` (design system),
+  `shared/lib`, `shared/api` (server data); `store/` (Redux Toolkit); `config/env.ts`; `content/`.
+- Server Components fetch catalog data (ISR). Browser calls go through RTK Query endpoints
+  generated from the gateway spec (`pnpm gen:store`); never edit `store/api/generated.ts`.
+- Side effects (analytics, Pixel, cookies) live in store listeners; components dispatch events.
+- Design: tokens from `@zelqune/ui-tokens`; display serif + sans; arch is the one curved motif;
+  Bangla text never letter-spaced or uppercased. Mobile pages must not scroll sideways.
 - Playwright tests for critical flows. Before finishing: lint, typecheck, test.
 - Monorepo: API types from `@zelqune/api-client` (packages/api-client), brand tokens from `@zelqune/ui-tokens`; docs in ../docs.
 

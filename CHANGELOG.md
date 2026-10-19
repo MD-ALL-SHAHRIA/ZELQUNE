@@ -6,6 +6,16 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Storefront redesign (references: RH, Ferm Living): brand v2 from the owner's logo (vector
+  arch mark, ink on cream, walnut and amber glow), Cormorant Garamond + Manrope (Noto Serif
+  Bengali + Hind Siliguri for Bangla), editorial landing page (hero, values, featured product,
+  day/night, craft and pre-order steps, rooms, business band, FAQ), redesigned product,
+  collection, checkout, tracking, bulk and text pages, new "Our story" page (ADR 0013).
+- Storefront architecture: feature folders, Redux Toolkit with RTK Query generated from the
+  gateway OpenAPI spec, listener-based analytics, zod-validated env (ADR 0013).
+- Sample photography (Unsplash License) until real product photos exist.
+
 ### Added
 - Step 1.4: storefront (Next.js 16) in English (default, `/en`) and Bangla (`/bn`): home,
   shop/category, product page (gallery, finish picker, sale-mode badge with lead time,
