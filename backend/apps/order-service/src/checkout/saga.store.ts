@@ -174,20 +174,24 @@ export class PrismaSagaStore implements SagaStore {
     });
   }
 
-  /** Quote support arrives with the B2B quote module (same step). */
-  protected lockOpenQuote(_tx: Prisma.TransactionClient, _quoteId: string): Promise<void> {
-    return Promise.reject(
-      new AppError('QUOTE_NOT_CONVERTIBLE', 'Quotes are not supported yet', 409),
-    );
+  /** The quote must still be ACCEPTED, unexpired and not converted (row-locked). */
+  private async lockOpenQuote(tx: Prisma.TransactionClient, quoteId: string): Promise<void> {
+    const [quote] = await tx.$queryRaw<
+      { status: string; order_id: string | null; valid_until: Date | null }[]
+    >`SELECT status, order_id, valid_until FROM quotes WHERE id = ${quoteId}::uuid FOR UPDATE`;
+    const open =
+      quote?.status === 'ACCEPTED' &&
+      quote.order_id === null &&
+      (quote.valid_until === null || quote.valid_until > new Date());
+    if (!open)
+      throw new AppError('QUOTE_NOT_CONVERTIBLE', 'This quote can no longer be converted', 409);
   }
 
-  protected closeQuote(
-    _tx: Prisma.TransactionClient,
-    _quoteId: string,
-    _orderId: string,
+  private async closeQuote(
+    tx: Prisma.TransactionClient,
+    quoteId: string,
+    orderId: string,
   ): Promise<void> {
-    return Promise.reject(
-      new AppError('QUOTE_NOT_CONVERTIBLE', 'Quotes are not supported yet', 409),
-    );
+    await tx.quote.update({ where: { id: quoteId }, data: { orderId } });
   }
 }

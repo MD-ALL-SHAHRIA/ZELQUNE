@@ -235,3 +235,67 @@ model Customer {
 
   @@map("customers")
 }
+
+enum QuoteStatus {
+  NEW
+  QUOTED
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+/// B2B bulk/corporate request -> priced quote -> B2B order (section 5ক). Money is integer paisa.
+model Quote {
+  id                   String      @id @default(uuid()) @db.Uuid
+  code                 String      @unique
+  status               QuoteStatus @default(NEW)
+  organizationName     String      @map("organization_name")
+  contactName          String      @map("contact_name")
+  phone                String
+  email                String?
+  neededBy             DateTime?   @map("needed_by") @db.Date
+  customizationNotes   String?     @map("customization_notes")
+  notes                String?
+  utm                  Json?
+  shippingFeePaisa     Int?        @map("shipping_fee_paisa")
+  advanceRequiredPaisa Int?        @map("advance_required_paisa")
+  validUntil           DateTime?   @map("valid_until") @db.Timestamptz(3)
+  quotedAt             DateTime?   @map("quoted_at") @db.Timestamptz(3)
+  quotedBy             String?     @map("quoted_by")
+  decisionReason       String?     @map("decision_reason")
+  /// Set when converted into a B2B order (at most once).
+  orderId              String?     @unique @map("order_id") @db.Uuid
+  createdAt            DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt            DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  lines QuoteLine[]
+
+  @@index([status, createdAt])
+  @@map("quotes")
+}
+
+/// What the customer asked for, and (once priced) the catalog variant and the quoted price.
+model QuoteLine {
+  id                   String    @id @default(uuid()) @db.Uuid
+  quoteId              String    @map("quote_id") @db.Uuid
+  position             Int
+  description          String
+  requestedProductSlug String?   @map("requested_product_slug")
+  requestedVariantId   String?   @map("requested_variant_id") @db.Uuid
+  qty                  Int
+  variantId            String?   @map("variant_id") @db.Uuid
+  productId            String?   @map("product_id") @db.Uuid
+  sku                  String?
+  nameBn               String?   @map("name_bn")
+  nameEn               String?   @map("name_en")
+  options              Json?
+  saleMode             SaleMode? @map("sale_mode")
+  unitPricePaisa       Int?      @map("unit_price_paisa")
+  /// RETAIL price at pricing time (for the discount guard and reporting).
+  retailPricePaisa     Int?      @map("retail_price_paisa")
+
+  quote Quote @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@index([quoteId])
+  @@map("quote_lines")
+}

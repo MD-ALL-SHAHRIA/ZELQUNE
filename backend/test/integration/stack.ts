@@ -95,19 +95,23 @@ async function create(module: Type, env: Record<string, string>): Promise<INestA
   return NestFactory.create(module, { logger: false });
 }
 
-async function purgeServiceQueues(services: ServiceKey[]): Promise<void> {
+/** Drops messages left in service queues by earlier specs (other databases). */
+export async function purgeQueues(serviceNames: string[]): Promise<void> {
   const conn = await connect(IT.rabbitUrl);
   try {
-    for (const key of services) {
+    for (const name of serviceNames) {
       const ch = await conn.createChannel();
       ch.on('error', () => undefined);
-      await ch.purgeQueue(serviceQueues(SERVICES[key].name).queue).catch(() => undefined);
+      await ch.purgeQueue(serviceQueues(name).queue).catch(() => undefined);
       await ch.close().catch(() => undefined);
     }
   } finally {
     await conn.close();
   }
 }
+
+const purgeServiceQueues = (services: ServiceKey[]) =>
+  purgeQueues(services.map((k) => SERVICES[k].name));
 
 export interface StackOptions {
   database: string;

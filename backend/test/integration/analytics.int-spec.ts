@@ -16,6 +16,7 @@ import { ProjectionsService } from '../../apps/analytics-service/src/projections
 import { StatsService } from '../../apps/analytics-service/src/stats/stats.service';
 import { prepareDatabase } from './database';
 import { IT, SCHEMAS, serviceDbUrl } from './it-env';
+import { purgeQueues } from './stack';
 
 describe('analytics-service projections and stats on real Postgres', () => {
   let app: INestApplicationContext;
@@ -27,6 +28,8 @@ describe('analytics-service projections and stats on real Postgres', () => {
 
   beforeAll(async () => {
     const database = await prepareDatabase('zelqune_it_analytics', ['analytics']);
+    // Events published by other specs would otherwise be projected into this database mid-test.
+    await purgeQueues(['analytics-service']);
     Object.assign(process.env, {
       NODE_ENV: 'test',
       LOG_LEVEL: 'silent',
