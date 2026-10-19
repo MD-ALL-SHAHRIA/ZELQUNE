@@ -13,3 +13,7 @@ docs/website-spec.md
 
 # Markdown is hand-formatted (CLAUDE.md blocks are kept verbatim)
 *.md
+frontend/next-env.d.ts
+**/playwright-report
+**/test-results
+**/screenshots
