@@ -1,13 +1,12 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Public, ZodResponse } from '@zelqune/common';
+import { Public, ZodResponse, ServiceRegistry } from '@zelqune/common';
 import {
   type CategoryView,
   type ProductDetail,
   type ProductListResponse,
   RPC_PATTERNS,
 } from '@zelqune/contracts';
-import { ServiceRegistry } from '../services/service-registry';
 import {
   CategoryListResponseDto,
   ProductDetailDto,

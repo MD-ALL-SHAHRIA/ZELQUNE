@@ -6,6 +6,8 @@ import {
   IdempotencyModule,
   RedisIdempotencyStore,
   ZOD_PROVIDERS,
+  ServiceRegistry,
+  ServiceClientsModule,
 } from '@zelqune/common';
 import { type Redis } from 'ioredis';
 import { AuthModule } from './auth/auth.module';
@@ -13,8 +15,6 @@ import { CatalogModule } from './catalog/catalog.module';
 import { gatewayEnvSchema } from './config/gateway-env';
 import { gatewayProbes } from './health/gateway-probes';
 import { REDIS, RedisModule } from './redis/redis.module';
-import { ServiceRegistry } from './services/service-registry';
-import { ServicesModule } from './services/services.module';
 import { ThrottlingModule } from './throttling/throttling.module';
 
 @Module({
@@ -22,7 +22,7 @@ import { ThrottlingModule } from './throttling/throttling.module';
     AppConfigModule.forRoot(gatewayEnvSchema),
     createLoggerModule('gateway'),
     RedisModule,
-    ServicesModule,
+    ServiceClientsModule,
     // Throttling first so floods are rejected before token verification.
     ThrottlingModule,
     AuthModule,

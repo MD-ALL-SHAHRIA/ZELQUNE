@@ -2,6 +2,7 @@
  * Writes the gateway OpenAPI spec to a file without Redis or running services
  * (dependencies are stubbed). Usage: pnpm openapi:export  (from backend/) or pnpm gen:api (root).
  */
+import { ServiceRegistry } from '@zelqune/common';
 import { Test } from '@nestjs/testing';
 import { ThrottlerStorageService } from '@nestjs/throttler';
 import { exportSPKI, generateKeyPair } from 'jose';
@@ -9,7 +10,6 @@ import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { AppModule } from '../apps/gateway/src/app.module';
 import { REDIS } from '../apps/gateway/src/redis/redis.module';
-import { ServiceRegistry } from '../apps/gateway/src/services/service-registry';
 import { createOpenApiDocument, setupGateway } from '../apps/gateway/src/setup';
 import { THROTTLER_STORAGE } from '../apps/gateway/src/throttling/throttling.module';
 

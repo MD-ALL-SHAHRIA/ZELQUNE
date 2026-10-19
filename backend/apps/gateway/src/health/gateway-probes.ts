@@ -1,7 +1,6 @@
-import { type HealthProbe } from '@zelqune/common';
+import { type HealthProbe, type ServiceRegistry } from '@zelqune/common';
 import { type HealthPingResponse, RPC_PATTERNS } from '@zelqune/contracts';
 import { type Redis } from 'ioredis';
-import { type ServiceRegistry } from '../services/service-registry';
 
 const PING_TIMEOUT_MS = 1500;
 

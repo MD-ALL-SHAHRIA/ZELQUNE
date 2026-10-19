@@ -3,3 +3,4 @@
  * Breaking payload changes need a new version (see envelope.ts).
  */
 export * from './catalog.events';
+export * from './order.events';

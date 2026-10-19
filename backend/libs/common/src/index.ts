@@ -22,6 +22,7 @@ export * from './outbox/outbox.service';
 export * from './outbox/outbox.relay';
 export * from './rpc/rpc-context.interceptor';
 export * from './rpc/service-client';
+export * from './rpc/service-registry';
 export * from './service/service-core.module';
 export * from './bootstrap/bootstrap';
 export * from './validation/validation';

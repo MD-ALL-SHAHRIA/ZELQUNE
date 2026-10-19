@@ -175,6 +175,11 @@ export const upsertVariantInputSchema = z.object({
   depthMm: z.number().int().positive().nullable().default(null),
   position: z.number().int().default(0),
   isActive: z.boolean().default(true),
+  /** Shipping: packaged size/weight (separate from the product's own dimensions). */
+  packageLengthMm: z.number().int().positive().nullable().default(null),
+  packageWidthMm: z.number().int().positive().nullable().default(null),
+  packageHeightMm: z.number().int().positive().nullable().default(null),
+  packageWeightGrams: z.number().int().positive().nullable().default(null),
 });
 export type UpsertVariantInput = z.input<typeof upsertVariantInputSchema>;
 
@@ -227,3 +232,29 @@ export interface ResolvePriceRpcRequest {
   p?: string;
 }
 export type ResolvePriceRpcResponse = Record<string, ResolvedPrice | null>;
+
+/** Everything order-service needs to price and snapshot a cart line (one RPC per cart). */
+export const checkoutSnapshotRequestSchema = z.object({
+  variantIds: z.array(z.uuid()).min(1).max(100),
+  p: z.string().max(8).optional(),
+});
+export type CheckoutSnapshotRequest = z.input<typeof checkoutSnapshotRequestSchema>;
+
+export interface VariantCheckoutSnapshot {
+  variantId: string;
+  productId: string;
+  productSlug: string;
+  sku: string;
+  nameBn: string;
+  nameEn: string;
+  options: Record<string, string>;
+  saleMode: SaleMode;
+  leadTimeDays: number | null;
+  packageWeightGrams: number | null;
+  packageLengthMm: number | null;
+  packageWidthMm: number | null;
+  packageHeightMm: number | null;
+  price: ResolvedPrice | null;
+}
+/** variantId -> snapshot; missing = not sellable (unknown, inactive, unpublished). */
+export type CheckoutSnapshotResponse = Record<string, VariantCheckoutSnapshot>;

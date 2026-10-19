@@ -1,3 +1,4 @@
+import { ServiceRegistry } from '@zelqune/common';
 import { type INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { ThrottlerStorageService } from '@nestjs/throttler';
@@ -5,7 +6,6 @@ import { SERVICE_KEYS, SERVICES, type ServiceKey } from '@zelqune/contracts';
 import { exportSPKI, generateKeyPair, SignJWT } from 'jose';
 import { AppModule } from '../src/app.module';
 import { REDIS } from '../src/redis/redis.module';
-import { ServiceRegistry } from '../src/services/service-registry';
 import { setupGateway } from '../src/setup';
 import { THROTTLER_STORAGE } from '../src/throttling/throttling.module';
 
