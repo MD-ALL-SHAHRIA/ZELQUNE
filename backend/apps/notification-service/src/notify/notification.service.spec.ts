@@ -210,4 +210,25 @@ describe('NotificationService', () => {
     expect(sms.sent[0]?.body).toContain('রেস্টুরেন্ট/ক্যাফে');
     expect(sms.sent[0]?.body).toContain('Rafiq');
   });
+
+  it('alerts the owner about construction enquiries', async () => {
+    const event = quoteRequested.create(
+      {
+        quoteId: randomUUID(),
+        code: 'QT-7H4J2K',
+        kind: 'CONSTRUCTION',
+        spaceType: 'HOME',
+        organizationName: null,
+        contactName: 'Karim',
+        itemCount: 0,
+        totalQty: 0,
+        neededBy: null,
+      },
+      { source: 'order-service' },
+    );
+    const sms = new FakeSmsProvider();
+    await new NotificationService(sms, config).onQuoteRequested(event, fakeTx().tx);
+    expect(sms.sent[0]?.body).toContain('নির্মাণের অনুরোধ');
+    expect(sms.sent[0]?.body).toContain('বাসা');
+  });
 });

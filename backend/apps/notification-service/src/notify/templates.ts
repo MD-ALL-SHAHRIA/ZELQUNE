@@ -38,13 +38,17 @@ export const templates = {
   },
   quoteRequested(q: {
     code: string;
-    kind: 'PRODUCT' | 'DESIGN';
+    kind: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
     spaceType: string | null;
     organizationName: string | null;
     contactName: string;
     itemCount: number;
     totalQty: number;
   }): string {
+    if (q.kind === 'CONSTRUCTION') {
+      const space = SPACE_LABELS[q.spaceType ?? ''] ?? 'ভবন';
+      return `Zelqune: নতুন নির্মাণের অনুরোধ ${q.code}: ${q.organizationName ?? q.contactName}, ${space}। ড্যাশবোর্ডে দেখুন।`;
+    }
     if (q.kind === 'DESIGN') {
       const space = SPACE_LABELS[q.spaceType ?? ''] ?? 'জায়গা';
       return `Zelqune: নতুন ইন্টেরিয়র ডিজাইনের অনুরোধ ${q.code}: ${q.organizationName ?? q.contactName}, ${space}। ড্যাশবোর্ডে দেখুন।`;

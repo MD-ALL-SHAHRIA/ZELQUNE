@@ -551,6 +551,24 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
       .expect(422);
     expect(priced.body.error.code).toBe('DESIGN_REQUEST_NOT_PRICEABLE');
 
+    const build = await http()
+      .post('/v1/quote-requests')
+      .set('cf-turnstile-response', 'dev-pass')
+      .send({
+        kind: 'CONSTRUCTION',
+        contactName: 'Karim Uddin',
+        phone: '01944444446',
+        design: { spaceType: 'HOME', sizeSqft: 2400, district: 'gazipur', floors: 4 },
+      })
+      .expect(201);
+    const buildTrack = await http()
+      .get(`/v1/quote-requests/track?code=${build.body.quoteCode as string}&phone=01944444446`)
+      .expect(200);
+    expect(buildTrack.body).toMatchObject({
+      kind: 'CONSTRUCTION',
+      design: { spaceType: 'HOME', floors: 4 },
+    });
+
     const tracked = await http()
       .get(`/v1/quote-requests/track?code=${code}&phone=01944444444`)
       .expect(200);

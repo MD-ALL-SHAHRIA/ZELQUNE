@@ -99,6 +99,9 @@ describe('quote conversion payment', () => {
 describe('assertProductQuote', () => {
   it('lets product quotes through and refuses design consultations', () => {
     expect(() => assertProductQuote('PRODUCT')).not.toThrow();
+    expect(() => assertProductQuote('CONSTRUCTION')).toThrow(
+      expect.objectContaining({ code: 'DESIGN_REQUEST_NOT_PRICEABLE' }),
+    );
     expect(() => assertProductQuote('DESIGN')).toThrow(
       expect.objectContaining({ code: 'DESIGN_REQUEST_NOT_PRICEABLE', status: 422 }),
     );

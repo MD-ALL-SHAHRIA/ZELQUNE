@@ -2315,7 +2315,8 @@
               "type": "string",
               "enum": [
                 "PRODUCT",
-                "DESIGN"
+                "DESIGN",
+                "CONSTRUCTION"
               ]
             }
           },
@@ -4628,7 +4629,8 @@
             "type": "string",
             "enum": [
               "PRODUCT",
-              "DESIGN"
+              "DESIGN",
+              "CONSTRUCTION"
             ]
           },
           "organizationName": {
@@ -4732,6 +4734,13 @@
                   "ABOVE_15_LAKH",
                   "NOT_SURE"
                 ]
+              },
+              "floors": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 60,
+                "default": null,
+                "nullable": true
               }
             },
             "required": [
@@ -4823,7 +4832,8 @@
             "type": "string",
             "enum": [
               "PRODUCT",
-              "DESIGN"
+              "DESIGN",
+              "CONSTRUCTION"
             ]
           },
           "design": {
@@ -4861,13 +4871,20 @@
                   "ABOVE_15_LAKH",
                   "NOT_SURE"
                 ]
+              },
+              "floors": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991,
+                "nullable": true
               }
             },
             "required": [
               "spaceType",
               "sizeSqft",
               "district",
-              "budget"
+              "budget",
+              "floors"
             ],
             "additionalProperties": false,
             "nullable": true
@@ -7433,7 +7450,8 @@
                   "type": "string",
                   "enum": [
                     "PRODUCT",
-                    "DESIGN"
+                    "DESIGN",
+                    "CONSTRUCTION"
                   ]
                 },
                 "design": {
@@ -7471,13 +7489,20 @@
                         "ABOVE_15_LAKH",
                         "NOT_SURE"
                       ]
+                    },
+                    "floors": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991,
+                      "nullable": true
                     }
                   },
                   "required": [
                     "spaceType",
                     "sizeSqft",
                     "district",
-                    "budget"
+                    "budget",
+                    "floors"
                   ],
                   "additionalProperties": false,
                   "nullable": true
@@ -7662,7 +7687,8 @@
             "type": "string",
             "enum": [
               "PRODUCT",
-              "DESIGN"
+              "DESIGN",
+              "CONSTRUCTION"
             ]
           },
           "design": {
@@ -7700,13 +7726,20 @@
                   "ABOVE_15_LAKH",
                   "NOT_SURE"
                 ]
+              },
+              "floors": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991,
+                "nullable": true
               }
             },
             "required": [
               "spaceType",
               "sizeSqft",
               "district",
-              "budget"
+              "budget",
+              "floors"
             ],
             "additionalProperties": false,
             "nullable": true

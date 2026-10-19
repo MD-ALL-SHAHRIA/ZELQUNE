@@ -1333,7 +1333,7 @@ export interface components {
        * @default PRODUCT
        * @enum {string}
        */
-      kind?: 'PRODUCT' | 'DESIGN';
+      kind?: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
       /** @default null */
       organizationName?: string | null;
       contactName: string;
@@ -1369,6 +1369,8 @@ export interface components {
          * @enum {string}
          */
         budget?: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+        /** @default null */
+        floors?: number | null;
       } | null;
       /**
        * Format: date
@@ -1395,7 +1397,7 @@ export interface components {
     PublicQuoteDto_Output: {
       code: string;
       /** @enum {string} */
-      kind: 'PRODUCT' | 'DESIGN';
+      kind: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
       design: {
         /** @enum {string} */
         spaceType: 'HOME' | 'OFFICE' | 'RESTAURANT_CAFE' | 'HOTEL' | 'RETAIL' | 'OTHER';
@@ -1403,6 +1405,7 @@ export interface components {
         district: string | null;
         /** @enum {string} */
         budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+        floors: number | null;
       } | null;
       /** @enum {string} */
       status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
@@ -2083,7 +2086,7 @@ export interface components {
       items: {
         code: string;
         /** @enum {string} */
-        kind: 'PRODUCT' | 'DESIGN';
+        kind: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
         design: {
           /** @enum {string} */
           spaceType: 'HOME' | 'OFFICE' | 'RESTAURANT_CAFE' | 'HOTEL' | 'RETAIL' | 'OTHER';
@@ -2091,6 +2094,7 @@ export interface components {
           district: string | null;
           /** @enum {string} */
           budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+          floors: number | null;
         } | null;
         /** @enum {string} */
         status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
@@ -2128,7 +2132,7 @@ export interface components {
     AdminQuoteDto_Output: {
       code: string;
       /** @enum {string} */
-      kind: 'PRODUCT' | 'DESIGN';
+      kind: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
       design: {
         /** @enum {string} */
         spaceType: 'HOME' | 'OFFICE' | 'RESTAURANT_CAFE' | 'HOTEL' | 'RETAIL' | 'OTHER';
@@ -2136,6 +2140,7 @@ export interface components {
         district: string | null;
         /** @enum {string} */
         budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+        floors: number | null;
       } | null;
       /** @enum {string} */
       status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
@@ -3401,7 +3406,7 @@ export interface operations {
     parameters: {
       query?: {
         status?: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
-        kind?: 'PRODUCT' | 'DESIGN';
+        kind?: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
         q?: string;
         page?: number;
         limit?: number;

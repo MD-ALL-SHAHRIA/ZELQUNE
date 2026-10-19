@@ -248,13 +248,14 @@ enum QuoteStatus {
 enum QuoteKind {
   PRODUCT
   DESIGN
+  CONSTRUCTION
 }
 
 model Quote {
   id                   String      @id @default(uuid()) @db.Uuid
   code                 String      @unique
   status               QuoteStatus @default(NEW)
-  /// PRODUCT: bulk/corporate order; DESIGN: interior design consultation (ADR 0014).
+  /// PRODUCT: bulk/corporate order; DESIGN: interior design; CONSTRUCTION: building (ADR 0014).
   kind                 QuoteKind   @default(PRODUCT)
   /// Null only for DESIGN requests (a home has no company).
   organizationName     String?     @map("organization_name")
@@ -262,6 +263,8 @@ model Quote {
   designSizeSqft       Int?        @map("design_size_sqft")
   designDistrict       String?     @map("design_district")
   designBudget         String?     @map("design_budget")
+  /// Construction enquiries: planned number of floors.
+  designFloors         Int?        @map("design_floors")
   contactName          String      @map("contact_name")
   phone                String
   email                String?

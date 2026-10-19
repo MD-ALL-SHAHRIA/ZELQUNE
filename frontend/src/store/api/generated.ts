@@ -587,7 +587,7 @@ export type RfqResponseDtoOutput = {
   status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
 };
 export type RfqRequestDto = {
-  kind?: 'PRODUCT' | 'DESIGN';
+  kind?: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
   organizationName?: string | null;
   contactName: string;
   phone: string;
@@ -603,6 +603,7 @@ export type RfqRequestDto = {
     sizeSqft?: number | null;
     district?: string | null;
     budget?: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+    floors?: number | null;
   } | null;
   neededBy?: string | null;
   customizationNotes?: string | null;
@@ -617,12 +618,13 @@ export type RfqRequestDto = {
 };
 export type PublicQuoteDtoOutput = {
   code: string;
-  kind: 'PRODUCT' | 'DESIGN';
+  kind: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
   design: {
     spaceType: 'HOME' | 'OFFICE' | 'RESTAURANT_CAFE' | 'HOTEL' | 'RETAIL' | 'OTHER';
     sizeSqft: number | null;
     district: string | null;
     budget: 'UNDER_1_LAKH' | 'LAKH_1_TO_5' | 'LAKH_5_TO_15' | 'ABOVE_15_LAKH' | 'NOT_SURE';
+    floors: number | null;
   } | null;
   status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
   organizationName: string | null;

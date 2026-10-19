@@ -41,7 +41,25 @@ describe('rfqRequestSchema', () => {
       sizeSqft: 1800,
       district: 'dhaka',
       budget: 'NOT_SURE',
+      floors: null,
     });
     expect(rfqRequestSchema.safeParse({ ...base, kind: 'DESIGN' }).success).toBe(false);
+  });
+
+  it('construction enquiries need a brief and may give floors; design briefs may not', () => {
+    const parsed = rfqRequestSchema.parse({
+      ...base,
+      kind: 'CONSTRUCTION',
+      design: { spaceType: 'HOME', sizeSqft: 2400, district: 'gazipur', floors: 4 },
+    });
+    expect(parsed.design?.floors).toBe(4);
+    expect(rfqRequestSchema.safeParse({ ...base, kind: 'CONSTRUCTION' }).success).toBe(false);
+    expect(
+      rfqRequestSchema.safeParse({
+        ...base,
+        kind: 'DESIGN',
+        design: { spaceType: 'HOME', floors: 2 },
+      }).success,
+    ).toBe(false);
   });
 });

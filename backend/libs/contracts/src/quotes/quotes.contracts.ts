@@ -25,8 +25,9 @@ export const MAX_QUOTE_LINE_QTY = 100_000;
 /**
  * PRODUCT: bulk/corporate order of catalog products (priced into a B2B order, ADR 0011).
  * DESIGN: interior design consultation for a space (a lead for now; ADR 0014).
+ * CONSTRUCTION: a building from the ground up to finished interiors (a lead; ADR 0014).
  */
-export const QUOTE_KINDS = ['PRODUCT', 'DESIGN'] as const;
+export const QUOTE_KINDS = ['PRODUCT', 'DESIGN', 'CONSTRUCTION'] as const;
 export const quoteKindSchema = z.enum(QUOTE_KINDS);
 export type QuoteKind = z.infer<typeof quoteKindSchema>;
 
@@ -56,6 +57,8 @@ export const designBriefSchema = z.object({
   sizeSqft: z.number().int().min(20).max(1_000_000).nullable().default(null),
   district: districtCodeSchema.nullable().default(null),
   budget: budgetRangeSchema.default('NOT_SURE'),
+  /** Construction only: planned number of floors. */
+  floors: z.number().int().min(1).max(60).nullable().default(null),
 });
 export type DesignBrief = z.output<typeof designBriefSchema>;
 
@@ -64,6 +67,7 @@ export const designBriefViewSchema = z.object({
   sizeSqft: z.number().int().nullable(),
   district: z.string().nullable(),
   budget: budgetRangeSchema,
+  floors: z.number().int().nullable(),
 });
 
 export const rfqRequestSchema = z
@@ -86,7 +90,7 @@ export const rfqRequestSchema = z
       )
       .max(50)
       .default([]),
-    /** Required for DESIGN requests. */
+    /** The brief: required for DESIGN and CONSTRUCTION requests. */
     design: designBriefSchema.nullable().default(null),
     neededBy: z.iso.date().nullable().default(null),
     /** Custom work: logo engraving, size changes, finishes. */
@@ -106,7 +110,17 @@ export const rfqRequestSchema = z
         ctx.addIssue({ code: 'custom', path: ['design'], message: 'Only for DESIGN requests' });
       }
     } else if (!v.design) {
-      ctx.addIssue({ code: 'custom', path: ['design'], message: 'Required for DESIGN requests' });
+      ctx.addIssue({
+        code: 'custom',
+        path: ['design'],
+        message: `Required for ${v.kind} requests`,
+      });
+    } else if (v.kind === 'DESIGN' && v.design.floors !== null) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['design', 'floors'],
+        message: 'Only for CONSTRUCTION',
+      });
     }
   });
 export type RfqRequest = z.input<typeof rfqRequestSchema>;

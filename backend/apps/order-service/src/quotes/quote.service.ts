@@ -95,6 +95,7 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
               designSizeSqft: input.design?.sizeSqft ?? null,
               designDistrict: input.design?.district ?? null,
               designBudget: input.design?.budget ?? null,
+              designFloors: input.design?.floors ?? null,
               contactName: input.contactName,
               phone: input.phone,
               email: input.email,
@@ -541,12 +542,13 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
       code: q.code,
       kind: q.kind,
       design:
-        q.kind === 'DESIGN' && q.designSpaceType
+        q.kind !== 'PRODUCT' && q.designSpaceType
           ? {
               spaceType: spaceTypeSchema.parse(q.designSpaceType),
               sizeSqft: q.designSizeSqft,
               district: q.designDistrict,
               budget: budgetRangeSchema.catch('NOT_SURE').parse(q.designBudget),
+              floors: q.designFloors,
             }
           : null,
       status: q.status,
