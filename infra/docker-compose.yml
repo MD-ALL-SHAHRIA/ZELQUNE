@@ -100,6 +100,9 @@ services:
       HTTP_PORT: 3000
       REDIS_URL: redis://redis:6379
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3100,http://localhost:3200}
+      TRUST_PROXY: 'false'
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY:?JWT keys missing - run pnpm keys:dev}
+      COOKIE_SECURE: 'true'
       IDENTITY_SERVICE_HOST: identity-service
       IDENTITY_SERVICE_PORT: 4001
       CATALOG_SERVICE_HOST: catalog-service
@@ -142,6 +145,10 @@ services:
     environment:
       <<: *service-env
       APP: identity-service
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY:?JWT keys missing - run pnpm keys:dev}
+      OWNER_PHONE: ${OWNER_PHONE:-}
+      OWNER_PASSWORD: ${OWNER_PASSWORD:-}
+      OWNER_NAME: ${OWNER_NAME:-}
       HTTP_PORT: 3001
       TCP_PORT: 4001
       DB_SCHEMA: identity
@@ -154,11 +161,17 @@ services:
     environment:
       <<: *service-env
       APP: catalog-service
+      STORAGE_DRIVER: local
+      MEDIA_PUBLIC_BASE_URL: http://localhost:3002/dev-storage
+      LOCAL_STORAGE_DIR: /app/storage
+      LOCAL_STORAGE_SIGNING_SECRET: ${LOCAL_STORAGE_SIGNING_SECRET:-}
       HTTP_PORT: 3002
       TCP_PORT: 4002
       DB_SCHEMA: catalog
       DATABASE_URL: postgresql://catalog_svc:${SERVICE_DB_PASSWORD:-zelqune_svc_dev}@postgres:5432/${POSTGRES_DB:-zelqune}?schema=catalog
     ports: ['127.0.0.1:3002:3002']
+    volumes:
+      - media-data:/app/storage
     depends_on: *service-deps
 
   inventory-service:
@@ -237,6 +250,7 @@ networks:
   backend:
 
 volumes:
+  media-data:
   postgres-data:
   rabbitmq-data:
   redis-data:

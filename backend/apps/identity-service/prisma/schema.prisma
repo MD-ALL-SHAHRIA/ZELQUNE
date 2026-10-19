@@ -40,3 +40,50 @@ model ProcessedEvent {
   @@id([eventId, handler])
   @@map("processed_events")
 }
+
+enum Role {
+  CUSTOMER
+  STAFF
+  OWNER
+}
+
+/// A person known to Zelqune. Phone (E.164, +8801XXXXXXXXX) is the identity.
+/// Only STAFF/OWNER have a password; customers sign in with OTP from M2.
+model User {
+  id           String    @id @default(uuid()) @db.Uuid
+  phone        String    @unique
+  name         String?
+  email        String?   @unique
+  role         Role      @default(CUSTOMER)
+  passwordHash String?   @map("password_hash")
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at") @db.Timestamptz(3)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+/// Opaque rotating refresh tokens; only the SHA-256 hash is stored. All tokens of one login
+/// share a familyId so that reuse of a rotated token revokes the whole session.
+model RefreshToken {
+  id            String    @id @db.Uuid
+  userId        String    @map("user_id") @db.Uuid
+  familyId      String    @map("family_id") @db.Uuid
+  tokenHash     String    @unique @map("token_hash")
+  expiresAt     DateTime  @map("expires_at") @db.Timestamptz(3)
+  revokedAt     DateTime? @map("revoked_at") @db.Timestamptz(3)
+  revokedReason String?   @map("revoked_reason")
+  replacedById  String?   @map("replaced_by_id") @db.Uuid
+  userAgent     String?   @map("user_agent")
+  ip            String?
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([familyId])
+  @@index([userId])
+  @@map("refresh_tokens")
+}

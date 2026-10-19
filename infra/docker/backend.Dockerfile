@@ -7,6 +7,8 @@ WORKDIR /repo
 
 # Dependency layer depends only on the lockfile.
 FROM base AS deps
+# Toolchain for native modules without a musl prebuild (argon2 on arm64). Not in the runtime image.
+RUN apk add --no-cache python3 make g++
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 RUN pnpm fetch
 
@@ -24,5 +26,7 @@ COPY --from=build --chown=node:node /repo/backend/package.json ./package.json
 COPY --from=build --chown=node:node /repo/backend/dist ./dist
 COPY --from=build --chown=node:node /repo/backend/apps ./apps
 COPY --chown=node:node infra/docker/entrypoint.sh ./entrypoint.sh
+# Writable media dir for the dev storage fake (named volumes inherit this ownership).
+RUN mkdir -p /app/storage && chown node:node /app/storage
 USER node
 ENTRYPOINT ["sh", "/app/entrypoint.sh"]

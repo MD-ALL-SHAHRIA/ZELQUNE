@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { isRpcErrorPayload, type RpcErrorPayload } from '@zelqune/contracts';
 import { type Response } from 'express';
+import { ZodSerializationException, ZodValidationException } from 'nestjs-zod';
 import { throwError, type Observable } from 'rxjs';
 import { ZodError } from 'zod';
 import { requestContext } from '../context/request-context';
@@ -30,6 +31,23 @@ export function toErrorPayload(exception: unknown): RpcErrorPayload {
       code: exception.code,
       message: exception.message,
       details: exception.details,
+    };
+  }
+  if (exception instanceof ZodValidationException) {
+    const zodError = exception.getZodError() as { issues?: unknown } | undefined;
+    return {
+      status: HttpStatus.BAD_REQUEST,
+      code: 'VALIDATION_FAILED',
+      message: 'Validation failed',
+      details: zodError?.issues,
+    };
+  }
+  if (exception instanceof ZodSerializationException) {
+    // A response did not match its declared schema: a server bug, never the client's fault.
+    return {
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
+      code: 'INTERNAL_ERROR',
+      message: 'Internal server error',
     };
   }
   if (exception instanceof HttpException) {

@@ -1,6 +1,13 @@
 import { type INestApplication, RequestMethod } from '@nestjs/common';
+import { type NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, type OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
-import { configureHttpApp, IDEMPOTENCY_HEADER, REQUEST_ID_HEADER } from '@zelqune/common';
+import {
+  configureHttpApp,
+  finalizeOpenApiDocument,
+  IDEMPOTENCY_HEADER,
+  REQUEST_ID_HEADER,
+} from '@zelqune/common';
+import cookieParser from 'cookie-parser';
 import { type GatewayEnv } from './config/gateway-env';
 
 export const API_PREFIX = 'v1';
@@ -8,8 +15,11 @@ export const API_PREFIX = 'v1';
 /** Everything main.ts applies, shared with e2e tests. */
 export function setupGateway(
   app: INestApplication,
-  config: Pick<GatewayEnv, 'CORS_ORIGINS'>,
+  config: Pick<GatewayEnv, 'CORS_ORIGINS' | 'TRUST_PROXY'>,
 ): void {
+  // Correct client IPs (rate limits, session metadata) behind the reverse proxy.
+  (app as NestExpressApplication).set('trust proxy', config.TRUST_PROXY);
+  app.use(cookieParser());
   configureHttpApp(app);
   app.setGlobalPrefix(API_PREFIX, { exclude: [{ path: 'health', method: RequestMethod.GET }] });
   app.enableCors({
@@ -24,7 +34,7 @@ export function setupGateway(
 }
 
 export function createOpenApiDocument(app: INestApplication): OpenAPIObject {
-  return SwaggerModule.createDocument(
+  const document = SwaggerModule.createDocument(
     app,
     new DocumentBuilder()
       .setTitle('Zelqune API')
@@ -33,4 +43,5 @@ export function createOpenApiDocument(app: INestApplication): OpenAPIObject {
       .addBearerAuth()
       .build(),
   );
+  return finalizeOpenApiDocument(document);
 }

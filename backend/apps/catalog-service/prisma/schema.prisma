@@ -40,3 +40,163 @@ model ProcessedEvent {
   @@id([eventId, handler])
   @@map("processed_events")
 }
+
+enum SaleMode {
+  IN_STOCK
+  MADE_TO_ORDER
+  PRE_ORDER
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum MediaStatus {
+  PENDING
+  READY
+}
+
+enum ExperimentKey {
+  a
+  b
+}
+
+/// Category tree (parentId). Bilingual names.
+model Category {
+  id        String   @id @default(uuid()) @db.Uuid
+  parentId  String?  @map("parent_id") @db.Uuid
+  slug      String   @unique
+  nameBn    String   @map("name_bn")
+  nameEn    String   @map("name_en")
+  position  Int      @default(0)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  parent   Category?         @relation("CategoryTree", fields: [parentId], references: [id], onDelete: Restrict)
+  children Category[]        @relation("CategoryTree")
+  products ProductCategory[]
+
+  @@index([parentId])
+  @@map("categories")
+}
+
+model Product {
+  id               String        @id @default(uuid()) @db.Uuid
+  slug             String        @unique
+  nameBn           String        @map("name_bn")
+  nameEn           String        @map("name_en")
+  descriptionBn    String?       @map("description_bn")
+  descriptionEn    String?       @map("description_en")
+  saleMode         SaleMode      @map("sale_mode")
+  leadTimeDays     Int?          @map("lead_time_days")
+  status           ProductStatus @default(DRAFT)
+  seoTitleBn       String?       @map("seo_title_bn")
+  seoTitleEn       String?       @map("seo_title_en")
+  seoDescriptionBn String?       @map("seo_description_bn")
+  seoDescriptionEn String?       @map("seo_description_en")
+  publishedAt      DateTime?     @map("published_at") @db.Timestamptz(3)
+  createdAt        DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt        DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  variants   ProductVariant[]
+  media      Media[]
+  categories ProductCategory[]
+
+  @@index([status, publishedAt])
+  @@map("products")
+}
+
+model ProductCategory {
+  productId  String @map("product_id") @db.Uuid
+  categoryId String @map("category_id") @db.Uuid
+  position   Int    @default(0)
+
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([productId, categoryId])
+  @@index([categoryId])
+  @@map("product_categories")
+}
+
+model ProductVariant {
+  id          String   @id @default(uuid()) @db.Uuid
+  productId   String   @map("product_id") @db.Uuid
+  sku         String   @unique
+  /// e.g. {"finish":"WALNUT"}
+  options     Json     @default("{}")
+  weightGrams Int?     @map("weight_grams")
+  widthMm     Int?     @map("width_mm")
+  heightMm    Int?     @map("height_mm")
+  depthMm     Int?     @map("depth_mm")
+  position    Int      @default(0)
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  product     Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  prices      Price[]
+  experiments PriceExperiment[]
+  media       Media[]
+
+  @@index([productId])
+  @@map("product_variants")
+}
+
+/// Uploaded via presigned URL (StorageProvider); only READY media is ever shown publicly.
+model Media {
+  id         String      @id @db.Uuid
+  productId  String      @map("product_id") @db.Uuid
+  variantId  String?     @map("variant_id") @db.Uuid
+  storageKey String      @unique @map("storage_key")
+  mimeType   String      @map("mime_type")
+  bytes      Int
+  altBn      String?     @map("alt_bn")
+  altEn      String?     @map("alt_en")
+  position   Int         @default(0)
+  status     MediaStatus @default(PENDING)
+  createdAt  DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt  DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  product Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variant ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  @@index([productId, status])
+  @@map("media")
+}
+
+/// Base price history: the current price has startsAt <= now < endsAt (or no endsAt).
+/// Money is integer paisa.
+model Price {
+  id             String    @id @default(uuid()) @db.Uuid
+  variantId      String    @map("variant_id") @db.Uuid
+  amountPaisa    Int       @map("amount_paisa")
+  compareAtPaisa Int?      @map("compare_at_paisa")
+  startsAt       DateTime  @default(now()) @map("starts_at") @db.Timestamptz(3)
+  endsAt         DateTime? @map("ends_at") @db.Timestamptz(3)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  variant ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@index([variantId, startsAt])
+  @@map("prices")
+}
+
+/// Price A/B test arm for a variant, selected with ?p=a|b.
+model PriceExperiment {
+  id          String        @id @default(uuid()) @db.Uuid
+  variantId   String        @map("variant_id") @db.Uuid
+  key         ExperimentKey
+  amountPaisa Int           @map("amount_paisa")
+  active      Boolean       @default(true)
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  variant ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([variantId, key])
+  @@map("price_experiments")
+}

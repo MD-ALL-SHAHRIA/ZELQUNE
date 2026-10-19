@@ -1,5 +1,5 @@
 /**
- * Event contracts live here, one file per entity (e.g. `order.events.ts`), declared with
- * `defineEvent`. None exist yet: business events arrive with steps 1.1–1.3.
+ * Event contracts, one file per bounded context, declared with `defineEvent`.
+ * Breaking payload changes need a new version (see envelope.ts).
  */
-export {};
+export * from './catalog.events';

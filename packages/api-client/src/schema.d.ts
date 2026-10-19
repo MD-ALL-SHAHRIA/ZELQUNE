@@ -4,6 +4,125 @@
  */
 
 export interface paths {
+  '/v1/admin/auth/login': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Admin sign-in (OWNER/STAFF). Sets the refresh cookie. */
+    post: operations['AdminAuthController_login'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/auth/refresh': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Rotate the refresh cookie and get a new access token. */
+    post: operations['AdminAuthController_refresh'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/auth/logout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** End the session (revokes all tokens of this login) and clear the cookie. */
+    post: operations['AdminAuthController_logout'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/auth/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** The signed-in admin. */
+    get: operations['AdminAuthController_me'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/catalog/categories': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Active categories (flat; build the tree from parentId). */
+    get: operations['CatalogController_categories'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/catalog/products': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Active products with their lowest resolved price. */
+    get: operations['CatalogController_products'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/catalog/products/{slug}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Product detail: active variants with resolved prices and READY media only. */
+    get: operations['CatalogController_product'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/health': {
     parameters: {
       query?: never;
@@ -23,7 +142,174 @@ export interface paths {
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: never;
+  schemas: {
+    AdminLoginDto: {
+      /** @example 01712345678 */
+      phone: string;
+      password: string;
+    };
+    AccessTokenResponseDto_Output: {
+      accessToken: string;
+      /** @enum {string} */
+      tokenType: 'Bearer';
+      expiresIn: number;
+      user: {
+        /** Format: uuid */
+        id: string;
+        /** @example +8801712345678 */
+        phone: string;
+        name: string | null;
+        email: string | null;
+        /** @enum {string} */
+        role: 'CUSTOMER' | 'STAFF' | 'OWNER';
+      };
+    };
+    AuthUserDto_Output: {
+      /** Format: uuid */
+      id: string;
+      /** @example +8801712345678 */
+      phone: string;
+      name: string[];
+      email: string[];
+      /** @enum {string} */
+      role: 'CUSTOMER' | 'STAFF' | 'OWNER';
+    };
+    CategoryListResponseDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        /** Format: uuid */
+        parentId: string | null;
+        slug: string;
+        nameBn: string;
+        nameEn: string;
+        position: number;
+      }[];
+    };
+    ProductListResponseDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        slug: string;
+        nameBn: string;
+        nameEn: string;
+        /** @enum {string} */
+        saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+        leadTimeDays: number | null;
+        fromPrice: {
+          /** @example 349000 */
+          amountPaisa: number;
+          /** @example 349000 */
+          compareAtPaisa: number | null;
+          /** @enum {string} */
+          currency: 'BDT';
+          /** @enum {string|null} */
+          experimentKey: 'a' | 'b' | null;
+        } | null;
+        primaryMedia: {
+          /** Format: uuid */
+          id: string;
+          url: string;
+          mimeType: string;
+          altBn: string | null;
+          altEn: string | null;
+          position: number;
+          /** Format: uuid */
+          variantId: string | null;
+        } | null;
+      }[];
+      page: number;
+      limit: number;
+      total: number;
+    };
+    ProductDetailDto_Output: {
+      /** Format: uuid */
+      id: string;
+      slug: string;
+      nameBn: string;
+      nameEn: string;
+      /** @enum {string} */
+      saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+      leadTimeDays: number | null;
+      fromPrice: {
+        /** @example 349000 */
+        amountPaisa: number;
+        /** @example 349000 */
+        compareAtPaisa: number | null;
+        /** @enum {string} */
+        currency: 'BDT';
+        /** @enum {string|null} */
+        experimentKey: 'a' | 'b' | null;
+      } | null;
+      primaryMedia: {
+        /** Format: uuid */
+        id: string;
+        url: string;
+        mimeType: string;
+        altBn: string | null;
+        altEn: string | null;
+        position: number;
+        /** Format: uuid */
+        variantId: string | null;
+      } | null;
+      descriptionBn: string[];
+      descriptionEn: string[];
+      seo: {
+        titleBn: string | null;
+        titleEn: string | null;
+        descriptionBn: string | null;
+        descriptionEn: string | null;
+      };
+      categories: {
+        /** Format: uuid */
+        id: string;
+        slug: string;
+        nameBn: string;
+        nameEn: string;
+      }[];
+      variants: {
+        /** Format: uuid */
+        id: string;
+        sku: string;
+        /**
+         * @example {
+         *       "finish": "WALNUT"
+         *     }
+         */
+        options: {
+          [key: string]: string;
+        };
+        weightGrams: number | null;
+        dimensions: {
+          widthMm: number | null;
+          heightMm: number | null;
+          depthMm: number | null;
+        };
+        position: number;
+        price: {
+          /** @example 349000 */
+          amountPaisa: number;
+          /** @example 349000 */
+          compareAtPaisa: number | null;
+          /** @enum {string} */
+          currency: 'BDT';
+          /** @enum {string|null} */
+          experimentKey: 'a' | 'b' | null;
+        } | null;
+      }[];
+      media: {
+        /** Format: uuid */
+        id: string;
+        url: string;
+        mimeType: string;
+        altBn: string | null;
+        altEn: string | null;
+        position: number;
+        /** Format: uuid */
+        variantId: string | null;
+      }[];
+    };
+  };
   responses: never;
   parameters: never;
   requestBodies: never;
@@ -32,6 +318,151 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  AdminAuthController_login: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AdminLoginDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AccessTokenResponseDto_Output'];
+        };
+      };
+    };
+  };
+  AdminAuthController_refresh: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AccessTokenResponseDto_Output'];
+        };
+      };
+    };
+  };
+  AdminAuthController_logout: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  AdminAuthController_me: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AuthUserDto_Output'];
+        };
+      };
+    };
+  };
+  CatalogController_categories: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CategoryListResponseDto_Output'];
+        };
+      };
+    };
+  };
+  CatalogController_products: {
+    parameters: {
+      query?: {
+        category?: string;
+        saleMode?: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+        page?: number;
+        limit?: number;
+        p?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ProductListResponseDto_Output'];
+        };
+      };
+    };
+  };
+  CatalogController_product: {
+    parameters: {
+      query?: {
+        p?: string;
+      };
+      header?: never;
+      path: {
+        slug: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ProductDetailDto_Output'];
+        };
+      };
+    };
+  };
   HealthController_check: {
     parameters: {
       query?: never;

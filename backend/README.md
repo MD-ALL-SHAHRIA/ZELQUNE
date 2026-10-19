@@ -14,6 +14,9 @@ Rules for contributors and Claude Code: [CLAUDE.md](CLAUDE.md).
 | `pnpm --filter @zelqune/backend lint\|typecheck\|test\|build` | backend only |
 | `pnpm --filter @zelqune/backend start:dev <app>` | run one app with watch (copy `apps/<app>/.env.example` to `.env`) |
 | `pnpm gen:api` | export gateway OpenAPI and regenerate `packages/api-client` |
+| `pnpm keys:dev` / `pnpm seed` | dev JWT keys into `infra/.env` / seed OWNER + catalog in the running stack |
+| `pnpm --filter @zelqune/backend test:integration` | gateway end-to-end suite on real Postgres/RabbitMQ/Redis (`pnpm infra:up` first) |
+| `sh scripts/new-migration.sh <service> <name>` | new ordered migration from the schema diff (see below) |
 
 ## Layout
 
@@ -37,10 +40,11 @@ Service roles own only their schema and cannot create schemas or databases (ADR 
 
 ```sh
 cd backend
-pnpm exec prisma migrate diff --config apps/<svc>/prisma.config.ts \
-  --from-config-datasource --to-schema apps/<svc>/prisma/schema.prisma --script \
-  > apps/<svc>/prisma/migrations/<timestamp>_<name>/migration.sql
+sh scripts/new-migration.sh catalog-service add_reviews   # diff vs the schema committed at HEAD
 ```
+
+The script names the folder after the newest existing migration so ordering is always correct.
+Add CHECK constraints or data fixes by hand to the generated SQL.
 
 Containers run `prisma migrate deploy` for their own schema on start.
 

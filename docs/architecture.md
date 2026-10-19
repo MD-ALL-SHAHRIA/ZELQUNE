@@ -100,3 +100,24 @@ sequenceDiagram
     IN-->>OR: stock.released
   end
 ```
+
+## Admin authentication (step 1.1, ADR 0006)
+
+```mermaid
+sequenceDiagram
+  participant D as dashboard
+  participant G as gateway
+  participant I as identity-service
+  D->>G: POST /v1/admin/auth/login {phone, password}
+  G->>G: per-IP throttle, per-phone failed-attempt lock
+  G->>I: identity.auth.login (TCP)
+  I-->>G: ES256 access token (15 min) + refresh token (stored hashed)
+  G-->>D: {accessToken} + Set-Cookie zq_rt (HttpOnly, Secure, SameSite=Strict)
+  D->>G: API call, Authorization: Bearer <access>
+  G->>G: verify with public key, check role
+  D->>G: POST /v1/admin/auth/refresh (cookie)
+  G->>I: identity.auth.refresh → rotate (reuse of an old token revokes the session)
+```
+
+The dashboard and API must be on the same site in production (`admin.<domain>` and
+`api.<domain>`) for the SameSite=Strict cookie to work; see ADR 0006.

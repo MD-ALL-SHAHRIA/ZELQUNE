@@ -7,6 +7,7 @@ import {
   HealthIndicatorService,
 } from '@nestjs/terminus';
 import { type Response } from 'express';
+import { Public } from '../http/public.decorator';
 import { HEALTH_PROBES, type HealthProbe } from './health.types';
 
 const PROBE_TIMEOUT_MS = 2000;
@@ -19,6 +20,7 @@ function withTimeout(promise: Promise<void>, ms: number): Promise<void> {
   return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
+@Public()
 @Controller('health')
 export class HealthController {
   constructor(

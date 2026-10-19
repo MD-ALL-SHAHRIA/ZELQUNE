@@ -1,6 +1,7 @@
 import { type INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { configureHttpApp, RabbitMqConnection } from '@zelqune/common';
+import { exportPKCS8, generateKeyPair } from 'jose';
 import request from 'supertest';
 import { serviceTestEnv } from '../../../test/service-test-env';
 import { AppModule } from '../src/app.module';
@@ -12,7 +13,10 @@ describe('identity-service /health (e2e)', () => {
   const rabbit = { isConnected: jest.fn().mockReturnValue(true) };
 
   beforeAll(async () => {
-    Object.assign(process.env, serviceTestEnv('identity'));
+    const { privateKey } = await generateKeyPair('ES256', { extractable: true });
+    Object.assign(process.env, serviceTestEnv('identity'), {
+      JWT_PRIVATE_KEY: await exportPKCS8(privateKey),
+    });
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(PrismaService)
       .useValue(db)
