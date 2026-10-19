@@ -64,11 +64,11 @@ jobs:
         options: >-
           --health-cmd "pg_isready -U zelqune" --health-interval 5s --health-timeout 5s --health-retries 10
       rabbitmq:
-        image: rabbitmq:4-alpine
+        image: rabbitmq:4-management-alpine
         env:
           RABBITMQ_DEFAULT_USER: zelqune
           RABBITMQ_DEFAULT_PASS: zelqune_dev
-        ports: ['5672:5672']
+        ports: ['5672:5672', '15672:15672']
         options: >-
           --health-cmd "rabbitmq-diagnostics -q ping" --health-interval 10s --health-timeout 10s --health-retries 10
       redis:
