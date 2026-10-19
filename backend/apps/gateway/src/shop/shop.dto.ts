@@ -10,6 +10,8 @@ import {
   orderTrackingSchema,
   quoteRequestSchema,
   setCartItemRequestSchema,
+  shippingEstimateQuerySchema,
+  shippingEstimateSchema,
   trackQuerySchema,
 } from '@zelqune/contracts';
 import { z } from 'zod';
@@ -26,3 +28,5 @@ export class CheckoutResponseDto extends createZodDto(checkoutResponseSchema) {}
 export class TrackQueryDto extends createZodDto(trackQuerySchema) {}
 export class OrderTrackingDto extends createZodDto(orderTrackingSchema) {}
 export class DistrictListDto extends createZodDto(districtListResponseSchema) {}
+export class ShippingEstimateQueryDto extends createZodDto(shippingEstimateQuerySchema) {}
+export class ShippingEstimateDto extends createZodDto(shippingEstimateSchema) {}

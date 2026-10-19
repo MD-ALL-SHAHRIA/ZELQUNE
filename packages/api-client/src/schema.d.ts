@@ -140,6 +140,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/shipping/estimate': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Delivery fee for one variant to a district (product page), same rules as checkout. */
+    get: operations['ShopController_shippingEstimate'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/carts': {
     parameters: {
       query?: never;
@@ -1017,6 +1034,14 @@ export interface components {
         nameEn: string;
         division: string;
       }[];
+    };
+    ShippingEstimateDto_Output: {
+      district: string;
+      /** @enum {string} */
+      zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE';
+      chargeableWeightGrams: number;
+      /** @example 349000 */
+      feePaisa: number;
     };
     CreateCartRequestDto: {
       p?: string;
@@ -2317,6 +2342,29 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['DistrictListDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_shippingEstimate: {
+    parameters: {
+      query: {
+        district: string;
+        variantId: string;
+        qty?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ShippingEstimateDto_Output'];
         };
       };
     };

@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
+  AppError,
   CART_TOKEN_HEADER,
   Idempotent,
   IDEMPOTENCY_HEADER,
@@ -12,6 +13,7 @@ import {
   type CartView,
   type CheckoutQuote,
   type CheckoutResponse,
+  type CheckoutSnapshotResponse,
   type CreateCartResponse,
   type DistrictView,
   type OrderTracking,
@@ -19,6 +21,8 @@ import {
   type PaymentSummary,
   RPC_PATTERNS,
   type ShipmentSummary,
+  type ShippingEstimate,
+  type ShippingQuote,
 } from '@zelqune/contracts';
 import { RouteThrottle } from '../throttling/throttling.module';
 import { RequireTurnstile } from '../turnstile/turnstile';
@@ -34,6 +38,8 @@ import {
   OrderTrackingDto,
   QuoteRequestDto,
   SetCartItemDto,
+  ShippingEstimateDto,
+  ShippingEstimateQueryDto,
   TrackQueryDto,
   VariantIdParamDto,
 } from './shop.dto';
@@ -56,6 +62,42 @@ export class ShopController {
   @ZodResponse({ type: DistrictListDto })
   districts(): Promise<{ items: DistrictView[] }> {
     return this.services.get('shipping').send(RPC_PATTERNS.shipping.districts, {});
+  }
+
+  @Get('shipping/estimate')
+  @RouteThrottle('cartWrite')
+  @ApiOperation({
+    summary: 'Delivery fee for one variant to a district (product page), same rules as checkout.',
+  })
+  @ZodResponse({ type: ShippingEstimateDto })
+  async shippingEstimate(@Query() query: ShippingEstimateQueryDto): Promise<ShippingEstimate> {
+    const snapshot = await this.services
+      .get('catalog')
+      .send<CheckoutSnapshotResponse>(RPC_PATTERNS.catalog.checkoutSnapshot, {
+        variantIds: [query.variantId],
+      });
+    const variant = snapshot[query.variantId];
+    if (!variant) throw new AppError('VARIANT_NOT_AVAILABLE', 'This item is not available', 404);
+    const quote = await this.services
+      .get('shipping')
+      .send<ShippingQuote>(RPC_PATTERNS.shipping.quote, {
+        district: query.district,
+        lines: [
+          {
+            qty: query.qty,
+            packageWeightGrams: variant.packageWeightGrams,
+            packageLengthMm: variant.packageLengthMm,
+            packageWidthMm: variant.packageWidthMm,
+            packageHeightMm: variant.packageHeightMm,
+          },
+        ],
+      });
+    return {
+      district: quote.district,
+      zone: quote.zone,
+      chargeableWeightGrams: quote.chargeableWeightGrams,
+      feePaisa: quote.feePaisa,
+    };
   }
 
   @Post('carts')
