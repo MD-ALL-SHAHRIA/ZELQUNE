@@ -1,11 +1,41 @@
 {
   "name": "@zelqune/frontend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Zelqune storefront (Next.js App Router, Bangla default + English). Placeholder until step 1.4.",
+  "description": "Zelqune storefront (Next.js App Router, English default + Bangla)",
   "scripts": {
-    "lint": "echo 'frontend: no app yet (step 1.4)'",
-    "typecheck": "echo 'frontend: no app yet (step 1.4)'",
-    "test": "echo 'frontend: no app yet (step 1.4)'"
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "e2e": "playwright test",
+    "screenshots": "playwright test --project=screenshots",
+    "copy:check": "node scripts/copy-check.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "1.1.23",
+    "@zelqune/api-client": "workspace:*",
+    "@zelqune/ui-tokens": "workspace:*",
+    "clsx": "2.1.1",
+    "next": "16.3.8",
+    "openapi-fetch": "0.17.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "0.0.1",
+    "tailwind-merge": "3.7.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "^20",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11"
   }
 }

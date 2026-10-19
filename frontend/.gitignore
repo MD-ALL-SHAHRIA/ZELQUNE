@@ -1,0 +1,5 @@
+# Playwright output and local screenshots (never committed)
+playwright-report/
+test-results/
+screenshots/
+next-env.d.ts
