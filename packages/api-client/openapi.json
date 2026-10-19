@@ -240,6 +240,328 @@
         ]
       }
     },
+    "/v1/shipping/districts": {
+      "get": {
+        "operationId": "ShopController_districts",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistrictListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "All 64 districts (bn/en) for the address form.",
+        "tags": [
+          "shop"
+        ]
+      }
+    },
+    "/v1/carts": {
+      "post": {
+        "operationId": "ShopController_createCart",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCartRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCartResponseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a guest cart. Keep the returned cartToken; send it as X-Cart-Token.",
+        "tags": [
+          "shop"
+        ]
+      }
+    },
+    "/v1/carts/current": {
+      "get": {
+        "operationId": "ShopController_cart",
+        "parameters": [
+          {
+            "name": "x-cart-token",
+            "in": "header",
+            "description": "Guest cart token from POST /v1/carts",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "shop"
+        ]
+      }
+    },
+    "/v1/carts/current/items/{variantId}": {
+      "put": {
+        "operationId": "ShopController_setItem",
+        "parameters": [
+          {
+            "name": "variantId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-cart-token",
+            "in": "header",
+            "description": "Guest cart token from POST /v1/carts",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetCartItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Set the quantity of a variant (0 removes it).",
+        "tags": [
+          "shop"
+        ]
+      },
+      "delete": {
+        "operationId": "ShopController_removeItem",
+        "parameters": [
+          {
+            "name": "variantId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-cart-token",
+            "in": "header",
+            "description": "Guest cart token from POST /v1/carts",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "shop"
+        ]
+      }
+    },
+    "/v1/carts/current/quote": {
+      "post": {
+        "operationId": "ShopController_quote",
+        "parameters": [
+          {
+            "name": "x-cart-token",
+            "in": "header",
+            "description": "Guest cart token from POST /v1/carts",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutQuoteDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Shipping fee, totals, advance and payment options for an address.",
+        "tags": [
+          "shop"
+        ]
+      }
+    },
+    "/v1/checkout": {
+      "post": {
+        "operationId": "ShopController_checkout",
+        "parameters": [
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "description": "Unique per checkout attempt (8-128 chars)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-cart-token",
+            "in": "header",
+            "description": "Guest cart token from POST /v1/carts",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cf-turnstile-response",
+            "in": "header",
+            "description": "Cloudflare Turnstile token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutResponseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Place the order (reserves stock, records payment). Safe to retry with the same Idempotency-Key.",
+        "tags": [
+          "shop"
+        ]
+      }
+    },
+    "/v1/orders/track": {
+      "get": {
+        "operationId": "ShopController_track",
+        "parameters": [
+          {
+            "name": "code",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "pattern": "^ZQ-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$",
+              "example": "ZQ-7K3M9P",
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 32,
+              "example": "01712345678",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderTrackingDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Track an order by code and the phone number used to place it.",
+        "tags": [
+          "shop"
+        ]
+      }
+    },
     "/health": {
       "get": {
         "operationId": "HealthController_check",
@@ -1156,6 +1478,1078 @@
           "categories",
           "variants",
           "media"
+        ],
+        "additionalProperties": false
+      },
+      "DistrictListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "nameBn": {
+                  "type": "string"
+                },
+                "nameEn": {
+                  "type": "string"
+                },
+                "division": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code",
+                "nameBn",
+                "nameEn",
+                "division"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "CreateCartRequestDto": {
+        "type": "object",
+        "properties": {
+          "p": {
+            "type": "string",
+            "maxLength": 8
+          }
+        }
+      },
+      "CreateCartResponseDto_Output": {
+        "type": "object",
+        "properties": {
+          "cartToken": {
+            "type": "string"
+          },
+          "cart": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "variantId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "qty": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 10
+                    },
+                    "sku": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "productSlug": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "nameBn": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "nameEn": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "options": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "saleMode": {
+                      "type": "string",
+                      "enum": [
+                        "IN_STOCK",
+                        "MADE_TO_ORDER",
+                        "PRE_ORDER",
+                        null
+                      ],
+                      "nullable": true
+                    },
+                    "unitPrice": {
+                      "type": "object",
+                      "properties": {
+                        "amountPaisa": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991,
+                          "example": 349000
+                        },
+                        "compareAtPaisa": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991,
+                          "example": 349000,
+                          "nullable": true
+                        },
+                        "currency": {
+                          "type": "string",
+                          "enum": [
+                            "BDT"
+                          ]
+                        },
+                        "experimentKey": {
+                          "type": "string",
+                          "enum": [
+                            "a",
+                            "b",
+                            null
+                          ],
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "amountPaisa",
+                        "compareAtPaisa",
+                        "currency",
+                        "experimentKey"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
+                    },
+                    "lineTotalPaisa": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991,
+                      "example": 349000,
+                      "nullable": true
+                    },
+                    "available": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "variantId",
+                    "qty",
+                    "sku",
+                    "productSlug",
+                    "nameBn",
+                    "nameEn",
+                    "options",
+                    "saleMode",
+                    "unitPrice",
+                    "lineTotalPaisa",
+                    "available"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "subtotalPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "saleMode": {
+                "type": "string",
+                "enum": [
+                  "IN_STOCK",
+                  "MADE_TO_ORDER",
+                  "PRE_ORDER",
+                  null
+                ],
+                "nullable": true
+              },
+              "mixedSaleModes": {
+                "type": "boolean"
+              },
+              "experimentKey": {
+                "type": "string",
+                "enum": [
+                  "a",
+                  "b",
+                  null
+                ],
+                "nullable": true
+              }
+            },
+            "required": [
+              "id",
+              "items",
+              "subtotalPaisa",
+              "saleMode",
+              "mixedSaleModes",
+              "experimentKey"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "cartToken",
+          "cart"
+        ],
+        "additionalProperties": false
+      },
+      "CartDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "variantId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "qty": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10
+                },
+                "sku": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "productSlug": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "nameBn": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "nameEn": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "options": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "saleMode": {
+                  "type": "string",
+                  "enum": [
+                    "IN_STOCK",
+                    "MADE_TO_ORDER",
+                    "PRE_ORDER",
+                    null
+                  ],
+                  "nullable": true
+                },
+                "unitPrice": {
+                  "type": "object",
+                  "properties": {
+                    "amountPaisa": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991,
+                      "example": 349000
+                    },
+                    "compareAtPaisa": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991,
+                      "example": 349000,
+                      "nullable": true
+                    },
+                    "currency": {
+                      "type": "string",
+                      "enum": [
+                        "BDT"
+                      ]
+                    },
+                    "experimentKey": {
+                      "type": "string",
+                      "enum": [
+                        "a",
+                        "b",
+                        null
+                      ],
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "amountPaisa",
+                    "compareAtPaisa",
+                    "currency",
+                    "experimentKey"
+                  ],
+                  "additionalProperties": false,
+                  "nullable": true
+                },
+                "lineTotalPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000,
+                  "nullable": true
+                },
+                "available": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "variantId",
+                "qty",
+                "sku",
+                "productSlug",
+                "nameBn",
+                "nameEn",
+                "options",
+                "saleMode",
+                "unitPrice",
+                "lineTotalPaisa",
+                "available"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "subtotalPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "saleMode": {
+            "type": "string",
+            "enum": [
+              "IN_STOCK",
+              "MADE_TO_ORDER",
+              "PRE_ORDER",
+              null
+            ],
+            "nullable": true
+          },
+          "mixedSaleModes": {
+            "type": "boolean"
+          },
+          "experimentKey": {
+            "type": "string",
+            "enum": [
+              "a",
+              "b",
+              null
+            ],
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "items",
+          "subtotalPaisa",
+          "saleMode",
+          "mixedSaleModes",
+          "experimentKey"
+        ],
+        "additionalProperties": false
+      },
+      "SetCartItemDto": {
+        "type": "object",
+        "properties": {
+          "qty": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "qty"
+        ]
+      },
+      "QuoteRequestDto": {
+        "type": "object",
+        "properties": {
+          "district": {
+            "type": "string",
+            "maxLength": 40,
+            "pattern": "^[a-z]+(?:-[a-z]+)*$"
+          },
+          "area": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "district",
+          "area"
+        ]
+      },
+      "CheckoutQuoteDto_Output": {
+        "type": "object",
+        "properties": {
+          "saleMode": {
+            "type": "string",
+            "enum": [
+              "IN_STOCK",
+              "MADE_TO_ORDER",
+              "PRE_ORDER"
+            ]
+          },
+          "subtotalPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "shippingFeePaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "totalPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "advanceRequiredPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "zone": {
+            "type": "string",
+            "enum": [
+              "DHAKA",
+              "SUBURB",
+              "OUTSIDE"
+            ]
+          },
+          "chargeableWeightGrams": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "allowedPaymentMethods": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "COD",
+                "BKASH_MANUAL",
+                "NAGAD_MANUAL"
+              ]
+            }
+          },
+          "paymentInstructions": {
+            "type": "object",
+            "properties": {
+              "bkash": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": "string"
+                  },
+                  "accountType": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "number",
+                  "accountType"
+                ],
+                "additionalProperties": false,
+                "nullable": true
+              },
+              "nagad": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": "string"
+                  },
+                  "accountType": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "number",
+                  "accountType"
+                ],
+                "additionalProperties": false,
+                "nullable": true
+              }
+            },
+            "required": [
+              "bkash",
+              "nagad"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "saleMode",
+          "subtotalPaisa",
+          "shippingFeePaisa",
+          "totalPaisa",
+          "advanceRequiredPaisa",
+          "zone",
+          "chargeableWeightGrams",
+          "allowedPaymentMethods",
+          "paymentInstructions"
+        ],
+        "additionalProperties": false
+      },
+      "CheckoutRequestDto": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 100
+              },
+              "phone": {
+                "example": "01712345678",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+              }
+            },
+            "required": [
+              "name",
+              "phone"
+            ]
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "district": {
+                "type": "string",
+                "maxLength": 40,
+                "pattern": "^[a-z]+(?:-[a-z]+)*$"
+              },
+              "area": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 100
+              },
+              "line": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 300
+              },
+              "note": {
+                "type": "string",
+                "maxLength": 300,
+                "default": null,
+                "nullable": true
+              }
+            },
+            "required": [
+              "district",
+              "area",
+              "line"
+            ]
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": [
+              "COD",
+              "BKASH_MANUAL",
+              "NAGAD_MANUAL"
+            ]
+          },
+          "trxId": {
+            "example": "8N7A6B5C4D",
+            "type": "string",
+            "nullable": true
+          },
+          "payerPhone": {
+            "example": "01712345678",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "nullable": true
+          },
+          "utm": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "medium": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "campaign": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "content": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "term": {
+                "type": "string",
+                "maxLength": 100
+              }
+            }
+          }
+        },
+        "required": [
+          "customer",
+          "address",
+          "paymentMethod"
+        ]
+      },
+      "CheckoutResponseDto_Output": {
+        "type": "object",
+        "properties": {
+          "orderCode": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING_PAYMENT",
+              "CONFIRMED",
+              "IN_PRODUCTION",
+              "READY_TO_SHIP",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED",
+              "RETURN_REQUESTED",
+              "RETURNED",
+              "REFUNDED"
+            ]
+          },
+          "saleMode": {
+            "type": "string",
+            "enum": [
+              "IN_STOCK",
+              "MADE_TO_ORDER",
+              "PRE_ORDER"
+            ]
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "subtotalPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "discountPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "shippingFeePaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "totalPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "advanceRequiredPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              }
+            },
+            "required": [
+              "subtotalPaisa",
+              "discountPaisa",
+              "shippingFeePaisa",
+              "totalPaisa",
+              "advanceRequiredPaisa"
+            ],
+            "additionalProperties": false
+          },
+          "payment": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "COD",
+                  "BKASH_MANUAL",
+                  "NAGAD_MANUAL"
+                ]
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "ADVANCE",
+                  "FULL",
+                  "COD"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "SUBMITTED",
+                  "VERIFIED",
+                  "REJECTED",
+                  "COD_PENDING",
+                  "COD_CONFIRMED",
+                  "COLLECTED",
+                  "VOID"
+                ]
+              },
+              "amountPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "trxIdLast4": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "method",
+              "kind",
+              "status",
+              "amountPaisa",
+              "trxIdLast4"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          }
+        },
+        "required": [
+          "orderCode",
+          "status",
+          "saleMode",
+          "totals",
+          "payment"
+        ],
+        "additionalProperties": false
+      },
+      "OrderTrackingDto_Output": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING_PAYMENT",
+              "CONFIRMED",
+              "IN_PRODUCTION",
+              "READY_TO_SHIP",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED",
+              "RETURN_REQUESTED",
+              "RETURNED",
+              "REFUNDED"
+            ]
+          },
+          "saleMode": {
+            "type": "string",
+            "enum": [
+              "IN_STOCK",
+              "MADE_TO_ORDER",
+              "PRE_ORDER"
+            ]
+          },
+          "placedAt": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sku": {
+                  "type": "string"
+                },
+                "nameBn": {
+                  "type": "string"
+                },
+                "nameEn": {
+                  "type": "string"
+                },
+                "options": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "qty": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "unitPricePaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                },
+                "lineTotalPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "sku",
+                "nameBn",
+                "nameEn",
+                "options",
+                "qty",
+                "unitPricePaisa",
+                "lineTotalPaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "subtotalPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "discountPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "shippingFeePaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "totalPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "advanceRequiredPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              }
+            },
+            "required": [
+              "subtotalPaisa",
+              "discountPaisa",
+              "shippingFeePaisa",
+              "totalPaisa",
+              "advanceRequiredPaisa"
+            ],
+            "additionalProperties": false
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "PENDING_PAYMENT",
+                    "CONFIRMED",
+                    "IN_PRODUCTION",
+                    "READY_TO_SHIP",
+                    "SHIPPED",
+                    "DELIVERED",
+                    "CANCELLED",
+                    "RETURN_REQUESTED",
+                    "RETURNED",
+                    "REFUNDED"
+                  ]
+                },
+                "at": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "status",
+                "at"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "payment": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "COD",
+                  "BKASH_MANUAL",
+                  "NAGAD_MANUAL"
+                ]
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "ADVANCE",
+                  "FULL",
+                  "COD"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "SUBMITTED",
+                  "VERIFIED",
+                  "REJECTED",
+                  "COD_PENDING",
+                  "COD_CONFIRMED",
+                  "COLLECTED",
+                  "VOID"
+                ]
+              },
+              "amountPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "trxIdLast4": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "method",
+              "kind",
+              "status",
+              "amountPaisa",
+              "trxIdLast4"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "shipment": {
+            "type": "object",
+            "properties": {
+              "courier": {
+                "type": "string",
+                "enum": [
+                  "MANUAL",
+                  "STEADFAST",
+                  "PAPERFLY",
+                  "PATHAO"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "BOOKED",
+                  "PICKED_UP",
+                  "IN_TRANSIT",
+                  "DELIVERED",
+                  "RETURNED",
+                  "CANCELLED"
+                ]
+              },
+              "consignmentId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "trackingUrl": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "courier",
+              "status",
+              "consignmentId",
+              "trackingUrl"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          }
+        },
+        "required": [
+          "code",
+          "status",
+          "saleMode",
+          "placedAt",
+          "items",
+          "totals",
+          "history",
+          "payment",
+          "shipment"
         ],
         "additionalProperties": false
       }
