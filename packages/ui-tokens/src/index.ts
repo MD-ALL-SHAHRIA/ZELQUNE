@@ -1,59 +1,57 @@
 /**
- * Zelqune brand tokens. Brand colors come from the build plan; everything marked
- * "derived" is a proposal to confirm with the final brand guide.
+ * Zelqune brand tokens (v2, from the owner's logo: near-black ink on warm cream).
+ * Walnut and amber are accents; "glow" is the warm lamp light used for highlights.
  */
 export const colors = {
   /** Brand */
+  ink: '#16120F',
+  cream: '#F2EADB',
   walnut: '#4A3426',
-  cream: '#F4ECDF',
   amber: '#E3A857',
-  /** Derived neutrals */
-  ink: '#2A1E16',
-  muted: '#7A6A5D',
-  line: '#E3D6C4',
+  /** Neutrals */
+  paper: '#FAF6EF',
+  sand: '#EDE3D3',
+  stone: '#8A7D6F',
+  line: '#E2D7C6',
   surface: '#FFFFFF',
-  /** Derived status */
-  success: '#2F7D4F',
-  warning: '#B7791F',
-  danger: '#B3261E',
+  /** Glow (lamp light) */
+  glow: '#F6C987',
+  /** Status */
+  success: '#2F6B4A',
+  warning: '#9A6417',
+  danger: '#A3301F',
 } as const;
 
 /** Semantic roles; components should use these rather than raw brand names. */
 export const semantic = {
-  background: colors.cream,
+  background: colors.paper,
   foreground: colors.ink,
-  primary: colors.walnut,
-  primaryForeground: colors.cream,
+  primary: colors.ink,
+  primaryForeground: colors.paper,
   accent: colors.amber,
   accentForeground: colors.ink,
-  muted: colors.muted,
+  muted: colors.stone,
   border: colors.line,
   card: colors.surface,
 } as const;
 
-/** Placeholder fonts (Google Fonts): Hind Siliguri for Bangla, Inter for Latin. */
+/** Display serif (close to the wordmark), clean sans for text; Bangla pairs for both. */
 export const typography = {
   fontFamily: {
-    bn: "'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif",
-    en: "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+    display: "'Cormorant Garamond', 'Noto Serif Bengali', Georgia, serif",
+    sans: "'Manrope', 'Hind Siliguri', system-ui, sans-serif",
+    displayBn: "'Noto Serif Bengali', 'Cormorant Garamond', Georgia, serif",
+    sansBn: "'Hind Siliguri', 'Manrope', system-ui, sans-serif",
   },
-  /** rem, mobile-first */
-  fontSize: {
-    xs: 0.75,
-    sm: 0.875,
-    base: 1,
-    lg: 1.125,
-    xl: 1.25,
-    '2xl': 1.5,
-    '3xl': 1.875,
-    '4xl': 2.25,
-  },
-  fontWeight: { regular: 400, medium: 500, semibold: 600, bold: 700 },
+  /** Letter spacing of the wordmark and eyebrow labels. */
+  tracking: { wordmark: '0.34em', eyebrow: '0.22em' },
+  fontWeight: { light: 300, regular: 400, medium: 500, semibold: 600 },
   /** Bangla script needs more line height than Latin. */
-  lineHeight: { bn: 1.7, en: 1.5, heading: 1.25 },
+  lineHeight: { bn: 1.75, en: 1.6, display: 1.02 },
 } as const;
 
-export const radius = { sm: '4px', md: '8px', lg: '12px', full: '9999px' } as const;
+/** Square, architectural edges; the arch is the one curved motif. */
+export const radius = { none: '0', sm: '2px', arch: '9999px 9999px 0 0', full: '9999px' } as const;
 
 /** 4px grid */
 export const spacing = (step: number): string => `${step * 0.25}rem`;

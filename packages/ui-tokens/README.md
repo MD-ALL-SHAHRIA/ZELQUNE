@@ -2,14 +2,18 @@
 
 Single source for brand colors, typography and spacing, used by `frontend/` and `dashboard/`.
 
+Brand v2 follows the owner's logo: near-black ink on warm cream, walnut and amber as accents.
+
 | Token | Hex | Role |
 |---|---|---|
-| walnut | `#4A3426` | primary, headings |
-| cream | `#F4ECDF` | page background |
-| amber | `#E3A857` | accent, warm light |
+| ink | `#16120F` | text, primary buttons, the logo |
+| paper | `#FAF6EF` | page background |
+| cream | `#F2EADB` | logo background, sections |
+| walnut | `#4A3426` | wood accent |
+| amber / glow | `#E3A857` / `#F6C987` | warm lamp light, highlights |
 
-Neutrals and status colors are derived proposals. Fonts are placeholders: **Hind Siliguri**
-(Bangla) and **Inter** (Latin).
+Fonts (Google Fonts, self-hosted by next/font): **Cormorant Garamond** (display, close to the
+wordmark) and **Manrope** (text); **Noto Serif Bengali** and **Hind Siliguri** for Bangla.
 
 ```ts
 import { colors, typography } from '@zelqune/ui-tokens';

@@ -1,20 +1,26 @@
 /* Tailwind v4: `@import "@zelqune/ui-tokens/tailwind-theme.css";` after `@import "tailwindcss";` */
 @theme {
+  --color-ink: #16120f;
+  --color-cream: #f2eadb;
   --color-walnut: #4a3426;
-  --color-cream: #f4ecdf;
   --color-amber: #e3a857;
-  --color-ink: #2a1e16;
-  --color-muted: #7a6a5d;
-  --color-line: #e3d6c4;
+  --color-paper: #faf6ef;
+  --color-sand: #ede3d3;
+  --color-stone: #8a7d6f;
+  --color-line: #e2d7c6;
   --color-surface: #ffffff;
-  --color-success: #2f7d4f;
-  --color-warning: #b7791f;
-  --color-danger: #b3261e;
+  --color-glow: #f6c987;
+  --color-success: #2f6b4a;
+  --color-warning: #9a6417;
+  --color-danger: #a3301f;
+  /* Kept for compatibility with step 1.4 classes. */
+  --color-muted: #8a7d6f;
 
-  --font-bn: 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
-  --font-en: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-cormorant), var(--font-noto-serif-bn), Georgia, serif;
+  --font-sans: var(--font-manrope), var(--font-hind), system-ui, sans-serif;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --tracking-wordmark: 0.34em;
+  --tracking-eyebrow: 0.22em;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
