@@ -1,30 +1,43 @@
+import { UserRound } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { cartCopy } from '@/features/cart/cart-copy';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { type Category } from '@/shared/api/types';
+import { cn } from '@/shared/lib/cn';
 import { href } from '@/shared/lib/site';
 import { Logo } from '@/shared/ui/logo';
-import { Container } from '@/shared/ui/typography';
 import { CartButton, MenuButton } from './header-actions';
+import { iconButton } from './header-styles';
 import { LanguageSwitcher } from './language-switcher';
-import { categoryLinks, primaryNav, secondaryNav } from './nav';
+import { categoryLinks, helpNav, serviceNav, shopNav } from './nav';
+import { ActiveLink, NavTabs } from './nav-tabs';
+import { type SearchIndex } from './search';
+import { SearchButton } from './search-button';
 import { Overlays } from './overlays';
 
+/**
+ * Two-row header in the RH manner: utilities around a centred logo, then the catalog as tabs.
+ * Server-rendered; only the small buttons, the active-tab marker and the language switch are
+ * client components. Search, menu and cart overlays load on first open.
+ */
 export function Header({
   lang,
   dict,
   categories,
+  searchIndex,
 }: {
   lang: Locale;
   dict: Dictionary;
   categories: Category[];
+  searchIndex: SearchIndex;
 }) {
-  const primary = primaryNav(lang, dict);
   const cats = categoryLinks(lang, categories);
-  const secondary = secondaryNav(lang, dict);
-  const link = 'text-[0.78rem] tracking-[0.08em] transition-opacity hover:opacity-55';
+  const services = serviceNav(lang, dict);
+  const shop = shopNav(lang, dict);
+  const help = helpNav(lang, dict);
+  const account = href(lang, '/account');
   return (
     <>
       <a
@@ -33,77 +46,60 @@ export function Header({
       >
         {dict.ui.skip}
       </a>
-      <p className="bg-ink px-4 py-2 text-center text-[0.68rem] tracking-[0.16em] text-paper/90 uppercase [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal">
+      <p className="bg-ink px-4 py-2.5 text-center text-[0.66rem] uppercase tracking-[0.2em] text-paper/85 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
         {dict.layout.announcement}
       </p>
-      <header className="sticky top-0 z-30 border-b border-line/80 bg-paper/95">
-        <Container className="grid h-16 grid-cols-[1fr_auto_1fr] items-center lg:h-[4.75rem]">
-          <div className="flex items-center gap-8">
+      <header className="sticky top-0 z-30 border-b border-line bg-paper/[0.97] backdrop-blur-md supports-[backdrop-filter]:bg-paper/90">
+        <div className="mx-auto grid h-16 w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-5 md:px-10 lg:h-[5.5rem]">
+          <div className="flex items-center gap-0.5 lg:gap-4">
             <MenuButton label={dict.layout.menu} />
-            <nav aria-label={dict.layout.menu} className="hidden lg:block">
-              <ul className="flex gap-7">
-                <li className="group relative">
-                  <Link href={primary.shop.href} className={link} aria-haspopup="true">
-                    {primary.shop.label}
-                  </Link>
-                  {/* CSS-only dropdown: opens on hover and on keyboard focus. */}
-                  <div className="invisible absolute left-0 top-full z-40 pt-5 opacity-0 transition duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                    <div className="min-w-60 border border-line bg-paper p-6 shadow-[0_20px_50px_rgba(22,18,15,0.08)]">
-                      <p className="mb-3 text-[0.68rem] uppercase tracking-eyebrow text-stone">
-                        {dict.nav2.byCategory}
-                      </p>
-                      <ul className="space-y-2">
-                        {cats.map((c) => (
-                          <li key={c.href}>
-                            <Link
-                              href={c.href}
-                              className="font-display text-xl font-light hover:opacity-60"
-                            >
-                              {c.label}
-                            </Link>
-                          </li>
-                        ))}
-                        <li className="border-t border-line pt-3">
-                          <Link
-                            href={primary.shop.href}
-                            className="text-sm underline-offset-4 hover:underline"
-                          >
-                            {dict.nav2.allProducts}
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                {primary.rest.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className={link}>
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+            <SearchButton
+              index={searchIndex}
+              copy={{
+                search: dict.header.search,
+                close: dict.header.closeSearch,
+                placeholder: dict.header.searchPlaceholder,
+                products: dict.header.searchProducts,
+                pages: dict.header.searchPages,
+                empty: dict.header.searchEmpty,
+              }}
+            />
           </div>
-          <Link href={href(lang)} aria-label={dict.brand.name} className="justify-self-center">
-            <Logo />
+
+          <Link
+            href={href(lang)}
+            aria-label={dict.brand.name}
+            className="flex justify-self-center transition-opacity duration-300 hover:opacity-75"
+          >
+            <Logo className="gap-2.5 [&>span]:text-[1.08rem] [&>svg]:h-6 lg:gap-3 lg:[&>span]:text-[1.4rem] lg:[&>svg]:h-8" />
           </Link>
-          <div className="flex items-center justify-end gap-6">
-            <ul className="hidden gap-8 lg:flex">
-              {secondary.map((l) => (
+
+          <div className="flex items-center justify-end gap-0.5 lg:gap-5 xl:gap-8">
+            <ul className="hidden items-center gap-5 lg:flex xl:gap-8">
+              {services.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className={link}>
-                    {l.label}
-                  </Link>
+                  <ActiveLink {...l} />
                 </li>
               ))}
             </ul>
+            {/* Below xl the language switch lives in the menu and footer, keeping the logo centred. */}
+            <span aria-hidden className="hidden h-4 w-px bg-line xl:block" />
             <Suspense fallback={null}>
-              <LanguageSwitcher lang={lang} labels={dict.ui} className="hidden sm:flex" />
+              <LanguageSwitcher lang={lang} labels={dict.ui} className="hidden xl:flex" />
             </Suspense>
-            <CartButton lang={lang} label={dict.cart.title} />
+            <div className="flex items-center gap-0.5 lg:gap-2">
+              <Link
+                href={account}
+                aria-label={dict.header.account}
+                className={cn(iconButton, 'hidden min-[360px]:grid')}
+              >
+                <UserRound className="size-[1.2rem]" strokeWidth={1.1} />
+              </Link>
+              <CartButton lang={lang} label={dict.cart.title} />
+            </div>
           </div>
-        </Container>
+        </div>
+        <NavTabs label={dict.layout.columns.shop} groups={[cats, shop]} />
       </header>
       <Overlays
         lang={lang}
@@ -111,12 +107,25 @@ export function Header({
         menu={{
           title: dict.layout.menu,
           closeLabel: dict.layout.closeMenu,
-          links: [
-            { href: href(lang), label: dict.nav.home },
-            primary.shop,
-            ...cats,
-            ...primary.rest,
-            ...secondary,
+          sections: [
+            {
+              title: dict.nav2.byCategory,
+              size: 'lg',
+              links: [...cats, { href: href(lang, '/shop'), label: dict.nav2.allProducts }],
+            },
+            {
+              title: dict.services.eyebrow,
+              size: 'md',
+              links: [...services, { href: href(lang, '/bulk'), label: dict.nav.bulk }],
+            },
+            {
+              size: 'sm',
+              links: [
+                { href: href(lang), label: dict.nav.home },
+                { href: href(lang, '/story'), label: dict.layout.story },
+                ...help,
+              ],
+            },
           ],
           footer: (
             <Suspense fallback={null}>

@@ -48,6 +48,7 @@ export function Footer({
         { href: href(lang, '/shop'), label: dict.shop.title },
         ...categoryLinks(lang, categories),
         { href: href(lang, '/design'), label: dict.nav2.design },
+        { href: href(lang, '/construction'), label: dict.header.construction },
         { href: href(lang, '/bulk'), label: dict.nav.bulk },
       ],
     },

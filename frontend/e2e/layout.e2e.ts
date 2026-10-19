@@ -15,6 +15,8 @@ const PAGES = [
   '/en/design',
   '/bn/design/restaurant-cafe',
   '/en/category/shelves',
+  '/en/account',
+  '/bn/account',
 ];
 
 for (const path of PAGES) {
