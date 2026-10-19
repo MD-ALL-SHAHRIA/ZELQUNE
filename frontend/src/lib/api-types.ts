@@ -22,16 +22,27 @@ export class ApiError extends Error {
     readonly status: number,
     readonly code: string,
     message: string,
+    /** zod issues for VALIDATION_FAILED. */
+    readonly details: { path: (string | number)[] }[] = [],
   ) {
     super(message);
   }
 
   static from(status: number, body: unknown): ApiError {
-    const error = (body as { error?: { code?: unknown; message?: unknown } } | undefined)?.error;
+    const error = (
+      body as { error?: { code?: unknown; message?: unknown; details?: unknown } } | undefined
+    )?.error;
+    const details = Array.isArray(error?.details)
+      ? error.details.filter(
+          (d): d is { path: (string | number)[] } =>
+            !!d && typeof d === 'object' && Array.isArray((d as { path?: unknown }).path),
+        )
+      : [];
     return new ApiError(
       status,
       typeof error?.code === 'string' ? error.code : `HTTP_${status}`,
       typeof error?.message === 'string' ? error.message : 'Request failed',
+      details,
     );
   }
 }
