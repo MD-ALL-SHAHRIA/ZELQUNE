@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="490 359 274 343" role="img" aria-label="Zelqune">
+  <defs>
+    <mask id="zq-cut" maskUnits="userSpaceOnUse" x="480" y="350" width="300" height="360">
+      <rect x="480" y="350" width="300" height="360" fill="#fff"/>
+      <!-- inner arch (counter) -->
+      <path d="M573.2 484 A63 63 0 0 1 696.8 484 Z" fill="#000"/>
+      <!-- top stroke of the Z -->
+      <path d="M480 483.5 H733.2 L714.7 503.5 H480 Z" fill="#000"/>
+      <!-- diagonal stroke of the Z -->
+      <path d="M644 503 H714.7 L527.5 702 H480 V679 Z" fill="#000"/>
+    </mask>
+  </defs>
+  <path d="M490 702 V495.5 A136.5 136.5 0 0 1 763 495.5 V702 Z" fill="currentColor" mask="url(#zq-cut)"/>
+</svg>
