@@ -16,6 +16,8 @@ export const SCHEMAS = {
   orders: 'orders',
   payments: 'payments',
   shipping: 'shipping',
+  notifications: 'notifications',
+  analytics: 'analytics',
 } as const;
 export type SchemaName = (typeof SCHEMAS)[keyof typeof SCHEMAS];
 
@@ -27,6 +29,8 @@ export const SCHEMA_APPS: Record<SchemaName, string> = {
   orders: 'order-service',
   payments: 'payment-service',
   shipping: 'shipping-service',
+  notifications: 'notification-service',
+  analytics: 'analytics-service',
 };
 
 export function serviceDbUrl(schema: SchemaName, database: string): string {
