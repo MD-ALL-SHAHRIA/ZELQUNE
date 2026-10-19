@@ -12,5 +12,7 @@ accepted ADR; supersede it with a new one.
 | [0005](0005-observability.md) | Observability: pino + x-request-id now, OpenTelemetry/Sentry in step 1.6 | Accepted |
 | [0006](0006-auth-tokens-and-sessions.md) | Admin auth: ES256 access tokens, rotating refresh tokens, SameSite=Strict cookie | Accepted |
 | [0007](0007-media-storage-provider.md) | Product media through a StorageProvider (R2 / local fake) | Accepted |
+| [0008](0008-checkout-saga.md) | Checkout: orchestrated saga with synchronous steps, persisted log and TTL holds | Accepted |
+| [0009](0009-event-retry-topology.md) | Event consumers retry through delay queues before the DLQ | Accepted |
 
 Template: copy `0000-template.md`, take the next number, keep it under a page.
