@@ -13,6 +13,7 @@ module.exports = {
     '^@zelqune/common(|/.*)$': '<rootDir>/libs/common/src$1',
     '^@zelqune/contracts(|/.*)$': '<rootDir>/libs/contracts/src$1',
   },
+  globalSetup: '<rootDir>/test/integration/preflight.ts',
   testTimeout: 120_000,
   maxWorkers: 1,
 };
