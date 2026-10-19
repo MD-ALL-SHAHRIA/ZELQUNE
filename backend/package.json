@@ -50,7 +50,7 @@
   "devDependencies": {
     "@eslint/js": "^9",
     "@nestjs/cli": "^11",
-    "@nestjs/schematics": "^11",
+    "@nestjs/schematics": "^12",
     "@nestjs/testing": "^11",
     "@types/amqplib": "^0.10.8",
     "@types/cookie-parser": "^1.4.10",
