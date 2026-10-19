@@ -40,3 +40,49 @@ model ProcessedEvent {
   @@id([eventId, handler])
   @@map("processed_events")
 }
+
+enum Courier {
+  MANUAL
+  STEADFAST
+  PAPERFLY
+  PATHAO
+}
+
+enum ShipmentStatus {
+  PENDING
+  BOOKED
+  PICKED_UP
+  IN_TRANSIT
+  DELIVERED
+  RETURNED
+  CANCELLED
+}
+
+/// One shipment per order. Status changes only through the shipment state machine.
+model Shipment {
+  id            String         @id @default(uuid()) @db.Uuid
+  orderId       String         @unique @map("order_id") @db.Uuid
+  courier       Courier
+  consignmentId String?        @map("consignment_id")
+  trackingUrl   String?        @map("tracking_url")
+  status        ShipmentStatus @default(PENDING)
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime       @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  history ShipmentStatusChange[]
+
+  @@map("shipments")
+}
+
+model ShipmentStatusChange {
+  id         String          @id @default(uuid()) @db.Uuid
+  shipmentId String          @map("shipment_id") @db.Uuid
+  from       ShipmentStatus?
+  to         ShipmentStatus
+  createdAt  DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@index([shipmentId])
+  @@map("shipment_status_changes")
+}
