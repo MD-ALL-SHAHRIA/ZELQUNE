@@ -111,3 +111,65 @@
 
 ## SMS
 SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the templates are already short. [Assumption; switch if customers ask.]
+
+## Interface strings (added in step 1.4, for owner review)
+> Short labels the pages need that the sections above don't cover. Same structure in copy-bn.md.
+
+### General
+- **Language switcher:** Language · English · বাংলা
+- **Skip link:** Skip to content
+- **Common:** Close · Back · Loading… · Quantity · Remove · Price · From {price} · Item · Qty · Unit price · Total · Optional
+- **Not found page:** We couldn't find that page. · Back to home
+- **Error page:** Something went wrong on our side. Please try again. · Try again
+- **Too many attempts:** Too many attempts. Please wait a few minutes and try again.
+- **Photo placeholder:** [[Prototype photo coming soon]]
+- **Photo count:** Photo {n} of {total}
+
+### Page titles
+- **Shop:** All products
+- **Category empty:** No products here yet.
+- **FAQ:** Frequently asked questions
+- **Terms:** Terms
+- **Returns:** Returns and refunds
+- **Privacy:** Privacy
+- **Privacy text:** Your phone number and address are used only for your order and delivery, never sold or shared. [[full privacy policy to write]]
+
+### Product page
+- **Variant label:** Finish
+- **Delivery estimate:** Your district · Choose a district · Delivery to {district}: {fee} · We couldn't load the delivery fee. Please try again.
+- **Added:** Added to cart
+- **Quantity limit:** Up to {max} per item
+- **Unavailable:** This item isn't available right now.
+
+### Cart
+- **Mixed items:** Pre-order and in-stock items can't be ordered together. Remove one to continue.
+- **Continue:** Keep browsing
+- **Unavailable line:** No longer available. Please remove it.
+
+### Checkout
+- **Sections:** Your details · Delivery address · Payment · Order summary
+- **Payment options:** bKash advance · Nagad advance · Cash on delivery
+- **Delivery fee pending:** Choose your district and area to see the delivery fee.
+- **Field errors:** Please fill this in. · Please write the full address (house, road, area). · Enter the Transaction ID from your bKash/Nagad message. · Please complete the security check.
+- **Sending:** Placing your order…
+- **Empty cart:** Your cart is empty. Add a product first.
+- **Price changed:** A price in your cart has changed. Please check the total and try again.
+
+### Track order
+- **Button:** Track
+- **Sections:** Order history · Payment · Delivery
+- **Courier link:** Track with the courier
+- **Code format:** Order codes look like ZQ-XXXXXX.
+
+### Bulk and corporate
+- **Product field:** Choose a product · Something else (describe it)
+- **Describe:** Describe what you need
+- **Lines:** Add another product
+- **Field errors:** Please enter a quantity of 1 or more. · That email address doesn't look right.
+- **Sending:** Sending your request…
+- **Track heading:** Check your quote
+- **Track fields:** Request code (QT-XXXXXX) · Mobile number
+- **Track button:** Check
+- **Track not found:** We couldn't find a request with that code and number.
+- **Quote details:** Quoted price · Delivery · Total · Advance to confirm · Needed by · This quote became order {code}.
+- **Code format:** Request codes look like QT-XXXXXX.
