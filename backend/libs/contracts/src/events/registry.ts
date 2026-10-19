@@ -4,3 +4,5 @@
  */
 export * from './catalog.events';
 export * from './order.events';
+export * from './audit.events';
+export * from './quote.events';
