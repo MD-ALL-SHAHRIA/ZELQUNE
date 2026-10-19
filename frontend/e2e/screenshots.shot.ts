@@ -14,6 +14,8 @@ let orderCode = '';
 let quoteCode = '';
 
 test.describe.configure({ mode: 'serial' });
+// Full-page captures: show scroll-revealed sections in their final state.
+test.use({ reducedMotion: 'reduce' });
 
 test.beforeAll(async ({ request }) => {
   const product = await (await request.get(`${API}/v1/catalog/products/alo-arch-panel?p=b`)).json();
