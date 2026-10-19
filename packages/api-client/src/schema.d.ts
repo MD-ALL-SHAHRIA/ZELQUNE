@@ -1169,7 +1169,7 @@ export interface components {
         area: string;
         line: string;
         /** @default null */
-        note: string | null;
+        note?: string | null;
       };
       /** @enum {string} */
       paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
@@ -1337,15 +1337,15 @@ export interface components {
        * Format: email
        * @default null
        */
-      email: string | null;
+      email?: string | null;
       items: {
         /** @default null */
-        productSlug: string | null;
+        productSlug?: string | null;
         /**
          * Format: uuid
          * @default null
          */
-        variantId: string | null;
+        variantId?: string | null;
         description: string;
         qty: number;
       }[];
@@ -1353,11 +1353,11 @@ export interface components {
        * Format: date
        * @default null
        */
-      neededBy: string | null;
+      neededBy?: string | null;
       /** @default null */
-      customizationNotes: string | null;
+      customizationNotes?: string | null;
       /** @default null */
-      notes: string | null;
+      notes?: string | null;
       utm?: {
         source?: string;
         medium?: string;
@@ -1621,7 +1621,7 @@ export interface components {
         | 'RETURNED'
         | 'REFUNDED';
       /** @default null */
-      reason: string | null;
+      reason?: string | null;
     };
     StatusDto_Output: {
       status: string;
@@ -1638,14 +1638,14 @@ export interface components {
        * @default MANUAL
        * @enum {string}
        */
-      courier: 'MANUAL' | 'STEADFAST' | 'PAPERFLY' | 'PATHAO';
+      courier?: 'MANUAL' | 'STEADFAST' | 'PAPERFLY' | 'PATHAO';
       /** @default null */
-      consignmentId: string | null;
+      consignmentId?: string | null;
       /**
        * Format: uri
        * @default null
        */
-      trackingUrl: string | null;
+      trackingUrl?: string | null;
     };
     ShipmentDto_Output: {
       /** @enum {string} */
@@ -1716,9 +1716,9 @@ export interface components {
        * Format: uuid
        * @default null
        */
-      parentId: string | null;
+      parentId?: string | null;
       /** @default 0 */
-      position: number;
+      position?: number;
     };
     UpdateCategoryDto: {
       slug?: string;
@@ -1728,9 +1728,9 @@ export interface components {
        * Format: uuid
        * @default null
        */
-      parentId: string | null;
+      parentId?: string | null;
       /** @default 0 */
-      position: number;
+      position?: number;
       isActive?: boolean;
     };
     ChangedDto_Output: {
@@ -1770,23 +1770,23 @@ export interface components {
       nameBn: string;
       nameEn: string;
       /** @default null */
-      descriptionBn: string | null;
+      descriptionBn?: string | null;
       /** @default null */
-      descriptionEn: string | null;
+      descriptionEn?: string | null;
       /** @enum {string} */
       saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
       /** @default null */
-      leadTimeDays: number | null;
+      leadTimeDays?: number | null;
       /** @default null */
-      seoTitleBn: string | null;
+      seoTitleBn?: string | null;
       /** @default null */
-      seoTitleEn: string | null;
+      seoTitleEn?: string | null;
       /** @default null */
-      seoDescriptionBn: string | null;
+      seoDescriptionBn?: string | null;
       /** @default null */
-      seoDescriptionEn: string | null;
+      seoDescriptionEn?: string | null;
       /** @default [] */
-      categoryIds: string[];
+      categoryIds?: string[];
     };
     AdminProductDto_Output: {
       /** Format: uuid */
@@ -1859,49 +1859,49 @@ export interface components {
       nameBn?: string;
       nameEn?: string;
       /** @default null */
-      descriptionBn: string | null;
+      descriptionBn?: string | null;
       /** @default null */
-      descriptionEn: string | null;
+      descriptionEn?: string | null;
       /** @enum {string} */
       saleMode?: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
       /** @default null */
-      leadTimeDays: number | null;
+      leadTimeDays?: number | null;
       /** @default null */
-      seoTitleBn: string | null;
+      seoTitleBn?: string | null;
       /** @default null */
-      seoTitleEn: string | null;
+      seoTitleEn?: string | null;
       /** @default null */
-      seoDescriptionBn: string | null;
+      seoDescriptionBn?: string | null;
       /** @default null */
-      seoDescriptionEn: string | null;
+      seoDescriptionEn?: string | null;
       /** @default [] */
-      categoryIds: string[];
+      categoryIds?: string[];
     };
     UpsertVariantDto: {
       /** @default {} */
-      options: {
+      options?: {
         [key: string]: string;
       };
       /** @default null */
-      weightGrams: number | null;
+      weightGrams?: number | null;
       /** @default null */
-      widthMm: number | null;
+      widthMm?: number | null;
       /** @default null */
-      heightMm: number | null;
+      heightMm?: number | null;
       /** @default null */
-      depthMm: number | null;
+      depthMm?: number | null;
       /** @default 0 */
-      position: number;
+      position?: number;
       /** @default true */
-      isActive: boolean;
+      isActive?: boolean;
       /** @default null */
-      packageLengthMm: number | null;
+      packageLengthMm?: number | null;
       /** @default null */
-      packageWidthMm: number | null;
+      packageWidthMm?: number | null;
       /** @default null */
-      packageHeightMm: number | null;
+      packageHeightMm?: number | null;
       /** @default null */
-      packageWeightGrams: number | null;
+      packageWeightGrams?: number | null;
     };
     SetPriceDto: {
       /** @example 349000 */
@@ -1910,12 +1910,12 @@ export interface components {
        * @default null
        * @example 349000
        */
-      compareAtPaisa: number | null;
+      compareAtPaisa?: number | null;
       /**
        * @default RETAIL
        * @enum {string}
        */
-      priceListId: 'RETAIL';
+      priceListId?: 'RETAIL';
     };
     ChangedFlagDto_Output: {
       changed: boolean;
@@ -1924,23 +1924,23 @@ export interface components {
       /** @example 349000 */
       amountPaisa: number;
       /** @default true */
-      active: boolean;
+      active?: boolean;
     };
     RequestMediaUploadDto: {
       /**
        * Format: uuid
        * @default null
        */
-      variantId: string | null;
+      variantId?: string | null;
       /** @enum {string} */
       mimeType: 'image/webp' | 'image/jpeg' | 'image/png' | 'image/avif';
       bytes: number;
       /** @default null */
-      altBn: string | null;
+      altBn?: string | null;
       /** @default null */
-      altEn: string | null;
+      altEn?: string | null;
       /** @default 0 */
-      position: number;
+      position?: number;
     };
     MediaTicketDto_Output: {
       /** Format: uuid */
@@ -1970,7 +1970,7 @@ export interface components {
       /** @enum {string} */
       reason: 'RECEIPT' | 'ADJUSTMENT' | 'RETURN';
       /** @default null */
-      note: string | null;
+      note?: string | null;
     };
     StockAdjustedDto_Output: {
       onHand: number;
@@ -2141,17 +2141,17 @@ export interface components {
        * @default 0
        * @example 349000
        */
-      shippingFeePaisa: number;
+      shippingFeePaisa?: number;
       /** @example 349000 */
       advanceRequiredPaisa: number;
       /** Format: date-time */
       validUntil?: string;
       /** @default false */
-      allowDeepDiscount: boolean;
+      allowDeepDiscount?: boolean;
     };
     DecideQuoteDto: {
       /** @default null */
-      reason: string | null;
+      reason?: string | null;
     };
     ConvertQuoteDto: {
       address: {
@@ -2159,7 +2159,7 @@ export interface components {
         area: string;
         line: string;
         /** @default null */
-        note: string | null;
+        note?: string | null;
       };
       /** @enum {string} */
       paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
