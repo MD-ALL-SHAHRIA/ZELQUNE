@@ -2,24 +2,36 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { formatTaka } from '@/i18n/format';
+import { fill, formatNumber, formatTaka } from '@/i18n/format';
 import { type ProductSummary } from '@/shared/api/types';
+import { cn } from '@/shared/lib/cn';
 import { href } from '@/shared/lib/site';
+import { finishColor } from './finishes';
 import { productImages } from './product-images';
 import { productName } from './product-copy';
 import { SaleBadge } from './sale-badge';
 
-/** Product tile in the Ferm Living manner: quiet image field, badge, name, price. */
+const DEFAULT_SIZES = '(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 92vw';
+
+/**
+ * Product tile in the RH / Ferm Living manner: a large image on a soft neutral field (the second
+ * photo fades in on hover), the sale-mode badge, name, price and the finish swatches.
+ */
 export function ProductCard({
   product,
   lang,
   dict,
+  finishes = [],
   priority = false,
+  sizes = DEFAULT_SIZES,
 }: {
   product: ProductSummary;
   lang: Locale;
   dict: Dictionary;
+  /** Finish option values (e.g. WALNUT, NATURAL); swatches are shown when known. */
+  finishes?: string[];
   priority?: boolean;
+  sizes?: string;
 }) {
   const name = productName(product, lang, dict);
   const [first, second] = productImages(
@@ -28,17 +40,26 @@ export function ProductCard({
     lang,
     product.slug,
   );
+  // Catalog photos are product shots: shown whole on the neutral field. Samples fill the frame.
+  const fit = first && !first.sample ? 'object-contain p-[8%]' : 'object-cover';
   return (
-    <Link href={href(lang, `/products/${product.slug}`)} className="group block">
-      <div className="relative aspect-[4/5] overflow-hidden bg-sand">
+    <Link
+      href={href(lang, `/products/${product.slug}`)}
+      className="group block focus-visible:outline-offset-4"
+    >
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#EFE8DC]">
         {first ? (
           <Image
             src={first.src}
             alt={first.alt}
             fill
             priority={priority}
-            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
-            className="object-cover transition-opacity duration-700 ease-out-soft group-hover:opacity-0"
+            sizes={sizes}
+            className={cn(
+              fit,
+              'transition duration-[1.2s] ease-out-soft group-hover:scale-[1.025]',
+              second && 'group-hover:opacity-0',
+            )}
           />
         ) : null}
         {second ? (
@@ -46,25 +67,52 @@ export function ProductCard({
             src={second.src}
             alt=""
             fill
-            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
-            className="object-cover opacity-0 transition-opacity duration-700 ease-out-soft group-hover:opacity-100"
+            sizes={sizes}
+            className={cn(
+              second.sample ? 'object-cover' : 'object-contain p-[8%]',
+              'opacity-0 transition-opacity duration-700 ease-out-soft group-hover:opacity-100',
+            )}
           />
         ) : null}
-        <div className="absolute left-3 top-3">
+        <div className="absolute left-3 top-3 right-3">
           <SaleBadge
             dict={dict}
             lang={lang}
             saleMode={product.saleMode}
             leadTimeDays={product.leadTimeDays}
+            marked={false}
           />
         </div>
       </div>
-      <div className="mt-4 flex items-baseline justify-between gap-4">
-        <h3 className="font-display text-2xl font-light leading-tight">{name}</h3>
-        {product.fromPrice ? (
-          <p className="shrink-0 text-sm tracking-wide">
-            {formatTaka(product.fromPrice.amountPaisa, lang)}
-          </p>
+      <div className="mt-4 space-y-2">
+        <div className="flex items-baseline justify-between gap-4">
+          <h3 className="font-display text-[1.45rem] font-light leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
+            {name}
+          </h3>
+          {product.fromPrice ? (
+            <p className="shrink-0 text-sm tabular-nums tracking-wide">
+              {formatTaka(product.fromPrice.amountPaisa, lang)}
+            </p>
+          ) : null}
+        </div>
+        {finishes.length ? (
+          <div className="flex items-center gap-2.5 text-xs text-stone">
+            <span className="flex -space-x-0.5" aria-hidden>
+              {finishes.map((f) => (
+                <span
+                  key={f}
+                  title={dict.product.variants[f] ?? f}
+                  className="size-3.5 rounded-full border border-paper ring-1 ring-ink/15"
+                  style={{ background: finishColor(f) }}
+                />
+              ))}
+            </span>
+            <span>
+              {finishes.length > 1
+                ? fill(dict.listing.finishes, { n: formatNumber(finishes.length, lang) })
+                : (dict.product.variants[finishes[0] ?? ''] ?? finishes[0])}
+            </span>
+          </div>
         ) : null}
       </div>
     </Link>
