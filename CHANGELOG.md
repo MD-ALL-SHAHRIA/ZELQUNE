@@ -8,8 +8,8 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ### Changed
 - Storefront redesign (references: RH, Ferm Living): brand v2 from the owner's logo (vector
-  arch mark, ink on cream, walnut and amber glow), Cormorant Garamond + Manrope (Noto Serif
-  Bengali + Hind Siliguri for Bangla), editorial landing page (hero, values, featured product,
+  arch mark, ink on cream, walnut and amber glow), Cormorant Garamond + Manrope (Hind
+  Siliguri for Bangla, self-hosted and preloaded on /bn only), editorial landing page (hero, values, featured product,
   day/night, craft and pre-order steps, rooms, business band, FAQ), redesigned product,
   collection, checkout, tracking, bulk and text pages, new "Our story" page (ADR 0013).
 - Storefront architecture: feature folders, Redux Toolkit with RTK Query generated from the

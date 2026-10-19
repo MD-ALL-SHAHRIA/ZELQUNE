@@ -26,7 +26,7 @@ export function LanguageSwitcher({
       aria-current={target === lang ? 'true' : undefined}
       className={cn(
         'transition-opacity',
-        target === lang ? 'opacity-100' : 'opacity-45 hover:opacity-100',
+        target === lang ? 'opacity-100' : 'opacity-60 hover:opacity-100',
       )}
     >
       {label}

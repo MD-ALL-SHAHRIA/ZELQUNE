@@ -13,7 +13,7 @@ Brand v2 follows the owner's logo: near-black ink on warm cream, walnut and ambe
 | amber / glow | `#E3A857` / `#F6C987` | warm lamp light, highlights |
 
 Fonts (Google Fonts, self-hosted by next/font): **Cormorant Garamond** (display, close to the
-wordmark) and **Manrope** (text); **Noto Serif Bengali** and **Hind Siliguri** for Bangla.
+wordmark) and **Manrope** (text); **Hind Siliguri** for Bangla (self-hosted by the storefront).
 
 ```ts
 import { colors, typography } from '@zelqune/ui-tokens';

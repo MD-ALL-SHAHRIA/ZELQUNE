@@ -28,7 +28,7 @@ const sizes: Record<Level, string> = {
   h3: 'text-[1.6rem] leading-[1.1] sm:text-[1.9rem]',
 };
 
-/** Display serif headings (Cormorant Garamond / Noto Serif Bengali). */
+/** Display headings: Cormorant Garamond (Latin), Hind Siliguri on Bangla pages. */
 export function Heading({
   as: Tag = 'h2',
   level = 'h2',

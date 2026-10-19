@@ -27,7 +27,7 @@ working pages with ad-hoc components and a hand-rolled cart context.
   sends analytics beacons and Meta Pixel events (still off without `NEXT_PUBLIC_META_PIXEL_ID`).
 - **Design system from the logo:** ink-on-cream palette with walnut and amber "lamp glow"
   accents (`@zelqune/ui-tokens` v2); Cormorant Garamond for display (close to the wordmark),
-  Manrope for text, Noto Serif Bengali / Hind Siliguri for Bangla; square edges with the arch as
+  Manrope for text, Hind Siliguri for Bangla (self-hosted, preloaded on /bn only); square edges with the arch as
   the single curved motif; motion is CSS-only (scroll-driven reveal) and respects reduced motion.
 - **Images:** sample photography (Unsplash License) stands in until real product photos are
   uploaded; catalog media always win. A custom next/image loader lets Unsplash's CDN resize

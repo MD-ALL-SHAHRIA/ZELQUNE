@@ -186,7 +186,7 @@ export function Purchase({
 
       {/* Mobile: the buy button stays reachable while reading. */}
       {price ? (
-        <div className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-4 border-t border-line bg-paper/95 px-5 py-3 backdrop-blur lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-4 border-t border-line bg-paper px-5 py-3 lg:hidden">
           <span className="font-display text-2xl font-light">{price}</span>
           <Button disabled={busy} onClick={() => buy(copy.preOrder)} className="flex-1">
             {primaryLabel}

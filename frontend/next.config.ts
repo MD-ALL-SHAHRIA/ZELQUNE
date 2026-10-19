@@ -1,10 +1,12 @@
 import type { NextConfig } from 'next';
 import { PHASE_PRODUCTION_BUILD } from 'next/constants';
+import { validatePublicEnv } from './src/config/env.schema';
 
 /** Product photos come from catalog-service's media store (R2 in production). */
 const mediaBase = new URL(process.env.MEDIA_BASE_URL ?? 'http://localhost:3002/dev-storage');
 
 export default function config(phase: string): NextConfig {
+  validatePublicEnv(process.env);
   if (
     phase === PHASE_PRODUCTION_BUILD &&
     !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY &&

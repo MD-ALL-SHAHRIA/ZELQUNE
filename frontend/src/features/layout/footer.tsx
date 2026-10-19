@@ -101,12 +101,23 @@ export function Footer({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         </div>
       </Container>
       <Container>
-        <p
+        {/* Decorative oversized wordmark (SVG text: scales with the container, never wraps). */}
+        <svg
           aria-hidden
-          className="select-none overflow-hidden whitespace-nowrap border-t border-paper/15 pt-10 text-center font-display text-[15vw] font-light uppercase leading-[0.8] tracking-[0.14em] text-paper/[0.07] lg:text-[13.5rem]"
+          viewBox="0 0 1000 150"
+          className="w-full select-none border-t border-paper/15 pt-10"
         >
-          Zelqune
-        </p>
+          <text
+            x="500"
+            y="128"
+            textAnchor="middle"
+            textLength="980"
+            lengthAdjust="spacingAndGlyphs"
+            className="fill-paper/[0.07] font-display text-[150px] font-light uppercase"
+          >
+            Zelqune
+          </text>
+        </svg>
       </Container>
       <Container className="flex flex-col items-center justify-between gap-4 py-8 text-xs text-paper/55 sm:flex-row">
         <p>{dict.footer.copyright}</p>

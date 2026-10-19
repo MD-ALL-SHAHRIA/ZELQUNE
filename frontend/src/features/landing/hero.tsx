@@ -27,7 +27,7 @@ export function Hero({
         fill
         priority
         sizes="100vw"
-        className="-z-10 animate-[hero-zoom_2.4s_var(--ease-out-soft)] object-cover object-[60%_center]"
+        className="-z-10 object-cover object-[60%_center]"
       />
       <div
         aria-hidden

@@ -11,7 +11,7 @@ export const colors = {
   /** Neutrals */
   paper: '#FAF6EF',
   sand: '#EDE3D3',
-  stone: '#8A7D6F',
+  stone: '#6A5E51',
   line: '#E2D7C6',
   surface: '#FFFFFF',
   /** Glow (lamp light) */
@@ -38,9 +38,9 @@ export const semantic = {
 /** Display serif (close to the wordmark), clean sans for text; Bangla pairs for both. */
 export const typography = {
   fontFamily: {
-    display: "'Cormorant Garamond', 'Noto Serif Bengali', Georgia, serif",
+    display: "'Cormorant Garamond', Georgia, serif",
     sans: "'Manrope', 'Hind Siliguri', system-ui, sans-serif",
-    displayBn: "'Noto Serif Bengali', 'Cormorant Garamond', Georgia, serif",
+    displayBn: "'Hind Siliguri', 'Cormorant Garamond', Georgia, serif",
     sansBn: "'Hind Siliguri', 'Manrope', system-ui, sans-serif",
   },
   /** Letter spacing of the wordmark and eyebrow labels. */

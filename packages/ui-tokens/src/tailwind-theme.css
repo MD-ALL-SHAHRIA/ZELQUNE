@@ -6,7 +6,7 @@
   --color-amber: #e3a857;
   --color-paper: #faf6ef;
   --color-sand: #ede3d3;
-  --color-stone: #8a7d6f;
+  --color-stone: #6a5e51;
   --color-line: #e2d7c6;
   --color-surface: #ffffff;
   --color-glow: #f6c987;
@@ -14,10 +14,12 @@
   --color-warning: #9a6417;
   --color-danger: #a3301f;
   /* Kept for compatibility with step 1.4 classes. */
-  --color-muted: #8a7d6f;
+  --color-muted: #6a5e51;
 
-  --font-display: var(--font-cormorant), var(--font-noto-serif-bn), Georgia, serif;
-  --font-sans: var(--font-manrope), var(--font-hind), system-ui, sans-serif;
+  /* Latin-only stacks: Bangla pages switch fonts by lang (so English pages never fetch the
+     Bangla fonts, e.g. just to draw the ৳ sign). */
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
 
   --tracking-wordmark: 0.34em;
   --tracking-eyebrow: 0.22em;
