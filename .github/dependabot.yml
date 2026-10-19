@@ -9,7 +9,11 @@ updates:
     commit-message:
       prefix: chore(deps)
     labels: [type:chore]
-    # Grouped minor/patch updates; major updates arrive as separate PRs (see ADR 0004).
+    # Majors are upgraded deliberately in a dedicated PR (ADR 0004), never by Dependabot.
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+    # Minor/patch updates, grouped weekly.
     groups:
       nestjs:
         patterns: ['@nestjs/*', 'nestjs-pino']
@@ -41,6 +45,9 @@ updates:
     commit-message:
       prefix: ci(deps)
     labels: [type:chore, area:infra]
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
     groups:
       actions:
         patterns: ['*']
