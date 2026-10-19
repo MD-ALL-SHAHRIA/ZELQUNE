@@ -1,6 +1,6 @@
 import { AppError } from '@zelqune/common';
 import request from 'supertest';
-import { createGatewayHarness, type GatewayHarness } from './helpers';
+import { ALLOWED_ORIGIN, createGatewayHarness, type GatewayHarness } from './helpers';
 
 const TOKEN = 'cart-token-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const OTHER = 'cart-token-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb';
@@ -55,6 +55,32 @@ describe('shop routes (e2e, services mocked)', () => {
     if (opts.turnstile !== '') req.set('cf-turnstile-response', opts.turnstile ?? 'dev-pass');
     return req.send(opts.body ?? checkoutBody);
   };
+
+  it('CORS preflight lets the storefront send cart, idempotency and Turnstile headers', async () => {
+    const res = await request(h.app.getHttpServer())
+      .options('/v1/checkout')
+      .set('Origin', ALLOWED_ORIGIN)
+      .set('Access-Control-Request-Method', 'POST')
+      .set(
+        'Access-Control-Request-Headers',
+        'content-type,x-cart-token,idempotency-key,cf-turnstile-response',
+      )
+      .expect(204);
+    expect(res.headers['access-control-allow-origin']).toBe(ALLOWED_ORIGIN);
+    const allowed = String(res.headers['access-control-allow-headers']).toLowerCase().split(',');
+    for (const header of ['x-cart-token', 'idempotency-key', 'cf-turnstile-response']) {
+      expect(allowed).toContain(header);
+    }
+  });
+
+  it('CORS preflight from a foreign origin gets no allow-origin header', async () => {
+    const res = await request(h.app.getHttpServer())
+      .options('/v1/checkout')
+      .set('Origin', 'https://evil.example')
+      .set('Access-Control-Request-Method', 'POST')
+      .set('Access-Control-Request-Headers', 'x-cart-token');
+    expect(res.headers['access-control-allow-origin']).toBeUndefined();
+  });
 
   it('lists districts publicly', async () => {
     h.clients.shipping.send.mockResolvedValueOnce({
