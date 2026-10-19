@@ -11,6 +11,7 @@ const PAGES = [
   '/shop',
   '/design',
   ...SECTORS.map((s) => `/design/${s.slug}`),
+  '/construction',
   '/bulk',
   '/story',
   '/faq',

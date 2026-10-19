@@ -12,7 +12,7 @@ import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input } from '@/shared/ui/field';
 import { useLazyTrackQuoteQuery } from '@/store/api';
 
-type Copy = Pick<Dictionary, 'bulk' | 'checkout' | 'ui' | 'consult'>;
+type Copy = Pick<Dictionary, 'bulk' | 'checkout' | 'ui' | 'consult' | 'build'>;
 
 export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
   const b = copy.bulk;
@@ -93,15 +93,34 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
             </p>
           </div>
           <div className="space-y-1">
-            {quote.kind === 'DESIGN' ? (
+            {quote.kind === 'DESIGN' || quote.kind === 'CONSTRUCTION' ? (
               <p className="text-xs uppercase tracking-eyebrow text-stone">
-                {copy.consult.trackLabel}
+                {quote.kind === 'DESIGN' ? copy.consult.trackLabel : copy.build.trackLabel}
               </p>
             ) : null}
             {quote.organizationName ? (
               <p className="font-display text-3xl font-light">{quote.organizationName}</p>
             ) : null}
-            {quote.design ? (
+            {quote.design && quote.kind === 'CONSTRUCTION' ? (
+              <p className="font-display text-2xl font-light">
+                <span data-testid="quote-building">{copy.build.types[quote.design.spaceType]}</span>
+                {quote.design.floors ? (
+                  <>
+                    <span aria-hidden className="mx-3 text-stone">
+                      ·
+                    </span>
+                    <span data-testid="quote-floors">
+                      {fill(
+                        quote.design.floors === 1 ? copy.build.trackFloor : copy.build.trackFloors,
+                        {
+                          n: formatNumber(quote.design.floors, lang),
+                        },
+                      )}
+                    </span>
+                  </>
+                ) : null}
+              </p>
+            ) : quote.design ? (
               <p data-testid="quote-space" className="font-display text-2xl font-light">
                 {fill(copy.consult.trackSpace, {
                   space: copy.consult.spaces[quote.design.spaceType],
