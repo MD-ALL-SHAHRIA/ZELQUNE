@@ -8,13 +8,20 @@ import { type GatewayEnv } from '../config/gateway-env';
 import { REDIS } from '../redis/redis.module';
 
 export const THROTTLER_STORAGE = Symbol('THROTTLER_STORAGE');
-const LOGIN_THROTTLE_METADATA = 'zelqune:login-throttle';
+const ROUTE_THROTTLE_METADATA = 'zelqune:route-throttle';
 
-/** Applies the stricter per-IP "login" throttler to a route (in addition to the default). */
-export const LoginThrottle = (): MethodDecorator => SetMetadata(LOGIN_THROTTLE_METADATA, true);
+/** Stricter per-IP limits applied to specific routes on top of the default limit. */
+export type RouteThrottleName = 'login' | 'checkout' | 'cartWrite' | 'track';
 
-const isLoginRoute = (ctx: ExecutionContext): boolean =>
-  Reflect.getMetadata(LOGIN_THROTTLE_METADATA, ctx.getHandler()) === true;
+export const RouteThrottle = (name: RouteThrottleName): MethodDecorator =>
+  SetMetadata(ROUTE_THROTTLE_METADATA, name);
+/** Kept for readability on the login route. */
+export const LoginThrottle = (): MethodDecorator => RouteThrottle('login');
+
+const onlyFor =
+  (name: RouteThrottleName) =>
+  (ctx: ExecutionContext): boolean =>
+    Reflect.getMetadata(ROUTE_THROTTLE_METADATA, ctx.getHandler()) !== name;
 
 /** Separate so tests can override it with the in-memory storage. */
 @Module({
@@ -31,8 +38,11 @@ export class ThrottlerStorageModule {}
 
 /**
  * Per-IP rate limits stored in Redis (shared by all gateway instances):
- * - default: RATE_LIMIT_PER_MINUTE per IP on every route
- * - login:   LOGIN_MAX_PER_IP per LOGIN_IP_WINDOW_SECONDS, only on @LoginThrottle() routes
+ * - default:   RATE_LIMIT_PER_MINUTE on every route
+ * - login:     LOGIN_MAX_PER_IP per LOGIN_IP_WINDOW_SECONDS
+ * - checkout:  CHECKOUT_MAX_PER_IP per CHECKOUT_IP_WINDOW_SECONDS
+ * - cartWrite: CART_WRITES_PER_MINUTE
+ * - track:     TRACK_PER_MINUTE (slows order-code guessing)
  * Client IPs are correct behind the proxy via TRUST_PROXY.
  */
 @Module({
@@ -48,8 +58,21 @@ export class ThrottlerStorageModule {}
             name: 'login',
             ttl: config.LOGIN_IP_WINDOW_SECONDS * 1000,
             limit: config.LOGIN_MAX_PER_IP,
-            skipIf: (ctx) => !isLoginRoute(ctx),
+            skipIf: onlyFor('login'),
           },
+          {
+            name: 'checkout',
+            ttl: config.CHECKOUT_IP_WINDOW_SECONDS * 1000,
+            limit: config.CHECKOUT_MAX_PER_IP,
+            skipIf: onlyFor('checkout'),
+          },
+          {
+            name: 'cartWrite',
+            ttl: 60_000,
+            limit: config.CART_WRITES_PER_MINUTE,
+            skipIf: onlyFor('cartWrite'),
+          },
+          { name: 'track', ttl: 60_000, limit: config.TRACK_PER_MINUTE, skipIf: onlyFor('track') },
         ],
       }),
     }),

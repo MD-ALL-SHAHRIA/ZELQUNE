@@ -12,6 +12,7 @@ import {
 import { type Redis } from 'ioredis';
 import { AuthModule } from './auth/auth.module';
 import { CatalogModule } from './catalog/catalog.module';
+import { ShopModule } from './shop/shop.module';
 import { gatewayEnvSchema } from './config/gateway-env';
 import { gatewayProbes } from './health/gateway-probes';
 import { REDIS, RedisModule } from './redis/redis.module';
@@ -27,6 +28,7 @@ import { ThrottlingModule } from './throttling/throttling.module';
     ThrottlingModule,
     AuthModule,
     CatalogModule,
+    ShopModule,
     IdempotencyModule.forRoot({
       inject: [REDIS],
       store: (redis: Redis) => new RedisIdempotencyStore(redis),
