@@ -78,6 +78,9 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
         ['20-design-restaurant', '/design/restaurant-cafe'],
         ['21-category-shelves', '/category/shelves'],
         ['22-product-wave-shelf', '/products/wave-shelf'],
+        ['23-construction', '/construction'],
+        ['24-account', '/account'],
+        ['25-category-lighting', '/category/lighting'],
         ['17-not-found', '/no-such-page'],
       ];
       for (const [name, path] of simple) {
