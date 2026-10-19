@@ -15,6 +15,21 @@ export const serviceEnvSchema = baseEnvSchema.extend({
   RABBITMQ_URL: z.string().regex(/^amqps?:\/\//, 'must be an amqp:// URL'),
   OUTBOX_POLL_INTERVAL_MS: z.coerce.number().int().positive().default(1000),
   OUTBOX_BATCH_SIZE: z.coerce.number().int().positive().max(500).default(50),
+  /** Comma-separated delays (ms) for consumer retries before the DLQ; empty = no retries. */
+  EVENT_RETRY_DELAYS_MS: z
+    .string()
+    .default('5000,30000,120000')
+    .transform((v) =>
+      v
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map(Number),
+    )
+    .refine(
+      (list) => list.every((n) => Number.isInteger(n) && n > 0) && list.length <= 10,
+      'positive integers, max 10',
+    ),
 });
 
 export type BaseEnv = z.infer<typeof baseEnvSchema>;

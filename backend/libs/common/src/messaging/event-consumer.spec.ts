@@ -19,7 +19,11 @@ describe('EventConsumer', () => {
   const connection = {} as RabbitMqConnection;
   const setup = () => {
     const db = new FakeSql();
-    const consumer = new EventConsumer(connection, db, { url: 'amqp://x', serviceName: 'test' });
+    const consumer = new EventConsumer(connection, db, {
+      url: 'amqp://x',
+      serviceName: 'test',
+      retryDelaysMs: [],
+    });
     return { db, consumer };
   };
 

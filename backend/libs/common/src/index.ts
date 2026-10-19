@@ -17,6 +17,7 @@ export * from './messaging/topology';
 export * from './messaging/rabbitmq.connection';
 export * from './messaging/event-publisher';
 export * from './messaging/event-consumer';
+export * from './messaging/retry-policy';
 export * from './outbox/outbox.service';
 export * from './outbox/outbox.relay';
 export * from './rpc/rpc-context.interceptor';

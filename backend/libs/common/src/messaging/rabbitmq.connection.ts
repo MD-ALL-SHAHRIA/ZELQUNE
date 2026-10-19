@@ -12,6 +12,8 @@ import { assertTopology } from './topology';
 export interface MessagingOptions {
   url: string;
   serviceName: string;
+  /** Delay before each retry of a failed event; length = max retries. */
+  retryDelaysMs: number[];
 }
 
 export const MESSAGING_OPTIONS = Symbol('MESSAGING_OPTIONS');
@@ -38,7 +40,8 @@ export class RabbitMqConnection implements OnModuleInit, OnModuleDestroy {
     this.wrapper = connection.createChannel({
       json: false,
       confirm: true,
-      setup: (channel: ConfirmChannel) => assertTopology(channel, this.options.serviceName),
+      setup: (channel: ConfirmChannel) =>
+        assertTopology(channel, this.options.serviceName, this.options.retryDelaysMs),
     });
   }
 
