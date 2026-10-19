@@ -14,7 +14,7 @@ type VariantRow = PublicProductRow['variants'][number];
 type MediaRow = PublicProductRow['media'][number];
 type CategoryRow = PublicProductRow['categories'][number]['category'];
 
-function toOptions(value: unknown): Record<string, string> {
+export function toOptions(value: unknown): Record<string, string> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
   return Object.fromEntries(
     Object.entries(value as Record<string, unknown>).filter(

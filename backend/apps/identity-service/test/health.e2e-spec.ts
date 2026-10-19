@@ -10,7 +10,10 @@ import { PrismaService } from '../src/prisma/prisma.service';
 describe('identity-service /health (e2e)', () => {
   let app: INestApplication;
   const db = { $queryRaw: jest.fn().mockResolvedValue([{ ok: 1 }]) };
-  const rabbit = { isConnected: jest.fn().mockReturnValue(true) };
+  const rabbit = {
+    isConnected: jest.fn().mockReturnValue(true),
+    channel: { addSetup: jest.fn().mockResolvedValue(undefined) },
+  };
 
   beforeAll(async () => {
     const { privateKey } = await generateKeyPair('ES256', { extractable: true });

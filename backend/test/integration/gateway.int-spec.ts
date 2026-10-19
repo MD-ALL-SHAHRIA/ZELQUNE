@@ -8,6 +8,7 @@ import { PrismaService as CatalogPrisma } from '../../apps/catalog-service/src/p
 import { SEED, seedCatalog } from '../../apps/catalog-service/src/seed/catalog.seed';
 import { PrismaService as IdentityPrisma } from '../../apps/identity-service/src/prisma/prisma.service';
 import { seedOwner } from '../../apps/identity-service/src/seed/owner.seed';
+import { prepareDatabase } from './database';
 import { IT } from './it-env';
 import { ALLOWED_ORIGIN, OWNER, type Stack, startStack } from './stack';
 
@@ -59,10 +60,11 @@ describe('gateway end-to-end on real infrastructure', () => {
       { noAck: true },
     );
 
-    stack = await startStack();
+    const database = await prepareDatabase('zelqune_it_auth_catalog', ['identity', 'catalog']);
+    stack = await startStack({ database, services: ['identity', 'catalog'] });
     gw = stack.gateway;
-    await seedOwner(stack.identity);
-    await seedCatalog(stack.catalog);
+    await seedOwner(stack.identity!);
+    await seedCatalog(stack.catalog!);
   });
 
   afterAll(async () => {
@@ -122,7 +124,7 @@ describe('gateway end-to-end on real infrastructure', () => {
         .set('Cookie', cookie2)
         .expect(401);
 
-      const identityDb = stack.identity.get(IdentityPrisma);
+      const identityDb = stack.identity!.get(IdentityPrisma);
       const tokens = await identityDb.refreshToken.findMany({ orderBy: { createdAt: 'asc' } });
       const family = tokens.filter((t) => t.familyId === tokens[tokens.length - 1].familyId);
       expect(family.map((t) => t.revokedReason)).toEqual(['ROTATED', 'REUSE_DETECTED']);
@@ -226,9 +228,9 @@ describe('gateway end-to-end on real infrastructure', () => {
     });
 
     it('hides DRAFT products, inactive variants and non-READY media; media appears after upload + confirm', async () => {
-      const admin = stack.catalog.get(CatalogAdminService);
-      const product = await stack.catalog
-        .get(CatalogPrisma)
+      const admin = stack.catalog!.get(CatalogAdminService);
+      const product = await stack
+        .catalog!.get(CatalogPrisma)
         .product.findUniqueOrThrow({ where: { slug: 'alo-arch-panel' } });
 
       const draft = await admin.createProduct({
@@ -267,7 +269,7 @@ describe('gateway end-to-end on real infrastructure', () => {
 
       // upload through the local storage fake (same flow as a presigned R2 PUT)
       const url = new URL(ticket.uploadUrl);
-      await request(stack.catalog.getHttpServer())
+      await request(stack.catalog!.getHttpServer())
         .put(`${url.pathname}${url.search}`)
         .set('Content-Type', 'image/webp')
         .send(Buffer.alloc(16, 1))
@@ -288,7 +290,7 @@ describe('gateway end-to-end on real infrastructure', () => {
         }),
       ]);
       expect(ready.body.primaryMedia.id).toBe(ticket.mediaId);
-      await request(stack.catalog.getHttpServer())
+      await request(stack.catalog!.getHttpServer())
         .get(new URL(ready.body.media[0].url).pathname)
         .expect(200);
     });
@@ -296,7 +298,7 @@ describe('gateway end-to-end on real infrastructure', () => {
 
   describe('events', () => {
     it('catalog changes reach RabbitMQ through the outbox', async () => {
-      const db = stack.catalog.get(CatalogPrisma);
+      const db = stack.catalog!.get(CatalogPrisma);
       const pending = await eventually(
         () => db.outboxEvent.count({ where: { publishedAt: null } }),
         (n) => n === 0,
@@ -314,9 +316,9 @@ describe('gateway end-to-end on real infrastructure', () => {
     });
 
     it('re-running the seed is idempotent: no new outbox events', async () => {
-      const db = stack.catalog.get(CatalogPrisma);
+      const db = stack.catalog!.get(CatalogPrisma);
       const before = await db.outboxEvent.count();
-      await seedCatalog(stack.catalog);
+      await seedCatalog(stack.catalog!);
       expect(await db.outboxEvent.count()).toBe(before);
     });
   });

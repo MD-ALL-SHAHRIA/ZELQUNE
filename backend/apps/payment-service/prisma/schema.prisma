@@ -40,3 +40,68 @@ model ProcessedEvent {
   @@id([eventId, handler])
   @@map("processed_events")
 }
+
+enum PaymentMethod {
+  COD
+  BKASH_MANUAL
+  NAGAD_MANUAL
+}
+
+enum PaymentKind {
+  ADVANCE
+  FULL
+  COD
+}
+
+enum PaymentStatus {
+  SUBMITTED
+  VERIFIED
+  REJECTED
+  COD_PENDING
+  COD_CONFIRMED
+  COLLECTED
+  VOID
+}
+
+/// Money is integer paisa. trxId is globally unique (normalised uppercase); a VOID payment
+/// moves its trxId to voidedTrxId so the customer can retry after a technical failure, while a
+/// REJECTED trxId stays blocked.
+model Payment {
+  id                  String        @id @default(uuid()) @db.Uuid
+  orderId             String        @map("order_id") @db.Uuid
+  orderCode           String        @map("order_code")
+  method              PaymentMethod
+  kind                PaymentKind
+  status              PaymentStatus
+  amountPaisa         Int           @map("amount_paisa")
+  trxId               String?       @unique @map("trx_id")
+  voidedTrxId         String?       @map("voided_trx_id")
+  payerPhone          String?       @map("payer_phone")
+  amountReceivedPaisa Int?          @map("amount_received_paisa")
+  verifiedBy          String?       @map("verified_by") @db.Uuid
+  verifiedAt          DateTime?     @map("verified_at") @db.Timestamptz(3)
+  rejectionReason     String?       @map("rejection_reason")
+  voidReason          String?       @map("void_reason")
+  createdAt           DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt           DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  history PaymentStatusChange[]
+
+  @@index([orderId])
+  @@map("payments")
+}
+
+model PaymentStatusChange {
+  id        String         @id @default(uuid()) @db.Uuid
+  paymentId String         @map("payment_id") @db.Uuid
+  from      PaymentStatus?
+  to        PaymentStatus
+  actor     String?
+  note      String?
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@index([paymentId])
+  @@map("payment_status_changes")
+}

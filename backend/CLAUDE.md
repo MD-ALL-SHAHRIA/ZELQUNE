@@ -9,7 +9,8 @@ Infra via ../infra/docker-compose.yml: Postgres (one schema per service), Rabbit
 ## Rules
 - TypeScript strict, no `any`. Only the gateway is public (REST /v1 + Swagger); services are private.
 - Each service owns its schema; never read another service's tables. Share data only via RPC or events.
-- Sync: gateway -> service via Nest microservice transport (TCP/gRPC). Async: RabbitMQ events named
+- Sync: gateway -> service via Nest microservice transport (TCP/gRPC); a saga orchestrator may also
+  call its participants (ADR 0008). Async: RabbitMQ events named
   `<entity>.<pastTenseVerb>` with versioned payloads in libs/contracts.
 - Outbox pattern for every published event; consumers are idempotent (store processed event ids).
 - Checkout is a saga orchestrated by order-service with compensations (release stock, void payment).

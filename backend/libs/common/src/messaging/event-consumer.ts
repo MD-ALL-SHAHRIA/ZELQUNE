@@ -9,9 +9,13 @@ import {
   type MessagingOptions,
   RabbitMqConnection,
 } from './rabbitmq.connection';
-import { EVENTS_EXCHANGE, serviceQueues } from './topology';
+import { decideFailureAction, retryCountOf } from './retry-policy';
+import { assertTopology, EVENTS_EXCHANGE, RETRY_COUNT_HEADER, serviceQueues } from './topology';
 
-/** Runs inside the same DB transaction that records the event as processed. */
+/**
+ * Runs inside the same DB transaction that records the event as processed. `tx` is the
+ * service's Prisma transaction client (typed minimally here); services may narrow it.
+ */
 export type EventHandler = (event: EventEnvelope, tx: SqlExecutor) => Promise<void>;
 
 interface RegisteredHandler {
@@ -25,8 +29,9 @@ const PREFETCH = 10;
 
 /**
  * Idempotent consumer. Each (event id, handler) pair is recorded in `processed_events` in the
- * handler's own transaction, so redelivered events are skipped. Failures are nacked without
- * requeue and land in `<service>.events.dlq` for inspection/replay.
+ * handler's own transaction, so redelivered events are skipped. Transient failures are retried
+ * through delay queues (EVENT_RETRY_DELAYS_MS); malformed messages, NonRetryableError and
+ * exhausted retries land in `<service>.events.dlq` for inspection/replay (ADR 0009).
  */
 @Injectable()
 export class EventConsumer implements OnApplicationBootstrap {
@@ -51,8 +56,10 @@ export class EventConsumer implements OnApplicationBootstrap {
 
   async onApplicationBootstrap(): Promise<void> {
     if (this.handlers.size === 0) return;
-    const { queue } = serviceQueues(this.options.serviceName);
+    const { queue } = serviceQueues(this.options.serviceName, this.options.retryDelaysMs);
     await this.connection.channel.addSetup(async (channel: ConfirmChannel) => {
+      // Setups may run concurrently with the connection's own topology setup: assert first.
+      await assertTopology(channel, this.options.serviceName, this.options.retryDelaysMs);
       for (const eventType of this.handlers.keys()) {
         await channel.bindQueue(queue, EVENTS_EXCHANGE, eventType);
       }
@@ -91,11 +98,64 @@ export class EventConsumer implements OnApplicationBootstrap {
       await this.handle(msg.content);
       channel.ack(msg);
     } catch (err) {
-      this.logger.error(
-        { err, messageId: msg.properties.messageId as unknown, routingKey: msg.fields.routingKey },
-        'Event handling failed; dead-lettering message',
-      );
-      channel.nack(msg, false, false);
+      await this.onFailure(channel, msg, err);
     }
   }
+
+  private async onFailure(
+    channel: ConfirmChannel,
+    msg: ConsumeMessage,
+    err: unknown,
+  ): Promise<void> {
+    const headers = msg.properties.headers;
+    const { retryQueues } = serviceQueues(this.options.serviceName, this.options.retryDelaysMs);
+    const action = decideFailureAction(err, retryCountOf(headers), retryQueues);
+    const context = {
+      err,
+      messageId: msg.properties.messageId as unknown,
+      eventType: msg.properties.type as unknown,
+      routingKey: msg.fields.routingKey,
+    };
+
+    if (action.kind === 'retry') {
+      try {
+        // Publish the copy (with broker confirm) BEFORE acking the original: never lose it.
+        await publishConfirmed(channel, action.queue, msg, {
+          ...headers,
+          [RETRY_COUNT_HEADER]: action.attempt,
+        });
+        channel.ack(msg);
+        this.logger.warn(
+          context,
+          `Event handling failed; retry ${action.attempt}/${retryQueues.length} via ${action.queue}`,
+        );
+        return;
+      } catch (publishErr) {
+        this.logger.error({ ...context, publishErr }, 'Could not schedule retry; dead-lettering');
+      }
+    } else {
+      this.logger.error(
+        context,
+        `Event handling failed (${action.reason}); dead-lettering message`,
+      );
+    }
+    channel.nack(msg, false, false);
+  }
+}
+
+function publishConfirmed(
+  channel: ConfirmChannel,
+  queue: string,
+  msg: ConsumeMessage,
+  headers: Record<string, unknown>,
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    channel.publish(
+      '',
+      queue,
+      msg.content,
+      { ...msg.properties, headers, persistent: true },
+      (err) => (err ? reject(err instanceof Error ? err : new Error(String(err))) : resolve()),
+    );
+  });
 }

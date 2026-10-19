@@ -30,6 +30,13 @@ export const SEED = {
   basePricePaisa: 349000,
   experiments: { a: 349000, b: 429000 },
   dimensionsMm: { widthMm: 320, heightMm: 640 },
+  /** Packaged for shipping (placeholder until the real box is measured). */
+  package: {
+    packageLengthMm: 700,
+    packageWidthMm: 400,
+    packageHeightMm: 100,
+    packageWeightGrams: 2500,
+  },
 } as const;
 
 export async function seedCatalog(app: INestApplicationContext): Promise<void> {
@@ -52,6 +59,7 @@ export async function seedCatalog(app: INestApplicationContext): Promise<void> {
       options: { ...v.options },
       position: v.position,
       ...SEED.dimensionsMm,
+      ...SEED.package,
     });
     await admin.setBasePrice({ variantId, amountPaisa: SEED.basePricePaisa });
     for (const [key, amountPaisa] of Object.entries(SEED.experiments) as ['a' | 'b', number][]) {

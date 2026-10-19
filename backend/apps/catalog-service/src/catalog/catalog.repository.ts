@@ -76,4 +76,12 @@ export class CatalogRepository {
       include: publicProductInclude(now).variants.include,
     });
   }
+
+  /** Sellable variants with their product, for order-service checkout snapshots. */
+  findCheckoutVariants(variantIds: string[], now: Date) {
+    return this.prisma.productVariant.findMany({
+      where: { id: { in: variantIds }, isActive: true, product: { status: 'ACTIVE' } },
+      include: { ...publicProductInclude(now).variants.include, product: true },
+    });
+  }
 }

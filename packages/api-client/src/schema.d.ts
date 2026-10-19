@@ -123,6 +123,124 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/shipping/districts': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** All 64 districts (bn/en) for the address form. */
+    get: operations['ShopController_districts'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/carts': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create a guest cart. Keep the returned cartToken; send it as X-Cart-Token. */
+    post: operations['ShopController_createCart'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/carts/current': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['ShopController_cart'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/carts/current/items/{variantId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Set the quantity of a variant (0 removes it). */
+    put: operations['ShopController_setItem'];
+    post?: never;
+    delete: operations['ShopController_removeItem'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/carts/current/quote': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Shipping fee, totals, advance and payment options for an address. */
+    post: operations['ShopController_quote'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/checkout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Place the order (reserves stock, records payment). Safe to retry with the same Idempotency-Key. */
+    post: operations['ShopController_checkout'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/orders/track': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Track an order by code and the phone number used to place it. */
+    get: operations['ShopController_track'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/health': {
     parameters: {
       query?: never;
@@ -309,6 +427,298 @@ export interface components {
         variantId: string | null;
       }[];
     };
+    DistrictListDto_Output: {
+      items: {
+        code: string;
+        nameBn: string;
+        nameEn: string;
+        division: string;
+      }[];
+    };
+    CreateCartRequestDto: {
+      p?: string;
+    };
+    CreateCartResponseDto_Output: {
+      cartToken: string;
+      cart: {
+        /** Format: uuid */
+        id: string;
+        items: {
+          /** Format: uuid */
+          variantId: string;
+          qty: number;
+          sku: string | null;
+          productSlug: string | null;
+          nameBn: string | null;
+          nameEn: string | null;
+          options: {
+            [key: string]: string;
+          };
+          /** @enum {string|null} */
+          saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER' | null;
+          unitPrice: {
+            /** @example 349000 */
+            amountPaisa: number;
+            /** @example 349000 */
+            compareAtPaisa: number | null;
+            /** @enum {string} */
+            currency: 'BDT';
+            /** @enum {string|null} */
+            experimentKey: 'a' | 'b' | null;
+          } | null;
+          /** @example 349000 */
+          lineTotalPaisa: number | null;
+          available: boolean;
+        }[];
+        /** @example 349000 */
+        subtotalPaisa: number;
+        /** @enum {string|null} */
+        saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER' | null;
+        mixedSaleModes: boolean;
+        /** @enum {string|null} */
+        experimentKey: 'a' | 'b' | null;
+      };
+    };
+    CartDto_Output: {
+      /** Format: uuid */
+      id: string;
+      items: {
+        /** Format: uuid */
+        variantId: string;
+        qty: number;
+        sku: string | null;
+        productSlug: string | null;
+        nameBn: string | null;
+        nameEn: string | null;
+        options: {
+          [key: string]: string;
+        };
+        /** @enum {string|null} */
+        saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER' | null;
+        unitPrice: {
+          /** @example 349000 */
+          amountPaisa: number;
+          /** @example 349000 */
+          compareAtPaisa: number | null;
+          /** @enum {string} */
+          currency: 'BDT';
+          /** @enum {string|null} */
+          experimentKey: 'a' | 'b' | null;
+        } | null;
+        /** @example 349000 */
+        lineTotalPaisa: number | null;
+        available: boolean;
+      }[];
+      /** @example 349000 */
+      subtotalPaisa: number;
+      /** @enum {string|null} */
+      saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER' | null;
+      mixedSaleModes: boolean;
+      /** @enum {string|null} */
+      experimentKey: 'a' | 'b' | null;
+    };
+    SetCartItemDto: {
+      qty: number;
+    };
+    QuoteRequestDto: {
+      district: string;
+      area: string;
+    };
+    CheckoutQuoteDto_Output: {
+      /** @enum {string} */
+      saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+      /** @example 349000 */
+      subtotalPaisa: number;
+      /** @example 349000 */
+      shippingFeePaisa: number;
+      /** @example 349000 */
+      totalPaisa: number;
+      /** @example 349000 */
+      advanceRequiredPaisa: number;
+      /** @enum {string} */
+      zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE';
+      chargeableWeightGrams: number;
+      allowedPaymentMethods: ('COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL')[];
+      paymentInstructions: {
+        bkash: {
+          number: string;
+          accountType: string;
+        } | null;
+        nagad: {
+          number: string;
+          accountType: string;
+        } | null;
+      };
+    };
+    CheckoutRequestDto: {
+      customer: {
+        name: string;
+        /** @example 01712345678 */
+        phone: string;
+      };
+      address: {
+        district: string;
+        area: string;
+        line: string;
+        /** @default null */
+        note: string | null;
+      };
+      /** @enum {string} */
+      paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+      /** @example 8N7A6B5C4D */
+      trxId?: string | null;
+      /** @example 01712345678 */
+      payerPhone?: string | null;
+      utm?: {
+        source?: string;
+        medium?: string;
+        campaign?: string;
+        content?: string;
+        term?: string;
+      };
+    };
+    CheckoutResponseDto_Output: {
+      orderCode: string;
+      /** @enum {string} */
+      status:
+        | 'PENDING_PAYMENT'
+        | 'CONFIRMED'
+        | 'IN_PRODUCTION'
+        | 'READY_TO_SHIP'
+        | 'SHIPPED'
+        | 'DELIVERED'
+        | 'CANCELLED'
+        | 'RETURN_REQUESTED'
+        | 'RETURNED'
+        | 'REFUNDED';
+      /** @enum {string} */
+      saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+      totals: {
+        /** @example 349000 */
+        subtotalPaisa: number;
+        /** @example 349000 */
+        discountPaisa: number;
+        /** @example 349000 */
+        shippingFeePaisa: number;
+        /** @example 349000 */
+        totalPaisa: number;
+        /** @example 349000 */
+        advanceRequiredPaisa: number;
+      };
+      payment: {
+        /** Format: uuid */
+        id: string;
+        /** @enum {string} */
+        method: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+        /** @enum {string} */
+        kind: 'ADVANCE' | 'FULL' | 'COD';
+        /** @enum {string} */
+        status:
+          | 'SUBMITTED'
+          | 'VERIFIED'
+          | 'REJECTED'
+          | 'COD_PENDING'
+          | 'COD_CONFIRMED'
+          | 'COLLECTED'
+          | 'VOID';
+        /** @example 349000 */
+        amountPaisa: number;
+        trxIdLast4: string | null;
+      } | null;
+    };
+    OrderTrackingDto_Output: {
+      code: string;
+      /** @enum {string} */
+      status:
+        | 'PENDING_PAYMENT'
+        | 'CONFIRMED'
+        | 'IN_PRODUCTION'
+        | 'READY_TO_SHIP'
+        | 'SHIPPED'
+        | 'DELIVERED'
+        | 'CANCELLED'
+        | 'RETURN_REQUESTED'
+        | 'RETURNED'
+        | 'REFUNDED';
+      /** @enum {string} */
+      saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
+      placedAt: string;
+      items: {
+        sku: string;
+        nameBn: string;
+        nameEn: string;
+        options: {
+          [key: string]: string;
+        };
+        qty: number;
+        /** @example 349000 */
+        unitPricePaisa: number;
+        /** @example 349000 */
+        lineTotalPaisa: number;
+      }[];
+      totals: {
+        /** @example 349000 */
+        subtotalPaisa: number;
+        /** @example 349000 */
+        discountPaisa: number;
+        /** @example 349000 */
+        shippingFeePaisa: number;
+        /** @example 349000 */
+        totalPaisa: number;
+        /** @example 349000 */
+        advanceRequiredPaisa: number;
+      };
+      history: {
+        /** @enum {string} */
+        status:
+          | 'PENDING_PAYMENT'
+          | 'CONFIRMED'
+          | 'IN_PRODUCTION'
+          | 'READY_TO_SHIP'
+          | 'SHIPPED'
+          | 'DELIVERED'
+          | 'CANCELLED'
+          | 'RETURN_REQUESTED'
+          | 'RETURNED'
+          | 'REFUNDED';
+        at: string;
+      }[];
+      payment: {
+        /** Format: uuid */
+        id: string;
+        /** @enum {string} */
+        method: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+        /** @enum {string} */
+        kind: 'ADVANCE' | 'FULL' | 'COD';
+        /** @enum {string} */
+        status:
+          | 'SUBMITTED'
+          | 'VERIFIED'
+          | 'REJECTED'
+          | 'COD_PENDING'
+          | 'COD_CONFIRMED'
+          | 'COLLECTED'
+          | 'VOID';
+        /** @example 349000 */
+        amountPaisa: number;
+        trxIdLast4: string | null;
+      } | null;
+      shipment: {
+        /** @enum {string} */
+        courier: 'MANUAL' | 'STEADFAST' | 'PAPERFLY' | 'PATHAO';
+        /** @enum {string} */
+        status:
+          | 'PENDING'
+          | 'BOOKED'
+          | 'PICKED_UP'
+          | 'IN_TRANSIT'
+          | 'DELIVERED'
+          | 'RETURNED'
+          | 'CANCELLED';
+        consignmentId: string | null;
+        trackingUrl: string | null;
+      } | null;
+    };
   };
   responses: never;
   parameters: never;
@@ -459,6 +869,200 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ProductDetailDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_districts: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DistrictListDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_createCart: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateCartRequestDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CreateCartResponseDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_cart: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Guest cart token from POST /v1/carts */
+        'x-cart-token': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CartDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_setItem: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Guest cart token from POST /v1/carts */
+        'x-cart-token': string;
+      };
+      path: {
+        variantId: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SetCartItemDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CartDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_removeItem: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Guest cart token from POST /v1/carts */
+        'x-cart-token': string;
+      };
+      path: {
+        variantId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CartDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_quote: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Guest cart token from POST /v1/carts */
+        'x-cart-token': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['QuoteRequestDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CheckoutQuoteDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_checkout: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Unique per checkout attempt (8-128 chars) */
+        'idempotency-key': string;
+        /** @description Guest cart token from POST /v1/carts */
+        'x-cart-token': string;
+        /** @description Cloudflare Turnstile token */
+        'cf-turnstile-response': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CheckoutRequestDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CheckoutResponseDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_track: {
+    parameters: {
+      query: {
+        code: string;
+        phone: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OrderTrackingDto_Output'];
         };
       };
     };

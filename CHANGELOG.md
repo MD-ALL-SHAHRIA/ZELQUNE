@@ -7,6 +7,20 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Step 1.2: inventory-service (stock, 15-min reservations held for 48 h after ordering,
+  movements, no overselling under concurrency), shipping-service (64 districts, DHAKA ৳70 /
+  SUBURB ৳110 / OUTSIDE ৳130 + ৳20 per extra kg on chargeable weight = max(actual,
+  volumetric)), payment-service (COD, manual bKash/Nagad with globally unique trxId, payment
+  state machine, PaymentProvider), order-service (guest carts, orchestrated checkout saga with
+  compensations and recovery, order state machine, random order codes, tracking by code +
+  phone, unpaid-order cancellation) (ADR 0008).
+- Fixed ৳300 advance for pre-order and made-to-order (configurable; percent mode optional).
+- Gateway: districts, guest cart, quote, checkout (Turnstile, cart-scoped Idempotency-Key,
+  rate limits), order tracking.
+- Events `order.placed`, `order.confirmed`, `order.cancelled`, `stock.reserved`,
+  `stock.released`, `payment.submitted`, `payment.verified`.
+- Event consumers retry through delay queues before the DLQ (ADR 0009, #2).
+- Variant packaged dimensions/weight for shipping.
 - Step 1.1: identity-service with E.164 phone users (+8801…, Bangla digits accepted), roles
   OWNER/STAFF/CUSTOMER, argon2id admin passwords, ES256 access tokens and rotating refresh
   tokens with reuse detection (ADR 0006).
@@ -23,6 +37,8 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   `backend/scripts/new-migration.sh`, gateway end-to-end suite on real infrastructure in CI.
 
 ### Fixed
+- Idempotency-Key is scoped to the caller (user or guest cart) and replays the original status
+  code and Location header (#3).
 - Service errors sent over TCP reached the gateway as 503: the exception filter was not applied
   to the hybrid microservice transport (present since step 1.0).
 - Monorepo with pnpm workspaces and Turborepo: `backend/`, `frontend/`, `dashboard/`,

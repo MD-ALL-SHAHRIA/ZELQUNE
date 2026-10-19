@@ -80,26 +80,46 @@ reverse proxy with HTTPS (step 1.6).
 
 Contracts are declared with `defineEvent` in `backend/libs/contracts/src/events`.
 
-## Checkout saga (step 1.2)
+## Checkout saga (step 1.2, ADR 0008)
 
 ```mermaid
 sequenceDiagram
   participant GW as gateway
   participant OR as order-service
-  participant IN as inventory-service
-  participant PA as payment-service
-  GW->>OR: checkout (Idempotency-Key)
-  OR->>IN: reserve stock (15 min TTL)
-  IN-->>OR: stock.reserved
-  OR->>PA: authorise / record COD or manual bKash
-  alt payment ok
-    PA-->>OR: payment.submitted / payment.verified
-    OR-->>GW: order.placed → order.confirmed
-  else failure
-    OR->>IN: release stock (compensation)
-    IN-->>OR: stock.released
+  participant CA as catalog
+  participant SH as shipping
+  participant IN as inventory
+  participant PA as payment
+  GW->>GW: Turnstile, per-IP limit, Idempotency-Key (scoped to cart)
+  GW->>OR: checkout(cartToken, request)
+  OR->>CA: checkout snapshot (prices ?p=a|b, sale mode, package size)
+  OR->>SH: quote (zone, chargeable weight = max(actual, volumetric))
+  OR->>OR: saga STARTED (order code ZQ-XXXXXX)
+  opt IN_STOCK
+    OR->>IN: reserve (15 min TTL) -> stock.reserved
+  end
+  OR->>PA: create payment (COD / bKash / Nagad trxId) -> payment.submitted
+  alt all good
+    OR->>OR: one tx: order + snapshots + order.placed, saga COMPLETED
+    OR-->>GW: 201 { orderCode, PENDING_PAYMENT }
+  else payment or completion failed
+    OR->>PA: void (frees trxId)
+    OR->>IN: release -> stock.released
+    OR-->>GW: 409 / 503 (saga COMPENSATED)
   end
 ```
+
+After checkout (events through the outbox):
+
+| Event | Consumer -> effect |
+|---|---|
+| `order.placed` | inventory: reservation HELD for ORDER_HOLD_HOURS |
+| `payment.verified` (staff verify trxId / confirm COD) | order: CONFIRMED -> `order.confirmed` |
+| `order.confirmed` | inventory: stock committed (SALE movement) |
+| `order.cancelled` (unpaid after 48h, admin) | inventory: release; payment: void |
+| `stock.released` reason EXPIRED | order: cancel if still pending |
+
+Consumers retry failed events through delay queues before the DLQ (ADR 0009).
 
 ## Admin authentication (step 1.1, ADR 0006)
 

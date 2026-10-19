@@ -128,7 +128,11 @@ pnpm health           # every /health should return 200
 ```
 
 Try it: `curl 'http://localhost:3000/v1/catalog/products/alo-arch-panel?p=b'` (price experiment
-b = ৳4,290), or sign in with `POST /v1/admin/auth/login` in Swagger at http://localhost:3000/docs.
+b = ৳4,290), sign in with `POST /v1/admin/auth/login`, or walk the storefront flow
+(`POST /v1/carts` -> `PUT /v1/carts/current/items/{variantId}` -> `POST /v1/carts/current/quote`
+-> `POST /v1/checkout`) in Swagger at http://localhost:3000/docs. Set `PAYMENT_BKASH_NUMBER` in
+`infra/.env` to offer bKash (needed for pre-orders); in dev any Turnstile token except `fail…`
+passes.
 
 <details>
 <summary><b>URLs and ports (all bound to 127.0.0.1)</b></summary>
@@ -238,7 +242,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 - [x] 1.0 Monorepo and backend skeleton (gateway, 8 services, outbox, messaging, CI)
 - [x] 1.1 identity and catalog services (admin auth, products, sale modes, price experiment)
-- [ ] 1.2 inventory, order, payment, shipping + checkout saga
+- [x] 1.2 inventory, order, payment, shipping + checkout saga
 - [ ] 1.3 analytics, notification and admin API (GO counter, audit log)
 - [ ] 1.4 Storefront (product page, cart, guest checkout, COD / bKash, tracking, Pixel)
 - [ ] 1.5 Admin dashboard (orders, payment verification, products, GO counter)

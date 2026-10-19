@@ -1,7 +1,11 @@
 export interface IdempotencyRecord {
   state: 'processing' | 'completed';
   fingerprint: string;
+  /** The original response's status code, replayed exactly. */
+  statusCode?: number;
   body?: unknown;
+  /** Selected response headers replayed with the body (e.g. Location). */
+  headers?: Record<string, string>;
 }
 
 export interface IdempotencyStore {

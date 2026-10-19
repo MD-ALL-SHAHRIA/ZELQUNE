@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, Inject, Post, Req, Res } from '@nestjs/common';
 import { ApiBearerAuth, ApiNoContentResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { APP_CONFIG, AppError, Public, ZodResponse } from '@zelqune/common';
+import { APP_CONFIG, AppError, Public, ZodResponse, ServiceRegistry } from '@zelqune/common';
 import {
   type AccessTokenResponse,
   type AuthUser,
@@ -9,7 +9,6 @@ import {
 } from '@zelqune/contracts';
 import { type Request, type Response } from 'express';
 import { type GatewayEnv } from '../config/gateway-env';
-import { ServiceRegistry } from '../services/service-registry';
 import { LoginThrottle } from '../throttling/throttling.module';
 import { AccessTokenResponseDto, AdminLoginDto, AuthUserDto } from './admin-auth.dto';
 import { type AuthenticatedUser } from './auth.types';

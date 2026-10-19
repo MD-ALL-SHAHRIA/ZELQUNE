@@ -45,6 +45,7 @@ export class ServiceCoreModule {
         useFactory: (config: ServiceEnv): MessagingOptions => ({
           url: config.RABBITMQ_URL,
           serviceName: options.name,
+          retryDelaysMs: config.EVENT_RETRY_DELAYS_MS,
         }),
       },
       {

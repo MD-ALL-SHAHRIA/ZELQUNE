@@ -1,3 +1,4 @@
+import { ServiceRegistry } from '@zelqune/common';
 import { type INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { ThrottlerStorageService } from '@nestjs/throttler';
@@ -5,7 +6,6 @@ import { SERVICE_KEYS, SERVICES, type ServiceKey } from '@zelqune/contracts';
 import { exportSPKI, generateKeyPair, SignJWT } from 'jose';
 import { AppModule } from '../src/app.module';
 import { REDIS } from '../src/redis/redis.module';
-import { ServiceRegistry } from '../src/services/service-registry';
 import { setupGateway } from '../src/setup';
 import { THROTTLER_STORAGE } from '../src/throttling/throttling.module';
 
@@ -15,6 +15,14 @@ export class FakeRedis {
   ping = () => Promise.resolve('PONG');
   quit = () => Promise.resolve('OK');
   get = (k: string) => Promise.resolve(this.live(k)?.value ?? null);
+  /** SET key value [EX seconds] [NX] */
+  set = (k: string, value: string, ...args: (string | number)[]) => {
+    if (args.includes('NX') && this.live(k)) return Promise.resolve(null);
+    const ex = args.indexOf('EX');
+    const expiresAt = ex >= 0 ? Date.now() + Number(args[ex + 1]) * 1000 : undefined;
+    this.data.set(k, { value, expiresAt });
+    return Promise.resolve('OK');
+  };
   incr = (k: string) => {
     const entry = this.live(k) ?? { value: '0' };
     entry.value = String(Number(entry.value) + 1);

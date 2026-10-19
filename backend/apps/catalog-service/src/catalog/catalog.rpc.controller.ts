@@ -2,6 +2,9 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
   type CategoryView,
+  type CheckoutSnapshotRequest,
+  checkoutSnapshotRequestSchema,
+  type CheckoutSnapshotResponse,
   type ProductDetail,
   type ProductListResponse,
   productListQuerySchema,
@@ -40,6 +43,14 @@ export class CatalogRpcController {
   bySlug(@Payload() req: RpcRequest<unknown>): Promise<ProductDetail> {
     const { slug, p } = bySlugSchema.parse(req.data);
     return this.catalog.getBySlug(slug, p);
+  }
+
+  @MessagePattern(RPC_PATTERNS.catalog.checkoutSnapshot)
+  checkoutSnapshot(
+    @Payload() req: RpcRequest<CheckoutSnapshotRequest>,
+  ): Promise<CheckoutSnapshotResponse> {
+    const { variantIds, p } = checkoutSnapshotRequestSchema.parse(req.data);
+    return this.catalog.checkoutSnapshot(variantIds, p);
   }
 
   @MessagePattern(RPC_PATTERNS.catalog.pricesResolve)
