@@ -21,7 +21,8 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await page.goto('/bn/products/alo-arch-panel?p=a');
   await expect(page.getByTestId('price')).toHaveText('৳৪,২৯০');
 
-  await page.getByRole('button', { name: 'এখনই প্রি-অর্ডার করুন' }).click();
+  // The panel button and the mobile sticky bar share the label; either places the pre-order.
+  await page.getByRole('button', { name: 'এখনই প্রি-অর্ডার করুন' }).first().click();
   await expect(page).toHaveURL(/\/bn\/checkout$/);
 
   await fillCheckout(page, {
@@ -37,7 +38,7 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await expect(page.getByTestId('pay-now')).toHaveText('৳৩০০');
   await expect(page.getByTestId('advance-instructions')).toContainText('৳৩০০');
   await page.locator('#f-trxId').fill(uniqueTrxId());
-  await page.getByRole('button', { name: 'অর্ডার করুন' }).click();
+  await page.getByRole('button', { name: 'অর্ডার করুন', exact: true }).click();
 
   await expect(page).toHaveURL(/\/bn\/order\/ZQ-[A-Z0-9]{6}$/);
   const code = (await page.getByTestId('order-code').textContent())?.trim() ?? '';
@@ -46,9 +47,9 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await page.getByRole('link', { name: 'অর্ডার ট্র্যাক করুন' }).click();
   await expect(page.locator('#t-code')).toHaveValue(code);
   await page.locator('#t-phone').fill(phone);
-  await page.getByRole('button', { name: 'দেখুন' }).click();
+  await page.getByRole('button', { name: 'দেখুন', exact: true }).click();
   await expect(page.getByTestId('order-status')).toHaveText('পেমেন্ট যাচাই হচ্ছে');
-  await expect(page.locator('section')).toContainText('৳৪,২৯০');
+  await expect(page.locator('section[aria-live]')).toContainText('৳৪,২৯০');
 });
 
 test('a visitor with no ?p sees the base price, which equals arm a (৳3,490)', async ({ page }) => {

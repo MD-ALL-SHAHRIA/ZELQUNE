@@ -5,7 +5,9 @@ import { uniquePhone } from './helpers';
 test('a company sends a bulk request and checks its status', async ({ page }) => {
   const phone = uniquePhone();
   await page.goto('/en');
-  await page.getByRole('navigation').getByRole('link', { name: 'Bulk & Corporate' }).click();
+  // Mobile: the header navigation lives in the menu drawer.
+  await page.getByRole('button', { name: 'Menu' }).click();
+  await page.getByRole('dialog').getByRole('link', { name: 'Bulk & Corporate' }).click();
   await expect(page).toHaveURL(/\/en\/bulk$/);
 
   await page.locator('#r-org').fill('E2E Cafe Ltd');
@@ -21,9 +23,11 @@ test('a company sends a bulk request and checks its status', async ({ page }) =>
   await page.getByRole('main').getByRole('link', { name: 'Check your quote' }).click();
   await expect(page.locator('#q-code')).toHaveValue(code);
   await page.locator('#q-phone').fill(phone);
-  await page.getByRole('button', { name: 'Check' }).click();
+  await page.getByRole('button', { name: 'Check', exact: true }).click();
   await expect(page.getByTestId('quote-status')).toHaveText('New (being priced)');
-  await expect(page.locator('section')).toContainText('Alo-Arch Panel: Walnut, logo engraving');
+  await expect(page.locator('section[aria-live]')).toContainText(
+    'Alo-Arch Panel: Walnut, logo engraving',
+  );
 });
 
 test('the bulk page is linked from the footer in Bangla too', async ({ page }) => {

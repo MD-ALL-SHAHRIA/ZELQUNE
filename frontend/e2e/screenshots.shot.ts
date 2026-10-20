@@ -14,6 +14,8 @@ let orderCode = '';
 let quoteCode = '';
 
 test.describe.configure({ mode: 'serial' });
+// Full-page captures: show scroll-revealed sections in their final state.
+test.use({ reducedMotion: 'reduce' });
 
 test.beforeAll(async ({ request }) => {
   const product = await (await request.get(`${API}/v1/catalog/products/alo-arch-panel?p=b`)).json();
@@ -71,6 +73,7 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
         ['14-terms', '/terms'],
         ['15-returns', '/returns'],
         ['16-privacy', '/privacy'],
+        ['18-story', '/story'],
         ['17-not-found', '/no-such-page'],
       ];
       for (const [name, path] of simple) {

@@ -1,11 +1,11 @@
 import type { MetadataRoute } from 'next';
 import { LOCALES } from '@/i18n/config';
-import { listProducts } from '@/lib/api-server';
-import { href, SITE_URL } from '@/lib/site';
+import { listProducts } from '@/shared/api/server';
+import { href, SITE_URL } from '@/shared/lib/site';
 
 export const revalidate = 3600;
 
-const PAGES = ['', '/shop', '/bulk', '/faq', '/terms', '/returns', '/privacy'];
+const PAGES = ['', '/shop', '/bulk', '/story', '/faq', '/terms', '/returns', '/privacy'];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // The sitemap must not break the build or the site when the catalog is unreachable.

@@ -1,11 +1,8 @@
 import { Suspense } from 'react';
-import { SiteAnalytics } from '@/components/analytics/site-analytics';
-import { CartProvider } from '@/components/cart/cart-context';
-import { cartCopy } from '@/components/cart/cart-copy';
-import { CartButton } from '@/components/cart/cart-drawer';
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
-import { resolvePage, type PageParams } from '@/lib/page-params';
+import { SiteAnalytics } from '@/features/analytics/site-analytics';
+import { Footer } from '@/features/layout/footer';
+import { Header } from '@/features/layout/header';
+import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 
 // Rendered on first request, then cached (ISR); builds never need the backend.
 export function generateStaticParams() {
@@ -21,15 +18,13 @@ export default async function SiteLayout({
 }) {
   const { lang, dict } = await resolvePage(params);
   return (
-    <CartProvider>
-      <Header lang={lang} dict={dict} cart={<CartButton lang={lang} copy={cartCopy(dict)} />} />
-      <main id="main" className="mx-auto max-w-6xl px-4 py-6">
-        {children}
-      </main>
+    <>
+      <Header lang={lang} dict={dict} />
+      <main id="main">{children}</main>
       <Footer lang={lang} dict={dict} />
       <Suspense fallback={null}>
         <SiteAnalytics />
       </Suspense>
-    </CartProvider>
+    </>
   );
 }

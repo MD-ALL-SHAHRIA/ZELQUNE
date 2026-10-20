@@ -1,27 +1,23 @@
 /* Zelqune tokens as CSS variables (keep in sync with src/index.ts). */
 :root {
+  --zq-ink: #16120f;
+  --zq-cream: #f2eadb;
   --zq-walnut: #4a3426;
-  --zq-cream: #f4ecdf;
   --zq-amber: #e3a857;
-  --zq-ink: #2a1e16;
-  --zq-muted: #7a6a5d;
-  --zq-line: #e3d6c4;
+  --zq-paper: #faf6ef;
+  --zq-sand: #ede3d3;
+  --zq-stone: #6a5e51;
+  --zq-line: #e2d7c6;
   --zq-surface: #ffffff;
-  --zq-success: #2f7d4f;
-  --zq-warning: #b7791f;
-  --zq-danger: #b3261e;
+  --zq-glow: #f6c987;
+  --zq-success: #2f6b4a;
+  --zq-warning: #9a6417;
+  --zq-danger: #a3301f;
 
-  --zq-background: var(--zq-cream);
+  --zq-background: var(--zq-paper);
   --zq-foreground: var(--zq-ink);
-  --zq-primary: var(--zq-walnut);
-  --zq-primary-foreground: var(--zq-cream);
+  --zq-primary: var(--zq-ink);
+  --zq-primary-foreground: var(--zq-paper);
   --zq-accent: var(--zq-amber);
   --zq-border: var(--zq-line);
-
-  --zq-font-bn: 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
-  --zq-font-en: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-
-  --zq-radius-sm: 4px;
-  --zq-radius-md: 8px;
-  --zq-radius-lg: 12px;
 }

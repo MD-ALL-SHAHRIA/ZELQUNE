@@ -1,11 +1,16 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { ProductGridPage } from '@/components/product-grid-page';
-import { listCategories, listProducts } from '@/lib/api-server';
-import { resolvePage } from '@/lib/page-params';
-import { alternates } from '@/lib/site';
+import { CollectionPage } from '@/features/catalog/collection-page';
+import { listCategories, listProducts } from '@/shared/api/server';
+import { resolvePage } from '@/shared/lib/page-params';
+import { alternates } from '@/shared/lib/site';
 
 export const revalidate = 300;
+
+// ISR: paths are rendered on first request, then cached (an empty list enables runtime ISR).
+export function generateStaticParams() {
+  return [];
+}
 
 type Params = Promise<{ lang: string; exp: string; slug: string }>;
 
@@ -28,7 +33,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function CategoryPage({ params }: { params: Params }) {
   const { lang, segment, dict, category, name } = await load(params);
   return (
-    <ProductGridPage
+    <CollectionPage
+      eyebrow={dict.nav.shop}
       title={name}
       products={await listProducts(segment, category.slug)}
       lang={lang}

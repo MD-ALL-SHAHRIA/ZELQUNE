@@ -173,3 +173,44 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Track not found:** We couldn't find a request with that code and number.
 - **Quote details:** Quoted price · Delivery · Total · Advance to confirm · Needed by · This quote became order {code}.
 - **Code format:** Request codes look like QT-XXXXXX.
+
+## Redesign strings (added in step 1.4 redesign, for owner review)
+> Landing-page sections and navigation for the redesigned storefront. Same structure in copy-bn.md.
+
+### Navigation
+- **Menu:** Menu · Close menu · Our story
+- **Footer columns:** Shop · Help · Company
+- **Announcement:** Pre-orders are open · ৳300 advance, the rest on delivery
+
+### Landing page
+- **Hero eyebrow:** Designed in Dhaka · Made to order
+- **Hero secondary button:** See how it's made
+- **Day and night eyebrow:** One piece, two moods
+- **Day and night heading:** A vase by day. A soft lamp by night.
+- **Day:** Day · Fresh or dried flowers in glass tubes, framed in walnut.
+- **Night:** Night · Switch on the warm 5V glow and the flowers become a lamp.
+- **Craft eyebrow:** The making
+- **Craft heading:** Made slowly, by hand
+- **Craft text:** Each panel is cut, sanded and finished by hand after you order. No two pieces of grain are the same.
+- **Process eyebrow:** How pre-order works
+- **Process steps:**
+  - **Reserve with ৳300:** Pay a small advance by bKash or Nagad to confirm your piece.
+  - **We make yours:** Your panel is made and checked within [[N]] days.
+  - **Pay the rest on delivery:** The courier brings it to your door. Pay the rest in cash.
+- **Rooms eyebrow:** Inspiration
+- **Rooms heading:** Warmth for every room
+- **Room names:** Living room · Bedroom · Café · Office
+- **Values:**
+  - **Handcrafted:** Made after you order
+  - **Safe 5V light:** No 220V inside the wood
+  - **৳300 advance:** The rest on delivery
+  - **Across Bangladesh:** Delivered to all 64 districts
+- **Business eyebrow:** For business
+- **Sample photo note:** Sample photo. Real product photos are coming soon.
+
+### Product page
+- **Sections:** Details · Delivery and payment · Care
+
+### Our story
+- **Heading:** Our story
+- **Text:** [[Owner's story: who makes Zelqune, where, and why]]
