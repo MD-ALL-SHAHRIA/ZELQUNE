@@ -88,3 +88,20 @@ export const updateShipmentStatusInputSchema = z.object({
   status: shipmentStatusSchema,
 });
 export type UpdateShipmentStatusInput = z.input<typeof updateShipmentStatusInputSchema>;
+
+/** Public delivery fee estimate for one variant (product page), before a cart exists. */
+export const shippingEstimateQuerySchema = z.object({
+  district: districtCodeSchema,
+  variantId: z.uuid(),
+  // Sanity bound only; the cart enforces the real per-line limit.
+  qty: z.coerce.number().int().min(1).max(100).default(1),
+});
+export type ShippingEstimateQuery = z.infer<typeof shippingEstimateQuerySchema>;
+
+export const shippingEstimateSchema = z.object({
+  district: z.string(),
+  zone: shippingZoneSchema,
+  chargeableWeightGrams: z.number().int().positive(),
+  feePaisa: paisaSchema,
+});
+export type ShippingEstimate = z.infer<typeof shippingEstimateSchema>;

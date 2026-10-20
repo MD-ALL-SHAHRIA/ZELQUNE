@@ -2,6 +2,7 @@ import { type INestApplication, RequestMethod } from '@nestjs/common';
 import { type NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, type OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import {
+  CART_TOKEN_HEADER,
   configureHttpApp,
   finalizeOpenApiDocument,
   IDEMPOTENCY_HEADER,
@@ -9,6 +10,7 @@ import {
 } from '@zelqune/common';
 import cookieParser from 'cookie-parser';
 import { type GatewayEnv } from './config/gateway-env';
+import { TURNSTILE_HEADER } from './turnstile/turnstile';
 
 export const API_PREFIX = 'v1';
 
@@ -26,7 +28,16 @@ export function setupGateway(
     origin: config.CORS_ORIGINS,
     credentials: true,
     exposedHeaders: [REQUEST_ID_HEADER, 'idempotency-replayed'],
-    allowedHeaders: ['content-type', 'authorization', REQUEST_ID_HEADER, IDEMPOTENCY_HEADER],
+    // The storefront calls the gateway from the browser, so its cart and Turnstile headers
+    // must pass the preflight.
+    allowedHeaders: [
+      'content-type',
+      'authorization',
+      REQUEST_ID_HEADER,
+      IDEMPOTENCY_HEADER,
+      CART_TOKEN_HEADER,
+      TURNSTILE_HEADER,
+    ],
   });
 
   // UI at /docs, spec at /docs-json (packages/api-client generates types from it).

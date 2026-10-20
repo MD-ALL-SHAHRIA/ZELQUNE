@@ -16,5 +16,6 @@ accepted ADR; supersede it with a new one.
 | [0009](0009-event-retry-topology.md) | Event consumers retry through delay queues before the DLQ | Accepted |
 | [0010](0010-events-audit-and-analytics-privacy.md) | Event evolution, audit trail, and what analytics may store | Accepted |
 | [0011](0011-b2b-quotes.md) | B2B in M1: RFQ -> priced quote -> B2B order | Accepted |
+| [0012](0012-storefront-rendering-i18n-experiment.md) | Storefront: ISR per price arm, URL-decided language, direct gateway calls | Accepted |
 
 Template: copy `0000-template.md`, take the next number, keep it under a page.

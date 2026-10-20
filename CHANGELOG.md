@@ -7,6 +7,19 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Step 1.4: storefront (Next.js 16) in English (default, `/en`) and Bangla (`/bn`): home,
+  shop/category, product page (gallery, finish picker, sale-mode badge with lead time,
+  delivery fee estimate, Product JSON-LD), cart drawer, guest checkout (phone only,
+  district/area, zone fee, COD or bKash/Nagad ৳300 advance with trxId, Turnstile,
+  Idempotency-Key), order placed + tracking, Bulk & Corporate RFQ + quote tracking,
+  terms/returns/privacy/FAQ, sitemap, robots, OG image (ADR 0012).
+- Price experiment `?p=a|b` sticky for 90 days; anonymous session id and first-touch UTM
+  sent with VIEW / ADD_TO_CART events and checkout; Meta Pixel behind `NEXT_PUBLIC_META_PIXEL_ID`.
+- Copy from `docs/copy-en.md` / `docs/copy-bn.md` (plus interface strings for review);
+  `[[...]]` placeholders stay visible; `pnpm --filter @zelqune/frontend copy:check` lists them.
+- `GET /v1/shipping/estimate` (delivery fee for one variant before a cart exists).
+- Playwright checkout and RFQ paths against the real backend, `storefront-e2e` CI job,
+  `pnpm screenshots`.
 - Step 1.3: analytics-service (funnel from beacons + order events, revenue by BD day, channels,
   per-experiment conversion, **GO counter** = B2C, not isFriend, active status, verified advance;
   audit log), notification-service (SmsProvider with console fake, Bangla templates per order

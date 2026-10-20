@@ -140,6 +140,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/shipping/estimate': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Delivery fee for one variant to a district (product page), same rules as checkout. */
+    get: operations['ShopController_shippingEstimate'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/carts': {
     parameters: {
       query?: never;
@@ -870,8 +887,8 @@ export interface components {
       id: string;
       /** @example +8801712345678 */
       phone: string;
-      name: string[];
-      email: string[];
+      name: string | null;
+      email: string | null;
       /** @enum {string} */
       role: 'CUSTOMER' | 'STAFF' | 'OWNER';
     };
@@ -953,8 +970,8 @@ export interface components {
         /** Format: uuid */
         variantId: string | null;
       } | null;
-      descriptionBn: string[];
-      descriptionEn: string[];
+      descriptionBn: string | null;
+      descriptionEn: string | null;
       seo: {
         titleBn: string | null;
         titleEn: string | null;
@@ -1017,6 +1034,14 @@ export interface components {
         nameEn: string;
         division: string;
       }[];
+    };
+    ShippingEstimateDto_Output: {
+      district: string;
+      /** @enum {string} */
+      zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE';
+      chargeableWeightGrams: number;
+      /** @example 349000 */
+      feePaisa: number;
     };
     CreateCartRequestDto: {
       p?: string;
@@ -1144,7 +1169,7 @@ export interface components {
         area: string;
         line: string;
         /** @default null */
-        note: string | null;
+        note?: string | null;
       };
       /** @enum {string} */
       paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
@@ -1312,15 +1337,15 @@ export interface components {
        * Format: email
        * @default null
        */
-      email: string | null;
+      email?: string | null;
       items: {
         /** @default null */
-        productSlug: string | null;
+        productSlug?: string | null;
         /**
          * Format: uuid
          * @default null
          */
-        variantId: string | null;
+        variantId?: string | null;
         description: string;
         qty: number;
       }[];
@@ -1328,11 +1353,11 @@ export interface components {
        * Format: date
        * @default null
        */
-      neededBy: string | null;
+      neededBy?: string | null;
       /** @default null */
-      customizationNotes: string | null;
+      customizationNotes?: string | null;
       /** @default null */
-      notes: string | null;
+      notes?: string | null;
       utm?: {
         source?: string;
         medium?: string;
@@ -1351,8 +1376,8 @@ export interface components {
       /** @enum {string} */
       status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
       organizationName: string;
-      neededBy: string[];
-      validUntil: string[];
+      neededBy: string | null;
+      validUntil: string | null;
       lines: {
         /** Format: uuid */
         id: string;
@@ -1373,7 +1398,7 @@ export interface components {
         /** @example 349000 */
         advanceRequiredPaisa: number;
       } | null;
-      orderCode: string[];
+      orderCode: string | null;
     };
     BeaconEventDto: {
       /** @enum {string} */
@@ -1469,7 +1494,7 @@ export interface components {
       /** @example 349000 */
       advanceRequiredPaisa: number;
       district: string;
-      experimentKey: string[];
+      experimentKey: string | null;
       placedAt: string;
       address: {
         district: string;
@@ -1544,8 +1569,8 @@ export interface components {
       } | null;
       /** Format: uuid */
       organizationId: string | null;
-      quoteCode: string[];
-      cancelReason: string[];
+      quoteCode: string | null;
+      cancelReason: string | null;
       payment: {
         /** Format: uuid */
         id: string;
@@ -1596,7 +1621,7 @@ export interface components {
         | 'RETURNED'
         | 'REFUNDED';
       /** @default null */
-      reason: string | null;
+      reason?: string | null;
     };
     StatusDto_Output: {
       status: string;
@@ -1613,14 +1638,14 @@ export interface components {
        * @default MANUAL
        * @enum {string}
        */
-      courier: 'MANUAL' | 'STEADFAST' | 'PAPERFLY' | 'PATHAO';
+      courier?: 'MANUAL' | 'STEADFAST' | 'PAPERFLY' | 'PATHAO';
       /** @default null */
-      consignmentId: string | null;
+      consignmentId?: string | null;
       /**
        * Format: uri
        * @default null
        */
-      trackingUrl: string | null;
+      trackingUrl?: string | null;
     };
     ShipmentDto_Output: {
       /** @enum {string} */
@@ -1628,8 +1653,8 @@ export interface components {
       /** @enum {string} */
       status:
         'PENDING' | 'BOOKED' | 'PICKED_UP' | 'IN_TRANSIT' | 'DELIVERED' | 'RETURNED' | 'CANCELLED';
-      consignmentId: string[];
-      trackingUrl: string[];
+      consignmentId: string | null;
+      trackingUrl: string | null;
     };
     UpdateShipmentDto: {
       /** @enum {string} */
@@ -1658,7 +1683,7 @@ export interface components {
         | 'VOID';
       /** @example 349000 */
       amountPaisa: number;
-      trxIdLast4: string[];
+      trxIdLast4: string | null;
     };
     RejectPaymentDto: {
       reason: string;
@@ -1691,9 +1716,9 @@ export interface components {
        * Format: uuid
        * @default null
        */
-      parentId: string | null;
+      parentId?: string | null;
       /** @default 0 */
-      position: number;
+      position?: number;
     };
     UpdateCategoryDto: {
       slug?: string;
@@ -1703,9 +1728,9 @@ export interface components {
        * Format: uuid
        * @default null
        */
-      parentId: string | null;
+      parentId?: string | null;
       /** @default 0 */
-      position: number;
+      position?: number;
       isActive?: boolean;
     };
     ChangedDto_Output: {
@@ -1745,23 +1770,23 @@ export interface components {
       nameBn: string;
       nameEn: string;
       /** @default null */
-      descriptionBn: string | null;
+      descriptionBn?: string | null;
       /** @default null */
-      descriptionEn: string | null;
+      descriptionEn?: string | null;
       /** @enum {string} */
       saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
       /** @default null */
-      leadTimeDays: number | null;
+      leadTimeDays?: number | null;
       /** @default null */
-      seoTitleBn: string | null;
+      seoTitleBn?: string | null;
       /** @default null */
-      seoTitleEn: string | null;
+      seoTitleEn?: string | null;
       /** @default null */
-      seoDescriptionBn: string | null;
+      seoDescriptionBn?: string | null;
       /** @default null */
-      seoDescriptionEn: string | null;
+      seoDescriptionEn?: string | null;
       /** @default [] */
-      categoryIds: string[];
+      categoryIds?: string[];
     };
     AdminProductDto_Output: {
       /** Format: uuid */
@@ -1769,19 +1794,19 @@ export interface components {
       slug: string;
       nameBn: string;
       nameEn: string;
-      descriptionBn: string[];
-      descriptionEn: string[];
+      descriptionBn: string | null;
+      descriptionEn: string | null;
       /** @enum {string} */
       saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
       leadTimeDays: number | null;
       /** @enum {string} */
       status: 'DRAFT' | 'ACTIVE' | 'ARCHIVED';
-      seoTitleBn: string[];
-      seoTitleEn: string[];
-      seoDescriptionBn: string[];
-      seoDescriptionEn: string[];
+      seoTitleBn: string | null;
+      seoTitleEn: string | null;
+      seoDescriptionBn: string | null;
+      seoDescriptionEn: string | null;
       categoryIds: string[];
-      publishedAt: string[];
+      publishedAt: string | null;
       updatedAt: string;
       variants: {
         /** Format: uuid */
@@ -1834,49 +1859,49 @@ export interface components {
       nameBn?: string;
       nameEn?: string;
       /** @default null */
-      descriptionBn: string | null;
+      descriptionBn?: string | null;
       /** @default null */
-      descriptionEn: string | null;
+      descriptionEn?: string | null;
       /** @enum {string} */
       saleMode?: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
       /** @default null */
-      leadTimeDays: number | null;
+      leadTimeDays?: number | null;
       /** @default null */
-      seoTitleBn: string | null;
+      seoTitleBn?: string | null;
       /** @default null */
-      seoTitleEn: string | null;
+      seoTitleEn?: string | null;
       /** @default null */
-      seoDescriptionBn: string | null;
+      seoDescriptionBn?: string | null;
       /** @default null */
-      seoDescriptionEn: string | null;
+      seoDescriptionEn?: string | null;
       /** @default [] */
-      categoryIds: string[];
+      categoryIds?: string[];
     };
     UpsertVariantDto: {
       /** @default {} */
-      options: {
+      options?: {
         [key: string]: string;
       };
       /** @default null */
-      weightGrams: number | null;
+      weightGrams?: number | null;
       /** @default null */
-      widthMm: number | null;
+      widthMm?: number | null;
       /** @default null */
-      heightMm: number | null;
+      heightMm?: number | null;
       /** @default null */
-      depthMm: number | null;
+      depthMm?: number | null;
       /** @default 0 */
-      position: number;
+      position?: number;
       /** @default true */
-      isActive: boolean;
+      isActive?: boolean;
       /** @default null */
-      packageLengthMm: number | null;
+      packageLengthMm?: number | null;
       /** @default null */
-      packageWidthMm: number | null;
+      packageWidthMm?: number | null;
       /** @default null */
-      packageHeightMm: number | null;
+      packageHeightMm?: number | null;
       /** @default null */
-      packageWeightGrams: number | null;
+      packageWeightGrams?: number | null;
     };
     SetPriceDto: {
       /** @example 349000 */
@@ -1885,12 +1910,12 @@ export interface components {
        * @default null
        * @example 349000
        */
-      compareAtPaisa: number | null;
+      compareAtPaisa?: number | null;
       /**
        * @default RETAIL
        * @enum {string}
        */
-      priceListId: 'RETAIL';
+      priceListId?: 'RETAIL';
     };
     ChangedFlagDto_Output: {
       changed: boolean;
@@ -1899,23 +1924,23 @@ export interface components {
       /** @example 349000 */
       amountPaisa: number;
       /** @default true */
-      active: boolean;
+      active?: boolean;
     };
     RequestMediaUploadDto: {
       /**
        * Format: uuid
        * @default null
        */
-      variantId: string | null;
+      variantId?: string | null;
       /** @enum {string} */
       mimeType: 'image/webp' | 'image/jpeg' | 'image/png' | 'image/avif';
       bytes: number;
       /** @default null */
-      altBn: string | null;
+      altBn?: string | null;
       /** @default null */
-      altEn: string | null;
+      altEn?: string | null;
       /** @default 0 */
-      position: number;
+      position?: number;
     };
     MediaTicketDto_Output: {
       /** Format: uuid */
@@ -1945,7 +1970,7 @@ export interface components {
       /** @enum {string} */
       reason: 'RECEIPT' | 'ADJUSTMENT' | 'RETURN';
       /** @default null */
-      note: string | null;
+      note?: string | null;
     };
     StockAdjustedDto_Output: {
       onHand: number;
@@ -2064,8 +2089,8 @@ export interface components {
       /** @enum {string} */
       status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
       organizationName: string;
-      neededBy: string[];
-      validUntil: string[];
+      neededBy: string | null;
+      validUntil: string | null;
       lines: {
         /** Format: uuid */
         id: string;
@@ -2089,16 +2114,16 @@ export interface components {
         /** @example 349000 */
         advanceRequiredPaisa: number;
       } | null;
-      orderCode: string[];
+      orderCode: string | null;
       /** Format: uuid */
       id: string;
       contactName: string;
       phone: string;
-      email: string[];
-      customizationNotes: string[];
-      notes: string[];
-      quotedAt: string[];
-      quotedBy: string[];
+      email: string | null;
+      customizationNotes: string | null;
+      notes: string | null;
+      quotedAt: string | null;
+      quotedBy: string | null;
       createdAt: string;
       /** Format: uuid */
       orderId: string | null;
@@ -2116,17 +2141,17 @@ export interface components {
        * @default 0
        * @example 349000
        */
-      shippingFeePaisa: number;
+      shippingFeePaisa?: number;
       /** @example 349000 */
       advanceRequiredPaisa: number;
       /** Format: date-time */
       validUntil?: string;
       /** @default false */
-      allowDeepDiscount: boolean;
+      allowDeepDiscount?: boolean;
     };
     DecideQuoteDto: {
       /** @default null */
-      reason: string | null;
+      reason?: string | null;
     };
     ConvertQuoteDto: {
       address: {
@@ -2134,7 +2159,7 @@ export interface components {
         area: string;
         line: string;
         /** @default null */
-        note: string | null;
+        note?: string | null;
       };
       /** @enum {string} */
       paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
@@ -2225,7 +2250,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2244,7 +2269,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2269,7 +2294,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2292,7 +2317,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2311,12 +2336,35 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
           'application/json': components['schemas']['DistrictListDto_Output'];
+        };
+      };
+    };
+  };
+  ShopController_shippingEstimate: {
+    parameters: {
+      query: {
+        district: string;
+        variantId: string;
+        qty?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ShippingEstimateDto_Output'];
         };
       };
     };
@@ -2356,7 +2404,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2384,7 +2432,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2408,7 +2456,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2486,7 +2534,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2534,7 +2582,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2595,7 +2643,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2652,7 +2700,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2752,7 +2800,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2848,7 +2896,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2867,7 +2915,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2915,7 +2963,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2939,7 +2987,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -2983,7 +3031,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3008,7 +3056,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3076,7 +3124,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3101,7 +3149,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3127,7 +3175,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3213,7 +3261,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3260,7 +3308,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3288,7 +3336,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3312,7 +3360,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3333,7 +3381,7 @@ export interface operations {
     };
     requestBody?: never;
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };
@@ -3358,7 +3406,7 @@ export interface operations {
       };
     };
     responses: {
-      default: {
+      200: {
         headers: {
           [name: string]: unknown;
         };

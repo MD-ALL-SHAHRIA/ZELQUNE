@@ -1,6 +1,6 @@
 import { AppError } from '@zelqune/common';
 import request from 'supertest';
-import { createGatewayHarness, type GatewayHarness } from './helpers';
+import { ALLOWED_ORIGIN, createGatewayHarness, type GatewayHarness } from './helpers';
 
 const TOKEN = 'cart-token-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const OTHER = 'cart-token-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb';
@@ -56,12 +56,100 @@ describe('shop routes (e2e, services mocked)', () => {
     return req.send(opts.body ?? checkoutBody);
   };
 
+  it('CORS preflight lets the storefront send cart, idempotency and Turnstile headers', async () => {
+    const res = await request(h.app.getHttpServer())
+      .options('/v1/checkout')
+      .set('Origin', ALLOWED_ORIGIN)
+      .set('Access-Control-Request-Method', 'POST')
+      .set(
+        'Access-Control-Request-Headers',
+        'content-type,x-cart-token,idempotency-key,cf-turnstile-response',
+      )
+      .expect(204);
+    expect(res.headers['access-control-allow-origin']).toBe(ALLOWED_ORIGIN);
+    const allowed = String(res.headers['access-control-allow-headers']).toLowerCase().split(',');
+    for (const header of ['x-cart-token', 'idempotency-key', 'cf-turnstile-response']) {
+      expect(allowed).toContain(header);
+    }
+  });
+
+  it('CORS preflight from a foreign origin gets no allow-origin header', async () => {
+    const res = await request(h.app.getHttpServer())
+      .options('/v1/checkout')
+      .set('Origin', 'https://evil.example')
+      .set('Access-Control-Request-Method', 'POST')
+      .set('Access-Control-Request-Headers', 'x-cart-token');
+    expect(res.headers['access-control-allow-origin']).toBeUndefined();
+  });
+
   it('lists districts publicly', async () => {
     h.clients.shipping.send.mockResolvedValueOnce({
       items: [{ code: 'dhaka', nameBn: 'ঢাকা', nameEn: 'Dhaka', division: 'Dhaka' }],
     });
     const res = await request(h.app.getHttpServer()).get('/v1/shipping/districts').expect(200);
     expect(res.body.items[0].code).toBe('dhaka');
+  });
+
+  describe('GET /v1/shipping/estimate', () => {
+    const VARIANT = '5d3b8f0e-2c1a-4b6e-9f7d-1a2b3c4d5e6f';
+    const estimate = (query: string) =>
+      request(h.app.getHttpServer()).get(`/v1/shipping/estimate?${query}`);
+
+    it('quotes one variant with its package size, like checkout', async () => {
+      h.clients.catalog.send.mockResolvedValueOnce({
+        [VARIANT]: {
+          variantId: VARIANT,
+          packageWeightGrams: 2400,
+          packageLengthMm: 700,
+          packageWidthMm: 380,
+          packageHeightMm: 80,
+        },
+      });
+      h.clients.shipping.send.mockResolvedValueOnce({
+        zone: 'OUTSIDE',
+        district: 'chattogram',
+        actualWeightGrams: 4800,
+        volumetricWeightGrams: 8512,
+        chargeableWeightGrams: 9000,
+        feePaisa: 31000,
+      });
+      const res = await estimate(`district=chattogram&variantId=${VARIANT}&qty=2`).expect(200);
+      expect(res.body).toEqual({
+        district: 'chattogram',
+        zone: 'OUTSIDE',
+        chargeableWeightGrams: 9000,
+        feePaisa: 31000,
+      });
+      expect(h.clients.catalog.send).toHaveBeenCalledWith('catalog.variants.checkoutSnapshot', {
+        variantIds: [VARIANT],
+      });
+      expect(h.clients.shipping.send).toHaveBeenCalledWith('shipping.quotes.quote', {
+        district: 'chattogram',
+        lines: [
+          {
+            qty: 2,
+            packageWeightGrams: 2400,
+            packageLengthMm: 700,
+            packageWidthMm: 380,
+            packageHeightMm: 80,
+          },
+        ],
+      });
+    });
+
+    it('defaults qty to 1 and is 404 for a variant that is not sellable', async () => {
+      h.clients.catalog.send.mockResolvedValueOnce({});
+      const res = await estimate(`district=dhaka&variantId=${VARIANT}`).expect(404);
+      expect(res.body.error.code).toBe('VARIANT_NOT_AVAILABLE');
+      expect(h.clients.shipping.send).not.toHaveBeenCalled();
+    });
+
+    it('validates the query before calling any service', async () => {
+      await estimate(`district=Dhaka!&variantId=${VARIANT}`).expect(400);
+      await estimate('district=dhaka&variantId=nope').expect(400);
+      await estimate(`district=dhaka&variantId=${VARIANT}&qty=0`).expect(400);
+      expect(h.clients.catalog.send).not.toHaveBeenCalled();
+    });
   });
 
   it('cart routes need X-Cart-Token and validate input', async () => {
