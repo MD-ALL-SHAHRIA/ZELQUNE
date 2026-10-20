@@ -44,7 +44,7 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
 
   const totals = quote?.status === 'NEW' ? null : (quote?.totals ?? null);
   return (
-    <div className="mx-auto max-w-3xl space-y-12">
+    <div className="max-w-3xl space-y-12">
       <form
         onSubmit={submit}
         noValidate

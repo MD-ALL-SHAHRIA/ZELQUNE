@@ -4,7 +4,8 @@ import { TrackOrder } from '@/features/orders/track-order';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 import { PageHeader } from '@/shared/ui/page-header';
-import { Container } from '@/shared/ui/typography';
+import { HelpLayout } from '@/features/help/help-layout';
+import { TrustBand } from '@/features/trust/trust-band';
 
 export const revalidate = 300;
 
@@ -21,7 +22,7 @@ export default async function TrackPage({ params }: { params: PageParams }) {
   return (
     <>
       <PageHeader eyebrow={dict.nav.track} title={dict.track.heading} />
-      <Container className="py-16">
+      <HelpLayout lang={lang} dict={dict} current="/track">
         <Suspense fallback={null}>
           <TrackOrder
             lang={lang}
@@ -34,7 +35,8 @@ export default async function TrackPage({ params }: { params: PageParams }) {
             }}
           />
         </Suspense>
-      </Container>
+      </HelpLayout>
+      <TrustBand dict={dict} />
     </>
   );
 }

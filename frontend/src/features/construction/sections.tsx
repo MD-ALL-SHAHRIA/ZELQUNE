@@ -1,9 +1,11 @@
+import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { formatNumber } from '@/i18n/format';
+import { fill, formatNumber } from '@/i18n/format';
 import { type District } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
+import { whatsappHref } from '@/shared/lib/whatsapp';
 import { ButtonLink } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Picture } from '@/shared/ui/image';
@@ -296,6 +298,7 @@ export function ConstructionProjects({ dict }: { dict: Dictionary }) {
   );
 }
 
+/** The enquiry: the same calm two-column layout as the design consultation. */
 export function StartSection({
   lang,
   dict,
@@ -305,24 +308,53 @@ export function StartSection({
   dict: Dictionary;
   districts: District[];
 }) {
+  const chat = whatsappHref(fill(dict.premium.chat.message, { item: dict.construction.eyebrow }));
   return (
-    <section id="start" className="glow scroll-mt-24 py-24 sm:py-32">
-      <Container className="grid gap-14 lg:grid-cols-[1fr_1.5fr] lg:gap-24">
-        <div className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-          <Eyebrow>{dict.construction.eyebrow}</Eyebrow>
-          <Heading>{dict.build.heading}</Heading>
-          <Lead>{dict.build.text}</Lead>
+    <section id="start" className={cn('scroll-mt-24 bg-cream/50 py-24 sm:py-32', BLUEPRINT)}>
+      <Container className="grid gap-14 lg:grid-cols-[1fr_1.55fr] lg:gap-20 xl:gap-28">
+        <div className="space-y-8 lg:sticky lg:top-40 lg:self-start">
+          <div className="space-y-6">
+            <Eyebrow>{dict.construction.eyebrow}</Eyebrow>
+            <Heading>{dict.build.heading}</Heading>
+            <Lead>{dict.build.text}</Lead>
+          </div>
+          <ol className="hidden grid-cols-2 border-t border-line lg:grid">
+            {dict.construction.stages.map((s, i) => (
+              <li
+                key={s.title}
+                className="flex items-baseline gap-4 border-b border-line py-4 text-sm odd:pr-4"
+              >
+                <span className="font-display text-base italic text-walnut">
+                  {numeral(i, lang)}
+                </span>
+                <span>{s.title}</span>
+              </li>
+            ))}
+          </ol>
+          {chat ? (
+            <a
+              href={chat}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 text-sm underline decoration-ink/30 underline-offset-[6px] transition hover:decoration-ink"
+            >
+              <MessageCircle aria-hidden className="size-4" strokeWidth={1.3} />
+              {dict.premium.chat.label}
+            </a>
+          ) : null}
         </div>
-        <BuildForm
-          lang={lang}
-          districts={districts}
-          copy={{
-            build: dict.build,
-            checkout: dict.checkout,
-            bulk: dict.bulk,
-            consult: dict.consult,
-          }}
-        />
+        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(22,18,15,0.18)] sm:p-10 lg:p-12">
+          <BuildForm
+            lang={lang}
+            districts={districts}
+            copy={{
+              build: dict.build,
+              checkout: dict.checkout,
+              bulk: dict.bulk,
+              consult: dict.consult,
+            }}
+          />
+        </div>
       </Container>
     </section>
   );
