@@ -596,6 +596,74 @@ export const en = {
     trackFloor: '{n} floor',
   },
   shop: { title: 'All products', empty: 'No products here yet.' },
+  premium: {
+    scroll: 'Scroll',
+    shopRoom: {
+      eyebrow: 'Shop the room',
+      heading: 'One room, lit by Zelqune',
+      text: 'Tap a marker to see each piece in this room.',
+      view: 'View piece',
+    },
+    materials: {
+      eyebrow: 'Materials',
+      heading: 'Honest materials, finished by hand',
+      items: [
+        {
+          title: 'Solid wood',
+          text: 'Cut, sanded and oiled by hand in our workshop. [[wood species: confirm]]',
+        },
+        { title: 'Warm 5V light', text: 'Low-voltage LEDs powered by USB, safe to touch.' },
+        {
+          title: 'Glass and detail',
+          text: 'Clear glass and small metal details. [[confirm materials]]',
+        },
+      ],
+    },
+    trust: {
+      eyebrow: 'Why Zelqune',
+      heading: 'Buy with confidence',
+      items: [
+        {
+          title: 'Pay the rest on delivery',
+          text: 'Only a ৳300 advance by bKash or Nagad. The rest is cash on delivery.',
+        },
+        {
+          title: 'Refund if we are late',
+          text: "If we can't deliver on time, your advance is refunded within [[7]] days.",
+        },
+        {
+          title: 'Damage covered',
+          text: 'Tell us within 24 hours with a photo and we replace it or refund you.',
+        },
+        {
+          title: 'Made in Dhaka',
+          text: 'Designed and made in our own workshop. [[workshop address]]',
+        },
+      ],
+    },
+    madeForYou: 'Made for you',
+    timeline: [
+      { title: 'Today', text: 'Reserve with ৳300' },
+      { title: 'Our workshop', text: 'Made by hand in [[N]] days' },
+      { title: 'Your door', text: 'Delivered in 1–4 days' },
+    ],
+    visualizer: {
+      open: 'See it on your wall',
+      title: 'See it on your wall',
+      text: 'Add a photo of your wall, then drag and resize the piece. Your photo stays on your phone.',
+      upload: 'Choose a photo',
+      sample: 'Try a sample wall',
+      size: 'Size',
+      reset: 'Reset',
+      save: 'Save image',
+      hint: 'Drag to move · use the slider to resize',
+    },
+    chat: {
+      label: 'Chat on WhatsApp',
+      message: 'Hello Zelqune, I have a question about {item}',
+    },
+    statement: 'Wood, light and space, made for the way Bangladesh lives.',
+  },
   ui: {
     language: 'Language',
     english: 'English',

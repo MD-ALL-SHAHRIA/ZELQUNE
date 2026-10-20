@@ -361,3 +361,20 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
   - **Wall panels:** Sculpted wood and warm light for a feature wall.
   - **Shelves:** Floating shelves in bold, handcrafted shapes.
   - **Lighting:** Soft, low-voltage light that turns wood into a lamp.
+
+### Premium build (for owner review)
+- **Scroll cue:** Scroll
+- **Shop the room:** Shop the room · One room, lit by Zelqune · Tap a marker to see each piece in this room. · View piece
+- **Materials:** Materials · Honest materials, finished by hand
+  - **Solid wood:** Cut, sanded and oiled by hand in our workshop. [[wood species: confirm]]
+  - **Warm 5V light:** Low-voltage LEDs powered by USB, safe to touch.
+  - **Glass and detail:** Clear glass and small metal details. [[confirm materials]]
+- **Trust:** Why Zelqune · Buy with confidence
+  - **Pay the rest on delivery:** Only a ৳300 advance by bKash or Nagad. The rest is cash on delivery.
+  - **Refund if we are late:** If we can't deliver on time, your advance is refunded within [[7]] days.
+  - **Damage covered:** Tell us within 24 hours with a photo and we replace it or refund you.
+  - **Made in Dhaka:** Designed and made in our own workshop. [[workshop address]]
+- **Product timeline:** Made for you · Today: Reserve with ৳300 · Our workshop: Made by hand in [[N]] days · Your door: Delivered in 1–4 days
+- **Wall preview:** See it on your wall · Add a photo of your wall, then drag and resize the piece. Your photo stays on your phone. · Choose a photo · Try a sample wall · Size · Reset · Save image · Drag to move · use the slider to resize
+- **WhatsApp:** Chat on WhatsApp · Hello Zelqune, I have a question about {item}
+- **Statement:** Wood, light and space, made for the way Bangladesh lives.
