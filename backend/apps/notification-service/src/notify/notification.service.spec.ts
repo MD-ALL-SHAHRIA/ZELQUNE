@@ -9,7 +9,7 @@ import { randomUUID } from 'node:crypto';
 import { type NotificationEnv } from '../config/notification-env';
 import { type Prisma } from '../generated/prisma/client';
 import { FakeSmsProvider } from '../sms/sms.provider';
-import { NotificationService } from './notification.service';
+import { ContactNotYetKnownError, NotificationService } from './notification.service';
 import { formatTaka } from './templates';
 
 /** In-memory stand-in for the two tables the service uses. */
@@ -143,6 +143,34 @@ describe('NotificationService', () => {
     expect(sms.sent).toHaveLength(3);
     expect(sms.sent[0].body).toContain('ক্যাশ অন ডেলিভারি');
     expect(sms.sent[2].body).toContain('পেমেন্ট না পাওয়ায়');
+  });
+
+  it('an event that arrives before order.placed is retried, not dropped, then sent', async () => {
+    const sms = new FakeSmsProvider();
+    const { tx } = fakeTx();
+    const service = new NotificationService(sms, config);
+    const verified = paymentVerified.create(
+      {
+        paymentId: randomUUID(),
+        orderId,
+        orderCode: 'ZQ-7K3M9P',
+        method: 'BKASH_MANUAL',
+        kind: 'ADVANCE',
+        amountPaisa: 30000,
+        verifiedBy: randomUUID(),
+        verifiedAt: new Date().toISOString(),
+      },
+      { source: 'payment-service' },
+    );
+    // payment.verified first: no contact yet -> a retryable error (not NonRetryableError).
+    await expect(service.onPaymentVerified(verified, tx)).rejects.toBeInstanceOf(
+      ContactNotYetKnownError,
+    );
+    expect(sms.sent).toHaveLength(0);
+    // After order.placed is processed, the retried event sends its SMS.
+    await service.onOrderPlaced(placed(30000, 'BKASH_MANUAL'), tx);
+    await service.onPaymentVerified(verified, tx);
+    expect(sms.sent.map((m) => m.body).some((b) => b.includes('পেমেন্ট পেয়েছি'))).toBe(true);
   });
 
   it('never sends the same (event, template) twice; a failed send throws so it is retried', async () => {
