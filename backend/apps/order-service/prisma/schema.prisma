@@ -245,11 +245,26 @@ enum QuoteStatus {
 }
 
 /// B2B bulk/corporate request -> priced quote -> B2B order (section 5ক). Money is integer paisa.
+enum QuoteKind {
+  PRODUCT
+  DESIGN
+  CONSTRUCTION
+}
+
 model Quote {
   id                   String      @id @default(uuid()) @db.Uuid
   code                 String      @unique
   status               QuoteStatus @default(NEW)
-  organizationName     String      @map("organization_name")
+  /// PRODUCT: bulk/corporate order; DESIGN: interior design; CONSTRUCTION: building (ADR 0014).
+  kind                 QuoteKind   @default(PRODUCT)
+  /// Null only for DESIGN requests (a home has no company).
+  organizationName     String?     @map("organization_name")
+  designSpaceType      String?     @map("design_space_type")
+  designSizeSqft       Int?        @map("design_size_sqft")
+  designDistrict       String?     @map("design_district")
+  designBudget         String?     @map("design_budget")
+  /// Construction enquiries: planned number of floors.
+  designFloors         Int?        @map("design_floors")
   contactName          String      @map("contact_name")
   phone                String
   email                String?
@@ -271,6 +286,7 @@ model Quote {
   lines QuoteLine[]
 
   @@index([status, createdAt])
+  @@index([kind, createdAt])
   @@map("quotes")
 }
 

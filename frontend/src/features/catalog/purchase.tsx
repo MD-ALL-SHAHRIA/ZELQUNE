@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { Truck } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '@/features/cart/use-cart';
 import { type Locale } from '@/i18n/config';
@@ -12,6 +13,7 @@ import { Button } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Select } from '@/shared/ui/field';
 import { useLazyShippingEstimateQuery } from '@/store/api';
+import { finishColor, variantValue } from './finishes';
 
 export interface PurchaseCopy {
   variantLabel: string;
@@ -22,15 +24,9 @@ export interface PurchaseCopy {
   estimate: { district: string; choose: string; result: string; failed: string };
   unavailable: string;
   preOrder: boolean;
+  /** Lead-time line for the sale mode (e.g. "Made to order · 21 days"). */
+  leadTime?: string;
 }
-
-type Variant = ProductDetail['variants'][number];
-
-const optionValue = (v: Variant) =>
-  Object.values(v.options).find((x): x is string => typeof x === 'string') ?? v.sku;
-
-/** Finish colours for the swatches (walnut and natural veneer). */
-const SWATCH: Record<string, string> = { WALNUT: '#4A3426', NATURAL: '#C9A67A' };
 
 /** Variant swatches, price, add-to-cart and the delivery estimate for the chosen finish. */
 export function Purchase({
@@ -81,7 +77,10 @@ export function Purchase({
   return (
     <div className="space-y-8">
       {price ? (
-        <p data-testid="price" className="font-display text-4xl font-light">
+        <p
+          data-testid="price"
+          className="font-display text-[2.6rem] font-light leading-none tabular-nums"
+        >
           {price}
         </p>
       ) : (
@@ -90,20 +89,17 @@ export function Purchase({
 
       {product.variants.length > 1 ? (
         <fieldset>
-          <legend className="mb-3 text-[0.7rem] font-medium uppercase tracking-eyebrow text-stone [:lang(bn)_&]:text-sm [:lang(bn)_&]:tracking-normal">
-            {copy.variantLabel}:{' '}
-            <span className="normal-case tracking-normal text-ink">
-              {variant ? (copy.variants[optionValue(variant)] ?? optionValue(variant)) : ''}
-            </span>
+          <legend className="mb-3 text-[0.7rem] font-medium uppercase tracking-eyebrow text-stone [:lang(bn)_&]:text-sm [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal">
+            {copy.variantLabel}
           </legend>
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 gap-2">
             {product.variants.map((v) => {
-              const value = optionValue(v);
+              const value = variantValue(v);
+              const name = copy.variants[value] ?? value;
               return (
                 <label
                   key={v.id}
-                  title={copy.variants[value] ?? value}
-                  className="group relative cursor-pointer rounded-full p-1 ring-1 ring-transparent transition has-[:checked]:ring-ink has-[:focus-visible]:outline has-[:focus-visible]:outline-2"
+                  className="flex cursor-pointer items-center gap-3 border border-line bg-paper px-3 py-3 transition-colors hover:border-ink/40 has-[:checked]:border-ink has-[:checked]:shadow-[inset_0_0_0_1px_var(--color-ink)] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2"
                 >
                   <input
                     type="radio"
@@ -118,10 +114,10 @@ export function Purchase({
                   />
                   <span
                     aria-hidden
-                    className="block size-9 rounded-full border border-ink/10"
-                    style={{ background: SWATCH[value] ?? '#EDE3D3' }}
+                    className="size-8 shrink-0 rounded-full border border-paper ring-1 ring-ink/15"
+                    style={{ background: finishColor(value) }}
                   />
-                  <span className="sr-only">{copy.variants[value] ?? value}</span>
+                  <span className="min-w-0 text-sm leading-snug">{name}</span>
                 </label>
               );
             })}
@@ -145,7 +141,15 @@ export function Purchase({
         ) : null}
       </div>
 
-      <div className="space-y-2 border-t border-line pt-6">
+      <div className="space-y-3 border border-line bg-surface/60 p-5">
+        {copy.leadTime ? (
+          <p className="flex items-start gap-3 text-sm">
+            <Truck aria-hidden strokeWidth={1.25} className="mt-0.5 size-5 shrink-0" />
+            <span>
+              <CopyText>{copy.leadTime}</CopyText>
+            </span>
+          </p>
+        ) : null}
         <label
           htmlFor="estimate-district"
           className="block text-[0.7rem] font-medium uppercase tracking-eyebrow text-stone [:lang(bn)_&]:text-sm [:lang(bn)_&]:tracking-normal"
@@ -187,7 +191,7 @@ export function Purchase({
       {/* Mobile: the buy button stays reachable while reading. */}
       {price ? (
         <div className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-4 border-t border-line bg-paper px-5 py-3 lg:hidden">
-          <span className="font-display text-2xl font-light">{price}</span>
+          <span className="font-display text-2xl font-light tabular-nums">{price}</span>
           <Button disabled={busy} onClick={() => buy(copy.preOrder)} className="flex-1">
             {primaryLabel}
           </Button>

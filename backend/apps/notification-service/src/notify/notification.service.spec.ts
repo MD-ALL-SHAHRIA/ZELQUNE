@@ -9,7 +9,7 @@ import { randomUUID } from 'node:crypto';
 import { type NotificationEnv } from '../config/notification-env';
 import { type Prisma } from '../generated/prisma/client';
 import { FakeSmsProvider } from '../sms/sms.provider';
-import { NotificationService } from './notification.service';
+import { ContactNotYetKnownError, NotificationService } from './notification.service';
 import { formatTaka } from './templates';
 
 /** In-memory stand-in for the two tables the service uses. */
@@ -145,6 +145,34 @@ describe('NotificationService', () => {
     expect(sms.sent[2].body).toContain('পেমেন্ট না পাওয়ায়');
   });
 
+  it('an event that arrives before order.placed is retried, not dropped, then sent', async () => {
+    const sms = new FakeSmsProvider();
+    const { tx } = fakeTx();
+    const service = new NotificationService(sms, config);
+    const verified = paymentVerified.create(
+      {
+        paymentId: randomUUID(),
+        orderId,
+        orderCode: 'ZQ-7K3M9P',
+        method: 'BKASH_MANUAL',
+        kind: 'ADVANCE',
+        amountPaisa: 30000,
+        verifiedBy: randomUUID(),
+        verifiedAt: new Date().toISOString(),
+      },
+      { source: 'payment-service' },
+    );
+    // payment.verified first: no contact yet -> a retryable error (not NonRetryableError).
+    await expect(service.onPaymentVerified(verified, tx)).rejects.toBeInstanceOf(
+      ContactNotYetKnownError,
+    );
+    expect(sms.sent).toHaveLength(0);
+    // After order.placed is processed, the retried event sends its SMS.
+    await service.onOrderPlaced(placed(30000, 'BKASH_MANUAL'), tx);
+    await service.onPaymentVerified(verified, tx);
+    expect(sms.sent.map((m) => m.body).some((b) => b.includes('পেমেন্ট পেয়েছি'))).toBe(true);
+  });
+
   it('never sends the same (event, template) twice; a failed send throws so it is retried', async () => {
     const sms = new FakeSmsProvider();
     const { tx, logs } = fakeTx();
@@ -186,5 +214,49 @@ describe('NotificationService', () => {
       OWNER_NOTIFY_PHONE: undefined,
     }).onQuoteRequested(event, fakeTx().tx);
     expect(silent.sent).toHaveLength(0);
+  });
+
+  it('alerts the owner about interior design requests, naming the space', async () => {
+    const event = quoteRequested.create(
+      {
+        quoteId: randomUUID(),
+        code: 'QT-9N5K3Q',
+        kind: 'DESIGN',
+        spaceType: 'RESTAURANT_CAFE',
+        organizationName: null,
+        contactName: 'Rafiq',
+        itemCount: 0,
+        totalQty: 0,
+        neededBy: null,
+      },
+      { source: 'order-service' },
+    );
+    const sms = new FakeSmsProvider();
+    await new NotificationService(sms, config).onQuoteRequested(event, fakeTx().tx);
+    expect(sms.sent).toHaveLength(1);
+    expect(sms.sent[0]?.body).toContain('ইন্টেরিয়র ডিজাইন');
+    expect(sms.sent[0]?.body).toContain('রেস্টুরেন্ট/ক্যাফে');
+    expect(sms.sent[0]?.body).toContain('Rafiq');
+  });
+
+  it('alerts the owner about construction enquiries', async () => {
+    const event = quoteRequested.create(
+      {
+        quoteId: randomUUID(),
+        code: 'QT-7H4J2K',
+        kind: 'CONSTRUCTION',
+        spaceType: 'HOME',
+        organizationName: null,
+        contactName: 'Karim',
+        itemCount: 0,
+        totalQty: 0,
+        neededBy: null,
+      },
+      { source: 'order-service' },
+    );
+    const sms = new FakeSmsProvider();
+    await new NotificationService(sms, config).onQuoteRequested(event, fakeTx().tx);
+    expect(sms.sent[0]?.body).toContain('নির্মাণের অনুরোধ');
+    expect(sms.sent[0]?.body).toContain('বাসা');
   });
 });

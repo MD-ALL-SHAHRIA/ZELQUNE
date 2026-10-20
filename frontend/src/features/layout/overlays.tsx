@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { type CartCopy } from '@/features/cart/cart-copy';
 import { type Locale } from '@/i18n/config';
 import { useAppSelector } from '@/store/hooks';
+import type { MenuProps } from './mobile-menu';
 
 // Drawers (Radix Dialog) load on first open, keeping them out of the initial page JavaScript.
 const CartDrawer = dynamic(() => import('@/features/cart/cart-drawer').then((m) => m.CartDrawer), {
@@ -21,12 +22,7 @@ export function Overlays({
 }: {
   lang: Locale;
   cartCopy: CartCopy;
-  menu: {
-    title: string;
-    closeLabel: string;
-    links: { href: string; label: string }[];
-    footer: React.ReactNode;
-  };
+  menu: MenuProps;
 }) {
   const cartOpen = useAppSelector((s) => s.ui.cartOpen);
   const menuOpen = useAppSelector((s) => s.ui.menuOpen);

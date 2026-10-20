@@ -23,7 +23,10 @@ import {
   type PriceQuoteInput,
   type PublicQuote,
   quoteRequested,
+  type QuoteKind,
   type QuoteStatus,
+  budgetRangeSchema,
+  spaceTypeSchema,
   rfqRequestSchema,
   type RfqRequest,
   type RfqResponse,
@@ -35,7 +38,12 @@ import { CHECKOUT_PARTICIPANTS, type CheckoutParticipants } from '../checkout/pa
 import { type OrderEnv } from '../config/order-env';
 import { Prisma, type Quote, type QuoteLine } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import { assertDiscountsAllowed, assertQuoteTransition, conversionPayment } from './quote-rules';
+import {
+  assertDiscountsAllowed,
+  assertProductQuote,
+  assertQuoteTransition,
+  conversionPayment,
+} from './quote-rules';
 
 type QuoteWithLines = Quote & { lines: QuoteLine[] };
 const SOURCE = 'order-service';
@@ -81,7 +89,13 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
           const q = await tx.quote.create({
             data: {
               code,
+              kind: input.kind,
               organizationName: input.organizationName,
+              designSpaceType: input.design?.spaceType ?? null,
+              designSizeSqft: input.design?.sizeSqft ?? null,
+              designDistrict: input.design?.district ?? null,
+              designBudget: input.design?.budget ?? null,
+              designFloors: input.design?.floors ?? null,
               contactName: input.contactName,
               phone: input.phone,
               email: input.email,
@@ -106,6 +120,8 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
               {
                 quoteId: q.id,
                 code,
+                kind: input.kind,
+                spaceType: input.design?.spaceType ?? null,
                 organizationName: input.organizationName,
                 contactName: input.contactName,
                 itemCount: input.items.length,
@@ -138,6 +154,8 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
     const view = await this.view(quote);
     return {
       code: view.code,
+      kind: view.kind,
+      design: view.design,
       status: view.status,
       organizationName: view.organizationName,
       neededBy: view.neededBy,
@@ -154,9 +172,16 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
     };
   }
 
-  async list(query: { status?: QuoteStatus; q?: string; page: number; limit: number }) {
+  async list(query: {
+    status?: QuoteStatus;
+    kind?: QuoteKind;
+    q?: string;
+    page: number;
+    limit: number;
+  }) {
     const where: Prisma.QuoteWhereInput = {
       ...(query.status ? { status: query.status } : {}),
+      ...(query.kind ? { kind: query.kind } : {}),
       ...(query.q
         ? {
             OR: [
@@ -196,6 +221,7 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
     const input = priceQuoteInputSchema.parse(raw);
     const actor = currentActor();
     const quote = await this.load(this.prisma, quoteId);
+    assertProductQuote(quote.kind);
     await this.expireIfDue(quote);
     assertQuoteTransition(quote.status, 'QUOTED');
 
@@ -329,6 +355,7 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
     const input = convertQuoteInputSchema.parse(raw);
     const actor = currentActor();
     const quote = await this.load(this.prisma, quoteId);
+    assertProductQuote(quote.kind);
     await this.expireIfDue(quote);
     if (quote.status !== 'ACCEPTED')
       throw new AppError(
@@ -391,7 +418,12 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
       source: { kind: 'quote', quoteId },
       channel: 'B2B',
       saleMode: lines[0].saleMode,
-      customer: { name: `${quote.contactName} (${quote.organizationName})`, phone: quote.phone },
+      customer: {
+        name: quote.organizationName
+          ? `${quote.contactName} (${quote.organizationName})`
+          : quote.contactName,
+        phone: quote.phone,
+      },
       address: { ...input.address, note: input.address.note ?? null },
       lines,
       totals,
@@ -508,6 +540,17 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
     return {
       id: q.id,
       code: q.code,
+      kind: q.kind,
+      design:
+        q.kind !== 'PRODUCT' && q.designSpaceType
+          ? {
+              spaceType: spaceTypeSchema.parse(q.designSpaceType),
+              sizeSqft: q.designSizeSqft,
+              district: q.designDistrict,
+              budget: budgetRangeSchema.catch('NOT_SURE').parse(q.designBudget),
+              floors: q.designFloors,
+            }
+          : null,
       status: q.status,
       organizationName: q.organizationName,
       contactName: q.contactName,

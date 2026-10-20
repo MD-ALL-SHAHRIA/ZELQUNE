@@ -58,8 +58,7 @@ export class NotificationService {
   async onPaymentVerified(event: EventEnvelope, tx: Tx): Promise<void> {
     const p = paymentVerified.parse(event).payload;
     if (p.method === 'COD') return; // COD confirmation is announced on order.confirmed
-    const contact = await this.contact(tx, p.orderId);
-    if (!contact) return;
+    const contact = await this.requireContact(tx, p.orderId);
     await this.send(
       tx,
       event.id,
@@ -71,9 +70,9 @@ export class NotificationService {
 
   async onOrderConfirmed(event: EventEnvelope, tx: Tx): Promise<void> {
     const p = orderConfirmed.parse(event).payload;
-    const contact = await this.contact(tx, p.orderId);
+    const contact = await this.requireContact(tx, p.orderId);
     // Prepaid orders already got "payment received, confirmed".
-    if (!contact || contact.paymentMethod !== 'COD') return;
+    if (contact.paymentMethod !== 'COD') return;
     await this.send(
       tx,
       event.id,
@@ -85,8 +84,7 @@ export class NotificationService {
 
   async onOrderCancelled(event: EventEnvelope, tx: Tx): Promise<void> {
     const p = orderCancelled.parse(event).payload;
-    const contact = await this.contact(tx, p.orderId);
-    if (!contact) return;
+    const contact = await this.requireContact(tx, p.orderId);
     await this.send(
       tx,
       event.id,
@@ -109,6 +107,17 @@ export class NotificationService {
       this.config.OWNER_NOTIFY_PHONE,
       templates.quoteRequested(p),
     );
+  }
+
+  /**
+   * The phone number arrives with order.placed. Events of different types are not ordered, so
+   * a later event can arrive first: retry it (delay queues, ADR 0009) instead of dropping the
+   * SMS. Every order has an order.placed, so the contact appears within the retry window.
+   */
+  private async requireContact(tx: Tx, orderId: string): Promise<OrderInfo & { phone: string }> {
+    const contact = await this.contact(tx, orderId);
+    if (!contact) throw new ContactNotYetKnownError(orderId);
+    return contact;
   }
 
   private contact(tx: Tx, orderId: string): Promise<(OrderInfo & { phone: string }) | null> {
@@ -140,5 +149,13 @@ export class NotificationService {
       },
       update: { status: 'SENT', providerRef },
     });
+  }
+}
+
+/** Retryable: order.placed (which carries the phone) has not been processed yet. */
+export class ContactNotYetKnownError extends Error {
+  constructor(orderId: string) {
+    super(`Contact for order ${orderId} not known yet (order.placed not processed); retrying`);
+    this.name = 'ContactNotYetKnownError';
   }
 }

@@ -12,7 +12,7 @@ import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input } from '@/shared/ui/field';
 import { useLazyTrackQuoteQuery } from '@/store/api';
 
-type Copy = Pick<Dictionary, 'bulk' | 'checkout' | 'ui'>;
+type Copy = Pick<Dictionary, 'bulk' | 'checkout' | 'ui' | 'consult' | 'build'>;
 
 export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
   const b = copy.bulk;
@@ -93,25 +93,60 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
             </p>
           </div>
           <div className="space-y-1">
-            <p className="font-display text-3xl font-light">{quote.organizationName}</p>
+            {quote.kind === 'DESIGN' || quote.kind === 'CONSTRUCTION' ? (
+              <p className="text-xs uppercase tracking-eyebrow text-stone">
+                {quote.kind === 'DESIGN' ? copy.consult.trackLabel : copy.build.trackLabel}
+              </p>
+            ) : null}
+            {quote.organizationName ? (
+              <p className="font-display text-3xl font-light">{quote.organizationName}</p>
+            ) : null}
+            {quote.design && quote.kind === 'CONSTRUCTION' ? (
+              <p className="font-display text-2xl font-light">
+                <span data-testid="quote-building">{copy.build.types[quote.design.spaceType]}</span>
+                {quote.design.floors ? (
+                  <>
+                    <span aria-hidden className="mx-3 text-stone">
+                      ·
+                    </span>
+                    <span data-testid="quote-floors">
+                      {fill(
+                        quote.design.floors === 1 ? copy.build.trackFloor : copy.build.trackFloors,
+                        {
+                          n: formatNumber(quote.design.floors, lang),
+                        },
+                      )}
+                    </span>
+                  </>
+                ) : null}
+              </p>
+            ) : quote.design ? (
+              <p data-testid="quote-space" className="font-display text-2xl font-light">
+                {fill(copy.consult.trackSpace, {
+                  space: copy.consult.spaces[quote.design.spaceType],
+                })}
+              </p>
+            ) : null}
             {quote.neededBy ? (
               <p className="text-sm text-stone">
                 {b.quote.neededBy}: {formatDate(quote.neededBy, lang)}
               </p>
             ) : null}
           </div>
-          <ul className="divide-y divide-line border-y border-line">
-            {quote.lines.map((l) => (
-              <li key={l.id} className="flex justify-between gap-4 py-4 text-sm">
-                <span>
-                  {l.description} × {formatNumber(l.qty, lang)}
-                </span>
-                {totals && l.lineTotalPaisa !== null ? (
-                  <span>{formatTaka(l.lineTotalPaisa, lang)}</span>
-                ) : null}
-              </li>
-            ))}
-          </ul>
+          {quote.lines.length ? (
+            <ul className="divide-y divide-line border-y border-line">
+              {quote.lines.map((l) => (
+                <li key={l.id} className="flex justify-between gap-4 py-4 text-sm">
+                  <span>
+                    {l.description} × {formatNumber(l.qty, lang)}
+                  </span>
+                  {totals && l.lineTotalPaisa !== null ? (
+                    <span>{formatTaka(l.lineTotalPaisa, lang)}</span>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
           {totals ? (
             <dl className="grid gap-6 text-sm sm:grid-cols-3">
               <div>

@@ -1,4 +1,4 @@
-import { SAMPLE } from '@/content/sample-images';
+import { SAMPLE, SAMPLE_PRODUCT_GALLERY } from '@/content/sample-images';
 import { type Locale } from '@/i18n/config';
 
 interface Media {
@@ -14,10 +14,18 @@ export interface ProductImage {
   sample: boolean;
 }
 
-const SAMPLE_GALLERY = [SAMPLE.productTubes, SAMPLE.testTubes, SAMPLE.dayVase, SAMPLE.nightVase];
+const DEFAULT_GALLERY = SAMPLE_PRODUCT_GALLERY['alo-arch-panel'] ?? [];
 
-/** Real catalog photos always win; until uploaded, sample photos stand in (marked as samples). */
-export function productImages(media: Media[], name: string, lang: Locale): ProductImage[] {
+/**
+ * Real catalog photos always win; until uploaded, lookalike sample photos chosen per product
+ * stand in (marked as samples).
+ */
+export function productImages(
+  media: Media[],
+  name: string,
+  lang: Locale,
+  slug: string,
+): ProductImage[] {
   if (media.length) {
     return media.map((m) => ({
       src: m.url,
@@ -25,5 +33,6 @@ export function productImages(media: Media[], name: string, lang: Locale): Produ
       sample: false,
     }));
   }
-  return SAMPLE_GALLERY.map((s) => ({ src: s.src, alt: name, sample: true }));
+  const keys = SAMPLE_PRODUCT_GALLERY[slug] ?? DEFAULT_GALLERY;
+  return keys.map((key) => ({ src: SAMPLE[key].src, alt: name, sample: true }));
 }

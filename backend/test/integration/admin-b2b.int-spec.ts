@@ -1,6 +1,7 @@
 import { type INestApplication } from '@nestjs/common';
 import { type DashboardStats } from '@zelqune/contracts';
 import { Redis } from 'ioredis';
+import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { PrismaService as CatalogDb } from '../../apps/catalog-service/src/prisma/prisma.service';
 import { seedCatalog } from '../../apps/catalog-service/src/seed/catalog.seed';
@@ -365,7 +366,10 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
         svc(stack.notification, NotificationDb).notificationLog.findMany({
           orderBy: { createdAt: 'asc' },
         }),
-      (l) => l.filter((x) => x.template === 'order.confirmed.cod').length === 1,
+      // Separate events: wait for both SMS, not just the last one to be produced.
+      (l) =>
+        l.filter((x) => x.template === 'order.confirmed.cod').length === 1 &&
+        l.some((x) => x.template === 'payment.verified'),
     );
     const templates = logs.map((l) => l.template);
     expect(templates.filter((t) => t === 'order.placed')).toHaveLength(2);
@@ -501,6 +505,84 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
       body: expect.stringContaining('Hotel Sea Pearl') as string,
     });
     expect((await dashboard()).go.count).toBe(1);
+  });
+
+  it('interior design consultation: stored as a DESIGN lead, listed by kind, never priced', async () => {
+    const rfq = await http()
+      .post('/v1/quote-requests')
+      .set('cf-turnstile-response', 'dev-pass')
+      .send({
+        kind: 'DESIGN',
+        contactName: 'Rafiq Hasan',
+        phone: '01944444444',
+        design: {
+          spaceType: 'RESTAURANT_CAFE',
+          sizeSqft: 1800,
+          district: 'dhaka',
+          budget: 'LAKH_5_TO_15',
+        },
+        notes: 'New cafe in Dhanmondi, opening in March',
+      })
+      .expect(201);
+    const code = rfq.body.quoteCode as string;
+
+    // A design request without a brief is rejected before anything is stored.
+    await http()
+      .post('/v1/quote-requests')
+      .set('cf-turnstile-response', 'dev-pass')
+      .send({ kind: 'DESIGN', contactName: 'No Brief', phone: '01944444445' })
+      .expect(400);
+
+    const leads = await as(staffToken).get('/v1/admin/quotes?kind=DESIGN').expect(200);
+    const lead = (leads.body.items as { code: string; id: string; kind: string }[]).find(
+      (q) => q.code === code,
+    );
+    expect(lead?.kind).toBe('DESIGN');
+    const products = await as(staffToken).get('/v1/admin/quotes?kind=PRODUCT').expect(200);
+    expect((products.body.items as { code: string }[]).some((q) => q.code === code)).toBe(false);
+
+    const priced = await as(ownerToken)
+      .put(`/v1/admin/quotes/${lead?.id}/pricing`)
+      .send({
+        lines: [{ lineId: randomUUID(), variantId: randomUUID(), unitPricePaisa: 100_000 }],
+        shippingFeePaisa: 0,
+        advanceRequiredPaisa: 0,
+      })
+      .expect(422);
+    expect(priced.body.error.code).toBe('DESIGN_REQUEST_NOT_PRICEABLE');
+
+    const build = await http()
+      .post('/v1/quote-requests')
+      .set('cf-turnstile-response', 'dev-pass')
+      .send({
+        kind: 'CONSTRUCTION',
+        contactName: 'Karim Uddin',
+        phone: '01944444446',
+        design: { spaceType: 'HOME', sizeSqft: 2400, district: 'gazipur', floors: 4 },
+      })
+      .expect(201);
+    const buildTrack = await http()
+      .get(`/v1/quote-requests/track?code=${build.body.quoteCode as string}&phone=01944444446`)
+      .expect(200);
+    expect(buildTrack.body).toMatchObject({
+      kind: 'CONSTRUCTION',
+      design: { spaceType: 'HOME', floors: 4 },
+    });
+
+    const tracked = await http()
+      .get(`/v1/quote-requests/track?code=${code}&phone=01944444444`)
+      .expect(200);
+    expect(tracked.body).toMatchObject({
+      kind: 'DESIGN',
+      status: 'NEW',
+      organizationName: null,
+      design: {
+        spaceType: 'RESTAURANT_CAFE',
+        sizeSqft: 1800,
+        district: 'dhaka',
+        budget: 'LAKH_5_TO_15',
+      },
+    });
   });
 
   it('quotes expire after validUntil and cannot be accepted or converted', async () => {

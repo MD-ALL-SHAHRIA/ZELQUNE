@@ -1,57 +1,58 @@
+import Image from 'next/image';
 import { SAMPLE } from '@/content/sample-images';
-import { type Dictionary } from '@/i18n/dictionaries/en';
-import { formatNumber } from '@/i18n/format';
 import { type Locale } from '@/i18n/config';
+import { type Dictionary } from '@/i18n/dictionaries/en';
 import { CopyText } from '@/shared/ui/copy-text';
-import { Picture } from '@/shared/ui/image';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
+import { numeral } from './numeral';
 
-/** The making, then how pre-order works in three numbered steps. */
+/**
+ * The making: a full-bleed workshop photograph with a paper card stepping over its lower edge,
+ * then how pre-order works as three numbered steps laid out across the page on one hairline.
+ */
 export function Craft({ dict, lang }: { dict: Dictionary; lang: Locale }) {
   const l = dict.landing;
   return (
-    <section id="craft" className="scroll-mt-24 bg-cream/70 py-24 sm:py-32">
-      <Container className="grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-24">
-        <div className="reveal grid grid-cols-[1fr_0.62fr] items-end gap-4">
-          <Picture
-            src={SAMPLE.craft.src}
-            alt=""
-            sizes="(min-width: 1024px) 34vw, 60vw"
-            ratio="aspect-[3/4]"
-          />
-          <Picture
-            src={SAMPLE.craftDetail.src}
-            alt=""
-            sizes="(min-width: 1024px) 20vw, 36vw"
-            ratio="aspect-[3/4]"
-            arch
-            className="mb-16"
-          />
+    <section id="craft" className="scroll-mt-24 bg-cream/70 pb-24 sm:pb-32">
+      <div className="relative h-[62svh] min-h-[420px] overflow-hidden bg-sand lg:h-[88svh] lg:max-h-[920px]">
+        <Image
+          src={SAMPLE.craft.src}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-[center_40%]"
+        />
+      </div>
+
+      <Container>
+        {/* The card overlaps the photo's lower edge. */}
+        <div className="reveal relative -mt-28 ml-auto max-w-[40rem] bg-paper p-8 shadow-[0_40px_80px_-40px_rgba(22,18,15,0.35)] sm:-mt-40 sm:p-12 lg:-mt-64 lg:mr-10 lg:p-16">
+          <Eyebrow className="mb-6">{l.craftEyebrow}</Eyebrow>
+          <Heading level="h1">{l.craftHeading}</Heading>
+          <Lead className="mt-6 max-w-md">{l.craftText}</Lead>
         </div>
-        <div className="flex flex-col justify-center gap-12">
-          <div className="reveal space-y-6">
-            <Eyebrow>{l.craftEyebrow}</Eyebrow>
-            <Heading>{l.craftHeading}</Heading>
-            <Lead className="max-w-lg">{l.craftText}</Lead>
-          </div>
-          <div className="reveal space-y-2">
-            <Eyebrow className="mb-6">{l.processEyebrow}</Eyebrow>
-            <ol className="divide-y divide-line border-y border-line">
-              {l.steps.map((step, i) => (
-                <li key={step.title} className="grid grid-cols-[3.5rem_1fr] gap-4 py-6">
-                  <span className="font-display text-4xl font-light italic text-walnut">
-                    {formatNumber(i + 1, lang).padStart(2, lang === 'bn' ? '০' : '0')}
-                  </span>
-                  <div className="space-y-1">
-                    <p className="font-display text-2xl font-light">{step.title}</p>
-                    <p className="text-sm text-ink/75">
-                      <CopyText>{step.text}</CopyText>
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
+
+        <div className="mt-20 sm:mt-28">
+          <Eyebrow className="reveal mb-10">{l.processEyebrow}</Eyebrow>
+          <ol className="grid gap-12 border-t border-ink/20 md:grid-cols-3 md:gap-10">
+            {l.steps.map((step, i) => (
+              <li key={step.title} className="reveal relative pt-8 md:pt-10">
+                <span
+                  aria-hidden
+                  className="absolute -top-[5px] left-0 size-[9px] rounded-full border border-walnut bg-cream"
+                />
+                <span className="block font-display text-6xl font-light italic leading-none text-walnut sm:text-7xl [:lang(bn)_&]:not-italic">
+                  {numeral(i + 1, lang)}
+                </span>
+                <p className="mt-6 font-display text-2xl font-light sm:text-[1.75rem]">
+                  {step.title}
+                </p>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/75">
+                  <CopyText>{step.text}</CopyText>
+                </p>
+              </li>
+            ))}
+          </ol>
         </div>
       </Container>
     </section>

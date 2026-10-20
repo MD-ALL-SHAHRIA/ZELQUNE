@@ -23,10 +23,12 @@ export function SaleBadge(props: {
   lang: Locale;
   saleMode: SaleMode;
   leadTimeDays: number | null | undefined;
+  /** Product cards pass false: only the page's own product carries data-sale-mode. */
+  marked?: boolean;
 }) {
   return (
     <span
-      data-sale-mode={props.saleMode}
+      data-sale-mode={props.marked === false ? undefined : props.saleMode}
       className="inline-flex items-center gap-2 bg-paper/90 px-2.5 py-1 text-[0.68rem] font-medium uppercase tracking-[0.12em] text-ink [:lang(bn)_&]:text-xs [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal"
     >
       <span

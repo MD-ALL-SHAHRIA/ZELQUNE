@@ -214,3 +214,150 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 ### Our story
 - **Heading:** Our story
 - **Text:** [[Owner's story: who makes Zelqune, where, and why]]
+
+## Product range and interior design (added in step 1.4 interior design, for owner review)
+> New demo products (dev seed) and the Zelqune Interior Design service. Same structure in copy-bn.md.
+
+### Products
+- **Diamond Shelf (pair):** Two diamond-shaped walnut panels with floating shelves: bold geometry for plants, books and small treasures.
+  - Size: [[45 × 65 cm each, confirm]]
+  - Wood: walnut-tone veneer ([[confirm finish with supplier]])
+  - Two panels with floating shelves
+  - Wall-mounting kit (screws and hooks)
+- **Wave Shelf:** A curved walnut spine with a black wave and six floating shelves, part bookcase, part sculpture.
+  - Size: [[60 × 100 cm, confirm]]
+  - Wood: walnut-tone veneer with black accents
+  - Six floating shelves and a planter pocket
+  - Wall-mounting kit (screws and hooks)
+- **Half-Moon Planter Light:** A slatted half-moon, a walnut planter column and a warm LED ring: a living wall light.
+  - Size: [[70 × 90 cm, confirm]]
+  - Light: 5V USB, warm white LED ring
+  - Three planter cups for real or faux plants
+  - Wall-mounting kit (screws and hooks)
+- **Fluted Niche Panel:** Fluted walnut with warm LED lines, a lit niche for a sculpture and two floating shelves.
+  - Size: [[90 × 180 cm, confirm]]
+  - Light: low-voltage warm white LED lines
+  - Lit niche and two floating shelves
+  - Installation by our team ([[confirm areas]])
+- **Capsule Vase Light:** A capsule frame with a soft LED halo and a glass vase for fresh stems.
+  - Size: [[35 × 70 cm, confirm]]
+  - Light: 5V USB, warm white halo
+  - Removable glass vase
+  - Wall-mounting kit (screws and hooks)
+
+### Navigation
+- **Menu:** Shop · Interior Design · Bulk & Corporate · Our story
+- **Shop menu:** Shop by category · All products
+
+### Home page
+- **Categories eyebrow:** Shop by category
+- **Categories heading:** Pieces for every wall
+- **Design band eyebrow:** Interior design
+- **Design band heading:** Let us design the whole space
+- **Design band text:** Homes, offices, restaurants and cafés: we plan the space, make the woodwork and lighting, and install it.
+- **Design band buttons:** Explore interior design · Book a consultation
+
+### Interior design
+- **Eyebrow:** Zelqune Interior Design
+- **Heading:** Spaces designed around wood and light
+- **Lead:** From one feature wall to a whole café, we plan the space, make the woodwork and lighting in our workshop, and install it.
+- **Sectors heading:** What we design
+- **Sectors:**
+  - **Home:** Living rooms, bedrooms and entrances that feel warm and calm.
+  - **Office:** Reception walls, meeting rooms and workspaces with character.
+  - **Restaurant & Café:** Feature walls, lighting and corners your guests remember.
+  - **Hotel:** Lobbies and rooms with one handcrafted signature.
+  - **Shop & Showroom:** Displays and walls that make your products glow.
+- **Process heading:** How it works
+- **Process steps:**
+  - **Consultation:** We visit or call to understand your space, budget and timeline.
+  - **Concept:** A layout, materials and a clear quote for the woodwork and lighting.
+  - **Making:** Our workshop makes every piece to your measurements.
+  - **Installation:** We install, style and hand over the finished space.
+- **Included heading:** What's included
+- **Included:** Site visit or video call · Layout and material plan · Custom woodwork and lighting · Installation and styling
+- **Fees:** [[Consultation fee or free first visit: owner to decide]]
+- **Projects heading:** Selected projects
+- **Projects placeholder:** [[Our first projects will appear here]]
+- **Button:** Book a consultation
+- **Sector page link:** Explore
+
+### Design consultation form
+- **Heading:** Book a design consultation
+- **Text:** Tell us about your space and our designer will call you.
+- **Fields:** Your name · Mobile number · Email (optional) · Type of space · Approximate size (sq ft) · District · Budget · When would you like to start? · Tell us about the space
+- **Space types:** Home · Office · Restaurant & Café · Hotel · Shop & Showroom · Other
+- **Budgets:** Under ৳1 lakh · ৳1–5 lakh · ৳5–15 lakh · Above ৳15 lakh · Not sure yet
+- **Button:** Request consultation
+- **Sending:** Sending your request…
+- **After sending:** Thank you! Your request code is {code}. Our designer will call you within [[1 working day]].
+- **Quote track label:** Interior design request · Space: {space}
+
+## Header, listing, services and construction (added in step 1.4 RH-style redesign, for owner review)
+> Same structure in copy-bn.md.
+
+### Header and search
+- **Header:** Search · Account · Construction · Close search
+- **Search:** Search products and services · Products · Services and pages · Nothing found for "{q}".
+
+### Account
+- **Heading:** Your account
+- **Text:** Signing in with your mobile number is coming soon. Until then, track any order or quote with its code and your phone number.
+- **Buttons:** Track an order · Check a quote
+
+### Product listing
+- **Results:** {n} products
+- **Availability:** Availability · All · Pre-order · Made to order · In stock
+- **Sort:** Sort · Featured · Price: low to high · Price: high to low
+- **Finishes:** {n} finishes
+- **Clear:** Clear filters
+
+### Home services
+- **Services eyebrow:** Services
+- **Services heading:** From one wall to a whole building
+- **Services:**
+  - **Interior Design:** Homes, offices, restaurants and cafés designed and installed.
+  - **Construction:** Homes and commercial buildings from the ground up, interiors included.
+  - **Bulk & Corporate:** Pieces in quantity for offices, hotels and gifting.
+
+### Construction
+- **Eyebrow:** Zelqune Construction
+- **Heading:** From the ground up to the last light
+- **Lead:** One team from the first drawing to the finished interior: we plan, build and furnish, so the building and everything inside it work together.
+- **Types heading:** What we build
+- **Types:**
+  - **Family home:** Single-family houses and duplexes.
+  - **Apartment building:** Multi-storey residential buildings.
+  - **Commercial building:** Offices, shops and showrooms.
+  - **Restaurant & hospitality:** Restaurants, cafés and small hotels.
+- **Stages heading:** From land to living
+- **Stages:**
+  - **Plan & design:** Site survey, architectural and structural drawings ([[engineers and licences: confirm]]).
+  - **Approvals:** Help with building approvals ([[confirm scope]]).
+  - **Structure:** Foundation, frame and roof, with quality checks at each stage.
+  - **Finishing:** Walls, floors, plumbing and electrical work.
+  - **Interiors:** Woodwork, lighting and furniture by Zelqune.
+  - **Handover:** A finished space, ready to live or work in ([[warranty terms to decide]]).
+- **Why heading:** Why one team
+- **Why:** One contract from foundation to furniture · Interiors planned with the structure, not after it · Clear stage-by-stage costs · Our own workshop for woodwork and lighting
+- **Projects placeholder:** [[Our first construction projects will appear here]]
+- **Button:** Start your project
+
+### Construction enquiry form
+- **Heading:** Start your building project
+- **Text:** Tell us about your land and plans; our team will call you.
+- **Fields:** Your name · Mobile number · Email (optional) · Type of building · Land or floor area (sq ft) · Number of floors · District · Budget · When would you like to start? · Tell us about the project
+- **Building types:** Family home · Commercial building · Restaurant & hospitality · Hotel · Shop & showroom · Apartment building
+- **Budgets:** Under ৳50 lakh · ৳50 lakh–1 crore · ৳1–3 crore · Above ৳3 crore · Not sure yet
+- **Button:** Request a call
+- **After sending:** Thank you! Your request code is {code}. Our team will call you within [[1 working day]].
+- **Track label:** Construction request · {n} floors
+
+### Additions from the RH-style build (for owner review)
+- **Construction form:** Sending your request… · Please enter 1 to 60 floors. · {n} floor (one floor)
+- **Construction:** Our buildings · Sample photo. Photos of our own projects are coming soon.
+- **Product page:** You may also like
+- **Category lines:**
+  - **Wall panels:** Sculpted wood and warm light for a feature wall.
+  - **Shelves:** Floating shelves in bold, handcrafted shapes.
+  - **Lighting:** Soft, low-voltage light that turns wood into a lamp.

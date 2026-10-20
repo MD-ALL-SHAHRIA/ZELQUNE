@@ -100,8 +100,8 @@ jobs:
           } >> infra/.env
       - name: Start backend stack
         run: docker compose -f infra/docker-compose.yml up -d --build --wait
-      - name: Seed
-        run: pnpm seed
+      - name: Seed (owner + catalog, then the dev-only demo range)
+        run: pnpm seed && pnpm seed:demo
       - name: Install Chromium
         run: pnpm --filter @zelqune/frontend exec playwright install --with-deps chromium
       - name: Playwright (checkout + RFQ)

@@ -12,6 +12,11 @@ const PAGES = [
   '/en/bulk/track',
   '/bn/story',
   '/en/faq',
+  '/en/design',
+  '/bn/design/restaurant-cafe',
+  '/en/category/shelves',
+  '/en/account',
+  '/bn/account',
 ];
 
 for (const path of PAGES) {

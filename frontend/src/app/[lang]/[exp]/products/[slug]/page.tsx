@@ -2,20 +2,21 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ProductView } from '@/features/analytics/product-view';
+import { relatedProducts } from '@/features/catalog/listing-data';
 import { ProductGallery } from '@/features/catalog/product-gallery';
 import { productImages } from '@/features/catalog/product-images';
 import { productName } from '@/features/catalog/product-copy';
 import { Purchase } from '@/features/catalog/purchase';
-import { SaleBadge } from '@/features/catalog/sale-badge';
+import { RelatedProducts } from '@/features/catalog/related-products';
+import { SaleBadge, saleBadgeText } from '@/features/catalog/sale-badge';
 import { ValuesBand } from '@/features/layout/footer';
-import { Rooms } from '@/features/landing/rooms';
 import { getProduct, listDistricts } from '@/shared/api/server';
 import { jsonForScript, productJsonLd } from '@/shared/lib/json-ld';
 import { resolvePage } from '@/shared/lib/page-params';
 import { alternates, href, SITE_URL } from '@/shared/lib/site';
 import { Accordion } from '@/shared/ui/accordion';
 import { CopyText } from '@/shared/ui/copy-text';
-import { Container, Heading, Lead } from '@/shared/ui/typography';
+import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 
 export const revalidate = 300;
 
@@ -56,12 +57,15 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function ProductPage({ params }: { params: Params }) {
-  const { lang, dict, product, copy, name, description } = await load(params);
-  const districts = await listDistricts();
+  const { lang, segment, dict, product, copy, name, description } = await load(params);
+  const category = product.categories[0];
+  const [districts, related] = await Promise.all([
+    listDistricts(),
+    relatedProducts(segment, product.slug, category?.slug),
+  ]);
   const preOrder = product.saleMode !== 'IN_STOCK';
   const url = `${SITE_URL}${href(lang, `/products/${product.slug}`)}`;
-  const images = productImages(product.media, name, lang);
-  const category = product.categories[0];
+  const images = productImages(product.media, name, lang, product.slug);
   const faq = dict.faq.items;
   return (
     <>
@@ -76,42 +80,59 @@ export default async function ProductPage({ params }: { params: Params }) {
         variantId={product.variants[0]?.id}
         pricePaisa={product.variants[0]?.price?.amountPaisa}
       />
-      <Container className="pb-28 pt-6 lg:pb-24 lg:pt-10">
-        <nav aria-label="Breadcrumb" className="mb-6 text-xs text-stone">
-          <ol className="flex flex-wrap gap-2">
+      <Container className="pb-20 pt-5 lg:pb-24 lg:pt-7">
+        <nav aria-label="Breadcrumb" className="mb-5 text-xs text-stone lg:mb-7">
+          <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <li>
-              <Link href={href(lang)} className="hover:text-ink">
+              <Link href={href(lang)} className="transition-colors hover:text-ink">
                 {dict.nav.home}
               </Link>
-              <span aria-hidden> / </span>
             </li>
+            <li aria-hidden>/</li>
             {category ? (
-              <li>
-                <Link href={href(lang, `/category/${category.slug}`)} className="hover:text-ink">
-                  {lang === 'bn' ? category.nameBn : category.nameEn}
-                </Link>
-                <span aria-hidden> / </span>
-              </li>
+              <>
+                <li>
+                  <Link
+                    href={href(lang, `/category/${category.slug}`)}
+                    className="transition-colors hover:text-ink"
+                  >
+                    {lang === 'bn' ? category.nameBn : category.nameEn}
+                  </Link>
+                </li>
+                <li aria-hidden>/</li>
+              </>
             ) : null}
             <li aria-current="page" className="text-ink">
               {name}
             </li>
           </ol>
         </nav>
-        <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-20 [&>*]:min-w-0">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24 [&>*]:min-w-0">
           <ProductGallery images={images} note={dict.landing.sampleNote} />
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <div className="space-y-6">
-              <SaleBadge
-                dict={dict}
-                lang={lang}
-                saleMode={product.saleMode}
-                leadTimeDays={product.leadTimeDays}
-              />
-              <Heading as="h1" level="h1">
-                {name}
-              </Heading>
-              <Lead>{description}</Lead>
+          <div className="lg:sticky lg:top-36 lg:self-start lg:pt-2">
+            <div className="space-y-7">
+              <div className="space-y-4">
+                {category ? (
+                  <Eyebrow>
+                    <Link
+                      href={href(lang, `/category/${category.slug}`)}
+                      className="transition-colors hover:text-ink"
+                    >
+                      {lang === 'bn' ? category.nameBn : category.nameEn}
+                    </Link>
+                  </Eyebrow>
+                ) : null}
+                <Heading as="h1" level="h1">
+                  {name}
+                </Heading>
+                <SaleBadge
+                  dict={dict}
+                  lang={lang}
+                  saleMode={product.saleMode}
+                  leadTimeDays={product.leadTimeDays}
+                />
+                {description ? <Lead className="text-pretty">{description}</Lead> : null}
+              </div>
               <Purchase
                 product={{ id: product.id, variants: product.variants, saleMode: product.saleMode }}
                 districts={districts}
@@ -125,6 +146,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   estimate: dict.product.estimate,
                   unavailable: dict.product.unavailable,
                   preOrder,
+                  leadTime: saleBadgeText(dict, lang, product.saleMode, product.leadTimeDays),
                 }}
               />
               {preOrder ? (
@@ -172,8 +194,13 @@ export default async function ProductPage({ params }: { params: Params }) {
           </div>
         </div>
       </Container>
+      <RelatedProducts
+        products={related}
+        lang={lang}
+        dict={dict}
+        eyebrow={category ? (lang === 'bn' ? category.nameBn : category.nameEn) : dict.nav.shop}
+      />
       <ValuesBand dict={dict} />
-      <Rooms dict={dict} />
     </>
   );
 }
