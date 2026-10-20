@@ -23,11 +23,34 @@
     U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA,
     U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1, U+11DF0-11DF1;
 }
+/* Tiro Bangla: a calm, bookish Bangla serif for display headings (the Bangla counterpart of
+   Cormorant). Used only for .font-display on /bn. */
+@font-face {
+  font-family: 'Tiro Bangla';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/tiro-bangla-400-bengali.woff2') format('woff2');
+  /* Tiro's Bangla is optically much larger than Cormorant's Latin at the same size. */
+  size-adjust: 88%;
+  unicode-range:
+    U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA,
+    U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1, U+11DF0-11DF1;
+}
 
 :root {
   --font-hind: 'Hind Siliguri';
-  /* Bangla headings use Hind Siliguri too: one family keeps /bn pages light. */
-  --font-noto-serif-bn: 'Hind Siliguri';
+  --font-noto-serif-bn: 'Tiro Bangla';
+  /* Height of a bottom sticky bar (product page purchase bar on phones). Floating UI such as
+     the WhatsApp button sits above it. Set by any element marked [data-sticky-bar]. */
+  --sticky-bar-h: 0px;
+  /* Fine paper grain: an inline SVG noise (alpha baked in), no extra request. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .09 0 0 0 0 .07 0 0 0 0 .06 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.09'/%3E%3C/svg%3E");
+}
+@media (max-width: 1023.98px) {
+  :root:has([data-sticky-bar]) {
+    --sticky-bar-h: var(--sticky-bar-height, 4.5rem);
+  }
 }
 
 @layer base {
@@ -37,11 +60,15 @@
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-kerning: normal;
   }
   body {
     font-family: var(--font-manrope), system-ui, sans-serif;
     font-size: 0.975rem;
     line-height: 1.6;
+    background-color: var(--color-paper);
+    background-image: var(--grain);
   }
   html[lang='bn'] body,
   html[lang='bn'] .font-sans {
@@ -52,12 +79,23 @@
     font-family: var(--font-noto-serif-bn), var(--font-cormorant), Georgia, serif;
   }
   ::selection {
-    background: var(--color-glow);
+    background: color-mix(in oklab, var(--color-glow) 75%, transparent);
     color: var(--color-ink);
   }
   :focus-visible {
     outline: 1.5px solid var(--color-ink);
     outline-offset: 3px;
+  }
+  /* Dark sections (footer, dark bands): focus rings and selection in lamp light. */
+  .tone-dark :focus-visible {
+    outline-color: var(--color-glow);
+  }
+  .tone-dark ::selection {
+    background: color-mix(in oklab, var(--color-glow) 40%, transparent);
+    color: var(--color-paper);
+  }
+  hr {
+    border-color: var(--color-line);
   }
 }
 
@@ -67,12 +105,12 @@
     background:
       radial-gradient(
         60% 55% at 70% 40%,
-        color-mix(in oklab, var(--color-glow) 45%, transparent),
+        color-mix(in oklab, var(--color-glow) 42%, transparent),
         transparent 70%
       ),
-      var(--color-paper);
+      var(--grain), var(--color-paper);
   }
-  /* Fine paper grain: an inline SVG noise, no extra request. */
+  /* Paper grain over a section (needs position: relative on the host). */
   .grain::after {
     content: '';
     position: absolute;
@@ -82,11 +120,81 @@
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+  /* Hairline rule that fades out at both ends. */
+  .hairline-fade {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-line) 12%,
+      var(--color-line) 88%,
+      transparent
+    );
+  }
+  /* Editorial text link: a 1px underline that retracts to the right and redraws from the left
+     on hover. Works on light and dark grounds (uses currentColor). */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    padding-bottom: 0.2em;
+    transition: background-size 0.6s var(--ease-out-soft);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-position: 100% 100%;
+    animation: underline-redraw 0.75s var(--ease-out-soft);
+  }
+  /* The opposite: no line at rest, one draws in from the left on hover. */
+  .link-reveal {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    padding-bottom: 0.2em;
+    transition: background-size 0.55s var(--ease-out-soft);
+  }
+  .link-reveal:hover,
+  .link-reveal:focus-visible,
+  .link-reveal[aria-current='page'],
+  .link-reveal[aria-current='true'] {
+    background-size: 100% 1px;
+  }
+  /* Slow, quiet zoom on images inside a hovered .group (cards, editorial tiles). */
+  .img-hover {
+    transition:
+      transform 1.6s var(--ease-out-soft),
+      filter 1.6s var(--ease-out-soft);
+  }
+  .group:hover .img-hover {
+    transform: scale(1.035);
+    filter: saturate(1.04) brightness(1.02);
+  }
   .scrollbar-none {
     scrollbar-width: none;
   }
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@keyframes underline-redraw {
+  0% {
+    background-size: 100% 1px;
+    background-position: 100% 100%;
+  }
+  45% {
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+  }
+  46% {
+    background-size: 0% 1px;
+    background-position: 0 100%;
+  }
+  100% {
+    background-size: 100% 1px;
+    background-position: 0 100%;
   }
 }
 
@@ -99,6 +207,38 @@
       animation-timeline: view();
       animation-range: entry 0% entry 55%;
     }
+  }
+}
+
+/* Header: once the page scrolls, the bar firms up (more opaque, a soft shadow) and the logo
+   settles a touch smaller. Transforms and colours only, so nothing below it moves. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .site-header {
+      animation: header-firm linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 160px;
+    }
+    .site-header-logo {
+      animation: header-logo linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 160px;
+    }
+  }
+}
+@keyframes header-firm {
+  from {
+    background-color: color-mix(in oklab, var(--color-paper) 88%, transparent);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  to {
+    background-color: color-mix(in oklab, var(--color-paper) 94%, transparent);
+    box-shadow: 0 10px 30px -18px color-mix(in oklab, var(--color-ink) 35%, transparent);
+  }
+}
+@keyframes header-logo {
+  to {
+    transform: scale(0.88);
   }
 }
 
@@ -117,6 +257,12 @@
     opacity: 0;
   }
 }
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
 @keyframes slide-in-right {
   from {
     transform: translateX(100%);
@@ -128,19 +274,50 @@
   }
 }
 
+/* Page changes: the content area cross-fades softly (React <ViewTransition> in the site
+   layout); the header and footer stay put. Browsers without the API just swap. */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(.zq-page) {
+  animation: 160ms ease-in both vt-fade-out;
+}
+::view-transition-new(.zq-page) {
+  animation: 320ms var(--ease-out-soft) 80ms both vt-fade-in;
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
+  }
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }
 
 /* Bangla has no letter case and its conjuncts break when tracked: labels styled as tracked
    uppercase (eyebrows, buttons, table heads) render naturally on /bn. The Latin wordmark keeps
    its caps. Unlayered on purpose so it wins over utility classes. */
-html[lang='bn'] .uppercase:not(.font-display) {
+html[lang='bn'] .uppercase:not(.font-display),
+.uppercase:lang(bn):not(.font-display) {
   text-transform: none;
   letter-spacing: normal;
 }
@@ -149,4 +326,16 @@ html[lang='bn'] .uppercase:not(.font-display) {
 .font-display.italic,
 .font-display .italic {
   font-family: var(--font-cormorant-italic), var(--font-cormorant), Georgia, serif;
+}
+/* Bangla has no italic: Tiro stays upright. */
+html[lang='bn'] .font-display.italic,
+html[lang='bn'] .font-display .italic {
+  font-family: var(--font-noto-serif-bn), var(--font-cormorant-italic), Georgia, serif;
+  font-style: normal;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
 }

@@ -40,14 +40,14 @@ export const typography = {
   fontFamily: {
     display: "'Cormorant Garamond', Georgia, serif",
     sans: "'Manrope', 'Hind Siliguri', system-ui, sans-serif",
-    displayBn: "'Hind Siliguri', 'Cormorant Garamond', Georgia, serif",
+    displayBn: "'Tiro Bangla', 'Cormorant Garamond', Georgia, serif",
     sansBn: "'Hind Siliguri', 'Manrope', system-ui, sans-serif",
   },
   /** Letter spacing of the wordmark and eyebrow labels. */
   tracking: { wordmark: '0.34em', eyebrow: '0.22em' },
   fontWeight: { light: 300, regular: 400, medium: 500, semibold: 600 },
   /** Bangla script needs more line height than Latin. */
-  lineHeight: { bn: 1.75, en: 1.6, display: 1.02 },
+  lineHeight: { bn: 1.75, en: 1.6, display: 1.02, displayBn: 1.26 },
 } as const;
 
 /** Square, architectural edges; the arch is the one curved motif. */

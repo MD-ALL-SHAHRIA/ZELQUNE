@@ -33,11 +33,13 @@ export function Picture({
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover transition-transform duration-[1.6s] ease-out-soft group-hover:scale-[1.03]"
+          className="img-hover object-cover"
         />
       </div>
       {note ? (
-        <figcaption className="mt-2 text-[0.7rem] tracking-wide text-stone">{note}</figcaption>
+        <figcaption className="mt-2.5 text-[0.68rem] tracking-[0.06em] text-stone/90">
+          {note}
+        </figcaption>
       ) : null}
     </figure>
   );

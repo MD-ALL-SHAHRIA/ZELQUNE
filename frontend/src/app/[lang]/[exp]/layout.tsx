@@ -1,5 +1,6 @@
-import { Suspense } from 'react';
+import { Suspense, ViewTransition } from 'react';
 import { SiteAnalytics } from '@/features/analytics/site-analytics';
+import { WhatsappFab } from '@/features/chat/whatsapp-fab';
 import { Footer } from '@/features/layout/footer';
 import { Header } from '@/features/layout/header';
 import { buildSearchIndex } from '@/features/layout/search-index';
@@ -33,8 +34,13 @@ export default async function SiteLayout({
         categories={categories}
         searchIndex={buildSearchIndex(lang, products)}
       />
-      <main id="main">{children}</main>
+      {/* Page changes cross-fade the content softly (globals.css, .zq-page); header and footer
+          stay still. Without View Transitions support the page simply swaps. */}
+      <ViewTransition update="zq-page" default="none">
+        <main id="main">{children}</main>
+      </ViewTransition>
       <Footer lang={lang} dict={dict} categories={categories} />
+      <WhatsappFab dict={dict} />
       <Suspense fallback={null}>
         <SiteAnalytics />
       </Suspense>

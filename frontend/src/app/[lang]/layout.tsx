@@ -25,8 +25,11 @@ const cormorantItalic = Cormorant_Garamond({
 });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope', display: 'swap' });
 
-/** The regular Bangla weight, used above the fold on every /bn page. */
-const BANGLA_FONTS = ['/fonts/hind-siliguri-400-bengali.woff2'];
+/** Bangla text (Hind Siliguri) and display (Tiro Bangla) faces, above the fold on every /bn page. */
+const BANGLA_FONTS = [
+  '/fonts/hind-siliguri-400-bengali.woff2',
+  '/fonts/tiro-bangla-400-bengali.woff2',
+];
 
 export const metadata: Metadata = { metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL) };
 
@@ -70,7 +73,7 @@ export default async function RootLayout({
             ))
           : null}
       </head>
-      <body className="min-h-dvh bg-paper text-ink">
+      <body className="min-h-dvh text-ink">
         <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
