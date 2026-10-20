@@ -31,9 +31,9 @@ export function Hero({
       />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.05)_0%,rgba(22,18,15,0.15)_45%,rgba(22,18,15,0.78)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.05)_0%,rgba(22,18,15,0.2)_40%,rgba(22,18,15,0.78)_100%)]"
       />
-      <Container className="pb-14 pt-32 sm:pb-20 lg:pb-24">
+      <Container className="pb-24 pt-32 sm:pb-32 lg:pb-40">
         <div className="max-w-3xl space-y-6">
           <Eyebrow className="text-paper/75">{dict.landing.heroEyebrow}</Eyebrow>
           <Heading as="h1" level="display">
