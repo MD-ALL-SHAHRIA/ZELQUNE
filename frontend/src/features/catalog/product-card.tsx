@@ -57,7 +57,7 @@ export function ProductCard({
             src={first.src}
             alt={first.alt}
             fill
-            priority={priority}
+            preload={priority}
             sizes={sizes}
             className={cn(
               fit,
@@ -88,14 +88,17 @@ export function ProductCard({
           />
         </div>
       </div>
-      <div className="mt-4 space-y-2">
+      <div className="mt-5 space-y-2.5">
         <div className="flex items-baseline justify-between gap-4">
           <Title className="font-display text-[1.45rem] font-light leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
             {name}
           </Title>
           {product.fromPrice ? (
-            <p className="shrink-0 text-sm tabular-nums tracking-wide">
-              {formatTaka(product.fromPrice.amountPaisa, lang)}
+            <p className="shrink-0 text-[0.85rem] tabular-nums tracking-wide text-ink/85">
+              {/* Several finishes can be priced differently: the card shows the lowest. */}
+              {finishes.length > 1
+                ? fill(dict.ui.from, { price: formatTaka(product.fromPrice.amountPaisa, lang) })
+                : formatTaka(product.fromPrice.amountPaisa, lang)}
             </p>
           ) : null}
         </div>

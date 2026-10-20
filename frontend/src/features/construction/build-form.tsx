@@ -106,12 +106,7 @@ export function BuildForm({
   if (done) {
     const [before, after] = c.after.split('{code}');
     return (
-      <div
-        ref={doneRef}
-        tabIndex={-1}
-        role="status"
-        className="space-y-8 bg-surface p-8 outline-none ring-1 ring-line sm:p-12"
-      >
+      <div ref={doneRef} tabIndex={-1} role="status" className="space-y-8 outline-none">
         <p className="font-display text-3xl font-light leading-snug">
           <CopyText>{before ?? ''}</CopyText>
           <strong
@@ -133,11 +128,7 @@ export function BuildForm({
     (lang === 'bn' ? a.nameBn : a.nameEn).localeCompare(lang === 'bn' ? b.nameBn : b.nameEn),
   );
   return (
-    <form
-      onSubmit={submit}
-      noValidate
-      className="space-y-8 bg-surface/80 p-6 ring-1 ring-line backdrop-blur-sm sm:p-10"
-    >
+    <form onSubmit={submit} noValidate className="space-y-8">
       <div className="grid gap-6 sm:grid-cols-2">
         <Field id="b-name" label={c.fields.name} error={errors.name}>
           <Input

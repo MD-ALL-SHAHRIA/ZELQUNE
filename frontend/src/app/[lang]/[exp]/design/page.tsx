@@ -29,16 +29,15 @@ export default async function DesignPage({ params }: { params: PageParams }) {
   return (
     <>
       <DesignHero
+        lang={lang}
+        dict={dict}
         image={SAMPLE.livingShelves.src}
-        eyebrow={dict.design.eyebrow}
         title={dict.design.heading}
         lead={dict.design.lead}
-        cta={dict.design.button}
-        note={dict.landing.sampleNote}
       />
       <SectorGrid lang={lang} dict={dict} />
       <DesignProcess lang={lang} dict={dict} />
-      <Included dict={dict} image={SAMPLE.dining.src} />
+      <Included lang={lang} dict={dict} image={SAMPLE.dining.src} />
       <Projects dict={dict} />
       <ConsultSection lang={lang} dict={dict} districts={districts} />
     </>

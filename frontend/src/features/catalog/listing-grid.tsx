@@ -71,18 +71,38 @@ const chevron =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%2316120f' stroke-width='1.2'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E\")";
 
 /**
+ * Sticky offset under the site header. The header can publish its height as --header-h; until it
+ * does, these match its measured heights (mobile / desktop).
+ */
+const STICKY = 'top-[var(--header-h,6.875rem)] lg:top-[var(--header-h,8.625rem)]';
+
+/** Position of the editorial tile: after the first row of products (or at the end). */
+const EDITORIAL_AFTER = 3;
+/** Editorial tile width by products-per-row remainder (2 columns on sm, 3 on lg). */
+const SPAN_SM = ['sm:col-span-2', 'sm:col-span-1'] as const;
+const SPAN_LG = ['lg:col-span-3', 'lg:col-span-2', 'lg:col-span-1'] as const;
+
+/**
  * The listing toolbar (results, availability, sort, clear) and the grid. Filters and sorts the
  * products the server already rendered, so the page stays ISR; the choice is mirrored to the URL
  * (?availability=&sort=) for sharing and the back button, and read back after hydration.
+ * The toolbar stays in reach (sticky under the header) while the grid scrolls; an optional
+ * editorial tile breaks the grid rhythm once, in the unfiltered "featured" view only.
  */
 export function ListingGrid({
   items,
   copy,
   lang,
+  editorial,
+  emptyAction,
 }: {
   items: ListingItem[];
   copy: ListingCopy;
   lang: Locale;
+  /** A wide editorial tile (server-rendered) shown once inside the grid. */
+  editorial?: React.ReactNode;
+  /** Shown in the empty state when nothing can be cleared (e.g. a link to all products). */
+  emptyAction?: React.ReactNode;
 }) {
   const [availability, setAvailability] = useState<Availability>('all');
   const [sort, setSort] = useState<SortKey>('featured');
@@ -128,6 +148,11 @@ export function ListingGrid({
   const shown = useMemo(() => applyListing(items, availability, sort), [items, availability, sort]);
   const dirty = availability !== 'all' || sort !== 'featured';
   const n = (x: number) => formatNumber(x, lang);
+  const showEditorial = !!editorial && !dirty && shown.length > 0;
+  const editorialAt = Math.min(EDITORIAL_AFTER, shown.length);
+  // The tile fills what the last row leaves open, so the grid always ends flush.
+  const n2 = shown.length % 2;
+  const n3 = shown.length % 3;
 
   const clearButton = dirty ? (
     <button
@@ -139,17 +164,32 @@ export function ListingGrid({
     </button>
   ) : null;
 
+  const results = (
+    <p className="text-sm tabular-nums text-stone" aria-live="polite" data-testid="results-count">
+      {fill(copy.results, { n: n(shown.length) })}
+    </p>
+  );
+
   return (
     <div>
-      <div className="border-y border-line">
+      {/* Mobile: the count sits above the bar, so the sticky part stays one slim row. */}
+      <div className="flex h-11 items-center justify-between gap-4 md:hidden">
+        {results}
+        {clearButton}
+      </div>
+
+      <div
+        className={cn(
+          'sticky z-20 -mx-5 border-y border-line bg-paper/95 px-5 backdrop-blur-md supports-[backdrop-filter]:bg-paper/85 md:mx-0 md:px-0',
+          STICKY,
+        )}
+      >
         {/* Desktop: one slim row. */}
         <div className="hidden h-16 items-center gap-8 md:flex">
-          <p className="min-w-28 text-sm text-stone" aria-live="polite" data-testid="results-count">
-            {fill(copy.results, { n: n(shown.length) })}
-          </p>
+          <div className="min-w-28">{results}</div>
           {options.length > 2 ? (
-            <div role="group" aria-label={copy.availability} className="flex items-center gap-2">
-              <span className={cn(label, 'mr-2')} aria-hidden>
+            <div role="group" aria-label={copy.availability} className="flex items-center gap-1">
+              <span className={cn(label, 'mr-4')} aria-hidden>
                 {copy.availability}
               </span>
               {options.map((f) => (
@@ -159,21 +199,14 @@ export function ListingGrid({
                   aria-pressed={availability === f}
                   onClick={() => update({ availability: f })}
                   className={cn(
-                    'h-9 border px-4 text-[0.82rem] transition-colors',
+                    'relative h-9 px-3.5 text-[0.84rem] transition-colors after:absolute after:inset-x-3.5 after:-bottom-px after:h-px after:origin-left after:bg-ink after:transition-transform after:duration-500 after:ease-out-soft',
                     availability === f
-                      ? 'border-ink bg-ink text-paper'
-                      : 'border-line text-ink hover:border-ink/40',
+                      ? 'text-ink after:scale-x-100'
+                      : 'text-ink/65 after:scale-x-0 hover:text-ink',
                   )}
                 >
                   {copy[f]}
-                  <span
-                    className={cn(
-                      'ml-2 tabular-nums',
-                      availability === f ? 'text-paper/60' : 'text-stone',
-                    )}
-                  >
-                    {n(counts[f])}
-                  </span>
+                  <sup className="ml-1 text-[0.62rem] tabular-nums text-stone">{n(counts[f])}</sup>
                 </button>
               ))}
             </div>
@@ -185,7 +218,7 @@ export function ListingGrid({
               <select
                 value={sort}
                 onChange={(e) => update({ sort: e.target.value as SortKey })}
-                className={cn(selectClass, 'w-52')}
+                className={cn(selectClass, 'w-52 border-transparent hover:border-line')}
                 style={{ backgroundImage: chevron }}
               >
                 {SORTS.map((s) => (
@@ -198,64 +231,78 @@ export function ListingGrid({
           </div>
         </div>
 
-        {/* Mobile: a compact bar with two selects. */}
-        <div className="space-y-3 py-3 md:hidden">
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-sm text-stone" aria-live="polite" data-testid="results-count">
-              {fill(copy.results, { n: n(shown.length) })}
-            </p>
-            {clearButton}
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <label className="min-w-0 space-y-1.5">
-              <span className={cn(label, 'block')}>{copy.availability}</span>
-              <select
-                value={availability}
-                onChange={(e) => update({ availability: e.target.value as Availability })}
-                className={selectClass}
-                style={{ backgroundImage: chevron }}
-              >
-                {options.map((f) => (
-                  <option key={f} value={f}>
-                    {copy[f]} ({n(counts[f])})
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="min-w-0 space-y-1.5">
-              <span className={cn(label, 'block')}>{copy.sort}</span>
-              <select
-                value={sort}
-                onChange={(e) => update({ sort: e.target.value as SortKey })}
-                className={selectClass}
-                style={{ backgroundImage: chevron }}
-              >
-                {SORTS.map((s) => (
-                  <option key={s} value={s}>
-                    {copy[s]}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+        {/* Mobile: two selects with their labels floating inside, one row. */}
+        <div className="grid grid-cols-2 divide-x divide-line md:hidden">
+          <label className="relative block min-w-0">
+            <span className={cn(label, 'pointer-events-none absolute left-0 top-2 text-[0.6rem]')}>
+              {copy.availability}
+            </span>
+            <select
+              value={availability}
+              onChange={(e) => update({ availability: e.target.value as Availability })}
+              className={cn(selectClass, 'h-14 border-0 pl-0 pt-4 pr-7')}
+              style={{ backgroundImage: chevron, backgroundColor: 'transparent' }}
+            >
+              {options.map((f) => (
+                <option key={f} value={f}>
+                  {copy[f]} ({n(counts[f])})
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="relative block min-w-0 pl-4">
+            <span className={cn(label, 'pointer-events-none absolute left-4 top-2 text-[0.6rem]')}>
+              {copy.sort}
+            </span>
+            <select
+              value={sort}
+              onChange={(e) => update({ sort: e.target.value as SortKey })}
+              className={cn(selectClass, 'h-14 border-0 pl-0 pt-4 pr-7')}
+              style={{ backgroundImage: chevron, backgroundColor: 'transparent' }}
+            >
+              {SORTS.map((s) => (
+                <option key={s} value={s}>
+                  {copy[s]}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       </div>
 
       {shown.length ? (
-        <ul
-          className="grid gap-x-5 gap-y-14 pt-10 sm:grid-cols-2 sm:gap-y-16 md:pt-12 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-20"
-          data-testid="product-grid"
-        >
-          {shown.map((i) => (
-            <li key={i.id} data-sale-mode-item={i.saleMode} data-price={i.pricePaisa ?? undefined}>
-              {i.card}
-            </li>
-          ))}
-        </ul>
+        // The list is display:contents so the editorial tile can sit between products (CSS
+        // order) while the list itself only ever holds products.
+        <div className="grid gap-x-5 gap-y-14 pt-10 sm:grid-cols-2 sm:gap-y-16 md:pt-14 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-24">
+          <ul className="contents" data-testid="product-grid">
+            {shown.map((i, idx) => (
+              <li
+                key={i.id}
+                data-sale-mode-item={i.saleMode}
+                data-price={i.pricePaisa ?? undefined}
+                style={showEditorial ? { order: idx < editorialAt ? idx : idx + 1 } : undefined}
+              >
+                {i.card}
+              </li>
+            ))}
+          </ul>
+          {showEditorial ? (
+            <div className={cn(SPAN_SM[n2], SPAN_LG[n3])} style={{ order: editorialAt }}>
+              {editorial}
+            </div>
+          ) : null}
+        </div>
       ) : (
-        <div className="flex flex-col items-start gap-5 py-20">
-          <p className="font-display text-2xl font-light text-stone">{copy.empty}</p>
-          {clearButton}
+        <div className="relative flex flex-col items-center gap-7 overflow-hidden py-24 text-center sm:py-32">
+          {/* The arch, drawn as an empty frame: the room waiting for its piece. */}
+          <span
+            aria-hidden
+            className="block h-28 w-20 rounded-t-full border border-walnut/30 bg-[linear-gradient(180deg,transparent_55%,color-mix(in_oklab,var(--color-glow)_55%,transparent))]"
+          />
+          <p className="max-w-md font-display text-3xl font-light leading-snug text-ink/80 [:lang(bn)_&]:text-2xl">
+            {copy.empty}
+          </p>
+          {clearButton ?? emptyAction}
         </div>
       )}
     </div>

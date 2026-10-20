@@ -51,7 +51,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             className="reveal group relative isolate flex aspect-[4/5] flex-col justify-end overflow-hidden bg-walnut sm:aspect-[4/3] lg:col-span-7 lg:row-span-2 lg:aspect-auto"
           >
             <Image
-              src={SAMPLE.livingShelves.src}
+              src={SAMPLE.livingNeutral.src}
               alt=""
               fill
               sizes="(min-width: 1024px) 56vw, 100vw"

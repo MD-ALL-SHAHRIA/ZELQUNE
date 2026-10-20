@@ -11,7 +11,8 @@ export default function imageLoader({ src, width, quality }: ImageLoaderProps): 
   if (src.startsWith('https://images.unsplash.com/')) {
     const url = new URL(src);
     url.searchParams.set('w', String(width));
-    url.searchParams.set('q', String(quality ?? 72));
+    // Phone-sized sample photos are the LCP on slow mobile networks: a lighter default there.
+    url.searchParams.set('q', String(quality ?? (width <= 828 ? 60 : 72)));
     url.searchParams.set('auto', 'format');
     url.searchParams.set('fit', 'crop');
     return url.toString();

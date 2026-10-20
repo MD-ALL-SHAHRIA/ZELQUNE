@@ -8,6 +8,7 @@ describe('public env validation', () => {
       validatePublicEnv({
         NEXT_PUBLIC_API_URL: 'https://api.zelqune.com',
         NEXT_PUBLIC_META_PIXEL_ID: '123',
+        NEXT_PUBLIC_WHATSAPP_NUMBER: '8801711000000',
       }),
     ).not.toThrow();
   });
@@ -15,5 +16,6 @@ describe('public env validation', () => {
   it('rejects a malformed API URL or Pixel ID', () => {
     expect(() => validatePublicEnv({ NEXT_PUBLIC_API_URL: 'not a url' })).toThrow();
     expect(() => validatePublicEnv({ NEXT_PUBLIC_META_PIXEL_ID: 'abc' })).toThrow();
+    expect(() => validatePublicEnv({ NEXT_PUBLIC_WHATSAPP_NUMBER: '01711000000' })).toThrow();
   });
 });

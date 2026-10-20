@@ -39,3 +39,7 @@ working pages with ad-hoc components and a hand-rolled cart context.
 - Customer login (M2) will be server-side through identity-service with httpOnly cookies; a
   separate auth library such as Better Auth would duplicate identity-service and is not used.
 - Sample photos and their "sample photo" notes must be removed before launch (`content/`).
+- Update (premium pass): Bangla display headings use Tiro Bangla (OFL, self-hosted). It is not
+  preloaded and has no CSS `@font-face`; a small client component registers it with the
+  FontFace API after the `load` event, because preloading it cost about 3 Lighthouse points on
+  /bn. Headings show in Hind Siliguri until it arrives (measured CLS 0).
