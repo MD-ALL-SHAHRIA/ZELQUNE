@@ -163,7 +163,7 @@ export function Footer({
 
 function FooterTitle({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-paper/45 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-paper/70 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
       {children}
     </p>
   );

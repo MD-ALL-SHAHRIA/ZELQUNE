@@ -40,8 +40,8 @@ type Level = 'display' | 'h1' | 'h2' | 'h3' | 'h4';
 /** Fluid scale: phones (390px) to wide screens, with tighter leading as size grows. */
 const sizes: Record<Level, string> = {
   display:
-    'text-[clamp(3rem,1.55rem+5.4vw,7.25rem)] leading-[0.96] tracking-[-0.022em] [:lang(bn)_&]:leading-[1.22]',
-  h1: 'text-[clamp(2.55rem,1.75rem+3.1vw,4.6rem)] leading-[1] tracking-[-0.018em] [:lang(bn)_&]:leading-[1.26]',
+    'text-[clamp(3rem,1.55rem+5.4vw,7.25rem)] leading-[0.96] tracking-[-0.022em] [:lang(bn)_&]:text-[clamp(2.4rem,1.35rem+3.5vw,5rem)] [:lang(bn)_&]:leading-[1.22]',
+  h1: 'text-[clamp(2.55rem,1.75rem+3.1vw,4.6rem)] leading-[1] tracking-[-0.018em] [:lang(bn)_&]:text-[clamp(2.15rem,1.55rem+2.4vw,3.75rem)] [:lang(bn)_&]:leading-[1.26]',
   h2: 'text-[clamp(2.05rem,1.5rem+2.15vw,3.5rem)] leading-[1.04] tracking-[-0.014em] [:lang(bn)_&]:leading-[1.3]',
   h3: 'text-[clamp(1.55rem,1.3rem+0.9vw,2.05rem)] leading-[1.1] tracking-[-0.01em] [:lang(bn)_&]:leading-[1.32]',
   h4: 'text-[1.3rem] leading-[1.2] sm:text-[1.45rem] [:lang(bn)_&]:leading-[1.35]',

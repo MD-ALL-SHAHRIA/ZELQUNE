@@ -25,7 +25,8 @@ export function RelatedProducts({
   return (
     <section
       aria-labelledby="related-heading"
-      className="py-20 sm:py-28"
+      // Far below the fold: skip its rendering (and its lazy images) until it nears the viewport.
+      className="py-20 [contain-intrinsic-size:auto_900px] [content-visibility:auto] sm:py-28"
       data-testid="related-products"
     >
       <Container className="mb-10 flex flex-wrap items-end justify-between gap-6 sm:mb-12">

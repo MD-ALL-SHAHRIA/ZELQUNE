@@ -44,7 +44,7 @@ export function DesignHero({
   const d = dict.design;
   return (
     <section className="relative isolate flex min-h-[calc(100svh-8rem)] flex-col justify-end overflow-hidden bg-ink text-paper">
-      <Image src={image} alt="" fill priority sizes="100vw" className="-z-10 object-cover" />
+      <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.3)_0%,rgba(22,18,15,0.05)_28%,rgba(22,18,15,0.35)_58%,rgba(22,18,15,0.9)_100%)] lg:bg-[linear-gradient(90deg,rgba(22,18,15,0.7)_0%,rgba(22,18,15,0.25)_50%,rgba(22,18,15,0)_75%),linear-gradient(180deg,rgba(22,18,15,0)_50%,rgba(22,18,15,0.85)_100%)]"

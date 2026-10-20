@@ -7,6 +7,12 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Premium storefront: "Shop the room" (tap markers on a room photo to see each piece),
+  materials and statement sections, a shared "Buy with confidence" trust band, a "Made for you"
+  timeline and mobile sticky purchase bar on product pages, "See it on your wall" (place a piece
+  on a photo of your own wall; the photo never leaves the device; code-split), per-product
+  share cards for Facebook (`opengraph-image`), and an optional "Chat on WhatsApp" button
+  (`NEXT_PUBLIC_WHATSAPP_NUMBER`; hidden when empty).
 - Services (ADR 0014): Zelqune Interior Design (homes, offices, restaurants and cafés, hotels,
   shops) and Zelqune Construction (ground up to finished interiors). Requests are RFQs of kind
   `DESIGN` / `CONSTRUCTION` with a brief (space/building type, area, district, budget, floors),
@@ -17,6 +23,10 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   Shelves, Lighting.
 
 ### Changed
+- Premium redesign pass: refined type scale, buttons and hover details, condensing header,
+  editorial footer, cinematic home hero, RH-catalog listings, design-studio and
+  architecture-firm service pages, shared help layout. Bangla display headings use Tiro Bangla
+  (OFL, self-hosted), registered after page load so it never delays the first paint.
 - Storefront redesign (references: RH, Ferm Living): brand v2 from the owner's logo (vector
   arch mark, ink on cream, walnut and amber glow), Cormorant Garamond + Manrope (Hind
   Siliguri for Bangla, self-hosted and preloaded on /bn only), editorial landing page (hero, values, featured product,

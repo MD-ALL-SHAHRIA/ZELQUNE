@@ -231,7 +231,10 @@ export default async function ProductPage({ params }: { params: Params }) {
           </div>
         </div>
       </Container>
-      <TrustBand dict={dict} />
+      <TrustBand
+        dict={dict}
+        className="[contain-intrinsic-size:auto_640px] [content-visibility:auto]"
+      />
       <RelatedProducts
         products={related}
         lang={lang}

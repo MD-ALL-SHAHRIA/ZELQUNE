@@ -101,7 +101,7 @@ export function ListingPage({
                 src={SAMPLE[wide].src}
                 alt=""
                 fill
-                priority
+                preload
                 sizes="(min-width: 1440px) 780px, (min-width: 1024px) 55vw, 100vw"
                 className="object-cover"
               />

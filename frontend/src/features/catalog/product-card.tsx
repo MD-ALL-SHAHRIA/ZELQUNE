@@ -57,7 +57,7 @@ export function ProductCard({
             src={first.src}
             alt={first.alt}
             fill
-            priority={priority}
+            preload={priority}
             sizes={sizes}
             className={cn(
               fit,

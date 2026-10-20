@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { env } from '@/config/env';
 import { isLocale, LOCALES } from '@/i18n/config';
+import { BanglaDisplayFont } from '@/features/layout/bangla-display-font';
 import { StoreProvider } from '@/store/provider';
 import '../globals.css';
 
@@ -25,11 +26,11 @@ const cormorantItalic = Cormorant_Garamond({
 });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope', display: 'swap' });
 
-/** Bangla text (Hind Siliguri) and display (Tiro Bangla) faces, above the fold on every /bn page. */
-const BANGLA_FONTS = [
-  '/fonts/hind-siliguri-400-bengali.woff2',
-  '/fonts/tiro-bangla-400-bengali.woff2',
-];
+/**
+ * Bangla text face (Hind Siliguri), above the fold on every /bn page. Tiro Bangla (display) is
+ * loaded after the page by <BanglaDisplayFont />.
+ */
+const BANGLA_FONTS = ['/fonts/hind-siliguri-400-bengali.woff2'];
 
 export const metadata: Metadata = { metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL) };
 
@@ -74,6 +75,7 @@ export default async function RootLayout({
           : null}
       </head>
       <body className="min-h-dvh text-ink">
+        {lang === 'bn' ? <BanglaDisplayFont /> : null}
         <StoreProvider>{children}</StoreProvider>
       </body>
     </html>

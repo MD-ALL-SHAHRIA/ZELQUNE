@@ -23,20 +23,9 @@
     U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA,
     U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1, U+11DF0-11DF1;
 }
-/* Tiro Bangla: a calm, bookish Bangla serif for display headings (the Bangla counterpart of
-   Cormorant). Used only for .font-display on /bn. */
-@font-face {
-  font-family: 'Tiro Bangla';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/tiro-bangla-400-bengali.woff2') format('woff2');
-  /* Tiro's Bangla is optically much larger than Cormorant's Latin at the same size. */
-  size-adjust: 88%;
-  unicode-range:
-    U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA,
-    U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1, U+11DF0-11DF1;
-}
+/* Tiro Bangla (display headings on /bn) has no @font-face here on purpose: it is registered
+   after the page loads by features/layout/bangla-display-font.tsx, so its 54 KB never competes
+   with the hero image. Until then, Bangla headings use Hind Siliguri. */
 
 :root {
   --font-hind: 'Hind Siliguri';
@@ -76,7 +65,7 @@
     line-height: 1.75;
   }
   html[lang='bn'] .font-display {
-    font-family: var(--font-noto-serif-bn), var(--font-cormorant), Georgia, serif;
+    font-family: var(--font-noto-serif-bn), var(--font-hind), var(--font-cormorant), Georgia, serif;
   }
   ::selection {
     background: color-mix(in oklab, var(--color-glow) 75%, transparent);

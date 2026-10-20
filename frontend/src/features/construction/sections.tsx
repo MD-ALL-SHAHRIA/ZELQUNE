@@ -34,7 +34,7 @@ export function ConstructionHero({
   const d = dict.construction;
   return (
     <section className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden bg-ink text-paper">
-      <Image src={image} alt="" fill priority sizes="100vw" className="-z-10 object-cover" />
+      <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.35)_0%,rgba(22,18,15,0.05)_30%,rgba(22,18,15,0.45)_62%,rgba(22,18,15,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(22,18,15,0.78)_0%,rgba(22,18,15,0.35)_48%,rgba(22,18,15,0)_75%),linear-gradient(180deg,rgba(22,18,15,0)_55%,rgba(22,18,15,0.85)_100%)]"

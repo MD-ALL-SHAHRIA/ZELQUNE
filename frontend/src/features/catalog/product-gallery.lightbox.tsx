@@ -57,7 +57,7 @@ export default function Lightbox({
                     alt={img.alt}
                     fill
                     sizes="100vw"
-                    priority={i === start}
+                    loading={i === start ? 'eager' : 'lazy'}
                     className="object-contain"
                   />
                 </div>

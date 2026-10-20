@@ -106,6 +106,8 @@ export function ProductGallery({
                     : '(min-width: 1440px) 410px, (min-width: 1024px) 28vw, 84vw'
                 }
                 priority={i === 0}
+                // Later slides peek into view on phones; keep them from competing with the LCP.
+                fetchPriority={i === 0 ? undefined : 'low'}
                 arch={i === 0}
                 ratio={i > 0 && wide ? 'aspect-[4/5] lg:aspect-[16/10]' : 'aspect-[4/5]'}
               />

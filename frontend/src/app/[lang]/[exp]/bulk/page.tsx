@@ -34,7 +34,7 @@ export default async function BulkPage({ params }: { params: PageParams }) {
           src={SAMPLE.cafe.src}
           alt=""
           fill
-          priority
+          preload
           sizes="100vw"
           className="-z-10 object-cover"
         />
