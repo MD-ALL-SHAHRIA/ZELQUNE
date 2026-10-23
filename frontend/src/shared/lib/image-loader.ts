@@ -2,6 +2,8 @@
 
 import type { ImageLoaderProps } from 'next/image';
 
+const PHONE_CUTS = ['moon-bonsai-panel', 'curve-walnut-shelf', 'half-moon-planter'];
+
 /**
  * Global next/image loader. Unsplash sample photos are resized by Unsplash's own image CDN
  * (WebP/AVIF via auto=format), so our server never proxies large originals; everything else
@@ -17,8 +19,13 @@ export default function imageLoader({ src, width, quality }: ImageLoaderProps): 
     url.searchParams.set('fit', 'crop');
     return url.toString();
   }
-  // Our own sample renders (public/images/samples) are pre-sized WebP files under 100 KB: served
-  // as they are (the width only keeps next/image's per-width URLs distinct).
-  if (src.startsWith('/images/')) return `${src}?w=${width}`;
+  // Our own sample renders (public/images/samples) are pre-sized WebP files under 100 KB, served
+  // as they are. The three full renders also have a 640px phone cut (`-640.webp`, ~30 KB).
+  if (src.startsWith('/images/')) {
+    if (width <= 750 && PHONE_CUTS.some((name) => src.endsWith(`/${name}.webp`))) {
+      return src.replace(/\.webp$/, '-640.webp');
+    }
+    return `${src}?w=${width}`;
+  }
   return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality ?? 75}`;
 }
