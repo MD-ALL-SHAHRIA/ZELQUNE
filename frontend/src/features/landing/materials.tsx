@@ -11,8 +11,8 @@ import { numeral } from './numeral';
 const FALLBACK = { ...SAMPLE.slats, position: 'center' };
 const SWATCHES = [
   { ...SAMPLE.slats, position: 'center' },
-  { ...SAMPLE.sconceNight, position: '30% 35%' },
-  { ...SAMPLE.productTubes, position: 'center 30%' },
+  { ...SAMPLE.vela, position: 'center 30%' },
+  { ...SAMPLE.zenith, position: 'center 30%' },
 ];
 
 /**

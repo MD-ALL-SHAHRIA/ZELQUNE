@@ -19,11 +19,11 @@ type SampleKey = keyof typeof SAMPLE;
  * never repeats a product card's own photo just below it.
  */
 const HERO: Record<string, [SampleKey, SampleKey]> = {
-  'wall-panels': ['slats', 'hotelLobby'],
-  shelves: ['livingShelves', 'bedroom'],
-  lighting: ['cafeLights', 'sconceNight'],
+  'wall-panels': ['slats', 'solace'],
+  shelves: ['livingShelves', 'nami'],
+  lighting: ['cafeLights', 'vela'],
 };
-const SHOP_HERO: [SampleKey, SampleKey] = ['homeHero', 'living'];
+const SHOP_HERO: [SampleKey, SampleKey] = ['homeHero', 'solace'];
 
 const catName = (c: { nameEn: string; nameBn: string }, lang: Locale) =>
   lang === 'bn' ? c.nameBn : c.nameEn;

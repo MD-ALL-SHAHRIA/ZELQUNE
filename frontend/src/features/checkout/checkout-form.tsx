@@ -298,7 +298,7 @@ export function CheckoutForm({
             <li key={item.variantId} className="flex items-center gap-4">
               <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-t-full bg-sand">
                 <Image
-                  src={SAMPLE.productTubes.src}
+                  src={SAMPLE.zenith.src}
                   alt=""
                   fill
                   sizes="64px"

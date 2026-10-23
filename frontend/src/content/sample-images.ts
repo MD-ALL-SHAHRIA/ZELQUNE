@@ -1,6 +1,6 @@
 /**
  * Sample photography until real product photos exist (owner's decision, step 1.4 redesign).
- * All images are from Unsplash under the Unsplash License (free for commercial use, no
+ * Room and service photos are from Unsplash under the Unsplash License (free for commercial use, no
  * attribution required; credited here anyway). Product photos uploaded through the admin
  * dashboard replace them automatically (the catalog's media always wins).
  * Shown with a "sample photo" note where they stand in for the product. Remove before launch.
@@ -137,18 +137,29 @@ export const SAMPLE = {
     src: unsplash('photo-1742112125567-3e8967bad60f'),
     credit: 'Ronnakorn Triraganon (IvEYfb-3B70)',
   },
+  // The owner's own product renders (frontend/public/images/samples), first choice wherever a
+  // product is shown. The six shelf crops come from the owner's collection sheet.
+  moonPanel: { src: '/images/samples/moon-bonsai-panel.webp', credit: 'Zelqune' },
+  curveShelf: { src: '/images/samples/curve-walnut-shelf.webp', credit: 'Zelqune' },
+  halfMoonPlanter: { src: '/images/samples/half-moon-planter.webp', credit: 'Zelqune' },
+  aurora: { src: '/images/samples/aurora.webp', credit: 'Zelqune' },
+  zenith: { src: '/images/samples/zenith.webp', credit: 'Zelqune' },
+  solace: { src: '/images/samples/solace.webp', credit: 'Zelqune' },
+  nami: { src: '/images/samples/nami.webp', credit: 'Zelqune' },
+  vela: { src: '/images/samples/vela.webp', credit: 'Zelqune' },
+  terra: { src: '/images/samples/terra.webp', credit: 'Zelqune' },
 } as const;
 
 type SampleKey = keyof typeof SAMPLE;
 
 /** Lookalike photos per product (by slug) until the real photos are uploaded. */
 export const SAMPLE_PRODUCT_GALLERY: Record<string, SampleKey[]> = {
-  'alo-arch-panel': ['productTubes', 'testTubes', 'dayVase', 'nightVase'],
-  'diamond-shelf-pair': ['shelvesPlants', 'shelvesDecor', 'livingShelves'],
-  'wave-shelf': ['shelvesDecor', 'shelvesPlants', 'livingNeutral'],
-  'half-moon-planter-light': ['livingNeutral', 'living', 'sconceNight'],
-  'fluted-niche-panel': ['slatsWarm', 'hotelLobby', 'slats'],
-  'capsule-vase-light': ['dayVase', 'productTubes', 'nightVase'],
+  'alo-arch-panel': ['terra', 'zenith', 'moonPanel'],
+  'diamond-shelf-pair': ['aurora', 'vela', 'solace'],
+  'wave-shelf': ['curveShelf', 'nami', 'aurora'],
+  'half-moon-planter-light': ['halfMoonPlanter', 'vela', 'aurora'],
+  'fluted-niche-panel': ['moonPanel', 'solace', 'terra'],
+  'capsule-vase-light': ['zenith', 'terra', 'halfMoonPlanter'],
 };
 
 /** Photos for the interior design sectors (by space type). */

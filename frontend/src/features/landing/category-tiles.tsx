@@ -12,9 +12,9 @@ import { numeral } from './numeral';
 
 /** Lookalike sample photo per category until real product photos exist. */
 const CATEGORY_IMAGE: Record<string, string> = {
-  'wall-panels': SAMPLE.slatsWarm.src,
-  shelves: SAMPLE.shelvesPlants.src,
-  lighting: SAMPLE.cafeLights.src,
+  'wall-panels': SAMPLE.moonPanel.src,
+  shelves: SAMPLE.aurora.src,
+  lighting: SAMPLE.halfMoonPlanter.src,
 };
 
 /**

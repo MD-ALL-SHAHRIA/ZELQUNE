@@ -82,7 +82,7 @@ export function CartDrawer({ lang, copy }: { lang: Locale; copy: CartCopy }) {
               <li key={item.variantId} data-testid="cart-line" className="flex gap-4">
                 <div className="relative h-28 w-22 shrink-0 overflow-hidden rounded-t-full bg-sand">
                   <Image
-                    src={SAMPLE.productTubes.src}
+                    src={SAMPLE.zenith.src}
                     alt=""
                     fill
                     sizes="88px"
