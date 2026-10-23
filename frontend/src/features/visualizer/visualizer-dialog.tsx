@@ -198,10 +198,10 @@ export default function VisualizerDialog({
       const crop = coverCrop(p.naturalWidth, p.naturalHeight, aspect);
       // The same soft wall shadow as the preview.
       ctx.save();
-      ctx.shadowColor = 'rgba(22, 18, 15, 0.38)';
+      ctx.shadowColor = 'rgba(53,58,48, 0.38)';
       ctx.shadowBlur = r.w * 0.08;
       ctx.shadowOffsetY = r.w * 0.035;
-      ctx.fillStyle = '#ede3d3';
+      ctx.fillStyle = '#E6E8D8';
       ctx.fillRect(r.x, r.y, r.w, r.h);
       ctx.restore();
       ctx.drawImage(p, crop.sx, crop.sy, crop.sw, crop.sh, r.x, r.y, r.w, r.h);
@@ -233,7 +233,7 @@ export default function VisualizerDialog({
         <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/50 backdrop-blur-[3px] motion-safe:data-[state=open]:animate-[fade-in_300ms_ease-out]" />
         <Dialog.Content
           aria-describedby="visualizer-text"
-          className="fixed inset-0 z-50 flex flex-col bg-paper outline-none motion-safe:data-[state=open]:animate-[fade-up_420ms_var(--ease-out-soft)] lg:inset-auto lg:left-1/2 lg:top-1/2 lg:h-[min(860px,calc(100dvh-4rem))] lg:w-[min(1240px,calc(100vw-4rem))] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:shadow-[0_40px_120px_-30px_rgba(22,18,15,0.55)]"
+          className="fixed inset-0 z-50 flex flex-col bg-paper outline-none motion-safe:data-[state=open]:animate-[fade-up_420ms_var(--ease-out-soft)] lg:inset-auto lg:left-1/2 lg:top-1/2 lg:h-[min(860px,calc(100dvh-4rem))] lg:w-[min(1240px,calc(100vw-4rem))] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:shadow-[0_40px_120px_-30px_rgba(53,58,48,0.55)]"
         >
           <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-4 lg:px-8 lg:py-5">
             <Dialog.Title className="font-display text-2xl font-light leading-tight sm:text-[1.75rem] [:lang(bn)_&]:font-normal">
@@ -253,7 +253,7 @@ export default function VisualizerDialog({
               <div ref={setBoxEl} className="grid size-full place-items-center">
                 <div
                   className={cn(
-                    'relative overflow-hidden bg-sand shadow-[0_20px_60px_-30px_rgba(22,18,15,0.5)] transition-opacity duration-500',
+                    'relative overflow-hidden bg-sand shadow-[0_20px_60px_-30px_rgba(53,58,48,0.5)] transition-opacity duration-500',
                     wallSize && stage.w ? 'opacity-100' : 'opacity-0',
                   )}
                   style={
@@ -296,7 +296,7 @@ export default function VisualizerDialog({
                         aspectRatio: String(aspect),
                       }}
                     >
-                      <div className="size-full bg-sand shadow-[0_18px_40px_-12px_rgba(22,18,15,0.55)] ring-1 ring-ink/10 transition-[box-shadow] group-focus-visible:ring-2 group-focus-visible:ring-amber group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-transparent">
+                      <div className="size-full bg-sand shadow-[0_18px_40px_-12px_rgba(53,58,48,0.55)] ring-1 ring-ink/10 transition-[box-shadow] group-focus-visible:ring-2 group-focus-visible:ring-amber group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-transparent">
                         {/* eslint-disable-next-line @next/next/no-img-element -- drawn onto the canvas */}
                         <img
                           ref={pieceImg}

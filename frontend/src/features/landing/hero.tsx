@@ -59,7 +59,7 @@ export function Hero({
       {/* Warm, layered shade: dark at the foot for the words, a soft vignette at the left. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.35)_0%,rgba(22,18,15,0)_22%,rgba(22,18,15,0.12)_48%,rgba(22,18,15,0.82)_100%),radial-gradient(90%_70%_at_0%_100%,rgba(22,18,15,0.45),transparent_70%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0.35)_0%,rgba(53,58,48,0)_22%,rgba(53,58,48,0.12)_48%,rgba(53,58,48,0.82)_100%),radial-gradient(90%_70%_at_0%_100%,rgba(53,58,48,0.45),transparent_70%)]"
       />
       <Container className="pb-32 pt-32 sm:pb-36 lg:pb-44">
         <div className="max-w-3xl space-y-6">

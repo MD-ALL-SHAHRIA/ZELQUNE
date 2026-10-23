@@ -26,7 +26,7 @@ export function Craft({ dict, lang }: { dict: Dictionary; lang: Locale }) {
 
       <Container>
         {/* The card overlaps the photo's lower edge. */}
-        <div className="reveal relative -mt-28 ml-auto max-w-[40rem] bg-paper p-8 shadow-[0_40px_80px_-40px_rgba(22,18,15,0.35)] sm:-mt-40 sm:p-12 lg:-mt-64 lg:mr-10 lg:p-16">
+        <div className="reveal relative -mt-28 ml-auto max-w-[40rem] bg-paper p-8 shadow-[0_40px_80px_-40px_rgba(53,58,48,0.35)] sm:-mt-40 sm:p-12 lg:-mt-64 lg:mr-10 lg:p-16">
           <Eyebrow className="mb-6">{l.craftEyebrow}</Eyebrow>
           <Heading level="h1">{l.craftHeading}</Heading>
           <Lead className="mt-6 max-w-md">{l.craftText}</Lead>

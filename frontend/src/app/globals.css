@@ -53,7 +53,7 @@
     font-kerning: normal;
   }
   body {
-    font-family: var(--font-manrope), system-ui, sans-serif;
+    font-family: var(--font-jost), system-ui, sans-serif;
     font-size: 0.975rem;
     line-height: 1.6;
     background-color: var(--color-paper);
@@ -61,7 +61,7 @@
   }
   html[lang='bn'] body,
   html[lang='bn'] .font-sans {
-    font-family: var(--font-hind), var(--font-manrope), system-ui, sans-serif;
+    font-family: var(--font-hind), var(--font-jost), system-ui, sans-serif;
     line-height: 1.75;
   }
   html[lang='bn'] .font-display {

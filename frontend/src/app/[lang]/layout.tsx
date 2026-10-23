@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Manrope } from 'next/font/google';
+import { Cormorant_Garamond, Jost } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { env } from '@/config/env';
 import { isLocale, LOCALES } from '@/i18n/config';
@@ -24,7 +24,12 @@ const cormorantItalic = Cormorant_Garamond({
   display: 'swap',
   preload: false,
 });
-const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope', display: 'swap' });
+const jost = Jost({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  variable: '--font-jost',
+  display: 'swap',
+});
 
 /**
  * Bangla text face (Hind Siliguri), above the fold on every /bn page. Tiro Bangla (display) is
@@ -35,7 +40,7 @@ const BANGLA_FONTS = ['/fonts/hind-siliguri-400-bengali.woff2'];
 export const metadata: Metadata = { metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL) };
 
 export const viewport: Viewport = {
-  themeColor: '#FAF6EF',
+  themeColor: '#F5F3E9',
   width: 'device-width',
   initialScale: 1,
 };
@@ -56,7 +61,7 @@ export default async function RootLayout({
   return (
     <html
       lang={lang}
-      className={`${cormorant.variable} ${cormorantItalic.variable} ${manrope.variable}`}
+      className={`${cormorant.variable} ${cormorantItalic.variable} ${jost.variable}`}
     >
       <head>
         {/* Sample photos come from Unsplash's CDN until real product photos exist. */}

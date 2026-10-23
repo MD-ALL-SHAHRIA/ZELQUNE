@@ -47,7 +47,7 @@ export function DesignHero({
       <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.3)_0%,rgba(22,18,15,0.05)_28%,rgba(22,18,15,0.35)_58%,rgba(22,18,15,0.9)_100%)] lg:bg-[linear-gradient(90deg,rgba(22,18,15,0.7)_0%,rgba(22,18,15,0.25)_50%,rgba(22,18,15,0)_75%),linear-gradient(180deg,rgba(22,18,15,0)_50%,rgba(22,18,15,0.85)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0.3)_0%,rgba(53,58,48,0.05)_28%,rgba(53,58,48,0.35)_58%,rgba(53,58,48,0.9)_100%)] lg:bg-[linear-gradient(90deg,rgba(53,58,48,0.7)_0%,rgba(53,58,48,0.25)_50%,rgba(53,58,48,0)_75%),linear-gradient(180deg,rgba(53,58,48,0)_50%,rgba(53,58,48,0.85)_100%)]"
       />
       <Container className="pb-8 pt-36 sm:pb-10">
         <div className="max-w-3xl space-y-7">
@@ -213,7 +213,7 @@ export function DesignProcess({ lang, dict }: { lang: Locale; dict: Dictionary }
           {/* The line: ink to amber, like a room coming to light. */}
           <span
             aria-hidden
-            className="absolute bottom-2 left-[5px] top-2 w-px bg-[linear-gradient(180deg,rgba(244,236,223,0.3),var(--color-amber))] md:bottom-auto md:left-0 md:right-0 md:top-[5px] md:h-px md:w-auto md:bg-[linear-gradient(90deg,rgba(244,236,223,0.3),var(--color-amber))]"
+            className="absolute bottom-2 left-[5px] top-2 w-px bg-[linear-gradient(180deg,rgba(238,236,223,0.3),var(--color-amber))] md:bottom-auto md:left-0 md:right-0 md:top-[5px] md:h-px md:w-auto md:bg-[linear-gradient(90deg,rgba(238,236,223,0.3),var(--color-amber))]"
           />
           {d.steps.map((step, i) => (
             <li key={step.title} className="reveal relative space-y-4 md:pt-12">
@@ -358,7 +358,7 @@ export function ConsultSection({
             </a>
           ) : null}
         </div>
-        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(22,18,15,0.18)] sm:p-10 lg:p-12">
+        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(53,58,48,0.18)] sm:p-10 lg:p-12">
           <ConsultationForm
             lang={lang}
             districts={districts}

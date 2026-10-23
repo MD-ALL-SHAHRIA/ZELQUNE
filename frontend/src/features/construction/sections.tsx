@@ -37,7 +37,7 @@ export function ConstructionHero({
       <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.35)_0%,rgba(22,18,15,0.05)_30%,rgba(22,18,15,0.45)_62%,rgba(22,18,15,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(22,18,15,0.78)_0%,rgba(22,18,15,0.35)_48%,rgba(22,18,15,0)_75%),linear-gradient(180deg,rgba(22,18,15,0)_55%,rgba(22,18,15,0.85)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0.35)_0%,rgba(53,58,48,0.05)_30%,rgba(53,58,48,0.45)_62%,rgba(53,58,48,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(53,58,48,0.78)_0%,rgba(53,58,48,0.35)_48%,rgba(53,58,48,0)_75%),linear-gradient(180deg,rgba(53,58,48,0)_55%,rgba(53,58,48,0.85)_100%)]"
       />
       <Container className="pb-10 pt-36 sm:pb-14">
         <div className="max-w-3xl space-y-7">
@@ -343,7 +343,7 @@ export function StartSection({
             </a>
           ) : null}
         </div>
-        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(22,18,15,0.18)] sm:p-10 lg:p-12">
+        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(53,58,48,0.18)] sm:p-10 lg:p-12">
           <BuildForm
             lang={lang}
             districts={districts}

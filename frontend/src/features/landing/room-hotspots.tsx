@@ -68,7 +68,7 @@ export function RoomHotspots({ spots, view }: { spots: RoomSpot[]; view: string 
               <span
                 aria-hidden
                 className={cn(
-                  'relative grid size-7 place-items-center rounded-full border border-paper/80 shadow-[0_6px_20px_-6px_rgba(22,18,15,0.6)] transition-colors duration-300',
+                  'relative grid size-7 place-items-center rounded-full border border-paper/80 shadow-[0_6px_20px_-6px_rgba(53,58,48,0.6)] transition-colors duration-300',
                   isOpen ? 'bg-ink text-paper' : 'bg-paper text-ink group-hover:bg-glow',
                 )}
               >
@@ -85,7 +85,7 @@ export function RoomHotspots({ spots, view }: { spots: RoomSpot[]; view: string 
               id={cardId}
               hidden={!isOpen}
               className={cn(
-                'absolute inset-x-3 bottom-3 z-20 bg-paper p-5 text-ink shadow-[0_30px_60px_-24px_rgba(22,18,15,0.55)] sm:inset-x-auto sm:bottom-auto sm:w-64 sm:-translate-y-1/2',
+                'absolute inset-x-3 bottom-3 z-20 bg-paper p-5 text-ink shadow-[0_30px_60px_-24px_rgba(53,58,48,0.55)] sm:inset-x-auto sm:bottom-auto sm:w-64 sm:-translate-y-1/2',
                 right
                   ? 'sm:right-[calc(100%-var(--x)+1.75rem)]'
                   : 'sm:left-[calc(var(--x)+1.75rem)]',

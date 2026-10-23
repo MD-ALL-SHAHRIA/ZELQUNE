@@ -37,8 +37,8 @@ export function DayNight({ dict }: { dict: Dictionary }) {
               className={cn(
                 'absolute inset-0 -z-10',
                 m.night
-                  ? 'bg-[radial-gradient(70%_55%_at_50%_45%,rgba(246,201,135,0.22),transparent_70%),linear-gradient(180deg,rgba(22,18,15,0.1)_40%,rgba(22,18,15,0.85)_100%)]'
-                  : 'bg-[linear-gradient(180deg,rgba(242,234,219,0)_40%,rgba(242,234,219,0.92)_100%)]',
+                  ? 'bg-[radial-gradient(70%_55%_at_50%_45%,rgba(246,201,135,0.22),transparent_70%),linear-gradient(180deg,rgba(53,58,48,0.1)_40%,rgba(53,58,48,0.85)_100%)]'
+                  : 'bg-[linear-gradient(180deg,rgba(238,236,223,0)_40%,rgba(238,236,223,0.92)_100%)]',
               )}
             />
             <div className="reveal flex flex-wrap items-end gap-x-8 gap-y-3 p-6 pb-10 sm:p-10 lg:p-14">

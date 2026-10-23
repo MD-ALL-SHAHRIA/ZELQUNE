@@ -1,25 +1,27 @@
 /* Tailwind v4: `@import "@zelqune/ui-tokens/tailwind-theme.css";` after `@import "tailwindcss";` */
 @theme {
-  --color-ink: #16120f;
-  --color-cream: #f2eadb;
-  --color-walnut: #4a3426;
+  --color-ink: #353a30;
+  --color-cream: #eeecdf;
+  --color-walnut: #56664d;
   --color-amber: #e3a857;
-  --color-paper: #faf6ef;
-  --color-sand: #ede3d3;
-  --color-stone: #6a5e51;
-  --color-line: #e2d7c6;
+  --color-paper: #f5f3e9;
+  --color-sand: #e6e8d8;
+  --color-stone: #5e6457;
+  --color-line: #dad9c8;
   --color-surface: #ffffff;
+  --color-sage: #b8c6a5;
+  --color-moss: #64745a;
   --color-glow: #f6c987;
   --color-success: #2f6b4a;
   --color-warning: #9a6417;
   --color-danger: #a3301f;
   /* Kept for compatibility with step 1.4 classes. */
-  --color-muted: #6a5e51;
+  --color-muted: #5e6457;
 
   /* Latin-only stacks: Bangla pages switch fonts by lang (so English pages never fetch the
      Bangla fonts, e.g. just to draw the ৳ sign). */
   --font-display: var(--font-cormorant), Georgia, serif;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
 
   --tracking-wordmark: 0.34em;
   --tracking-eyebrow: 0.22em;

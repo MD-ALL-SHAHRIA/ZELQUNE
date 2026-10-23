@@ -15,13 +15,13 @@ export default function OgImage() {
         alignItems: 'center',
         justifyContent: 'center',
         gap: 64,
-        background: '#4A3426',
-        color: '#F4ECDF',
+        background: '#56664D',
+        color: '#EEECDF',
       }}
     >
       <svg width="180" height="270" viewBox="0 0 64 96">
         <path d="M4 92V32a28 28 0 0 1 56 0v60z" fill="none" stroke="#E3A857" strokeWidth="3" />
-        <path d="M20 84V44M32 84V36M44 84V44" stroke="#F4ECDF" strokeWidth="3" />
+        <path d="M20 84V44M32 84V36M44 84V44" stroke="#EEECDF" strokeWidth="3" />
       </svg>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div style={{ fontSize: 96, fontWeight: 700 }}>Zelqune</div>

@@ -1,19 +1,22 @@
 /**
- * Zelqune brand tokens (v2, from the owner's logo: near-black ink on warm cream).
- * Walnut and amber are accents; "glow" is the warm lamp light used for highlights.
+ * Zelqune brand tokens (v3: deep sage ink on cream, owner's sage + cream palette).
+ * "walnut" is now the deep moss accent (name kept for compatibility); amber stays as the small lamp-light accent; "glow" is the warm lamp light used for highlights.
  */
 export const colors = {
   /** Brand */
-  ink: '#16120F',
-  cream: '#F2EADB',
-  walnut: '#4A3426',
+  ink: '#353A30',
+  cream: '#EEECDF',
+  walnut: '#56664D',
   amber: '#E3A857',
   /** Neutrals */
-  paper: '#FAF6EF',
-  sand: '#EDE3D3',
-  stone: '#6A5E51',
-  line: '#E2D7C6',
+  paper: '#F5F3E9',
+  sand: '#E6E8D8',
+  stone: '#5E6457',
+  line: '#DAD9C8',
   surface: '#FFFFFF',
+  /** Sage (v3 palette: sage green + cream) */
+  sage: '#B8C6A5',
+  moss: '#64745A',
   /** Glow (lamp light) */
   glow: '#F6C987',
   /** Status */
@@ -39,9 +42,9 @@ export const semantic = {
 export const typography = {
   fontFamily: {
     display: "'Cormorant Garamond', Georgia, serif",
-    sans: "'Manrope', 'Hind Siliguri', system-ui, sans-serif",
+    sans: "'Jost', 'Hind Siliguri', system-ui, sans-serif",
     displayBn: "'Tiro Bangla', 'Cormorant Garamond', Georgia, serif",
-    sansBn: "'Hind Siliguri', 'Manrope', system-ui, sans-serif",
+    sansBn: "'Hind Siliguri', 'Jost', system-ui, sans-serif",
   },
   /** Letter spacing of the wordmark and eyebrow labels. */
   tracking: { wordmark: '0.34em', eyebrow: '0.22em' },

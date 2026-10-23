@@ -57,7 +57,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               sizes="(min-width: 1024px) 56vw, 100vw"
               className="-z-10 object-cover transition-transform duration-[1.8s] ease-out-soft group-hover:scale-[1.03]"
             />
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0)_35%,rgba(22,18,15,0.82)_100%)]" />
+            <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0)_35%,rgba(53,58,48,0.82)_100%)]" />
             <span className="absolute left-6 top-6 font-display text-lg italic text-paper/85 sm:left-10 sm:top-9">
               {numeral(1, lang)}
             </span>
@@ -87,7 +87,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="-z-10 object-cover transition-transform duration-[1.8s] ease-out-soft group-hover:scale-[1.03]"
             />
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(22,18,15,0)_38%,rgba(22,18,15,0.55)_62%,rgba(22,18,15,0.88)_100%)]" />
+            <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(53,58,48,0)_38%,rgba(53,58,48,0.55)_62%,rgba(53,58,48,0.88)_100%)]" />
             <div className="flex items-start justify-between gap-6 p-6 sm:p-9">
               <div className="space-y-3">
                 <h3 className="font-display text-4xl font-light leading-none sm:text-5xl [:lang(bn)_&]:leading-tight">

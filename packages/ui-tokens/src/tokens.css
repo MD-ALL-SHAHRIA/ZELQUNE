@@ -1,14 +1,16 @@
 /* Zelqune tokens as CSS variables (keep in sync with src/index.ts). */
 :root {
-  --zq-ink: #16120f;
-  --zq-cream: #f2eadb;
-  --zq-walnut: #4a3426;
+  --zq-ink: #353a30;
+  --zq-cream: #eeecdf;
+  --zq-walnut: #56664d;
   --zq-amber: #e3a857;
-  --zq-paper: #faf6ef;
-  --zq-sand: #ede3d3;
-  --zq-stone: #6a5e51;
-  --zq-line: #e2d7c6;
+  --zq-paper: #f5f3e9;
+  --zq-sand: #e6e8d8;
+  --zq-stone: #5e6457;
+  --zq-line: #dad9c8;
   --zq-surface: #ffffff;
+  --zq-sage: #b8c6a5;
+  --zq-moss: #64745a;
   --zq-glow: #f6c987;
   --zq-success: #2f6b4a;
   --zq-warning: #9a6417;

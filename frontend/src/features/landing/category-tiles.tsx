@@ -83,7 +83,7 @@ export function CategoryTiles({
                       className="object-cover transition-transform duration-[1.6s] ease-out-soft group-hover:scale-[1.04]"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,18,15,0.28)_0%,rgba(22,18,15,0)_22%,rgba(22,18,15,0)_50%,rgba(22,18,15,0.62)_100%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(53,58,48,0.28)_0%,rgba(53,58,48,0)_22%,rgba(53,58,48,0)_50%,rgba(53,58,48,0.62)_100%)]" />
                   <span className="absolute left-4 top-4 font-display text-lg italic text-paper/90 sm:left-6 sm:top-6">
                     {numeral(i + 1, lang)}
                   </span>

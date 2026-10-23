@@ -37,7 +37,7 @@ export function WhatsappFabLink({
       className={cn(
         'no-print fixed right-4 z-20 flex h-14 items-center rounded-full bg-ink text-paper',
         'bottom-[calc(1rem+var(--sticky-bar-h,0px)+env(safe-area-inset-bottom,0px))] sm:right-6 sm:bottom-[calc(1.5rem+var(--sticky-bar-h,0px)+env(safe-area-inset-bottom,0px))]',
-        'shadow-[0_14px_34px_-14px_rgba(22,18,15,0.55)] ring-1 ring-paper/20',
+        'shadow-[0_14px_34px_-14px_rgba(53,58,48,0.55)] ring-1 ring-paper/20',
         'transition-[background-color,translate,bottom] duration-500 ease-out-soft hover:-translate-y-0.5 hover:bg-walnut',
         'animate-[fade-up_800ms_var(--ease-out-soft)_1.2s_both]',
         className,

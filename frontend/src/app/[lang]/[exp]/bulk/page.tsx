@@ -40,7 +40,7 @@ export default async function BulkPage({ params }: { params: PageParams }) {
         />
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.35)_0%,rgba(22,18,15,0.25)_40%,rgba(22,18,15,0.88)_100%)] lg:bg-[linear-gradient(90deg,rgba(22,18,15,0.8)_0%,rgba(22,18,15,0.35)_55%,rgba(22,18,15,0.1)_100%)]"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0.35)_0%,rgba(53,58,48,0.25)_40%,rgba(53,58,48,0.88)_100%)] lg:bg-[linear-gradient(90deg,rgba(53,58,48,0.8)_0%,rgba(53,58,48,0.35)_55%,rgba(53,58,48,0.1)_100%)]"
         />
         <Container className="space-y-7 pb-14 pt-32 sm:pb-20">
           <Eyebrow className="flex items-center gap-4 text-paper/80">
@@ -80,7 +80,7 @@ export default async function BulkPage({ params }: { params: PageParams }) {
               ))}
             </ul>
           </div>
-          <div className="min-w-0 border border-line bg-paper p-5 shadow-[0_30px_80px_-40px_rgba(22,18,15,0.18)] sm:p-10 lg:p-12">
+          <div className="min-w-0 border border-line bg-paper p-5 shadow-[0_30px_80px_-40px_rgba(53,58,48,0.18)] sm:p-10 lg:p-12">
             <RfqForm
               lang={lang}
               products={products}
