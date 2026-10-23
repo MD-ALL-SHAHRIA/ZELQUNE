@@ -27,38 +27,38 @@ export function ConstructionHero({
 }) {
   const d = dict.construction;
   return (
-    <section className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden bg-ink text-paper">
+    <section className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden bg-night text-ivory">
       <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0.35)_0%,rgba(53,58,48,0.05)_30%,rgba(53,58,48,0.45)_62%,rgba(53,58,48,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(53,58,48,0.78)_0%,rgba(53,58,48,0.35)_48%,rgba(53,58,48,0)_75%),linear-gradient(180deg,rgba(53,58,48,0)_55%,rgba(53,58,48,0.85)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(20,17,15,0.35)_0%,rgba(20,17,15,0.05)_30%,rgba(20,17,15,0.45)_62%,rgba(20,17,15,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(20,17,15,0.78)_0%,rgba(20,17,15,0.35)_48%,rgba(20,17,15,0)_75%),linear-gradient(180deg,rgba(20,17,15,0)_55%,rgba(20,17,15,0.85)_100%)]"
       />
       <Container className="pb-10 pt-36 sm:pb-14">
         <div className="max-w-3xl space-y-7">
-          <Eyebrow className="flex items-center gap-4 text-paper/80">
+          <Eyebrow className="flex items-center gap-4 text-ivory/80">
             <span aria-hidden className="h-px w-10 bg-amber" />
             {d.eyebrow}
           </Eyebrow>
           <Heading as="h1" level="display">
             {d.heading}
           </Heading>
-          <p className="max-w-xl text-base leading-relaxed text-paper/85 sm:text-lg">{d.lead}</p>
+          <p className="max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg">{d.lead}</p>
           <ButtonLink href="#start" size="lg" className="bg-paper text-ink hover:bg-glow">
             {d.button}
             <span aria-hidden>↓</span>
           </ButtonLink>
         </div>
-        <ol className="mt-16 hidden grid-cols-6 border-t border-paper/25 md:grid">
+        <ol className="mt-16 hidden grid-cols-6 border-t border-ivory/25 md:grid">
           {d.stages.map((s) => (
             <li key={s.title} className="relative pt-5 pr-4">
               <span aria-hidden className="absolute -top-[3px] left-0 size-[5px] bg-amber" />
               <span aria-hidden className="block bg-glow h-px w-8" />
-              <span className="mt-1 block text-sm text-paper/85">{s.title}</span>
+              <span className="mt-1 block text-sm text-ivory/85">{s.title}</span>
             </li>
           ))}
         </ol>
       </Container>
-      <p className="absolute right-4 top-24 text-[0.6rem] text-paper/55 sm:bottom-3 sm:top-auto">
+      <p className="absolute right-4 top-24 text-[0.6rem] text-ivory/55 sm:bottom-3 sm:top-auto">
         {dict.construction.sampleNote}
       </p>
     </section>
@@ -167,7 +167,7 @@ export function BuildStages({
                       : 'border-ink/60 lg:-translate-y-[calc(50%+3rem)]',
                   )}
                 >
-                  <span className={cn('size-2', last ? 'rounded-full bg-amber' : 'bg-ink')} />
+                  <span className={cn('size-2', last ? 'rounded-full bg-amber' : 'bg-night')} />
                 </span>
                 <div
                   className={cn(
@@ -212,7 +212,7 @@ export function BuildStages({
 export function WhyOneTeam({ dict, image }: { lang: Locale; dict: Dictionary; image: string }) {
   const d = dict.construction;
   return (
-    <section className="bg-ink text-paper">
+    <section className="bg-night text-ivory">
       <div className="grid lg:grid-cols-2">
         <div className="relative min-h-[22rem] lg:min-h-full">
           <Image
@@ -229,14 +229,14 @@ export function WhyOneTeam({ dict, image }: { lang: Locale; dict: Dictionary; im
         </div>
         <div className="px-5 py-20 sm:px-10 lg:px-16 lg:py-32 xl:px-24">
           <div className="reveal space-y-5">
-            <Eyebrow className="text-paper/60">{d.eyebrow}</Eyebrow>
+            <Eyebrow className="text-ivory/60">{d.eyebrow}</Eyebrow>
             <Heading>{d.whyHeading}</Heading>
           </div>
-          <ul className="mt-12 border-t border-paper/15">
+          <ul className="mt-12 border-t border-ivory/15">
             {d.why.map((item) => (
               <li
                 key={item}
-                className="reveal flex items-baseline gap-6 border-b border-paper/15 py-7"
+                className="reveal flex items-baseline gap-6 border-b border-ivory/15 py-7"
               >
                 <span aria-hidden className="block bg-glow h-px w-8" />
                 <span className="font-display text-2xl font-light leading-snug sm:text-[1.9rem]">
@@ -321,7 +321,7 @@ export function StartSection({
             </a>
           ) : null}
         </div>
-        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(53,58,48,0.18)] sm:p-10 lg:p-12">
+        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(20,17,15,0.18)] sm:p-10 lg:p-12">
           <BuildForm
             lang={lang}
             districts={districts}

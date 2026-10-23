@@ -31,16 +31,16 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const s = dict.services;
   const more = dict.design.explore;
   return (
-    <section className="bg-ink py-24 text-paper sm:py-32 lg:py-40">
+    <section className="bg-night py-24 text-ivory sm:py-32 lg:py-40">
       <Container>
         <div className="reveal mb-14 grid gap-8 lg:mb-20 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-9">
-            <Eyebrow className="mb-6 text-paper/60">{s.eyebrow}</Eyebrow>
+            <Eyebrow className="mb-6 text-ivory/60">{s.eyebrow}</Eyebrow>
             <Heading level="display" className="max-w-[14ch] [:lang(bn)_&]:max-w-[16ch]">
               {s.heading}
             </Heading>
           </div>
-          <div aria-hidden className="hidden h-px bg-paper/25 lg:col-span-3 lg:mb-6 lg:block" />
+          <div aria-hidden className="hidden h-px bg-ivory/25 lg:col-span-3 lg:mb-6 lg:block" />
         </div>
 
         <div className="grid gap-4 lg:h-[min(88svh,920px)] lg:grid-cols-12 lg:grid-rows-2 lg:gap-5">
@@ -56,17 +56,17 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               sizes="(min-width: 1024px) 56vw, 100vw"
               className="-z-10 object-cover transition-transform duration-[1.8s] ease-out-soft group-hover:scale-[1.03]"
             />
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0)_35%,rgba(53,58,48,0.82)_100%)]" />
+            <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(20,17,15,0)_35%,rgba(20,17,15,0.82)_100%)]" />
             <span
               aria-hidden
-              className="absolute left-6 top-6 bg-paper/85 sm:left-10 sm:top-9 h-px w-8"
+              className="absolute left-6 top-6 bg-ivory/85 sm:left-10 sm:top-9 h-px w-8"
             />
             <div className="space-y-5 p-6 sm:p-10">
               <h3 className="font-display text-[2.6rem] font-light leading-none sm:text-6xl lg:text-7xl [:lang(bn)_&]:leading-tight">
                 {s.design.title}
               </h3>
-              <p className="max-w-md text-paper/85">{s.design.text}</p>
-              <ul className="hidden flex-wrap gap-x-5 gap-y-1 border-t border-paper/25 pt-4 text-sm text-paper/75 sm:flex">
+              <p className="max-w-md text-ivory/85">{s.design.text}</p>
+              <ul className="hidden flex-wrap gap-x-5 gap-y-1 border-t border-ivory/25 pt-4 text-sm text-ivory/75 sm:flex">
                 {SECTORS.map((k) => (
                   <li key={k}>{dict.design.sectors[k].title}</li>
                 ))}
@@ -87,18 +87,18 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="-z-10 object-cover transition-transform duration-[1.8s] ease-out-soft group-hover:scale-[1.03]"
             />
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(53,58,48,0)_38%,rgba(53,58,48,0.55)_62%,rgba(53,58,48,0.88)_100%)]" />
+            <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(20,17,15,0)_38%,rgba(20,17,15,0.55)_62%,rgba(20,17,15,0.88)_100%)]" />
             <div className="flex items-start justify-between gap-6 p-6 sm:p-9">
               <div className="space-y-3">
                 <h3 className="font-display text-4xl font-light leading-none sm:text-5xl [:lang(bn)_&]:leading-tight">
                   {s.construction.title}
                 </h3>
-                <p className="max-w-xs text-sm text-paper/85">{s.construction.text}</p>
+                <p className="max-w-xs text-sm text-ivory/85">{s.construction.text}</p>
                 <div className="pt-2">
                   <More label={more} />
                 </div>
               </div>
-              <span aria-hidden className="block bg-paper/85 h-px w-8" />
+              <span aria-hidden className="block bg-ivory/85 h-px w-8" />
             </div>
           </Link>
 
@@ -122,7 +122,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
                 <h3 className="font-display text-3xl font-light leading-[1.05] sm:text-4xl [:lang(bn)_&]:leading-tight">
                   {s.bulk.title}
                 </h3>
-                <p className="text-sm text-paper/80">{s.bulk.text}</p>
+                <p className="text-sm text-ivory/80">{s.bulk.text}</p>
               </div>
               <More label={more} />
             </div>

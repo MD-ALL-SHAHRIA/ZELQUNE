@@ -22,7 +22,7 @@ export function Eyebrow({
       className={cn(
         'text-[0.68rem] font-medium uppercase leading-snug tracking-eyebrow [:lang(bn)_&]:text-[0.82rem] [:lang(bn)_&]:tracking-normal',
         tone === 'default' && 'text-stone',
-        tone === 'light' && 'text-paper/60',
+        tone === 'light' && 'text-ivory/60',
         tone === 'accent' && 'text-walnut',
         rule && 'flex items-center gap-4',
         className,

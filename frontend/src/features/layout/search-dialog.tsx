@@ -82,7 +82,7 @@ export function SearchDialog({
             input.current?.focus();
             input.current?.select();
           }}
-          className="fixed inset-x-0 top-0 z-50 flex max-h-[100dvh] flex-col bg-paper shadow-[0_30px_80px_rgba(53,58,48,0.16)] transition-[opacity,translate] duration-500 ease-out-soft starting:-translate-y-4 starting:opacity-0 sm:max-h-[min(88dvh,52rem)]"
+          className="fixed inset-x-0 top-0 z-50 flex max-h-[100dvh] flex-col bg-paper shadow-[0_30px_80px_rgba(20,17,15,0.16)] transition-[opacity,translate] duration-500 ease-out-soft starting:-translate-y-4 starting:opacity-0 sm:max-h-[min(88dvh,52rem)]"
         >
           <Dialog.Title className="sr-only">{copy.search}</Dialog.Title>
           <div className="border-b border-line">

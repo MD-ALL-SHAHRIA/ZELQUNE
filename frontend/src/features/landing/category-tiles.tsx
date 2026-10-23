@@ -82,12 +82,12 @@ export function CategoryTiles({
                       className="object-cover transition-transform duration-[1.6s] ease-out-soft group-hover:scale-[1.04]"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(53,58,48,0.28)_0%,rgba(53,58,48,0)_22%,rgba(53,58,48,0)_50%,rgba(53,58,48,0.62)_100%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,17,15,0.28)_0%,rgba(20,17,15,0)_22%,rgba(20,17,15,0)_50%,rgba(20,17,15,0.62)_100%)]" />
                   <span
                     aria-hidden
-                    className="absolute left-4 top-4 bg-paper/90 sm:left-6 sm:top-6 h-px w-8"
+                    className="absolute left-4 top-4 bg-ivory/90 sm:left-6 sm:top-6 h-px w-8"
                   />
-                  <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3 text-paper sm:inset-x-6 sm:bottom-6">
+                  <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3 text-ivory sm:inset-x-6 sm:bottom-6">
                     <p className="font-display text-2xl font-light leading-none sm:text-4xl">
                       {lang === 'bn' ? c.nameBn : c.nameEn}
                     </p>

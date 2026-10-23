@@ -71,7 +71,7 @@ export function Footer({
     },
   ];
   return (
-    <footer className="tone-dark relative isolate mt-28 overflow-hidden bg-ink text-paper">
+    <footer className="tone-dark relative isolate mt-28 overflow-hidden bg-night text-ivory">
       {/* Lamp light: one warm glow in the corner, nothing else. */}
       <div
         aria-hidden
@@ -80,13 +80,13 @@ export function Footer({
       <Container className="pt-20 sm:pt-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <LogoMark className="h-10 text-paper sm:h-12" />
+            <LogoMark className="h-10 text-ivory sm:h-12" />
             <p className="mt-10 max-w-[19ch] font-display text-[clamp(2.25rem,1.4rem+3.3vw,4.6rem)] font-light leading-[1.03] tracking-[-0.015em] text-balance [:lang(bn)_&]:max-w-[22ch] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.3] [:lang(bn)_&]:tracking-normal">
               {dict.premium.statement}
             </p>
           </div>
-          <div className="space-y-5 text-sm text-paper/70 lg:col-span-4 lg:justify-self-end lg:pb-3">
-            <p className="font-display text-xl font-light italic leading-snug text-paper/90 [:lang(bn)_&]:text-lg">
+          <div className="space-y-5 text-sm text-ivory/70 lg:col-span-4 lg:justify-self-end lg:pb-3">
+            <p className="font-display text-xl font-light italic leading-snug text-ivory/90 [:lang(bn)_&]:text-lg">
               {dict.brand.tagline}
             </p>
             <p>
@@ -103,7 +103,7 @@ export function Footer({
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-2 gap-x-8 gap-y-12 border-t border-paper/15 pt-14 sm:grid-cols-4 sm:mt-20">
+        <div className="mt-16 grid grid-cols-2 gap-x-8 gap-y-12 border-t border-ivory/15 pt-14 sm:grid-cols-4 sm:mt-20">
           {columns.map((col) => (
             <div key={col.title}>
               <FooterTitle>{col.title}</FooterTitle>
@@ -112,7 +112,7 @@ export function Footer({
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="link-reveal text-paper/75 transition-colors duration-300 hover:text-paper"
+                      className="link-reveal text-ivory/75 transition-colors duration-300 hover:text-ivory"
                     >
                       {l.label}
                     </Link>
@@ -128,7 +128,7 @@ export function Footer({
                 lang={lang}
                 labels={dict.ui}
                 variant="full"
-                className="text-[0.9rem] text-paper"
+                className="text-[0.9rem] text-ivory"
               />
             </Suspense>
           </div>
@@ -145,16 +145,16 @@ export function Footer({
             textAnchor="middle"
             textLength="990"
             lengthAdjust="spacingAndGlyphs"
-            className="fill-paper/[0.075] font-display text-[160px] font-light uppercase"
+            className="fill-ivory/[0.075] font-display text-[160px] font-light uppercase"
           >
             Zelqune
           </text>
         </svg>
       </Container>
-      <div className="border-t border-paper/10">
-        <Container className="flex items-center justify-center gap-3 py-6 text-[0.72rem] text-paper/50 sm:justify-between">
+      <div className="border-t border-ivory/10">
+        <Container className="flex items-center justify-center gap-3 py-6 text-[0.72rem] text-ivory/50 sm:justify-between">
           <p>{dict.footer.copyright}</p>
-          <LogoMark className="hidden h-4 text-paper/35 sm:block" />
+          <LogoMark className="hidden h-4 text-ivory/35 sm:block" />
         </Container>
       </div>
     </footer>
@@ -163,7 +163,7 @@ export function Footer({
 
 function FooterTitle({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-paper/70 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-ivory/70 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
       {children}
     </p>
   );

@@ -24,11 +24,11 @@ export function TrustBand({
   return (
     <section
       aria-labelledby="trust-heading"
-      className={cn(dark ? 'bg-ink text-paper' : 'bg-cream/60', className)}
+      className={cn(dark ? 'bg-night text-ivory' : 'bg-cream/60', className)}
     >
       <Container className="grid gap-12 py-16 md:py-20 lg:grid-cols-[1fr_2.2fr] lg:gap-20">
         <div className="space-y-4">
-          <Eyebrow className={dark ? 'text-paper/60' : undefined}>{t.eyebrow}</Eyebrow>
+          <Eyebrow className={dark ? 'text-ivory/60' : undefined}>{t.eyebrow}</Eyebrow>
           <Heading id="trust-heading" level="h2">
             {t.heading}
           </Heading>
@@ -39,7 +39,7 @@ export function TrustBand({
             return (
               <li
                 key={item.title}
-                className={cn('flex gap-5 border-t pt-6', dark ? 'border-paper/15' : 'border-line')}
+                className={cn('flex gap-5 border-t pt-6', dark ? 'border-ivory/15' : 'border-line')}
               >
                 <Icon
                   aria-hidden
@@ -49,7 +49,7 @@ export function TrustBand({
                 <div className="space-y-2">
                   <p className="font-display text-2xl font-light leading-tight">{item.title}</p>
                   <p
-                    className={cn('text-sm leading-relaxed', dark ? 'text-paper/70' : 'text-stone')}
+                    className={cn('text-sm leading-relaxed', dark ? 'text-ivory/70' : 'text-stone')}
                   >
                     <CopyText>{item.text}</CopyText>
                   </p>

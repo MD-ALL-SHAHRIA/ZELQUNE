@@ -1,28 +1,33 @@
 /**
- * Zelqune brand tokens (v3: deep sage ink on cream, owner's sage + cream palette).
- * "walnut" is now the deep moss accent (name kept for compatibility); amber stays as the small lamp-light accent; "glow" is the warm lamp light used for highlights.
+ * Zelqune brand tokens (v4, dark walnut luxury): ivory text on espresso, champagne brass
+ * accents, lamp glow. Names are kept from v2 for compatibility: "paper" is the page background
+ * (espresso), "ink" the text (ivory), "walnut" the brass accent text.
  */
 export const colors = {
   /** Brand */
-  ink: '#353A30',
-  cream: '#EEECDF',
-  walnut: '#56664D',
-  amber: '#E3A857',
+  ink: '#F3ECE1',
+  cream: '#241E1A',
+  walnut: '#C9A46A',
+  amber: '#C9A46A',
   /** Neutrals */
-  paper: '#F5F3E9',
-  sand: '#E6E8D8',
-  stone: '#5E6457',
-  line: '#DAD9C8',
-  surface: '#FFFFFF',
-  /** Sage (v3 palette: sage green + cream) */
-  sage: '#B8C6A5',
-  moss: '#64745A',
+  paper: '#14110F',
+  sand: '#1E1916',
+  stone: '#B5A898',
+  line: '#3A322B',
+  surface: '#1A1613',
+  /** Raised surface tint and brass (v3 names kept) */
+  sage: '#2A231E',
+  moss: '#C9A46A',
   /** Glow (lamp light) */
-  glow: '#F6C987',
+  glow: '#F2C58A',
+  /** Fixed (never flip): text on photos and overlays */
+  ivory: '#F3ECE1',
+  espresso: '#14110F',
+  night: '#0D0B09',
   /** Status */
-  success: '#2F6B4A',
-  warning: '#9A6417',
-  danger: '#A3301F',
+  success: '#7FB08E',
+  warning: '#E0A458',
+  danger: '#E07A63',
 } as const;
 
 /** Semantic roles; components should use these rather than raw brand names. */
@@ -41,9 +46,9 @@ export const semantic = {
 /** Display serif (close to the wordmark), clean sans for text; Bangla pairs for both. */
 export const typography = {
   fontFamily: {
-    display: "'Cormorant Garamond', Georgia, serif",
+    display: "'Bodoni Moda', Georgia, serif",
     sans: "'Jost', 'Hind Siliguri', system-ui, sans-serif",
-    displayBn: "'Tiro Bangla', 'Cormorant Garamond', Georgia, serif",
+    displayBn: "'Tiro Bangla', 'Bodoni Moda', Georgia, serif",
     sansBn: "'Hind Siliguri', 'Jost', system-ui, sans-serif",
   },
   /** Letter spacing of the wordmark and eyebrow labels. */

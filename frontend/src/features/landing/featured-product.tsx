@@ -54,7 +54,7 @@ export function FeaturedProduct({
               className="absolute inset-0 -z-10 translate-x-3 -translate-y-3 rounded-t-[999px] border border-walnut/35 sm:translate-x-6 sm:-translate-y-6"
             />
             {detail ? (
-              <div className="absolute -left-[24%] bottom-[9%] w-[44%] max-w-[220px] border-[6px] border-paper shadow-[0_30px_60px_-30px_rgba(53,58,48,0.5)] sm:border-8 lg:-left-[34%]">
+              <div className="absolute -left-[24%] bottom-[9%] w-[44%] max-w-[220px] border-[6px] border-paper shadow-[0_30px_60px_-30px_rgba(20,17,15,0.5)] sm:border-8 lg:-left-[34%]">
                 <Picture
                   src={detail.src}
                   alt=""

@@ -43,11 +43,11 @@ export function Header({
     <>
       <a
         href="#main"
-        className="sr-only z-50 bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:left-3 focus:top-3"
+        className="sr-only z-50 bg-night px-4 py-2 text-ivory focus:not-sr-only focus:fixed focus:left-3 focus:top-3"
       >
         {dict.ui.skip}
       </a>
-      <p className="tone-dark bg-ink px-4 py-[0.7rem] text-center text-[0.6rem] uppercase leading-relaxed tracking-[0.2em] text-balance text-paper/80 sm:text-[0.62rem] sm:tracking-[0.26em] [:lang(bn)_&]:py-2 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+      <p className="tone-dark bg-night px-4 py-[0.7rem] text-center text-[0.6rem] uppercase leading-relaxed tracking-[0.2em] text-balance text-ivory/80 sm:text-[0.62rem] sm:tracking-[0.26em] [:lang(bn)_&]:py-2 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
         {dict.layout.announcement}
       </p>
       <header className="site-header sticky top-0 z-30 border-b border-line/90 bg-paper/[0.97] backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-paper/[0.88]">

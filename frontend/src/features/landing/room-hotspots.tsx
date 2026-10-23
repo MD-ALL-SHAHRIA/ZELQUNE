@@ -62,13 +62,13 @@ export function RoomHotspots({ spots, view }: { spots: RoomSpot[]; view: string 
             >
               <span
                 aria-hidden
-                className="absolute inset-1.5 rounded-full bg-paper/40 motion-safe:animate-[room-pulse_2.8s_ease-out_infinite]"
+                className="absolute inset-1.5 rounded-full bg-ivory/40 motion-safe:animate-[room-pulse_2.8s_ease-out_infinite]"
               />
               <span
                 aria-hidden
                 className={cn(
-                  'relative grid size-7 place-items-center rounded-full border border-paper/80 shadow-[0_6px_20px_-6px_rgba(53,58,48,0.6)] transition-colors duration-300',
-                  isOpen ? 'bg-ink text-paper' : 'bg-paper text-ink group-hover:bg-glow',
+                  'relative grid size-7 place-items-center rounded-full border border-ivory/80 shadow-[0_6px_20px_-6px_rgba(20,17,15,0.6)] transition-colors duration-300',
+                  isOpen ? 'bg-night text-ivory' : 'bg-paper text-ink group-hover:bg-glow',
                 )}
               >
                 <Plus
@@ -84,7 +84,7 @@ export function RoomHotspots({ spots, view }: { spots: RoomSpot[]; view: string 
               id={cardId}
               hidden={!isOpen}
               className={cn(
-                'absolute inset-x-3 bottom-3 z-20 bg-paper p-5 text-ink shadow-[0_30px_60px_-24px_rgba(53,58,48,0.55)] sm:inset-x-auto sm:bottom-auto sm:w-64 sm:-translate-y-1/2',
+                'absolute inset-x-3 bottom-3 z-20 bg-paper p-5 text-ink shadow-[0_30px_60px_-24px_rgba(20,17,15,0.55)] sm:inset-x-auto sm:bottom-auto sm:w-64 sm:-translate-y-1/2',
                 right
                   ? 'sm:right-[calc(100%-var(--x)+1.75rem)]'
                   : 'sm:left-[calc(var(--x)+1.75rem)]',

@@ -38,18 +38,18 @@ export function DesignHero({
 }) {
   const d = dict.design;
   return (
-    <section className="relative isolate flex min-h-[calc(100svh-8rem)] flex-col justify-end overflow-hidden bg-ink text-paper">
+    <section className="relative isolate flex min-h-[calc(100svh-8rem)] flex-col justify-end overflow-hidden bg-night text-ivory">
       <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0.3)_0%,rgba(53,58,48,0.05)_28%,rgba(53,58,48,0.35)_58%,rgba(53,58,48,0.9)_100%)] lg:bg-[linear-gradient(90deg,rgba(53,58,48,0.7)_0%,rgba(53,58,48,0.25)_50%,rgba(53,58,48,0)_75%),linear-gradient(180deg,rgba(53,58,48,0)_50%,rgba(53,58,48,0.85)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(20,17,15,0.3)_0%,rgba(20,17,15,0.05)_28%,rgba(20,17,15,0.35)_58%,rgba(20,17,15,0.9)_100%)] lg:bg-[linear-gradient(90deg,rgba(20,17,15,0.7)_0%,rgba(20,17,15,0.25)_50%,rgba(20,17,15,0)_75%),linear-gradient(180deg,rgba(20,17,15,0)_50%,rgba(20,17,15,0.85)_100%)]"
       />
       <Container className="pb-8 pt-36 sm:pb-10">
         <div className="max-w-3xl space-y-7">
-          <Eyebrow className="flex items-center gap-4 text-paper/80">
+          <Eyebrow className="flex items-center gap-4 text-ivory/80">
             <span aria-hidden className="h-px w-10 bg-amber" />
             {current ? (
-              <Link href={href(lang, '/design')} className="transition-colors hover:text-paper">
+              <Link href={href(lang, '/design')} className="transition-colors hover:text-ivory">
                 {d.eyebrow}
               </Link>
             ) : (
@@ -59,13 +59,13 @@ export function DesignHero({
           <Heading as="h1" level="display">
             {title}
           </Heading>
-          <p className="max-w-xl text-base leading-relaxed text-paper/85 sm:text-lg">{lead}</p>
+          <p className="max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg">{lead}</p>
           <ButtonLink href="#consult" size="lg" className="bg-paper text-ink hover:bg-glow">
             {d.button}
             <span aria-hidden>↓</span>
           </ButtonLink>
         </div>
-        <nav aria-label={d.sectorsHeading} className="mt-14 border-t border-paper/25 sm:mt-16">
+        <nav aria-label={d.sectorsHeading} className="mt-14 border-t border-ivory/25 sm:mt-16">
           <ul className="scrollbar-none -mx-5 flex gap-8 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-5 md:gap-0 md:px-0">
             {SECTORS.map((s) => {
               const here = s.space === current;
@@ -75,7 +75,7 @@ export function DesignHero({
                     aria-hidden
                     className={cn(
                       'absolute -top-[3px] left-0 size-[5px]',
-                      here ? 'bg-amber' : 'bg-paper/50',
+                      here ? 'bg-amber' : 'bg-ivory/50',
                     )}
                   />
                   <Link
@@ -83,11 +83,11 @@ export function DesignHero({
                     aria-current={here ? 'page' : undefined}
                     className={cn(
                       'group flex items-baseline gap-3 pb-1 pt-5 text-sm transition-colors md:pr-4',
-                      here ? 'text-paper' : 'text-paper/70 hover:text-paper',
+                      here ? 'text-ivory' : 'text-ivory/70 hover:text-ivory',
                     )}
                   >
                     <span aria-hidden className="block bg-glow h-px w-8" />
-                    <span className="underline-offset-[6px] decoration-paper/40 group-hover:underline">
+                    <span className="underline-offset-[6px] decoration-ivory/40 group-hover:underline">
                       {d.sectors[s.space].title}
                     </span>
                   </Link>
@@ -97,7 +97,7 @@ export function DesignHero({
           </ul>
         </nav>
       </Container>
-      <p className="absolute right-4 top-24 text-[0.6rem] text-paper/55 sm:bottom-3 sm:top-auto">
+      <p className="absolute right-4 top-24 text-[0.6rem] text-ivory/55 sm:bottom-3 sm:top-auto">
         {dict.landing.sampleNote}
       </p>
     </section>
@@ -194,17 +194,17 @@ export function DesignProcess({ dict }: { lang: Locale; dict: Dictionary }) {
   const d = dict.design;
   const last = d.steps.length - 1;
   return (
-    <section className="bg-ink py-24 text-paper sm:py-32">
+    <section className="bg-night py-24 text-ivory sm:py-32">
       <Container>
         <div className="reveal mb-16 space-y-5 sm:mb-20">
-          <Eyebrow className="text-paper/60">{d.eyebrow}</Eyebrow>
+          <Eyebrow className="text-ivory/60">{d.eyebrow}</Eyebrow>
           <Heading>{d.processHeading}</Heading>
         </div>
         <ol className="relative grid gap-12 pl-12 md:grid-cols-4 md:gap-10 md:pl-0">
           {/* The line: ink to amber, like a room coming to light. */}
           <span
             aria-hidden
-            className="absolute bottom-2 left-[5px] top-2 w-px bg-[linear-gradient(180deg,rgba(238,236,223,0.3),var(--color-amber))] md:bottom-auto md:left-0 md:right-0 md:top-[5px] md:h-px md:w-auto md:bg-[linear-gradient(90deg,rgba(238,236,223,0.3),var(--color-amber))]"
+            className="absolute bottom-2 left-[5px] top-2 w-px bg-[linear-gradient(180deg,rgba(243,236,225,0.3),var(--color-amber))] md:bottom-auto md:left-0 md:right-0 md:top-[5px] md:h-px md:w-auto md:bg-[linear-gradient(90deg,rgba(243,236,225,0.3),var(--color-amber))]"
           />
           {d.steps.map((step, i) => (
             <li key={step.title} className="reveal relative space-y-4 md:pt-12">
@@ -212,12 +212,12 @@ export function DesignProcess({ dict }: { lang: Locale; dict: Dictionary }) {
                 aria-hidden
                 className={cn(
                   'absolute -left-12 top-1 size-[11px] border md:left-0 md:top-0',
-                  i === last ? 'rounded-full border-amber bg-amber' : 'border-paper/60 bg-ink',
+                  i === last ? 'rounded-full border-amber bg-amber' : 'border-ivory/60 bg-night',
                 )}
               />
               <span aria-hidden className="block bg-glow h-px w-8" />
               <p className="font-display text-[1.7rem] font-light leading-tight">{step.title}</p>
-              <p className="max-w-xs text-sm leading-relaxed text-paper/70">{step.text}</p>
+              <p className="max-w-xs text-sm leading-relaxed text-ivory/70">{step.text}</p>
             </li>
           ))}
         </ol>
@@ -343,7 +343,7 @@ export function ConsultSection({
             </a>
           ) : null}
         </div>
-        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(53,58,48,0.18)] sm:p-10 lg:p-12">
+        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(20,17,15,0.18)] sm:p-10 lg:p-12">
           <ConsultationForm
             lang={lang}
             districts={districts}

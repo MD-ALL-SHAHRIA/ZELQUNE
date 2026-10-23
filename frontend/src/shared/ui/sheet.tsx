@@ -29,7 +29,7 @@ export function Sheet({
         <Dialog.Content
           aria-describedby={undefined}
           className={cn(
-            'fixed inset-y-0 z-50 flex w-full max-w-[28rem] flex-col bg-paper bg-[image:var(--grain)] shadow-[0_0_80px_rgba(53,58,48,0.22)]',
+            'fixed inset-y-0 z-50 flex w-full max-w-[28rem] flex-col bg-paper bg-[image:var(--grain)] shadow-[0_0_80px_rgba(20,17,15,0.22)]',
             side === 'right'
               ? 'right-0 data-[state=open]:animate-[slide-in-right_420ms_var(--ease-out-soft)]'
               : 'left-0 data-[state=open]:animate-[slide-in-left_420ms_var(--ease-out-soft)]',

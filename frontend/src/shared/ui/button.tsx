@@ -29,11 +29,11 @@ const variants: Record<Variant, string> = {
   ),
   light: cn(
     sweep,
-    'border border-paper/70 text-paper before:bg-paper hover:border-paper hover:text-ink motion-reduce:hover:bg-paper',
+    'border border-ivory/70 text-ivory before:bg-ivory hover:border-ivory hover:text-espresso motion-reduce:hover:bg-ivory',
   ),
   ghost: 'link-reveal text-ink',
   link: 'link-underline text-ink',
-  linkLight: 'link-underline text-paper',
+  linkLight: 'link-underline text-ivory',
 };
 
 const textOnly: Variant[] = ['ghost', 'link', 'linkLight'];

@@ -29,7 +29,7 @@ export default async function BulkPage({ params }: { params: PageParams }) {
   }));
   return (
     <>
-      <section className="relative isolate flex min-h-[64svh] items-end overflow-hidden bg-ink text-paper">
+      <section className="relative isolate flex min-h-[64svh] items-end overflow-hidden bg-night text-ivory">
         <Image
           src={SAMPLE.cafe.src}
           alt=""
@@ -40,21 +40,21 @@ export default async function BulkPage({ params }: { params: PageParams }) {
         />
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0.35)_0%,rgba(53,58,48,0.25)_40%,rgba(53,58,48,0.88)_100%)] lg:bg-[linear-gradient(90deg,rgba(53,58,48,0.8)_0%,rgba(53,58,48,0.35)_55%,rgba(53,58,48,0.1)_100%)]"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(20,17,15,0.35)_0%,rgba(20,17,15,0.25)_40%,rgba(20,17,15,0.88)_100%)] lg:bg-[linear-gradient(90deg,rgba(20,17,15,0.8)_0%,rgba(20,17,15,0.35)_55%,rgba(20,17,15,0.1)_100%)]"
         />
         <Container className="space-y-7 pb-14 pt-32 sm:pb-20">
-          <Eyebrow className="flex items-center gap-4 text-paper/80">
+          <Eyebrow className="flex items-center gap-4 text-ivory/80">
             <span aria-hidden className="h-px w-10 bg-amber" />
             {dict.landing.businessEyebrow}
           </Eyebrow>
           <Heading as="h1" level="h1" className="max-w-4xl">
             {dict.bulk.heading}
           </Heading>
-          <p className="max-w-2xl text-base leading-relaxed text-paper/85 sm:text-lg">
+          <p className="max-w-2xl text-base leading-relaxed text-ivory/85 sm:text-lg">
             {dict.bulk.text}
           </p>
         </Container>
-        <p className="absolute bottom-3 right-4 text-[0.6rem] text-paper/50">
+        <p className="absolute bottom-3 right-4 text-[0.6rem] text-ivory/50">
           {dict.landing.sampleNote}
         </p>
       </section>
@@ -78,7 +78,7 @@ export default async function BulkPage({ params }: { params: PageParams }) {
               ))}
             </ul>
           </div>
-          <div className="min-w-0 border border-line bg-paper p-5 shadow-[0_30px_80px_-40px_rgba(53,58,48,0.18)] sm:p-10 lg:p-12">
+          <div className="min-w-0 border border-line bg-paper p-5 shadow-[0_30px_80px_-40px_rgba(20,17,15,0.18)] sm:p-10 lg:p-12">
             <RfqForm
               lang={lang}
               products={products}

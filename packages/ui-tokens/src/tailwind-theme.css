@@ -1,26 +1,30 @@
 /* Tailwind v4: `@import "@zelqune/ui-tokens/tailwind-theme.css";` after `@import "tailwindcss";` */
 @theme {
-  --color-ink: #353a30;
-  --color-cream: #eeecdf;
-  --color-walnut: #56664d;
-  --color-amber: #e3a857;
-  --color-paper: #f5f3e9;
-  --color-sand: #e6e8d8;
-  --color-stone: #5e6457;
-  --color-line: #dad9c8;
-  --color-surface: #ffffff;
-  --color-sage: #b8c6a5;
-  --color-moss: #64745a;
-  --color-glow: #f6c987;
-  --color-success: #2f6b4a;
-  --color-warning: #9a6417;
-  --color-danger: #a3301f;
+  --color-ink: #f3ece1;
+  --color-cream: #241e1a;
+  --color-walnut: #c9a46a;
+  --color-amber: #c9a46a;
+  --color-paper: #14110f;
+  --color-sand: #1e1916;
+  --color-stone: #b5a898;
+  --color-line: #3a322b;
+  --color-surface: #1a1613;
+  --color-sage: #2a231e;
+  --color-moss: #c9a46a;
+  --color-glow: #f2c58a;
+  /* Fixed, never flip: text on photos, overlays, OG images. */
+  --color-ivory: #f3ece1;
+  --color-espresso: #14110f;
+  --color-night: #0d0b09;
+  --color-success: #7fb08e;
+  --color-warning: #e0a458;
+  --color-danger: #e07a63;
   /* Kept for compatibility with step 1.4 classes. */
-  --color-muted: #5e6457;
+  --color-muted: #b5a898;
 
   /* Latin-only stacks: Bangla pages switch fonts by lang (so English pages never fetch the
      Bangla fonts, e.g. just to draw the ৳ sign). */
-  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-display: var(--font-bodoni), Georgia, serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;
 
   --tracking-wordmark: 0.34em;

@@ -1,20 +1,24 @@
 /* Zelqune tokens as CSS variables (keep in sync with src/index.ts). */
 :root {
-  --zq-ink: #353a30;
-  --zq-cream: #eeecdf;
-  --zq-walnut: #56664d;
-  --zq-amber: #e3a857;
-  --zq-paper: #f5f3e9;
-  --zq-sand: #e6e8d8;
-  --zq-stone: #5e6457;
-  --zq-line: #dad9c8;
-  --zq-surface: #ffffff;
-  --zq-sage: #b8c6a5;
-  --zq-moss: #64745a;
-  --zq-glow: #f6c987;
-  --zq-success: #2f6b4a;
-  --zq-warning: #9a6417;
-  --zq-danger: #a3301f;
+  --zq-ink: #f3ece1;
+  --zq-cream: #241e1a;
+  --zq-walnut: #c9a46a;
+  --zq-amber: #c9a46a;
+  --zq-paper: #14110f;
+  --zq-sand: #1e1916;
+  --zq-stone: #b5a898;
+  --zq-line: #3a322b;
+  --zq-surface: #1a1613;
+  --zq-sage: #2a231e;
+  --zq-moss: #c9a46a;
+  --zq-glow: #f2c58a;
+  /* Fixed, never flip: text on photos, overlays, OG images. */
+  --zq-ivory: #f3ece1;
+  --zq-espresso: #14110f;
+  --zq-night: #0d0b09;
+  --zq-success: #7fb08e;
+  --zq-warning: #e0a458;
+  --zq-danger: #e07a63;
 
   --zq-background: var(--zq-paper);
   --zq-foreground: var(--zq-ink);
