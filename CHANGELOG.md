@@ -7,14 +7,18 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
-- Storefront redesign (owner's brief): sage + cream palette (ink #353A30 on #F5F3E9, sage and
-  moss accents, amber kept only for the lamp-light glow), Jost body text with Cormorant
-  Garamond headings, an editorial split hero ("Make your walls feel alive.") with the lit moon
-  panel in an arch frame and a breathing lamp glow, and the owner's own lit-shelf renders as the
-  product, category and material photos until real photos are uploaded from the dashboard.
+- Storefront redesign, dark walnut luxury (owner's choice): ivory text on deep espresso with
+  champagne-brass details and the warm lamp glow, Bodoni Moda headings with Jost text, an
+  editorial split hero ("Make your walls feel alive.") with the lit moon panel in an arch frame,
+  and the owner's own lit-shelf renders as product, category and material photos until real
+  photos are uploaded from the dashboard. Share images and the favicon follow the dark palette.
+- Home sections each have their own form: gallery-mount featured piece, a materials accordion
+  of light, and an ivory marquee band for the brand statement.
+- Footer: the oversized wordmark is shown in full (brass), link and copyright text are readable,
+  and the statement is no longer repeated there.
 - No more "01 / 02 / 03" step numerals anywhere: hairlines and amber dots instead.
 - Motion: staggered hero entrance, scroll-linked photo settle, product cards lift with a warm
-  glow on hover (all off with reduced motion; transforms and opacity only).
+  glow on hover, drifting marquee (all off with reduced motion; transforms and opacity only).
 
 ### Added
 - Premium storefront: "Shop the room" (tap markers on a room photo to see each piece),

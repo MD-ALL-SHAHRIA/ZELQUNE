@@ -15,17 +15,17 @@ export default function OgImage() {
         alignItems: 'center',
         justifyContent: 'center',
         gap: 64,
-        background: '#56664D',
-        color: '#EEECDF',
+        background: '#14110F',
+        color: '#F3ECE1',
       }}
     >
       <svg width="180" height="270" viewBox="0 0 64 96">
-        <path d="M4 92V32a28 28 0 0 1 56 0v60z" fill="none" stroke="#E3A857" strokeWidth="3" />
-        <path d="M20 84V44M32 84V36M44 84V44" stroke="#EEECDF" strokeWidth="3" />
+        <path d="M4 92V32a28 28 0 0 1 56 0v60z" fill="none" stroke="#C9A46A" strokeWidth="3" />
+        <path d="M20 84V44M32 84V36M44 84V44" stroke="#F3ECE1" strokeWidth="3" />
       </svg>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div style={{ fontSize: 96, fontWeight: 700 }}>Zelqune</div>
-        <div style={{ fontSize: 40, color: '#E3A857' }}>Wood and light for your walls</div>
+        <div style={{ fontSize: 40, color: '#C9A46A' }}>Make your walls feel alive.</div>
       </div>
     </div>,
     size,
