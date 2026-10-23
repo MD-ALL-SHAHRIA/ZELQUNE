@@ -142,7 +142,7 @@ export function Footer({
             textAnchor="middle"
             textLength="990"
             lengthAdjust="spacingAndGlyphs"
-            className="fill-brass/30 font-display text-[160px] uppercase"
+            className="fill-brass/60 font-wordmark text-[160px] font-medium uppercase"
           >
             Zelqune
           </text>

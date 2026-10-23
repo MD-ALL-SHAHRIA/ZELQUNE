@@ -1,27 +1,28 @@
 /* Zelqune tokens as CSS variables (keep in sync with src/index.ts).
-   Two themes: "Gallery Ivory" (light, default) and "Dark Walnut" (dark). Dark applies with
-   data-theme="dark" on <html>, or by the visitor's system setting when they have not chosen. */
+   Day (light) is the default for everyone: soft cream and espresso. Night (dark) applies only when
+   the visitor picks it (data-theme="dark" on <html>, set by the theme toggle). `.tone-dark` marks
+   the dark bands (footer, services...): espresso coffee by day, deep walnut by night. */
 :root {
-  --zq-ink: #1c1714;
-  --zq-cream: #f2ece2;
+  --zq-ink: #3b2922;
+  --zq-cream: #f2eadf;
   --zq-walnut: #7a5c30;
   --zq-amber: #7a5c30;
-  --zq-paper: #f7f3ec;
-  --zq-sand: #efe8dc;
-  --zq-stone: #6b5e52;
-  --zq-line: #e2d8c9;
-  --zq-surface: #fffdf9;
-  --zq-sage: #e9e1d3;
+  --zq-paper: #f7f1e8;
+  --zq-sand: #efe6d8;
+  --zq-stone: #75604f;
+  --zq-line: #e4d8c6;
+  --zq-surface: #fffbf5;
+  --zq-sage: #ebe1d2;
   --zq-moss: #7a5c30;
   --zq-glow: #e9b872;
+  --zq-night: #3b2922;
   --zq-success: #2f6b4a;
   --zq-warning: #9a6417;
   --zq-danger: #a3301f;
-  /* Fixed, never flip: text on photos, overlays, the footer and announcement bar. */
-  --zq-ivory: #f3ece1;
-  --zq-espresso: #14110f;
-  --zq-night: #0d0b09;
-  --zq-brass: #c9a46a;
+  /* Fixed in both themes: text on photos and overlays, accents on dark bands. */
+  --zq-ivory: #f7f1e8;
+  --zq-espresso: #3b2922;
+  --zq-brass: #d9b47a;
 
   --zq-background: var(--zq-paper);
   --zq-foreground: var(--zq-ink);
@@ -32,8 +33,30 @@
   color-scheme: light;
 }
 
-:root[data-theme='dark'],
+/* Dark bands by day: espresso coffee, never black. */
 .tone-dark {
+  --zq-ink: #f7f1e8;
+  --zq-cream: #4a372e;
+  --zq-walnut: #d9b47a;
+  --zq-amber: #d9b47a;
+  --zq-paper: #3b2922;
+  --zq-sand: #46332b;
+  --zq-stone: #d9c9b6;
+  --zq-line: #5a453b;
+  --zq-surface: #42302a;
+  --zq-sage: #4a372e;
+  --zq-moss: #d9b47a;
+  --zq-glow: #f2c58a;
+  --zq-night: #3b2922;
+  --zq-success: #9cc9a8;
+  --zq-warning: #efc07e;
+  --zq-danger: #f0a08e;
+  color-scheme: dark;
+}
+
+/* Night theme (the visitor's choice), and its dark bands. */
+:root[data-theme='dark'],
+:root[data-theme='dark'] .tone-dark {
   --zq-ink: #f3ece1;
   --zq-cream: #241e1a;
   --zq-walnut: #c9a46a;
@@ -46,30 +69,10 @@
   --zq-sage: #2a231e;
   --zq-moss: #c9a46a;
   --zq-glow: #f2c58a;
+  --zq-night: #0d0b09;
   --zq-success: #7fb08e;
   --zq-warning: #e0a458;
   --zq-danger: #e07a63;
+  --zq-brass: #c9a46a;
   color-scheme: dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']),
-  .tone-dark {
-    --zq-ink: #f3ece1;
-    --zq-cream: #241e1a;
-    --zq-walnut: #c9a46a;
-    --zq-amber: #c9a46a;
-    --zq-paper: #14110f;
-    --zq-sand: #1e1916;
-    --zq-stone: #b5a898;
-    --zq-line: #3a322b;
-    --zq-surface: #1a1613;
-    --zq-sage: #2a231e;
-    --zq-moss: #c9a46a;
-    --zq-glow: #f2c58a;
-    --zq-success: #7fb08e;
-    --zq-warning: #e0a458;
-    --zq-danger: #e07a63;
-    color-scheme: dark;
-  }
 }

@@ -37,7 +37,7 @@ export function DayNight({ dict }: { dict: Dictionary }) {
               className={cn(
                 'absolute inset-0 -z-10',
                 m.night
-                  ? 'bg-[radial-gradient(70%_55%_at_50%_45%,rgba(246,201,135,0.22),transparent_70%),linear-gradient(180deg,rgba(20,17,15,0.1)_40%,rgba(20,17,15,0.85)_100%)]'
+                  ? 'bg-[radial-gradient(70%_55%_at_50%_45%,rgba(246,201,135,0.22),transparent_70%),linear-gradient(180deg,rgba(43,30,25,0.1)_40%,rgba(43,30,25,0.85)_100%)]'
                   : 'bg-[linear-gradient(180deg,rgba(243,236,225,0)_40%,rgba(243,236,225,0.92)_100%)]',
               )}
             />

@@ -2,30 +2,29 @@
 
 Single source for brand colors, typography and spacing, used by `frontend/` and `dashboard/`.
 
-Brand v5: two themes of one brand, switched by CSS variables (`tokens.css`). **Gallery Ivory**
-(light, the default) and **Dark Walnut** (dark). Dark applies with `data-theme="dark"` on `<html>`
-(the storefront's theme toggle) or by the visitor's system setting until they choose; `.tone-dark`
-gives any band the dark values. Token names are kept from v2: `paper` is the page background,
-`ink` the text, `walnut` the brass accent text.
+Brand v6: **Day** (the default for everyone) and **Night** (only when the visitor picks it with
+the storefront's toggle, `data-theme="dark"` on `<html>`), switched by CSS variables
+(`tokens.css`). By day nothing is black: soft cream with espresso, and dark bands (`.tone-dark`:
+footer, services...) are espresso coffee. Token names are kept from v2: `paper` is the page
+background, `ink` the text, `walnut` the brass accent text.
 
-| Token        | Light (Gallery Ivory) | Dark (Dark Walnut)    | Role                          |
-| ------------ | --------------------- | --------------------- | ----------------------------- |
-| paper        | `#F7F3EC`             | `#14110F`             | page background               |
-| ink          | `#1C1714`             | `#F3ECE1`             | text, primary buttons         |
-| sand / cream | `#EFE8DC` / `#F2ECE2` | `#1E1916` / `#241E1A` | raised surfaces               |
-| surface      | `#FFFDF9`             | `#1A1613`             | cards                         |
-| stone        | `#6B5E52`             | `#B5A898`             | muted text                    |
-| line         | `#E2D8C9`             | `#3A322B`             | hairlines, borders            |
-| walnut/amber | `#7A5C30`             | `#C9A46A`             | brass accents (AA as text)    |
-| glow         | `#E9B872`             | `#F2C58A`             | lamp light                    |
+| Token        | Day                   | Day band (`.tone-dark`) | Night                 |
+| ------------ | --------------------- | ----------------------- | --------------------- |
+| paper        | `#F7F1E8` soft cream  | `#3B2922` espresso      | `#14110F`             |
+| ink          | `#3B2922` espresso    | `#F7F1E8`               | `#F3ECE1`             |
+| sand / cream | `#EFE6D8` / `#F2EADF` | `#46332B` / `#4A372E`   | `#1E1916` / `#241E1A` |
+| stone        | `#75604F`             | `#D9C9B6`               | `#B5A898`             |
+| line         | `#E4D8C6`             | `#5A453B`               | `#3A322B`             |
+| walnut/amber | `#7A5C30` brass       | `#D9B47A`               | `#C9A46A`             |
+| night        | `#3B2922`             | `#3B2922`               | `#0D0B09`             |
+| glow         | `#E9B872`             | `#F2C58A`               | `#F2C58A`             |
 
-Fixed in both themes: `ivory #F3ECE1` (text on photos), `espresso #14110F`, `night #0D0B09`
-(footer, announcement bar) and `brass #C9A46A` (accents on those dark bands).
+Fixed: `ivory #F7F1E8` (text on photos), `espresso #3B2922`, `brass` (accents on dark bands).
 
 Tailwind: import both files; `tailwind-theme.css` maps `--color-*` to the variables with
 `@theme inline`, so opacity modifiers (`bg-paper/90`) follow the theme.
 
-Fonts (Google Fonts, self-hosted by next/font): **Bodoni Moda** (display, high-contrast luxury serif with optical sizes) and **Jost** (text); **Hind Siliguri** for Bangla text and **Tiro Bangla** for Bangla display headings (both self-hosted by the storefront, `/bn` only).
+Fonts (Google Fonts, self-hosted by next/font): **Bodoni Moda** (headings), **Cormorant Garamond** 500 (the wordmark only, as in the owner's logo) and **Jost** (text); **Hind Siliguri** for Bangla text and **Tiro Bangla** for Bangla display headings (both self-hosted by the storefront, `/bn` only).
 
 ```ts
 import { colors, typography } from '@zelqune/ui-tokens';

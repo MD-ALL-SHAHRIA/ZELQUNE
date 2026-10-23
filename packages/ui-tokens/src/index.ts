@@ -1,38 +1,38 @@
 /**
- * Zelqune brand tokens (v5): two themes of one brand. "Gallery Ivory" (light, default): espresso
- * text on ivory with antique-brass accents. "Dark Walnut" (dark): ivory text on espresso with
- * champagne brass. Names are kept from v2: "paper" is the page background, "ink" the text,
- * "walnut" the brass accent text. The CSS variables in tokens.css switch between them.
+ * Zelqune brand tokens (v6): Day (default) is soft cream #F7F1E8 with espresso #3B2922 text and
+ * antique brass; dark bands by day are espresso coffee. Night (the visitor's choice) is ivory on
+ * deep walnut #14110F with champagne brass. Names are kept from v2: "paper" is the page
+ * background, "ink" the text, "walnut" the brass accent text. tokens.css switches them.
  */
 export const colors = {
   /** Brand */
-  ink: '#1C1714',
-  cream: '#F2ECE2',
+  ink: '#3B2922',
+  cream: '#F2EADF',
   walnut: '#7A5C30',
   amber: '#7A5C30',
   /** Neutrals */
-  paper: '#F7F3EC',
-  sand: '#EFE8DC',
-  stone: '#6B5E52',
-  line: '#E2D8C9',
-  surface: '#FFFDF9',
+  paper: '#F7F1E8',
+  sand: '#EFE6D8',
+  stone: '#75604F',
+  line: '#E4D8C6',
+  surface: '#FFFBF5',
   /** Raised surface tint and brass (v3 names kept) */
-  sage: '#E9E1D3',
+  sage: '#EBE1D2',
   moss: '#7A5C30',
   /** Glow (lamp light) */
   glow: '#E9B872',
   /** Fixed (never flip): text on photos and overlays, footer */
-  ivory: '#F3ECE1',
-  espresso: '#14110F',
-  night: '#0D0B09',
-  brass: '#C9A46A',
+  ivory: '#F7F1E8',
+  espresso: '#3B2922',
+  night: '#3B2922',
+  brass: '#D9B47A',
   /** Status */
   success: '#2F6B4A',
   warning: '#9A6417',
   danger: '#A3301F',
 } as const;
 
-/** The dark theme's values for the colors that change ("Dark Walnut"). */
+/** The night theme's values ("Dark Walnut"). */
 export const darkColors = {
   ...colors,
   ink: '#F3ECE1',
@@ -47,6 +47,8 @@ export const darkColors = {
   sage: '#2A231E',
   moss: '#C9A46A',
   glow: '#F2C58A',
+  night: '#0D0B09',
+  brass: '#C9A46A',
   success: '#7FB08E',
   warning: '#E0A458',
   danger: '#E07A63',

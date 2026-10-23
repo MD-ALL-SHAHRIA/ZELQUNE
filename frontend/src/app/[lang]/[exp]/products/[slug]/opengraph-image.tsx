@@ -92,8 +92,8 @@ export default async function Image({ params }: { params: Params }) {
         height: '100%',
         display: 'flex',
         fontFamily: serif,
-        background: '#14110F',
-        color: '#F3ECE1',
+        background: '#FAF6EF',
+        color: '#16120F',
         padding: 48,
         gap: 64,
       }}
@@ -106,7 +106,7 @@ export default async function Image({ params }: { params: Params }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: '#1E1916',
+            background: '#EDE3D3',
             borderTopLeftRadius: 220,
             borderTopRightRadius: 220,
             overflow: 'hidden',
@@ -125,14 +125,14 @@ export default async function Image({ params }: { params: Params }) {
               <path
                 d="M4 92V32a28 28 0 0 1 56 0v60z"
                 fill="none"
-                stroke="#C9A46A"
+                stroke="#E3A857"
                 strokeWidth="3"
               />
-              <path d="M20 84V44M32 84V36M44 84V44" stroke="#C9A46A" strokeWidth="3" />
+              <path d="M20 84V44M32 84V36M44 84V44" stroke="#4A3426" strokeWidth="3" />
             </svg>
           )}
         </div>
-        {img && note ? <div style={{ fontSize: 15, color: '#B5A898' }}>{note}</div> : null}
+        {img && note ? <div style={{ fontSize: 15, color: '#6A5E51' }}>{note}</div> : null}
       </div>
       <div
         style={{
@@ -146,14 +146,14 @@ export default async function Image({ params }: { params: Params }) {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
           <svg width="30" height="45" viewBox="0 0 64 96">
-            <path d="M4 92V32a28 28 0 0 1 56 0v60z" fill="#F3ECE1" />
-            <path d="M20 84V44M32 84V36M44 84V44" stroke="#14110F" strokeWidth="5" />
+            <path d="M4 92V32a28 28 0 0 1 56 0v60z" fill="#16120F" />
+            <path d="M20 84V44M32 84V36M44 84V44" stroke="#FAF6EF" strokeWidth="5" />
           </svg>
           <div style={{ fontFamily: serif, fontSize: 30, letterSpacing: 12 }}>ZELQUNE</div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
           {category ? (
-            <div style={{ fontSize: 18, letterSpacing: 5, color: '#B5A898' }}>
+            <div style={{ fontSize: 18, letterSpacing: 5, color: '#6A5E51' }}>
               {category.toUpperCase()}
             </div>
           ) : null}
@@ -168,14 +168,14 @@ export default async function Image({ params }: { params: Params }) {
             {name}
           </div>
           {price ? (
-            <div style={{ fontFamily: serif, fontSize: 54, color: '#C9A46A' }}>
+            <div style={{ fontFamily: serif, fontSize: 54, color: '#4A3426' }}>
               {`${currency}${price}`}
             </div>
           ) : null}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, fontSize: 28 }}>
-          <div style={{ width: 44, height: 2, background: '#C9A46A' }} />
-          <div style={{ color: '#C9A46A' }}>{promise}</div>
+          <div style={{ width: 44, height: 2, background: '#E3A857' }} />
+          <div style={{ color: '#4A3426' }}>{promise}</div>
         </div>
       </div>
     </div>,

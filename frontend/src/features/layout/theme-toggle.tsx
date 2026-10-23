@@ -6,28 +6,21 @@ import { cn } from '@/shared/lib/cn';
 import { iconButton } from './header-styles';
 import { THEME_KEY, type Theme } from './theme';
 
-/** The theme on screen: the saved choice (set on <html> by the head script) or the system's. */
+/** The theme on screen: night only when chosen (set on <html> by the head script), else day. */
 function currentTheme(): Theme {
-  const set = document.documentElement.dataset.theme;
-  if (set === 'light' || set === 'dark') return set;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
 }
 
 const CHANGE = 'zq-theme-change';
 
 function subscribe(onChange: () => void) {
-  const media = window.matchMedia('(prefers-color-scheme: dark)');
-  media.addEventListener('change', onChange);
   window.addEventListener(CHANGE, onChange);
-  return () => {
-    media.removeEventListener('change', onChange);
-    window.removeEventListener(CHANGE, onChange);
-  };
+  return () => window.removeEventListener(CHANGE, onChange);
 }
 
 /**
- * Light (Gallery Ivory) / dark (Dark Walnut) switch. The choice is saved and wins over the
- * system setting from then on; until the visitor chooses, the site follows the system.
+ * Day (soft cream, the default) / night (Dark Walnut) switch. The choice is saved for later
+ * visits.
  */
 export function ThemeToggle({
   labels,
@@ -41,7 +34,8 @@ export function ThemeToggle({
 
   const toggle = () => {
     const next: Theme = currentTheme() === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
+    if (next === 'dark') document.documentElement.dataset.theme = 'dark';
+    else delete document.documentElement.dataset.theme;
     try {
       localStorage.setItem(THEME_KEY, next);
     } catch {

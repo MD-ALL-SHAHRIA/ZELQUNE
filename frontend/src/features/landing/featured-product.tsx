@@ -57,7 +57,7 @@ export function FeaturedProduct({
               className="absolute -inset-[18%] -z-20 bg-[radial-gradient(closest-side,rgba(242,197,138,0.16),transparent)]"
             />
             {detail ? (
-              <div className="absolute -left-[24%] bottom-[9%] w-[44%] max-w-[220px] border-[6px] border-paper shadow-[0_30px_60px_-30px_rgba(20,17,15,0.5)] sm:border-8 lg:-left-[34%]">
+              <div className="absolute -left-[24%] bottom-[9%] w-[44%] max-w-[220px] border-[6px] border-paper shadow-[0_30px_60px_-30px_rgba(43,30,25,0.5)] sm:border-8 lg:-left-[34%]">
                 <Picture
                   src={detail.src}
                   alt=""

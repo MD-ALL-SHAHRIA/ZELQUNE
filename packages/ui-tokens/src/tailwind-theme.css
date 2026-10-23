@@ -16,10 +16,10 @@
   --color-success: var(--zq-success);
   --color-warning: var(--zq-warning);
   --color-danger: var(--zq-danger);
+  --color-night: var(--zq-night);
   /* Fixed, never flip. */
   --color-ivory: var(--zq-ivory);
   --color-espresso: var(--zq-espresso);
-  --color-night: var(--zq-night);
   --color-brass: var(--zq-brass);
   /* Kept for compatibility with step 1.4 classes. */
   --color-muted: var(--zq-stone);
@@ -27,6 +27,8 @@
   /* Latin-only stacks: Bangla pages switch fonts by lang (so English pages never fetch the
      Bangla fonts, e.g. just to draw the ৳ sign). */
   --font-display: var(--font-bodoni), Georgia, serif;
+  /* The owner's logo lettering, for the wordmark only. */
+  --font-wordmark: var(--font-cormorant-wordmark), Georgia, serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;
 
   --tracking-wordmark: 0.34em;

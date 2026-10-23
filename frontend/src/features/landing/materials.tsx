@@ -46,7 +46,7 @@ export function Materials({ dict }: { dict: Dictionary; lang: Locale }) {
                 className="-z-10 object-cover transition-transform duration-[1.4s] ease-out-soft group-hover:scale-[1.04]"
                 style={{ objectPosition: (SWATCHES[i] ?? FALLBACK).position }}
               />
-              <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(20,17,15,0)_40%,rgba(20,17,15,0.88)_100%)]" />
+              <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(43,30,25,0)_40%,rgba(43,30,25,0.88)_100%)]" />
               <div className="absolute inset-x-0 bottom-0 p-6 text-ivory sm:p-8">
                 <span aria-hidden className="block h-px w-8 bg-walnut" />
                 <p className="mt-4 font-display text-2xl leading-tight sm:text-3xl">{item.title}</p>

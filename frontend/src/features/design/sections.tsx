@@ -42,7 +42,7 @@ export function DesignHero({
       <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(20,17,15,0.3)_0%,rgba(20,17,15,0.05)_28%,rgba(20,17,15,0.35)_58%,rgba(20,17,15,0.9)_100%)] lg:bg-[linear-gradient(90deg,rgba(20,17,15,0.7)_0%,rgba(20,17,15,0.25)_50%,rgba(20,17,15,0)_75%),linear-gradient(180deg,rgba(20,17,15,0)_50%,rgba(20,17,15,0.85)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(43,30,25,0.3)_0%,rgba(43,30,25,0.05)_28%,rgba(43,30,25,0.35)_58%,rgba(43,30,25,0.9)_100%)] lg:bg-[linear-gradient(90deg,rgba(43,30,25,0.7)_0%,rgba(43,30,25,0.25)_50%,rgba(43,30,25,0)_75%),linear-gradient(180deg,rgba(43,30,25,0)_50%,rgba(43,30,25,0.85)_100%)]"
       />
       <Container className="pb-8 pt-36 sm:pb-10">
         <div className="max-w-3xl space-y-7">
@@ -343,7 +343,7 @@ export function ConsultSection({
             </a>
           ) : null}
         </div>
-        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(20,17,15,0.18)] sm:p-10 lg:p-12">
+        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(43,30,25,0.18)] sm:p-10 lg:p-12">
           <ConsultationForm
             lang={lang}
             districts={districts}

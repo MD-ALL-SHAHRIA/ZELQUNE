@@ -56,7 +56,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               sizes="(min-width: 1024px) 56vw, 100vw"
               className="-z-10 object-cover transition-transform duration-[1.8s] ease-out-soft group-hover:scale-[1.03]"
             />
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(20,17,15,0)_35%,rgba(20,17,15,0.82)_100%)]" />
+            <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(43,30,25,0)_35%,rgba(43,30,25,0.82)_100%)]" />
             <span
               aria-hidden
               className="absolute left-6 top-6 bg-ivory/85 sm:left-10 sm:top-9 h-px w-8"
@@ -87,7 +87,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="-z-10 object-cover transition-transform duration-[1.8s] ease-out-soft group-hover:scale-[1.03]"
             />
-            <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(20,17,15,0)_38%,rgba(20,17,15,0.55)_62%,rgba(20,17,15,0.88)_100%)]" />
+            <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(43,30,25,0)_38%,rgba(43,30,25,0.55)_62%,rgba(43,30,25,0.88)_100%)]" />
             <div className="flex items-start justify-between gap-6 p-6 sm:p-9">
               <div className="space-y-3">
                 <h3 className="font-display text-4xl font-light leading-none sm:text-5xl [:lang(bn)_&]:leading-tight">

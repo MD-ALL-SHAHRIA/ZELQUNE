@@ -100,7 +100,7 @@ export function Hero({
             aria-hidden
             className="hero-glow absolute -inset-[12%] -z-10 rounded-full bg-[radial-gradient(closest-side,rgba(246,201,135,0.55),rgba(227,168,87,0.18)_55%,transparent)]"
           />
-          <div className="relative isolate aspect-[2/3] overflow-hidden rounded-t-[999px] bg-sand shadow-[0_50px_100px_-50px_rgba(20,17,15,0.55)]">
+          <div className="relative isolate aspect-[2/3] overflow-hidden rounded-t-[999px] bg-sand shadow-[0_50px_100px_-50px_rgba(43,30,25,0.55)]">
             <Image
               src={SAMPLE.moonPanel.src}
               alt=""

@@ -7,9 +7,11 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
-- Light and dark themes: "Gallery Ivory" (light, espresso on ivory with antique brass) and
-  "Dark Walnut" (dark). The site follows the visitor's system setting until they use the new
-  sun/moon toggle (header; in the menu on phones), which is remembered; no flash on load.
+- Day and night themes: day is the default for everyone (soft cream #F7F1E8 with espresso
+  #3B2922 and antique brass; dark bands are espresso coffee, nothing black). Night (Dark Walnut)
+  only when the visitor picks it with the sun/moon toggle (header; in the menu on phones); the
+  choice is remembered, no flash on load. The wordmark is back in the owner's logo lettering
+  (Cormorant Garamond), and the favicon and share images are the originals again.
 - Storefront redesign, dark walnut luxury (owner's choice): ivory text on deep espresso with
   champagne-brass details and the warm lamp glow, Bodoni Moda headings with Jost text, an
   editorial split hero ("Make your walls feel alive.") with the lit moon panel in an arch frame,

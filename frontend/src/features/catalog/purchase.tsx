@@ -252,7 +252,7 @@ export function Purchase({
           aria-hidden={!barVisible}
           inert={!barVisible}
           className={cn(
-            'fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-12px_30px_-20px_rgba(20,17,15,0.35)] backdrop-blur-md transition-[transform,opacity] duration-500 ease-out-soft lg:hidden',
+            'fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-12px_30px_-20px_rgba(43,30,25,0.35)] backdrop-blur-md transition-[transform,opacity] duration-500 ease-out-soft lg:hidden',
             barVisible
               ? 'translate-y-0 opacity-100'
               : 'pointer-events-none translate-y-full opacity-0',

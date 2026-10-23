@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Bodoni_Moda, Jost } from 'next/font/google';
+import { Bodoni_Moda, Cormorant_Garamond, Jost } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { env } from '@/config/env';
 import { isLocale, LOCALES } from '@/i18n/config';
@@ -26,6 +26,13 @@ const bodoniItalic = Bodoni_Moda({
   display: 'swap',
   preload: false,
 });
+// The wordmark keeps the owner's logo lettering (Cormorant Garamond capitals), one weight only.
+const wordmark = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: '500',
+  variable: '--font-cormorant-wordmark',
+  display: 'swap',
+});
 const jost = Jost({
   subsets: ['latin'],
   weight: ['300', '400', '500'],
@@ -39,16 +46,13 @@ const jost = Jost({
  */
 const BANGLA_FONTS = ['/fonts/hind-siliguri-400-bengali.woff2'];
 
-/** Reads the saved theme (theme-toggle.tsx) and sets it on <html>; else the system setting wins. */
-const THEME_SCRIPT = `try{var t=localStorage.getItem('${THEME_KEY}');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}`;
+/** Day is the default; the night theme only when the visitor chose it (theme-toggle.tsx). */
+const THEME_SCRIPT = `try{if(localStorage.getItem('${THEME_KEY}')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`;
 
 export const metadata: Metadata = { metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL) };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F7F3EC' },
-    { media: '(prefers-color-scheme: dark)', color: '#14110F' },
-  ],
+  themeColor: '#F7F1E8',
   width: 'device-width',
   initialScale: 1,
 };
@@ -70,7 +74,7 @@ export default async function RootLayout({
     <html
       lang={lang}
       suppressHydrationWarning
-      className={`${bodoni.variable} ${bodoniItalic.variable} ${jost.variable}`}
+      className={`${bodoni.variable} ${bodoniItalic.variable} ${wordmark.variable} ${jost.variable}`}
     >
       <head>
         {/* The visitor's saved theme, applied before the first paint (no flash). */}

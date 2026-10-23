@@ -82,7 +82,7 @@ export function CategoryTiles({
                       className="object-cover transition-transform duration-[1.6s] ease-out-soft group-hover:scale-[1.04]"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,17,15,0.28)_0%,rgba(20,17,15,0)_22%,rgba(20,17,15,0)_50%,rgba(20,17,15,0.62)_100%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(43,30,25,0.28)_0%,rgba(43,30,25,0)_22%,rgba(43,30,25,0)_50%,rgba(43,30,25,0.62)_100%)]" />
                   <span
                     aria-hidden
                     className="absolute left-4 top-4 bg-ivory/90 sm:left-6 sm:top-6 h-px w-8"
