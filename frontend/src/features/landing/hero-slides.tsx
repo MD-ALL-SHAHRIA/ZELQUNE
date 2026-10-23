@@ -9,7 +9,13 @@ import { useEffect, useState } from 'react';
  * photo (the LCP image). Until they arrive the first photo simply stays.
  * The crossfade itself is CSS (`hero-fade-*` keyframes in hero.tsx).
  */
-export function HeroSlides({ slides }: { slides: { src: string; position?: string }[] }) {
+export function HeroSlides({
+  slides,
+  sizes = '100vw',
+}: {
+  slides: { src: string; position?: string }[];
+  sizes?: string;
+}) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -40,9 +46,9 @@ export function HeroSlides({ slides }: { slides: { src: string; position?: strin
             src={s.src}
             alt=""
             fill
-            sizes="100vw"
+            sizes={sizes}
             fetchPriority="low"
-            className="hero-kenburns object-cover"
+            className="hero-frame-img object-cover"
             style={{ objectPosition: s.position ?? 'center' }}
           />
         </div>

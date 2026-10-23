@@ -15,8 +15,8 @@
 - **Copyright:** © 2026 Zelqune. All rights reserved.
 
 ## Home
-- **Hero heading:** Wood and light for your walls
-- **Hero subline:** The Alo-Arch Panel: a walnut frame, glass vases, and a warm, soft glow for your evenings.
+- **Hero heading:** Make your walls feel alive.
+- **Hero subline:** Handcrafted wood forms, thoughtful shelving and a soft amber glow, made to bring warmth to your everyday spaces.
 - **Button:** Pre-order now
 - **Three benefits:**
   - **Handcrafted:** every panel is made with care after you order.
@@ -183,7 +183,8 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Announcement:** Pre-orders are open · ৳300 advance, the rest on delivery
 
 ### Landing page
-- **Hero eyebrow:** Designed in Dhaka · Made to order
+- **Hero eyebrow:** Sculptural wall decor · Made to order
+- **Hero trust line:** Made in Bangladesh · Natural wood tones · Warm LED light
 - **Hero secondary button:** See how it's made
 - **Day and night eyebrow:** One piece, two moods
 - **Day and night heading:** A vase by day. A soft lamp by night.

@@ -35,9 +35,9 @@ export const en = {
     copyright: '© 2026 Zelqune. All rights reserved.',
   },
   home: {
-    heroHeading: 'Wood and light for your walls',
+    heroHeading: 'Make your walls feel alive.',
     heroSubline:
-      'The Alo-Arch Panel: a walnut frame, glass vases, and a warm, soft glow for your evenings.',
+      'Handcrafted wood forms, thoughtful shelving and a soft amber glow, made to bring warmth to your everyday spaces.',
     cta: 'Pre-order now',
     benefits: [
       { title: 'Handcrafted', text: 'every panel is made with care after you order.' },
@@ -327,7 +327,8 @@ export const en = {
     columns: { shop: 'Shop', help: 'Help', company: 'Company' },
   },
   landing: {
-    heroEyebrow: 'Designed in Dhaka · Made to order',
+    heroEyebrow: 'Sculptural wall decor · Made to order',
+    heroTrust: 'Made in Bangladesh · Natural wood tones · Warm LED light',
     heroSecondary: "See how it's made",
     dayNightEyebrow: 'One piece, two moods',
     dayNightHeading: 'A vase by day. A soft lamp by night.',

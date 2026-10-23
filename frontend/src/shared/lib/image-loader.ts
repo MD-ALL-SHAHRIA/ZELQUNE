@@ -17,5 +17,8 @@ export default function imageLoader({ src, width, quality }: ImageLoaderProps): 
     url.searchParams.set('fit', 'crop');
     return url.toString();
   }
+  // Our own sample renders (public/images/samples) are pre-sized WebP files under 100 KB: served
+  // as they are (the width only keeps next/image's per-width URLs distinct).
+  if (src.startsWith('/images/')) return `${src}?w=${width}`;
   return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality ?? 75}`;
 }
