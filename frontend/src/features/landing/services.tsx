@@ -31,7 +31,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const s = dict.services;
   const more = dict.design.explore;
   return (
-    <section className="bg-night py-24 text-ivory sm:py-32 lg:py-40">
+    <section className="tone-dark bg-night py-24 text-ivory sm:py-32 lg:py-40">
       <Container>
         <div className="reveal mb-14 grid gap-8 lg:mb-20 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-9">

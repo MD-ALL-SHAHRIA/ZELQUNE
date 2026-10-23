@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { env } from '@/config/env';
 import { isLocale, LOCALES } from '@/i18n/config';
 import { BanglaDisplayFont } from '@/features/layout/bangla-display-font';
+import { THEME_KEY } from '@/features/layout/theme';
 import { StoreProvider } from '@/store/provider';
 import '../globals.css';
 
@@ -38,10 +39,16 @@ const jost = Jost({
  */
 const BANGLA_FONTS = ['/fonts/hind-siliguri-400-bengali.woff2'];
 
+/** Reads the saved theme (theme-toggle.tsx) and sets it on <html>; else the system setting wins. */
+const THEME_SCRIPT = `try{var t=localStorage.getItem('${THEME_KEY}');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}`;
+
 export const metadata: Metadata = { metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL) };
 
 export const viewport: Viewport = {
-  themeColor: '#14110F',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F7F3EC' },
+    { media: '(prefers-color-scheme: dark)', color: '#14110F' },
+  ],
   width: 'device-width',
   initialScale: 1,
 };
@@ -60,8 +67,14 @@ export default async function RootLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   return (
-    <html lang={lang} className={`${bodoni.variable} ${bodoniItalic.variable} ${jost.variable}`}>
+    <html
+      lang={lang}
+      suppressHydrationWarning
+      className={`${bodoni.variable} ${bodoniItalic.variable} ${jost.variable}`}
+    >
       <head>
+        {/* The visitor's saved theme, applied before the first paint (no flash). */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         {/* Sample photos come from Unsplash's CDN until real product photos exist. */}
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         {lang === 'bn'

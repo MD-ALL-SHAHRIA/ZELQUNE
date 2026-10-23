@@ -38,7 +38,7 @@ export function DesignHero({
 }) {
   const d = dict.design;
   return (
-    <section className="relative isolate flex min-h-[calc(100svh-8rem)] flex-col justify-end overflow-hidden bg-night text-ivory">
+    <section className="relative isolate flex min-h-[calc(100svh-8rem)] flex-col justify-end overflow-hidden tone-dark bg-night text-ivory">
       <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
@@ -194,7 +194,7 @@ export function DesignProcess({ dict }: { lang: Locale; dict: Dictionary }) {
   const d = dict.design;
   const last = d.steps.length - 1;
   return (
-    <section className="bg-night py-24 text-ivory sm:py-32">
+    <section className="tone-dark bg-night py-24 text-ivory sm:py-32">
       <Container>
         <div className="reveal mb-16 space-y-5 sm:mb-20">
           <Eyebrow className="text-ivory/60">{d.eyebrow}</Eyebrow>

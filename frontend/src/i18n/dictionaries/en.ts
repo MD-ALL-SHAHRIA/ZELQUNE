@@ -668,6 +668,8 @@ export const en = {
   },
   ui: {
     language: 'Language',
+    themeDark: 'Switch to dark mode',
+    themeLight: 'Switch to light mode',
     english: 'English',
     bangla: 'বাংলা',
     skip: 'Skip to content',

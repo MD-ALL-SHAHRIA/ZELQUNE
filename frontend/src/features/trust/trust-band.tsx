@@ -24,7 +24,7 @@ export function TrustBand({
   return (
     <section
       aria-labelledby="trust-heading"
-      className={cn(dark ? 'bg-night text-ivory' : 'bg-cream/60', className)}
+      className={cn(dark ? 'tone-dark bg-night text-ivory' : 'bg-cream/60', className)}
     >
       <Container className="grid gap-12 py-16 md:py-20 lg:grid-cols-[1fr_2.2fr] lg:gap-20">
         <div className="space-y-4">

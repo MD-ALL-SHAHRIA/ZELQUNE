@@ -1,26 +1,28 @@
-/* Tailwind v4: `@import "@zelqune/ui-tokens/tailwind-theme.css";` after `@import "tailwindcss";` */
-@theme {
-  --color-ink: #f3ece1;
-  --color-cream: #241e1a;
-  --color-walnut: #c9a46a;
-  --color-amber: #c9a46a;
-  --color-paper: #14110f;
-  --color-sand: #1e1916;
-  --color-stone: #b5a898;
-  --color-line: #3a322b;
-  --color-surface: #1a1613;
-  --color-sage: #2a231e;
-  --color-moss: #c9a46a;
-  --color-glow: #f2c58a;
-  /* Fixed, never flip: text on photos, overlays, OG images. */
-  --color-ivory: #f3ece1;
-  --color-espresso: #14110f;
-  --color-night: #0d0b09;
-  --color-success: #7fb08e;
-  --color-warning: #e0a458;
-  --color-danger: #e07a63;
+/* Tailwind v4: `@import "@zelqune/ui-tokens/tailwind-theme.css";` after `@import "tailwindcss";`,
+   plus `@import "@zelqune/ui-tokens/tokens.css";` for the values (light and dark themes). */
+@theme inline {
+  --color-ink: var(--zq-ink);
+  --color-cream: var(--zq-cream);
+  --color-walnut: var(--zq-walnut);
+  --color-amber: var(--zq-amber);
+  --color-paper: var(--zq-paper);
+  --color-sand: var(--zq-sand);
+  --color-stone: var(--zq-stone);
+  --color-line: var(--zq-line);
+  --color-surface: var(--zq-surface);
+  --color-sage: var(--zq-sage);
+  --color-moss: var(--zq-moss);
+  --color-glow: var(--zq-glow);
+  --color-success: var(--zq-success);
+  --color-warning: var(--zq-warning);
+  --color-danger: var(--zq-danger);
+  /* Fixed, never flip. */
+  --color-ivory: var(--zq-ivory);
+  --color-espresso: var(--zq-espresso);
+  --color-night: var(--zq-night);
+  --color-brass: var(--zq-brass);
   /* Kept for compatibility with step 1.4 classes. */
-  --color-muted: #b5a898;
+  --color-muted: var(--zq-stone);
 
   /* Latin-only stacks: Bangla pages switch fonts by lang (so English pages never fetch the
      Bangla fonts, e.g. just to draw the ৳ sign). */

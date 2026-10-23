@@ -117,6 +117,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 
 ### General
 - **Language switcher:** Language · English · বাংলা
+- **Theme toggle:** Switch to dark mode · Switch to light mode
 - **Skip link:** Skip to content
 - **Common:** Close · Back · Loading… · Quantity · Remove · Price · From {price} · Item · Qty · Unit price · Total · Optional
 - **Not found page:** We couldn't find that page. · Back to home

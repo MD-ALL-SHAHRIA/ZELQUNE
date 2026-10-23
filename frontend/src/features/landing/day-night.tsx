@@ -22,7 +22,7 @@ export function DayNight({ dict }: { dict: Dictionary }) {
             key={m.label}
             className={cn(
               'relative isolate flex min-h-[78svh] flex-col justify-end overflow-hidden md:min-h-[92svh]',
-              m.night ? 'bg-night text-ivory' : 'bg-cream text-ink',
+              m.night ? 'tone-dark bg-night text-ivory' : 'bg-cream text-ink',
             )}
           >
             <Image

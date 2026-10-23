@@ -29,7 +29,7 @@ export default async function BulkPage({ params }: { params: PageParams }) {
   }));
   return (
     <>
-      <section className="relative isolate flex min-h-[64svh] items-end overflow-hidden bg-night text-ivory">
+      <section className="relative isolate flex min-h-[64svh] items-end overflow-hidden tone-dark bg-night text-ivory">
         <Image
           src={SAMPLE.cafe.src}
           alt=""

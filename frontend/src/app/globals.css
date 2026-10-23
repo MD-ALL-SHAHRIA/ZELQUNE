@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import '@zelqune/ui-tokens/tailwind-theme.css';
+@import '@zelqune/ui-tokens/tokens.css';
 
 /* Self-hosted Bangla fonts (OFL, public/fonts). Bengali code points only, so English pages
    never fetch them; /bn pages preload the regular weights (see [lang]/layout.tsx). */
@@ -44,7 +45,6 @@
 
 @layer base {
   html {
-    color-scheme: dark;
     background: var(--color-paper);
     color: var(--color-ink);
     -webkit-text-size-adjust: 100%;

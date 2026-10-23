@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Light and dark themes: "Gallery Ivory" (light, espresso on ivory with antique brass) and
+  "Dark Walnut" (dark). The site follows the visitor's system setting until they use the new
+  sun/moon toggle (header; in the menu on phones), which is remembered; no flash on load.
 - Storefront redesign, dark walnut luxury (owner's choice): ivory text on deep espresso with
   champagne-brass details and the warm lamp glow, Bodoni Moda headings with Jost text, an
   editorial split hero ("Make your walls feel alive.") with the lit moon panel in an arch frame,

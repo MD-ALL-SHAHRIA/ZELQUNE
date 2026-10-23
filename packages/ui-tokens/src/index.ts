@@ -1,30 +1,52 @@
 /**
- * Zelqune brand tokens (v4, dark walnut luxury): ivory text on espresso, champagne brass
- * accents, lamp glow. Names are kept from v2 for compatibility: "paper" is the page background
- * (espresso), "ink" the text (ivory), "walnut" the brass accent text.
+ * Zelqune brand tokens (v5): two themes of one brand. "Gallery Ivory" (light, default): espresso
+ * text on ivory with antique-brass accents. "Dark Walnut" (dark): ivory text on espresso with
+ * champagne brass. Names are kept from v2: "paper" is the page background, "ink" the text,
+ * "walnut" the brass accent text. The CSS variables in tokens.css switch between them.
  */
 export const colors = {
   /** Brand */
+  ink: '#1C1714',
+  cream: '#F2ECE2',
+  walnut: '#7A5C30',
+  amber: '#7A5C30',
+  /** Neutrals */
+  paper: '#F7F3EC',
+  sand: '#EFE8DC',
+  stone: '#6B5E52',
+  line: '#E2D8C9',
+  surface: '#FFFDF9',
+  /** Raised surface tint and brass (v3 names kept) */
+  sage: '#E9E1D3',
+  moss: '#7A5C30',
+  /** Glow (lamp light) */
+  glow: '#E9B872',
+  /** Fixed (never flip): text on photos and overlays, footer */
+  ivory: '#F3ECE1',
+  espresso: '#14110F',
+  night: '#0D0B09',
+  brass: '#C9A46A',
+  /** Status */
+  success: '#2F6B4A',
+  warning: '#9A6417',
+  danger: '#A3301F',
+} as const;
+
+/** The dark theme's values for the colors that change ("Dark Walnut"). */
+export const darkColors = {
+  ...colors,
   ink: '#F3ECE1',
   cream: '#241E1A',
   walnut: '#C9A46A',
   amber: '#C9A46A',
-  /** Neutrals */
   paper: '#14110F',
   sand: '#1E1916',
   stone: '#B5A898',
   line: '#3A322B',
   surface: '#1A1613',
-  /** Raised surface tint and brass (v3 names kept) */
   sage: '#2A231E',
   moss: '#C9A46A',
-  /** Glow (lamp light) */
   glow: '#F2C58A',
-  /** Fixed (never flip): text on photos and overlays */
-  ivory: '#F3ECE1',
-  espresso: '#14110F',
-  night: '#0D0B09',
-  /** Status */
   success: '#7FB08E',
   warning: '#E0A458',
   danger: '#E07A63',

@@ -68,7 +68,9 @@ export function RoomHotspots({ spots, view }: { spots: RoomSpot[]; view: string 
                 aria-hidden
                 className={cn(
                   'relative grid size-7 place-items-center rounded-full border border-ivory/80 shadow-[0_6px_20px_-6px_rgba(20,17,15,0.6)] transition-colors duration-300',
-                  isOpen ? 'bg-night text-ivory' : 'bg-paper text-ink group-hover:bg-glow',
+                  isOpen
+                    ? 'tone-dark bg-night text-ivory'
+                    : 'bg-paper text-ink group-hover:bg-glow',
                 )}
               >
                 <Plus

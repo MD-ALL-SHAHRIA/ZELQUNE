@@ -21,7 +21,7 @@ export function ValuesBand({ dict }: { dict: Dictionary }) {
           const Icon = VALUE_ICONS[i] ?? Hammer;
           return (
             <div key={v.title} className="flex flex-col gap-3">
-              <Icon aria-hidden className="size-5 text-walnut" strokeWidth={1.1} />
+              <Icon aria-hidden className="size-5 text-brass" strokeWidth={1.1} />
               <p className="font-display text-xl font-light leading-tight sm:text-2xl">{v.title}</p>
               <p className="text-sm text-stone">{v.text}</p>
             </div>
@@ -142,7 +142,7 @@ export function Footer({
             textAnchor="middle"
             textLength="990"
             lengthAdjust="spacingAndGlyphs"
-            className="fill-walnut/30 font-display text-[160px] uppercase"
+            className="fill-brass/30 font-display text-[160px] uppercase"
           >
             Zelqune
           </text>
@@ -151,7 +151,7 @@ export function Footer({
       <div className="border-t border-ivory/10">
         <Container className="flex items-center justify-center gap-3 py-6 text-[0.8rem] text-ivory/75 sm:justify-between">
           <p>{dict.footer.copyright}</p>
-          <LogoMark className="hidden h-4 text-walnut sm:block" />
+          <LogoMark className="hidden h-4 text-brass sm:block" />
         </Container>
       </div>
     </footer>
@@ -160,7 +160,7 @@ export function Footer({
 
 function FooterTitle({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-walnut [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-brass [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
       {children}
     </p>
   );

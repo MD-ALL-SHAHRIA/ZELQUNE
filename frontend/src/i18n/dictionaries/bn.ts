@@ -642,6 +642,8 @@ export const bn: Dictionary = {
   },
   ui: {
     language: 'ভাষা',
+    themeDark: 'ডার্ক মোডে যান',
+    themeLight: 'লাইট মোডে যান',
     english: 'English',
     bangla: 'বাংলা',
     skip: 'মূল অংশে যান',

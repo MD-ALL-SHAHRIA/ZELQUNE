@@ -27,7 +27,7 @@ export function ConstructionHero({
 }) {
   const d = dict.construction;
   return (
-    <section className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden bg-night text-ivory">
+    <section className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden tone-dark bg-night text-ivory">
       <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
@@ -212,7 +212,7 @@ export function BuildStages({
 export function WhyOneTeam({ dict, image }: { lang: Locale; dict: Dictionary; image: string }) {
   const d = dict.construction;
   return (
-    <section className="bg-night text-ivory">
+    <section className="tone-dark bg-night text-ivory">
       <div className="grid lg:grid-cols-2">
         <div className="relative min-h-[22rem] lg:min-h-full">
           <Image

@@ -16,6 +16,7 @@ import { categoryLinks, helpNav, serviceNav, shopNav } from './nav';
 import { ActiveLink, NavTabs } from './nav-tabs';
 import { type SearchIndex } from './search';
 import { SearchButton } from './search-button';
+import { ThemeToggle } from './theme-toggle';
 import { Overlays } from './overlays';
 
 /**
@@ -89,6 +90,7 @@ export function Header({
               <LanguageSwitcher lang={lang} labels={dict.ui} className="hidden xl:flex" />
             </Suspense>
             <div className="flex items-center gap-0.5 lg:gap-2">
+              <ThemeToggle labels={dict.ui} className="hidden sm:grid" />
               <Link
                 href={account}
                 aria-label={dict.header.account}
@@ -133,6 +135,7 @@ export function Header({
               <Suspense fallback={null}>
                 <LanguageSwitcher lang={lang} labels={dict.ui} variant="full" />
               </Suspense>
+              <ThemeToggle labels={dict.ui} className="-ml-2.5" />
               <p className="text-xs text-stone">
                 <CopyText>{dict.footer.contact}</CopyText>
               </p>

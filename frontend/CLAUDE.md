@@ -1,5 +1,5 @@
 # Zelqune frontend (storefront)
-Next.js App Router, TypeScript strict, Tailwind + shadcn/ui. Brand tokens (v4, dark): ivory #F3ECE1 on espresso #14110F, champagne brass #C9A46A, glow #F2C58A; Bodoni Moda + Jost.
+Next.js App Router, TypeScript strict, Tailwind + shadcn/ui. Brand tokens (v5): light "Gallery Ivory" (espresso #1C1714 on ivory #F7F3EC, brass #7A5C30) and dark "Dark Walnut" (ivory #F3ECE1 on espresso #14110F, brass #C9A46A), switched by CSS variables (data-theme / system); Bodoni Moda + Jost. Use semantic tokens; `ivory`/`espresso`/`night`/`brass` are fixed; dark bands add `tone-dark`.
 Talks ONLY to the backend gateway (NEXT_PUBLIC_API_URL). API types generated from gateway OpenAPI with
 openapi-typescript (`pnpm gen:api`); never hand-write API types.
 - Storefront: English default + Bangla (/en and /bn routes; the URL decides the language), mobile-first, SSG/ISR, next/image, Lighthouse mobile >= 90, minimal client JS.
