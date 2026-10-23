@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { SAMPLE } from '@/content/sample-images';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { cn } from '@/shared/lib/cn';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
 
@@ -15,9 +14,8 @@ const SWATCHES = [
 ];
 
 /**
- * Materials as a centred specimen sheet: three arch-cropped close-ups like samples pinned to a
- * board, separated by hairlines. On phones each material becomes an index row (small arch beside
- * the words) so the section stays short.
+ * Materials as three tall photo panels that open wider on hover or focus, revealing the words
+ * (an accordion of light). On phones the panels stack as short cards with the words shown.
  */
 export function Materials({ dict }: { dict: Dictionary; lang: Locale }) {
   const m = dict.premium.materials;
@@ -31,32 +29,28 @@ export function Materials({ dict }: { dict: Dictionary; lang: Locale }) {
           </Heading>
         </div>
 
-        <ol className="mt-14 border-t border-line sm:mt-20 md:grid md:grid-cols-3 md:border-t-0">
+        {/* Three tall panels side by side; the one under the pointer (or focus) opens wider. On
+            phones they stack as short cards. */}
+        <ol className="mt-14 flex flex-col gap-3 sm:mt-20 md:h-[36rem] md:flex-row">
           {m.items.map((item, i) => (
             <li
               key={item.title}
-              className={cn(
-                'reveal grid grid-cols-[6.5rem_1fr] items-center gap-6 border-b border-line py-7',
-                'md:flex md:flex-col md:items-center md:gap-0 md:border-b-0 md:px-8 md:py-0 md:text-center lg:px-14',
-                i > 0 && 'md:border-l',
-              )}
+              tabIndex={0}
+              className="reveal group relative isolate h-72 overflow-hidden bg-sand outline-none transition-[flex-grow] duration-700 ease-out-soft focus-visible:ring-1 focus-visible:ring-walnut md:h-auto md:flex-[1_1_0%] md:hover:flex-[2.2_1_0%] md:focus-visible:flex-[2.2_1_0%]"
             >
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-t-[999px] bg-sand md:w-[78%] md:max-w-[300px]">
-                <Image
-                  src={(SWATCHES[i] ?? FALLBACK).src}
-                  alt=""
-                  fill
-                  sizes="(min-width: 768px) 24vw, 104px"
-                  className="object-cover"
-                  style={{ objectPosition: (SWATCHES[i] ?? FALLBACK).position }}
-                />
-              </div>
-              <div className="md:mt-10">
-                <span aria-hidden className="block bg-walnut h-px w-8" />
-                <p className="mt-2 font-display text-2xl font-light leading-tight sm:text-3xl md:mt-3">
-                  {item.title}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-ink/70 md:mx-auto md:mt-4 md:max-w-[17rem]">
+              <Image
+                src={(SWATCHES[i] ?? FALLBACK).src}
+                alt=""
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="-z-10 object-cover transition-transform duration-[1.4s] ease-out-soft group-hover:scale-[1.04]"
+                style={{ objectPosition: (SWATCHES[i] ?? FALLBACK).position }}
+              />
+              <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(20,17,15,0)_40%,rgba(20,17,15,0.88)_100%)]" />
+              <div className="absolute inset-x-0 bottom-0 p-6 text-ivory sm:p-8">
+                <span aria-hidden className="block h-px w-8 bg-walnut" />
+                <p className="mt-4 font-display text-2xl leading-tight sm:text-3xl">{item.title}</p>
+                <p className="mt-3 max-w-[22rem] text-sm leading-relaxed text-ivory/80 md:max-h-0 md:opacity-0 md:transition-all md:duration-700 md:ease-out-soft md:group-hover:max-h-40 md:group-hover:opacity-100 md:group-focus-visible:max-h-40 md:group-focus-visible:opacity-100">
                   <CopyText>{item.text}</CopyText>
                 </p>
               </div>

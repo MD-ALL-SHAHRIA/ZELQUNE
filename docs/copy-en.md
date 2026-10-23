@@ -379,3 +379,4 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Wall preview:** See it on your wall · Add a photo of your wall, then drag and resize the piece. Your photo stays on your phone. · Choose a photo · Try a sample wall · Size · Reset · Save image · Drag to move · use the slider to resize
 - **WhatsApp:** Chat on WhatsApp · Hello Zelqune, I have a question about {item}
 - **Statement:** Wood, light and space, made for the way Bangladesh lives.
+- **Marquee words:** Solid wood · Warm LED light · Made in Dhaka · Made to order · Finished by hand

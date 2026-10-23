@@ -664,6 +664,7 @@ export const en = {
       message: 'Hello Zelqune, I have a question about {item}',
     },
     statement: 'Wood, light and space, made for the way Bangladesh lives.',
+    marquee: ['Solid wood', 'Warm LED light', 'Made in Dhaka', 'Made to order', 'Finished by hand'],
   },
   ui: {
     language: 'Language',
