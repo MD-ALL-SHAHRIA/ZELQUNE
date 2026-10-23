@@ -4,7 +4,7 @@ import { SAMPLE } from '@/content/sample-images';
 import { productName } from '@/features/catalog/product-copy';
 import { RfqForm } from '@/features/quotes/rfq-form';
 import { TrustBand } from '@/features/trust/trust-band';
-import { formatNumber } from '@/i18n/format';
+
 import { listProducts } from '@/shared/api/server';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
@@ -67,14 +67,12 @@ export default async function BulkPage({ params }: { params: PageParams }) {
               <Lead>{dict.home.bulkBanner}</Lead>
             </div>
             <ul className="border-t border-line">
-              {dict.bulk.whoOrders.map((who, i) => (
+              {dict.bulk.whoOrders.map((who) => (
                 <li
                   key={who}
                   className="flex items-baseline gap-5 border-b border-line py-4 text-sm"
                 >
-                  <span className="font-display text-base italic text-walnut">
-                    {formatNumber(i + 1, lang).padStart(2, lang === 'bn' ? '০' : '0')}
-                  </span>
+                  <span aria-hidden className="block bg-walnut h-px w-8" />
                   {who}
                 </li>
               ))}

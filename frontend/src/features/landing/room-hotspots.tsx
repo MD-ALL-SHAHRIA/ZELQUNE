@@ -10,7 +10,6 @@ export interface RoomSpot {
   /** Marker position on the photo, in percent of its width / height. */
   x: number;
   y: number;
-  number: string;
   name: string;
   price: string | null;
   href: string;
@@ -93,13 +92,14 @@ export function RoomHotspots({ spots, view }: { spots: RoomSpot[]; view: string 
               )}
               style={{ '--x': `${s.x}%`, '--y': `${s.y}%` } as React.CSSProperties}
             >
-              <p className="flex items-baseline gap-3">
-                <span className="font-display text-sm italic text-walnut [:lang(bn)_&]:not-italic">
-                  {s.number}
-                </span>
+              <p className="flex items-center gap-3">
+                <span
+                  aria-hidden
+                  className="size-1.5 shrink-0 -translate-y-1 rounded-full bg-amber"
+                />
                 <span className="font-display text-2xl font-light leading-tight">{s.name}</span>
               </p>
-              {s.price ? <p className="mt-1 pl-7 text-sm text-stone">{s.price}</p> : null}
+              {s.price ? <p className="mt-1 pl-[1.125rem] text-sm text-stone">{s.price}</p> : null}
               <Link
                 href={s.href}
                 className="group/link mt-4 ml-7 inline-flex items-center gap-2 border-b border-ink pb-0.5 text-[0.75rem] font-medium uppercase tracking-[0.16em] [:lang(bn)_&]:text-[0.9rem]"

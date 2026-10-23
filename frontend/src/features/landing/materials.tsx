@@ -5,7 +5,6 @@ import { type Dictionary } from '@/i18n/dictionaries/en';
 import { cn } from '@/shared/lib/cn';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
-import { numeral } from './numeral';
 
 /** One close-up per material: wood grain, a warm bulb, clear glass. */
 const FALLBACK = { ...SAMPLE.slats, position: 'center' };
@@ -20,7 +19,7 @@ const SWATCHES = [
  * board, separated by hairlines. On phones each material becomes an index row (small arch beside
  * the words) so the section stays short.
  */
-export function Materials({ dict, lang }: { dict: Dictionary; lang: Locale }) {
+export function Materials({ dict }: { dict: Dictionary; lang: Locale }) {
   const m = dict.premium.materials;
   return (
     <section aria-labelledby="materials-heading" className="py-24 sm:py-32 lg:py-44">
@@ -53,9 +52,7 @@ export function Materials({ dict, lang }: { dict: Dictionary; lang: Locale }) {
                 />
               </div>
               <div className="md:mt-10">
-                <span className="block font-display text-base italic text-walnut [:lang(bn)_&]:not-italic">
-                  {numeral(i + 1, lang)}
-                </span>
+                <span aria-hidden className="block bg-walnut h-px w-8" />
                 <p className="mt-2 font-display text-2xl font-light leading-tight sm:text-3xl md:mt-3">
                   {item.title}
                 </p>

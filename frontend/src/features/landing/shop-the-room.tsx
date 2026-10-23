@@ -9,7 +9,6 @@ import { fill, formatTaka } from '@/i18n/format';
 import { type ProductSummary } from '@/shared/api/types';
 import { href } from '@/shared/lib/site';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
-import { numeral } from './numeral';
 import { RoomHotspots, type RoomSpot } from './room-hotspots';
 
 /** Where each piece would sit in the room photo (percent of width / height). */
@@ -47,7 +46,6 @@ export function ShopTheRoom({
     return [
       {
         ...spot,
-        number: '',
         name: productName(product, lang, dict),
         price: product.fromPrice
           ? fill(dict.ui.from, { price: formatTaka(product.fromPrice.amountPaisa, lang) })
@@ -57,7 +55,6 @@ export function ShopTheRoom({
     ];
   });
   if (!spots.length) return null;
-  spots.forEach((s, i) => (s.number = numeral(i + 1, lang)));
 
   return (
     <section aria-labelledby="room-heading" className="bg-cream/70 py-20 sm:py-28 lg:py-36">
@@ -101,9 +98,10 @@ export function ShopTheRoom({
                 href={s.href}
                 className="group flex h-full items-start gap-4 bg-paper p-5 transition-colors duration-500 ease-out-soft hover:bg-paper/70 lg:items-center lg:bg-transparent lg:px-0 lg:py-5 lg:hover:bg-transparent"
               >
-                <span className="pt-1 font-display text-sm italic text-walnut lg:pt-0 [:lang(bn)_&]:not-italic">
-                  {s.number}
-                </span>
+                <span
+                  aria-hidden
+                  className="mt-2.5 size-1.5 shrink-0 rounded-full bg-amber lg:mt-0"
+                />
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-xl font-light leading-tight sm:text-2xl">
                     {s.name}

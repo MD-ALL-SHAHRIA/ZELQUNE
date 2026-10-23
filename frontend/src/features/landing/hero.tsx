@@ -62,7 +62,10 @@ export function Hero({
           >
             {dict.home.heroSubline}
           </p>
-          <div className="hero-rise flex flex-wrap items-center gap-x-8 gap-y-4 pt-1" style={rise(3)}>
+          <div
+            className="hero-rise flex flex-wrap items-center gap-x-8 gap-y-4 pt-1"
+            style={rise(3)}
+          >
             <ButtonLink
               href={href(lang, productSlug ? `/products/${productSlug}` : '/shop')}
               size="lg"

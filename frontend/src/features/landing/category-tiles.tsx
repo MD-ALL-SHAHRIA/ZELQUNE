@@ -8,7 +8,6 @@ import { type Category } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
 import { href } from '@/shared/lib/site';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
-import { numeral } from './numeral';
 
 /** Lookalike sample photo per category until real product photos exist. */
 const CATEGORY_IMAGE: Record<string, string> = {
@@ -18,7 +17,7 @@ const CATEGORY_IMAGE: Record<string, string> = {
 };
 
 /**
- * Tall image cards in a staggered row (the middle card steps down), each with a numeral and
+ * Tall image cards in a staggered row (the middle card steps down), each with a hairline and
  * name on the photo. On phones: one wide lead card, then a pair.
  */
 export function CategoryTiles({
@@ -84,9 +83,10 @@ export function CategoryTiles({
                     />
                   </div>
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(53,58,48,0.28)_0%,rgba(53,58,48,0)_22%,rgba(53,58,48,0)_50%,rgba(53,58,48,0.62)_100%)]" />
-                  <span className="absolute left-4 top-4 font-display text-lg italic text-paper/90 sm:left-6 sm:top-6">
-                    {numeral(i + 1, lang)}
-                  </span>
+                  <span
+                    aria-hidden
+                    className="absolute left-4 top-4 bg-paper/90 sm:left-6 sm:top-6 h-px w-8"
+                  />
                   <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3 text-paper sm:inset-x-6 sm:bottom-6">
                     <p className="font-display text-2xl font-light leading-none sm:text-4xl">
                       {lang === 'bn' ? c.nameBn : c.nameEn}

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { fill, formatNumber } from '@/i18n/format';
+import { fill } from '@/i18n/format';
 import { type District } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
 import { href } from '@/shared/lib/site';
@@ -14,11 +14,6 @@ import { Picture } from '@/shared/ui/image';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { ConsultationForm } from './consultation-form';
 import { SECTORS, sectorImages, type SectorSpace } from './sectors';
-
-/** "01" / "০১": step numerals in the page's own digits. */
-function numeral(i: number, lang: Locale) {
-  return formatNumber(i + 1, lang).padStart(2, lang === 'bn' ? '০' : '0');
-}
 
 /**
  * Full-bleed interior hero (RH Interior Design manner): the room fills the screen, the studio's
@@ -72,7 +67,7 @@ export function DesignHero({
         </div>
         <nav aria-label={d.sectorsHeading} className="mt-14 border-t border-paper/25 sm:mt-16">
           <ul className="scrollbar-none -mx-5 flex gap-8 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-5 md:gap-0 md:px-0">
-            {SECTORS.map((s, i) => {
+            {SECTORS.map((s) => {
               const here = s.space === current;
               return (
                 <li key={s.slug} className="relative shrink-0">
@@ -91,9 +86,7 @@ export function DesignHero({
                       here ? 'text-paper' : 'text-paper/70 hover:text-paper',
                     )}
                   >
-                    <span className="font-display text-sm italic text-glow">
-                      {numeral(i, lang)}
-                    </span>
+                    <span aria-hidden className="block bg-glow h-px w-8" />
                     <span className="underline-offset-[6px] decoration-paper/40 group-hover:underline">
                       {d.sectors[s.space].title}
                     </span>
@@ -162,9 +155,7 @@ export function SectorGrid({
                     arch={!exclude && i === 3}
                   />
                   <div className="mt-6 flex items-baseline gap-4 border-t border-line pt-5">
-                    <span className="font-display text-lg italic text-walnut">
-                      {numeral(SECTORS.indexOf(s), lang)}
-                    </span>
+                    <span aria-hidden className="block bg-walnut h-px w-8" />
                     <div className="min-w-0 flex-1 space-y-2">
                       <div className="flex items-baseline justify-between gap-4">
                         <h3 className="font-display text-[1.9rem] font-light leading-tight [:lang(bn)_&]:text-2xl">
@@ -199,7 +190,7 @@ export function SectorGrid({
  * How it works: four steps as one drawn line, with a node per step (horizontal on desktop,
  * vertical on phones), from first call to the lit, finished room.
  */
-export function DesignProcess({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+export function DesignProcess({ dict }: { lang: Locale; dict: Dictionary }) {
   const d = dict.design;
   const last = d.steps.length - 1;
   return (
@@ -224,9 +215,7 @@ export function DesignProcess({ lang, dict }: { lang: Locale; dict: Dictionary }
                   i === last ? 'rounded-full border-amber bg-amber' : 'border-paper/60 bg-ink',
                 )}
               />
-              <span className="block font-display text-6xl font-light italic leading-none text-glow">
-                {numeral(i, lang)}
-              </span>
+              <span aria-hidden className="block bg-glow h-px w-8" />
               <p className="font-display text-[1.7rem] font-light leading-tight">{step.title}</p>
               <p className="max-w-xs text-sm leading-relaxed text-paper/70">{step.text}</p>
             </li>
@@ -237,7 +226,7 @@ export function DesignProcess({ lang, dict }: { lang: Locale; dict: Dictionary }
   );
 }
 
-export function Included({ lang, dict, image }: { lang: Locale; dict: Dictionary; image: string }) {
+export function Included({ dict, image }: { lang: Locale; dict: Dictionary; image: string }) {
   const d = dict.design;
   return (
     <section className="py-24 sm:py-32">
@@ -255,14 +244,12 @@ export function Included({ lang, dict, image }: { lang: Locale; dict: Dictionary
             <Heading>{d.includedHeading}</Heading>
           </div>
           <ol className="border-t border-line">
-            {d.included.map((item, i) => (
+            {d.included.map((item) => (
               <li
                 key={item}
                 className="flex items-baseline gap-6 border-b border-line py-6 font-display text-2xl font-light leading-snug sm:text-[1.75rem] [:lang(bn)_&]:text-xl"
               >
-                <span className="w-8 shrink-0 text-base italic text-walnut">
-                  {numeral(i, lang)}
-                </span>
+                <span aria-hidden className="block h-px w-8 shrink-0 bg-walnut" />
                 {item}
               </li>
             ))}
@@ -334,14 +321,12 @@ export function ConsultSection({
             <Lead>{dict.consult.text}</Lead>
           </div>
           <ol className="hidden border-t border-line lg:block">
-            {dict.design.steps.map((step, i) => (
+            {dict.design.steps.map((step) => (
               <li
                 key={step.title}
                 className="flex items-baseline gap-5 border-b border-line py-4 text-sm"
               >
-                <span className="font-display text-base italic text-walnut">
-                  {numeral(i, lang)}
-                </span>
+                <span aria-hidden className="block bg-walnut h-px w-8" />
                 <span>{step.title}</span>
               </li>
             ))}

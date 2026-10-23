@@ -6,7 +6,6 @@ import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { href } from '@/shared/lib/site';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
-import { numeral } from './numeral';
 
 const SECTORS = ['HOME', 'OFFICE', 'RESTAURANT_CAFE', 'HOTEL', 'RETAIL'] as const;
 
@@ -58,9 +57,10 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               className="-z-10 object-cover transition-transform duration-[1.8s] ease-out-soft group-hover:scale-[1.03]"
             />
             <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(53,58,48,0)_35%,rgba(53,58,48,0.82)_100%)]" />
-            <span className="absolute left-6 top-6 font-display text-lg italic text-paper/85 sm:left-10 sm:top-9">
-              {numeral(1, lang)}
-            </span>
+            <span
+              aria-hidden
+              className="absolute left-6 top-6 bg-paper/85 sm:left-10 sm:top-9 h-px w-8"
+            />
             <div className="space-y-5 p-6 sm:p-10">
               <h3 className="font-display text-[2.6rem] font-light leading-none sm:text-6xl lg:text-7xl [:lang(bn)_&]:leading-tight">
                 {s.design.title}
@@ -98,7 +98,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
                   <More label={more} />
                 </div>
               </div>
-              <span className="font-display text-lg italic text-paper/85">{numeral(2, lang)}</span>
+              <span aria-hidden className="block bg-paper/85 h-px w-8" />
             </div>
           </Link>
 
@@ -117,7 +117,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               />
             </div>
             <div className="flex flex-col justify-between gap-8 p-6 sm:p-8">
-              <span className="font-display text-lg italic text-glow">{numeral(3, lang)}</span>
+              <span aria-hidden className="block bg-glow h-px w-8" />
               <div className="space-y-3">
                 <h3 className="font-display text-3xl font-light leading-[1.05] sm:text-4xl [:lang(bn)_&]:leading-tight">
                   {s.bulk.title}

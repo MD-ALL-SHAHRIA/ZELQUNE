@@ -297,13 +297,7 @@ export function CheckoutForm({
           {items.map((item) => (
             <li key={item.variantId} className="flex items-center gap-4">
               <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-t-full bg-sand">
-                <Image
-                  src={SAMPLE.zenith.src}
-                  alt=""
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                />
+                <Image src={SAMPLE.zenith.src} alt="" fill sizes="64px" className="object-cover" />
               </div>
               <div className="flex-1 text-sm">
                 <p className="font-display text-lg font-light leading-tight">

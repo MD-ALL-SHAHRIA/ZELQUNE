@@ -2,7 +2,7 @@ import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { fill, formatNumber } from '@/i18n/format';
+import { fill } from '@/i18n/format';
 import { type District } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
 import { whatsappHref } from '@/shared/lib/whatsapp';
@@ -12,18 +12,12 @@ import { Picture } from '@/shared/ui/image';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { BuildForm } from './build-form';
 
-/** "01" / "০১": stage and card numerals in the page's own digits. */
-function numeral(i: number, lang: Locale) {
-  return formatNumber(i + 1, lang).padStart(2, lang === 'bn' ? '০' : '0');
-}
-
 /** Fine drafting-paper grid: the site plan behind the construction story. */
 const BLUEPRINT =
   'bg-[linear-gradient(to_right,color-mix(in_oklab,var(--color-walnut)_9%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_oklab,var(--color-walnut)_9%,transparent)_1px,transparent_1px)] bg-[size:56px_56px]';
 
 /** Full-bleed architecture hero with the six stages running along its foot like a section line. */
 export function ConstructionHero({
-  lang,
   dict,
   image,
 }: {
@@ -55,12 +49,10 @@ export function ConstructionHero({
           </ButtonLink>
         </div>
         <ol className="mt-16 hidden grid-cols-6 border-t border-paper/25 md:grid">
-          {d.stages.map((s, i) => (
+          {d.stages.map((s) => (
             <li key={s.title} className="relative pt-5 pr-4">
               <span aria-hidden className="absolute -top-[3px] left-0 size-[5px] bg-amber" />
-              <span className="block font-display text-sm italic text-glow">
-                {numeral(i, lang)}
-              </span>
+              <span aria-hidden className="block bg-glow h-px w-8" />
               <span className="mt-1 block text-sm text-paper/85">{s.title}</span>
             </li>
           ))}
@@ -78,7 +70,6 @@ type TypeImage = (typeof TYPE_IMAGES)[number];
 
 /** What we build: four building types as a staggered editorial row. */
 export function BuildTypes({
-  lang,
   dict,
   images,
 }: {
@@ -114,7 +105,7 @@ export function BuildTypes({
                 arch={i === 1}
               />
               <div className="mt-6 flex items-baseline gap-4 border-t border-line pt-5">
-                <span className="font-display text-lg italic text-walnut">{numeral(i, lang)}</span>
+                <span aria-hidden className="block bg-walnut h-px w-8" />
                 <div className="space-y-2">
                   <h3 className="font-display text-[1.7rem] font-light leading-tight">{t.title}</h3>
                   <p className="text-sm text-ink/75">{t.text}</p>
@@ -133,7 +124,6 @@ export function BuildTypes({
  * with its photo alternating sides on desktop; the last stage opens into the arch (the home).
  */
 export function BuildStages({
-  lang,
   dict,
   images,
 }: {
@@ -185,9 +175,7 @@ export function BuildStages({
                     flip ? 'lg:order-2 lg:pl-4' : 'lg:pr-4 lg:text-right',
                   )}
                 >
-                  <span className="block font-display text-6xl font-light italic leading-none text-amber sm:text-7xl">
-                    {numeral(i, lang)}
-                  </span>
+                  <span aria-hidden className="block bg-amber h-px w-8" />
                   <h3 className="font-display text-3xl font-light leading-tight sm:text-4xl">
                     {s.title}
                   </h3>
@@ -221,15 +209,7 @@ export function BuildStages({
 }
 
 /** Why one team: dark band with the structure's steel beside four promises. */
-export function WhyOneTeam({
-  lang,
-  dict,
-  image,
-}: {
-  lang: Locale;
-  dict: Dictionary;
-  image: string;
-}) {
+export function WhyOneTeam({ dict, image }: { lang: Locale; dict: Dictionary; image: string }) {
   const d = dict.construction;
   return (
     <section className="bg-ink text-paper">
@@ -253,12 +233,12 @@ export function WhyOneTeam({
             <Heading>{d.whyHeading}</Heading>
           </div>
           <ul className="mt-12 border-t border-paper/15">
-            {d.why.map((item, i) => (
+            {d.why.map((item) => (
               <li
                 key={item}
                 className="reveal flex items-baseline gap-6 border-b border-paper/15 py-7"
               >
-                <span className="font-display text-xl italic text-glow">{numeral(i, lang)}</span>
+                <span aria-hidden className="block bg-glow h-px w-8" />
                 <span className="font-display text-2xl font-light leading-snug sm:text-[1.9rem]">
                   {item}
                 </span>
@@ -319,14 +299,12 @@ export function StartSection({
             <Lead>{dict.build.text}</Lead>
           </div>
           <ol className="hidden grid-cols-2 border-t border-line lg:grid">
-            {dict.construction.stages.map((s, i) => (
+            {dict.construction.stages.map((s) => (
               <li
                 key={s.title}
                 className="flex items-baseline gap-4 border-b border-line py-4 text-sm odd:pr-4"
               >
-                <span className="font-display text-base italic text-walnut">
-                  {numeral(i, lang)}
-                </span>
+                <span aria-hidden className="block bg-walnut h-px w-8" />
                 <span>{s.title}</span>
               </li>
             ))}
