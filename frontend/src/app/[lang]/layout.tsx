@@ -7,12 +7,12 @@ import { BanglaDisplayFont } from '@/features/layout/bangla-display-font';
 import { StoreProvider } from '@/store/provider';
 import '../globals.css';
 
-// Bodoni Moda (variable, optical sizes) for headings: the high-contrast serif of luxury
+// Bodoni Moda (two static weights, small files) for headings: the high-contrast serif of luxury
 // editorial; Jost for text (Latin). The Bangla pair is self-hosted (globals.css) and preloaded
 // only on /bn pages.
 const bodoni = Bodoni_Moda({
   subsets: ['latin'],
-  axes: ['opsz'],
+  weight: ['400', '500'],
   variable: '--font-bodoni',
   display: 'swap',
 });
@@ -20,7 +20,7 @@ const bodoni = Bodoni_Moda({
 const bodoniItalic = Bodoni_Moda({
   subsets: ['latin'],
   style: 'italic',
-  axes: ['opsz'],
+  weight: '400',
   variable: '--font-bodoni-italic',
   display: 'swap',
   preload: false,
