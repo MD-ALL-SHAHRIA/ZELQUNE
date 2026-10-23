@@ -82,13 +82,10 @@ export function Footer({
           <div className="lg:col-span-8">
             <LogoMark className="h-10 text-ivory sm:h-12" />
             <p className="mt-10 max-w-[19ch] font-display text-[clamp(2.25rem,1.4rem+3.3vw,4.6rem)] font-light leading-[1.03] tracking-[-0.015em] text-balance [:lang(bn)_&]:max-w-[22ch] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.3] [:lang(bn)_&]:tracking-normal">
-              {dict.premium.statement}
-            </p>
-          </div>
-          <div className="space-y-5 text-sm text-ivory/70 lg:col-span-4 lg:justify-self-end lg:pb-3">
-            <p className="font-display text-xl font-light italic leading-snug text-ivory/90 [:lang(bn)_&]:text-lg">
               {dict.brand.tagline}
             </p>
+          </div>
+          <div className="space-y-5 text-sm text-ivory/85 lg:col-span-4 lg:justify-self-end lg:pb-3">
             <p>
               <CopyText>{dict.footer.contact}</CopyText>
             </p>
@@ -112,7 +109,7 @@ export function Footer({
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="link-reveal text-ivory/75 transition-colors duration-300 hover:text-ivory"
+                      className="link-reveal text-ivory/85 transition-colors duration-300 hover:text-ivory"
                     >
                       {l.label}
                     </Link>
@@ -135,26 +132,26 @@ export function Footer({
         </div>
       </Container>
 
-      {/* Decorative oversized wordmark (SVG text: scales with the container, never wraps),
-          cropped by the bottom edge like a stamp on the page. */}
-      <Container className="mt-20 sm:mt-24">
-        <svg aria-hidden viewBox="0 0 1000 124" className="block w-full select-none">
+      {/* Oversized brass wordmark (SVG text: scales with the container, never wraps), shown in
+          full above the copyright line. */}
+      <Container className="mt-20 pb-8 sm:mt-24 sm:pb-10">
+        <svg aria-hidden viewBox="0 0 1000 132" className="block w-full select-none">
           <text
             x="500"
-            y="132"
+            y="118"
             textAnchor="middle"
             textLength="990"
             lengthAdjust="spacingAndGlyphs"
-            className="fill-ivory/[0.075] font-display text-[160px] font-light uppercase"
+            className="fill-walnut/30 font-display text-[160px] uppercase"
           >
             Zelqune
           </text>
         </svg>
       </Container>
       <div className="border-t border-ivory/10">
-        <Container className="flex items-center justify-center gap-3 py-6 text-[0.72rem] text-ivory/50 sm:justify-between">
+        <Container className="flex items-center justify-center gap-3 py-6 text-[0.8rem] text-ivory/75 sm:justify-between">
           <p>{dict.footer.copyright}</p>
-          <LogoMark className="hidden h-4 text-ivory/35 sm:block" />
+          <LogoMark className="hidden h-4 text-walnut sm:block" />
         </Container>
       </div>
     </footer>
@@ -163,7 +160,7 @@ export function Footer({
 
 function FooterTitle({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-ivory/70 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-walnut [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
       {children}
     </p>
   );
