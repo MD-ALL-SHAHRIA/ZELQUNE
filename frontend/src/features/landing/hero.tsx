@@ -48,7 +48,7 @@ export function Hero({
   return (
     <section className="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--color-paper)_0%,var(--color-sand)_100%)]">
       <style>{HERO_CSS}</style>
-      <Container className="grid items-center gap-10 pb-16 pt-8 sm:pb-20 lg:min-h-[calc(100svh-11.5rem)] lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-14">
+      <Container className="grid items-center gap-8 pb-16 pt-6 sm:pb-20 lg:min-h-[calc(100svh-11.5rem)] lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-14">
         <div className="order-2 max-w-xl space-y-7 lg:order-1">
           <Eyebrow className="hero-rise text-walnut" style={rise(0)}>
             {dict.landing.heroEyebrow}
@@ -94,7 +94,7 @@ export function Hero({
           </div>
         </div>
 
-        <div className="relative order-1 mx-auto w-full max-w-[26rem] xl:max-w-[29rem] lg:order-2">
+        <div className="relative order-1 mx-auto w-full max-w-[17rem] sm:max-w-[22rem] lg:max-w-[26rem] xl:max-w-[29rem] lg:order-2">
           {/* The lamp light the piece casts on the wall. */}
           <div
             aria-hidden
@@ -106,11 +106,11 @@ export function Hero({
               alt=""
               fill
               preload
-              sizes="(min-width: 1024px) 29rem, 92vw"
+              sizes="(min-width: 1024px) 29rem, (min-width: 640px) 22rem, 17rem"
               className="hero-frame-img -z-20 object-cover"
             />
             <HeroSlides
-              sizes="(min-width: 1024px) 29rem, 92vw"
+              sizes="(min-width: 1024px) 29rem, (min-width: 640px) 22rem, 17rem"
               slides={[{ src: SAMPLE.halfMoonPlanter.src }, { src: SAMPLE.curveShelf.src }]}
             />
           </div>

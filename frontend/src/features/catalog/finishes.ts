@@ -1,5 +1,5 @@
 /** Finish colours for swatches (walnut and natural veneer); unknown finishes get the sand tone. */
-export const FINISH_SWATCH: Record<string, string> = { WALNUT: '#56664D', NATURAL: '#C9A67A' };
+export const FINISH_SWATCH: Record<string, string> = { WALNUT: '#5A3E2B', NATURAL: '#C9A67A' };
 
 export const finishColor = (finish: string) => FINISH_SWATCH[finish] ?? '#E6E8D8';
 

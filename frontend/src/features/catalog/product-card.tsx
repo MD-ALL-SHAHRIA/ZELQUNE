@@ -51,7 +51,7 @@ export function ProductCard({
       href={href(lang, `/products/${product.slug}`)}
       className="group block focus-visible:outline-offset-4"
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-[#EFE8DC]">
+      <div className="relative aspect-[4/5] overflow-hidden bg-sand shadow-[0_0_0_0_transparent] transition-[transform,box-shadow] duration-700 ease-out-soft group-hover:-translate-y-1.5 group-hover:shadow-[0_36px_60px_-34px_rgba(227,168,87,0.6)] motion-reduce:transform-none">
         {first ? (
           <Image
             src={first.src}
@@ -61,7 +61,7 @@ export function ProductCard({
             sizes={sizes}
             className={cn(
               fit,
-              'transition duration-[1.2s] ease-out-soft group-hover:scale-[1.025]',
+              'transition duration-[1.2s] ease-out-soft group-hover:scale-[1.045]',
               second && 'group-hover:opacity-0',
             )}
           />
