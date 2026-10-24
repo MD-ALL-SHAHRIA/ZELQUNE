@@ -26,12 +26,23 @@ const bodoniItalic = Bodoni_Moda({
   display: 'swap',
   preload: false,
 });
-// The wordmark keeps the owner's logo lettering (Cormorant Garamond capitals), one weight only.
+// The wordmark keeps the owner's logo lettering (Cormorant Garamond capitals); the home hero is
+// set in the same face.
 const wordmark = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: '500',
+  weight: ['400', '500', '600'],
   variable: '--font-cormorant-wordmark',
   display: 'swap',
+});
+// The hero is set entirely in the logo's face; its italic for the gold words (below the fold of
+// the critical path: not preloaded).
+const wordmarkItalic = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: '500',
+  style: 'italic',
+  variable: '--font-cormorant-italic',
+  display: 'swap',
+  preload: false,
 });
 const jost = Jost({
   subsets: ['latin'],
@@ -74,7 +85,7 @@ export default async function RootLayout({
     <html
       lang={lang}
       suppressHydrationWarning
-      className={`${bodoni.variable} ${bodoniItalic.variable} ${wordmark.variable} ${jost.variable}`}
+      className={`${bodoni.variable} ${bodoniItalic.variable} ${wordmark.variable} ${wordmarkItalic.variable} ${jost.variable}`}
     >
       <head>
         {/* The visitor's saved theme, applied before the first paint (no flash). */}

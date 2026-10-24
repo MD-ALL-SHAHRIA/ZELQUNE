@@ -8,12 +8,16 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ### Changed
 - Home hero follows the owner's reference: full-bleed, warm room scenes with one of our pieces
-  lit on the wall (the owner's renders widened to 2400×1350 by continuing each photo's own wall;
-  `public/images/hero`, phone cuts `-1200`), cross-fading with a slow drift every 6 s. The words
-  sit over a warm shade ("Make your walls feel *alive.*", "Explore the collection"); bars and a
-  pause button bottom left, a "Now on the wall" caption with price and link plus square arrows
-  bottom right; swipe on phones, where the scene sits above the words. Pauses on hover and focus,
-  never moves by itself with reduced motion; only the first scene loads up front.
+  lit on the wall (the owner's renders widened to 2400×1350 by continuing each photo's own wall
+  around it, the piece at about three quarters of the height so it is always seen whole;
+  `public/images/hero`, phone cuts `-1200`), cross-fading with a slow drift every 6 s. Set
+  entirely in the logo's Cormorant Garamond: "Handcrafted wood and gentle light, made to turn
+  every wall of your home into a *quiet story.*", "Explore the collection"; bars and a pause
+  button bottom left, a "Now on the wall" caption with price and link plus square arrows bottom
+  right; swipe on phones, where the scene sits above the words. Pauses on hover and focus, never
+  moves by itself with reduced motion; only the first scene loads up front.
+- Header: the Interior Design and Construction links show from 1360px wide (they stay in the
+  menu), so they never collide with the wordmark.
 - Day and night themes: day is the default for everyone (soft cream #F7F1E8 with espresso
   #3B2922 and antique brass; dark bands are espresso coffee, nothing black). Night (Dark Walnut)
   only when the visitor picks it with the sun/moon toggle (header; in the menu on phones); the

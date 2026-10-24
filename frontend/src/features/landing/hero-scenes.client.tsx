@@ -92,7 +92,7 @@ export function HeroScenes({
   return (
     <div
       ref={root}
-      className="relative isolate flex flex-col justify-end overflow-hidden bg-espresso pt-[46svh] text-ivory lg:h-[calc(100svh-11.5rem)] lg:min-h-[34rem] lg:max-h-[47.5rem] lg:justify-center lg:pt-0"
+      className="relative isolate flex flex-col justify-end overflow-hidden bg-espresso pt-[46svh] text-ivory lg:h-[calc(100svh-11.5rem)] lg:min-h-[40rem] lg:max-h-[47.5rem] lg:justify-center lg:pt-0"
       onPointerEnter={(e) => e.pointerType === 'mouse' && setHeld(true)}
       onPointerLeave={() => setHeld(false)}
       onFocus={() => setHeld(true)}
@@ -185,22 +185,22 @@ export function HeroScenes({
 
         <div className="flex items-end justify-between gap-6 lg:justify-end">
           <div aria-live="polite" className="min-w-0 lg:text-right">
-            <p className="text-[0.62rem] font-medium uppercase tracking-eyebrow text-ivory/75 [:lang(bn)_&]:text-[0.78rem] [:lang(bn)_&]:tracking-normal">
+            <p className="text-[0.72rem] font-semibold uppercase tracking-eyebrow text-ivory/80 [:lang(bn)_&]:text-[0.78rem] [:lang(bn)_&]:tracking-normal">
               {labels.now}
             </p>
             <p
               key={scene.src}
-              className="scene-caption mt-1.5 truncate font-display text-xl leading-tight sm:text-2xl"
+              className="scene-caption mt-1.5 truncate font-display text-[1.5rem] font-medium leading-tight sm:text-[1.75rem]"
             >
               {scene.name}
             </p>
-            <p className="mt-1 flex items-center gap-3 text-[0.8rem] text-ivory/85 lg:justify-end">
+            <p className="mt-1 flex items-center gap-3 text-[0.95rem] font-medium text-ivory/90 lg:justify-end">
               {scene.price ? <span className="tabular-nums">{scene.price}</span> : null}
               <Link
                 href={scene.href}
                 className="group inline-flex items-center gap-1.5 font-medium uppercase tracking-[0.16em] text-ivory [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal"
               >
-                <span className="link-underline text-[0.68rem] [:lang(bn)_&]:text-[0.85rem]">
+                <span className="link-underline text-[0.78rem] font-semibold [:lang(bn)_&]:text-[0.85rem]">
                   {labels.view}
                 </span>
                 <ArrowRight

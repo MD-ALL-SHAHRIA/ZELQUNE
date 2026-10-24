@@ -13,6 +13,9 @@ import { HeroScenes, type Scene } from './hero-scenes.client';
 /* Scenes cross-fade with a slow drift; the words rise in one after another. Motion only when it
    is welcome. */
 const HERO_CSS = `
+/* One face for the whole hero (Latin): the logo's Cormorant Garamond. Bangla keeps its fonts. */
+html[lang='en'] .hero-root, html[lang='en'] .hero-root * { font-family: var(--font-cormorant-wordmark), Georgia, serif; }
+html[lang='en'] .hero-root em { font-family: var(--font-cormorant-italic), var(--font-cormorant-wordmark), Georgia, serif; }
 .scene { transition: opacity 1.2s cubic-bezier(.4,0,.2,1); }
 .scene-off { opacity: 0; }
 .scene-on { opacity: 1; }
@@ -68,19 +71,22 @@ export function Hero({
       <style>{HERO_CSS}</style>
       <HeroScenes scenes={scenes} labels={l.heroWall}>
         <Container className="pb-4 lg:pb-24">
-          <div className="max-w-[36rem] space-y-6">
-            <Eyebrow className="hero-rise text-ivory/85" style={rise(0)}>
+          <div className="max-w-[40rem] space-y-6">
+            <Eyebrow
+              className="hero-rise text-[0.8rem] font-semibold tracking-[0.3em] text-ivory/90"
+              style={rise(0)}
+            >
               {l.heroEyebrow}
             </Eyebrow>
             <h1
-              className="hero-rise font-display text-[clamp(2.6rem,1.6rem+3.6vw,5rem)] leading-[1.02] tracking-[-0.02em] text-balance [:lang(bn)_&]:text-[clamp(2.2rem,1.5rem+2.6vw,3.8rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal"
+              className="hero-rise max-w-[22ch] font-display text-[clamp(2.3rem,1.3rem+2.7vw,4rem)] font-medium leading-[1.06] tracking-[-0.01em] text-balance [:lang(bn)_&]:text-[clamp(1.9rem,1.3rem+1.9vw,3rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal"
               style={rise(1)}
             >
               {dict.home.heroHeading}{' '}
               <em className="text-glow [:lang(bn)_&]:not-italic">{dict.home.heroHeadingAccent}</em>
             </h1>
             <p
-              className="hero-rise max-w-md text-base leading-relaxed text-ivory/90 sm:text-lg"
+              className="hero-rise max-w-md text-[1.15rem] font-medium leading-relaxed text-ivory/90 sm:text-[1.25rem]"
               style={rise(2)}
             >
               {dict.home.heroSubline}
@@ -93,7 +99,7 @@ export function Hero({
                 href={href(lang, '/shop')}
                 variant="light"
                 size="lg"
-                className="group gap-3"
+                className="group gap-3 text-[0.85rem] font-semibold tracking-[0.22em]"
               >
                 {dict.home.explore}
                 <ArrowRight
@@ -102,7 +108,11 @@ export function Hero({
                 />
               </ButtonLink>
               {lead ? (
-                <ButtonLink href={href(lang, `/products/${lead.slug}`)} variant="linkLight">
+                <ButtonLink
+                  href={href(lang, `/products/${lead.slug}`)}
+                  variant="linkLight"
+                  className="text-[0.85rem] font-semibold tracking-[0.22em]"
+                >
                   {dict.home.cta}
                 </ButtonLink>
               ) : null}

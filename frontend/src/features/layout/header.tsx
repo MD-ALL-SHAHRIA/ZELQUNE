@@ -77,7 +77,7 @@ export function Header({
           </Link>
 
           <div className="flex items-center justify-end gap-0.5 lg:gap-5 xl:gap-8">
-            <ul className="hidden items-center gap-6 lg:flex xl:gap-9">
+            <ul className="hidden items-center gap-6 min-[1360px]:flex min-[1360px]:gap-9">
               {services.map((l) => (
                 <li key={l.href}>
                   <ActiveLink {...l} />
