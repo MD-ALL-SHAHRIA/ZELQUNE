@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { APP_CONFIG, AppError } from '@zelqune/common';
 import {
+  type AppliedCoupon,
   type CartView,
   type CheckoutQuote,
   type CreateCartResponse,
@@ -15,6 +16,7 @@ import {
 import { createHash, randomBytes } from 'node:crypto';
 import { type OrderEnv } from '../config/order-env';
 import { CHECKOUT_PARTICIPANTS, type CheckoutParticipants } from '../checkout/participants';
+import { applyCoupon } from '../domain/coupon';
 import { allowedPaymentMethods, computeTotals, type Totals } from '../domain/pricing';
 import { type Cart, type CartItem } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -28,6 +30,7 @@ export interface PreparedCheckout {
   saleMode: SaleMode;
   shipping: ShippingQuote;
   totals: Totals;
+  coupon: AppliedCoupon | null;
   instructions: PaymentInstructions;
   allowedMethods: PaymentMethod[];
 }
@@ -101,11 +104,13 @@ export class CartService {
   }
 
   async quote(token: string, raw: QuoteRequest): Promise<CheckoutQuote> {
-    const address = quoteRequestSchema.parse(raw);
-    const prepared = await this.prepare(await this.loadActive(token), address);
+    const request = quoteRequestSchema.parse(raw);
+    const prepared = await this.prepare(await this.loadActive(token), request, request.couponCode);
     return {
       saleMode: prepared.saleMode,
       subtotalPaisa: prepared.totals.subtotalPaisa,
+      discountPaisa: prepared.totals.discountPaisa,
+      coupon: prepared.coupon,
       shippingFeePaisa: prepared.totals.shippingFeePaisa,
       totalPaisa: prepared.totals.totalPaisa,
       advanceRequiredPaisa: prepared.totals.advanceRequiredPaisa,
@@ -120,6 +125,7 @@ export class CartService {
   async prepare(
     cart: CartWithItems,
     address: { district: string; area: string },
+    couponCode?: string,
   ): Promise<PreparedCheckout> {
     const priced = await this.price(cart);
     if (cart.items.length === 0) throw new AppError('CART_EMPTY', 'The cart is empty', 422);
@@ -149,8 +155,14 @@ export class CartService {
       }),
       this.participants.paymentInstructions(),
     ]);
+    const subtotalPaisa = priced.lines.reduce((sum, l) => sum + l.unitPricePaisa * l.qty, 0);
+    const coupon = couponCode
+      ? await this.prisma.coupon.findUnique({ where: { code: couponCode } })
+      : null;
+    const discountPaisa = couponCode ? applyCoupon(coupon, subtotalPaisa) : 0;
     const totals = computeTotals({
       lines: priced.lines,
+      discountPaisa,
       shippingFeePaisa: shipping.feePaisa,
       saleMode: priced.saleMode,
       advance:
@@ -164,6 +176,10 @@ export class CartService {
       saleMode: priced.saleMode,
       shipping,
       totals,
+      coupon:
+        coupon && couponCode
+          ? { code: coupon.code, description: coupon.description, discountPaisa }
+          : null,
       instructions,
       allowedMethods: allowedPaymentMethods(priced.saleMode, instructions),
     };

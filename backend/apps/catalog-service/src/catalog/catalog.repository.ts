@@ -1,6 +1,7 @@
 import { RETAIL_PRICE_LIST } from '@zelqune/contracts';
 import { Injectable } from '@nestjs/common';
 import { type Prisma } from '../generated/prisma/client';
+import { type LiveSale } from '../pricing/price-resolution';
 import { PrismaService } from '../prisma/prisma.service';
 
 /** What public views load: ACTIVE products, active variants with current prices, READY media. */
@@ -33,6 +34,25 @@ export type PublicProductRow = Prisma.ProductGetPayload<{
 @Injectable()
 export class CatalogRepository {
   constructor(private readonly prisma: PrismaService) {}
+
+  /** Promotions running at `now`, soonest-ending first. */
+  async liveSales(now: Date): Promise<LiveSale[]> {
+    const rows = await this.prisma.promotion.findMany({
+      where: { active: true, startsAt: { lte: now }, endsAt: { gt: now } },
+      include: { products: { select: { productId: true } } },
+      orderBy: { endsAt: 'asc' },
+    });
+    return rows.map((r) => ({
+      id: r.id,
+      nameEn: r.nameEn,
+      nameBn: r.nameBn,
+      kind: r.kind,
+      value: r.value,
+      endsAt: r.endsAt,
+      flash: r.flash,
+      productIds: r.products.length ? new Set(r.products.map((p) => p.productId)) : null,
+    }));
+  }
 
   listActiveCategories() {
     return this.prisma.category.findMany({

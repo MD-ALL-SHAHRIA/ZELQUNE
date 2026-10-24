@@ -1,5 +1,6 @@
 import { createZodDto } from '@zelqune/common';
 import {
+  activeSaleSchema,
   categoryListResponseSchema,
   productDetailQuerySchema,
   productDetailSchema,
@@ -22,3 +23,5 @@ export class ProductSlugParamDto extends createZodDto(
 export class ProductListResponseDto extends createZodDto(productListResponseSchema) {}
 export class ProductDetailDto extends createZodDto(productDetailSchema) {}
 export class CategoryListResponseDto extends createZodDto(categoryListResponseSchema) {}
+
+export class ActiveSaleDto extends createZodDto(activeSaleSchema) {}

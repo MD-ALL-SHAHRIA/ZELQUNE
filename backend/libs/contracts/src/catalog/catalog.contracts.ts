@@ -29,6 +29,19 @@ export const resolvedPriceSchema = z.object({
   currency: z.literal('BDT'),
   /** Set when the price came from a price experiment (?p=a|b). */
   experimentKey: experimentKeySchema.nullable(),
+  /** Set while a sale (promotion) lowers this price; amountPaisa is then the sale price. */
+  sale: z
+    .object({
+      promotionId: z.uuid(),
+      nameEn: z.string(),
+      nameBn: z.string(),
+      endsAt: z.string(),
+      flash: z.boolean(),
+      /** The price before the sale. */
+      regularPaisa: paisaSchema,
+    })
+    .nullable()
+    .optional(),
 });
 export type ResolvedPrice = z.infer<typeof resolvedPriceSchema>;
 
@@ -180,6 +193,8 @@ export const upsertVariantInputSchema = z.object({
   packageWidthMm: z.number().int().positive().nullable().default(null),
   packageHeightMm: z.number().int().positive().nullable().default(null),
   packageWeightGrams: z.number().int().positive().nullable().default(null),
+  /** Unit cost (materials + labour) for profit and loss; left unchanged when omitted. */
+  costPaisa: paisaSchema.nullable().optional(),
 });
 export type UpsertVariantInput = z.input<typeof upsertVariantInputSchema>;
 
@@ -281,6 +296,7 @@ export const adminVariantSchema = z.object({
   packageWidthMm: z.number().int().nullable(),
   packageHeightMm: z.number().int().nullable(),
   packageWeightGrams: z.number().int().nullable(),
+  costPaisa: paisaSchema.nullable(),
   /** Current RETAIL base price. */
   basePrice: z
     .object({ amountPaisa: paisaSchema, compareAtPaisa: paisaSchema.nullable() })

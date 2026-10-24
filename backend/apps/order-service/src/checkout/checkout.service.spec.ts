@@ -159,6 +159,7 @@ function prepared(saleMode: SaleMode): PreparedCheckout {
       feePaisa: 17000,
     },
     totals,
+    coupon: null,
     instructions: { bkash: { number: '01711111111', accountType: 'personal' }, nagad: null },
     allowedMethods: saleMode === 'IN_STOCK' ? ['COD', 'BKASH_MANUAL'] : ['BKASH_MANUAL'],
   };

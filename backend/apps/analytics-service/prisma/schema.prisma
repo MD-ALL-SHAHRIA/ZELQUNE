@@ -134,3 +134,32 @@ model AuditLog {
   @@index([actorId])
   @@map("audit_logs")
 }
+
+enum ExpenseCategory {
+  MATERIALS
+  PACKAGING
+  DELIVERY
+  MARKETING
+  SALARIES
+  RENT
+  UTILITIES
+  TOOLS
+  FEES
+  OTHER
+}
+
+/// Business costs entered by the owner (profit and loss). `date` is the BD calendar day.
+model Expense {
+  id          String          @id @default(uuid()) @db.Uuid
+  date        DateTime        @db.Date
+  category    ExpenseCategory
+  amountPaisa Int             @map("amount_paisa")
+  description String
+  vendor      String?
+  createdBy   String          @map("created_by")
+  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime        @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([date])
+  @@map("expenses")
+}

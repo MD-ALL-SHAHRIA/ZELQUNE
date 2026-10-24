@@ -16,6 +16,7 @@ export const RPC_PATTERNS = {
     pricesResolve: 'catalog.prices.resolve',
     checkoutSnapshot: 'catalog.variants.checkoutSnapshot',
     contentHome: 'catalog.content.home',
+    activeSale: 'catalog.promotions.active',
     admin: {
       listCategories: 'catalog.admin.categories.list',
       updateCategory: 'catalog.admin.categories.update',
@@ -36,6 +37,11 @@ export const RPC_PATTERNS = {
       updateHomeContent: 'catalog.admin.content.home.update',
       requestContentAsset: 'catalog.admin.content.assets.requestUpload',
       confirmContentAsset: 'catalog.admin.content.assets.confirmUpload',
+      listPromotions: 'catalog.admin.promotions.list',
+      createPromotion: 'catalog.admin.promotions.create',
+      updatePromotion: 'catalog.admin.promotions.update',
+      removePromotion: 'catalog.admin.promotions.remove',
+      variantCosts: 'catalog.admin.variants.costs',
     },
   },
   inventory: {
@@ -79,6 +85,13 @@ export const RPC_PATTERNS = {
       addNote: 'order.admin.orders.addNote',
       setFriend: 'order.admin.customers.setFriend',
       orderIdByCode: 'order.admin.orders.idByCode',
+      salesReport: 'order.admin.reports.sales',
+      unitsSold: 'order.admin.reports.unitsSold',
+      listCustomers: 'order.admin.customers.list',
+      listCoupons: 'order.admin.coupons.list',
+      createCoupon: 'order.admin.coupons.create',
+      updateCoupon: 'order.admin.coupons.update',
+      removeCoupon: 'order.admin.coupons.remove',
     },
     quotes: {
       request: 'order.quotes.request',
@@ -97,6 +110,10 @@ export const RPC_PATTERNS = {
     track: 'analytics.events.track',
     dashboard: 'analytics.stats.dashboard',
     auditLog: 'analytics.audit.list',
+    listExpenses: 'analytics.admin.expenses.list',
+    createExpense: 'analytics.admin.expenses.create',
+    updateExpense: 'analytics.admin.expenses.update',
+    removeExpense: 'analytics.admin.expenses.remove',
   },
 } as const;
 
