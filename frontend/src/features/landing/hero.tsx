@@ -1,63 +1,130 @@
 import { ArrowRight } from 'lucide-react';
-import Image from 'next/image';
-import { SAMPLE } from '@/content/sample-images';
+import { productImages } from '@/features/catalog/product-images';
+import { productName } from '@/features/catalog/product-copy';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { formatTaka } from '@/i18n/format';
+import { fill, formatTaka } from '@/i18n/format';
+import { type ProductSummary } from '@/shared/api/types';
 import { href } from '@/shared/lib/site';
 import { ButtonLink } from '@/shared/ui/button';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
-import { HeroSlides } from './hero-slides';
+import { HeroWall, type WallPiece } from './hero-wall.client';
 
-/* Words rise in one after another; the lamp glow behind the piece breathes; the photo settles
-   from a slight zoom as the hero scrolls away (scroll-driven where supported, no JS). Three
-   pieces cross-fade inside the frame over one 27 s cycle. Motion only when it is welcome. */
-const HERO_CSS = `
-@media (prefers-reduced-motion: no-preference) {
-  .hero-rise { opacity: 0; animation: hero-rise 1.1s cubic-bezier(.22,1,.36,1) forwards; }
-  .hero-glow { animation: hero-glow 7s ease-in-out infinite alternate; }
-  .hero-slide { animation-duration: 27s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
-  @supports (animation-timeline: view()) {
-    .hero-frame-img { animation: hero-settle linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+/* The wall: limewash plaster (an inline SVG noise, no download), raking light from the top left,
+   a ceiling shade and a skirting line. Its tone glides to each piece's own wall. Pieces are hung
+   (rise, settle, glow); the words rise in one after another. Motion only when it is welcome. */
+const WALL_CSS = `
+.hero-wall-root { --wall-base: color-mix(in oklab, var(--color-paper) 55%, var(--color-sand)); }
+:root[data-theme='dark'] .hero-wall-root { --wall-base: #2a211c; }
+.wall-plaster {
+  background-color: var(--wall-base);
+  background-image:
+    radial-gradient(120% 90% at 8% 0%, color-mix(in oklab, white 22%, transparent), transparent 60%),
+    linear-gradient(180deg, color-mix(in oklab, black 10%, transparent), transparent 14%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wall-tint {
+  background-color: var(--piece-wall);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%);
+  mask-image: linear-gradient(90deg, transparent, #000 45%);
+  transition: background-color 1.1s cubic-bezier(.22,1,.36,1);
+}
+:root[data-theme='dark'] .wall-tint { opacity: .32; }
+@media (max-width: 1023px) {
+  .wall-tint {
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
+    mask-image: linear-gradient(180deg, #000 55%, transparent);
   }
 }
+.wall-feather {
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 70%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 70%, transparent 100%);
+}
+:root[data-theme='dark'] .wall-feather { filter: brightness(.86); }
+.wall-piece-off { opacity: 0; pointer-events: none; }
+.wall-piece-on { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rise { opacity: 0; animation: hero-rise 1.1s cubic-bezier(.22,1,.36,1) forwards; }
+  .wall-piece { transition: opacity 1s cubic-bezier(.22,1,.36,1), transform 1.4s cubic-bezier(.22,1,.36,1); }
+  .wall-piece-off { transform: translateY(10px) scale(.985); }
+  .wall-piece-on { transform: none; }
+  .wall-piece-on .wall-feather { animation: wall-hang 1.6s cubic-bezier(.22,1,.36,1); }
+  .wall-glow { animation: wall-glow-in 1.6s ease-out, wall-breathe 6s 1.6s ease-in-out infinite alternate; }
+  .wall-caption { animation: hero-rise .9s cubic-bezier(.22,1,.36,1); }
+  .wall-progress { animation-name: wall-progress; animation-timing-function: linear; animation-fill-mode: both; }
+}
 @keyframes hero-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@keyframes hero-glow { from { opacity: .55; transform: scale(.94); } to { opacity: .95; transform: scale(1.04); } }
-@keyframes hero-settle { from { transform: scale(1); } to { transform: scale(1.08); } }
-@keyframes hero-fade-2 { 0%, 27% { opacity: 0; } 33%, 69% { opacity: 1; } 70%, 100% { opacity: 0; } }
-@keyframes hero-fade-3 { 0%, 60% { opacity: 0; } 66%, 94% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes wall-hang { from { transform: translateY(-14px) scale(1.03); } to { transform: none; } }
+@keyframes wall-glow-in { from { opacity: .2; transform: scale(.85); } to { opacity: 1; transform: none; } }
+@keyframes wall-breathe { from { opacity: .75; transform: scale(.97); } to { opacity: 1; transform: scale(1.03); } }
+@keyframes wall-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 `;
 
 const rise = (step: number) => ({ animationDelay: `${120 + step * 110}ms` });
 
+const MAX_PIECES = 6;
+
 /**
- * Editorial split hero (the owner's mockup): calm words on the left, the lit piece on the right
- * in a tall frame with a warm lamp glow behind it. On phones the piece comes first.
+ * "The Wall": a full-bleed plaster wall where every piece is hung in turn, the words on the
+ * left. Real catalog photos replace the sample renders automatically (productImages).
  */
 export function Hero({
   lang,
   dict,
-  productSlug,
-  pricePaisa,
+  products,
+  featuredSlug,
 }: {
   lang: Locale;
   dict: Dictionary;
-  productSlug?: string;
-  pricePaisa?: number;
+  products: ProductSummary[];
+  featuredSlug?: string;
 }) {
+  const ordered = [
+    ...products.filter((p) => p.slug === featuredSlug),
+    ...products.filter((p) => p.slug !== featuredSlug),
+  ].slice(0, MAX_PIECES);
+  const pieces: WallPiece[] = ordered.flatMap((p) => {
+    const name = productName(p, lang, dict);
+    const [image] = productImages(p.primaryMedia ? [p.primaryMedia] : [], name, lang, p.slug);
+    if (!image) return [];
+    return [
+      {
+        src: image.src,
+        name,
+        wall: image.wall,
+        href: href(lang, `/products/${p.slug}`),
+        price: p.fromPrice
+          ? fill(dict.ui.from, { price: formatTaka(p.fromPrice.amountPaisa, lang) })
+          : undefined,
+      },
+    ];
+  });
+  const lead = ordered[0];
+  const l = dict.landing;
+
   return (
-    <section className="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--color-paper)_0%,var(--color-sand)_100%)]">
-      <style>{HERO_CSS}</style>
-      <Container className="grid items-center gap-8 pb-16 pt-6 sm:pb-20 lg:min-h-[calc(100svh-11.5rem)] lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-14">
-        <div className="order-2 max-w-xl space-y-7 lg:order-1">
+    <section className="hero-wall-root wall-plaster relative isolate overflow-hidden">
+      <style>{WALL_CSS}</style>
+      {/* Skirting: where the wall meets the floor. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 -z-10 h-10 border-t border-ink/10 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--color-ink)_7%,transparent),transparent)]"
+      />
+      <Container className="grid items-center gap-x-16 gap-y-8 pb-20 pt-8 sm:pb-24 lg:gap-y-6 lg:h-[calc(100svh-11.5rem)] lg:max-h-[52rem] lg:min-h-[36rem] lg:grid-cols-[1fr_1fr] lg:grid-rows-[1fr_auto] lg:pb-12 lg:pt-6">
+        <div className="order-2 max-w-xl space-y-6 lg:order-1 lg:col-start-1 lg:row-start-1 lg:self-end">
           <Eyebrow className="hero-rise text-walnut" style={rise(0)}>
-            {dict.landing.heroEyebrow}
+            {l.heroEyebrow}
           </Eyebrow>
-          <Heading as="h1" level="display" className="hero-rise text-ink" style={rise(1)}>
+          <Heading
+            as="h1"
+            level="h1"
+            className="hero-rise text-ink lg:text-[clamp(3.4rem,1.2rem+3.6vw,5.4rem)]"
+            style={rise(1)}
+          >
             {dict.home.heroHeading}
           </Heading>
           <p
-            className="hero-rise max-w-md text-base leading-relaxed text-stone sm:text-lg"
+            className="hero-rise max-w-md text-base leading-relaxed text-ink/85 sm:text-lg"
             style={rise(2)}
           >
             {dict.home.heroSubline}
@@ -67,58 +134,24 @@ export function Hero({
             style={rise(3)}
           >
             <ButtonLink
-              href={href(lang, productSlug ? `/products/${productSlug}` : '/shop')}
+              href={href(lang, lead ? `/products/${lead.slug}` : '/shop')}
               size="lg"
               className="group gap-3"
             >
               {dict.home.cta}
-              {pricePaisa ? (
-                <span className="border-l border-paper/25 pl-3 normal-case tracking-normal">
-                  {formatTaka(pricePaisa, lang)}
-                </span>
-              ) : null}
               <ArrowRight
                 aria-hidden
                 className="size-4 transition-transform duration-500 ease-out-soft group-hover:translate-x-1"
               />
             </ButtonLink>
             <ButtonLink href="#craft" variant="link">
-              {dict.landing.heroSecondary}
+              {l.heroSecondary}
             </ButtonLink>
           </div>
-          <div className="hero-rise space-y-3 pt-6" style={rise(4)}>
-            <span aria-hidden className="block h-px w-10 bg-moss" />
-            <p className="text-[0.66rem] font-medium uppercase tracking-eyebrow text-stone [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
-              {dict.landing.heroTrust}
-            </p>
-          </div>
         </div>
-
-        <div className="relative order-1 mx-auto w-full max-w-[17rem] sm:max-w-[22rem] lg:max-w-[26rem] xl:max-w-[29rem] lg:order-2">
-          {/* The lamp light the piece casts on the wall. */}
-          <div
-            aria-hidden
-            className="hero-glow absolute -inset-[12%] -z-10 rounded-full bg-[radial-gradient(closest-side,rgba(246,201,135,0.55),rgba(227,168,87,0.18)_55%,transparent)]"
-          />
-          <div className="relative isolate aspect-[2/3] overflow-hidden rounded-t-[999px] bg-sand shadow-[0_50px_100px_-50px_rgba(43,30,25,0.55)]">
-            <Image
-              src={SAMPLE.moonPanel.src}
-              alt=""
-              fill
-              preload
-              sizes="(min-width: 1024px) 29rem, (min-width: 640px) 22rem, 17rem"
-              className="hero-frame-img -z-20 object-cover"
-            />
-            <HeroSlides
-              sizes="(min-width: 1024px) 29rem, (min-width: 640px) 22rem, 17rem"
-              slides={[{ src: SAMPLE.halfMoonPlanter.src }, { src: SAMPLE.curveShelf.src }]}
-            />
-          </div>
-          <p className="mt-3 text-right text-[0.6rem] leading-snug text-stone/80">
-            {dict.landing.sampleNote}
-          </p>
-        </div>
+        {pieces.length ? <HeroWall pieces={pieces} labels={l.heroWall} /> : null}
       </Container>
+      <p className="absolute bottom-3 right-4 text-[0.6rem] text-ink/70">{l.sampleNote}</p>
     </section>
   );
 }

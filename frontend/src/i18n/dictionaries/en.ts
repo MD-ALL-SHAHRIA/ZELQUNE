@@ -330,6 +330,13 @@ export const en = {
     heroEyebrow: 'Sculptural wall decor · Made to order',
     heroTrust: 'Made in Bangladesh · Natural wood tones · Warm LED light',
     heroSecondary: "See how it's made",
+    heroWall: {
+      now: 'Now on the wall',
+      view: 'View piece',
+      pause: 'Pause the wall',
+      play: 'Play the wall',
+      show: 'Show {name}',
+    },
     dayNightEyebrow: 'One piece, two moods',
     dayNightHeading: 'A vase by day. A soft lamp by night.',
     day: { label: 'Day', text: 'Fresh or dried flowers in glass tubes, framed in walnut.' },

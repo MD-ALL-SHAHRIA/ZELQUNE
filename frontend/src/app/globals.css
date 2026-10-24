@@ -306,8 +306,8 @@
 /* Bangla has no letter case and its conjuncts break when tracked: labels styled as tracked
    uppercase (eyebrows, buttons, table heads) render naturally on /bn. The Latin wordmark keeps
    its caps. Unlayered on purpose so it wins over utility classes. */
-html[lang='bn'] .uppercase:not(.font-display),
-.uppercase:lang(bn):not(.font-display) {
+html[lang='bn'] .uppercase:not(.font-display):not(.font-wordmark),
+.uppercase:lang(bn):not(.font-display):not(.font-wordmark) {
   text-transform: none;
   letter-spacing: normal;
 }

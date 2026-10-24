@@ -138,16 +138,25 @@ export const SAMPLE = {
     credit: 'Ronnakorn Triraganon (IvEYfb-3B70)',
   },
   // The owner's own product renders (frontend/public/images/samples), first choice wherever a
-  // product is shown. The six shelf crops come from the owner's collection sheet.
-  moonPanel: { src: '/images/samples/moon-bonsai-panel.webp', credit: 'Zelqune' },
-  curveShelf: { src: '/images/samples/curve-walnut-shelf.webp', credit: 'Zelqune' },
-  halfMoonPlanter: { src: '/images/samples/half-moon-planter.webp', credit: 'Zelqune' },
-  aurora: { src: '/images/samples/aurora.webp', credit: 'Zelqune' },
-  zenith: { src: '/images/samples/zenith.webp', credit: 'Zelqune' },
-  solace: { src: '/images/samples/solace.webp', credit: 'Zelqune' },
-  nami: { src: '/images/samples/nami.webp', credit: 'Zelqune' },
-  vela: { src: '/images/samples/vela.webp', credit: 'Zelqune' },
-  terra: { src: '/images/samples/terra.webp', credit: 'Zelqune' },
+  // product is shown. `wall`: the photo's own wall tone (median of its upper side bands), which
+  // the hero wall glides to while the piece hangs there. The six shelf crops come from the owner's collection sheet.
+  moonPanel: { src: '/images/samples/moon-bonsai-panel.webp', credit: 'Zelqune', wall: '#c3a382' },
+  curveShelf: {
+    src: '/images/samples/curve-walnut-shelf.webp',
+    credit: 'Zelqune',
+    wall: '#e8decf',
+  },
+  halfMoonPlanter: {
+    src: '/images/samples/half-moon-planter.webp',
+    credit: 'Zelqune',
+    wall: '#d2b899',
+  },
+  aurora: { src: '/images/samples/aurora.webp', credit: 'Zelqune', wall: '#b69e80' },
+  zenith: { src: '/images/samples/zenith.webp', credit: 'Zelqune', wall: '#a79075' },
+  solace: { src: '/images/samples/solace.webp', credit: 'Zelqune', wall: '#a79075' },
+  nami: { src: '/images/samples/nami.webp', credit: 'Zelqune', wall: '#a89178' },
+  vela: { src: '/images/samples/vela.webp', credit: 'Zelqune', wall: '#a78f73' },
+  terra: { src: '/images/samples/terra.webp', credit: 'Zelqune', wall: '#a59076' },
 } as const;
 
 type SampleKey = keyof typeof SAMPLE;

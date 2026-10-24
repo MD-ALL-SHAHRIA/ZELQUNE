@@ -43,12 +43,7 @@ export default async function Home({ params }: { params: PageParams }) {
   const featured = products.find((p) => p.slug === FEATURED_SLUG) ?? products[0];
   return (
     <>
-      <Hero
-        lang={lang}
-        dict={dict}
-        productSlug={featured?.slug}
-        pricePaisa={featured?.fromPrice?.amountPaisa}
-      />
+      <Hero lang={lang} dict={dict} products={products} featuredSlug={featured?.slug} />
       {featured ? <FeaturedProduct product={featured} lang={lang} dict={dict} /> : null}
       <ShopTheRoom products={products} lang={lang} dict={dict} />
       <CategoryTiles lang={lang} dict={dict} categories={categories} />

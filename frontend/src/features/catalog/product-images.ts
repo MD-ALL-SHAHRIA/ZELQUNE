@@ -12,6 +12,8 @@ export interface ProductImage {
   alt: string;
   /** True while a sample photo stands in for the product (shown with a note). */
   sample: boolean;
+  /** The photo's own wall tone, when known (owner renders), for the hero wall. */
+  wall?: string;
 }
 
 const DEFAULT_GALLERY = SAMPLE_PRODUCT_GALLERY['alo-arch-panel'] ?? [];
@@ -34,5 +36,8 @@ export function productImages(
     }));
   }
   const keys = SAMPLE_PRODUCT_GALLERY[slug] ?? DEFAULT_GALLERY;
-  return keys.map((key) => ({ src: SAMPLE[key].src, alt: name, sample: true }));
+  return keys.map((key) => {
+    const sample: { src: string; wall?: string } = SAMPLE[key];
+    return { src: sample.src, alt: name, sample: true, wall: sample.wall };
+  });
 }

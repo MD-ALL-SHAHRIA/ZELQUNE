@@ -186,6 +186,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 ### Landing page
 - **Hero eyebrow:** Sculptural wall decor · Made to order
 - **Hero trust line:** Made in Bangladesh · Natural wood tones · Warm LED light
+- **Hero wall:** Now on the wall · View piece · Pause the wall · Play the wall · Show {name}
 - **Hero secondary button:** See how it's made
 - **Day and night eyebrow:** One piece, two moods
 - **Day and night heading:** A vase by day. A soft lamp by night.
