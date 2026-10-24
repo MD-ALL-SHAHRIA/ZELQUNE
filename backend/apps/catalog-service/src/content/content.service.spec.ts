@@ -95,7 +95,7 @@ describe('homeContentSchema', () => {
       instagram: '',
     });
     const bad = draft();
-    bad.hero.scenes[0]!.productSlug = 'Not A Slug';
+    bad.hero.scenes[0].productSlug = 'Not A Slug';
     expect(homeContentSchema.safeParse(bad).success).toBe(false);
   });
 
