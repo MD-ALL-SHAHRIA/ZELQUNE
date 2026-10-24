@@ -33,7 +33,9 @@ export const bn: Dictionary = {
     copyright: '© ২০২৬ Zelqune। সব অধিকার সংরক্ষিত।',
   },
   home: {
-    heroHeading: 'আপনার দেয়ালে প্রাণ আনুন।',
+    heroHeading: 'আপনার দেয়ালে',
+    heroHeadingAccent: 'প্রাণ আনুন।',
+    explore: 'সংগ্রহ দেখুন',
     heroSubline:
       'হাতে গড়া কাঠের নকশা, যত্নে ভাবা শেলফ আর নরম উষ্ণ আলো, আপনার প্রতিদিনের ঘরে উষ্ণতা আনতে।',
     cta: 'প্রি-অর্ডার করুন',
@@ -329,6 +331,8 @@ export const bn: Dictionary = {
       pause: 'দেয়াল থামান',
       play: 'দেয়াল চালু করুন',
       show: '{name} দেখান',
+      previous: 'আগের দৃশ্য',
+      next: 'পরের দৃশ্য',
     },
     dayNightEyebrow: 'একটা জিনিস, দুই রকম রূপ',
     dayNightHeading: 'দিনে ফুলদানি। রাতে নরম বাতি।',

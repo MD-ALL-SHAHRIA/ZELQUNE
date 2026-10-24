@@ -35,7 +35,9 @@ export const en = {
     copyright: '© 2026 Zelqune. All rights reserved.',
   },
   home: {
-    heroHeading: 'Make your walls feel alive.',
+    heroHeading: 'Make your walls feel',
+    heroHeadingAccent: 'alive.',
+    explore: 'Explore the collection',
     heroSubline:
       'Handcrafted wood forms, thoughtful shelving and a soft amber glow, made to bring warmth to your everyday spaces.',
     cta: 'Pre-order now',
@@ -336,6 +338,8 @@ export const en = {
       pause: 'Pause the wall',
       play: 'Play the wall',
       show: 'Show {name}',
+      previous: 'Previous scene',
+      next: 'Next scene',
     },
     dayNightEyebrow: 'One piece, two moods',
     dayNightHeading: 'A vase by day. A soft lamp by night.',

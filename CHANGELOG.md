@@ -7,12 +7,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
-- Home hero is a gallery of walls: each product's own photo, shown whole, in a row. The wall in
-  front is in focus, the next ones wait to the right (smaller, dimmer), and every 4.5 s the row
-  slides to the next. A "Now on the wall" caption names the piece with its price and a link;
-  hairline bars choose a wall, a waiting wall can be clicked forward, swipe on phones, with a
-  pause button. Pauses on hover and focus, never moves by itself with reduced motion; only the
-  first photo loads up front. Uploaded catalog photos join automatically.
+- Home hero follows the owner's reference: full-bleed, warm room scenes with one of our pieces
+  lit on the wall (the owner's renders widened to 2400×1350 by continuing each photo's own wall;
+  `public/images/hero`, phone cuts `-1200`), cross-fading with a slow drift every 6 s. The words
+  sit over a warm shade ("Make your walls feel *alive.*", "Explore the collection"); bars and a
+  pause button bottom left, a "Now on the wall" caption with price and link plus square arrows
+  bottom right; swipe on phones, where the scene sits above the words. Pauses on hover and focus,
+  never moves by itself with reduced motion; only the first scene loads up front.
 - Day and night themes: day is the default for everyone (soft cream #F7F1E8 with espresso
   #3B2922 and antique brass; dark bands are espresso coffee, nothing black). Night (Dark Walnut)
   only when the visitor picks it with the sun/moon toggle (header; in the menu on phones); the

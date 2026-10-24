@@ -1,42 +1,38 @@
 import { ArrowRight } from 'lucide-react';
-import { productImages } from '@/features/catalog/product-images';
 import { productName } from '@/features/catalog/product-copy';
+import { HERO_SCENES } from '@/content/sample-images';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { fill, formatTaka } from '@/i18n/format';
 import { type ProductSummary } from '@/shared/api/types';
 import { href } from '@/shared/lib/site';
 import { ButtonLink } from '@/shared/ui/button';
-import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
-import { HeroWall, type WallPiece } from './hero-wall.client';
+import { Container, Eyebrow } from '@/shared/ui/typography';
+import { HeroScenes, type Scene } from './hero-scenes.client';
 
-/* A gallery of walls: the row slides (transform only); the wall in front stands full size with
-   a soft cast shadow, the ones waiting are smaller and dimmer. The words rise in one after
-   another. Motion only when it is welcome. */
+/* Scenes cross-fade with a slow drift; the words rise in one after another. Motion only when it
+   is welcome. */
 const HERO_CSS = `
-.gallery-clip { clip-path: inset(-12% -100vw -12% 0); }
-.gallery-wall { box-shadow: 0 40px 80px -42px rgba(43,30,25,.5); }
-.gallery-wall-back { opacity: .5; transform: scale(.86); }
-.gallery-wall-back:hover { opacity: .75; }
+.scene { transition: opacity 1.2s cubic-bezier(.4,0,.2,1); }
+.scene-off { opacity: 0; }
+.scene-on { opacity: 1; }
 @media (prefers-reduced-motion: no-preference) {
   .hero-rise { opacity: 0; animation: hero-rise 1.1s cubic-bezier(.22,1,.36,1) forwards; }
-  .gallery-track { transition: transform 1.15s cubic-bezier(.65,0,.25,1); will-change: transform; }
-  .gallery-wall { transition: transform 1.15s cubic-bezier(.65,0,.25,1), opacity 1.15s ease; }
-  .wall-caption { animation: hero-rise .9s cubic-bezier(.22,1,.36,1); }
-  .wall-progress { animation-name: wall-progress; animation-timing-function: linear; animation-fill-mode: both; }
+  .scene-on .scene-drift { animation: scene-drift 9s ease-out both; }
+  .scene-caption { animation: hero-rise .9s cubic-bezier(.22,1,.36,1); }
+  .scene-progress { animation-name: scene-progress; animation-timing-function: linear; animation-fill-mode: both; }
 }
+@media (prefers-reduced-motion: reduce) { .scene { transition: none; } }
 @keyframes hero-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@keyframes wall-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes scene-drift { from { transform: scale(1); } to { transform: scale(1.06); } }
+@keyframes scene-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 `;
 
 const rise = (step: number) => ({ animationDelay: `${120 + step * 110}ms` });
 
-const MAX_PIECES = 6;
-
 /**
- * A gallery of walls: each piece's own photo, whole, in a row that slides to the next wall
- * every few seconds; the words on the left. Real catalog photos replace the sample renders
- * automatically (productImages).
+ * Cinematic hero: full-bleed room scenes, each with one of our pieces lit on the wall, the words
+ * over a warm shade on the left. Names and prices come from the catalog.
  */
 export function Hero({
   lang,
@@ -49,75 +45,71 @@ export function Hero({
   products: ProductSummary[];
   featuredSlug?: string;
 }) {
-  const ordered = [
-    ...products.filter((p) => p.slug === featuredSlug),
-    ...products.filter((p) => p.slug !== featuredSlug),
-  ].slice(0, MAX_PIECES);
-  const pieces: WallPiece[] = ordered.flatMap((p) => {
-    const name = productName(p, lang, dict);
-    const [image] = productImages(p.primaryMedia ? [p.primaryMedia] : [], name, lang, p.slug);
-    if (!image) return [];
+  const l = dict.landing;
+  const scenes: Scene[] = HERO_SCENES.flatMap((s) => {
+    const product = products.find((p) => p.slug === s.productSlug);
+    if (!product) return [];
     return [
       {
-        src: image.src,
-        name,
-        width: image.width,
-        height: image.height,
-        href: href(lang, `/products/${p.slug}`),
-        price: p.fromPrice
-          ? fill(dict.ui.from, { price: formatTaka(p.fromPrice.amountPaisa, lang) })
+        src: s.src,
+        position: s.position,
+        name: productName(product, lang, dict),
+        href: href(lang, `/products/${product.slug}`),
+        price: product.fromPrice
+          ? fill(dict.ui.from, { price: formatTaka(product.fromPrice.amountPaisa, lang) })
           : undefined,
       },
     ];
   });
-  const lead = ordered[0];
-  const l = dict.landing;
+  const lead = products.find((p) => p.slug === featuredSlug) ?? products[0];
 
   return (
-    <section className="hero-wall-root relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--color-paper)_0%,var(--color-sand)_100%)]">
+    <section className="hero-root tone-dark">
       <style>{HERO_CSS}</style>
-      <Container className="grid items-center gap-x-16 gap-y-8 pb-20 pt-8 sm:pb-24 lg:gap-y-6 lg:h-[calc(100svh-11.5rem)] lg:max-h-[52rem] lg:min-h-[36rem] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:grid-rows-[1fr_auto] lg:pb-12 lg:pt-6">
-        <div className="order-2 max-w-xl space-y-6 lg:order-1 lg:col-start-1 lg:row-start-1 lg:self-end">
-          <Eyebrow className="hero-rise text-walnut" style={rise(0)}>
-            {l.heroEyebrow}
-          </Eyebrow>
-          <Heading
-            as="h1"
-            level="h1"
-            className="hero-rise text-ink lg:text-[clamp(3.4rem,1.2rem+3.6vw,5.4rem)]"
-            style={rise(1)}
-          >
-            {dict.home.heroHeading}
-          </Heading>
-          <p
-            className="hero-rise max-w-md text-base leading-relaxed text-ink/85 sm:text-lg"
-            style={rise(2)}
-          >
-            {dict.home.heroSubline}
-          </p>
-          <div
-            className="hero-rise flex flex-wrap items-center gap-x-8 gap-y-4 pt-1"
-            style={rise(3)}
-          >
-            <ButtonLink
-              href={href(lang, lead ? `/products/${lead.slug}` : '/shop')}
-              size="lg"
-              className="group gap-3"
+      <HeroScenes scenes={scenes} labels={l.heroWall}>
+        <Container className="pb-4 lg:pb-24">
+          <div className="max-w-[36rem] space-y-6">
+            <Eyebrow className="hero-rise text-ivory/85" style={rise(0)}>
+              {l.heroEyebrow}
+            </Eyebrow>
+            <h1
+              className="hero-rise font-display text-[clamp(2.6rem,1.6rem+3.6vw,5rem)] leading-[1.02] tracking-[-0.02em] text-balance [:lang(bn)_&]:text-[clamp(2.2rem,1.5rem+2.6vw,3.8rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal"
+              style={rise(1)}
             >
-              {dict.home.cta}
-              <ArrowRight
-                aria-hidden
-                className="size-4 transition-transform duration-500 ease-out-soft group-hover:translate-x-1"
-              />
-            </ButtonLink>
-            <ButtonLink href="#craft" variant="link">
-              {l.heroSecondary}
-            </ButtonLink>
+              {dict.home.heroHeading}{' '}
+              <em className="text-glow [:lang(bn)_&]:not-italic">{dict.home.heroHeadingAccent}</em>
+            </h1>
+            <p
+              className="hero-rise max-w-md text-base leading-relaxed text-ivory/90 sm:text-lg"
+              style={rise(2)}
+            >
+              {dict.home.heroSubline}
+            </p>
+            <div
+              className="hero-rise flex flex-wrap items-center gap-x-8 gap-y-4 pt-1"
+              style={rise(3)}
+            >
+              <ButtonLink
+                href={href(lang, '/shop')}
+                variant="light"
+                size="lg"
+                className="group gap-3"
+              >
+                {dict.home.explore}
+                <ArrowRight
+                  aria-hidden
+                  className="size-4 transition-transform duration-500 ease-out-soft group-hover:translate-x-1"
+                />
+              </ButtonLink>
+              {lead ? (
+                <ButtonLink href={href(lang, `/products/${lead.slug}`)} variant="linkLight">
+                  {dict.home.cta}
+                </ButtonLink>
+              ) : null}
+            </div>
           </div>
-        </div>
-        {pieces.length ? <HeroWall pieces={pieces} labels={l.heroWall} /> : null}
-      </Container>
-      <p className="absolute bottom-3 right-4 text-[0.6rem] text-ink/70">{l.sampleNote}</p>
+        </Container>
+      </HeroScenes>
     </section>
   );
 }

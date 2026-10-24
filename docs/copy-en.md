@@ -15,7 +15,8 @@
 - **Copyright:** © 2026 Zelqune. All rights reserved.
 
 ## Home
-- **Hero heading:** Make your walls feel alive.
+- **Hero heading:** Make your walls feel *alive.* (the last word set in italic)
+- **Hero button:** Explore the collection
 - **Hero subline:** Handcrafted wood forms, thoughtful shelving and a soft amber glow, made to bring warmth to your everyday spaces.
 - **Button:** Pre-order now
 - **Three benefits:**
@@ -186,7 +187,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 ### Landing page
 - **Hero eyebrow:** Sculptural wall decor · Made to order
 - **Hero trust line:** Made in Bangladesh · Natural wood tones · Warm LED light
-- **Hero wall:** Now on the wall · View piece · Pause the wall · Play the wall · Show {name}
+- **Hero wall:** Now on the wall · View piece · Pause the wall · Play the wall · Show {name} · Previous scene · Next scene
 - **Hero secondary button:** See how it's made
 - **Day and night eyebrow:** One piece, two moods
 - **Day and night heading:** A vase by day. A soft lamp by night.

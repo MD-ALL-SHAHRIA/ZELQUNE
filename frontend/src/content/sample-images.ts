@@ -184,3 +184,14 @@ export const SAMPLE_SECTOR: Record<
   HOTEL: ['hotelLobby', 'bedroom'],
   RETAIL: ['retail', 'slatsWarm'],
 };
+
+/**
+ * Hero scenes: the owner's room renders widened to 2400×1350 (each photo's own wall continued
+ * left and right; phone cut `-1200.webp`). `position` keeps the piece in view on any screen.
+ * Replace a file with a real wide room photo of the same name to upgrade a scene.
+ */
+export const HERO_SCENES = [
+  { src: '/images/hero/moon.webp', productSlug: 'fluted-niche-panel', position: '66% 50%' },
+  { src: '/images/hero/half.webp', productSlug: 'half-moon-planter-light', position: '64% 50%' },
+  { src: '/images/hero/curve.webp', productSlug: 'wave-shelf', position: '66% 50%' },
+] as const;

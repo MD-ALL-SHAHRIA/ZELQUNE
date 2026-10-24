@@ -25,6 +25,10 @@ export default function imageLoader({ src, width, quality }: ImageLoaderProps): 
     if (width <= 750 && PHONE_CUTS.some((name) => src.endsWith(`/${name}.webp`))) {
       return src.replace(/\.webp$/, '-640.webp');
     }
+    // Hero scenes (public/images/hero) have a 1200px cut for phones and small laptops.
+    if (width <= 1200 && src.startsWith('/images/hero/')) {
+      return src.replace(/\.webp$/, '-1200.webp');
+    }
     return `${src}?w=${width}`;
   }
   return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality ?? 75}`;
