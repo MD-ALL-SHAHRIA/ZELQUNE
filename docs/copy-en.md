@@ -15,9 +15,9 @@
 - **Copyright:** © 2026 Zelqune. All rights reserved.
 
 ## Home
-- **Hero heading:** Handcrafted wood and gentle light, made to turn every wall of your home into a *quiet story.* (the last words set in italic)
+- **Hero heading:** Handcrafted wood and gentle light, for walls that tell a *quiet story.* (the last words set in italic)
 - **Hero button:** Explore the collection
-- **Hero subline:** Sculptural shelves, panels and lights, made to order in Dhaka and delivered across Bangladesh.
+- **Hero subline:** Sculptural wall pieces, made to order in Dhaka.
 - **Button:** Pre-order now
 - **Three benefits:**
   - **Handcrafted:** every panel is made with care after you order.

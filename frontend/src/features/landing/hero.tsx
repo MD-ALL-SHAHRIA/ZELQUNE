@@ -111,22 +111,22 @@ export function Hero({
       <style>{HERO_CSS}</style>
       <HeroScenes scenes={scenes} labels={l.heroWall}>
         <Container className="pb-4 lg:pb-24">
-          <div className="max-w-[34rem] space-y-5">
+          <div className="max-w-[38rem] space-y-6">
             <Eyebrow
-              className="hero-rise text-[0.7rem] font-semibold tracking-[0.3em] text-ivory/85"
+              className="hero-rise text-[0.8rem] font-semibold tracking-[0.3em] text-ivory/90"
               style={rise(0)}
             >
               {l.heroEyebrow}
             </Eyebrow>
             <h1
-              className="hero-rise max-w-[24ch] font-display text-[clamp(1.9rem,1.2rem+1.7vw,3rem)] font-medium leading-[1.1] tracking-[-0.005em] text-balance [:lang(bn)_&]:text-[clamp(1.7rem,1.2rem+1.3vw,2.6rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal"
+              className="hero-rise max-w-[20ch] font-display text-[clamp(2.6rem,1.5rem+3.3vw,4.75rem)] font-medium leading-[1.04] tracking-[-0.01em] text-balance [:lang(bn)_&]:text-[clamp(2.1rem,1.4rem+2.2vw,3.4rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal"
               style={rise(1)}
             >
               {dict.home.heroHeading}{' '}
               <em className="text-glow [:lang(bn)_&]:not-italic">{dict.home.heroHeadingAccent}</em>
             </h1>
             <p
-              className="hero-rise max-w-sm text-[1rem] font-medium leading-relaxed text-ivory/85 sm:text-[1.05rem]"
+              className="hero-rise max-w-md text-[1.2rem] font-medium leading-relaxed text-ivory/90 sm:text-[1.35rem]"
               style={rise(2)}
             >
               {dict.home.heroSubline}
@@ -139,7 +139,7 @@ export function Hero({
                 href={href(lang, '/shop')}
                 variant="light"
                 size="lg"
-                className="group gap-3 text-[0.78rem] font-semibold tracking-[0.22em]"
+                className="group gap-3 text-[0.85rem] font-semibold tracking-[0.22em]"
               >
                 {dict.home.explore}
                 <ArrowRight
@@ -151,7 +151,7 @@ export function Hero({
                 <ButtonLink
                   href={href(lang, `/products/${lead.slug}`)}
                   variant="linkLight"
-                  className="text-[0.78rem] font-semibold tracking-[0.22em]"
+                  className="text-[0.85rem] font-semibold tracking-[0.22em]"
                 >
                   {dict.home.cta}
                 </ButtonLink>

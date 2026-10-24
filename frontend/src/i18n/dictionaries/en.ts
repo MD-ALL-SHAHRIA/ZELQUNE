@@ -35,11 +35,10 @@ export const en = {
     copyright: '© 2026 Zelqune. All rights reserved.',
   },
   home: {
-    heroHeading: 'Handcrafted wood and gentle light, made to turn every wall of your home into a',
+    heroHeading: 'Handcrafted wood and gentle light, for walls that tell a',
     heroHeadingAccent: 'quiet story.',
     explore: 'Explore the collection',
-    heroSubline:
-      'Sculptural shelves, panels and lights, made to order in Dhaka and delivered across Bangladesh.',
+    heroSubline: 'Sculptural wall pieces, made to order in Dhaka.',
     cta: 'Pre-order now',
     benefits: [
       { title: 'Handcrafted', text: 'every panel is made with care after you order.' },

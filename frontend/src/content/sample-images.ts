@@ -192,19 +192,19 @@ export const SAMPLE_SECTOR: Record<
  */
 export const HERO_SCENES = [
   {
-    src: '/images/hero/moon.webp',
+    src: '/images/hero/moon-v2.webp',
     productSlug: 'fluted-niche-panel',
     position: '76% 50%',
     phonePosition: '95% 50%',
   },
   {
-    src: '/images/hero/half.webp',
+    src: '/images/hero/half-v2.webp',
     productSlug: 'half-moon-planter-light',
     position: '75% 50%',
     phonePosition: '93% 50%',
   },
   {
-    src: '/images/hero/curve.webp',
+    src: '/images/hero/curve-v2.webp',
     productSlug: 'wave-shelf',
     position: '76% 50%',
     phonePosition: '95% 50%',

@@ -16,7 +16,8 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   button bottom left, a "Now on the wall" caption with price and link plus square arrows bottom
   right; swipe on phones, where the scene sits above the words. Pauses on hover and focus, never
   moves by itself with reduced motion; only the first scene loads up front.
-- Hero, cinematic pass: calmer, smaller words; the pieces sit further right (about 76% across);
+- Hero, cinematic pass: shorter lines at full size ("Handcrafted wood and gentle light, for walls
+  that tell a *quiet story.*"); the pieces sit further right (about 76% across);
   a film look over the scenes in both themes (fine grain, vignette, a slow beam of window light,
   a bloom on the lit piece, a hint of letterbox), golden hour by day and dimmed and lamp-lit by
   night; scenes change with a soft focus pull. The film layers arrive after the page has loaded.
