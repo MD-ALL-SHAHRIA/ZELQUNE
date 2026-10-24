@@ -52,7 +52,7 @@ export function ProductRail({
                 className="size-6 transition-transform duration-500 ease-out-soft group-hover:translate-x-1"
               />
             </span>
-            <span className="font-display text-3xl font-light">{dict.nav2.allProducts}</span>
+            <span className="font-display text-3xl font-medium">{dict.nav2.allProducts}</span>
           </Link>
         </li>
       </ul>

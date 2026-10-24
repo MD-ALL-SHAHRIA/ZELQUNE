@@ -45,16 +45,19 @@ export function FeaturedProduct({
                 alt={main.alt}
                 sizes="(min-width: 1024px) 34vw, 78vw"
                 ratio="aspect-[3/4.2]"
-                arch
               />
             ) : null}
-            {/* Hairline arch echo, offset behind the photo. */}
+            {/* Gallery mount: a brass hairline frame offset behind the print, with a lamp glow. */}
             <div
               aria-hidden
-              className="absolute inset-0 -z-10 translate-x-3 -translate-y-3 rounded-t-[999px] border border-walnut/35 sm:translate-x-6 sm:-translate-y-6"
+              className="absolute inset-0 -z-10 translate-x-3 -translate-y-3 border border-walnut/60 sm:translate-x-6 sm:-translate-y-6"
+            />
+            <div
+              aria-hidden
+              className="absolute -inset-[18%] -z-20 bg-[radial-gradient(closest-side,rgba(242,197,138,0.16),transparent)]"
             />
             {detail ? (
-              <div className="absolute -left-[24%] bottom-[9%] w-[44%] max-w-[220px] border-[6px] border-paper shadow-[0_30px_60px_-30px_rgba(22,18,15,0.5)] sm:border-8 lg:-left-[34%]">
+              <div className="absolute -left-[24%] bottom-[9%] w-[44%] max-w-[220px] border-[6px] border-paper shadow-[0_30px_60px_-30px_rgba(43,30,25,0.5)] sm:border-8 lg:-left-[34%]">
                 <Picture
                   src={detail.src}
                   alt=""
@@ -83,7 +86,7 @@ export function FeaturedProduct({
           {copy ? <Lead className="max-w-md">{copy.short}</Lead> : null}
           {product.fromPrice ? (
             <p className="flex items-baseline gap-4 border-t border-ink/15 pt-6">
-              <span className="font-display text-5xl font-light leading-none sm:text-6xl">
+              <span className="font-display text-5xl font-medium leading-none sm:text-6xl">
                 {formatTaka(product.fromPrice.amountPaisa, lang)}
               </span>
             </p>

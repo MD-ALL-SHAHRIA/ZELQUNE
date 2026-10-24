@@ -14,13 +14,16 @@ import { ProductCard } from './product-card';
 
 type SampleKey = keyof typeof SAMPLE;
 
-/** Hero photography per category (wide room shot + an arch-framed detail). */
+/**
+ * Hero photography per category (wide room shot + an arch-framed detail). Chosen so the hero
+ * never repeats a product card's own photo just below it.
+ */
 const HERO: Record<string, [SampleKey, SampleKey]> = {
-  'wall-panels': ['slatsWarm', 'hotelLobby'],
-  shelves: ['shelvesPlants', 'shelvesDecor'],
-  lighting: ['cafeLights', 'living'],
+  'wall-panels': ['slats', 'solace'],
+  shelves: ['livingShelves', 'nami'],
+  lighting: ['cafeLights', 'vela'],
 };
-const SHOP_HERO: [SampleKey, SampleKey] = ['homeHero', 'livingNeutral'];
+const SHOP_HERO: [SampleKey, SampleKey] = ['homeHero', 'solace'];
 
 const catName = (c: { nameEn: string; nameBn: string }, lang: Locale) =>
   lang === 'bn' ? c.nameBn : c.nameEn;
@@ -47,7 +50,6 @@ export function ListingPage({
   // The line under the title: the category's line from the copy docs, else the brand line.
   const line = (active && dict.listing.categoryLines[active.slug]) || dict.brand.seoDescription;
   const [wide, detail] = (active && HERO[active.slug]) || SHOP_HERO;
-  const anySample = products.some((p) => !p.primaryMedia);
 
   const pills = [
     { key: 'all', label: dict.nav2.allProducts, href: href(lang, '/shop'), current: !active },
@@ -99,7 +101,7 @@ export function ListingPage({
                 src={SAMPLE[wide].src}
                 alt=""
                 fill
-                priority
+                preload
                 sizes="(min-width: 1440px) 780px, (min-width: 1024px) 55vw, 100vw"
                 className="object-cover"
               />
@@ -131,19 +133,19 @@ export function ListingPage({
         </Container>
       </header>
 
-      <Container className="pb-24 pt-8 md:pt-10">
-        <nav aria-label={dict.nav2.byCategory} className="mb-8 md:mb-10">
-          <ul className="scrollbar-none -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0">
+      <Container className="pb-24 pt-6 md:pt-8">
+        <nav aria-label={dict.nav2.byCategory} className="mb-6 md:mb-8">
+          <ul className="scrollbar-none -mx-5 flex gap-7 overflow-x-auto px-5 md:mx-0 md:gap-10 md:px-0">
             {pills.map((p) => (
               <li key={p.key} className="shrink-0">
                 <Link
                   href={p.href}
                   aria-current={p.current ? 'page' : undefined}
                   className={cn(
-                    'inline-flex h-10 items-center rounded-full border px-5 text-sm transition-colors',
+                    'relative inline-flex h-12 items-center text-[0.95rem] transition-colors duration-300 after:absolute after:inset-x-0 after:bottom-2 after:h-px after:origin-left after:bg-ink after:transition-transform after:duration-500 after:ease-out-soft',
                     p.current
-                      ? 'border-ink bg-ink text-paper'
-                      : 'border-line bg-paper text-ink hover:border-ink/50',
+                      ? 'text-ink after:scale-x-100'
+                      : 'text-ink/55 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
                   )}
                 >
                   {p.label}
@@ -156,6 +158,17 @@ export function ListingPage({
         <ListingGrid
           lang={lang}
           copy={{ ...dict.listing, empty: dict.shop.empty }}
+          editorial={<EditorialTile lang={lang} dict={dict} slug={active?.slug ?? null} />}
+          emptyAction={
+            active ? (
+              <Link
+                href={href(lang, '/shop')}
+                className="text-sm underline decoration-ink/30 underline-offset-[5px] transition hover:decoration-ink"
+              >
+                {dict.nav2.allProducts}
+              </Link>
+            ) : null
+          }
           items={products.map((p) => ({
             id: p.id,
             saleMode: p.saleMode,
@@ -171,10 +184,82 @@ export function ListingPage({
             ),
           }))}
         />
-        {anySample && products.length ? (
-          <p className="mt-14 text-[0.7rem] tracking-wide text-stone">{dict.landing.sampleNote}</p>
+        {products.length ? (
+          <p className="mt-16 text-[0.7rem] tracking-wide text-stone">{dict.landing.sampleNote}</p>
         ) : null}
       </Container>
     </>
+  );
+}
+
+/**
+ * One editorial tile inside the grid (RH catalog pages break the rhythm with a room): the design
+ * studio on most listings, the workshop story on wall panels. Existing copy and sample photos only.
+ */
+function EditorialTile({
+  lang,
+  dict,
+  slug,
+}: {
+  lang: Locale;
+  dict: Dictionary;
+  slug: string | null;
+}) {
+  const craft = slug === 'wall-panels';
+  const tile = craft
+    ? {
+        image: SAMPLE.craft.src,
+        eyebrow: dict.landing.craftEyebrow,
+        heading: dict.landing.craftHeading,
+        text: dict.landing.craftText,
+        cta: dict.landing.heroSecondary,
+        target: href(lang, '/story'),
+      }
+    : {
+        image:
+          SAMPLE[
+            slug === 'lighting' ? 'restaurant' : slug === 'shelves' ? 'dining' : 'livingShelves'
+          ].src,
+        eyebrow: dict.home2.designEyebrow,
+        heading: dict.home2.designHeading,
+        text: dict.home2.designText,
+        cta: dict.home2.designCta,
+        target: href(lang, '/design'),
+      };
+  return (
+    <aside className="@container h-full">
+      <Link
+        href={tile.target}
+        className="group grid h-full bg-cream/70 @xl:min-h-[30rem] @xl:grid-cols-2 @6xl:grid-cols-[1.35fr_1fr] focus-visible:outline-offset-4"
+      >
+        <div className="relative aspect-[4/3] overflow-hidden bg-sand @xl:aspect-auto @xl:min-h-full">
+          <Image
+            src={tile.image}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 50vw, (min-width: 640px) 46vw, 92vw"
+            className="object-cover transition-transform duration-[1.6s] ease-out-soft group-hover:scale-[1.03]"
+          />
+        </div>
+        <div className="flex flex-col justify-between gap-10 p-7 sm:p-9 @xl:p-10 @3xl:p-14">
+          <Eyebrow>{tile.eyebrow}</Eyebrow>
+          <div className="space-y-5">
+            <Heading as="p" level="h3" className="@3xl:text-[2.4rem]">
+              {tile.heading}
+            </Heading>
+            <p className="max-w-sm text-sm leading-relaxed text-ink/75">{tile.text}</p>
+            <span className="inline-flex items-center gap-3 border-b border-ink/30 pb-1 text-sm transition-colors group-hover:border-ink">
+              {tile.cta}
+              <span
+                aria-hidden
+                className="transition-transform duration-500 ease-out-soft group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </span>
+          </div>
+        </div>
+      </Link>
+    </aside>
   );
 }

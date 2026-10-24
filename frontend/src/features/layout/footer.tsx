@@ -1,4 +1,3 @@
-import { Hammer, HandCoins, Lightbulb, Truck } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { type Locale } from '@/i18n/config';
@@ -10,27 +9,6 @@ import { LogoMark } from '@/shared/ui/logo';
 import { Container } from '@/shared/ui/typography';
 import { LanguageSwitcher } from './language-switcher';
 import { categoryLinks } from './nav';
-
-const VALUE_ICONS = [Hammer, Lightbulb, HandCoins, Truck];
-
-export function ValuesBand({ dict }: { dict: Dictionary }) {
-  return (
-    <section className="border-y border-line bg-cream/60">
-      <Container className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-4">
-        {dict.landing.values.map((v, i) => {
-          const Icon = VALUE_ICONS[i] ?? Hammer;
-          return (
-            <div key={v.title} className="flex flex-col gap-3">
-              <Icon aria-hidden className="size-5 text-walnut" strokeWidth={1.1} />
-              <p className="font-display text-xl font-light leading-tight sm:text-2xl">{v.title}</p>
-              <p className="text-sm text-stone">{v.text}</p>
-            </div>
-          );
-        })}
-      </Container>
-    </section>
-  );
-}
 
 export function Footer({
   lang,
@@ -71,35 +49,46 @@ export function Footer({
     },
   ];
   return (
-    <footer className="mt-28 bg-ink text-paper">
-      <Container className="grid gap-14 pb-12 pt-20 lg:grid-cols-[1.3fr_2fr]">
-        <div className="space-y-6">
-          <LogoMark className="h-14 text-paper" />
-          <p className="max-w-sm font-display text-3xl font-light leading-tight">
-            {dict.brand.tagline}
-          </p>
-          <p className="text-sm text-paper/70">
-            <CopyText>{dict.footer.contact}</CopyText>
-          </p>
-          <p className="flex gap-6 text-sm text-paper/70">
-            <span>
-              {dict.footer.facebook} <CopyText>{'[[link]]'}</CopyText>
-            </span>
-            <span>
-              {dict.footer.instagram} <CopyText>{'[[link]]'}</CopyText>
-            </span>
-          </p>
+    <footer className="tone-dark relative isolate mt-28 overflow-hidden bg-night text-ivory">
+      {/* Lamp light: one warm glow in the corner, nothing else. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-40 -top-56 -z-10 size-[42rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-glow)_16%,transparent),transparent)]"
+      />
+      <Container className="pt-20 sm:pt-28">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-8">
+            <LogoMark className="h-10 text-ivory sm:h-12" />
+            <p className="mt-10 max-w-[19ch] font-display text-[clamp(2.25rem,1.4rem+3.3vw,4.6rem)] font-medium leading-[1.03] tracking-[-0.015em] text-balance [:lang(bn)_&]:max-w-[22ch] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.3] [:lang(bn)_&]:tracking-normal">
+              {dict.brand.tagline}
+            </p>
+          </div>
+          <div className="space-y-5 text-sm text-ivory/85 lg:col-span-4 lg:justify-self-end lg:pb-3">
+            <p>
+              <CopyText>{dict.footer.contact}</CopyText>
+            </p>
+            <p className="flex flex-wrap gap-x-6 gap-y-2">
+              <span>
+                {dict.footer.facebook} <CopyText>{'[[link]]'}</CopyText>
+              </span>
+              <span>
+                {dict.footer.instagram} <CopyText>{'[[link]]'}</CopyText>
+              </span>
+            </p>
+          </div>
         </div>
-        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
+
+        <div className="mt-16 grid grid-cols-2 gap-x-8 gap-y-12 border-t border-ivory/15 pt-14 sm:grid-cols-4 sm:mt-20">
           {columns.map((col) => (
             <div key={col.title}>
-              <p className="mb-5 text-[0.68rem] uppercase tracking-eyebrow text-paper/50 [:lang(bn)_&]:text-xs [:lang(bn)_&]:tracking-normal">
-                {col.title}
-              </p>
-              <ul className="space-y-3 text-sm">
+              <FooterTitle>{col.title}</FooterTitle>
+              <ul className="space-y-3.5 text-[0.9rem]">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-paper/85 transition-colors hover:text-glow">
+                    <Link
+                      href={l.href}
+                      className="link-reveal text-ivory/85 transition-colors duration-300 hover:text-ivory"
+                    >
                       {l.label}
                     </Link>
                   </li>
@@ -107,33 +96,50 @@ export function Footer({
               </ul>
             </div>
           ))}
+          <div>
+            <FooterTitle>{dict.ui.language}</FooterTitle>
+            <Suspense fallback={null}>
+              <LanguageSwitcher
+                lang={lang}
+                labels={dict.ui}
+                variant="full"
+                className="text-[0.9rem] text-ivory"
+              />
+            </Suspense>
+          </div>
         </div>
       </Container>
-      <Container>
-        {/* Decorative oversized wordmark (SVG text: scales with the container, never wraps). */}
-        <svg
-          aria-hidden
-          viewBox="0 0 1000 150"
-          className="w-full select-none border-t border-paper/15 pt-10"
-        >
+
+      {/* Oversized brass wordmark (SVG text: scales with the container, never wraps), shown in
+          full above the copyright line. */}
+      <Container className="mt-20 pb-8 sm:mt-24 sm:pb-10">
+        <svg aria-hidden viewBox="0 0 1000 132" className="block w-full select-none">
           <text
             x="500"
-            y="128"
+            y="118"
             textAnchor="middle"
-            textLength="980"
+            textLength="990"
             lengthAdjust="spacingAndGlyphs"
-            className="fill-paper/[0.07] font-display text-[150px] font-light uppercase"
+            className="fill-brass/60 font-wordmark text-[160px] font-medium uppercase"
           >
             Zelqune
           </text>
         </svg>
       </Container>
-      <Container className="flex flex-col items-center justify-between gap-4 py-8 text-xs text-paper/55 sm:flex-row">
-        <p>{dict.footer.copyright}</p>
-        <Suspense fallback={null}>
-          <LanguageSwitcher lang={lang} labels={dict.ui} className="text-paper/80" />
-        </Suspense>
-      </Container>
+      <div className="border-t border-ivory/10">
+        <Container className="flex items-center justify-center gap-3 py-6 text-[0.8rem] text-ivory/75 sm:justify-between">
+          <p>{dict.footer.copyright}</p>
+          <LogoMark className="hidden h-4 text-brass sm:block" />
+        </Container>
+      </div>
     </footer>
+  );
+}
+
+function FooterTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-6 text-[0.66rem] font-medium uppercase tracking-eyebrow text-brass [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+      {children}
+    </p>
   );
 }

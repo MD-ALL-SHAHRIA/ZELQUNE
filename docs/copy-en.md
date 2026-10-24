@@ -15,8 +15,9 @@
 - **Copyright:** © 2026 Zelqune. All rights reserved.
 
 ## Home
-- **Hero heading:** Wood and light for your walls
-- **Hero subline:** The Alo-Arch Panel: a walnut frame, glass vases, and a warm, soft glow for your evenings.
+- **Hero heading:** Handcrafted wood and gentle light, for walls that tell a *quiet story.* (the last words set in italic)
+- **Hero button:** Explore the collection
+- **Hero subline:** Sculptural wall pieces, made to order in Dhaka.
 - **Button:** Pre-order now
 - **Three benefits:**
   - **Handcrafted:** every panel is made with care after you order.
@@ -117,6 +118,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 
 ### General
 - **Language switcher:** Language · English · বাংলা
+- **Theme toggle:** Switch to dark mode · Switch to light mode
 - **Skip link:** Skip to content
 - **Common:** Close · Back · Loading… · Quantity · Remove · Price · From {price} · Item · Qty · Unit price · Total · Optional
 - **Not found page:** We couldn't find that page. · Back to home
@@ -183,7 +185,9 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Announcement:** Pre-orders are open · ৳300 advance, the rest on delivery
 
 ### Landing page
-- **Hero eyebrow:** Designed in Dhaka · Made to order
+- **Hero eyebrow:** Sculptural wall decor · Made to order
+- **Hero trust line:** Made in Bangladesh · Natural wood tones · Warm LED light
+- **Hero wall:** Now on the wall · View piece · Pause the wall · Play the wall · Show {name} · Previous scene · Next scene
 - **Hero secondary button:** See how it's made
 - **Day and night eyebrow:** One piece, two moods
 - **Day and night heading:** A vase by day. A soft lamp by night.
@@ -250,8 +254,11 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Shop menu:** Shop by category · All products
 
 ### Home page
-- **Categories eyebrow:** Shop by category
-- **Categories heading:** Pieces for every wall
+- **Categories eyebrow:** Featured collections
+- **Categories heading:** Find your perfect piece
+- **Categories link:** View all collections
+- **Category card count:** {n} pieces
+- **Collection arrows:** Previous collections · Next collections
 - **Design band eyebrow:** Interior design
 - **Design band heading:** Let us design the whole space
 - **Design band text:** Homes, offices, restaurants and cafés: we plan the space, make the woodwork and lighting, and install it.
@@ -361,3 +368,21 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
   - **Wall panels:** Sculpted wood and warm light for a feature wall.
   - **Shelves:** Floating shelves in bold, handcrafted shapes.
   - **Lighting:** Soft, low-voltage light that turns wood into a lamp.
+
+### Premium build (for owner review)
+- **Scroll cue:** Scroll
+- **Shop the room:** Shop the room · One room, lit by Zelqune · Tap a marker to see each piece in this room. · View piece
+- **Materials:** Materials · Honest materials, finished by hand
+  - **Solid wood:** Cut, sanded and oiled by hand in our workshop. [[wood species: confirm]]
+  - **Warm 5V light:** Low-voltage LEDs powered by USB, safe to touch.
+  - **Glass and detail:** Clear glass and small metal details. [[confirm materials]]
+- **Trust:** Why Zelqune · Buy with confidence
+  - **Pay the rest on delivery:** Only a ৳300 advance by bKash or Nagad. The rest is cash on delivery.
+  - **Refund if we are late:** If we can't deliver on time, your advance is refunded within [[7]] days.
+  - **Damage covered:** Tell us within 24 hours with a photo and we replace it or refund you.
+  - **Made in Dhaka:** Designed and made in our own workshop. [[workshop address]]
+- **Product timeline:** Made for you · Today: Reserve with ৳300 · Our workshop: Made by hand in [[N]] days · Your door: Delivered in 1–4 days
+- **Wall preview:** See it on your wall · Add a photo of your wall, then drag and resize the piece. Your photo stays on your phone. · Choose a photo · Try a sample wall · Size · Reset · Save image · Drag to move · use the slider to resize
+- **WhatsApp:** Chat on WhatsApp · Hello Zelqune, I have a question about {item}
+- **Statement:** Wood, light and space, made for the way Bangladesh lives.
+- **Marquee words:** Solid wood · Warm LED light · Made in Dhaka · Made to order · Finished by hand

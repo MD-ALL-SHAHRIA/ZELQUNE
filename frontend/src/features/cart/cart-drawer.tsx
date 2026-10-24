@@ -38,7 +38,7 @@ export function CartDrawer({ lang, copy }: { lang: Locale; copy: CartCopy }) {
               <span className="text-[0.7rem] uppercase tracking-eyebrow text-stone">
                 {copy.ui.total}
               </span>
-              <span className="font-display text-3xl font-light">
+              <span className="font-display text-3xl font-medium">
                 {formatTaka(cart?.subtotalPaisa ?? 0, lang)}
               </span>
             </p>
@@ -68,7 +68,7 @@ export function CartDrawer({ lang, copy }: { lang: Locale; copy: CartCopy }) {
     >
       {!items.length ? (
         <div className="grid h-full place-items-center text-center">
-          <p className="font-display text-2xl font-light text-stone">{copy.cart.empty}</p>
+          <p className="font-display text-2xl font-medium text-stone">{copy.cart.empty}</p>
         </div>
       ) : (
         <ul className="space-y-6">
@@ -82,7 +82,7 @@ export function CartDrawer({ lang, copy }: { lang: Locale; copy: CartCopy }) {
               <li key={item.variantId} data-testid="cart-line" className="flex gap-4">
                 <div className="relative h-28 w-22 shrink-0 overflow-hidden rounded-t-full bg-sand">
                   <Image
-                    src={SAMPLE.productTubes.src}
+                    src={SAMPLE.zenith.src}
                     alt=""
                     fill
                     sizes="88px"
@@ -92,7 +92,7 @@ export function CartDrawer({ lang, copy }: { lang: Locale; copy: CartCopy }) {
                 <div className="flex min-w-0 flex-1 flex-col">
                   <div className="flex justify-between gap-3">
                     <div>
-                      <p className="font-display text-xl font-light leading-tight">{name}</p>
+                      <p className="font-display text-xl font-medium leading-tight">{name}</p>
                       <p className="mt-1 text-xs text-stone">{optionLabel(item.options, copy)}</p>
                     </div>
                     <p className="text-sm">

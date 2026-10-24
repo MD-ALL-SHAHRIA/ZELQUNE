@@ -25,7 +25,7 @@ export default function OgImage() {
       </svg>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div style={{ fontSize: 96, fontWeight: 700 }}>Zelqune</div>
-        <div style={{ fontSize: 40, color: '#E3A857' }}>Wood and light for your walls</div>
+        <div style={{ fontSize: 40, color: '#E3A857' }}>Make your walls feel alive.</div>
       </div>
     </div>,
     size,

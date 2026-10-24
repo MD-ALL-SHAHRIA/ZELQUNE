@@ -7,8 +7,9 @@ import { cn } from '@/shared/lib/cn';
 import { navLabel } from './header-styles';
 import { isActivePath, type NavLink } from './nav';
 
+/** 1px underline that draws from the left on hover and retracts to the right. */
 const underline =
-  'after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:bg-ink after:transition-transform after:duration-500 after:ease-out-soft';
+  'after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-right after:bg-ink after:transition-transform after:duration-500 after:ease-out-soft hover:after:origin-left';
 
 /**
  * Second header row: catalog categories, then the other shop pages. One 1px underline marks
@@ -27,7 +28,7 @@ export function NavTabs({ label, groups }: { label: string; groups: NavLink[][] 
   }, [pathname]);
 
   return (
-    <nav aria-label={label} className="relative border-t border-line/70">
+    <nav aria-label={label} className="relative border-t border-line/60">
       <ul
         ref={strip}
         className="scrollbar-none relative mx-auto flex max-w-[1440px] items-stretch gap-x-7 overflow-x-auto px-5 [mask-image:linear-gradient(to_right,transparent,#000_1.25rem,#000_calc(100%-2.5rem),transparent)] md:px-10 lg:justify-center-safe lg:gap-x-11 lg:[mask-image:none] xl:gap-x-14"
@@ -49,10 +50,10 @@ export function NavTabs({ label, groups }: { label: string; groups: NavLink[][] 
                     className={cn(
                       navLabel,
                       underline,
-                      'relative flex h-11 items-center whitespace-nowrap transition-colors duration-300 lg:h-12',
+                      'relative flex h-11 items-center whitespace-nowrap transition-colors duration-300 lg:h-[3.25rem]',
                       active
                         ? 'text-ink after:scale-x-100'
-                        : 'text-ink/70 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
+                        : 'text-ink/65 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
                     )}
                   >
                     {l.label}

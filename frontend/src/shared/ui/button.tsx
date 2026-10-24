@@ -1,23 +1,52 @@
 import Link from 'next/link';
 import { cn } from '@/shared/lib/cn';
 
-type Variant = 'primary' | 'outline' | 'light' | 'ghost';
-type Size = 'md' | 'lg';
+/**
+ * primary   ink block; a walnut fill sweeps in on hover
+ * secondary quiet sand block for second actions on paper
+ * outline   ink hairline box; fills with ink on hover
+ * light     paper hairline box for dark or photo grounds
+ * ghost     text with an underline on hover (kept for older call sites)
+ * link      editorial text link: underline at rest that redraws on hover
+ * linkLight the link variant for dark grounds
+ */
+type Variant = 'primary' | 'secondary' | 'outline' | 'light' | 'ghost' | 'link' | 'linkLight';
+type Size = 'sm' | 'md' | 'lg';
 
 const base =
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap text-[0.8rem] font-medium uppercase tracking-[0.16em] transition-colors duration-300 ease-out-soft focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-45 [:lang(bn)_&]:text-[0.95rem] [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal';
+  'relative isolate inline-flex items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap text-[0.74rem] font-medium uppercase tracking-[0.18em] transition-[color,background-color,border-color,opacity] duration-500 ease-out-soft focus-visible:outline-2 focus-visible:outline-offset-[3px] disabled:pointer-events-none disabled:opacity-45 [:lang(bn)_&]:text-[0.95rem] [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal';
+
+/** A fill that sweeps in from the left on hover (behind the label). */
+const sweep =
+  'before:absolute before:inset-0 before:-z-10 before:origin-right before:scale-x-0 before:transition-transform before:duration-700 before:ease-out-soft hover:before:origin-left hover:before:scale-x-100 motion-reduce:before:hidden';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-ink text-paper hover:bg-walnut',
-  outline: 'border border-ink text-ink hover:bg-ink hover:text-paper',
-  light: 'border border-paper/80 text-paper hover:bg-paper hover:text-ink',
-  ghost: 'text-ink underline-offset-[6px] hover:underline',
+  primary: cn(sweep, 'bg-ink text-paper before:bg-walnut motion-reduce:hover:bg-walnut'),
+  secondary: 'bg-sand text-ink hover:bg-line',
+  outline: cn(
+    sweep,
+    'border border-ink/80 text-ink before:bg-ink hover:border-ink hover:text-paper motion-reduce:hover:bg-ink',
+  ),
+  light: cn(
+    sweep,
+    'border border-ivory/70 text-ivory before:bg-ivory hover:border-ivory hover:text-espresso motion-reduce:hover:bg-ivory',
+  ),
+  ghost: 'link-reveal text-ink',
+  link: 'link-underline text-ink',
+  linkLight: 'link-underline text-ivory',
 };
 
-const sizes: Record<Size, string> = { md: 'h-11 px-6', lg: 'h-14 px-9' };
+const textOnly: Variant[] = ['ghost', 'link', 'linkLight'];
+
+const sizes: Record<Size, string> = { sm: 'h-10 px-5', md: 'h-12 px-7', lg: 'h-14 px-10' };
 
 export function buttonClass(variant: Variant = 'primary', size: Size = 'md', className?: string) {
-  return cn(base, variants[variant], variant === 'ghost' ? 'h-auto px-0' : sizes[size], className);
+  return cn(
+    base,
+    variants[variant],
+    textOnly.includes(variant) ? 'h-auto overflow-visible px-0' : sizes[size],
+    className,
+  );
 }
 
 export function Button({

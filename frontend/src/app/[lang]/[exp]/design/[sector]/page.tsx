@@ -44,15 +44,15 @@ export default async function SectorPage({ params }: { params: Params }) {
   return (
     <>
       <DesignHero
+        lang={lang}
+        dict={dict}
         image={hero ?? ''}
-        eyebrow={dict.design.eyebrow}
         title={copy.title}
         lead={`${copy.text} ${dict.design.lead}`}
-        cta={dict.design.button}
-        note={dict.landing.sampleNote}
+        current={sector.space}
       />
+      <Included lang={lang} dict={dict} image={second ?? hero ?? ''} />
       <DesignProcess lang={lang} dict={dict} />
-      <Included dict={dict} image={second ?? hero ?? ''} />
       <ConsultSection lang={lang} dict={dict} districts={districts} defaultSpace={sector.space} />
       <SectorGrid lang={lang} dict={dict} exclude={sector.space} />
     </>
