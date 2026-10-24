@@ -8,7 +8,9 @@ import { cn } from '@/shared/lib/cn';
 
 export interface Scene {
   src: string;
+  /** Where the piece sits (object-position) on wide screens, and on phones. */
   position: string;
+  phonePosition: string;
   name: string;
   price?: string;
   href: string;
@@ -125,11 +127,27 @@ export function HeroScenes({
             preload={i === 0}
             fetchPriority={i === 0 ? 'high' : 'low'}
             sizes="100vw"
-            className="scene-drift object-cover"
-            style={{ objectPosition: s.position }}
+            className="scene-drift object-cover [object-position:var(--pos-sm)] lg:[object-position:var(--pos)]"
+            style={{ '--pos': s.position, '--pos-sm': s.phonePosition } as React.CSSProperties}
           />
         </div>
       ))}
+      {/* The cinematic frame over the scenes (decoration only), added once the page has loaded so
+          it never delays the first photo. */}
+      {ready ? (
+        <div
+          aria-hidden
+          className="cine pointer-events-none absolute inset-x-0 top-0 -z-10 h-[58svh] overflow-hidden [mask-image:linear-gradient(180deg,#000_62%,transparent)] lg:inset-0 lg:h-auto lg:[mask-image:none]"
+        >
+          <div className="cine-grade absolute inset-0" />
+          <div className="cine-beam absolute inset-0" />
+          <div className="cine-bloom absolute rounded-full" />
+          <div className="cine-vignette absolute inset-0" />
+          <div className="cine-grain absolute" />
+          <div className="cine-bar absolute inset-x-0 top-0 hidden origin-top lg:block" />
+          <div className="cine-bar absolute inset-x-0 bottom-0 hidden origin-bottom lg:block" />
+        </div>
+      ) : null}
       {/* Warm shade under the words: from the left on wide screens, from the foot on phones. */}
       <div
         aria-hidden

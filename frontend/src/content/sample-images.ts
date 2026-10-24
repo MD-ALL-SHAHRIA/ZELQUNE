@@ -191,7 +191,22 @@ export const SAMPLE_SECTOR: Record<
  * Replace a file with a real wide room photo of the same name to upgrade a scene.
  */
 export const HERO_SCENES = [
-  { src: '/images/hero/moon.webp', productSlug: 'fluted-niche-panel', position: '66% 50%' },
-  { src: '/images/hero/half.webp', productSlug: 'half-moon-planter-light', position: '64% 50%' },
-  { src: '/images/hero/curve.webp', productSlug: 'wave-shelf', position: '66% 50%' },
+  {
+    src: '/images/hero/moon.webp',
+    productSlug: 'fluted-niche-panel',
+    position: '76% 50%',
+    phonePosition: '95% 50%',
+  },
+  {
+    src: '/images/hero/half.webp',
+    productSlug: 'half-moon-planter-light',
+    position: '75% 50%',
+    phonePosition: '93% 50%',
+  },
+  {
+    src: '/images/hero/curve.webp',
+    productSlug: 'wave-shelf',
+    position: '76% 50%',
+    phonePosition: '95% 50%',
+  },
 ] as const;
