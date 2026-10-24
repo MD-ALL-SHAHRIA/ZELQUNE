@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
+import { type HomeContent } from '@/shared/api/content';
 import { type Category } from '@/shared/api/types';
 import { href } from '@/shared/lib/site';
 import { CopyText } from '@/shared/ui/copy-text';
@@ -14,10 +15,13 @@ export function Footer({
   lang,
   dict,
   categories,
+  contact,
 }: {
   lang: Locale;
   dict: Dictionary;
   categories: Category[];
+  /** Phone, email and social links from the dashboard (copy-doc placeholders until set). */
+  contact?: HomeContent['contact'] | null;
 }) {
   const columns = [
     {
@@ -64,16 +68,54 @@ export function Footer({
             </p>
           </div>
           <div className="space-y-5 text-sm text-ivory/85 lg:col-span-4 lg:justify-self-end lg:pb-3">
-            <p>
-              <CopyText>{dict.footer.contact}</CopyText>
-            </p>
+            {/* The owner's details from the dashboard; the copy-doc placeholders until then. */}
+            {contact?.phone || contact?.email ? (
+              <p className="flex flex-wrap gap-x-6 gap-y-2">
+                {contact.phone ? (
+                  <a href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`} className="link-reveal">
+                    {contact.phone}
+                  </a>
+                ) : null}
+                {contact.email ? (
+                  <a href={`mailto:${contact.email}`} className="link-reveal">
+                    {contact.email}
+                  </a>
+                ) : null}
+              </p>
+            ) : (
+              <p>
+                <CopyText>{dict.footer.contact}</CopyText>
+              </p>
+            )}
             <p className="flex flex-wrap gap-x-6 gap-y-2">
-              <span>
-                {dict.footer.facebook} <CopyText>{'[[link]]'}</CopyText>
-              </span>
-              <span>
-                {dict.footer.instagram} <CopyText>{'[[link]]'}</CopyText>
-              </span>
+              {contact?.facebook ? (
+                <a
+                  href={contact.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-reveal"
+                >
+                  {dict.footer.facebook}
+                </a>
+              ) : (
+                <span>
+                  {dict.footer.facebook} <CopyText>{'[[link]]'}</CopyText>
+                </span>
+              )}
+              {contact?.instagram ? (
+                <a
+                  href={contact.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-reveal"
+                >
+                  {dict.footer.instagram}
+                </a>
+              ) : (
+                <span>
+                  {dict.footer.instagram} <CopyText>{'[[link]]'}</CopyText>
+                </span>
+              )}
             </p>
           </div>
         </div>

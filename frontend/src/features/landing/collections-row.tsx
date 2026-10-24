@@ -20,6 +20,8 @@ const SCENE_FOR: Record<string, string> = {
 export interface Collection {
   category: Category;
   count: number;
+  /** The owner's cover photo (dashboard), else a built-in room scene. */
+  imageUrl?: string | null;
 }
 
 /**
@@ -69,7 +71,7 @@ export function CollectionsRow({
           id="collections-row"
           className="-mx-5 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-px-5 px-5 pb-2 [scrollbar-width:none] md:-mx-10 md:scroll-px-10 md:px-10 lg:mx-0 lg:scroll-px-0 lg:px-0 [&::-webkit-scrollbar]:hidden"
         >
-          {collections.map(({ category: c, count }) => {
+          {collections.map(({ category: c, count, imageUrl }) => {
             const name = lang === 'bn' ? c.nameBn : c.nameEn;
             return (
               <li
@@ -79,7 +81,7 @@ export function CollectionsRow({
                 <Link href={href(lang, `/category/${c.slug}`)} className="group block">
                   <div className="relative aspect-[16/10] overflow-hidden bg-sand">
                     <Image
-                      src={SCENE_FOR[c.slug] ?? SAMPLE.livingNeutral.src}
+                      src={imageUrl ?? SCENE_FOR[c.slug] ?? SAMPLE.livingNeutral.src}
                       alt=""
                       fill
                       sizes="(min-width: 1024px) 30vw, (min-width: 640px) 58vw, 82vw"

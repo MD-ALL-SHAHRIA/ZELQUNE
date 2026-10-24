@@ -13,6 +13,7 @@ import { Statement } from '@/features/landing/statement';
 import { TrustBand } from '@/features/trust/trust-band';
 import { TrustStrip } from '@/features/trust/trust-strip';
 import { listCategories, listProducts } from '@/shared/api/server';
+import { getHomeContent, withContent } from '@/shared/api/content';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 
@@ -38,14 +39,27 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
  * → buy with confidence (trust band) → FAQ (sticky heading, accordion).
  */
 export default async function Home({ params }: { params: PageParams }) {
-  const { lang, segment, dict } = await resolvePage(params);
-  const [products, categories] = await Promise.all([listProducts(segment), listCategories()]);
-  // Each collection with its number of pieces (catalog order; empty ones are left out).
+  const { lang, segment, dict: base } = await resolvePage(params);
+  const [products, categories, content] = await Promise.all([
+    listProducts(segment),
+    listCategories(),
+    getHomeContent(),
+  ]);
+  // The owner's words from the dashboard over the built-in copy (empty fields keep the copy).
+  const dict = withContent(base, content, lang);
+  // Collections: the owner's choice and order when set, else the catalog's; each with its
+  // number of pieces (empty ones are left out).
+  const chosen = content?.collections.length
+    ? content.collections.flatMap((c) => {
+        const category = categories.find((x) => x.slug === c.categorySlug);
+        return category ? [{ category, imageUrl: c.imageUrl }] : [];
+      })
+    : categories.map((category) => ({ category, imageUrl: null }));
   const collections = (
     await Promise.all(
-      categories.map(async (category) => ({
-        category,
-        count: (await listProducts(segment, category.slug)).length,
+      chosen.map(async (c) => ({
+        ...c,
+        count: (await listProducts(segment, c.category.slug)).length,
       })),
     )
   ).filter((c) => c.count > 0);
@@ -53,8 +67,14 @@ export default async function Home({ params }: { params: PageParams }) {
   const featured = products.find((p) => p.slug === FEATURED_SLUG) ?? products[0];
   return (
     <>
-      <Hero lang={lang} dict={dict} products={products} featuredSlug={featured?.slug} />
-      <TrustStrip dict={dict} />
+      <Hero
+        lang={lang}
+        dict={dict}
+        products={products}
+        featuredSlug={featured?.slug}
+        content={content}
+      />
+      <TrustStrip dict={dict} icons={content?.trust.map((t) => t.icon)} />
       <CollectionsRow lang={lang} dict={dict} collections={collections} />
       {featured ? <FeaturedProduct product={featured} lang={lang} dict={dict} /> : null}
       <ShopTheRoom products={products} lang={lang} dict={dict} />

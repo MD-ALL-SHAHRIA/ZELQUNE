@@ -12,8 +12,17 @@ import { whatsappHref } from '@/shared/lib/whatsapp';
  * then sets the offset to 4.5rem below lg) or set `--sticky-bar-height` on it / `--sticky-bar-h`
  * on :root to its exact height.
  */
-export function WhatsappFab({ dict, item = 'Zelqune' }: { dict: Dictionary; item?: string }) {
-  const href = whatsappHref(fill(dict.premium.chat.message, { item }));
+export function WhatsappFab({
+  dict,
+  item = 'Zelqune',
+  number,
+}: {
+  dict: Dictionary;
+  item?: string;
+  /** The owner's WhatsApp number from the dashboard (env default otherwise). */
+  number?: string | null;
+}) {
+  const href = whatsappHref(fill(dict.premium.chat.message, { item }), number);
   if (!href) return null;
   return <WhatsappFabLink href={href} label={dict.premium.chat.label} />;
 }

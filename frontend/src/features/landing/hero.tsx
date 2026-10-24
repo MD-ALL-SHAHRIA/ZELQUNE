@@ -4,6 +4,7 @@ import { HERO_SCENES } from '@/content/sample-images';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { fill, formatTaka } from '@/i18n/format';
+import { type HomeContent } from '@/shared/api/content';
 import { type ProductSummary } from '@/shared/api/types';
 import { href } from '@/shared/lib/site';
 import { ButtonLink } from '@/shared/ui/button';
@@ -81,14 +82,29 @@ export function Hero({
   dict,
   products,
   featuredSlug,
+  content,
 }: {
   lang: Locale;
   dict: Dictionary;
   products: ProductSummary[];
   featuredSlug?: string;
+  /** The owner's scenes from the dashboard; the built-in scenes until then. */
+  content?: HomeContent | null;
 }) {
   const l = dict.landing;
-  const scenes: Scene[] = HERO_SCENES.flatMap((s) => {
+  // Owner's scenes: an uploaded photo, else the built-in scene of that piece (or any).
+  const source = content?.hero.scenes.length
+    ? content.hero.scenes.map((s, i) => ({
+        src:
+          s.imageUrl ??
+          HERO_SCENES.find((h) => h.productSlug === s.productSlug)?.src ??
+          HERO_SCENES[i % HERO_SCENES.length]!.src,
+        productSlug: s.productSlug,
+        position: s.position,
+        phonePosition: s.phonePosition,
+      }))
+    : HERO_SCENES;
+  const scenes: Scene[] = source.flatMap((s) => {
     const product = products.find((p) => p.slug === s.productSlug);
     if (!product) return [];
     return [

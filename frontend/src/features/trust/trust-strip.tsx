@@ -1,21 +1,42 @@
-import { Hammer, HandCoins, Lightbulb, Truck } from 'lucide-react';
+import {
+  Hammer,
+  Hand,
+  HandCoins,
+  Leaf,
+  Lightbulb,
+  type LucideIcon,
+  ShieldCheck,
+  Sparkles,
+  Truck,
+} from 'lucide-react';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { Container } from '@/shared/ui/typography';
 
 const ICONS = [Hammer, Lightbulb, HandCoins, Truck];
+/** The owner's icon choices (dashboard) by name. */
+const BY_NAME: Record<string, LucideIcon> = {
+  hammer: Hammer,
+  lightbulb: Lightbulb,
+  coins: HandCoins,
+  truck: Truck,
+  leaf: Leaf,
+  shield: ShieldCheck,
+  hand: Hand,
+  sparkles: Sparkles,
+};
 
 /**
  * The slim promise strip under the hero (owner's reference): four facts from the copy
  * (handcrafted, safe 5V light, ৳300 advance, delivery across Bangladesh), each an icon, a small
  * title and one line, divided by hairlines. A 2×2 grid on phones.
  */
-export function TrustStrip({ dict }: { dict: Dictionary }) {
+export function TrustStrip({ dict, icons }: { dict: Dictionary; icons?: string[] }) {
   return (
     <section aria-label={dict.premium.trust.eyebrow} className="border-b border-line bg-cream">
       <Container>
-        <ul className="grid grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 lg:grid-flow-col lg:auto-cols-fr">
           {dict.landing.values.map((v, i) => {
-            const Icon = ICONS[i] ?? Hammer;
+            const Icon = (icons?.[i] && BY_NAME[icons[i]]) || ICONS[i] || Hammer;
             return (
               <li
                 key={v.title}
