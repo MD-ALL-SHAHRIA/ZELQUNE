@@ -47,6 +47,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   glow on hover, drifting marquee (all off with reduced motion; transforms and opacity only).
 
 ### Added
+- Storefront content (ADR 0015): catalog-service stores the home page content (hero scenes,
+  trust strip, collections order, announcement, contact and social links; English + Bangla) as a
+  versioned document with uploaded images. Public `GET /v1/content/home`; OWNER/STAFF
+  `GET|PUT /v1/admin/content/home` (optimistic concurrency, audited) and content image upload
+  (`POST /v1/admin/content/assets/uploads`, `.../:id/confirm`). Migration `site_content`.
+
+### Added
 - Premium storefront: "Shop the room" (tap markers on a room photo to see each piece),
   materials and statement sections, a shared "Buy with confidence" trust band, a "Made for you"
   timeline and mobile sticky purchase bar on product pages, "See it on your wall" (place a piece

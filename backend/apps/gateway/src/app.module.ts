@@ -13,6 +13,7 @@ import { type Redis } from 'ioredis';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { CatalogModule } from './catalog/catalog.module';
+import { ContentModule } from './content/content.module';
 import { ShopModule } from './shop/shop.module';
 import { gatewayEnvSchema } from './config/gateway-env';
 import { gatewayProbes } from './health/gateway-probes';
@@ -29,6 +30,7 @@ import { ThrottlingModule } from './throttling/throttling.module';
     ThrottlingModule,
     AuthModule,
     CatalogModule,
+    ContentModule,
     ShopModule,
     AdminModule,
     IdempotencyModule.forRoot({
