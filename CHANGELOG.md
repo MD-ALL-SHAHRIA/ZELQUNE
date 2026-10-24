@@ -7,12 +7,12 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
-- Home hero is now "The Wall": one full-bleed limewash wall where every product is hung in turn
-  (a new piece every 4.5 s; it rises into place with its lamp glow while the wall takes on the
-  piece's own tone). A "Now on the wall" caption names the piece with its price and a link;
-  hairline bars choose a piece, with a pause button. Pauses on hover and focus, never plays by
-  itself with reduced motion; only the first piece loads up front. Uploaded catalog photos join
-  the wall automatically.
+- Home hero is a gallery of walls: each product's own photo, shown whole, in a row. The wall in
+  front is in focus, the next ones wait to the right (smaller, dimmer), and every 4.5 s the row
+  slides to the next. A "Now on the wall" caption names the piece with its price and a link;
+  hairline bars choose a wall, a waiting wall can be clicked forward, swipe on phones, with a
+  pause button. Pauses on hover and focus, never moves by itself with reduced motion; only the
+  first photo loads up front. Uploaded catalog photos join automatically.
 - Day and night themes: day is the default for everyone (soft cream #F7F1E8 with espresso
   #3B2922 and antique brass; dark bands are espresso coffee, nothing black). Night (Dark Walnut)
   only when the visitor picks it with the sun/moon toggle (header; in the menu on phones); the

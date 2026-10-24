@@ -11,8 +11,9 @@ export interface WallPiece {
   name: string;
   price?: string;
   href: string;
-  /** The photo's own wall tone; the hero wall glides to it while this piece hangs. */
-  wall?: string;
+  /** The photo's real size, when known: the wall is shown whole at its own proportions. */
+  width?: number;
+  height?: number;
 }
 
 interface Labels {
@@ -24,6 +25,7 @@ interface Labels {
 }
 
 const HOLD_MS = 4500;
+const SWIPE_PX = 40;
 
 const REDUCE = '(prefers-reduced-motion: reduce)';
 function subscribeMotion(onChange: () => void) {
@@ -33,10 +35,11 @@ function subscribeMotion(onChange: () => void) {
 }
 
 /**
- * "The Wall": one plaster wall in the hero where each piece is hung in turn. The first piece
- * renders on the server (the LCP image); the rest mount after the page has loaded, so they never
- * compete with it. Pauses on hover, on keyboard focus, with the pause button and while the tab
- * is hidden; never plays by itself for people who prefer reduced motion.
+ * A gallery of walls: every piece's own photo, whole, in a row. The wall in front is in focus;
+ * the next ones wait to the right, smaller and dimmer, running off the page. Every few seconds
+ * the row slides to the next wall. The first photo renders on the server (the LCP image); the
+ * rest mount after the page has loaded. Pauses on hover, keyboard focus, the pause button and a
+ * hidden tab; never moves by itself for people who prefer reduced motion. Swipe on phones.
  */
 export function HeroWall({ pieces, labels }: { pieces: WallPiece[]; labels: Labels }) {
   const [index, setIndex] = useState(0);
@@ -49,10 +52,12 @@ export function HeroWall({ pieces, labels }: { pieces: WallPiece[]; labels: Labe
     () => false,
   );
   const root = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLUListElement>(null);
+  const swipe = useRef<number | null>(null);
   const piece = pieces[index] ?? pieces[0];
   const running = ready && !paused && !held && !still && pieces.length > 1;
 
-  // Mount the other pieces once the page is idle after load.
+  // Mount the other walls once the page is idle after load.
   useEffect(() => {
     let timer = 0;
     const start = () => {
@@ -66,7 +71,21 @@ export function HeroWall({ pieces, labels }: { pieces: WallPiece[]; labels: Labe
     };
   }, []);
 
-  // Hang the next piece every few seconds while running (and the tab is visible).
+  // Slide the row so the active wall stands at the front (measured, as walls differ in width).
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    const place = () => {
+      const panel = el.children[index] as HTMLElement | undefined;
+      el.style.transform = `translate3d(${-(panel?.offsetLeft ?? 0)}px,0,0)`;
+    };
+    place();
+    const observer = new ResizeObserver(place);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [index, ready]);
+
+  // Bring the next wall forward every few seconds while running (and the tab is visible).
   useEffect(() => {
     if (!running) return;
     const timer = window.setTimeout(() => {
@@ -77,51 +96,76 @@ export function HeroWall({ pieces, labels }: { pieces: WallPiece[]; labels: Labe
 
   if (!piece) return null;
   const shown = ready ? pieces : pieces.slice(0, 1);
+  const go = (i: number) => setIndex((i + pieces.length) % pieces.length);
 
   return (
     <div
       ref={root}
-      className="hero-wall contents"
-      onPointerEnter={() => setHeld(true)}
+      className="contents"
+      onPointerEnter={(e) => e.pointerType === 'mouse' && setHeld(true)}
       onPointerLeave={() => setHeld(false)}
       onFocus={() => setHeld(true)}
       onBlur={(e) => {
         if (!root.current?.contains(e.relatedTarget as Node | null)) setHeld(false);
       }}
-      style={{ '--piece-wall': piece.wall ?? 'var(--wall-base)' } as React.CSSProperties}
     >
-      {/* The wall takes on the tone of the piece hanging on it (faded towards the words). */}
-      <div aria-hidden className="wall-tint absolute inset-x-0 top-0 bottom-1/2 -z-20 lg:bottom-0 lg:left-[36%]" />
-      {/* The piece on the wall, with its lamp glow; each photo's own wall melts into ours. */}
-      <div className="relative order-1 mx-auto aspect-[3/4] w-full max-w-[19rem] sm:max-w-[24rem] lg:order-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-[min(44rem,calc(100svh-14rem))] lg:w-auto lg:max-w-none">
-        <div
-          aria-hidden
-          key={`glow-${index}`}
-          className="wall-glow absolute -inset-[16%] -z-10 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-glow)_55%,transparent),transparent)]"
-        />
-        {shown.map((p, i) => (
-          <div
-            key={p.src}
-            aria-hidden={i !== index}
-            className={cn(
-              'wall-piece absolute inset-0',
-              i === index ? 'wall-piece-on' : 'wall-piece-off',
-            )}
-          >
-            <Image
-              src={p.src}
-              alt={i === index ? p.name : ''}
-              fill
-              preload={i === 0}
-              fetchPriority={i === 0 ? 'high' : 'low'}
-              sizes="(min-width: 1024px) 34rem, (min-width: 640px) 24rem, 19rem"
-              className="wall-feather object-cover"
-            />
-          </div>
-        ))}
+      {/* The row of walls. Runs past the right edge of the page on purpose. */}
+      <div
+        className="gallery-clip order-1 min-w-0 touch-pan-y lg:order-2 lg:col-start-2 lg:row-span-2 lg:row-start-1"
+        onPointerDown={(e) => {
+          swipe.current = e.clientX;
+        }}
+        onPointerUp={(e) => {
+          if (swipe.current === null) return;
+          const dx = e.clientX - swipe.current;
+          swipe.current = null;
+          if (Math.abs(dx) > SWIPE_PX) go(index + (dx < 0 ? 1 : -1));
+        }}
+      >
+        <ul
+          ref={track}
+          className="gallery-track flex h-[min(26rem,62svh)] items-center gap-5 sm:h-[30rem] sm:gap-7 lg:h-[min(40rem,calc(100svh-15rem))]"
+        >
+          {shown.map((p, i) => {
+            const front = i === index;
+            return (
+              <li
+                key={p.src}
+                className={cn(
+                  'gallery-wall relative h-full shrink-0 origin-left',
+                  front ? 'gallery-wall-front' : 'gallery-wall-back',
+                )}
+                style={{ aspectRatio: p.width && p.height ? `${p.width} / ${p.height}` : '3 / 4' }}
+              >
+                <Link
+                  href={p.href}
+                  tabIndex={front ? 0 : -1}
+                  aria-label={p.name}
+                  onClick={(e) => {
+                    if (!front) {
+                      e.preventDefault();
+                      go(i);
+                    }
+                  }}
+                  className="block h-full w-full overflow-hidden bg-sand ring-1 ring-ink/10"
+                >
+                  <Image
+                    src={p.src}
+                    alt=""
+                    fill
+                    preload={i === 0}
+                    fetchPriority={i === 0 ? 'high' : 'low'}
+                    sizes="(min-width: 1024px) 28rem, (min-width: 640px) 22rem, 72vw"
+                    className="object-cover"
+                  />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </div>
 
-      {/* What hangs now, and the hairline bars that move between pieces (no numbers). */}
+      {/* What hangs in front, and the hairline bars that move between walls (no numbers). */}
       <div className="order-3 w-full max-w-md lg:col-start-1 lg:row-start-2 lg:self-start">
         <div
           aria-live="polite"
@@ -161,7 +205,7 @@ export function HeroWall({ pieces, labels }: { pieces: WallPiece[]; labels: Labe
                     type="button"
                     aria-label={labels.show.replace('{name}', p.name)}
                     aria-current={i === index ? 'true' : undefined}
-                    onClick={() => setIndex(i)}
+                    onClick={() => go(i)}
                     className="group block w-full py-3"
                   >
                     <span className="relative block h-px w-full overflow-hidden bg-ink/20 transition-colors group-hover:bg-ink/40">

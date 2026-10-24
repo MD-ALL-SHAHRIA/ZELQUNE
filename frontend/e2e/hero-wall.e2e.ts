@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-/** The hero wall: every piece hung in turn, with bars to choose one and a pause button. */
+/** The hero gallery of walls: bars choose a wall, a waiting wall comes forward, pause holds. */
 
 test('the wall shows a piece, the bars switch pieces and pause holds the wall', async ({
   page,
@@ -24,6 +24,20 @@ test('the wall shows a piece, the bars switch pieces and pause holds the wall', 
   await page.mouse.move(0, 0);
   await page.waitForTimeout(5500);
   await expect(caption).toHaveText(name);
+});
+
+test('clicking a waiting wall brings it to the front instead of leaving the page', async ({
+  page,
+}) => {
+  await page.goto('/en');
+  const hero = page.locator('section.hero-wall-root');
+  const waiting = hero.locator('.gallery-wall-back a').first();
+  await waiting.waitFor();
+  const name = (await waiting.getAttribute('aria-label')) ?? '';
+  await waiting.click();
+  await expect(page).toHaveURL(/\/en$/);
+  await expect(hero.locator('.wall-caption')).toHaveText(name);
+  await expect(hero.locator('.gallery-wall-front a')).toHaveAttribute('aria-label', name);
 });
 
 test.describe('reduced motion', () => {
