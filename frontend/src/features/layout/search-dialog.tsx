@@ -111,7 +111,7 @@ export function SearchDialog({
                 }}
                 onKeyDown={onKeyDown}
                 placeholder={copy.placeholder}
-                className="min-w-0 flex-1 bg-transparent font-display text-[1.35rem] font-light leading-none text-ink outline-none placeholder:text-stone/60 focus-visible:outline-none sm:text-4xl lg:text-5xl [&::-webkit-search-cancel-button]:hidden"
+                className="min-w-0 flex-1 bg-transparent font-display text-[1.35rem] font-medium leading-none text-ink outline-none placeholder:text-stone/60 focus-visible:outline-none sm:text-4xl lg:text-5xl [&::-webkit-search-cancel-button]:hidden"
               />
               <Dialog.Close
                 aria-label={copy.close}
@@ -132,7 +132,7 @@ export function SearchDialog({
               {empty ? (
                 <p
                   role="presentation"
-                  className="font-display text-2xl font-light text-stone lg:col-span-2"
+                  className="font-display text-2xl font-medium text-stone lg:col-span-2"
                 >
                   {fill(copy.empty, { q: query.trim() })}
                 </p>
@@ -165,7 +165,7 @@ export function SearchDialog({
                             ) : null}
                           </span>
                           <span className="min-w-0 flex-1">
-                            <span className="block truncate font-display text-xl font-light leading-tight [:lang(bn)_&]:text-lg">
+                            <span className="block truncate font-display text-xl font-medium leading-tight [:lang(bn)_&]:text-lg">
                               {p.title}
                             </span>
                             {p.price ? (
@@ -197,7 +197,7 @@ export function SearchDialog({
                               i === current && 'bg-cream/70',
                             )}
                           >
-                            <span className="font-display text-xl font-light leading-tight [:lang(bn)_&]:text-lg">
+                            <span className="font-display text-xl font-medium leading-tight [:lang(bn)_&]:text-lg">
                               {p.title}
                             </span>
                             <ArrowUpRight

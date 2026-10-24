@@ -107,7 +107,7 @@ export function BuildForm({
     const [before, after] = c.after.split('{code}');
     return (
       <div ref={doneRef} tabIndex={-1} role="status" className="space-y-8 outline-none">
-        <p className="font-display text-3xl font-light leading-snug">
+        <p className="font-display text-3xl font-medium leading-snug">
           <CopyText>{before ?? ''}</CopyText>
           <strong
             data-testid="build-code"

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Bodoni_Moda, Cormorant_Garamond, Jost } from 'next/font/google';
+import { Cormorant_Garamond, Jost } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { env } from '@/config/env';
 import { isLocale, LOCALES } from '@/i18n/config';
@@ -8,26 +8,8 @@ import { THEME_KEY } from '@/features/layout/theme';
 import { StoreProvider } from '@/store/provider';
 import '../globals.css';
 
-// Bodoni Moda (two static weights, small files) for headings: the high-contrast serif of luxury
-// editorial; Jost for text (Latin). The Bangla pair is self-hosted (globals.css) and preloaded
-// only on /bn pages.
-const bodoni = Bodoni_Moda({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-bodoni',
-  display: 'swap',
-});
-// One italic cut for accents and the day/night labels (not preloaded: below the fold).
-const bodoniItalic = Bodoni_Moda({
-  subsets: ['latin'],
-  style: 'italic',
-  weight: '400',
-  variable: '--font-bodoni-italic',
-  display: 'swap',
-  preload: false,
-});
-// The wordmark keeps the owner's logo lettering (Cormorant Garamond capitals); the home hero is
-// set in the same face.
+// Cormorant Garamond, the owner's chosen face (the logo's lettering): headings, the wordmark and
+// the hero, set a touch heavier (500/600) than the original light cut.
 const wordmark = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
@@ -85,7 +67,7 @@ export default async function RootLayout({
     <html
       lang={lang}
       suppressHydrationWarning
-      className={`${bodoni.variable} ${bodoniItalic.variable} ${wordmark.variable} ${wordmarkItalic.variable} ${jost.variable}`}
+      className={`${wordmark.variable} ${wordmarkItalic.variable} ${jost.variable}`}
     >
       <head>
         {/* The visitor's saved theme, applied before the first paint (no flash). */}

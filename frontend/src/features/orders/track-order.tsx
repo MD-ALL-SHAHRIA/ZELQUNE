@@ -100,7 +100,7 @@ export function TrackOrder({ lang, copy }: { lang: Locale; copy: Copy }) {
                   aria-hidden
                   className="absolute -left-[1.86rem] top-1.5 size-2.5 rounded-full bg-walnut"
                 />
-                <p className="font-display text-xl font-light">{t.statuses[h.status]}</p>
+                <p className="font-display text-xl font-medium">{t.statuses[h.status]}</p>
                 <time dateTime={h.at} className="text-xs text-stone">
                   {formatDate(h.at, lang)}
                 </time>
@@ -127,7 +127,7 @@ export function TrackOrder({ lang, copy }: { lang: Locale; copy: Copy }) {
               <dt className="text-xs uppercase tracking-eyebrow text-stone">
                 {copy.checkout.summary.total}
               </dt>
-              <dd data-testid="track-total" className="mt-1 font-display text-2xl font-light">
+              <dd data-testid="track-total" className="mt-1 font-display text-2xl font-medium">
                 {formatTaka(order.totals.totalPaisa, lang)}
               </dd>
             </div>

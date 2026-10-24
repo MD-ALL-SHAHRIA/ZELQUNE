@@ -25,8 +25,8 @@ export interface MenuProps {
 }
 
 const sizes: Record<MenuSection['size'], string> = {
-  lg: 'py-[0.4rem] font-display text-[2.35rem] font-light leading-[1.08] tracking-[-0.01em] [:lang(bn)_&]:py-1 [:lang(bn)_&]:text-[1.75rem] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-snug',
-  md: 'py-[0.35rem] font-display text-[1.65rem] font-light leading-tight [:lang(bn)_&]:text-[1.3rem] [:lang(bn)_&]:font-normal',
+  lg: 'py-[0.4rem] font-display text-[2.35rem] font-medium leading-[1.08] tracking-[-0.01em] [:lang(bn)_&]:py-1 [:lang(bn)_&]:text-[1.75rem] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-snug',
+  md: 'py-[0.35rem] font-display text-[1.65rem] font-medium leading-tight [:lang(bn)_&]:text-[1.3rem] [:lang(bn)_&]:font-normal',
   sm: 'py-1.5 text-[0.92rem] text-ink/75 hover:text-ink',
 };
 

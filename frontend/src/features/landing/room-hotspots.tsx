@@ -99,7 +99,7 @@ export function RoomHotspots({ spots, view }: { spots: RoomSpot[]; view: string 
                   aria-hidden
                   className="size-1.5 shrink-0 -translate-y-1 rounded-full bg-amber"
                 />
-                <span className="font-display text-2xl font-light leading-tight">{s.name}</span>
+                <span className="font-display text-2xl font-medium leading-tight">{s.name}</span>
               </p>
               {s.price ? <p className="mt-1 pl-[1.125rem] text-sm text-stone">{s.price}</p> : null}
               <Link

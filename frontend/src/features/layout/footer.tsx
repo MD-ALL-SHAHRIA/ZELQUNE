@@ -59,7 +59,7 @@ export function Footer({
         <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
             <LogoMark className="h-10 text-ivory sm:h-12" />
-            <p className="mt-10 max-w-[19ch] font-display text-[clamp(2.25rem,1.4rem+3.3vw,4.6rem)] font-light leading-[1.03] tracking-[-0.015em] text-balance [:lang(bn)_&]:max-w-[22ch] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.3] [:lang(bn)_&]:tracking-normal">
+            <p className="mt-10 max-w-[19ch] font-display text-[clamp(2.25rem,1.4rem+3.3vw,4.6rem)] font-medium leading-[1.03] tracking-[-0.015em] text-balance [:lang(bn)_&]:max-w-[22ch] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.3] [:lang(bn)_&]:tracking-normal">
               {dict.brand.tagline}
             </p>
           </div>

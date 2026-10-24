@@ -79,7 +79,7 @@ export function MadeForYou({
                 i === 0 ? 'border-amber bg-amber' : 'border-walnut/40 bg-paper',
               )}
             />
-            <p className="pt-2 font-display text-lg font-light leading-tight [:lang(bn)_&]:text-base [:lang(bn)_&]:font-normal">
+            <p className="pt-2 font-display text-lg font-medium leading-tight [:lang(bn)_&]:text-base [:lang(bn)_&]:font-normal">
               {step.title}
             </p>
             <p className="text-xs leading-snug text-ink/70">

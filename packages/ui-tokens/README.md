@@ -24,7 +24,7 @@ Fixed: `ivory #F7F1E8` (text on photos), `espresso #3B2922`, `brass` (accents on
 Tailwind: import both files; `tailwind-theme.css` maps `--color-*` to the variables with
 `@theme inline`, so opacity modifiers (`bg-paper/90`) follow the theme.
 
-Fonts (Google Fonts, self-hosted by next/font): **Bodoni Moda** (headings), **Cormorant Garamond** 500 (the wordmark only, as in the owner's logo) and **Jost** (text); **Hind Siliguri** for Bangla text and **Tiro Bangla** for Bangla display headings (both self-hosted by the storefront, `/bn` only).
+Fonts (Google Fonts, self-hosted by next/font): **Cormorant Garamond** 400/500/600 (headings at medium weight, the wordmark and the hero, as in the owner's logo) and **Jost** (text); **Hind Siliguri** for Bangla text and **Tiro Bangla** for Bangla display headings (both self-hosted by the storefront, `/bn` only).
 
 ```ts
 import { colors, typography } from '@zelqune/ui-tokens';

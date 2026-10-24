@@ -107,7 +107,9 @@ export function BuildTypes({
               <div className="mt-6 flex items-baseline gap-4 border-t border-line pt-5">
                 <span aria-hidden className="block bg-walnut h-px w-8" />
                 <div className="space-y-2">
-                  <h3 className="font-display text-[1.7rem] font-light leading-tight">{t.title}</h3>
+                  <h3 className="font-display text-[1.7rem] font-medium leading-tight">
+                    {t.title}
+                  </h3>
                   <p className="text-sm text-ink/75">{t.text}</p>
                 </div>
               </div>
@@ -176,7 +178,7 @@ export function BuildStages({
                   )}
                 >
                   <span aria-hidden className="block bg-amber h-px w-8" />
-                  <h3 className="font-display text-3xl font-light leading-tight sm:text-4xl">
+                  <h3 className="font-display text-3xl font-medium leading-tight sm:text-4xl">
                     {s.title}
                   </h3>
                   <p
@@ -239,7 +241,7 @@ export function WhyOneTeam({ dict, image }: { lang: Locale; dict: Dictionary; im
                 className="reveal flex items-baseline gap-6 border-b border-ivory/15 py-7"
               >
                 <span aria-hidden className="block bg-glow h-px w-8" />
-                <span className="font-display text-2xl font-light leading-snug sm:text-[1.9rem]">
+                <span className="font-display text-2xl font-medium leading-snug sm:text-[1.9rem]">
                   {item}
                 </span>
               </li>

@@ -103,7 +103,7 @@ export function ShopTheRoom({
                   className="mt-2.5 size-1.5 shrink-0 rounded-full bg-amber lg:mt-0"
                 />
                 <span className="min-w-0 flex-1">
-                  <span className="block font-display text-xl font-light leading-tight sm:text-2xl">
+                  <span className="block font-display text-xl font-medium leading-tight sm:text-2xl">
                     {s.name}
                   </span>
                   {s.price ? (

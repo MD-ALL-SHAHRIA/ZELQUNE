@@ -57,7 +57,7 @@ export function Heading({
   return (
     <Tag
       className={cn(
-        'font-display font-light text-balance [:lang(bn)_&]:font-normal [:lang(bn)_&]:tracking-normal',
+        'font-display font-medium text-balance [:lang(bn)_&]:font-normal [:lang(bn)_&]:tracking-normal',
         sizes[level],
         className,
       )}

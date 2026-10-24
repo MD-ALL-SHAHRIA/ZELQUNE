@@ -90,7 +90,7 @@ export function ProductCard({
       </div>
       <div className="mt-5 space-y-2.5">
         <div className="flex items-baseline justify-between gap-4">
-          <Title className="font-display text-[1.45rem] font-light leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
+          <Title className="font-display text-[1.45rem] font-medium leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
             {name}
           </Title>
           {product.fromPrice ? (

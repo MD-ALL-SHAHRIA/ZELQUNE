@@ -99,10 +99,10 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
               </p>
             ) : null}
             {quote.organizationName ? (
-              <p className="font-display text-3xl font-light">{quote.organizationName}</p>
+              <p className="font-display text-3xl font-medium">{quote.organizationName}</p>
             ) : null}
             {quote.design && quote.kind === 'CONSTRUCTION' ? (
-              <p className="font-display text-2xl font-light">
+              <p className="font-display text-2xl font-medium">
                 <span data-testid="quote-building">{copy.build.types[quote.design.spaceType]}</span>
                 {quote.design.floors ? (
                   <>
@@ -121,7 +121,7 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
                 ) : null}
               </p>
             ) : quote.design ? (
-              <p data-testid="quote-space" className="font-display text-2xl font-light">
+              <p data-testid="quote-space" className="font-display text-2xl font-medium">
                 {fill(copy.consult.trackSpace, {
                   space: copy.consult.spaces[quote.design.spaceType],
                 })}
@@ -157,7 +157,7 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
               </div>
               <div>
                 <dt className="text-xs uppercase tracking-eyebrow text-stone">{b.quote.total}</dt>
-                <dd className="mt-1 font-display text-2xl font-light">
+                <dd className="mt-1 font-display text-2xl font-medium">
                   {formatTaka(totals.totalPaisa, lang)}
                 </dd>
               </div>

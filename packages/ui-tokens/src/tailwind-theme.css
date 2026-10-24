@@ -26,7 +26,7 @@
 
   /* Latin-only stacks: Bangla pages switch fonts by lang (so English pages never fetch the
      Bangla fonts, e.g. just to draw the ৳ sign). */
-  --font-display: var(--font-bodoni), Georgia, serif;
+  --font-display: var(--font-cormorant-wordmark), Georgia, serif;
   /* The owner's logo lettering, for the wordmark only. */
   --font-wordmark: var(--font-cormorant-wordmark), Georgia, serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;

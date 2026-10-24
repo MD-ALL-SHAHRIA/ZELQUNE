@@ -125,12 +125,12 @@ export function Purchase({
         <div className="flex items-baseline gap-4">
           <p
             data-testid="price"
-            className="font-display text-[2.6rem] font-light leading-none tabular-nums sm:text-[2.9rem]"
+            className="font-display text-[2.6rem] font-medium leading-none tabular-nums sm:text-[2.9rem]"
           >
             {price}
           </p>
           {compareAt ? (
-            <del className="font-display text-2xl font-light tabular-nums text-stone">
+            <del className="font-display text-2xl font-medium tabular-nums text-stone">
               {compareAt}
             </del>
           ) : null}
@@ -260,7 +260,7 @@ export function Purchase({
         >
           <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-5 py-3 md:px-10">
             <div className="min-w-0 flex-1">
-              <p className="font-display text-[1.6rem] font-light leading-none tabular-nums">
+              <p className="font-display text-[1.6rem] font-medium leading-none tabular-nums">
                 {price}
               </p>
               {variant && product.variants.length > 1 ? (

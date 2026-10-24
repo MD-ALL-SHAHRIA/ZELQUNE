@@ -236,7 +236,7 @@ export default function VisualizerDialog({
           className="fixed inset-0 z-50 flex flex-col bg-paper outline-none motion-safe:data-[state=open]:animate-[fade-up_420ms_var(--ease-out-soft)] lg:inset-auto lg:left-1/2 lg:top-1/2 lg:h-[min(860px,calc(100dvh-4rem))] lg:w-[min(1240px,calc(100vw-4rem))] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:shadow-[0_40px_120px_-30px_rgba(43,30,25,0.55)]"
         >
           <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-4 lg:px-8 lg:py-5">
-            <Dialog.Title className="font-display text-2xl font-light leading-tight sm:text-[1.75rem] [:lang(bn)_&]:font-normal">
+            <Dialog.Title className="font-display text-2xl font-medium leading-tight sm:text-[1.75rem] [:lang(bn)_&]:font-normal">
               {t.title}
             </Dialog.Title>
             <Dialog.Close

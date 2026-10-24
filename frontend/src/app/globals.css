@@ -66,7 +66,8 @@
     line-height: 1.75;
   }
   html[lang='bn'] .font-display {
-    font-family: var(--font-noto-serif-bn), var(--font-hind), var(--font-bodoni), Georgia, serif;
+    font-family:
+      var(--font-noto-serif-bn), var(--font-hind), var(--font-cormorant-wordmark), Georgia, serif;
   }
   ::selection {
     background: color-mix(in oklab, var(--color-glow) 75%, transparent);
@@ -315,12 +316,12 @@ html[lang='bn'] .uppercase:not(.font-display):not(.font-wordmark),
 /* Italic display text uses the dedicated italic cut. */
 .font-display.italic,
 .font-display .italic {
-  font-family: var(--font-bodoni-italic), var(--font-bodoni), Georgia, serif;
+  font-family: var(--font-cormorant-italic), var(--font-cormorant-wordmark), Georgia, serif;
 }
 /* Bangla has no italic: Tiro stays upright. */
 html[lang='bn'] .font-display.italic,
 html[lang='bn'] .font-display .italic {
-  font-family: var(--font-noto-serif-bn), var(--font-bodoni-italic), Georgia, serif;
+  font-family: var(--font-noto-serif-bn), var(--font-cormorant-italic), Georgia, serif;
   font-style: normal;
 }
 

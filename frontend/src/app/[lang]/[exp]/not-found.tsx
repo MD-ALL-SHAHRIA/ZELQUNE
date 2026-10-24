@@ -14,11 +14,11 @@ export default function NotFound() {
             aria-hidden
             className="grid h-44 w-32 place-items-end justify-center rounded-t-full border border-ink/25 pb-7 sm:h-56 sm:w-40"
           >
-            <span className="font-display text-5xl font-light italic leading-none text-walnut sm:text-6xl">
+            <span className="font-display text-5xl font-medium italic leading-none text-walnut sm:text-6xl">
               404
             </span>
           </div>
-          <h1 className="mt-12 max-w-xl font-display text-[clamp(2rem,1.5rem+2vw,3.1rem)] font-light leading-[1.08] tracking-[-0.01em] text-balance">
+          <h1 className="mt-12 max-w-xl font-display text-[clamp(2rem,1.5rem+2vw,3.1rem)] font-medium leading-[1.08] tracking-[-0.01em] text-balance">
             {en.ui.notFound}
           </h1>
           <p

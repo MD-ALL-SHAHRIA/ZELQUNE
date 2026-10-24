@@ -86,7 +86,7 @@ export function FeaturedProduct({
           {copy ? <Lead className="max-w-md">{copy.short}</Lead> : null}
           {product.fromPrice ? (
             <p className="flex items-baseline gap-4 border-t border-ink/15 pt-6">
-              <span className="font-display text-5xl font-light leading-none sm:text-6xl">
+              <span className="font-display text-5xl font-medium leading-none sm:text-6xl">
                 {formatTaka(product.fromPrice.amountPaisa, lang)}
               </span>
             </p>

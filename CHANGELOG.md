@@ -34,7 +34,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   choice is remembered, no flash on load. The wordmark is back in the owner's logo lettering
   (Cormorant Garamond), and the favicon and share images are the originals again.
 - Storefront redesign, dark walnut luxury (owner's choice): ivory text on deep espresso with
-  champagne-brass details and the warm lamp glow, Bodoni Moda headings with Jost text, an
+  champagne-brass details and the warm lamp glow, Cormorant Garamond headings (the owner's original face, set at medium weight) with Jost text, an
   editorial split hero ("Make your walls feel alive.") with the lit moon panel in an arch frame,
   and the owner's own lit-shelf renders as product, category and material photos until real
   photos are uploaded from the dashboard. Share images and the favicon follow the dark palette.

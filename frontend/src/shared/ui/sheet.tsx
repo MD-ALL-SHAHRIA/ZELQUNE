@@ -36,7 +36,7 @@ export function Sheet({
           )}
         >
           <div className="flex items-center justify-between border-b border-line px-6 py-5 sm:px-8">
-            <Dialog.Title className="font-display text-[1.7rem] font-light leading-none [:lang(bn)_&]:font-normal">
+            <Dialog.Title className="font-display text-[1.7rem] font-medium leading-none [:lang(bn)_&]:font-normal">
               {title}
             </Dialog.Title>
             <Dialog.Close

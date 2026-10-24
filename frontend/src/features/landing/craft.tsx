@@ -41,7 +41,7 @@ export function Craft({ dict }: { dict: Dictionary; lang: Locale }) {
                   className="absolute -top-[5px] left-0 size-[9px] rounded-full border border-walnut bg-cream"
                 />
                 <span aria-hidden className="block bg-walnut h-px w-8" />
-                <p className="mt-6 font-display text-2xl font-light sm:text-[1.75rem]">
+                <p className="mt-6 font-display text-2xl font-medium sm:text-[1.75rem]">
                   {step.title}
                 </p>
                 <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/75">

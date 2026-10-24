@@ -62,7 +62,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
               className="absolute left-6 top-6 bg-ivory/85 sm:left-10 sm:top-9 h-px w-8"
             />
             <div className="space-y-5 p-6 sm:p-10">
-              <h3 className="font-display text-[2.6rem] font-light leading-none sm:text-6xl lg:text-7xl [:lang(bn)_&]:leading-tight">
+              <h3 className="font-display text-[2.6rem] font-medium leading-none sm:text-6xl lg:text-7xl [:lang(bn)_&]:leading-tight">
                 {s.design.title}
               </h3>
               <p className="max-w-md text-ivory/85">{s.design.text}</p>
@@ -90,7 +90,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(43,30,25,0)_38%,rgba(43,30,25,0.55)_62%,rgba(43,30,25,0.88)_100%)]" />
             <div className="flex items-start justify-between gap-6 p-6 sm:p-9">
               <div className="space-y-3">
-                <h3 className="font-display text-4xl font-light leading-none sm:text-5xl [:lang(bn)_&]:leading-tight">
+                <h3 className="font-display text-4xl font-medium leading-none sm:text-5xl [:lang(bn)_&]:leading-tight">
                   {s.construction.title}
                 </h3>
                 <p className="max-w-xs text-sm text-ivory/85">{s.construction.text}</p>
@@ -119,7 +119,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             <div className="flex flex-col justify-between gap-8 p-6 sm:p-8">
               <span aria-hidden className="block bg-glow h-px w-8" />
               <div className="space-y-3">
-                <h3 className="font-display text-3xl font-light leading-[1.05] sm:text-4xl [:lang(bn)_&]:leading-tight">
+                <h3 className="font-display text-3xl font-medium leading-[1.05] sm:text-4xl [:lang(bn)_&]:leading-tight">
                   {s.bulk.title}
                 </h3>
                 <p className="text-sm text-ivory/80">{s.bulk.text}</p>

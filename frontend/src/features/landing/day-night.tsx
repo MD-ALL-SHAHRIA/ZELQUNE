@@ -44,7 +44,7 @@ export function DayNight({ dict }: { dict: Dictionary }) {
             <div className="reveal flex flex-wrap items-end gap-x-8 gap-y-3 p-6 pb-10 sm:p-10 lg:p-14">
               <p
                 className={cn(
-                  'font-display text-[5.5rem] font-light italic leading-[0.8] sm:text-[8rem] lg:text-[10rem] [:lang(bn)_&]:not-italic [:lang(bn)_&]:leading-none',
+                  'font-display text-[5.5rem] font-medium italic leading-[0.8] sm:text-[8rem] lg:text-[10rem] [:lang(bn)_&]:not-italic [:lang(bn)_&]:leading-none',
                   m.night && 'text-glow',
                 )}
               >

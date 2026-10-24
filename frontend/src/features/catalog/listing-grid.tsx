@@ -299,7 +299,7 @@ export function ListingGrid({
             aria-hidden
             className="block h-28 w-20 rounded-t-full border border-walnut/30 bg-[linear-gradient(180deg,transparent_55%,color-mix(in_oklab,var(--color-glow)_55%,transparent))]"
           />
-          <p className="max-w-md font-display text-3xl font-light leading-snug text-ink/80 [:lang(bn)_&]:text-2xl">
+          <p className="max-w-md font-display text-3xl font-medium leading-snug text-ink/80 [:lang(bn)_&]:text-2xl">
             {copy.empty}
           </p>
           {clearButton ?? emptyAction}

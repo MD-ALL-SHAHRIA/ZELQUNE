@@ -158,7 +158,7 @@ export function SectorGrid({
                     <span aria-hidden className="block bg-walnut h-px w-8" />
                     <div className="min-w-0 flex-1 space-y-2">
                       <div className="flex items-baseline justify-between gap-4">
-                        <h3 className="font-display text-[1.9rem] font-light leading-tight [:lang(bn)_&]:text-2xl">
+                        <h3 className="font-display text-[1.9rem] font-medium leading-tight [:lang(bn)_&]:text-2xl">
                           {d.sectors[s.space].title}
                         </h3>
                         <span className="shrink-0 text-[0.7rem] uppercase tracking-eyebrow text-stone transition-colors group-hover:text-ink">
@@ -216,7 +216,7 @@ export function DesignProcess({ dict }: { lang: Locale; dict: Dictionary }) {
                 )}
               />
               <span aria-hidden className="block bg-glow h-px w-8" />
-              <p className="font-display text-[1.7rem] font-light leading-tight">{step.title}</p>
+              <p className="font-display text-[1.7rem] font-medium leading-tight">{step.title}</p>
               <p className="max-w-xs text-sm leading-relaxed text-ivory/70">{step.text}</p>
             </li>
           ))}
@@ -247,7 +247,7 @@ export function Included({ dict, image }: { lang: Locale; dict: Dictionary; imag
             {d.included.map((item) => (
               <li
                 key={item}
-                className="flex items-baseline gap-6 border-b border-line py-6 font-display text-2xl font-light leading-snug sm:text-[1.75rem] [:lang(bn)_&]:text-xl"
+                className="flex items-baseline gap-6 border-b border-line py-6 font-display text-2xl font-medium leading-snug sm:text-[1.75rem] [:lang(bn)_&]:text-xl"
               >
                 <span aria-hidden className="block h-px w-8 shrink-0 bg-walnut" />
                 {item}
