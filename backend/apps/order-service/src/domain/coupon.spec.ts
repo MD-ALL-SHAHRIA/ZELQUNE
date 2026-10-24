@@ -17,8 +17,8 @@ const rule = (over: Partial<CouponRule> = {}): CouponRule => ({
 });
 
 describe('coupons', () => {
-  it('takes a percentage off, rounded down to a whole taka', () => {
-    expect(couponDiscount(rule(), 349_050)).toBe(34_900);
+  it('takes a percentage off, rounded up to a whole taka for the customer', () => {
+    expect(couponDiscount(rule(), 349_050)).toBe(35_000);
   });
 
   it('caps a percentage at maxDiscount and a fixed amount at the subtotal', () => {
