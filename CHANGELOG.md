@@ -47,6 +47,11 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   glow on hover, drifting marquee (all off with reduced motion; transforms and opacity only).
 
 ### Added
+- Admin dashboard redesign (Polaris/Stripe/Linear patterns): fixed sidebar with a live payment-check
+  count, ⌘K search, Geist UI type, day/night themes, toasts, skeletons, unsaved-changes bar;
+  Home with date ranges, KPI cards with change and sparklines, revenue chart with tooltip, GO
+  ring, order pipeline, funnel and price test; order detail with a primary next step, dialogs and
+  a timeline; products with drag-and-drop photos; the home page editor with a live preview.
 - Admin dashboard (`dashboard/`, port 3200, step 1.5): sign-in (access token in memory, httpOnly
   refresh cookie), overview (GO counter, funnel, price experiment), orders (TanStack Table list,
   detail with verify/reject advance, confirm COD, state-machine moves, notes, shipment),

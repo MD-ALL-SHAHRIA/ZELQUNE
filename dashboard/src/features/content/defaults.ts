@@ -82,3 +82,38 @@ export const TRUST_ICONS = [
   'hand',
   'sparkles',
 ] as const;
+
+/** The storefront's built-in scene photos, by product (shown until the owner uploads one). */
+export function sampleScene(productSlug: string): string | undefined {
+  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const file: Record<string, string> = {
+    'fluted-niche-panel': 'moon-v2-1200.webp',
+    'half-moon-planter-light': 'half-v2-1200.webp',
+    'wave-shelf': 'curve-v2-1200.webp',
+  };
+  return file[productSlug] ? `${site}/images/hero/${file[productSlug]}` : undefined;
+}
+
+/** The storefront's built-in collection covers, by category. */
+export function sampleCover(categorySlug: string): string | undefined {
+  const scene: Record<string, string> = {
+    'wall-panels': 'fluted-niche-panel',
+    lighting: 'half-moon-planter-light',
+    shelves: 'wave-shelf',
+  };
+  return scene[categorySlug] ? sampleScene(scene[categorySlug]) : undefined;
+}
+
+/** The storefront's sample product photos, by product (until real photos are uploaded). */
+export function sampleProductPhoto(productSlug: string): string | undefined {
+  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const file: Record<string, string> = {
+    'alo-arch-panel': 'terra.webp',
+    'diamond-shelf-pair': 'aurora.webp',
+    'wave-shelf': 'curve-walnut-shelf-640.webp',
+    'half-moon-planter-light': 'half-moon-planter-640.webp',
+    'fluted-niche-panel': 'moon-bonsai-panel-640.webp',
+    'capsule-vase-light': 'zenith.webp',
+  };
+  return file[productSlug] ? `${site}/images/samples/${file[productSlug]}` : undefined;
+}

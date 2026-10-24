@@ -1,119 +1,369 @@
 'use client';
 
+import { ArrowDownRight, ArrowRight, ArrowUpRight, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Card, CardTitle, Notice, PageHeader } from '@/components/ui';
-import { api, errorMessage, type Schemas } from '@/lib/api';
-import { formatTaka } from '@/lib/format';
+import { AreaChart } from '@/components/charts/area-chart';
+import { CompareBars, FunnelBars } from '@/components/charts/bars';
+import { Ring } from '@/components/charts/ring';
+import { Sparkline } from '@/components/charts/sparkline';
+import { Badge } from '@/components/ui/badge';
+import { buttonClass } from '@/components/ui/button';
+import { Card, CardBody, CardHeader } from '@/components/ui/card';
+import { EmptyState, PageHeader } from '@/components/ui/page';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs } from '@/components/ui/tabs';
+import { api, type Schemas } from '@/lib/api';
+import { useAuth } from '@/lib/auth';
+import { cn } from '@/lib/cn';
+import { type Range, ranges, shortDay } from '@/lib/dates';
+import { delta, formatTaka, formatTakaShort, timeAgo } from '@/lib/format';
+import { PIPELINE, STATUS_LABEL, statusTone, type OrderStatus } from '@/lib/orders';
 
 type Stats = Schemas['DashboardStatsDto_Output'];
+type Order = Schemas['AdminOrderListDto_Output']['items'][number];
 
-export default function OverviewPage() {
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [error, setError] = useState<string | null>(null);
+const RANGE_LABEL: Record<Range, string> = { '1': 'Today', '7': '7 days', '30': '30 days' };
+
+function greeting(now = new Date()) {
+  const h = Number(
+    new Intl.DateTimeFormat('en-GB', {
+      hour: 'numeric',
+      hour12: false,
+      timeZone: 'Asia/Dhaka',
+    }).format(now),
+  );
+  return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+}
+
+const totals = (s: Stats) => {
+  const revenue = s.revenueByDay.reduce((a, d) => a + d.revenuePaisa, 0);
+  const orders = s.revenueByDay.reduce((a, d) => a + d.orders, 0);
+  return {
+    revenue,
+    orders,
+    aov: orders ? revenue / orders : 0,
+    conversion: s.funnel.views ? (s.funnel.purchase / s.funnel.views) * 100 : 0,
+  };
+};
+
+function Delta({ value }: { value: number | null }) {
+  if (value === null) return <span className="text-xs text-stone">No earlier data</span>;
+  const up = value >= 0;
+  const Icon = up ? ArrowUpRight : ArrowDownRight;
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center gap-0.5 text-xs font-medium tabular',
+        up ? 'text-success' : 'text-danger',
+      )}
+    >
+      <Icon className="size-3.5" aria-hidden />
+      {Math.abs(value).toFixed(1)}%<span className="sr-only">{up ? ' up' : ' down'}</span>
+      <span className="ml-1 font-normal text-stone">vs previous</span>
+    </span>
+  );
+}
+
+function Kpi({
+  label,
+  value,
+  change,
+  spark,
+  href,
+}: {
+  label: string;
+  value: string;
+  change: number | null;
+  spark?: number[];
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group block rounded-xl border border-line bg-surface p-4 shadow-[var(--shadow-card)] transition-colors hover:border-ink/25"
+    >
+      <div className="flex items-center justify-between">
+        <p className="text-[0.8125rem] text-stone">{label}</p>
+        <ArrowRight
+          className="size-3.5 text-stone opacity-0 transition-opacity group-hover:opacity-100"
+          aria-hidden
+        />
+      </div>
+      <div className="mt-2 flex items-end justify-between gap-2">
+        <div>
+          <p className="text-2xl font-semibold tracking-[-0.02em] text-ink tabular">{value}</p>
+          <div className="mt-1">
+            <Delta value={change} />
+          </div>
+        </div>
+        {spark ? <Sparkline values={spark} className="shrink-0" /> : null}
+      </div>
+    </Link>
+  );
+}
+
+export default function HomePage() {
+  const { state } = useAuth();
+  const [range, setRange] = useState<Range>('7');
+  const [stats, setStats] = useState<{ now: Stats; before: Stats } | null>(null);
+  const [pipeline, setPipeline] = useState<Partial<Record<OrderStatus, number>>>({});
+  const [recent, setRecent] = useState<Order[] | null>(null);
 
   useEffect(() => {
-    void api.GET('/v1/admin/dashboard').then(({ data, error }) => {
-      if (data) setStats(data);
-      else setError(errorMessage(error));
+    let live = true;
+    const { current, previous } = ranges(Number(range));
+    void Promise.all([
+      api.GET('/v1/admin/dashboard', { params: { query: current } }),
+      api.GET('/v1/admin/dashboard', { params: { query: previous } }),
+    ]).then(([a, b]) => {
+      if (live && a.data && b.data) setStats({ now: a.data, before: b.data });
     });
+    return () => {
+      live = false;
+    };
+  }, [range]);
+
+  useEffect(() => {
+    void Promise.all(
+      PIPELINE.map((status) =>
+        api.GET('/v1/admin/orders', { params: { query: { status, limit: 1 } } }),
+      ),
+    ).then((res) =>
+      setPipeline(Object.fromEntries(PIPELINE.map((s, i) => [s, res[i]?.data?.total ?? 0]))),
+    );
+    void api
+      .GET('/v1/admin/orders', { params: { query: { limit: 6 } } })
+      .then(({ data }) => setRecent(data?.items ?? []));
   }, []);
+
+  const name = state.status === 'signedIn' ? (state.user.name ?? '').split(' ')[0] : '';
+  const now = stats ? totals(stats.now) : null;
+  const before = stats ? totals(stats.before) : null;
+  const days = stats?.now.revenueByDay ?? [];
+  const exp = stats?.now.experiments ?? [];
+  const arm = (k: 'a' | 'b') => exp.find((e) => e.key === k);
 
   return (
     <>
-      <PageHeader title="Overview" description="Pre-orders, sales and the GO counter." />
-      {error ? <Notice tone="error">{error}</Notice> : null}
-      {stats ? (
-        <div className="grid gap-5 lg:grid-cols-3">
-          <Card className="lg:row-span-2">
-            <p className="text-[0.72rem] uppercase tracking-eyebrow text-stone">GO counter</p>
-            <p className="mt-3 font-display text-7xl font-medium">
-              {stats.go.count}
-              <span className="text-3xl text-stone"> / {stats.go.target}</span>
-            </p>
-            <div className="mt-5 h-2 overflow-hidden rounded-full bg-sand">
-              <div
-                className="h-full rounded-full bg-walnut"
-                style={{
-                  width: `${Math.min(100, (stats.go.count / Math.max(1, stats.go.target)) * 100)}%`,
-                }}
+      <PageHeader
+        title={`${greeting()}${name ? `, ${name}` : ''}`}
+        description="Here is how Zelqune is doing."
+        actions={
+          <Tabs
+            label="Date range"
+            value={range}
+            onChange={setRange}
+            items={(['1', '7', '30'] as Range[]).map((r) => ({ value: r, label: RANGE_LABEL[r] }))}
+          />
+        }
+      />
+
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {now && before ? (
+          <>
+            <Kpi
+              label="Revenue"
+              value={formatTaka(now.revenue)}
+              change={delta(now.revenue, before.revenue)}
+              spark={days.map((d) => d.revenuePaisa)}
+              href="/orders"
+            />
+            <Kpi
+              label="Orders"
+              value={now.orders.toLocaleString('en')}
+              change={delta(now.orders, before.orders)}
+              spark={days.map((d) => d.orders)}
+              href="/orders"
+            />
+            <Kpi
+              label="Average order"
+              value={formatTaka(now.aov)}
+              change={delta(now.aov, before.aov)}
+              href="/orders"
+            />
+            <Kpi
+              label="Conversion"
+              value={`${now.conversion.toFixed(2)}%`}
+              change={delta(now.conversion, before.conversion)}
+              href="/orders"
+            />
+          </>
+        ) : (
+          Array.from({ length: 4 }, (_, i) => (
+            <Skeleton key={i} className="h-[6.75rem] rounded-xl" />
+          ))
+        )}
+      </div>
+
+      <div className="mt-4 grid gap-4 xl:grid-cols-3">
+        <Card className="xl:col-span-2">
+          <CardHeader
+            title="Revenue"
+            description={
+              stats
+                ? `${shortDay(stats.now.range.from)} – ${shortDay(stats.now.range.to)} · confirmed orders`
+                : ' '
+            }
+            action={
+              now ? (
+                <span className="text-lg font-semibold tabular">{formatTaka(now.revenue)}</span>
+              ) : null
+            }
+          />
+          <CardBody>
+            {stats ? (
+              <AreaChart
+                label={`Revenue per day, ${RANGE_LABEL[range]}`}
+                data={days.map((d) => ({ label: shortDay(d.date), value: d.revenuePaisa }))}
+                format={formatTakaShort}
               />
-            </div>
-            <p className="mt-3 text-sm text-stone">
-              {stats.go.reached
-                ? 'Target reached: go to production.'
-                : 'Confirmed real orders (friends excluded).'}
-            </p>
-          </Card>
-          <Card>
-            <p className="text-[0.72rem] uppercase tracking-eyebrow text-stone">Today</p>
-            <p className="mt-2 font-display text-4xl font-medium">{stats.today.orders} {stats.today.orders === 1 ? 'order' : 'orders'}</p>
-            <p className="text-sm text-stone">{formatTaka(stats.today.revenuePaisa)} revenue</p>
-          </Card>
-          <Card>
-            <CardTitle>Funnel</CardTitle>
-            <dl className="grid grid-cols-4 gap-3 text-center">
-              {(
-                [
-                  ['Views', stats.funnel.views],
-                  ['Cart', stats.funnel.addToCart],
-                  ['Checkout', stats.funnel.checkout],
-                  ['Bought', stats.funnel.purchase],
-                ] as const
-              ).map(([k, v]) => (
-                <div key={k}>
-                  <dt className="text-[0.72rem] text-stone">{k}</dt>
-                  <dd className="font-display text-2xl font-medium">{v}</dd>
+            ) : (
+              <Skeleton className="h-60" />
+            )}
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="GO counter" description="Real confirmed orders (friends excluded)" />
+          <CardBody className="flex flex-col items-center pt-2">
+            {stats ? (
+              <>
+                <div className="relative">
+                  <Ring value={stats.now.go.count} max={stats.now.go.target} size={156} />
+                  <div className="absolute inset-0 grid place-items-center text-center">
+                    <div>
+                      <p className="text-4xl font-semibold tracking-[-0.03em] tabular">
+                        {stats.now.go.count}
+                      </p>
+                      <p className="text-xs text-stone">of {stats.now.go.target}</p>
+                    </div>
+                  </div>
                 </div>
+                <Badge tone={stats.now.go.reached ? 'success' : 'warning'} className="mt-4">
+                  {stats.now.go.reached
+                    ? 'Target reached: start production'
+                    : `${Math.max(stats.now.go.target - stats.now.go.count, 0)} more to go`}
+                </Badge>
+              </>
+            ) : (
+              <Skeleton className="size-40 rounded-full" />
+            )}
+          </CardBody>
+        </Card>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-3">
+        <Card>
+          <CardHeader
+            title="Order pipeline"
+            description="Open orders by step"
+            action={
+              <Link href="/orders" className={buttonClass('ghost', 'sm')}>
+                All orders
+              </Link>
+            }
+          />
+          <CardBody>
+            <ul className="space-y-1">
+              {PIPELINE.map((s) => (
+                <li key={s}>
+                  <Link
+                    href={`/orders?status=${s}`}
+                    className="flex items-center justify-between rounded-lg px-2 py-2 hover:bg-ink/4"
+                  >
+                    <Badge tone={statusTone(s)}>{STATUS_LABEL[s]}</Badge>
+                    <span className="text-sm font-semibold tabular">{pipeline[s] ?? '–'}</span>
+                  </Link>
+                </li>
               ))}
-            </dl>
-          </Card>
-          <Card className="lg:col-span-2">
-            <CardTitle>Price experiment</CardTitle>
-            <table className="w-full text-sm">
-              <thead className="text-left text-[0.72rem] text-stone">
-                <tr>
-                  <th className="pb-2 font-medium">Arm</th>
-                  <th className="pb-2 font-medium">Sessions</th>
-                  <th className="pb-2 font-medium">Checkouts</th>
-                  <th className="pb-2 font-medium">Purchases</th>
-                  <th className="pb-2 font-medium">Conversion</th>
-                </tr>
-              </thead>
+            </ul>
+          </CardBody>
+        </Card>
+        <Card>
+          <CardHeader title="Conversion funnel" description={RANGE_LABEL[range]} />
+          <CardBody>
+            {stats ? (
+              <FunnelBars
+                steps={[
+                  { label: 'Product views', value: stats.now.funnel.views },
+                  { label: 'Added to cart', value: stats.now.funnel.addToCart },
+                  { label: 'Checkout', value: stats.now.funnel.checkout },
+                  { label: 'Purchased', value: stats.now.funnel.purchase },
+                ]}
+              />
+            ) : (
+              <Skeleton className="h-40" />
+            )}
+          </CardBody>
+        </Card>
+        <Card>
+          <CardHeader
+            title="Price test"
+            description="Sessions, checkouts and purchases per price"
+          />
+          <CardBody>
+            {stats ? (
+              <CompareBars
+                format={(v) => v.toLocaleString('en')}
+                rows={[
+                  { label: 'Sessions', a: arm('a')?.sessions ?? 0, b: arm('b')?.sessions ?? 0 },
+                  { label: 'Checkouts', a: arm('a')?.checkouts ?? 0, b: arm('b')?.checkouts ?? 0 },
+                  { label: 'Purchases', a: arm('a')?.purchases ?? 0, b: arm('b')?.purchases ?? 0 },
+                ]}
+              />
+            ) : (
+              <Skeleton className="h-40" />
+            )}
+          </CardBody>
+        </Card>
+      </div>
+
+      <Card className="mt-4">
+        <CardHeader
+          title="Recent orders"
+          action={
+            <Link href="/orders" className={buttonClass('secondary', 'sm')}>
+              View all
+            </Link>
+          }
+        />
+        {recent === null ? (
+          <CardBody className="space-y-2">
+            {Array.from({ length: 4 }, (_, i) => (
+              <Skeleton key={i} className="h-9" />
+            ))}
+          </CardBody>
+        ) : recent.length === 0 ? (
+          <EmptyState icon={<ShoppingBag />} title="No orders yet">
+            Orders appear here the moment a customer checks out.
+          </EmptyState>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[40rem] text-sm">
               <tbody>
-                {stats.experiments.map((x) => (
-                  <tr key={x.key} className="border-t border-line">
-                    <td className="py-2 uppercase">{x.key}</td>
-                    <td>{x.sessions}</td>
-                    <td>{x.checkouts}</td>
-                    <td>{x.purchases}</td>
-                    <td>{(x.conversionRate * 100).toFixed(1)}%</td>
+                {recent.map((o) => (
+                  <tr key={o.id} className="border-t border-line hover:bg-ink/3">
+                    <td className="py-2.5 pl-5">
+                      <Link href={`/orders/${o.id}`} className="font-medium hover:underline">
+                        {o.code}
+                      </Link>
+                    </td>
+                    <td className="py-2.5 text-ink/85">{o.customerName}</td>
+                    <td className="py-2.5">
+                      <Badge tone={statusTone(o.status)}>{STATUS_LABEL[o.status]}</Badge>
+                    </td>
+                    <td className="py-2.5 text-stone">{timeAgo(o.placedAt)}</td>
+                    <td className="py-2.5 pr-5 text-right font-medium tabular">
+                      {formatTaka(o.totalPaisa)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </Card>
-          <Card className="lg:col-span-3">
-            <CardTitle
-              aside={
-                <Link href="/content" className="text-sm underline">
-                  Edit home page
-                </Link>
-              }
-            >
-              Storefront
-            </CardTitle>
-            <p className="text-sm text-stone">
-              Change the hero, trust strip, collections and contact links from the Home page
-              section.
-            </p>
-          </Card>
-        </div>
-      ) : !error ? (
-        <p role="status" className="text-sm text-stone">
-          Loading…
-        </p>
-      ) : null}
+          </div>
+        )}
+      </Card>
     </>
   );
 }

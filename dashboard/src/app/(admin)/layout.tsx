@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Shell } from '@/components/shell';
+import { AppShell } from '@/components/shell/app-shell';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '@/lib/auth';
 
 /** Every admin page needs an OWNER/STAFF session; otherwise back to sign-in. */
@@ -14,10 +15,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [state.status, router]);
   if (state.status !== 'signedIn') {
     return (
-      <div className="grid min-h-dvh place-items-center text-sm text-stone" role="status">
-        Loading…
+      <div className="flex min-h-dvh" role="status" aria-label="Loading">
+        <div className="hidden w-60 border-r border-line bg-cream lg:block" />
+        <div className="flex-1 space-y-4 p-10">
+          <Skeleton className="h-8 w-56" />
+          <div className="grid gap-4 sm:grid-cols-4">
+            {Array.from({ length: 4 }, (_, i) => (
+              <Skeleton key={i} className="h-28" />
+            ))}
+          </div>
+          <Skeleton className="h-72" />
+        </div>
       </div>
     );
   }
-  return <Shell>{children}</Shell>;
+  return <AppShell>{children}</AppShell>;
 }
