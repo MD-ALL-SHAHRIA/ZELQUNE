@@ -1,4 +1,3 @@
-import { Hammer, HandCoins, Lightbulb, Truck } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { type Locale } from '@/i18n/config';
@@ -10,27 +9,6 @@ import { LogoMark } from '@/shared/ui/logo';
 import { Container } from '@/shared/ui/typography';
 import { LanguageSwitcher } from './language-switcher';
 import { categoryLinks } from './nav';
-
-const VALUE_ICONS = [Hammer, Lightbulb, HandCoins, Truck];
-
-export function ValuesBand({ dict }: { dict: Dictionary }) {
-  return (
-    <section className="border-y border-line bg-cream/60">
-      <Container className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-4">
-        {dict.landing.values.map((v, i) => {
-          const Icon = VALUE_ICONS[i] ?? Hammer;
-          return (
-            <div key={v.title} className="flex flex-col gap-3">
-              <Icon aria-hidden className="size-5 text-brass" strokeWidth={1.1} />
-              <p className="font-display text-xl font-light leading-tight sm:text-2xl">{v.title}</p>
-              <p className="text-sm text-stone">{v.text}</p>
-            </div>
-          );
-        })}
-      </Container>
-    </section>
-  );
-}
 
 export function Footer({
   lang,

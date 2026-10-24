@@ -376,8 +376,12 @@ export const bn: Dictionary = {
     allProducts: 'সব পণ্য',
   },
   home2: {
-    categoriesEyebrow: 'ক্যাটেগরি অনুযায়ী কেনাকাটা',
-    categoriesHeading: 'প্রতিটা দেয়ালের জন্য',
+    categoriesEyebrow: 'বাছাই করা সংগ্রহ',
+    categoriesHeading: 'আপনার পছন্দের পণ্যটি খুঁজুন',
+    categoriesAll: 'সব সংগ্রহ দেখুন',
+    categoriesCount: '{n}টি পণ্য',
+    categoriesPrev: 'আগের সংগ্রহ',
+    categoriesNext: 'পরের সংগ্রহ',
     designEyebrow: 'ইন্টেরিয়র ডিজাইন',
     designHeading: 'পুরো জায়গাটাই আমাদের ডিজাইন করতে দিন',
     designText:

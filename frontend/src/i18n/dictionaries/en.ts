@@ -380,8 +380,12 @@ export const en = {
     allProducts: 'All products',
   },
   home2: {
-    categoriesEyebrow: 'Shop by category',
-    categoriesHeading: 'Pieces for every wall',
+    categoriesEyebrow: 'Featured collections',
+    categoriesHeading: 'Find your perfect piece',
+    categoriesAll: 'View all collections',
+    categoriesCount: '{n} pieces',
+    categoriesPrev: 'Previous collections',
+    categoriesNext: 'Next collections',
     designEyebrow: 'Interior design',
     designHeading: 'Let us design the whole space',
     designText:

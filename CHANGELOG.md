@@ -21,6 +21,11 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   a film look over the scenes in both themes (fine grain, vignette, a slow beam of window light,
   a bloom on the lit piece, a hint of letterbox), golden hour by day and dimmed and lamp-lit by
   night; scenes change with a soft focus pull. The film layers arrive after the page has loaded.
+- Home, after the owner's reference: a slim trust strip under the hero (Handcrafted · Safe 5V
+  light · ৳300 advance · Across Bangladesh, from the copy) and a "Find your perfect piece"
+  collections row (title and link left, wide room cards right with round arrows, swipe and snap)
+  that replaces "Pieces for every wall". Collections and their piece counts come from the
+  catalog, so new categories appear by themselves; empty ones are left out.
 - Header: the Interior Design and Construction links show from 1360px wide (they stay in the
   menu), so they never collide with the wordmark.
 - Day and night themes: day is the default for everyone (soft cream #F7F1E8 with espresso

@@ -254,8 +254,11 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Shop menu:** Shop by category · All products
 
 ### Home page
-- **Categories eyebrow:** Shop by category
-- **Categories heading:** Pieces for every wall
+- **Categories eyebrow:** Featured collections
+- **Categories heading:** Find your perfect piece
+- **Categories link:** View all collections
+- **Category card count:** {n} pieces
+- **Collection arrows:** Previous collections · Next collections
 - **Design band eyebrow:** Interior design
 - **Design band heading:** Let us design the whole space
 - **Design band text:** Homes, offices, restaurants and cafés: we plan the space, make the woodwork and lighting, and install it.
