@@ -7,6 +7,16 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Business operations (ADR 0016):
+  - **Flash and seasonal sales** (catalog `Promotion`), applied in price resolution so the
+    storefront and checkout charge the sale price; public `GET /v1/catalog/sale`.
+  - **Coupon codes** (order-service), checked in the cart quote and at checkout and redeemed in
+    the order's own transaction; `couponCode` on quote and checkout, `discountPaisa` in the totals.
+  - Unit cost per variant (`costPaisa`) and an **expense ledger** (analytics-service).
+  - Reports: `GET /v1/admin/reports/sales`, `GET /v1/admin/customers`, and an OWNER-only
+    `GET /v1/admin/reports/profit-loss` that compares against the previous period.
+  - Admin CRUD for `/v1/admin/{coupons,promotions,expenses}`, all audited.
+  - Migrations: `coupons`, `promotions_costs`, `expenses`.
 - Storefront content (ADR 0015): catalog-service stores the home page content (hero scenes,
   trust strip, collections order, announcement, contact and social links; English + Bangla) as a
   versioned document with uploaded images. Public `GET /v1/content/home`; OWNER/STAFF

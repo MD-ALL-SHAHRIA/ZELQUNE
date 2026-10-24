@@ -20,5 +20,6 @@ accepted ADR; supersede it with a new one.
 | [0013](0013-storefront-architecture-and-design-system.md) | Storefront architecture: feature folders, RTK Query, brand design system | Accepted |
 | [0014](0014-services-as-rfq-leads.md) | Interior design and construction requests are RFQ leads | Accepted |
 | [0015](0015-storefront-content-in-catalog.md) | Storefront content lives in catalog-service as versioned documents | Accepted |
+| [0016](0016-marketing-reports-and-finance.md) | Coupons, sales, reports and profit and loss, split by data owner | Accepted |
 
 Template: copy `0000-template.md`, take the next number, keep it under a page.

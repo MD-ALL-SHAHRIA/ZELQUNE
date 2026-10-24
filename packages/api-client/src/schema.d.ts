@@ -89,6 +89,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/catalog/sale': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** The flash or seasonal sale running now (for the banner), or null. */
+    get: operations['CatalogController_sale'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/catalog/products': {
     parameters: {
       query?: never;
@@ -908,6 +925,155 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/coupons': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminBusinessController_coupons'];
+    put?: never;
+    post: operations['AdminBusinessController_createCoupon'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/coupons/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['AdminBusinessController_updateCoupon'];
+    post?: never;
+    /** Deletes an unused coupon; a redeemed one is deactivated instead. */
+    delete: operations['AdminBusinessController_removeCoupon'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/promotions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminBusinessController_promotions'];
+    put?: never;
+    /** A sale lowers storefront and checkout prices while it runs. */
+    post: operations['AdminBusinessController_createPromotion'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/promotions/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['AdminBusinessController_updatePromotion'];
+    post?: never;
+    delete: operations['AdminBusinessController_removePromotion'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/reports/sales': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Sales by day, product, variant, district, payment, channel and coupon (BD days). */
+    get: operations['AdminBusinessController_sales'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/customers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Everyone who has ordered, grouped by phone, with lifetime spend. */
+    get: operations['AdminBusinessController_customers'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/expenses': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminBusinessController_expenses'];
+    put?: never;
+    post: operations['AdminBusinessController_createExpense'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/expenses/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['AdminBusinessController_updateExpense'];
+    post?: never;
+    delete: operations['AdminBusinessController_removeExpense'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/reports/profit-loss': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Revenue - cost of goods (variant unit costs) - expenses, with the previous period and months. */
+    get: operations['AdminBusinessController_profitLoss'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/health': {
     parameters: {
       query?: never;
@@ -971,6 +1137,20 @@ export interface components {
         position: number;
       }[];
     };
+    ActiveSaleDto_Output: {
+      sale: {
+        /** Format: uuid */
+        id: string;
+        nameEn: string;
+        nameBn: string;
+        /** @enum {string} */
+        kind: 'PERCENT' | 'FIXED';
+        value: number;
+        endsAt: string;
+        flash: boolean;
+        productIds: string[];
+      } | null;
+    };
     ProductListResponseDto_Output: {
       items: {
         /** Format: uuid */
@@ -990,6 +1170,16 @@ export interface components {
           currency: 'BDT';
           /** @enum {string|null} */
           experimentKey: 'a' | 'b' | null;
+          sale?: {
+            /** Format: uuid */
+            promotionId: string;
+            nameEn: string;
+            nameBn: string;
+            endsAt: string;
+            flash: boolean;
+            /** @example 349000 */
+            regularPaisa: number;
+          } | null;
         } | null;
         primaryMedia: {
           /** Format: uuid */
@@ -1025,6 +1215,16 @@ export interface components {
         currency: 'BDT';
         /** @enum {string|null} */
         experimentKey: 'a' | 'b' | null;
+        sale?: {
+          /** Format: uuid */
+          promotionId: string;
+          nameEn: string;
+          nameBn: string;
+          endsAt: string;
+          flash: boolean;
+          /** @example 349000 */
+          regularPaisa: number;
+        } | null;
       } | null;
       primaryMedia: {
         /** Format: uuid */
@@ -1080,6 +1280,16 @@ export interface components {
           currency: 'BDT';
           /** @enum {string|null} */
           experimentKey: 'a' | 'b' | null;
+          sale?: {
+            /** Format: uuid */
+            promotionId: string;
+            nameEn: string;
+            nameBn: string;
+            endsAt: string;
+            flash: boolean;
+            /** @example 349000 */
+            regularPaisa: number;
+          } | null;
         } | null;
       }[];
       media: {
@@ -1313,6 +1523,16 @@ export interface components {
             currency: 'BDT';
             /** @enum {string|null} */
             experimentKey: 'a' | 'b' | null;
+            sale?: {
+              /** Format: uuid */
+              promotionId: string;
+              nameEn: string;
+              nameBn: string;
+              endsAt: string;
+              flash: boolean;
+              /** @example 349000 */
+              regularPaisa: number;
+            } | null;
           } | null;
           /** @example 349000 */
           lineTotalPaisa: number | null;
@@ -1352,6 +1572,16 @@ export interface components {
           currency: 'BDT';
           /** @enum {string|null} */
           experimentKey: 'a' | 'b' | null;
+          sale?: {
+            /** Format: uuid */
+            promotionId: string;
+            nameEn: string;
+            nameBn: string;
+            endsAt: string;
+            flash: boolean;
+            /** @example 349000 */
+            regularPaisa: number;
+          } | null;
         } | null;
         /** @example 349000 */
         lineTotalPaisa: number | null;
@@ -1371,12 +1601,21 @@ export interface components {
     QuoteRequestDto: {
       district: string;
       area: string;
+      couponCode?: string;
     };
     CheckoutQuoteDto_Output: {
       /** @enum {string} */
       saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
       /** @example 349000 */
       subtotalPaisa: number;
+      /** @example 349000 */
+      discountPaisa: number;
+      coupon: {
+        code: string;
+        description: string | null;
+        /** @example 349000 */
+        discountPaisa: number;
+      } | null;
       /** @example 349000 */
       shippingFeePaisa: number;
       /** @example 349000 */
@@ -1417,6 +1656,7 @@ export interface components {
       trxId?: string | null;
       /** @example 01712345678 */
       payerPhone?: string | null;
+      couponCode?: string;
       utm?: {
         source?: string;
         medium?: string;
@@ -1862,6 +2102,7 @@ export interface components {
       /** Format: uuid */
       organizationId: string | null;
       quoteCode: string | null;
+      couponCode: string | null;
       cancelReason: string | null;
       payment: {
         /** Format: uuid */
@@ -2117,6 +2358,8 @@ export interface components {
         packageWidthMm: number | null;
         packageHeightMm: number | null;
         packageWeightGrams: number | null;
+        /** @example 349000 */
+        costPaisa: number | null;
         basePrice: {
           /** @example 349000 */
           amountPaisa: number;
@@ -2194,6 +2437,8 @@ export interface components {
       packageHeightMm?: number | null;
       /** @default null */
       packageWeightGrams?: number | null;
+      /** @example 349000 */
+      costPaisa?: number | null;
     };
     SetPriceDto: {
       /** @example 349000 */
@@ -2505,6 +2750,408 @@ export interface components {
       /** Format: uuid */
       orderId: string;
     };
+    CouponListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        code: string;
+        description: string | null;
+        /** @enum {string} */
+        kind: 'PERCENT' | 'FIXED';
+        value: number;
+        /** @example 349000 */
+        minSubtotalPaisa: number;
+        /** @example 349000 */
+        maxDiscountPaisa: number | null;
+        startsAt: string | null;
+        endsAt: string | null;
+        maxUses: number | null;
+        usedCount: number;
+        active: boolean;
+        ordersCount: number;
+        /** @example 349000 */
+        discountGivenPaisa: number;
+        createdAt: string;
+        updatedAt: string;
+      }[];
+    };
+    UpsertCouponDto: {
+      code: string;
+      /** @default null */
+      description?: string | null;
+      /** @enum {string} */
+      kind: 'PERCENT' | 'FIXED';
+      value: number;
+      /**
+       * @default 0
+       * @example 349000
+       */
+      minSubtotalPaisa?: number;
+      /**
+       * @default null
+       * @example 349000
+       */
+      maxDiscountPaisa?: number | null;
+      /**
+       * Format: date-time
+       * @default null
+       */
+      startsAt?: string | null;
+      /**
+       * Format: date-time
+       * @default null
+       */
+      endsAt?: string | null;
+      /** @default null */
+      maxUses?: number | null;
+      /** @default true */
+      active?: boolean;
+    };
+    CouponDto_Output: {
+      /** Format: uuid */
+      id: string;
+      code: string;
+      description: string | null;
+      /** @enum {string} */
+      kind: 'PERCENT' | 'FIXED';
+      value: number;
+      /** @example 349000 */
+      minSubtotalPaisa: number;
+      /** @example 349000 */
+      maxDiscountPaisa: number | null;
+      startsAt: string | null;
+      endsAt: string | null;
+      maxUses: number | null;
+      usedCount: number;
+      active: boolean;
+      ordersCount: number;
+      /** @example 349000 */
+      discountGivenPaisa: number;
+      createdAt: string;
+      updatedAt: string;
+    };
+    DeletedDto_Output: {
+      deleted: boolean;
+    };
+    PromotionListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        nameEn: string;
+        nameBn: string;
+        /** @enum {string} */
+        kind: 'PERCENT' | 'FIXED';
+        value: number;
+        startsAt: string;
+        endsAt: string;
+        flash: boolean;
+        active: boolean;
+        productIds: string[];
+        /** @enum {string} */
+        state: 'SCHEDULED' | 'LIVE' | 'ENDED' | 'PAUSED';
+        createdAt: string;
+        updatedAt: string;
+      }[];
+    };
+    UpsertPromotionDto: {
+      nameEn: string;
+      nameBn: string;
+      /** @enum {string} */
+      kind: 'PERCENT' | 'FIXED';
+      value: number;
+      /** Format: date-time */
+      startsAt: string;
+      /** Format: date-time */
+      endsAt: string;
+      /** @default true */
+      flash?: boolean;
+      /** @default true */
+      active?: boolean;
+      /** @default [] */
+      productIds?: string[];
+    };
+    PromotionDto_Output: {
+      /** Format: uuid */
+      id: string;
+      nameEn: string;
+      nameBn: string;
+      /** @enum {string} */
+      kind: 'PERCENT' | 'FIXED';
+      value: number;
+      startsAt: string;
+      endsAt: string;
+      flash: boolean;
+      active: boolean;
+      productIds: string[];
+      /** @enum {string} */
+      state: 'SCHEDULED' | 'LIVE' | 'ENDED' | 'PAUSED';
+      createdAt: string;
+      updatedAt: string;
+    };
+    SalesReportDto_Output: {
+      range: {
+        from: string;
+        to: string;
+      };
+      totals: {
+        orders: number;
+        units: number;
+        /** @example 349000 */
+        grossPaisa: number;
+        /** @example 349000 */
+        discountPaisa: number;
+        /** @example 349000 */
+        shippingPaisa: number;
+        /** @example 349000 */
+        netPaisa: number;
+        /** @example 349000 */
+        averageOrderPaisa: number;
+        customers: number;
+        repeatCustomers: number;
+        cancelledOrders: number;
+        /** @example 349000 */
+        cancelledPaisa: number;
+        returnedOrders: number;
+        /** @example 349000 */
+        returnedPaisa: number;
+      };
+      byDay: {
+        date: string;
+        orders: number;
+        /** @example 349000 */
+        netPaisa: number;
+      }[];
+      byProduct: {
+        /** Format: uuid */
+        productId: string;
+        nameEn: string;
+        nameBn: string;
+        units: number;
+        orders: number;
+        /** @example 349000 */
+        revenuePaisa: number;
+      }[];
+      byVariant: {
+        /** Format: uuid */
+        variantId: string;
+        /** Format: uuid */
+        productId: string;
+        sku: string;
+        nameEn: string;
+        units: number;
+        /** @example 349000 */
+        revenuePaisa: number;
+      }[];
+      byDistrict: {
+        district: string;
+        orders: number;
+        /** @example 349000 */
+        netPaisa: number;
+      }[];
+      byPaymentMethod: {
+        method: string;
+        orders: number;
+        /** @example 349000 */
+        netPaisa: number;
+      }[];
+      bySaleMode: {
+        saleMode: string;
+        orders: number;
+        /** @example 349000 */
+        netPaisa: number;
+      }[];
+      byChannel: {
+        channel: string;
+        orders: number;
+        /** @example 349000 */
+        netPaisa: number;
+      }[];
+      byCoupon: {
+        code: string;
+        orders: number;
+        /** @example 349000 */
+        discountPaisa: number;
+      }[];
+      byStatus: {
+        status: string;
+        orders: number;
+      }[];
+    };
+    CustomerListDto_Output: {
+      items: {
+        phone: string;
+        name: string;
+        district: string | null;
+        orders: number;
+        paidOrders: number;
+        /** @example 349000 */
+        spentPaisa: number;
+        firstOrderAt: string;
+        lastOrderAt: string;
+        isFriend: boolean;
+        channels: string[];
+      }[];
+      total: number;
+      page: number;
+      pageSize: number;
+      stats: {
+        customers: number;
+        repeat: number;
+        /** @example 349000 */
+        spentPaisa: number;
+      };
+    };
+    ExpenseListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        date: string;
+        /** @enum {string} */
+        category:
+          | 'MATERIALS'
+          | 'PACKAGING'
+          | 'DELIVERY'
+          | 'MARKETING'
+          | 'SALARIES'
+          | 'RENT'
+          | 'UTILITIES'
+          | 'TOOLS'
+          | 'FEES'
+          | 'OTHER';
+        /** @example 349000 */
+        amountPaisa: number;
+        description: string;
+        vendor: string | null;
+        createdBy: string;
+        createdAt: string;
+      }[];
+      /** @example 349000 */
+      totalPaisa: number;
+      byCategory: {
+        /** @enum {string} */
+        category:
+          | 'MATERIALS'
+          | 'PACKAGING'
+          | 'DELIVERY'
+          | 'MARKETING'
+          | 'SALARIES'
+          | 'RENT'
+          | 'UTILITIES'
+          | 'TOOLS'
+          | 'FEES'
+          | 'OTHER';
+        /** @example 349000 */
+        amountPaisa: number;
+      }[];
+    };
+    UpsertExpenseDto: {
+      /** Format: date */
+      date: string;
+      /** @enum {string} */
+      category:
+        | 'MATERIALS'
+        | 'PACKAGING'
+        | 'DELIVERY'
+        | 'MARKETING'
+        | 'SALARIES'
+        | 'RENT'
+        | 'UTILITIES'
+        | 'TOOLS'
+        | 'FEES'
+        | 'OTHER';
+      amountPaisa: number;
+      description: string;
+      /** @default null */
+      vendor?: string | null;
+    };
+    ExpenseDto_Output: {
+      /** Format: uuid */
+      id: string;
+      date: string;
+      /** @enum {string} */
+      category:
+        | 'MATERIALS'
+        | 'PACKAGING'
+        | 'DELIVERY'
+        | 'MARKETING'
+        | 'SALARIES'
+        | 'RENT'
+        | 'UTILITIES'
+        | 'TOOLS'
+        | 'FEES'
+        | 'OTHER';
+      /** @example 349000 */
+      amountPaisa: number;
+      description: string;
+      vendor: string | null;
+      createdBy: string;
+      createdAt: string;
+    };
+    ProfitLossDto_Output: {
+      range: {
+        from: string;
+        to: string;
+      };
+      revenue: {
+        /** @example 349000 */
+        grossSalesPaisa: number;
+        /** @example 349000 */
+        discountsPaisa: number;
+        /** @example 349000 */
+        netSalesPaisa: number;
+        /** @example 349000 */
+        shippingIncomePaisa: number;
+        /** @example 349000 */
+        totalPaisa: number;
+      };
+      costOfGoods: {
+        /** @example 349000 */
+        totalPaisa: number;
+        missingCostSkus: string[];
+      };
+      grossProfitPaisa: number;
+      grossMarginPercent: number;
+      expenses: {
+        /** @example 349000 */
+        totalPaisa: number;
+        byCategory: {
+          /** @enum {string} */
+          category:
+            | 'MATERIALS'
+            | 'PACKAGING'
+            | 'DELIVERY'
+            | 'MARKETING'
+            | 'SALARIES'
+            | 'RENT'
+            | 'UTILITIES'
+            | 'TOOLS'
+            | 'FEES'
+            | 'OTHER';
+          /** @example 349000 */
+          amountPaisa: number;
+        }[];
+      };
+      netProfitPaisa: number;
+      netMarginPercent: number;
+      previous: {
+        /** @example 349000 */
+        totalRevenuePaisa: number;
+        grossProfitPaisa: number;
+        /** @example 349000 */
+        expensesPaisa: number;
+        netProfitPaisa: number;
+      };
+      byMonth: {
+        month: string;
+        /** @example 349000 */
+        revenuePaisa: number;
+        /** @example 349000 */
+        costOfGoodsPaisa: number;
+        /** @example 349000 */
+        expensesPaisa: number;
+        netProfitPaisa: number;
+      }[];
+    };
   };
   responses: never;
   parameters: never;
@@ -2607,6 +3254,25 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['CategoryListResponseDto_Output'];
+        };
+      };
+    };
+  };
+  CatalogController_sale: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ActiveSaleDto_Output'];
         };
       };
     };
@@ -3921,6 +4587,352 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ConvertedQuoteDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_coupons: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CouponListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_createCoupon: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpsertCouponDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CouponDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_updateCoupon: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpsertCouponDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CouponDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_removeCoupon: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DeletedDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_promotions: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PromotionListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_createPromotion: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpsertPromotionDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PromotionDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_updatePromotion: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpsertPromotionDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PromotionDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_removePromotion: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DeletedDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_sales: {
+    parameters: {
+      query?: {
+        from?: string;
+        to?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SalesReportDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_customers: {
+    parameters: {
+      query?: {
+        q?: string;
+        sort?: 'recent' | 'spent' | 'orders';
+        page?: number;
+        pageSize?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CustomerListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_expenses: {
+    parameters: {
+      query?: {
+        from?: string;
+        to?: string;
+        category?:
+          | 'MATERIALS'
+          | 'PACKAGING'
+          | 'DELIVERY'
+          | 'MARKETING'
+          | 'SALARIES'
+          | 'RENT'
+          | 'UTILITIES'
+          | 'TOOLS'
+          | 'FEES'
+          | 'OTHER';
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ExpenseListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_createExpense: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpsertExpenseDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ExpenseDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_updateExpense: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpsertExpenseDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ExpenseDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_removeExpense: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['DeletedDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_profitLoss: {
+    parameters: {
+      query?: {
+        from?: string;
+        to?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ProfitLossDto_Output'];
         };
       };
     };
