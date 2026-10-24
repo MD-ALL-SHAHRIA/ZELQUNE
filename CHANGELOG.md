@@ -7,6 +7,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Storefront content (ADR 0015): catalog-service stores the home page content (hero scenes,
+  trust strip, collections order, announcement, contact and social links; English + Bangla) as a
+  versioned document with uploaded images. Public `GET /v1/content/home`; OWNER/STAFF
+  `GET|PUT /v1/admin/content/home` (optimistic concurrency, audited) and content image upload
+  (`POST /v1/admin/content/assets/uploads`, `.../:id/confirm`). Migration `site_content`.
+
+### Added
 - Services (ADR 0014): Zelqune Interior Design (homes, offices, restaurants and cafés, hotels,
   shops) and Zelqune Construction (ground up to finished interiors). Requests are RFQs of kind
   `DESIGN` / `CONSTRUCTION` with a brief (space/building type, area, district, budget, floors),

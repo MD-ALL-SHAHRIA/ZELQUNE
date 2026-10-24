@@ -15,6 +15,7 @@ export const RPC_PATTERNS = {
     productBySlug: 'catalog.products.bySlug',
     pricesResolve: 'catalog.prices.resolve',
     checkoutSnapshot: 'catalog.variants.checkoutSnapshot',
+    contentHome: 'catalog.content.home',
     admin: {
       listCategories: 'catalog.admin.categories.list',
       updateCategory: 'catalog.admin.categories.update',
@@ -31,6 +32,10 @@ export const RPC_PATTERNS = {
       setExperimentPrice: 'catalog.admin.prices.setExperiment',
       requestMediaUpload: 'catalog.admin.media.requestUpload',
       confirmMediaUpload: 'catalog.admin.media.confirmUpload',
+      getHomeContent: 'catalog.admin.content.home.get',
+      updateHomeContent: 'catalog.admin.content.home.update',
+      requestContentAsset: 'catalog.admin.content.assets.requestUpload',
+      confirmContentAsset: 'catalog.admin.content.assets.confirmUpload',
     },
   },
   inventory: {

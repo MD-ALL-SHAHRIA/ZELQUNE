@@ -240,6 +240,163 @@
         ]
       }
     },
+    "/v1/content/home": {
+      "get": {
+        "operationId": "ContentController_home",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeContentResponseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Home page content with image URLs (null before the first save).",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/v1/admin/content/home": {
+      "get": {
+        "operationId": "AdminContentController_home",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeContentResponseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: content"
+        ]
+      },
+      "put": {
+        "operationId": "AdminContentController_save",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHomeContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateHomeContentResultDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Save the home content. Send the version you loaded (0 for the first save); 409 if it changed.",
+        "tags": [
+          "admin: content"
+        ]
+      }
+    },
+    "/v1/admin/content/assets/uploads": {
+      "post": {
+        "operationId": "AdminContentController_requestUpload",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestContentAssetDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentAssetTicketDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a presigned upload URL for an image; PUT the file there, then confirm.",
+        "tags": [
+          "admin: content"
+        ]
+      }
+    },
+    "/v1/admin/content/assets/{id}/confirm": {
+      "post": {
+        "operationId": "AdminContentController_confirm",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentAssetDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: content"
+        ]
+      }
+    },
     "/v1/shipping/districts": {
       "get": {
         "operationId": "ShopController_districts",
@@ -3507,6 +3664,779 @@
           "categories",
           "variants",
           "media"
+        ],
+        "additionalProperties": false
+      },
+      "HomeContentResponseDto_Output": {
+        "type": "object",
+        "properties": {
+          "home": {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "updatedAt": {
+                "type": "string"
+              },
+              "content": {
+                "type": "object",
+                "properties": {
+                  "announcement": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 140
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 140
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "hero": {
+                    "type": "object",
+                    "properties": {
+                      "eyebrow": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 80
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 80
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "heading": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 160
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 160
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "accent": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 60
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 60
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "subline": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 200
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 200
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "scenes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "assetId": {
+                              "type": "string",
+                              "format": "uuid",
+                              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                              "default": null,
+                              "nullable": true
+                            },
+                            "productSlug": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 120,
+                              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                            },
+                            "position": {
+                              "default": "76% 50%",
+                              "type": "string",
+                              "pattern": "^\\d{1,3}% \\d{1,3}%$"
+                            },
+                            "phonePosition": {
+                              "default": "95% 50%",
+                              "type": "string",
+                              "pattern": "^\\d{1,3}% \\d{1,3}%$"
+                            },
+                            "imageUrl": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "assetId",
+                            "productSlug",
+                            "position",
+                            "phonePosition",
+                            "imageUrl"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "eyebrow",
+                      "heading",
+                      "accent",
+                      "subline",
+                      "scenes"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "trust": {
+                    "minItems": 2,
+                    "maxItems": 6,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "enum": [
+                            "hammer",
+                            "lightbulb",
+                            "coins",
+                            "truck",
+                            "leaf",
+                            "shield",
+                            "hand",
+                            "sparkles"
+                          ]
+                        },
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "type": "string",
+                              "maxLength": 40
+                            },
+                            "bn": {
+                              "type": "string",
+                              "maxLength": 40
+                            }
+                          },
+                          "required": [
+                            "en",
+                            "bn"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "text": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "type": "string",
+                              "maxLength": 80
+                            },
+                            "bn": {
+                              "type": "string",
+                              "maxLength": 80
+                            }
+                          },
+                          "required": [
+                            "en",
+                            "bn"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "icon",
+                        "title",
+                        "text"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "collections": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "categorySlug": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 120,
+                          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                        },
+                        "assetId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                          "nullable": true
+                        },
+                        "imageUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "categorySlug",
+                        "assetId",
+                        "imageUrl"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "contact": {
+                    "type": "object",
+                    "properties": {
+                      "phone": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 20
+                      },
+                      "whatsapp": {
+                        "default": "",
+                        "type": "string",
+                        "pattern": "^(\\d{8,15})?$"
+                      },
+                      "email": {
+                        "default": "",
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 120,
+                            "format": "email",
+                            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              ""
+                            ]
+                          }
+                        ]
+                      },
+                      "facebook": {
+                        "default": "",
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 300,
+                            "format": "uri"
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              ""
+                            ]
+                          }
+                        ]
+                      },
+                      "instagram": {
+                        "default": "",
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 300,
+                            "format": "uri"
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              ""
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "phone",
+                      "whatsapp",
+                      "email",
+                      "facebook",
+                      "instagram"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "announcement",
+                  "hero",
+                  "trust",
+                  "collections",
+                  "contact"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "version",
+              "updatedAt",
+              "content"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          }
+        },
+        "required": [
+          "home"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateHomeContentDto": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "announcement": {
+                "type": "object",
+                "properties": {
+                  "en": {
+                    "type": "string",
+                    "maxLength": 140
+                  },
+                  "bn": {
+                    "type": "string",
+                    "maxLength": 140
+                  }
+                },
+                "required": [
+                  "en",
+                  "bn"
+                ]
+              },
+              "hero": {
+                "type": "object",
+                "properties": {
+                  "eyebrow": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 80
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 80
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "heading": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 160
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 160
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "accent": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 60
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 60
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "subline": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 200
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "scenes": {
+                    "minItems": 1,
+                    "maxItems": 8,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "assetId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                          "default": null,
+                          "nullable": true
+                        },
+                        "productSlug": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 120,
+                          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                        },
+                        "position": {
+                          "default": "76% 50%",
+                          "type": "string",
+                          "pattern": "^\\d{1,3}% \\d{1,3}%$"
+                        },
+                        "phonePosition": {
+                          "default": "95% 50%",
+                          "type": "string",
+                          "pattern": "^\\d{1,3}% \\d{1,3}%$"
+                        }
+                      },
+                      "required": [
+                        "productSlug"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "eyebrow",
+                  "heading",
+                  "accent",
+                  "subline",
+                  "scenes"
+                ]
+              },
+              "trust": {
+                "minItems": 2,
+                "maxItems": 6,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "icon": {
+                      "type": "string",
+                      "enum": [
+                        "hammer",
+                        "lightbulb",
+                        "coins",
+                        "truck",
+                        "leaf",
+                        "shield",
+                        "hand",
+                        "sparkles"
+                      ]
+                    },
+                    "title": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string",
+                          "maxLength": 40
+                        },
+                        "bn": {
+                          "type": "string",
+                          "maxLength": 40
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "bn"
+                      ]
+                    },
+                    "text": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string",
+                          "maxLength": 80
+                        },
+                        "bn": {
+                          "type": "string",
+                          "maxLength": 80
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "bn"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "icon",
+                    "title",
+                    "text"
+                  ]
+                }
+              },
+              "collections": {
+                "maxItems": 12,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "categorySlug": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 120,
+                      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                    },
+                    "assetId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      "default": null,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "categorySlug"
+                  ]
+                }
+              },
+              "contact": {
+                "type": "object",
+                "properties": {
+                  "phone": {
+                    "default": "",
+                    "type": "string",
+                    "maxLength": 20
+                  },
+                  "whatsapp": {
+                    "default": "",
+                    "type": "string",
+                    "pattern": "^(\\d{8,15})?$"
+                  },
+                  "email": {
+                    "default": "",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 120,
+                        "format": "email",
+                        "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
+                  },
+                  "facebook": {
+                    "default": "",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 300,
+                        "format": "uri"
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
+                  },
+                  "instagram": {
+                    "default": "",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 300,
+                        "format": "uri"
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "announcement",
+              "hero",
+              "trust",
+              "collections",
+              "contact"
+            ]
+          }
+        },
+        "required": [
+          "expectedVersion",
+          "content"
+        ]
+      },
+      "UpdateHomeContentResultDto_Output": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "updatedAt"
+        ],
+        "additionalProperties": false
+      },
+      "RequestContentAssetDto": {
+        "type": "object",
+        "properties": {
+          "mimeType": {
+            "type": "string",
+            "enum": [
+              "image/webp",
+              "image/jpeg",
+              "image/png",
+              "image/avif"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 10485760,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "mimeType",
+          "bytes"
+        ]
+      },
+      "ContentAssetTicketDto_Output": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "uploadUrl": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "PUT"
+            ]
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "expiresAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetId",
+          "uploadUrl",
+          "method",
+          "headers",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "ContentAssetDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "url": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "READY"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "status"
         ],
         "additionalProperties": false
       },
