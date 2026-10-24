@@ -5,7 +5,10 @@ const password = process.env.E2E_ADMIN_PASSWORD;
 
 test.skip(!phone || !password, 'E2E_ADMIN_PHONE / E2E_ADMIN_PASSWORD not set');
 
-test('sign in, see home, edit the home page with the save bar, open orders', async ({ page }) => {
+// One sign-in for the whole flow: the gateway allows 5 logins per 15 minutes per IP.
+test('sign in, home, edit the home page, orders, then create and delete a coupon', async ({
+  page,
+}) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/login$/);
   await page.getByLabel('Phone').fill(phone ?? '');
@@ -17,7 +20,7 @@ test('sign in, see home, edit the home page with the save bar, open orders', asy
   await expect(page.getByRole('heading', { name: 'GO counter' })).toBeVisible();
   const nav = page.getByRole('navigation', { name: 'Main' });
 
-  // Edit: the save bar appears; discard puts the text back; save stores a new version.
+  // Edit: the save bar appears; discard puts the text back.
   await nav.getByRole('link', { name: 'Home page', exact: true }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Home page' })).toBeVisible();
   const text = page.getByRole('textbox').first();
@@ -34,4 +37,22 @@ test('sign in, see home, edit the home page with the save bar, open orders', asy
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { level: 1, name: 'Orders' })).toBeVisible();
   await expect(page.getByRole('tablist', { name: 'Order status' })).toBeVisible();
+
+  // Marketing: a coupon is created, listed and deleted (unused, so really removed).
+  await nav.getByRole('link', { name: 'Coupons' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Coupons' })).toBeVisible();
+  await page.getByRole('button', { name: 'Create coupon' }).click();
+  const code = `E2E-${Date.now().toString(36).toUpperCase()}`;
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('textbox', { name: /^Code/ }).fill(code);
+  await dialog.getByRole('button', { name: 'Create coupon' }).click();
+  await expect(page.getByText(code, { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: `Delete ${code}` }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Delete' }).click();
+  await expect(page.getByText(code, { exact: true })).toBeHidden();
+
+  // Finance is there for the owner.
+  await nav.getByRole('link', { name: 'Profit and loss' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Profit and loss' })).toBeVisible();
+  await expect(page.getByText('Net profit', { exact: true }).first()).toBeVisible();
 });

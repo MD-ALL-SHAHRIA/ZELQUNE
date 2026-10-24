@@ -11,14 +11,15 @@ import { CommandPalette } from './command-palette';
 import { NAV_GROUPS } from './nav';
 import { ThemeToggle } from './theme-toggle';
 
-/** Orders waiting for a payment check, refreshed every minute (sidebar badge). */
+/** Orders waiting for a payment check and new quote requests, refreshed every minute. */
 function usePendingCount() {
-  const [count, setCount] = useState<number | null>(null);
+  const [count, setCount] = useState<{ orders: number; quotes: number } | null>(null);
   useEffect(() => {
     const load = () =>
-      void api
-        .GET('/v1/admin/orders', { params: { query: { status: 'PENDING_PAYMENT', limit: 1 } } })
-        .then(({ data }) => data && setCount(data.total));
+      void Promise.all([
+        api.GET('/v1/admin/orders', { params: { query: { status: 'PENDING_PAYMENT', limit: 1 } } }),
+        api.GET('/v1/admin/quotes', { params: { query: { status: 'NEW', limit: 1 } } }),
+      ]).then(([o, q]) => setCount({ orders: o.data?.total ?? 0, quotes: q.data?.total ?? 0 }));
     load();
     const t = window.setInterval(load, 60_000);
     return () => window.clearInterval(t);
@@ -31,6 +32,16 @@ function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: 
   const { state, signOut } = useAuth();
   const user = state.status === 'signedIn' ? state.user : null;
   const pending = usePendingCount();
+  const owner = user?.role === 'OWNER';
+  const groups = NAV_GROUPS.map((g) => ({
+    ...g,
+    items: g.items.filter((i) => owner || !i.ownerOnly),
+  })).filter((g) => g.items.length);
+  // The longest matching link is the current page (/finance vs /finance/expenses).
+  const current = groups
+    .flatMap((g) => g.items)
+    .filter(({ href }) => (href === '/' ? pathname === '/' : pathname.startsWith(href)))
+    .sort((a, b) => b.href.length - a.href.length)[0]?.href;
   const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
   return (
     <div className="flex h-full flex-col">
@@ -57,7 +68,7 @@ function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: 
         </button>
       </div>
       <nav aria-label="Main" className="flex-1 space-y-5 overflow-y-auto px-3 py-3">
-        {NAV_GROUPS.map((group, gi) => (
+        {groups.map((group, gi) => (
           <div key={gi}>
             {group.label ? (
               <p className="mb-1 px-2.5 text-[0.6875rem] font-medium tracking-wide text-stone/80 uppercase">
@@ -66,7 +77,9 @@ function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: 
             ) : null}
             <ul className="space-y-0.5">
               {group.items.map(({ href, label, icon: Icon }) => {
-                const on = href === '/' ? pathname === '/' : pathname.startsWith(href);
+                const on = href === current;
+                const badge =
+                  href === '/orders' ? pending?.orders : href === '/quotes' ? pending?.quotes : 0;
                 return (
                   <li key={href}>
                     <Link
@@ -89,12 +102,16 @@ function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: 
                         strokeWidth={1.75}
                       />
                       <span className="flex-1">{label}</span>
-                      {href === '/orders' && pending ? (
+                      {badge ? (
                         <span
-                          title="Orders waiting for a payment check"
+                          title={
+                            href === '/orders'
+                              ? 'Orders waiting for a payment check'
+                              : 'New requests to answer'
+                          }
                           className="rounded-full bg-warning/15 px-1.5 text-[0.6875rem] font-semibold text-warning tabular"
                         >
-                          {pending}
+                          {badge}
                         </span>
                       ) : null}
                     </Link>

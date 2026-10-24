@@ -1,21 +1,20 @@
 'use client';
 
-import { ArrowDownRight, ArrowRight, ArrowUpRight, ShoppingBag } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { AreaChart } from '@/components/charts/area-chart';
 import { CompareBars, FunnelBars } from '@/components/charts/bars';
 import { Ring } from '@/components/charts/ring';
-import { Sparkline } from '@/components/charts/sparkline';
 import { Badge } from '@/components/ui/badge';
 import { buttonClass } from '@/components/ui/button';
 import { Card, CardBody, CardHeader } from '@/components/ui/card';
+import { Kpi } from '@/components/ui/kpi';
 import { EmptyState, PageHeader } from '@/components/ui/page';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs } from '@/components/ui/tabs';
 import { api, type Schemas } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
-import { cn } from '@/lib/cn';
 import { type Range, ranges, shortDay } from '@/lib/dates';
 import { delta, formatTaka, formatTakaShort, timeAgo } from '@/lib/format';
 import { PIPELINE, STATUS_LABEL, statusTone, type OrderStatus } from '@/lib/orders';
@@ -46,62 +45,6 @@ const totals = (s: Stats) => {
     conversion: s.funnel.views ? (s.funnel.purchase / s.funnel.views) * 100 : 0,
   };
 };
-
-function Delta({ value }: { value: number | null }) {
-  if (value === null) return <span className="text-xs text-stone">No earlier data</span>;
-  const up = value >= 0;
-  const Icon = up ? ArrowUpRight : ArrowDownRight;
-  return (
-    <span
-      className={cn(
-        'inline-flex items-center gap-0.5 text-xs font-medium tabular',
-        up ? 'text-success' : 'text-danger',
-      )}
-    >
-      <Icon className="size-3.5" aria-hidden />
-      {Math.abs(value).toFixed(1)}%<span className="sr-only">{up ? ' up' : ' down'}</span>
-      <span className="ml-1 font-normal text-stone">vs previous</span>
-    </span>
-  );
-}
-
-function Kpi({
-  label,
-  value,
-  change,
-  spark,
-  href,
-}: {
-  label: string;
-  value: string;
-  change: number | null;
-  spark?: number[];
-  href: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="group block rounded-xl border border-line bg-surface p-4 shadow-[var(--shadow-card)] transition-colors hover:border-ink/25"
-    >
-      <div className="flex items-center justify-between">
-        <p className="text-[0.8125rem] text-stone">{label}</p>
-        <ArrowRight
-          className="size-3.5 text-stone opacity-0 transition-opacity group-hover:opacity-100"
-          aria-hidden
-        />
-      </div>
-      <div className="mt-2 flex items-end justify-between gap-2">
-        <div>
-          <p className="text-2xl font-semibold tracking-[-0.02em] text-ink tabular">{value}</p>
-          <div className="mt-1">
-            <Delta value={change} />
-          </div>
-        </div>
-        {spark ? <Sparkline values={spark} className="shrink-0" /> : null}
-      </div>
-    </Link>
-  );
-}
 
 export default function HomePage() {
   const { state } = useAuth();

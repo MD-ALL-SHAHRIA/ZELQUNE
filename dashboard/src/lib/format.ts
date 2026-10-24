@@ -6,6 +6,7 @@ export function formatTaka(paisa: number): string {
 }
 /** Compact axis labels: ৳12k, ৳1.2L. */
 export function formatTakaShort(paisa: number): string {
+  if (paisa < 0) return `−${formatTakaShort(-paisa)}`;
   const t = paisa / 100;
   if (t >= 100_000) return `৳${(t / 100_000).toFixed(t >= 1_000_000 ? 0 : 1)}L`;
   if (t >= 1000) return `৳${(t / 1000).toFixed(t >= 10_000 ? 0 : 1)}k`;

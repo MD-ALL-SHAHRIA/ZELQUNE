@@ -13,8 +13,9 @@ import { Tabs } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/toast';
 import { api, errorMessage, type Schemas } from '@/lib/api';
 import { cn } from '@/lib/cn';
-import { formatTaka, humanize, timeAgo } from '@/lib/format';
+import { humanize, timeAgo } from '@/lib/format';
 import { checkImage, type ImageType, putFile } from '@/lib/upload';
+import { Finishes } from '@/features/products/finishes';
 
 type Product = Schemas['AdminProductDto_Output'];
 type Draft = {
@@ -298,39 +299,12 @@ export default function ProductPage() {
           </Card>
 
           <Card>
-            <CardHeader title="Finishes" description="Each finish has its own SKU and price." />
+            <CardHeader
+              title="Finishes"
+              description="Price is what customers pay; unit cost is what one piece costs you to make (only you see it, for profit and loss)."
+            />
             <div className="overflow-x-auto border-t border-line">
-              <table className="w-full text-sm">
-                <thead className="text-left text-xs text-stone">
-                  <tr>
-                    <th className="py-2.5 pl-5 font-medium">Finish</th>
-                    <th className="px-4 py-2.5 font-medium">SKU</th>
-                    <th className="px-4 py-2.5 text-right font-medium">Price</th>
-                    <th className="py-2.5 pr-5 text-right font-medium">Shown</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {product.variants.map((v) => (
-                    <tr key={v.id} className="border-t border-line">
-                      <td className="py-2.5 pl-5">
-                        {Object.values(v.options)
-                          .filter((x) => typeof x === 'string')
-                          .map((x) => humanize(String(x)))
-                          .join(' · ') || '—'}
-                      </td>
-                      <td className="px-4 py-2.5 text-stone tabular">{v.sku}</td>
-                      <td className="px-4 py-2.5 text-right tabular">
-                        {v.basePrice ? formatTaka(v.basePrice.amountPaisa) : '—'}
-                      </td>
-                      <td className="py-2.5 pr-5 text-right">
-                        <Badge tone={v.isActive ? 'success' : 'neutral'}>
-                          {v.isActive ? 'Yes' : 'Hidden'}
-                        </Badge>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <Finishes product={product} onSaved={() => void load()} />
             </div>
           </Card>
         </div>
