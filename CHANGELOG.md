@@ -47,6 +47,17 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   glow on hover, drifting marquee (all off with reduced motion; transforms and opacity only).
 
 ### Added
+- Admin dashboard (`dashboard/`, port 3200, step 1.5): sign-in (access token in memory, httpOnly
+  refresh cookie), overview (GO counter, funnel, price experiment), orders (TanStack Table list,
+  detail with verify/reject advance, confirm COD, state-machine moves, notes, shipment),
+  products (details in English and Bangla, publish/archive, photo upload) and a **Home page**
+  editor for the storefront content (announcement, hero words and scenes, trust strip,
+  collections row, contact and social links; image upload; version check).
+- Storefront reads the owner's home content (`GET /v1/content/home`, ISR 60 s): hero scenes and
+  words, trust strip icons and texts, collections order and covers, the announcement bar, footer
+  contact and social links, and the WhatsApp number; built-in copy wherever a field is empty.
+- Local dev storage serves `content/` keys and answers CORS for the dashboard origin
+  (`DEV_STORAGE_CORS_ORIGINS`).
 - Storefront content (ADR 0015): catalog-service stores the home page content (hero scenes,
   trust strip, collections order, announcement, contact and social links; English + Bangla) as a
   versioned document with uploaded images. Public `GET /v1/content/home`; OWNER/STAFF

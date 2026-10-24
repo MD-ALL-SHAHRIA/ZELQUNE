@@ -1,5 +1,5 @@
 # Zelqune dashboard (admin)
-Next.js App Router, TypeScript strict, Tailwind + shadcn/ui. Brand tokens: walnut #4A3426, cream #F4ECDF, amber #E3A857.
+Next.js App Router, TypeScript strict, Tailwind 4 (no component library yet: src/components/ui.tsx). Brand tokens from @zelqune/ui-tokens (day theme: espresso #3B2922 on soft cream #F7F1E8, brass #7A5C30); Cormorant Garamond + Jost.
 Talks ONLY to the backend gateway (NEXT_PUBLIC_API_URL). API types generated from gateway OpenAPI with
 openapi-typescript (`pnpm gen:api`); never hand-write API types.
 - Dashboard: auth via httpOnly cookies, role-aware UI (OWNER/STAFF), TanStack Table for lists.
