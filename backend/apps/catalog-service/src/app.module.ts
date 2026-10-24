@@ -10,6 +10,8 @@ import { catalogEnvSchema } from './config/catalog-env';
 import { ContentRpcController } from './content/content.rpc.controller';
 import { ContentService } from './content/content.service';
 import { PrismaService } from './prisma/prisma.service';
+import { PromotionRpcController } from './promotions/promotion.rpc.controller';
+import { PromotionService } from './promotions/promotion.service';
 import { StorageModule } from './storage/storage.module';
 
 @Module({
@@ -21,13 +23,19 @@ import { StorageModule } from './storage/storage.module';
     }),
     StorageModule,
   ],
-  controllers: [CatalogRpcController, CatalogAdminRpcController, ContentRpcController],
+  controllers: [
+    CatalogRpcController,
+    CatalogAdminRpcController,
+    ContentRpcController,
+    PromotionRpcController,
+  ],
   providers: [
     CatalogRepository,
     PublicCatalogService,
     CatalogAdminService,
     CatalogAdminQueries,
     ContentService,
+    PromotionService,
   ],
 })
 export class AppModule {}

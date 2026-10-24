@@ -217,6 +217,7 @@ export class OrderService implements OnApplicationBootstrap, OnModuleDestroy {
       })),
       utm: (order.utm as Record<string, string> | null) ?? null,
       organizationId: order.organizationId,
+      couponCode: order.couponCode,
       quoteCode:
         (await this.prisma.quote.findUnique({ where: { orderId }, select: { code: true } }))
           ?.code ?? null,

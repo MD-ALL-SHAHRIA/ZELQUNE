@@ -47,6 +47,16 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   glow on hover, drifting marquee (all off with reduced motion; transforms and opacity only).
 
 ### Added
+- Business operations (ADR 0016):
+  - **Flash and seasonal sales** (catalog `Promotion`), applied in price resolution so the
+    storefront and checkout charge the sale price; public `GET /v1/catalog/sale`.
+  - **Coupon codes** (order-service), checked in the cart quote and at checkout and redeemed in
+    the order's own transaction; `couponCode` on quote and checkout, `discountPaisa` in the totals.
+  - Unit cost per variant (`costPaisa`) and an **expense ledger** (analytics-service).
+  - Reports: `GET /v1/admin/reports/sales`, `GET /v1/admin/customers`, and an OWNER-only
+    `GET /v1/admin/reports/profit-loss` that compares against the previous period.
+  - Admin CRUD for `/v1/admin/{coupons,promotions,expenses}`, all audited.
+  - Migrations: `coupons`, `promotions_costs`, `expenses`.
 - Admin dashboard redesign (Polaris/Stripe/Linear patterns): fixed sidebar with a live payment-check
   count, ⌘K search, Geist UI type, day/night themes, toasts, skeletons, unsaved-changes bar;
   Home with date ranges, KPI cards with change and sparklines, revenue chart with tooltip, GO

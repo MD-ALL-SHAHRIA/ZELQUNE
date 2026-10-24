@@ -143,6 +143,7 @@ describe('admin routes (e2e, services mocked)', () => {
       utm: null,
       organizationId: null,
       quoteCode: null,
+      couponCode: null,
       cancelReason: null,
     });
     h.clients.payment.send.mockResolvedValue(null);

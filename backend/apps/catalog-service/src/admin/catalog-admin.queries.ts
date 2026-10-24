@@ -128,6 +128,7 @@ export class CatalogAdminQueries {
         packageWidthMm: v.packageWidthMm,
         packageHeightMm: v.packageHeightMm,
         packageWeightGrams: v.packageWeightGrams,
+        costPaisa: v.costPaisa,
         basePrice: v.prices[0]
           ? { amountPaisa: v.prices[0].amountPaisa, compareAtPaisa: v.prices[0].compareAtPaisa }
           : null,

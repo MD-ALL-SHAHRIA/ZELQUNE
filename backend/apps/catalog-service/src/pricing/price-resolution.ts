@@ -59,6 +59,62 @@ export function resolvePrice(input: {
   };
 }
 
+/** A promotion running now (catalog Promotion rows, loaded once per request). */
+export interface LiveSale {
+  id: string;
+  nameEn: string;
+  nameBn: string;
+  kind: 'PERCENT' | 'FIXED';
+  value: number;
+  endsAt: Date;
+  flash: boolean;
+  /** null = every product. */
+  productIds: ReadonlySet<string> | null;
+}
+
+/** The lowest price is ৳1: a sale never makes something free. */
+const MIN_SALE_PAISA = 100;
+
+const saleDiscount = (sale: LiveSale, amountPaisa: number): number =>
+  sale.kind === 'PERCENT' ? Math.floor((amountPaisa * sale.value) / 100 / 100) * 100 : sale.value;
+
+/**
+ * Applies the best sale covering `productId` to a resolved price: the sale price becomes the
+ * amount and the regular price is shown as compareAt (unless a higher compareAt already is).
+ * Prices from a price experiment arm are left alone, so the A/B test stays clean.
+ */
+export function applySale(
+  price: ResolvedPrice | null,
+  productId: string,
+  sales: readonly LiveSale[],
+): ResolvedPrice | null {
+  if (!price || price.experimentKey) return price;
+  let best: { sale: LiveSale; amount: number } | null = null;
+  for (const sale of sales) {
+    if (sale.productIds && !sale.productIds.has(productId)) continue;
+    const amount = Math.max(
+      MIN_SALE_PAISA,
+      price.amountPaisa - saleDiscount(sale, price.amountPaisa),
+    );
+    if (amount < price.amountPaisa && (!best || amount < best.amount)) best = { sale, amount };
+  }
+  if (!best) return { ...price, sale: null };
+  const regular = price.amountPaisa;
+  return {
+    ...price,
+    amountPaisa: best.amount,
+    compareAtPaisa: Math.max(regular, price.compareAtPaisa ?? 0),
+    sale: {
+      promotionId: best.sale.id,
+      nameEn: best.sale.nameEn,
+      nameBn: best.sale.nameBn,
+      endsAt: best.sale.endsAt.toISOString(),
+      flash: best.sale.flash,
+      regularPaisa: regular,
+    },
+  };
+}
+
 /** Lowest price among variants (for "from ৳…" on listings). */
 export function lowestPrice(prices: (ResolvedPrice | null)[]): ResolvedPrice | null {
   return prices.reduce<ResolvedPrice | null>(

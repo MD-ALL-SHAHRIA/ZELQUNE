@@ -14,3 +14,7 @@ export * from './events/envelope';
 export * from './events/registry';
 export * from './rpc/rpc';
 export * from './rpc/patterns';
+export * from './marketing/coupons.contracts';
+export * from './marketing/promotions.contracts';
+export * from './reports/reports.contracts';
+export * from './reports/bd-calendar';

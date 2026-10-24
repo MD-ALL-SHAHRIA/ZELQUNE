@@ -31,16 +31,18 @@ export function computeTotals(input: {
   shippingFeePaisa: number;
   saleMode: SaleMode;
   advance: AdvancePolicy;
+  /** Coupon discount on the product subtotal (see domain/coupon.ts). */
+  discountPaisa?: number;
 }): Totals {
   const subtotalPaisa = input.lines.reduce((sum, l) => sum + l.unitPricePaisa * l.qty, 0);
-  const discountPaisa = 0; // coupons arrive in M2
+  const discountPaisa = Math.min(input.discountPaisa ?? 0, subtotalPaisa);
   const totalPaisa = subtotalPaisa - discountPaisa + input.shippingFeePaisa;
   let advance = 0;
   if (ADVANCE_SALE_MODES.includes(input.saleMode)) {
     advance =
       input.advance.mode === 'fixed'
         ? input.advance.fixedPaisa
-        : Math.ceil((subtotalPaisa * input.advance.percent) / 100 / 100) * 100;
+        : Math.ceil(((subtotalPaisa - discountPaisa) * input.advance.percent) / 100 / 100) * 100;
   }
   return {
     subtotalPaisa,
