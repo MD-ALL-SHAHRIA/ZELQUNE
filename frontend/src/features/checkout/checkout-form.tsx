@@ -101,7 +101,7 @@ export function CheckoutForm({
   if (!cart || !items.length) {
     return (
       <div className="space-y-6 py-10">
-        <p className="font-display text-3xl font-light">{c.emptyCart}</p>
+        <p className="font-display text-3xl font-medium">{c.emptyCart}</p>
         <ButtonLink href={href(lang, '/shop')} variant="outline">
           {copy.cart.keepBrowsing}
         </ButtonLink>
@@ -193,10 +193,10 @@ export function CheckoutForm({
   const payLater = quote ? quote.totalPaisa - quote.advanceRequiredPaisa : 0;
   const section = (n: number, title: string) => (
     <legend className="mb-6 flex items-baseline gap-4">
-      <span className="font-display text-2xl font-light italic text-walnut">
+      <span className="font-display text-2xl font-medium italic text-walnut">
         {formatNumber(n, lang)}
       </span>
-      <span className="font-display text-3xl font-light">{title}</span>
+      <span className="font-display text-3xl font-medium">{title}</span>
     </legend>
   );
 
@@ -292,21 +292,15 @@ export function CheckoutForm({
       </div>
 
       <aside className="h-fit space-y-6 bg-cream/70 p-6 sm:p-8 lg:sticky lg:top-28">
-        <h2 className="font-display text-3xl font-light">{c.sections.summary}</h2>
+        <h2 className="font-display text-3xl font-medium">{c.sections.summary}</h2>
         <ul className="space-y-4 border-b border-line pb-6">
           {items.map((item) => (
             <li key={item.variantId} className="flex items-center gap-4">
               <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-t-full bg-sand">
-                <Image
-                  src={SAMPLE.productTubes.src}
-                  alt=""
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                />
+                <Image src={SAMPLE.zenith.src} alt="" fill sizes="64px" className="object-cover" />
               </div>
               <div className="flex-1 text-sm">
-                <p className="font-display text-lg font-light leading-tight">
+                <p className="font-display text-lg font-medium leading-tight">
                   {(item.productSlug && copy.products[item.productSlug]?.name) ??
                     (lang === 'bn' ? item.nameBn : item.nameEn)}
                 </p>
@@ -335,7 +329,7 @@ export function CheckoutForm({
           </div>
           <div className="flex items-baseline justify-between border-t border-line pt-4">
             <dt className="text-[0.7rem] uppercase tracking-eyebrow">{c.summary.total}</dt>
-            <dd data-testid="total" className="font-display text-3xl font-light">
+            <dd data-testid="total" className="font-display text-3xl font-medium">
               {quote ? formatTaka(quote.totalPaisa, lang) : '—'}
             </dd>
           </div>

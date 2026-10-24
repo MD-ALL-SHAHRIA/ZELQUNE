@@ -123,6 +123,73 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/content/home': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Home page content with image URLs (null before the first save). */
+    get: operations['ContentController_home'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/content/home': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminContentController_home'];
+    /** Save the home content. Send the version you loaded (0 for the first save); 409 if it changed. */
+    put: operations['AdminContentController_save'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/content/assets/uploads': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Get a presigned upload URL for an image; PUT the file there, then confirm. */
+    post: operations['AdminContentController_requestUpload'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/content/assets/{id}/confirm': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminContentController_confirm'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/shipping/districts': {
     parameters: {
       query?: never;
@@ -1026,6 +1093,179 @@ export interface components {
         /** Format: uuid */
         variantId: string | null;
       }[];
+    };
+    HomeContentResponseDto_Output: {
+      home: {
+        version: number;
+        updatedAt: string;
+        content: {
+          announcement: {
+            en: string;
+            bn: string;
+          };
+          hero: {
+            eyebrow: {
+              en: string;
+              bn: string;
+            };
+            heading: {
+              en: string;
+              bn: string;
+            };
+            accent: {
+              en: string;
+              bn: string;
+            };
+            subline: {
+              en: string;
+              bn: string;
+            };
+            scenes: {
+              /**
+               * Format: uuid
+               * @default null
+               */
+              assetId: string | null;
+              productSlug: string;
+              /** @default 76% 50% */
+              position: string;
+              /** @default 95% 50% */
+              phonePosition: string;
+              imageUrl: string | null;
+            }[];
+          };
+          trust: {
+            /** @enum {string} */
+            icon:
+              'hammer' | 'lightbulb' | 'coins' | 'truck' | 'leaf' | 'shield' | 'hand' | 'sparkles';
+            title: {
+              en: string;
+              bn: string;
+            };
+            text: {
+              en: string;
+              bn: string;
+            };
+          }[];
+          collections: {
+            categorySlug: string;
+            /** Format: uuid */
+            assetId: string | null;
+            imageUrl: string | null;
+          }[];
+          contact: {
+            /** @default  */
+            phone: string;
+            /** @default  */
+            whatsapp: string;
+            /** @default  */
+            email: string | '';
+            /** @default  */
+            facebook: string | '';
+            /** @default  */
+            instagram: string | '';
+          };
+        };
+      } | null;
+    };
+    UpdateHomeContentDto: {
+      expectedVersion: number;
+      content: {
+        announcement: {
+          en: string;
+          bn: string;
+        };
+        hero: {
+          eyebrow: {
+            en: string;
+            bn: string;
+          };
+          heading: {
+            en: string;
+            bn: string;
+          };
+          accent: {
+            en: string;
+            bn: string;
+          };
+          subline: {
+            en: string;
+            bn: string;
+          };
+          scenes: {
+            /**
+             * Format: uuid
+             * @default null
+             */
+            assetId?: string | null;
+            productSlug: string;
+            /** @default 76% 50% */
+            position?: string;
+            /** @default 95% 50% */
+            phonePosition?: string;
+          }[];
+        };
+        trust: {
+          /** @enum {string} */
+          icon:
+            'hammer' | 'lightbulb' | 'coins' | 'truck' | 'leaf' | 'shield' | 'hand' | 'sparkles';
+          title: {
+            en: string;
+            bn: string;
+          };
+          text: {
+            en: string;
+            bn: string;
+          };
+        }[];
+        collections: {
+          categorySlug: string;
+          /**
+           * Format: uuid
+           * @default null
+           */
+          assetId?: string | null;
+        }[];
+        contact: {
+          /** @default  */
+          phone?: string;
+          /** @default  */
+          whatsapp?: string;
+          /** @default  */
+          email?: string | '';
+          /** @default  */
+          facebook?: string | '';
+          /** @default  */
+          instagram?: string | '';
+        };
+      };
+    };
+    UpdateHomeContentResultDto_Output: {
+      version: number;
+      updatedAt: string;
+    };
+    RequestContentAssetDto: {
+      /** @enum {string} */
+      mimeType: 'image/webp' | 'image/jpeg' | 'image/png' | 'image/avif';
+      bytes: number;
+    };
+    ContentAssetTicketDto_Output: {
+      /** Format: uuid */
+      assetId: string;
+      uploadUrl: string;
+      /** @enum {string} */
+      method: 'PUT';
+      headers: {
+        [key: string]: string;
+      };
+      expiresAt: string;
+    };
+    ContentAssetDto_Output: {
+      /** Format: uuid */
+      id: string;
+      url: string;
+      /** @enum {string} */
+      status: 'PENDING' | 'READY';
     };
     DistrictListDto_Output: {
       items: {
@@ -2415,6 +2655,111 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ProductDetailDto_Output'];
+        };
+      };
+    };
+  };
+  ContentController_home: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HomeContentResponseDto_Output'];
+        };
+      };
+    };
+  };
+  AdminContentController_home: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HomeContentResponseDto_Output'];
+        };
+      };
+    };
+  };
+  AdminContentController_save: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateHomeContentDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UpdateHomeContentResultDto_Output'];
+        };
+      };
+    };
+  };
+  AdminContentController_requestUpload: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RequestContentAssetDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ContentAssetTicketDto_Output'];
+        };
+      };
+    };
+  };
+  AdminContentController_confirm: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ContentAssetDto_Output'];
         };
       };
     };

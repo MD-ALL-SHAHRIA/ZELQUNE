@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+@import '@zelqune/ui-tokens/tailwind-theme.css';
+@import '@zelqune/ui-tokens/tokens.css';
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-family: var(--font-jost), system-ui, sans-serif;
+    font-size: 0.925rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-walnut);
+    outline-offset: 2px;
+  }
+}

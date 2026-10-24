@@ -5,18 +5,22 @@ import { ProductView } from '@/features/analytics/product-view';
 import { relatedProducts } from '@/features/catalog/listing-data';
 import { ProductGallery } from '@/features/catalog/product-gallery';
 import { productImages } from '@/features/catalog/product-images';
-import { productName } from '@/features/catalog/product-copy';
+import { chatMessage, productName } from '@/features/catalog/product-copy';
 import { Purchase } from '@/features/catalog/purchase';
 import { RelatedProducts } from '@/features/catalog/related-products';
 import { SaleBadge, saleBadgeText } from '@/features/catalog/sale-badge';
-import { ValuesBand } from '@/features/layout/footer';
+import { TrustBand } from '@/features/trust/trust-band';
+import { pieceAspect } from '@/features/visualizer/geometry';
+import { VisualizerButton } from '@/features/visualizer/visualizer-button';
 import { getProduct, listDistricts } from '@/shared/api/server';
 import { jsonForScript, productJsonLd } from '@/shared/lib/json-ld';
 import { resolvePage } from '@/shared/lib/page-params';
 import { alternates, href, SITE_URL } from '@/shared/lib/site';
+import { whatsappHref } from '@/shared/lib/whatsapp';
 import { Accordion } from '@/shared/ui/accordion';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
+import { BuyPromises, ChatLink, MadeForYou } from '@/features/catalog/purchase.extras';
 
 export const revalidate = 300;
 
@@ -47,12 +51,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     description:
       (lang === 'bn' ? product.seo.descriptionBn : product.seo.descriptionEn) ?? description,
     alternates: alternates(lang, `/products/${product.slug}`),
-    openGraph: {
-      title: name,
-      description,
-      type: 'website',
-      ...(product.primaryMedia ? { images: [product.primaryMedia.url] } : {}),
-    },
+    // The share image is the branded card from ./opengraph-image.tsx.
+    openGraph: { title: name, description, type: 'website' },
   };
 }
 
@@ -67,6 +67,9 @@ export default async function ProductPage({ params }: { params: Params }) {
   const url = `${SITE_URL}${href(lang, `/products/${product.slug}`)}`;
   const images = productImages(product.media, name, lang, product.slug);
   const faq = dict.faq.items;
+  const chat = whatsappHref(chatMessage(dict, name));
+  const dims = product.variants[0]?.dimensions;
+  const hero = images[0];
   return (
     <>
       <script
@@ -108,7 +111,32 @@ export default async function ProductPage({ params }: { params: Params }) {
           </ol>
         </nav>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24 [&>*]:min-w-0">
-          <ProductGallery images={images} note={dict.landing.sampleNote} />
+          <ProductGallery
+            images={images}
+            note={dict.landing.sampleNote}
+            lang={lang}
+            photoCount={dict.ui.photoCount}
+            closeLabel={dict.ui.close}
+            actions={
+              hero ? (
+                <VisualizerButton
+                  label={dict.premium.visualizer.open}
+                  slug={product.slug}
+                  piece={{
+                    src: hero.src,
+                    alt: name,
+                    sample: hero.sample,
+                    aspect: dims?.widthMm && dims.heightMm ? pieceAspect(dims) : null,
+                  }}
+                  copy={{
+                    text: dict.premium.visualizer,
+                    close: dict.ui.close,
+                    sampleNote: dict.landing.sampleNote,
+                  }}
+                />
+              ) : null
+            }
+          />
           <div className="lg:sticky lg:top-36 lg:self-start lg:pt-2">
             <div className="space-y-7">
               <div className="space-y-4">
@@ -148,6 +176,15 @@ export default async function ProductPage({ params }: { params: Params }) {
                   preOrder,
                   leadTime: saleBadgeText(dict, lang, product.saleMode, product.leadTimeDays),
                 }}
+                afterCta={
+                  <>
+                    <BuyPromises dict={dict} />
+                    {chat ? <ChatLink href={chat} label={dict.premium.chat.label} /> : null}
+                    {product.saleMode !== 'IN_STOCK' ? (
+                      <MadeForYou dict={dict} lang={lang} leadTimeDays={product.leadTimeDays} />
+                    ) : null}
+                  </>
+                }
               />
               {preOrder ? (
                 <p className="border-l-2 border-amber bg-glow/25 px-5 py-4 text-sm leading-relaxed">
@@ -194,13 +231,18 @@ export default async function ProductPage({ params }: { params: Params }) {
           </div>
         </div>
       </Container>
+      <TrustBand
+        dict={dict}
+        className="[contain-intrinsic-size:auto_640px] [content-visibility:auto]"
+      />
       <RelatedProducts
         products={related}
         lang={lang}
         dict={dict}
         eyebrow={category ? (lang === 'bn' ? category.nameBn : category.nameEn) : dict.nav.shop}
       />
-      <ValuesBand dict={dict} />
+      {/* Phones: room under the footer for the sticky purchase bar while it shows. */}
+      <style>{`@media (max-width:1023.98px){body:has([data-sticky-bar]){padding-bottom:var(--sticky-bar-h)}}`}</style>
     </>
   );
 }

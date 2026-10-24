@@ -207,3 +207,28 @@ model PriceExperiment {
   @@unique([variantId, key])
   @@map("price_experiments")
 }
+
+/// Storefront content documents edited by the owner (ADR 0015), one row per key ("home").
+/// `data` is validated by homeContentSchema (libs/contracts) on every write.
+model SiteContent {
+  key       String   @id
+  version   Int
+  data      Json
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("site_content")
+}
+
+/// Images uploaded for content (hero scenes, collection covers), not tied to a product.
+model ContentAsset {
+  id         String      @id @db.Uuid
+  storageKey String      @unique @map("storage_key")
+  mimeType   String      @map("mime_type")
+  bytes      Int
+  status     MediaStatus @default(PENDING)
+  createdAt  DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt  DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("content_assets")
+}

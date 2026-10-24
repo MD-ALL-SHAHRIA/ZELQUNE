@@ -51,17 +51,17 @@ export function ProductCard({
       href={href(lang, `/products/${product.slug}`)}
       className="group block focus-visible:outline-offset-4"
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-[#EFE8DC]">
+      <div className="relative aspect-[4/5] overflow-hidden bg-sand shadow-[0_0_0_0_transparent] transition-[transform,box-shadow] duration-700 ease-out-soft group-hover:-translate-y-1.5 group-hover:shadow-[0_36px_60px_-34px_rgba(227,168,87,0.6)] motion-reduce:transform-none">
         {first ? (
           <Image
             src={first.src}
             alt={first.alt}
             fill
-            priority={priority}
+            preload={priority}
             sizes={sizes}
             className={cn(
               fit,
-              'transition duration-[1.2s] ease-out-soft group-hover:scale-[1.025]',
+              'transition duration-[1.2s] ease-out-soft group-hover:scale-[1.045]',
               second && 'group-hover:opacity-0',
             )}
           />
@@ -88,14 +88,17 @@ export function ProductCard({
           />
         </div>
       </div>
-      <div className="mt-4 space-y-2">
+      <div className="mt-5 space-y-2.5">
         <div className="flex items-baseline justify-between gap-4">
-          <Title className="font-display text-[1.45rem] font-light leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
+          <Title className="font-display text-[1.45rem] font-medium leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
             {name}
           </Title>
           {product.fromPrice ? (
-            <p className="shrink-0 text-sm tabular-nums tracking-wide">
-              {formatTaka(product.fromPrice.amountPaisa, lang)}
+            <p className="shrink-0 text-[0.85rem] tabular-nums tracking-wide text-ink/85">
+              {/* Several finishes can be priced differently: the card shows the lowest. */}
+              {finishes.length > 1
+                ? fill(dict.ui.from, { price: formatTaka(product.fromPrice.amountPaisa, lang) })
+                : formatTaka(product.fromPrice.amountPaisa, lang)}
             </p>
           ) : null}
         </div>

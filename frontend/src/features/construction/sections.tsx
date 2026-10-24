@@ -1,19 +1,16 @@
+import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { formatNumber } from '@/i18n/format';
+import { fill } from '@/i18n/format';
 import { type District } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
+import { whatsappHref } from '@/shared/lib/whatsapp';
 import { ButtonLink } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Picture } from '@/shared/ui/image';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { BuildForm } from './build-form';
-
-/** "01" / "০১": stage and card numerals in the page's own digits. */
-function numeral(i: number, lang: Locale) {
-  return formatNumber(i + 1, lang).padStart(2, lang === 'bn' ? '০' : '0');
-}
 
 /** Fine drafting-paper grid: the site plan behind the construction story. */
 const BLUEPRINT =
@@ -21,7 +18,6 @@ const BLUEPRINT =
 
 /** Full-bleed architecture hero with the six stages running along its foot like a section line. */
 export function ConstructionHero({
-  lang,
   dict,
   image,
 }: {
@@ -31,40 +27,38 @@ export function ConstructionHero({
 }) {
   const d = dict.construction;
   return (
-    <section className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden bg-ink text-paper">
-      <Image src={image} alt="" fill priority sizes="100vw" className="-z-10 object-cover" />
+    <section className="relative isolate flex min-h-[92svh] flex-col justify-end overflow-hidden tone-dark bg-night text-ivory">
+      <Image src={image} alt="" fill preload sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(22,18,15,0.35)_0%,rgba(22,18,15,0.05)_30%,rgba(22,18,15,0.45)_62%,rgba(22,18,15,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(22,18,15,0.78)_0%,rgba(22,18,15,0.35)_48%,rgba(22,18,15,0)_75%),linear-gradient(180deg,rgba(22,18,15,0)_55%,rgba(22,18,15,0.85)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(43,30,25,0.35)_0%,rgba(43,30,25,0.05)_30%,rgba(43,30,25,0.45)_62%,rgba(43,30,25,0.92)_100%)] lg:bg-[linear-gradient(90deg,rgba(43,30,25,0.78)_0%,rgba(43,30,25,0.35)_48%,rgba(43,30,25,0)_75%),linear-gradient(180deg,rgba(43,30,25,0)_55%,rgba(43,30,25,0.85)_100%)]"
       />
       <Container className="pb-10 pt-36 sm:pb-14">
         <div className="max-w-3xl space-y-7">
-          <Eyebrow className="flex items-center gap-4 text-paper/80">
+          <Eyebrow className="flex items-center gap-4 text-ivory/80">
             <span aria-hidden className="h-px w-10 bg-amber" />
             {d.eyebrow}
           </Eyebrow>
           <Heading as="h1" level="display">
             {d.heading}
           </Heading>
-          <p className="max-w-xl text-base leading-relaxed text-paper/85 sm:text-lg">{d.lead}</p>
+          <p className="max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg">{d.lead}</p>
           <ButtonLink href="#start" size="lg" className="bg-paper text-ink hover:bg-glow">
             {d.button}
             <span aria-hidden>↓</span>
           </ButtonLink>
         </div>
-        <ol className="mt-16 hidden grid-cols-6 border-t border-paper/25 md:grid">
-          {d.stages.map((s, i) => (
+        <ol className="mt-16 hidden grid-cols-6 border-t border-ivory/25 md:grid">
+          {d.stages.map((s) => (
             <li key={s.title} className="relative pt-5 pr-4">
               <span aria-hidden className="absolute -top-[3px] left-0 size-[5px] bg-amber" />
-              <span className="block font-display text-sm italic text-glow">
-                {numeral(i, lang)}
-              </span>
-              <span className="mt-1 block text-sm text-paper/85">{s.title}</span>
+              <span aria-hidden className="block bg-glow h-px w-8" />
+              <span className="mt-1 block text-sm text-ivory/85">{s.title}</span>
             </li>
           ))}
         </ol>
       </Container>
-      <p className="absolute right-4 top-24 text-[0.6rem] text-paper/55 sm:bottom-3 sm:top-auto">
+      <p className="absolute right-4 top-24 text-[0.6rem] text-ivory/55 sm:bottom-3 sm:top-auto">
         {dict.construction.sampleNote}
       </p>
     </section>
@@ -76,7 +70,6 @@ type TypeImage = (typeof TYPE_IMAGES)[number];
 
 /** What we build: four building types as a staggered editorial row. */
 export function BuildTypes({
-  lang,
   dict,
   images,
 }: {
@@ -112,9 +105,11 @@ export function BuildTypes({
                 arch={i === 1}
               />
               <div className="mt-6 flex items-baseline gap-4 border-t border-line pt-5">
-                <span className="font-display text-lg italic text-walnut">{numeral(i, lang)}</span>
+                <span aria-hidden className="block bg-walnut h-px w-8" />
                 <div className="space-y-2">
-                  <h3 className="font-display text-[1.7rem] font-light leading-tight">{t.title}</h3>
+                  <h3 className="font-display text-[1.7rem] font-medium leading-tight">
+                    {t.title}
+                  </h3>
                   <p className="text-sm text-ink/75">{t.text}</p>
                 </div>
               </div>
@@ -131,7 +126,6 @@ export function BuildTypes({
  * with its photo alternating sides on desktop; the last stage opens into the arch (the home).
  */
 export function BuildStages({
-  lang,
   dict,
   images,
 }: {
@@ -175,7 +169,7 @@ export function BuildStages({
                       : 'border-ink/60 lg:-translate-y-[calc(50%+3rem)]',
                   )}
                 >
-                  <span className={cn('size-2', last ? 'rounded-full bg-amber' : 'bg-ink')} />
+                  <span className={cn('size-2', last ? 'rounded-full bg-amber' : 'bg-night')} />
                 </span>
                 <div
                   className={cn(
@@ -183,10 +177,8 @@ export function BuildStages({
                     flip ? 'lg:order-2 lg:pl-4' : 'lg:pr-4 lg:text-right',
                   )}
                 >
-                  <span className="block font-display text-6xl font-light italic leading-none text-amber sm:text-7xl">
-                    {numeral(i, lang)}
-                  </span>
-                  <h3 className="font-display text-3xl font-light leading-tight sm:text-4xl">
+                  <span aria-hidden className="block bg-amber h-px w-8" />
+                  <h3 className="font-display text-3xl font-medium leading-tight sm:text-4xl">
                     {s.title}
                   </h3>
                   <p
@@ -219,18 +211,10 @@ export function BuildStages({
 }
 
 /** Why one team: dark band with the structure's steel beside four promises. */
-export function WhyOneTeam({
-  lang,
-  dict,
-  image,
-}: {
-  lang: Locale;
-  dict: Dictionary;
-  image: string;
-}) {
+export function WhyOneTeam({ dict, image }: { lang: Locale; dict: Dictionary; image: string }) {
   const d = dict.construction;
   return (
-    <section className="bg-ink text-paper">
+    <section className="tone-dark bg-night text-ivory">
       <div className="grid lg:grid-cols-2">
         <div className="relative min-h-[22rem] lg:min-h-full">
           <Image
@@ -247,17 +231,17 @@ export function WhyOneTeam({
         </div>
         <div className="px-5 py-20 sm:px-10 lg:px-16 lg:py-32 xl:px-24">
           <div className="reveal space-y-5">
-            <Eyebrow className="text-paper/60">{d.eyebrow}</Eyebrow>
+            <Eyebrow className="text-ivory/60">{d.eyebrow}</Eyebrow>
             <Heading>{d.whyHeading}</Heading>
           </div>
-          <ul className="mt-12 border-t border-paper/15">
-            {d.why.map((item, i) => (
+          <ul className="mt-12 border-t border-ivory/15">
+            {d.why.map((item) => (
               <li
                 key={item}
-                className="reveal flex items-baseline gap-6 border-b border-paper/15 py-7"
+                className="reveal flex items-baseline gap-6 border-b border-ivory/15 py-7"
               >
-                <span className="font-display text-xl italic text-glow">{numeral(i, lang)}</span>
-                <span className="font-display text-2xl font-light leading-snug sm:text-[1.9rem]">
+                <span aria-hidden className="block bg-glow h-px w-8" />
+                <span className="font-display text-2xl font-medium leading-snug sm:text-[1.9rem]">
                   {item}
                 </span>
               </li>
@@ -296,6 +280,7 @@ export function ConstructionProjects({ dict }: { dict: Dictionary }) {
   );
 }
 
+/** The enquiry: the same calm two-column layout as the design consultation. */
 export function StartSection({
   lang,
   dict,
@@ -305,24 +290,51 @@ export function StartSection({
   dict: Dictionary;
   districts: District[];
 }) {
+  const chat = whatsappHref(fill(dict.premium.chat.message, { item: dict.construction.eyebrow }));
   return (
-    <section id="start" className="glow scroll-mt-24 py-24 sm:py-32">
-      <Container className="grid gap-14 lg:grid-cols-[1fr_1.5fr] lg:gap-24">
-        <div className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-          <Eyebrow>{dict.construction.eyebrow}</Eyebrow>
-          <Heading>{dict.build.heading}</Heading>
-          <Lead>{dict.build.text}</Lead>
+    <section id="start" className={cn('scroll-mt-24 bg-cream/50 py-24 sm:py-32', BLUEPRINT)}>
+      <Container className="grid gap-14 lg:grid-cols-[1fr_1.55fr] lg:gap-20 xl:gap-28">
+        <div className="space-y-8 lg:sticky lg:top-40 lg:self-start">
+          <div className="space-y-6">
+            <Eyebrow>{dict.construction.eyebrow}</Eyebrow>
+            <Heading>{dict.build.heading}</Heading>
+            <Lead>{dict.build.text}</Lead>
+          </div>
+          <ol className="hidden grid-cols-2 border-t border-line lg:grid">
+            {dict.construction.stages.map((s) => (
+              <li
+                key={s.title}
+                className="flex items-baseline gap-4 border-b border-line py-4 text-sm odd:pr-4"
+              >
+                <span aria-hidden className="block bg-walnut h-px w-8" />
+                <span>{s.title}</span>
+              </li>
+            ))}
+          </ol>
+          {chat ? (
+            <a
+              href={chat}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 text-sm underline decoration-ink/30 underline-offset-[6px] transition hover:decoration-ink"
+            >
+              <MessageCircle aria-hidden className="size-4" strokeWidth={1.3} />
+              {dict.premium.chat.label}
+            </a>
+          ) : null}
         </div>
-        <BuildForm
-          lang={lang}
-          districts={districts}
-          copy={{
-            build: dict.build,
-            checkout: dict.checkout,
-            bulk: dict.bulk,
-            consult: dict.consult,
-          }}
-        />
+        <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(43,30,25,0.18)] sm:p-10 lg:p-12">
+          <BuildForm
+            lang={lang}
+            districts={districts}
+            copy={{
+              build: dict.build,
+              checkout: dict.checkout,
+              bulk: dict.bulk,
+              consult: dict.consult,
+            }}
+          />
+        </div>
       </Container>
     </section>
   );

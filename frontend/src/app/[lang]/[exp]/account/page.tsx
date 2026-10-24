@@ -41,7 +41,7 @@ export default async function AccountPage({ params }: { params: PageParams }) {
               >
                 <Icon aria-hidden className="size-6 text-walnut" strokeWidth={1.1} />
                 <span className="flex items-end justify-between gap-6">
-                  <span className="font-display text-3xl font-light leading-tight sm:text-4xl [:lang(bn)_&]:text-2xl sm:[:lang(bn)_&]:text-3xl">
+                  <span className="font-display text-3xl font-medium leading-tight sm:text-4xl [:lang(bn)_&]:text-2xl sm:[:lang(bn)_&]:text-3xl">
                     {label}
                   </span>
                   <ArrowRight

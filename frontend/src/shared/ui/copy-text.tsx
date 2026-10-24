@@ -12,7 +12,7 @@ export function CopyText({ children }: { children: string }) {
           <mark
             key={i}
             data-placeholder
-            className="border border-dashed border-walnut bg-glow px-1 text-ink not-italic"
+            className="border border-dashed border-walnut bg-glow px-1 text-espresso not-italic"
           >
             {part.text}
           </mark>

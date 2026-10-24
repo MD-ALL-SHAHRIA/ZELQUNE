@@ -15,14 +15,14 @@ export function DayNight({ dict }: { dict: Dictionary }) {
     { ...l.night, image: SAMPLE.nightVase, night: true },
   ];
   return (
-    <section className="relative isolate bg-ink">
+    <section className="relative isolate bg-night">
       <div className="grid md:grid-cols-2">
         {moods.map((m) => (
           <article
             key={m.label}
             className={cn(
               'relative isolate flex min-h-[78svh] flex-col justify-end overflow-hidden md:min-h-[92svh]',
-              m.night ? 'bg-ink text-paper' : 'bg-cream text-ink',
+              m.night ? 'tone-dark bg-night text-ivory' : 'bg-cream text-ink',
             )}
           >
             <Image
@@ -37,14 +37,14 @@ export function DayNight({ dict }: { dict: Dictionary }) {
               className={cn(
                 'absolute inset-0 -z-10',
                 m.night
-                  ? 'bg-[radial-gradient(70%_55%_at_50%_45%,rgba(246,201,135,0.22),transparent_70%),linear-gradient(180deg,rgba(22,18,15,0.1)_40%,rgba(22,18,15,0.85)_100%)]'
-                  : 'bg-[linear-gradient(180deg,rgba(242,234,219,0)_40%,rgba(242,234,219,0.92)_100%)]',
+                  ? 'bg-[radial-gradient(70%_55%_at_50%_45%,rgba(246,201,135,0.22),transparent_70%),linear-gradient(180deg,rgba(43,30,25,0.1)_40%,rgba(43,30,25,0.85)_100%)]'
+                  : 'bg-[linear-gradient(180deg,rgba(243,236,225,0)_40%,rgba(243,236,225,0.92)_100%)]',
               )}
             />
             <div className="reveal flex flex-wrap items-end gap-x-8 gap-y-3 p-6 pb-10 sm:p-10 lg:p-14">
               <p
                 className={cn(
-                  'font-display text-[5.5rem] font-light italic leading-[0.8] sm:text-[8rem] lg:text-[10rem] [:lang(bn)_&]:not-italic [:lang(bn)_&]:leading-none',
+                  'font-display text-[5.5rem] font-medium italic leading-[0.8] sm:text-[8rem] lg:text-[10rem] [:lang(bn)_&]:not-italic [:lang(bn)_&]:leading-none',
                   m.night && 'text-glow',
                 )}
               >
@@ -53,7 +53,7 @@ export function DayNight({ dict }: { dict: Dictionary }) {
               <p
                 className={cn(
                   'max-w-[16rem] pb-2 text-sm leading-relaxed',
-                  m.night ? 'text-paper/80' : 'text-ink/80',
+                  m.night ? 'text-ivory/80' : 'text-ink/80',
                 )}
               >
                 {m.text}
@@ -64,14 +64,14 @@ export function DayNight({ dict }: { dict: Dictionary }) {
       </div>
       {/* Heading on the seam (top on phones, centre on wider screens). */}
       <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-center px-5 pt-14 md:pt-20">
-        <div className="reveal max-w-[46rem] bg-paper/92 px-7 py-8 text-center backdrop-blur-sm sm:px-12 sm:py-10">
+        <div className="reveal max-w-[46rem] bg-paper/90 px-7 py-8 text-center backdrop-blur-sm sm:px-12 sm:py-10">
           <Eyebrow className="mb-4">{l.dayNightEyebrow}</Eyebrow>
           <Heading level="h3" className="sm:text-[2.4rem]">
             {l.dayNightHeading}
           </Heading>
         </div>
       </div>
-      <p className="absolute bottom-3 right-4 text-[0.6rem] text-paper/55">{l.sampleNote}</p>
+      <p className="absolute bottom-3 right-4 text-[0.6rem] text-ivory/55">{l.sampleNote}</p>
     </section>
   );
 }

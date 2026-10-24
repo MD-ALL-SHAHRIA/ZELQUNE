@@ -1,25 +1,35 @@
-/* Tailwind v4: `@import "@zelqune/ui-tokens/tailwind-theme.css";` after `@import "tailwindcss";` */
-@theme {
-  --color-ink: #16120f;
-  --color-cream: #f2eadb;
-  --color-walnut: #4a3426;
-  --color-amber: #e3a857;
-  --color-paper: #faf6ef;
-  --color-sand: #ede3d3;
-  --color-stone: #6a5e51;
-  --color-line: #e2d7c6;
-  --color-surface: #ffffff;
-  --color-glow: #f6c987;
-  --color-success: #2f6b4a;
-  --color-warning: #9a6417;
-  --color-danger: #a3301f;
+/* Tailwind v4: `@import "@zelqune/ui-tokens/tailwind-theme.css";` after `@import "tailwindcss";`,
+   plus `@import "@zelqune/ui-tokens/tokens.css";` for the values (light and dark themes). */
+@theme inline {
+  --color-ink: var(--zq-ink);
+  --color-cream: var(--zq-cream);
+  --color-walnut: var(--zq-walnut);
+  --color-amber: var(--zq-amber);
+  --color-paper: var(--zq-paper);
+  --color-sand: var(--zq-sand);
+  --color-stone: var(--zq-stone);
+  --color-line: var(--zq-line);
+  --color-surface: var(--zq-surface);
+  --color-sage: var(--zq-sage);
+  --color-moss: var(--zq-moss);
+  --color-glow: var(--zq-glow);
+  --color-success: var(--zq-success);
+  --color-warning: var(--zq-warning);
+  --color-danger: var(--zq-danger);
+  --color-night: var(--zq-night);
+  /* Fixed, never flip. */
+  --color-ivory: var(--zq-ivory);
+  --color-espresso: var(--zq-espresso);
+  --color-brass: var(--zq-brass);
   /* Kept for compatibility with step 1.4 classes. */
-  --color-muted: #6a5e51;
+  --color-muted: var(--zq-stone);
 
   /* Latin-only stacks: Bangla pages switch fonts by lang (so English pages never fetch the
      Bangla fonts, e.g. just to draw the ৳ sign). */
-  --font-display: var(--font-cormorant), Georgia, serif;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--font-cormorant-wordmark), Georgia, serif;
+  /* The owner's logo lettering, for the wordmark only. */
+  --font-wordmark: var(--font-cormorant-wordmark), Georgia, serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
 
   --tracking-wordmark: 0.34em;
   --tracking-eyebrow: 0.22em;
