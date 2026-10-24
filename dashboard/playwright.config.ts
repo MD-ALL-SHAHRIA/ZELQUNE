@@ -7,6 +7,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: 'e2e',
+  testMatch: '**/*.e2e.ts',
   fullyParallel: false,
   workers: 1,
   use: { baseURL: process.env.BASE_URL ?? 'http://localhost:3200', trace: 'retain-on-failure' },

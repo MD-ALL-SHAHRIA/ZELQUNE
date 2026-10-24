@@ -12,9 +12,10 @@ test('sign in, see the overview, edit and save the home page', async ({ page }) 
   await page.getByLabel('Password').fill(password ?? '');
   await page.getByRole('button', { name: 'Sign in' }).click();
   await expect(page.getByRole('heading', { name: 'Overview' })).toBeVisible();
-  await expect(page.getByText('GO counter')).toBeVisible();
+  await expect(page.getByText('GO counter', { exact: true })).toBeVisible();
+  const nav = page.getByRole('navigation', { name: 'Main' });
 
-  await page.getByRole('link', { name: 'Home page' }).click();
+  await nav.getByRole('link', { name: 'Home page', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Home page' })).toBeVisible();
   const announcement = page.getByLabel('Text (English)');
   const original = await announcement.inputValue();
@@ -24,6 +25,6 @@ test('sign in, see the overview, edit and save the home page', async ({ page }) 
   await expect(page.getByText(/^Saved\./)).toBeVisible();
   await expect(page.getByText(/^Version \d+/)).toBeVisible();
 
-  await page.getByRole('link', { name: 'Orders' }).click();
+  await nav.getByRole('link', { name: 'Orders', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Orders' })).toBeVisible();
 });
