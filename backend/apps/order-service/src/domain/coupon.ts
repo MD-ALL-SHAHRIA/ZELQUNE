@@ -41,13 +41,13 @@ export function couponProblem(
 }
 
 /**
- * Discount on the product subtotal: PERCENT rounds down to a whole taka and respects the cap;
+ * Discount on the product subtotal: PERCENT rounds up to a whole taka (in the customer's favour) and respects the cap;
  * FIXED is the amount. Never more than the subtotal (shipping is never discounted).
  */
 export function couponDiscount(coupon: CouponRule, subtotalPaisa: number): number {
   let discount =
     coupon.kind === 'PERCENT'
-      ? Math.floor((subtotalPaisa * coupon.value) / 100 / 100) * 100
+      ? Math.ceil((subtotalPaisa * coupon.value) / 100 / 100) * 100
       : coupon.value;
   if (coupon.kind === 'PERCENT' && coupon.maxDiscountPaisa !== null)
     discount = Math.min(discount, coupon.maxDiscountPaisa);

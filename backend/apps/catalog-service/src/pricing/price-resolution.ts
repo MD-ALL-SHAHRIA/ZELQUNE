@@ -75,8 +75,14 @@ export interface LiveSale {
 /** The lowest price is ৳1: a sale never makes something free. */
 const MIN_SALE_PAISA = 100;
 
+/**
+ * Percent sales round the sale price down to a whole taka (in the customer's favour), so the
+ * advertised "15% off" is always at least 15%.
+ */
 const saleDiscount = (sale: LiveSale, amountPaisa: number): number =>
-  sale.kind === 'PERCENT' ? Math.floor((amountPaisa * sale.value) / 100 / 100) * 100 : sale.value;
+  sale.kind === 'PERCENT'
+    ? amountPaisa - Math.floor((amountPaisa * (100 - sale.value)) / 100 / 100) * 100
+    : sale.value;
 
 /**
  * Applies the best sale covering `productId` to a resolved price: the sale price becomes the

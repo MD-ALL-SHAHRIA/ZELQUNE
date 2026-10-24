@@ -119,7 +119,7 @@ describe('applySale', () => {
 
   it('takes the best sale off and shows the regular price struck through', () => {
     const price = applySale(base, 'p1', [sale(), sale({ kind: 'FIXED', value: 20_000 })]);
-    expect(price?.amountPaisa).toBe(296_700);
+    expect(price?.amountPaisa).toBe(296_600);
     expect(price?.compareAtPaisa).toBe(349_000);
     expect(price?.sale?.regularPaisa).toBe(349_000);
   });
