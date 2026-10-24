@@ -6,8 +6,9 @@ const PHONE_CUTS = ['moon-bonsai-panel', 'curve-walnut-shelf', 'half-moon-plante
 
 /**
  * Global next/image loader. Unsplash sample photos are resized by Unsplash's own image CDN
- * (WebP/AVIF via auto=format), so our server never proxies large originals; everything else
- * (catalog media) goes through Next's optimizer as usual.
+ * (WebP/AVIF via auto=format), so our server never proxies large originals. Catalog and content
+ * media (uploaded from the dashboard) are served straight from the media store: with a custom
+ * loader Next does not serve /_next/image, and the dashboard only accepts web formats ≤ 10 MB.
  */
 export default function imageLoader({ src, width, quality }: ImageLoaderProps): string {
   if (src.startsWith('https://images.unsplash.com/')) {
@@ -31,5 +32,6 @@ export default function imageLoader({ src, width, quality }: ImageLoaderProps): 
     }
     return `${src}?w=${width}`;
   }
-  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality ?? 75}`;
+  // The width only keeps next/image's per-width URLs distinct (the store ignores it).
+  return `${src}${src.includes('?') ? '&' : '?'}w=${width}`;
 }
