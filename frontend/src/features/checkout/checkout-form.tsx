@@ -21,8 +21,9 @@ import { Field, Input, Select } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useCheckoutMutation, useCheckoutQuoteMutation } from '@/store/api';
 import { useAppDispatch } from '@/store/hooks';
+import { couponProblem, normalizeCoupon } from './coupon';
 
-type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product'>;
+type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product' | 'offers'>;
 
 interface Fields {
   name: string;
@@ -66,6 +67,10 @@ export function CheckoutForm({
   const [formError, setFormError] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState('');
   const [turnstileKey, setTurnstileKey] = useState(0);
+  // The applied coupon (sent with every quote) and what the customer is typing.
+  const [coupon, setCoupon] = useState<string | null>(null);
+  const [couponInput, setCouponInput] = useState('');
+  const [couponError, setCouponError] = useState<string | null>(null);
   // One Idempotency-Key per distinct order attempt: a retry of the same payload reuses it.
   const attempt = useRef<{ key: string; payload: string } | null>(null);
   const announced = useRef(false);
@@ -83,20 +88,36 @@ export function CheckoutForm({
     const area = fields.area.trim();
     if (!token || !fields.district || area.length < 2 || !cart?.items.length) return;
     const timer = setTimeout(() => {
-      requestQuote({ 'x-cart-token': token, quoteRequestDto: { district: fields.district, area } })
+      requestQuote({
+        'x-cart-token': token,
+        quoteRequestDto: {
+          district: fields.district,
+          area,
+          ...(coupon ? { couponCode: coupon } : {}),
+        },
+      })
         .unwrap()
         .then((next) => {
           setQuote(next);
+          // A quote without a code keeps the reason the last code was refused on screen.
+          if (coupon) setCouponError(null);
           setMethod((m) =>
             m && next.allowedPaymentMethods.includes(m)
               ? m
               : (next.allowedPaymentMethods[0] ?? null),
           );
         })
-        .catch(() => setQuote(null));
+        .catch((error: unknown) => {
+          const problem = coupon ? couponProblem(error, copy.offers.coupon.reasons, lang) : null;
+          if (problem) {
+            // Drop the code; the next quote runs without it.
+            setCouponError(problem);
+            setCoupon(null);
+          } else setQuote(null);
+        });
     }, 350);
     return () => clearTimeout(timer);
-  }, [fields.district, fields.area, cart, token, requestQuote]);
+  }, [fields.district, fields.area, cart, token, requestQuote, coupon, copy, lang]);
 
   if (!cart || !items.length) {
     return (
@@ -148,6 +169,7 @@ export function CheckoutForm({
         ...(fields.note.trim() ? { note: fields.note.trim() } : {}),
       },
       paymentMethod: method,
+      ...(quote.coupon ? { couponCode: quote.coupon.code } : {}),
       ...(advanceMethod ? { trxId: normalizeTrxId(fields.trxId) ?? fields.trxId } : {}),
       ...(utm ? { utm } : {}),
       ...(sessionId ? { sessionId } : {}),
@@ -318,11 +340,71 @@ export function CheckoutForm({
             </li>
           ))}
         </ul>
+        <div className="border-b border-line pb-6">
+          {coupon ? (
+            <div className="flex items-center justify-between gap-3 text-sm">
+              <p data-testid="coupon-applied">
+                {fill(copy.offers.coupon.applied, { code: coupon })}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setCoupon(null);
+                  setCouponInput('');
+                }}
+                className="text-stone underline underline-offset-4 hover:text-ink"
+              >
+                {copy.offers.coupon.remove}
+              </button>
+            </div>
+          ) : (
+            <Field id="f-coupon" label={copy.offers.coupon.label} error={couponError ?? undefined}>
+              <div className="flex gap-2">
+                <Input
+                  id="f-coupon"
+                  name="coupon"
+                  value={couponInput}
+                  placeholder={copy.offers.coupon.placeholder}
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  onChange={(e) => setCouponInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key !== 'Enter') return;
+                    e.preventDefault();
+                    const code = normalizeCoupon(couponInput);
+                    if (code.length >= 3) {
+                      setCouponError(null);
+                      setCoupon(code);
+                    }
+                  }}
+                  className="uppercase"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={normalizeCoupon(couponInput).length < 3}
+                  onClick={() => {
+                    setCouponError(null);
+                    setCoupon(normalizeCoupon(couponInput));
+                  }}
+                >
+                  {copy.offers.coupon.apply}
+                </Button>
+              </div>
+            </Field>
+          )}
+        </div>
         <dl className="space-y-3 text-sm" data-testid="summary">
           <div className="flex justify-between">
             <dt className="text-stone">{c.summary.items}</dt>
             <dd>{formatTaka(quote?.subtotalPaisa ?? cart.subtotalPaisa, lang)}</dd>
           </div>
+          {quote?.coupon && quote.discountPaisa > 0 ? (
+            <div className="flex justify-between text-sale">
+              <dt>{fill(copy.offers.coupon.discount, { code: quote.coupon.code })}</dt>
+              <dd data-testid="discount">−{formatTaka(quote.discountPaisa, lang)}</dd>
+            </div>
+          ) : null}
           <div className="flex justify-between">
             <dt className="text-stone">{c.summary.delivery}</dt>
             <dd>{quote ? formatTaka(quote.shippingFeePaisa, lang) : '—'}</dd>

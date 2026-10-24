@@ -19,6 +19,9 @@
   --zq-success: #2f6b4a;
   --zq-warning: #9a6417;
   --zq-danger: #a3301f;
+  /* Sale price and sale badge fill (ivory text on it). */
+  --zq-sale: #963726;
+  --zq-sale-fill: #963726;
   /* Fixed in both themes: text on photos and overlays, accents on dark bands. */
   --zq-ivory: #f7f1e8;
   --zq-espresso: #3b2922;
@@ -51,6 +54,8 @@
   --zq-success: #9cc9a8;
   --zq-warning: #efc07e;
   --zq-danger: #f0a08e;
+  --zq-sale: #f0a08e;
+  --zq-sale-fill: #a3402f;
   color-scheme: dark;
 }
 
@@ -73,6 +78,8 @@
   --zq-success: #7fb08e;
   --zq-warning: #e0a458;
   --zq-danger: #e07a63;
+  --zq-sale: #e8937d;
+  --zq-sale-fill: #9a3d2e;
   --zq-brass: #c9a46a;
   color-scheme: dark;
 }

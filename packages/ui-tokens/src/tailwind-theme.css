@@ -16,6 +16,8 @@
   --color-success: var(--zq-success);
   --color-warning: var(--zq-warning);
   --color-danger: var(--zq-danger);
+  --color-sale: var(--zq-sale);
+  --color-sale-fill: var(--zq-sale-fill);
   --color-night: var(--zq-night);
   /* Fixed, never flip. */
   --color-ivory: var(--zq-ivory);

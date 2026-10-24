@@ -2,13 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { fill, formatNumber, formatTaka } from '@/i18n/format';
+import { fill, formatNumber } from '@/i18n/format';
 import { type ProductSummary } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
 import { href } from '@/shared/lib/site';
 import { finishColor } from './finishes';
 import { productImages } from './product-images';
 import { productName } from './product-copy';
+import { PriceTag, priceCopy } from '@/features/offers/price-tag';
 import { SaleBadge } from './sale-badge';
 
 const DEFAULT_SIZES = '(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 92vw';
@@ -94,12 +95,15 @@ export function ProductCard({
             {name}
           </Title>
           {product.fromPrice ? (
-            <p className="shrink-0 text-[0.85rem] tabular-nums tracking-wide text-ink/85">
+            <div className="shrink-0">
               {/* Several finishes can be priced differently: the card shows the lowest. */}
-              {finishes.length > 1
-                ? fill(dict.ui.from, { price: formatTaka(product.fromPrice.amountPaisa, lang) })
-                : formatTaka(product.fromPrice.amountPaisa, lang)}
-            </p>
+              <PriceTag
+                price={product.fromPrice}
+                lang={lang}
+                copy={priceCopy(dict)}
+                from={finishes.length > 1}
+              />
+            </div>
           ) : null}
         </div>
         {finishes.length ? (
