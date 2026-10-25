@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useCart } from '@/features/cart/use-cart';
 import { PriceTag, type PriceCopy } from '@/features/offers/price-tag';
 import { type Locale } from '@/i18n/config';
-import { fill, formatTaka } from '@/i18n/format';
+import { fill, formatNumber, formatTaka } from '@/i18n/format';
 import { type District, type ProductDetail } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
 import { href } from '@/shared/lib/site';
@@ -28,14 +28,22 @@ export interface PurchaseCopy {
   preOrder: boolean;
   /** Lead-time line for the sale mode (e.g. "Made to order · 21 days"). */
   leadTime?: string;
+  buyNow: string;
+  sizeLabel: string;
+  /** "{w} × {h} cm" template. */
+  size: string;
+  deliveryHeading: string;
+  /** Pre-orders: how the advance works (shown in the delivery card). */
+  preOrderNote?: string;
 }
 
 const label =
   'text-[0.7rem] font-medium uppercase tracking-eyebrow text-stone [:lang(bn)_&]:text-sm [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal';
 
 /**
- * Price, finish swatches, the buy buttons and the delivery estimate for the chosen finish.
- * `afterCta` (server-rendered: promises, timeline, chat) sits right under the buttons. On phones a
+ * Price, finish swatches, the size, Buy now / Add to cart, then the delivery card with the
+ * estimate for the chosen finish. `afterCta` (server-rendered: confidence card, chat, cross-sell)
+ * follows it. On phones a
  * slim bar with the price and the main button slides up once the buttons scroll out of view.
  */
 export function Purchase({
@@ -44,12 +52,15 @@ export function Purchase({
   lang,
   copy,
   afterCta,
+  sizeAction,
 }: {
   product: Pick<ProductDetail, 'id' | 'variants' | 'saleMode'>;
   districts: District[];
   lang: Locale;
   copy: PurchaseCopy;
   afterCta?: React.ReactNode;
+  /** Beside the size (e.g. "See it on your wall"), where the size is decided. */
+  sizeAction?: React.ReactNode;
 }) {
   const router = useRouter();
   const { add, busy } = useCart();
@@ -111,7 +122,14 @@ export function Purchase({
     (lang === 'bn' ? a.nameBn : a.nameEn).localeCompare(lang === 'bn' ? b.nameBn : b.nameEn),
   );
   const price = variant?.price ? formatTaka(variant.price.amountPaisa, lang) : null;
-  const primaryLabel = copy.preOrder ? copy.preOrderNow : copy.addToCart;
+  // Apex pattern: one primary action that goes straight to checkout, "Add to cart" beside it.
+  const primaryLabel = copy.preOrder ? copy.preOrderNow : copy.buyNow;
+  const dims = variant?.dimensions;
+  const cm = (mm: number) => formatNumber(Math.round(mm / 10), lang);
+  const sizeText =
+    dims?.widthMm && dims.heightMm
+      ? fill(copy.size, { w: cm(dims.widthMm), h: cm(dims.heightMm) })
+      : null;
   const finishName = (v: (typeof product.variants)[number]) => {
     const value = variantValue(v);
     return copy.variants[value] ?? value;
@@ -167,67 +185,97 @@ export function Purchase({
         </fieldset>
       ) : null}
 
+      {sizeText || sizeAction ? (
+        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-y border-line py-3.5">
+          <p className="flex items-baseline gap-3">
+            <span className={label}>{copy.sizeLabel}</span>
+            {sizeText ? <span className="text-sm tabular-nums text-ink">{sizeText}</span> : null}
+          </p>
+          {sizeAction}
+        </div>
+      ) : null}
+
       <div className="space-y-6">
         <div ref={ctaRef} className="grid gap-3">
-          <Button size="lg" disabled={busy || !variant?.price} onClick={() => buy(copy.preOrder)}>
+          <Button size="lg" disabled={busy || !variant?.price} onClick={() => buy(true)}>
             {primaryLabel}
           </Button>
-          {copy.preOrder ? (
-            <Button
-              size="lg"
-              variant="outline"
-              disabled={busy || !variant?.price}
-              onClick={() => buy(false)}
-            >
-              {copy.addToCart}
-            </Button>
-          ) : null}
+          <Button
+            size="lg"
+            variant="outline"
+            disabled={busy || !variant?.price}
+            onClick={() => buy(false)}
+          >
+            {copy.addToCart}
+          </Button>
         </div>
-        {afterCta}
       </div>
 
-      <div className="space-y-3 border border-line bg-surface/60 p-5">
-        {copy.leadTime ? (
-          <p className="flex items-start gap-3 text-sm">
-            <Truck aria-hidden strokeWidth={1.25} className="mt-0.5 size-5 shrink-0" />
-            <span>
-              <CopyText>{copy.leadTime}</CopyText>
-            </span>
-          </p>
-        ) : null}
-        <label htmlFor="estimate-district" className={cn('block', label)}>
-          {copy.estimate.district}
-        </label>
-        <Select
-          id="estimate-district"
-          value={district}
-          onChange={(e) => updateEstimate(e.target.value, variantId)}
-        >
-          <option value="">{copy.estimate.choose}</option>
-          {sorted.map((d) => (
-            <option key={d.code} value={d.code}>
-              {lang === 'bn' ? d.nameBn : d.nameEn}
-            </option>
-          ))}
-        </Select>
-        <p
-          aria-live="polite"
-          data-testid="delivery-estimate"
-          className={cn('text-sm', isError && 'text-danger', isFetching && 'opacity-50')}
-        >
-          <CopyText>
-            {!district
-              ? copy.deliveryFee
-              : isError
-                ? copy.estimate.failed
-                : fee
-                  ? fill(copy.estimate.result, {
-                      district: districtName(district),
-                      fee: formatTaka(fee.feePaisa, lang),
-                    })
-                  : copy.deliveryFee}
-          </CopyText>
-        </p>
+      <div className="space-y-3">
+        {/* Delivery card (Apex pattern: delivery assurance right under the buttons). */}
+        <section aria-labelledby="delivery-card" className="bg-cream/70 p-5">
+          <h2
+            id="delivery-card"
+            className="flex items-center gap-2.5 text-[0.95rem] font-medium text-ink"
+          >
+            <Truck aria-hidden strokeWidth={1.4} className="size-[1.15rem] text-walnut" />
+            {copy.deliveryHeading}
+          </h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 sm:gap-0 sm:divide-x sm:divide-line">
+            <div className="sm:pr-5">
+              {copy.leadTime ? (
+                <p className="text-[0.82rem] font-medium leading-snug text-ink">
+                  <CopyText>{copy.leadTime}</CopyText>
+                </p>
+              ) : null}
+              {copy.preOrderNote ? (
+                <p className="mt-1.5 text-xs leading-relaxed text-ink/65">
+                  <CopyText>{copy.preOrderNote}</CopyText>
+                </p>
+              ) : null}
+            </div>
+            <div className="space-y-2 sm:pl-5">
+              <label htmlFor="estimate-district" className={cn('block', label)}>
+                {copy.estimate.district}
+              </label>
+              <Select
+                id="estimate-district"
+                value={district}
+                onChange={(e) => updateEstimate(e.target.value, variantId)}
+              >
+                <option value="">{copy.estimate.choose}</option>
+                {sorted.map((d) => (
+                  <option key={d.code} value={d.code}>
+                    {lang === 'bn' ? d.nameBn : d.nameEn}
+                  </option>
+                ))}
+              </Select>
+              <p
+                aria-live="polite"
+                data-testid="delivery-estimate"
+                className={cn(
+                  'text-xs leading-relaxed text-ink/75',
+                  isError && 'text-danger',
+                  isFetching && 'opacity-50',
+                )}
+              >
+                <CopyText>
+                  {!district
+                    ? copy.deliveryFee
+                    : isError
+                      ? copy.estimate.failed
+                      : fee
+                        ? fill(copy.estimate.result, {
+                            district: districtName(district),
+                            fee: formatTaka(fee.feePaisa, lang),
+                          })
+                        : copy.deliveryFee}
+                </CopyText>
+              </p>
+            </div>
+          </div>
+        </section>
+        {afterCta}
       </div>
 
       {/* Phones: the buy button stays reachable once the main buttons scroll away. */}

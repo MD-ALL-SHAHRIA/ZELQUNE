@@ -36,9 +36,10 @@ export function ProductImages({
 
 /**
  * Product page gallery, one set of images for every screen (each downloaded once): a swipeable
- * scroll-snap strip with a photo counter on phones (the next photo peeks in), an editorial stack
- * on desktop (the first image large and arch-framed, the rest in pairs). Every photo opens a
- * full-screen view on click; that view's code loads only then.
+ * scroll-snap strip with a photo counter on phones (the next photo peeks in), and on desktop a
+ * two-column grid of large photos (Apex pattern: bigger images, details easy to inspect; with an
+ * odd count the first photo spans both columns). Every photo opens a full-screen view on click;
+ * that view's code loads only then.
  */
 export function ProductGallery({
   images,
@@ -59,7 +60,6 @@ export function ProductGallery({
 }) {
   const [first] = images;
   if (!first) return null;
-  const rest = images.length - 1;
   const total = formatNumber(images.length, lang);
   const label = (i: number) =>
     `${images[i]?.alt ?? ''} · ${fill(photoCount, { n: formatNumber(i + 1, lang), total })}`;
@@ -85,7 +85,7 @@ export function ProductGallery({
         className="scrollbar-none -mx-5 flex snap-x snap-mandatory scroll-px-5 gap-2 overflow-x-auto px-5 md:-mx-10 md:scroll-px-10 md:px-10 lg:mx-0 lg:grid lg:grid-cols-2 lg:gap-3 lg:overflow-visible lg:px-0"
       >
         {images.map((img, i) => {
-          const wide = i === 0 || (i === images.length - 1 && rest % 2 === 1);
+          const wide = i === 0 && images.length % 2 === 1;
           return (
             <button
               key={img.src}
@@ -108,8 +108,7 @@ export function ProductGallery({
                 priority={i === 0}
                 // Later slides peek into view on phones; keep them from competing with the LCP.
                 fetchPriority={i === 0 ? undefined : 'low'}
-                arch={i === 0}
-                ratio={i > 0 && wide ? 'aspect-[4/5] lg:aspect-[16/10]' : 'aspect-[4/5]'}
+                ratio={wide ? 'aspect-[4/5] lg:aspect-[16/11]' : 'aspect-[4/5]'}
               />
             </button>
           );

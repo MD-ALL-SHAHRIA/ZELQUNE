@@ -1,8 +1,10 @@
-import { priceCopy } from '@/features/offers/price-tag';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ProductView } from '@/features/analytics/product-view';
+import { CompleteTheWall, type PairItem } from '@/features/catalog/complete-the-wall.client';
+import { ShareButton } from '@/features/catalog/share-button.client';
+import { priceCopy } from '@/features/offers/price-tag';
 import { relatedProducts } from '@/features/catalog/listing-data';
 import { ProductGallery } from '@/features/catalog/product-gallery';
 import { productImages } from '@/features/catalog/product-images';
@@ -10,7 +12,6 @@ import { chatMessage, productName } from '@/features/catalog/product-copy';
 import { Purchase } from '@/features/catalog/purchase';
 import { RelatedProducts } from '@/features/catalog/related-products';
 import { SaleBadge, saleBadgeText } from '@/features/catalog/sale-badge';
-import { TrustBand } from '@/features/trust/trust-band';
 import { pieceAspect } from '@/features/visualizer/geometry';
 import { VisualizerButton } from '@/features/visualizer/visualizer-button';
 import { getProduct, listDistricts } from '@/shared/api/server';
@@ -21,7 +22,7 @@ import { whatsappHref } from '@/shared/lib/whatsapp';
 import { Accordion } from '@/shared/ui/accordion';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
-import { BuyPromises, ChatLink, MadeForYou } from '@/features/catalog/purchase.extras';
+import { ChatLink, ConfidenceCard, MadeForYou } from '@/features/catalog/purchase.extras';
 
 export const revalidate = 60;
 
@@ -71,6 +72,49 @@ export default async function ProductPage({ params }: { params: Params }) {
   const chat = whatsappHref(chatMessage(dict, name));
   const dims = product.variants[0]?.dimensions;
   const hero = images[0];
+  // "Complete the wall": up to three related pieces sold the same way (a cart holds one sale
+  // mode), each with its first finish and live price.
+  const pairs: PairItem[] = (
+    await Promise.all(
+      related
+        .filter((p) => p.saleMode === product.saleMode)
+        .slice(0, 3)
+        .map(async (p) => {
+          const detail = await getProduct(p.slug, segment).catch(() => null);
+          const v = detail?.variants.find((x) => x.price);
+          if (!detail || !v?.price) return null;
+          const pairName = productName(detail, lang, dict);
+          const img = productImages(detail.media, pairName, lang, detail.slug)[0];
+          return {
+            productId: detail.id,
+            variantId: v.id,
+            slug: detail.slug,
+            name: pairName,
+            image: img ? { src: img.src, alt: img.alt } : null,
+            unitPricePaisa: v.price.amountPaisa,
+            regularPaisa: v.price.sale?.regularPaisa ?? null,
+          };
+        }),
+    )
+  ).filter((x): x is PairItem => x !== null);
+  const visualizer = hero ? (
+    <VisualizerButton
+      key="visualizer"
+      label={dict.premium.visualizer.open}
+      slug={product.slug}
+      piece={{
+        src: hero.src,
+        alt: name,
+        sample: hero.sample,
+        aspect: dims?.widthMm && dims.heightMm ? pieceAspect(dims) : null,
+      }}
+      copy={{
+        text: dict.premium.visualizer,
+        close: dict.ui.close,
+        sampleNote: dict.landing.sampleNote,
+      }}
+    />
+  ) : null;
   return (
     <>
       <script
@@ -111,34 +155,18 @@ export default async function ProductPage({ params }: { params: Params }) {
             </li>
           </ol>
         </nav>
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24 [&>*]:min-w-0">
+        {/* Apex-style layout: gallery and its accordions on the left; the buying decision on the
+            right (sticky), with delivery and trust right under the buttons, then cross-sell.
+            Phones: gallery, buying, then the accordions. */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-x-14 xl:gap-x-20 [&>*]:min-w-0">
           <ProductGallery
             images={images}
             note={dict.landing.sampleNote}
             lang={lang}
             photoCount={dict.ui.photoCount}
             closeLabel={dict.ui.close}
-            actions={
-              hero ? (
-                <VisualizerButton
-                  label={dict.premium.visualizer.open}
-                  slug={product.slug}
-                  piece={{
-                    src: hero.src,
-                    alt: name,
-                    sample: hero.sample,
-                    aspect: dims?.widthMm && dims.heightMm ? pieceAspect(dims) : null,
-                  }}
-                  copy={{
-                    text: dict.premium.visualizer,
-                    close: dict.ui.close,
-                    sampleNote: dict.landing.sampleNote,
-                  }}
-                />
-              ) : null
-            }
           />
-          <div className="lg:sticky lg:top-36 lg:self-start lg:pt-2">
+          <div className="lg:sticky lg:top-36 lg:row-span-2 lg:self-start">
             <div className="space-y-7">
               <div className="space-y-4">
                 {category ? (
@@ -151,9 +179,16 @@ export default async function ProductPage({ params }: { params: Params }) {
                     </Link>
                   </Eyebrow>
                 ) : null}
-                <Heading as="h1" level="h1">
-                  {name}
-                </Heading>
+                <div className="flex items-start justify-between gap-4">
+                  <Heading as="h1" level="h1">
+                    {name}
+                  </Heading>
+                  <ShareButton
+                    url={url}
+                    title={name}
+                    copy={{ share: dict.product.share, linkCopied: dict.product.linkCopied }}
+                  />
+                </div>
                 <SaleBadge
                   dict={dict}
                   lang={lang}
@@ -166,12 +201,18 @@ export default async function ProductPage({ params }: { params: Params }) {
                 product={{ id: product.id, variants: product.variants, saleMode: product.saleMode }}
                 districts={districts}
                 lang={lang}
+                sizeAction={visualizer}
                 copy={{
                   price: priceCopy(dict),
                   variantLabel: dict.product.variantLabel,
                   variants: dict.product.variants,
                   addToCart: dict.product.addToCart,
                   preOrderNow: dict.product.preOrderNow,
+                  buyNow: dict.product.buyNow,
+                  sizeLabel: dict.product.sizeLabel,
+                  size: dict.product.size,
+                  deliveryHeading: dict.product.deliveryHeading,
+                  preOrderNote: preOrder ? dict.product.preOrderNote : undefined,
                   deliveryFee: dict.product.deliveryFee,
                   estimate: dict.product.estimate,
                   unavailable: dict.product.unavailable,
@@ -179,64 +220,82 @@ export default async function ProductPage({ params }: { params: Params }) {
                   leadTime: saleBadgeText(dict, lang, product.saleMode, product.leadTimeDays),
                 }}
                 afterCta={
-                  <>
-                    <BuyPromises dict={dict} />
-                    {chat ? <ChatLink href={chat} label={dict.premium.chat.label} /> : null}
-                    {product.saleMode !== 'IN_STOCK' ? (
-                      <MadeForYou dict={dict} lang={lang} leadTimeDays={product.leadTimeDays} />
+                  <div key="after-cta" className="space-y-3">
+                    <ConfidenceCard key="confidence" dict={dict} />
+                    {chat ? (
+                      <ChatLink key="chat" href={chat} label={dict.premium.chat.label} />
                     ) : null}
-                  </>
+                  </div>
                 }
               />
-              {preOrder ? (
-                <p className="border-l-2 border-amber bg-glow/25 px-5 py-4 text-sm leading-relaxed">
-                  {dict.product.preOrderNote}
-                </p>
-              ) : null}
-              <Accordion
-                defaultOpen="details"
-                items={[
-                  {
-                    id: 'details',
-                    title: dict.productSections.details,
-                    body: (
-                      <ul className="space-y-2">
-                        {(copy?.whatYouGet ?? []).map((line) => (
-                          <li key={line} className="flex gap-3">
-                            <span
-                              aria-hidden
-                              className="mt-2.5 size-1 shrink-0 rounded-full bg-walnut"
-                            />
-                            <span>
-                              <CopyText>{line}</CopyText>
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    ),
-                  },
-                  {
-                    id: 'delivery',
-                    title: dict.productSections.delivery,
-                    body: [faq[4]?.a, dict.terms.items[0], dict.terms.items[1]]
-                      .filter(Boolean)
-                      .join(' '),
-                  },
-                  {
-                    id: 'care',
-                    title: dict.productSections.care,
-                    body: [faq[3]?.a, faq[2]?.a].filter(Boolean).join(' '),
-                  },
-                ]}
+              <CompleteTheWall
+                items={pairs}
+                lang={lang}
+                copy={{
+                  heading: dict.product.completeTheWall,
+                  note: dict.product.completeNote,
+                  add: dict.product.add,
+                  added: dict.product.addedShort,
+                }}
               />
             </div>
           </div>
+          <div className="lg:pt-2">
+            <Accordion
+              defaultOpen="details"
+              items={[
+                {
+                  id: 'details',
+                  title: dict.productSections.details,
+                  body: (
+                    <ul className="space-y-2">
+                      {(copy?.whatYouGet ?? []).map((line) => (
+                        <li key={line} className="flex gap-3">
+                          <span
+                            aria-hidden
+                            className="mt-2.5 size-1 shrink-0 rounded-full bg-walnut"
+                          />
+                          <span>
+                            <CopyText>{line}</CopyText>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ),
+                },
+                ...(preOrder
+                  ? [
+                      {
+                        id: 'made',
+                        title: dict.premium.madeForYou,
+                        body: (
+                          <MadeForYou
+                            dict={dict}
+                            lang={lang}
+                            leadTimeDays={product.leadTimeDays}
+                            bare
+                          />
+                        ),
+                      },
+                    ]
+                  : []),
+                {
+                  id: 'delivery',
+                  title: dict.productSections.delivery,
+                  body: [faq[4]?.a, dict.terms.items[0], dict.terms.items[1]]
+                    .filter(Boolean)
+                    .join(' '),
+                },
+                {
+                  id: 'care',
+                  title: dict.productSections.care,
+                  body: [faq[3]?.a, faq[2]?.a].filter(Boolean).join(' '),
+                },
+              ]}
+            />
+          </div>
         </div>
       </Container>
-      <TrustBand
-        dict={dict}
-        className="[contain-intrinsic-size:auto_640px] [content-visibility:auto]"
-      />
       <RelatedProducts
         products={related}
         lang={lang}

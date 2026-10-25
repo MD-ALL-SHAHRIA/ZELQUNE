@@ -7,6 +7,14 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Product page redesigned after a UX audit (docs/ux/product-page-audit.md, following the Apex
+  case study method): large two-column gallery; Buy now / Pre-order now plus Add to cart as the
+  only primary actions; size beside the finish with "See it on your wall"; compact delivery and
+  "Buy with confidence" cards right under the buttons; "Complete the wall" cross-sell with
+  one-tap Add; details, timeline, delivery and care as accordions under the gallery; a Share
+  action beside the title. Copy added in EN and BN.
+
+### Changed
 - Admin dashboard restyled after the owner's Northstar reference: off-white canvas with the
   sidebar and page title on it and each page in one large white panel; two-tone cards (grey
   title strip, white inset); big light numbers with monospace changes beside a circled arrow;
