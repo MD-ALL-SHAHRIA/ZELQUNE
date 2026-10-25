@@ -1,10 +1,20 @@
 import 'server-only';
 import { createApiClient } from '@zelqune/api-client';
-import { ApiError, type Category, type District, ok, type ProductDetail } from '@/shared/api/types';
+import {
+  type ActiveSale,
+  ApiError,
+  type Category,
+  type District,
+  ok,
+  type ProductDetail,
+} from '@/shared/api/types';
 import { isExperimentKey, type PriceSegment } from '@/shared/lib/visitor';
 
-/** Catalog pages are ISR: data is refetched at most every 5 minutes. */
-export const REVALIDATE_SECONDS = 300;
+/**
+ * Catalog pages are ISR: data is refetched at most every minute, so a sale or a price change
+ * from the dashboard shows within a minute (checkout always prices live).
+ */
+export const REVALIDATE_SECONDS = 60;
 
 const api = createApiClient(
   process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
@@ -41,4 +51,13 @@ export async function listCategories(): Promise<Category[]> {
 
 export async function listDistricts(): Promise<District[]> {
   return ok(await api.GET('/v1/shipping/districts')).items;
+}
+
+/** The flash or seasonal sale running now, or null (also when the backend is unreachable). */
+export async function getActiveSale(): Promise<ActiveSale | null> {
+  try {
+    return ok(await api.GET('/v1/catalog/sale')).sale;
+  } catch {
+    return null;
+  }
 }

@@ -5,7 +5,7 @@ import { listCategories } from '@/shared/api/server';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
   const { lang, dict } = await resolvePage(params);

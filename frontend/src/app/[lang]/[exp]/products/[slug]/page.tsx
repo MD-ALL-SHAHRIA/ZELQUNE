@@ -1,3 +1,4 @@
+import { priceCopy } from '@/features/offers/price-tag';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -22,7 +23,7 @@ import { CopyText } from '@/shared/ui/copy-text';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { BuyPromises, ChatLink, MadeForYou } from '@/features/catalog/purchase.extras';
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 // ISR: paths are rendered on first request, then cached (an empty list enables runtime ISR).
 export function generateStaticParams() {
@@ -166,6 +167,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                 districts={districts}
                 lang={lang}
                 copy={{
+                  price: priceCopy(dict),
                   variantLabel: dict.product.variantLabel,
                   variants: dict.product.variants,
                   addToCart: dict.product.addToCart,

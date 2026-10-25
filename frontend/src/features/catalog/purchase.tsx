@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Truck } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useCart } from '@/features/cart/use-cart';
+import { PriceTag, type PriceCopy } from '@/features/offers/price-tag';
 import { type Locale } from '@/i18n/config';
 import { fill, formatTaka } from '@/i18n/format';
 import { type District, type ProductDetail } from '@/shared/api/types';
@@ -16,6 +17,7 @@ import { useLazyShippingEstimateQuery } from '@/store/api';
 import { finishColor, variantValue } from './finishes';
 
 export interface PurchaseCopy {
+  price: PriceCopy;
   variantLabel: string;
   variants: Record<string, string | undefined>;
   addToCart: string;
@@ -109,10 +111,6 @@ export function Purchase({
     (lang === 'bn' ? a.nameBn : a.nameEn).localeCompare(lang === 'bn' ? b.nameBn : b.nameEn),
   );
   const price = variant?.price ? formatTaka(variant.price.amountPaisa, lang) : null;
-  const compareAt =
-    variant?.price?.compareAtPaisa && variant.price.compareAtPaisa > variant.price.amountPaisa
-      ? formatTaka(variant.price.compareAtPaisa, lang)
-      : null;
   const primaryLabel = copy.preOrder ? copy.preOrderNow : copy.addToCart;
   const finishName = (v: (typeof product.variants)[number]) => {
     const value = variantValue(v);
@@ -121,20 +119,8 @@ export function Purchase({
 
   return (
     <div className="space-y-8">
-      {price ? (
-        <div className="flex items-baseline gap-4">
-          <p
-            data-testid="price"
-            className="font-display text-[2.6rem] font-medium leading-none tabular-nums sm:text-[2.9rem]"
-          >
-            {price}
-          </p>
-          {compareAt ? (
-            <del className="font-display text-2xl font-medium tabular-nums text-stone">
-              {compareAt}
-            </del>
-          ) : null}
-        </div>
+      {variant?.price ? (
+        <PriceTag price={variant.price} lang={lang} copy={copy.price} size="page" />
       ) : (
         <p className="text-danger">{copy.unavailable}</p>
       )}

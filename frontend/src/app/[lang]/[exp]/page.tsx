@@ -17,7 +17,7 @@ import { getHomeContent, withContent } from '@/shared/api/content';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 const FEATURED_SLUG = 'alo-arch-panel';
 

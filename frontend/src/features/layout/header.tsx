@@ -17,6 +17,8 @@ import { ActiveLink, NavTabs } from './nav-tabs';
 import { type SearchIndex } from './search';
 import { SearchButton } from './search-button';
 import { ThemeToggle } from './theme-toggle';
+import { SaleBar } from '@/features/offers/sale-bar';
+import { type ActiveSale } from '@/shared/api/types';
 import { Overlays } from './overlays';
 
 /**
@@ -29,11 +31,14 @@ export function Header({
   dict,
   categories,
   searchIndex,
+  sale,
 }: {
   lang: Locale;
   dict: Dictionary;
   categories: Category[];
   searchIndex: SearchIndex;
+  /** A live sale replaces the announcement with its name, discount and countdown. */
+  sale?: ActiveSale | null;
 }) {
   const cats = categoryLinks(lang, categories);
   const services = serviceNav(lang, dict);
@@ -48,9 +53,13 @@ export function Header({
       >
         {dict.ui.skip}
       </a>
-      <p className="tone-dark bg-night px-4 py-[0.7rem] text-center text-[0.6rem] uppercase leading-relaxed tracking-[0.2em] text-balance text-ivory/80 sm:text-[0.62rem] sm:tracking-[0.26em] [:lang(bn)_&]:py-2 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
-        {dict.layout.announcement}
-      </p>
+      {sale ? (
+        <SaleBar sale={sale} lang={lang} dict={dict} />
+      ) : (
+        <p className="tone-dark bg-night px-4 py-[0.7rem] text-center text-[0.6rem] uppercase leading-relaxed tracking-[0.2em] text-balance text-ivory/80 sm:text-[0.62rem] sm:tracking-[0.26em] [:lang(bn)_&]:py-2 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+          {dict.layout.announcement}
+        </p>
+      )}
       <header className="site-header sticky top-0 z-30 border-b border-line/90 bg-paper/[0.97] backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-paper/[0.88]">
         <div className="mx-auto grid h-16 w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-5 md:px-10 lg:h-[5.75rem]">
           <div className="flex items-center gap-0.5 lg:gap-4">

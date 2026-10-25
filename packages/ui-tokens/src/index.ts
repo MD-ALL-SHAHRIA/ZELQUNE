@@ -30,6 +30,9 @@ export const colors = {
   success: '#2F6B4A',
   warning: '#9A6417',
   danger: '#A3301F',
+  /** Sale price and badge fill. */
+  sale: '#963726',
+  saleFill: '#963726',
 } as const;
 
 /** The night theme's values ("Dark Walnut"). */
@@ -52,6 +55,8 @@ export const darkColors = {
   success: '#7FB08E',
   warning: '#E0A458',
   danger: '#E07A63',
+  sale: '#E8937D',
+  saleFill: '#9A3D2E',
 } as const;
 
 /** Semantic roles; components should use these rather than raw brand names. */

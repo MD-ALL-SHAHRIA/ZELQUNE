@@ -14,6 +14,8 @@ export type RfqRequest = Schemas['RfqRequestDto'];
 export type PublicQuote = Schemas['PublicQuoteDto_Output'];
 export type ShippingEstimate = Schemas['ShippingEstimateDto_Output'];
 export type SaleMode = ProductDetail['saleMode'];
+export type ResolvedPrice = NonNullable<ProductDetail['variants'][number]['price']>;
+export type ActiveSale = NonNullable<Schemas['ActiveSaleDto_Output']['sale']>;
 export type PaymentMethod = CheckoutRequest['paymentMethod'];
 
 /** The gateway's error envelope: { error: { code, message, requestId } }. */

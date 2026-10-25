@@ -386,3 +386,16 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **WhatsApp:** Chat on WhatsApp · Hello Zelqune, I have a question about {item}
 - **Statement:** Wood, light and space, made for the way Bangladesh lives.
 - **Marquee words:** Solid wood · Warm LED light · Made in Dhaka · Made to order · Finished by hand
+
+## Offers and coupons (added with flash sales and coupons, for owner review)
+- **Sale badges:** Flash sale · Sale · {n}% off
+- **Countdown:** Ends in {time} · {d}d {hh}:{mm}:{ss} · This sale has ended
+- **Sale bar:** {name}: {n}% off · {name}: {amount} off · Shop the sale
+- **Checkout coupon:** Coupon code · Enter a code · Apply · Remove · {code} applied · Discount ({code})
+- **Coupon problems:**
+  - This code is not valid.
+  - This code is no longer active.
+  - This code is not active yet.
+  - This code has expired.
+  - This code has been fully used.
+  - Your order needs to be at least {amount} for this code.
