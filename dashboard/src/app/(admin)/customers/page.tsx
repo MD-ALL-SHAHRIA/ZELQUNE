@@ -1,6 +1,6 @@
 'use client';
 
-import { Download, MessageCircle, Phone, Search, Users } from 'lucide-react';
+import { Banknote, Download, MessageCircle, Phone, Repeat, Search, Users } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -104,9 +104,17 @@ export default function CustomersPage() {
       <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
         {list ? (
           <>
-            <Kpi label="Customers" value={String(list.stats.customers)} hint="All time" />
+            <Kpi
+              label="Customers"
+              icon={Users}
+              tone="walnut"
+              value={String(list.stats.customers)}
+              hint="All time"
+            />
             <Kpi
               label="Returning customers"
+              icon={Repeat}
+              tone="sage"
               value={String(list.stats.repeat)}
               hint={
                 list.stats.customers
@@ -116,6 +124,8 @@ export default function CustomersPage() {
             />
             <Kpi
               label="Lifetime revenue"
+              icon={Banknote}
+              tone="brass"
               value={formatTaka(list.stats.spentPaisa)}
               hint="Paid orders, all time"
             />
@@ -164,7 +174,7 @@ export default function CustomersPage() {
             {term ? 'Try another name or number.' : 'People appear here after their first order.'}
           </EmptyState>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table className="w-full min-w-[54rem] text-sm">
               <thead className="bg-cream/60 text-left text-xs text-stone">
                 <tr>

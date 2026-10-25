@@ -1,6 +1,16 @@
 'use client';
 
-import { Download } from 'lucide-react';
+import {
+  Banknote,
+  CircleX,
+  Download,
+  Package,
+  ShoppingBag,
+  Ticket,
+  Undo2,
+  Users,
+  WalletCards,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { AreaChart } from '@/components/charts/area-chart';
 import { BarList } from '@/components/charts/bar-list';
@@ -104,35 +114,59 @@ export default function AnalyticsPage() {
           <>
             <Kpi
               label="Net sales"
+              icon={Banknote}
+              tone="walnut"
               value={formatTaka(t.netPaisa)}
               change={delta(t.netPaisa, p.netPaisa)}
               spark={data.now.byDay.map((d) => d.netPaisa)}
             />
-            <Kpi label="Orders" value={String(t.orders)} change={delta(t.orders, p.orders)} />
+            <Kpi
+              label="Orders"
+              icon={ShoppingBag}
+              tone="brass"
+              value={String(t.orders)}
+              change={delta(t.orders, p.orders)}
+            />
             <Kpi
               label="Average order"
+              icon={WalletCards}
+              tone="sky"
               value={formatTaka(t.averageOrderPaisa)}
               change={delta(t.averageOrderPaisa, p.averageOrderPaisa)}
             />
-            <Kpi label="Units sold" value={String(t.units)} change={delta(t.units, p.units)} />
+            <Kpi
+              label="Units sold"
+              icon={Package}
+              tone="sage"
+              value={String(t.units)}
+              change={delta(t.units, p.units)}
+            />
             <Kpi
               label="Customers"
+              icon={Users}
+              tone="walnut"
               value={String(t.customers)}
               hint={`${count(t.repeatCustomers, 'returning customer')}`}
             />
             <Kpi
               label="Discounts given"
+              icon={Ticket}
+              tone="clay"
               value={formatTaka(t.discountPaisa)}
               change={delta(t.discountPaisa, p.discountPaisa)}
               invert
             />
             <Kpi
               label="Cancelled"
+              icon={CircleX}
+              tone="clay"
               value={String(t.cancelledOrders)}
               hint={formatTaka(t.cancelledPaisa)}
             />
             <Kpi
               label="Returned or refunded"
+              icon={Undo2}
+              tone="clay"
               value={String(t.returnedOrders)}
               hint={formatTaka(t.returnedPaisa)}
             />

@@ -1,6 +1,6 @@
 'use client';
 
-import { Boxes, Minus, Plus, Search } from 'lucide-react';
+import { Boxes, CircleX, Minus, PackageCheck, Plus, Search, TriangleAlert } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -136,16 +136,32 @@ export default function InventoryPage() {
           <>
             <Kpi
               label="Pieces on hand"
+              icon={Boxes}
+              tone="walnut"
               value={String(units)}
               hint={`${rows.length} SKUs tracked`}
             />
             <Kpi
               label="Held for orders"
+              icon={PackageCheck}
+              tone="brass"
               value={String(reserved)}
               hint="Reserved, not shipped yet"
             />
-            <Kpi label="Running low" value={String(counts.LOW)} hint={`${LOW} or fewer left`} />
-            <Kpi label="Out of stock" value={String(counts.OUT)} hint="Cannot be bought now" />
+            <Kpi
+              label="Running low"
+              icon={TriangleAlert}
+              tone="clay"
+              value={String(counts.LOW)}
+              hint={`${LOW} or fewer left`}
+            />
+            <Kpi
+              label="Out of stock"
+              icon={CircleX}
+              tone="clay"
+              value={String(counts.OUT)}
+              hint="Cannot be bought now"
+            />
           </>
         ) : (
           Array.from({ length: 4 }, (_, i) => <Skeleton key={i} className="h-[104px]" />)
@@ -192,7 +208,7 @@ export default function InventoryPage() {
               : 'All your products are made to order or pre-order, so there is no ready stock to count. Set a product to “In stock” and its finishes appear here.'}
           </EmptyState>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table className="w-full min-w-[48rem] text-sm">
               <thead className="bg-cream/60 text-left text-xs text-stone">
                 <tr>

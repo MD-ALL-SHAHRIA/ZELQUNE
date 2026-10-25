@@ -75,7 +75,7 @@ function Sidebar({ onNavigate, pending }: { onNavigate?: () => void; pending: In
                       className={cn(
                         'group flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-[0.8125rem] font-medium transition-colors',
                         on
-                          ? 'bg-surface text-ink shadow-[var(--shadow-card)] ring-1 ring-line'
+                          ? 'relative bg-surface text-ink shadow-[var(--shadow-card)] ring-1 ring-line before:absolute before:top-1.5 before:bottom-1.5 before:-left-3 before:w-[3px] before:rounded-r-full before:bg-[#c9a46a]'
                           : 'text-ink/75 hover:bg-ink/5 hover:text-ink',
                       )}
                     >

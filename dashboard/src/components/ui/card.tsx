@@ -4,7 +4,7 @@ export function Card({ className, ...props }: React.ComponentProps<'section'>) {
   return (
     <section
       className={cn(
-        'rounded-xl border border-line bg-surface shadow-[var(--shadow-card)]',
+        'min-w-0 rounded-2xl border border-line bg-surface shadow-[var(--shadow-card)]',
         className,
       )}
       {...props}

@@ -256,7 +256,7 @@ function OrdersView() {
               : 'Orders in this step will appear here.'}
           </EmptyState>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table className="w-full min-w-[52rem] text-sm">
               <thead className="bg-cream/60 text-left text-xs text-stone">
                 {table.getHeaderGroups().map((g) => (

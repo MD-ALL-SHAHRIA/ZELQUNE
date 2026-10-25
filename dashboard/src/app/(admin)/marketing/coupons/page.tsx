@@ -1,6 +1,6 @@
 'use client';
 
-import { Copy, Pencil, Plus, Ticket, Trash2 } from 'lucide-react';
+import { BadgePercent, Copy, Pencil, Plus, ShoppingBag, Ticket, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Badge, type Tone } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -108,11 +108,25 @@ export default function CouponsPage() {
           <>
             <Kpi
               label="Active codes"
+              icon={Ticket}
+              tone="walnut"
               value={String(live.length)}
               hint={`${items.length} in total`}
             />
-            <Kpi label="Orders with a code" value={String(orders)} hint="Paid orders, all time" />
-            <Kpi label="Discount given" value={formatTaka(given)} hint="All time" />
+            <Kpi
+              label="Orders with a code"
+              icon={ShoppingBag}
+              tone="brass"
+              value={String(orders)}
+              hint="Paid orders, all time"
+            />
+            <Kpi
+              label="Discount given"
+              icon={BadgePercent}
+              tone="clay"
+              value={formatTaka(given)}
+              hint="All time"
+            />
           </>
         ) : (
           Array.from({ length: 3 }, (_, i) => <Skeleton key={i} className="h-[104px]" />)
@@ -130,7 +144,7 @@ export default function CouponsPage() {
             Create a welcome code or one for a campaign, a festival or an influencer.
           </EmptyState>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table className="w-full min-w-[50rem] text-sm">
               <thead className="bg-cream/60 text-left text-xs text-stone">
                 <tr>

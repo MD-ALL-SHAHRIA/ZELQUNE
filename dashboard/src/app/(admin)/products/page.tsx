@@ -112,7 +112,7 @@ export default function ProductsPage() {
             {term ? 'Try another name.' : 'Products in this status will appear here.'}
           </EmptyState>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table className="w-full min-w-[46rem] text-sm">
               <thead className="bg-cream/60 text-left text-xs text-stone">
                 <tr>
