@@ -399,3 +399,9 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
   - This code has expired.
   - This code has been fully used.
   - Your order needs to be at least {amount} for this code.
+
+## Product page redesign (after the Apex case study, for owner review)
+- **Buttons and title:** Buy now · Share · Link copied
+- **Size:** Size · {w} × {h} cm
+- **Delivery card:** Delivery across Bangladesh
+- **Cross-sell:** Complete the wall · Pieces that sit well beside this one · Add · Added
