@@ -15,6 +15,7 @@ import {
 } from '@zelqune/contracts';
 import { createHash, randomBytes } from 'node:crypto';
 import { type OrderEnv } from '../config/order-env';
+import { CheckoutSettingsService } from '../settings/checkout-settings';
 import { CHECKOUT_PARTICIPANTS, type CheckoutParticipants } from '../checkout/participants';
 import { applyCoupon } from '../domain/coupon';
 import { allowedPaymentMethods, computeTotals, type Totals } from '../domain/pricing';
@@ -47,6 +48,7 @@ export class CartService {
     private readonly prisma: PrismaService,
     @Inject(CHECKOUT_PARTICIPANTS) private readonly participants: CheckoutParticipants,
     @Inject(APP_CONFIG) private readonly config: OrderEnv,
+    private readonly checkoutSettings: CheckoutSettingsService,
   ) {}
 
   async create(p?: string): Promise<CreateCartResponse> {
@@ -165,10 +167,7 @@ export class CartService {
       discountPaisa,
       shippingFeePaisa: shipping.feePaisa,
       saleMode: priced.saleMode,
-      advance:
-        this.config.ADVANCE_MODE === 'percent'
-          ? { mode: 'percent', percent: this.config.ADVANCE_PERCENT ?? 100 }
-          : { mode: 'fixed', fixedPaisa: this.config.ADVANCE_FIXED_PAISA },
+      advance: await this.checkoutSettings.advancePolicy(),
     });
     return {
       cart,

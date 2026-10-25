@@ -7,6 +7,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Owner settings and team (ADR 0017): bKash/Nagad receiving numbers (payment-service), the
+  pre-order advance (order-service), delivery fees (shipping-service) and the owner alert phone
+  (notification-service) are editable at `GET|PUT /v1/admin/settings/{payments,checkout,shipping,notifications}`
+  (staff read, owner writes), stored per service in a `settings` table with env values as
+  defaults, audited. Team management at `/v1/admin/team` (owner): add members, change role or
+  access, reset passwords (sessions revoked; never yourself, never the last owner). Everyone:
+  `PUT /v1/admin/account/{profile,password}`. Migrations: `settings` in four services.
 - Business operations (ADR 0016):
   - **Flash and seasonal sales** (catalog `Promotion`), applied in price resolution so the
     storefront and checkout charge the sale price; public `GET /v1/catalog/sale`.

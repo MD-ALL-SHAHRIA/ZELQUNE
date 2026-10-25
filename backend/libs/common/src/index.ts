@@ -27,3 +27,4 @@ export * from './service/service-core.module';
 export * from './bootstrap/bootstrap';
 export * from './audit/audit';
 export * from './validation/validation';
+export * from './settings/settings.store';

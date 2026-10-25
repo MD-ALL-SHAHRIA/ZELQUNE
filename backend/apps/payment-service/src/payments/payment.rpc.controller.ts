@@ -37,7 +37,7 @@ export class PaymentRpcController {
   }
 
   @MessagePattern(P.instructions)
-  instructions(): PaymentInstructions {
+  instructions(): Promise<PaymentInstructions> {
     return this.payments.instructions();
   }
 

@@ -12,6 +12,10 @@ import { CouponService } from './marketing/coupon.service';
 import { PrismaService } from './prisma/prisma.service';
 import { ReportRpcController } from './reports/report.rpc.controller';
 import { ReportService } from './reports/report.service';
+import {
+  CheckoutSettingsRpcController,
+  CheckoutSettingsService,
+} from './settings/checkout-settings';
 import { QuoteRpcController } from './quotes/quote.rpc.controller';
 import { QuoteService } from './quotes/quote.service';
 
@@ -24,7 +28,12 @@ import { QuoteService } from './quotes/quote.service';
     }),
     ServiceClientsModule,
   ],
-  controllers: [OrderRpcController, QuoteRpcController, ReportRpcController],
+  controllers: [
+    OrderRpcController,
+    QuoteRpcController,
+    ReportRpcController,
+    CheckoutSettingsRpcController,
+  ],
   providers: [
     CartService,
     { provide: CART_SERVICE, useExisting: CartService },
@@ -36,6 +45,7 @@ import { QuoteService } from './quotes/quote.service';
     QuoteService,
     ReportService,
     CouponService,
+    CheckoutSettingsService,
   ],
 })
 export class AppModule {}

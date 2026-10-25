@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { APP_CONFIG, AppError, OutboxService, recordAudit, requestContext } from '@zelqune/common';
 import {
+  normalizeBdPhone,
   confirmCodInputSchema,
   type ConfirmCodInput,
   createPaymentRequestSchema,
@@ -18,6 +19,7 @@ import { type z } from 'zod';
 import { type PaymentEnv } from '../config/payment-env';
 import { Prisma, type Payment, type PaymentStatus } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { PaymentSettingsService } from '../settings/payment-settings';
 import { canTransitionPayment, OPEN_PAYMENT_STATUSES } from './payment-state';
 import { PAYMENT_PROVIDERS, type PaymentProvider } from './payment.provider';
 
@@ -47,17 +49,16 @@ export class PaymentService {
     private readonly outbox: OutboxService,
     @Inject(PAYMENT_PROVIDERS) private readonly providers: PaymentProvider[],
     @Inject(APP_CONFIG) private readonly config: PaymentEnv,
+    private readonly settings: PaymentSettingsService,
   ) {}
 
-  instructions(): PaymentInstructions {
-    const c = this.config;
+  /** Where to send manual payments (dashboard settings, else env); numbers shown as 01XXXXXXXXX. */
+  async instructions(): Promise<PaymentInstructions> {
+    const { bkash, nagad } = await this.settings.value();
+    const local = (n: string) => `0${(normalizeBdPhone(n) ?? n).replace(/^\+880/, '')}`;
     return {
-      bkash: c.PAYMENT_BKASH_NUMBER
-        ? { number: c.PAYMENT_BKASH_NUMBER, accountType: c.PAYMENT_BKASH_ACCOUNT_TYPE }
-        : null,
-      nagad: c.PAYMENT_NAGAD_NUMBER
-        ? { number: c.PAYMENT_NAGAD_NUMBER, accountType: c.PAYMENT_NAGAD_ACCOUNT_TYPE }
-        : null,
+      bkash: bkash.number ? { number: local(bkash.number), accountType: bkash.accountType } : null,
+      nagad: nagad.number ? { number: local(nagad.number), accountType: nagad.accountType } : null,
     };
   }
 
