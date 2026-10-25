@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink, Menu, X } from 'lucide-react';
+import { ExternalLink, Menu, PanelLeft, Search, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -8,9 +8,10 @@ import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { cn } from '@/lib/cn';
 import { CommandPalette } from './command-palette';
+import { HeaderSlot } from './header-slot';
+import { LogoMark } from './logo';
 import { NAV_GROUPS } from './nav';
-import { Logo } from './logo';
-import { type Inbox, TopBar } from './top-bar';
+import { HeaderTools, type Inbox } from './top-bar';
 
 /** Orders waiting for a payment check and new quote requests, refreshed every minute. */
 function usePendingCount() {
@@ -28,7 +29,19 @@ function usePendingCount() {
   return count;
 }
 
-function Sidebar({ onNavigate, pending }: { onNavigate?: () => void; pending: Inbox | null }) {
+/**
+ * Sidebar on the canvas (Northstar pattern): brand tile, a "Search or jump to" pill, roomy nav
+ * items with a grey pill for the current page, monospace section labels and outlined counts.
+ */
+function Sidebar({
+  onNavigate,
+  onSearch,
+  pending,
+}: {
+  onNavigate?: () => void;
+  onSearch: () => void;
+  pending: Inbox | null;
+}) {
   const pathname = usePathname();
   const { state } = useAuth();
   const user = state.status === 'signedIn' ? state.user : null;
@@ -43,21 +56,48 @@ function Sidebar({ onNavigate, pending }: { onNavigate?: () => void; pending: In
     .filter(({ href }) => (href === '/' ? pathname === '/' : pathname.startsWith(href)))
     .sort((a, b) => b.href.length - a.href.length)[0]?.href;
   const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const item =
+    'group flex h-10 items-center gap-3 rounded-xl px-3 text-[0.9375rem] transition-colors';
+
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex h-14 items-center gap-2.5 px-4">
-        <Link href="/" onClick={onNavigate} aria-label="Zelqune admin home">
-          <Logo />
+    <div className="flex h-full flex-col px-4 pt-5 pb-4">
+      <div className="flex items-center gap-3 px-1">
+        <Link
+          href="/"
+          onClick={onNavigate}
+          aria-label="Zelqune admin home"
+          className="flex min-w-0 items-center gap-3"
+        >
+          <span className="grid size-9 shrink-0 place-items-center rounded-[0.7rem] bg-[linear-gradient(160deg,#5a3e2b,#2f201a)] text-[#e9c48f] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_2px_6px_rgba(47,32,26,0.35)]">
+            <LogoMark className="h-[1.15rem]" />
+          </span>
+          <span className="truncate font-wordmark text-[1.15rem] font-medium tracking-[0.28em] text-ink uppercase">
+            Zelqune
+          </span>
         </Link>
-        <span className="ml-auto rounded-md bg-ink/6 px-1.5 py-0.5 text-[0.625rem] font-medium tracking-wide text-stone uppercase">
-          Admin
+        <span
+          aria-hidden
+          className="ml-auto hidden size-7 place-items-center rounded-lg text-stone lg:grid"
+        >
+          <PanelLeft className="size-4" strokeWidth={1.6} />
         </span>
       </div>
-      <nav aria-label="Main" className="flex-1 space-y-5 overflow-y-auto px-3 py-3">
+
+      <button
+        type="button"
+        onClick={onSearch}
+        className="mt-5 flex h-11 w-full items-center gap-2.5 rounded-xl border border-line bg-surface px-3.5 text-[0.9375rem] text-stone shadow-[0_1px_1px_rgba(36,28,24,0.03)] transition-colors hover:border-ink/20"
+      >
+        <Search className="size-[1.1rem]" aria-hidden />
+        <span className="flex-1 text-left">Search or jump to</span>
+        <kbd className="font-mono text-[0.75rem] text-stone/80">⌘K</kbd>
+      </button>
+
+      <nav aria-label="Main" className="mt-4 -mr-2 flex-1 space-y-6 overflow-y-auto pr-2">
         {groups.map((group, gi) => (
           <div key={gi}>
             {group.label ? (
-              <p className="mb-1 px-2.5 text-[0.6875rem] font-medium tracking-wide text-stone/80 uppercase">
+              <p className="mb-1.5 px-3 font-mono text-[0.75rem] tracking-[0.14em] text-stone/80 uppercase">
                 {group.label}
               </p>
             ) : null}
@@ -73,21 +113,21 @@ function Sidebar({ onNavigate, pending }: { onNavigate?: () => void; pending: In
                       onClick={onNavigate}
                       aria-current={on ? 'page' : undefined}
                       className={cn(
-                        'group flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-[0.8125rem] font-medium transition-colors',
+                        item,
                         on
-                          ? 'relative bg-surface text-ink shadow-[var(--shadow-card)] ring-1 ring-line before:absolute before:top-1.5 before:bottom-1.5 before:-left-3 before:w-[3px] before:rounded-r-full before:bg-[#c9a46a]'
-                          : 'text-ink/75 hover:bg-ink/5 hover:text-ink',
+                          ? 'bg-ink/[0.065] font-medium text-ink'
+                          : 'text-ink/75 hover:bg-ink/[0.04] hover:text-ink',
                       )}
                     >
                       <Icon
                         aria-hidden
                         className={cn(
-                          'size-4',
-                          on ? 'text-ink' : 'text-stone group-hover:text-ink',
+                          'size-[1.15rem] shrink-0',
+                          on ? 'text-ink' : 'text-ink/55 group-hover:text-ink',
                         )}
-                        strokeWidth={1.75}
+                        strokeWidth={on ? 2.1 : 1.7}
                       />
-                      <span className="flex-1">{label}</span>
+                      <span className="flex-1 truncate">{label}</span>
                       {badge ? (
                         <span
                           title={
@@ -95,7 +135,7 @@ function Sidebar({ onNavigate, pending }: { onNavigate?: () => void; pending: In
                               ? 'Orders waiting for a payment check'
                               : 'New requests to answer'
                           }
-                          className="rounded-full bg-warning/15 px-1.5 text-[0.6875rem] font-semibold text-warning tabular"
+                          className="grid h-6 min-w-8 place-items-center rounded-full border border-line bg-surface px-2 font-mono text-[0.75rem] text-ink/75 tabular"
                         >
                           {badge}
                         </span>
@@ -111,20 +151,27 @@ function Sidebar({ onNavigate, pending }: { onNavigate?: () => void; pending: In
           href={site}
           target="_blank"
           rel="noreferrer"
-          className="flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-[0.8125rem] font-medium text-ink/75 hover:bg-ink/5 hover:text-ink"
+          className={cn(item, 'text-ink/75 hover:bg-ink/[0.04] hover:text-ink')}
         >
-          <ExternalLink aria-hidden className="size-4 text-stone" strokeWidth={1.75} />
-          View store
+          <ExternalLink aria-hidden className="size-[1.15rem] text-ink/55" strokeWidth={1.7} />
+          <span className="flex-1">View store</span>
+          <span className="rounded-full bg-[#d6336c]/[0.08] px-2 py-0.5 font-mono text-[0.6875rem] tracking-[0.06em] text-[#b8285c] uppercase dark:text-[#f08cb0]">
+            Live
+          </span>
         </a>
       </nav>
     </div>
   );
 }
 
-/** Polaris/Linear-style frame: fixed sidebar, ⌘K search, content on a calm canvas. */
+/**
+ * Northstar-style frame: the sidebar and the page title sit on a soft canvas; each page's
+ * content lives in one large white panel. ⌘K opens search from anywhere.
+ */
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [palette, setPalette] = useState(false);
   const [drawer, setDrawer] = useState(false);
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
   const pending = usePendingCount();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -138,9 +185,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="min-h-dvh">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 border-r border-line bg-cream lg:block">
-        <Sidebar pending={pending} />
+    <div className="min-h-dvh bg-canvas">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 lg:block">
+        <Sidebar pending={pending} onSearch={() => setPalette(true)} />
       </aside>
       {drawer ? (
         <div className="fixed inset-0 z-40 lg:hidden">
@@ -150,38 +197,46 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             className="absolute inset-0 bg-espresso/40"
             onClick={() => setDrawer(false)}
           />
-          <aside className="absolute inset-y-0 left-0 w-72 border-r border-line bg-cream shadow-[var(--shadow-pop)] [animation:pop-in_.16s_ease-out]">
+          <aside className="absolute inset-y-0 left-0 w-72 bg-canvas shadow-[var(--shadow-pop)] [animation:pop-in_.16s_ease-out]">
             <button
               type="button"
               aria-label="Close menu"
               onClick={() => setDrawer(false)}
-              className="absolute top-3 right-3 grid size-8 place-items-center rounded-lg hover:bg-ink/6"
+              className="absolute top-5 right-3 z-10 grid size-8 place-items-center rounded-lg hover:bg-ink/6"
             >
               <X className="size-4" />
             </button>
-            <Sidebar pending={pending} onNavigate={() => setDrawer(false)} />
+            <Sidebar
+              pending={pending}
+              onNavigate={() => setDrawer(false)}
+              onSearch={() => {
+                setDrawer(false);
+                setPalette(true);
+              }}
+            />
           </aside>
         </div>
       ) : null}
-      <main className="lg:pl-60">
-        <TopBar
-          inbox={pending}
-          onSearch={() => setPalette(true)}
-          menuButton={
-            <button
-              type="button"
-              aria-label="Open menu"
-              onClick={() => setDrawer(true)}
-              className="grid size-9 shrink-0 place-items-center rounded-lg hover:bg-ink/6 lg:hidden"
-            >
-              <Menu className="size-5" />
-            </button>
-          }
-        />
-        <div className="mx-auto w-full max-w-[84rem] px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
-          {children}
+
+      <div className="lg:pl-64">
+        <div className="flex items-start gap-3 px-4 pt-4 pb-4 sm:px-6 lg:pt-6 lg:pr-6 lg:pb-5 lg:pl-3">
+          <button
+            type="button"
+            aria-label="Open menu"
+            onClick={() => setDrawer(true)}
+            className="mt-1 grid size-9 shrink-0 place-items-center rounded-xl hover:bg-ink/6 lg:hidden"
+          >
+            <Menu className="size-5" />
+          </button>
+          <div ref={setSlot} className="min-w-0 flex-1" />
+          <HeaderTools inbox={pending} onSearch={() => setPalette(true)} />
         </div>
-      </main>
+        <main className="px-2 pb-2 sm:px-3 sm:pb-3 lg:pr-4 lg:pb-4 lg:pl-0">
+          <div className="min-h-[calc(100dvh-7.5rem)] rounded-[1.75rem] border border-line bg-surface p-3 shadow-[0_1px_2px_rgba(36,28,24,0.04)] sm:p-5 lg:p-6">
+            <HeaderSlot.Provider value={slot}>{children}</HeaderSlot.Provider>
+          </div>
+        </main>
+      </div>
       <CommandPalette open={palette} onClose={() => setPalette(false)} />
     </div>
   );

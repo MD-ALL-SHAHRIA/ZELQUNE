@@ -20,7 +20,10 @@ export function Tabs<T extends string>({
     <div
       role="tablist"
       aria-label={label}
-      className={cn('inline-flex max-w-full overflow-x-auto rounded-lg bg-ink/6 p-0.5', className)}
+      className={cn(
+        'inline-flex max-w-full overflow-x-auto rounded-xl bg-ink/[0.05] p-1',
+        className,
+      )}
     >
       {items.map((item) => {
         const on = item.value === value;
@@ -32,8 +35,10 @@ export function Tabs<T extends string>({
             aria-selected={on}
             onClick={() => onChange(item.value)}
             className={cn(
-              'inline-flex h-7 items-center gap-1.5 rounded-md px-3 text-[0.8125rem] font-medium whitespace-nowrap transition-colors',
-              on ? 'bg-surface text-ink shadow-[var(--shadow-card)]' : 'text-stone hover:text-ink',
+              'inline-flex h-8 items-center gap-1.5 rounded-[0.6rem] px-3.5 text-[0.8125rem] font-medium whitespace-nowrap transition-colors',
+              on
+                ? 'bg-surface text-ink shadow-[0_1px_2px_rgba(36,28,24,0.08),0_0_0_1px_rgba(36,28,24,0.04)]'
+                : 'text-stone hover:text-ink',
             )}
           >
             {item.label}
