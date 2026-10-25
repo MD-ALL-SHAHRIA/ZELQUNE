@@ -9,6 +9,7 @@ import {
   Landmark,
   Package,
   Receipt,
+  Settings,
   ShoppingBag,
   Ticket,
   Users,
@@ -114,6 +115,16 @@ export const NAV_GROUPS: { label?: string; items: NavItem[] }[] = [
         icon: History,
         keywords: 'history who changed activity',
         ownerOnly: true,
+      },
+    ],
+  },
+  {
+    items: [
+      {
+        href: '/settings',
+        label: 'Settings',
+        icon: Settings,
+        keywords: 'payments bkash nagad advance shipping delivery fee team staff password account',
       },
     ],
   },

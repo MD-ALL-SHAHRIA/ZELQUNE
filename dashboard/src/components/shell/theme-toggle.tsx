@@ -11,23 +11,30 @@ const subscribe = (fn: () => void) => {
 };
 const current = () => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
 
+/** Hook form of the theme: the same value everywhere (top bar, settings) and on every change. */
+export function useAdminTheme(): 'light' | 'dark' {
+  return useSyncExternalStore(subscribe, current, () => 'light');
+}
+
+/** Sets day or night, remembers it on this device and tells every switch on the page. */
+export function setAdminTheme(next: 'light' | 'dark'): void {
+  const root = document.documentElement;
+  if (next === 'dark') root.dataset.theme = 'dark';
+  else delete root.dataset.theme;
+  try {
+    localStorage.setItem(KEY, next);
+  } catch {
+    // Storage blocked: the switch still holds for this visit.
+  }
+  window.dispatchEvent(new Event(EVENT));
+}
+
 export function ThemeToggle() {
-  const theme = useSyncExternalStore(subscribe, current, () => 'light');
-  const dark = theme === 'dark';
+  const dark = useAdminTheme() === 'dark';
   return (
     <button
       type="button"
-      onClick={() => {
-        const next = dark ? 'light' : 'dark';
-        if (next === 'dark') document.documentElement.dataset.theme = 'dark';
-        else delete document.documentElement.dataset.theme;
-        try {
-          localStorage.setItem(KEY, next);
-        } catch {
-          // Storage blocked: the switch still holds for this visit.
-        }
-        window.dispatchEvent(new Event(EVENT));
-      }}
+      onClick={() => setAdminTheme(dark ? 'light' : 'dark')}
       aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
       className="grid size-8 place-items-center rounded-lg text-stone transition-colors hover:bg-ink/6 hover:text-ink"
     >

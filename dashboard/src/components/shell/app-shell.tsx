@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink, LogOut, Menu, Search, X } from 'lucide-react';
+import { ExternalLink, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -9,17 +9,18 @@ import { useAuth } from '@/lib/auth';
 import { cn } from '@/lib/cn';
 import { CommandPalette } from './command-palette';
 import { NAV_GROUPS } from './nav';
-import { ThemeToggle } from './theme-toggle';
+import { Logo } from './logo';
+import { type Inbox, TopBar } from './top-bar';
 
 /** Orders waiting for a payment check and new quote requests, refreshed every minute. */
 function usePendingCount() {
-  const [count, setCount] = useState<{ orders: number; quotes: number } | null>(null);
+  const [count, setCount] = useState<Inbox | null>(null);
   useEffect(() => {
     const load = () =>
       void Promise.all([
         api.GET('/v1/admin/orders', { params: { query: { status: 'PENDING_PAYMENT', limit: 1 } } }),
         api.GET('/v1/admin/quotes', { params: { query: { status: 'NEW', limit: 1 } } }),
-      ]).then(([o, q]) => setCount({ orders: o.data?.total ?? 0, quotes: q.data?.total ?? 0 }));
+      ]).then(([o, q]) => setCount({ payments: o.data?.total ?? 0, quotes: q.data?.total ?? 0 }));
     load();
     const t = window.setInterval(load, 60_000);
     return () => window.clearInterval(t);
@@ -27,11 +28,10 @@ function usePendingCount() {
   return count;
 }
 
-function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: () => void }) {
+function Sidebar({ onNavigate, pending }: { onNavigate?: () => void; pending: Inbox | null }) {
   const pathname = usePathname();
-  const { state, signOut } = useAuth();
+  const { state } = useAuth();
   const user = state.status === 'signedIn' ? state.user : null;
-  const pending = usePendingCount();
   const owner = user?.role === 'OWNER';
   const groups = NAV_GROUPS.map((g) => ({
     ...g,
@@ -46,26 +46,12 @@ function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: 
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-14 items-center gap-2.5 px-4">
-        <span className="grid size-7 place-items-center rounded-lg bg-ink font-wordmark text-[0.9rem] font-semibold text-paper">
-          Z
-        </span>
-        <span className="font-wordmark text-[1.05rem] font-semibold tracking-[0.22em] uppercase">
-          Zelqune
-        </span>
+        <Link href="/" onClick={onNavigate} aria-label="Zelqune admin home">
+          <Logo />
+        </Link>
         <span className="ml-auto rounded-md bg-ink/6 px-1.5 py-0.5 text-[0.625rem] font-medium tracking-wide text-stone uppercase">
           Admin
         </span>
-      </div>
-      <div className="px-3 pb-2">
-        <button
-          type="button"
-          onClick={onSearch}
-          className="flex h-9 w-full items-center gap-2.5 rounded-lg border border-line bg-surface px-3 text-[0.8125rem] text-stone shadow-[var(--shadow-card)] hover:border-ink/25"
-        >
-          <Search className="size-4" aria-hidden />
-          <span className="flex-1 text-left">Search…</span>
-          <kbd className="rounded border border-line px-1 font-sans text-[0.6875rem]">⌘K</kbd>
-        </button>
       </div>
       <nav aria-label="Main" className="flex-1 space-y-5 overflow-y-auto px-3 py-3">
         {groups.map((group, gi) => (
@@ -79,7 +65,7 @@ function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: 
               {group.items.map(({ href, label, icon: Icon }) => {
                 const on = href === current;
                 const badge =
-                  href === '/orders' ? pending?.orders : href === '/quotes' ? pending?.quotes : 0;
+                  href === '/orders' ? pending?.payments : href === '/quotes' ? pending?.quotes : 0;
                 return (
                   <li key={href}>
                     <Link
@@ -131,29 +117,6 @@ function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: 
           View store
         </a>
       </nav>
-      {user ? (
-        <div className="flex items-center gap-2.5 border-t border-line p-3">
-          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-walnut/15 text-xs font-semibold text-walnut">
-            {(user.name ?? user.phone).slice(0, 1).toUpperCase()}
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[0.8125rem] font-medium">{user.name ?? user.phone}</p>
-            <p className="text-[0.6875rem] text-stone">
-              {user.role === 'OWNER' ? 'Owner' : 'Staff'}
-            </p>
-          </div>
-          <ThemeToggle />
-          <button
-            type="button"
-            onClick={() => void signOut()}
-            aria-label="Sign out"
-            title="Sign out"
-            className="grid size-8 place-items-center rounded-lg text-stone hover:bg-ink/6 hover:text-ink"
-          >
-            <LogOut className="size-4" />
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 }
@@ -162,6 +125,7 @@ function Sidebar({ onNavigate, onSearch }: { onNavigate?: () => void; onSearch: 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [palette, setPalette] = useState(false);
   const [drawer, setDrawer] = useState(false);
+  const pending = usePendingCount();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -176,29 +140,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 border-r border-line bg-cream lg:block">
-        <Sidebar onSearch={() => setPalette(true)} />
+        <Sidebar pending={pending} />
       </aside>
-      <div className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-line bg-cream/90 px-4 backdrop-blur lg:hidden">
-        <button
-          type="button"
-          aria-label="Open menu"
-          onClick={() => setDrawer(true)}
-          className="grid size-9 place-items-center rounded-lg hover:bg-ink/6"
-        >
-          <Menu className="size-5" />
-        </button>
-        <span className="font-wordmark text-base font-semibold tracking-[0.22em] uppercase">
-          Zelqune
-        </span>
-        <button
-          type="button"
-          aria-label="Search"
-          onClick={() => setPalette(true)}
-          className="ml-auto grid size-9 place-items-center rounded-lg hover:bg-ink/6"
-        >
-          <Search className="size-4" />
-        </button>
-      </div>
       {drawer ? (
         <div className="fixed inset-0 z-40 lg:hidden">
           <button
@@ -216,11 +159,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             >
               <X className="size-4" />
             </button>
-            <Sidebar onNavigate={() => setDrawer(false)} onSearch={() => setPalette(true)} />
+            <Sidebar pending={pending} onNavigate={() => setDrawer(false)} />
           </aside>
         </div>
       ) : null}
       <main className="lg:pl-60">
+        <TopBar
+          inbox={pending}
+          onSearch={() => setPalette(true)}
+          menuButton={
+            <button
+              type="button"
+              aria-label="Open menu"
+              onClick={() => setDrawer(true)}
+              className="grid size-9 shrink-0 place-items-center rounded-lg hover:bg-ink/6 lg:hidden"
+            >
+              <Menu className="size-5" />
+            </button>
+          }
+        />
         <div className="mx-auto w-full max-w-[84rem] px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
           {children}
         </div>

@@ -6,7 +6,7 @@ const password = process.env.E2E_ADMIN_PASSWORD;
 test.skip(!phone || !password, 'E2E_ADMIN_PHONE / E2E_ADMIN_PASSWORD not set');
 
 // One sign-in for the whole flow: the gateway allows 5 logins per 15 minutes per IP.
-test('sign in, home, edit the home page, orders, then create and delete a coupon', async ({
+test('sign in, home, edit the home page, orders, a coupon, settings and finance', async ({
   page,
 }) => {
   await page.goto('/');
@@ -50,6 +50,21 @@ test('sign in, home, edit the home page, orders, then create and delete a coupon
   await page.getByRole('button', { name: `Delete ${code}` }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Delete' }).click();
   await expect(page.getByText(code, { exact: true })).toBeHidden();
+
+  // Settings: change the Inside-Dhaka delivery fee, save, see it kept, then put it back.
+  await nav.getByRole('link', { name: 'Settings' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Settings' })).toBeVisible();
+  await page.getByRole('navigation', { name: 'Settings sections' }).getByText('Shipping').click();
+  const dhaka = page.getByRole('spinbutton', { name: 'Inside Dhaka (৳)' });
+  const before = await dhaka.inputValue();
+  await dhaka.fill(String(Number(before) + 5));
+  await page.getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Settings saved', { exact: false })).toBeVisible();
+  await page.reload();
+  await expect(dhaka).toHaveValue(String(Number(before) + 5));
+  await dhaka.fill(before);
+  await page.getByRole('button', { name: 'Save' }).click();
+  await expect(dhaka).toHaveValue(before);
 
   // Finance is there for the owner.
   await nav.getByRole('link', { name: 'Profit and loss' }).click();
