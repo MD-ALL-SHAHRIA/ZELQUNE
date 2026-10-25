@@ -20,7 +20,7 @@ export function Tabs<T extends string>({
     <div
       role="tablist"
       aria-label={label}
-      className={cn('inline-flex rounded-lg bg-ink/6 p-0.5', className)}
+      className={cn('inline-flex max-w-full overflow-x-auto rounded-lg bg-ink/6 p-0.5', className)}
     >
       {items.map((item) => {
         const on = item.value === value;

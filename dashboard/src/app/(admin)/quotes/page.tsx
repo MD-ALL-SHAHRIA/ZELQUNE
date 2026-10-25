@@ -133,7 +133,7 @@ export default function QuotesPage() {
             Requests from the bulk order, interior design and construction pages land here.
           </EmptyState>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table className="w-full min-w-[50rem] text-sm">
               <thead className="bg-cream/60 text-left text-xs text-stone">
                 <tr>

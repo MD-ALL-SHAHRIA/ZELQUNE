@@ -6,6 +6,18 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Admin dashboard design pass (after DashStack/BankDash on Figma, Envato admin templates and
+  Dribbble): an espresso welcome band on Home (date, today's revenue/orders/to-dos, the GO target
+  as a brass progress bar, quick actions), KPI cards with icon chips and trend pills on every
+  page, a sales-by-channel donut, best sellers with photos, a pipeline progress bar, a recent
+  activity timeline (owner), the revenue line over every day of the range, rounder cards and a
+  brass marker on the active menu item.
+
+### Fixed
+- Admin pages no longer scroll sideways on phones (grid cards can shrink; screen-reader table
+  labels stay inside their scroll box; segmented tabs scroll).
+
 ### Changed
 - Home hero follows the owner's reference: full-bleed, warm room scenes with one of our pieces
   lit on the wall (the owner's renders widened to 2400×1350 by continuing each photo's own wall

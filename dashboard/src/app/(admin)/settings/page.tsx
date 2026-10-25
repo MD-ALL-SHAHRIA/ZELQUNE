@@ -62,7 +62,7 @@ export default function SettingsPage() {
         description="How your store works: payments, delivery, alerts and your team."
       />
       <div className="grid gap-6 lg:grid-cols-[15rem_minmax(0,1fr)]">
-        <nav aria-label="Settings sections" className="lg:sticky lg:top-6 lg:self-start">
+        <nav aria-label="Settings sections" className="min-w-0 lg:sticky lg:top-6 lg:self-start">
           <ul className="flex gap-1 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
             {visible.map((s) => {
               const on = s.id === current;

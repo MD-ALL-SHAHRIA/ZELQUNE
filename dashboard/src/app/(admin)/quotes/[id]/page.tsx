@@ -326,7 +326,7 @@ function Pricing({ quote, onSaved }: { quote: Quote; onSaved: (q: Quote) => void
           editable ? 'Match each line to a finish and set the B2B unit price.' : undefined
         }
       />
-      <div className="overflow-x-auto">
+      <div className="relative overflow-x-auto">
         <table className="w-full min-w-[40rem] text-sm">
           <thead className="bg-cream/60 text-left text-xs text-stone">
             <tr>

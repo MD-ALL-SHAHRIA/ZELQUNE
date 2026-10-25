@@ -1,6 +1,14 @@
 'use client';
 
-import { AlertTriangle, Download, Lock, Receipt } from 'lucide-react';
+import {
+  AlertTriangle,
+  Banknote,
+  Download,
+  Landmark,
+  Lock,
+  Receipt,
+  TrendingUp,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ColumnChart } from '@/components/charts/column-chart';
@@ -156,23 +164,31 @@ export default function FinancePage() {
           <>
             <Kpi
               label="Revenue"
+              icon={Banknote}
+              tone="walnut"
               value={formatTaka(pl.revenue.totalPaisa)}
               change={delta(pl.revenue.totalPaisa, pl.previous.totalRevenuePaisa)}
             />
             <Kpi
               label="Gross profit"
+              icon={TrendingUp}
+              tone="sage"
               value={signed(pl.grossProfitPaisa)}
               change={delta(pl.grossProfitPaisa, pl.previous.grossProfitPaisa)}
               hint={`${pl.grossMarginPercent}% margin`}
             />
             <Kpi
               label="Expenses"
+              icon={Receipt}
+              tone="clay"
               value={formatTaka(pl.expenses.totalPaisa)}
               change={delta(pl.expenses.totalPaisa, pl.previous.expensesPaisa)}
               invert
             />
             <Kpi
               label="Net profit"
+              icon={Landmark}
+              tone="brass"
               value={signed(pl.netProfitPaisa)}
               change={delta(pl.netProfitPaisa, pl.previous.netProfitPaisa)}
             />
