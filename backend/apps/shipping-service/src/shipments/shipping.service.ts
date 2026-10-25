@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import { APP_CONFIG, AppError, OutboxService, recordAudit } from '@zelqune/common';
 import {
   createShipmentInputSchema,
@@ -13,6 +13,7 @@ import {
 } from '@zelqune/contracts';
 import { type ShippingEnv } from '../config/shipping-env';
 import { PrismaService } from '../prisma/prisma.service';
+import { ShippingSettingsService } from '../settings/shipping-settings';
 import { DISTRICTS, DISTRICTS_BY_CODE, zoneFor } from '../zones/districts';
 import { chargeableWeight, type FeeConfig, shippingFee } from '../zones/shipping-fee';
 import { COURIER_PROVIDERS, type CourierProvider } from './courier.provider';
@@ -29,6 +30,8 @@ export class ShippingService {
     private readonly outbox: OutboxService,
     @Inject(APP_CONFIG) config: ShippingEnv,
     @Inject(COURIER_PROVIDERS) private readonly couriers: CourierProvider[],
+    /** Owner-edited fees (ADR 0017); without it (unit tests) the env fees apply. */
+    @Optional() private readonly settings?: ShippingSettingsService,
   ) {
     this.fees = {
       feesPaisa: {
@@ -47,17 +50,29 @@ export class ShippingService {
     return { items: [...DISTRICTS] };
   }
 
-  quote(raw: ShippingQuoteRequest): ShippingQuote {
+  async quote(raw: ShippingQuoteRequest): Promise<ShippingQuote> {
     const { district, area, lines } = shippingQuoteRequestSchema.parse(raw);
     if (!DISTRICTS_BY_CODE.has(district))
       throw new AppError('UNKNOWN_DISTRICT', 'Unknown district', 422);
+    const fees = await this.currentFees();
     const zone = zoneFor(district, area);
-    const weight = chargeableWeight(lines, this.fees);
+    const weight = chargeableWeight(lines, fees);
     return {
       zone,
       district,
       ...weight,
-      feePaisa: shippingFee(zone, weight.chargeableWeightGrams, this.fees),
+      feePaisa: shippingFee(zone, weight.chargeableWeightGrams, fees),
+    };
+  }
+
+  private async currentFees(): Promise<FeeConfig> {
+    if (!this.settings) return this.fees;
+    const s = await this.settings.value();
+    return {
+      ...this.fees,
+      feesPaisa: { DHAKA: s.dhakaFeePaisa, SUBURB: s.suburbFeePaisa, OUTSIDE: s.outsideFeePaisa },
+      baseWeightGrams: s.baseWeightGrams,
+      extraPerKgPaisa: s.extraPerKgPaisa,
     };
   }
 

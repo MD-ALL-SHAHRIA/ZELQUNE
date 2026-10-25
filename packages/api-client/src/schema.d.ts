@@ -1074,6 +1074,155 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/settings/payments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminSettingsController_payments'];
+    /** bKash/Nagad receiving numbers (a method without a number is hidden). */
+    put: operations['AdminSettingsController_setPayments'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/settings/checkout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminSettingsController_checkout'];
+    /** Advance for pre-order and made-to-order items (fixed or percent). */
+    put: operations['AdminSettingsController_setCheckout'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/settings/shipping': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminSettingsController_shipping'];
+    /** Delivery fee per zone and per extra kg. */
+    put: operations['AdminSettingsController_setShipping'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/settings/notifications': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminSettingsController_notifications'];
+    put: operations['AdminSettingsController_setNotifications'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/team': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminSettingsController_team'];
+    put?: never;
+    /** Give someone dashboard access (owner or staff) with a password. */
+    post: operations['AdminSettingsController_addMember'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/team/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /** Name, email, role or access; role/access changes sign them out. */
+    patch: operations['AdminSettingsController_updateMember'];
+    trace?: never;
+  };
+  '/v1/admin/team/{id}/password': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminSettingsController_resetPassword'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/account/profile': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['AdminSettingsController_profile'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/account/password': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['AdminSettingsController_password'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/health': {
     parameters: {
       query?: never;
@@ -3152,6 +3301,166 @@ export interface components {
         netProfitPaisa: number;
       }[];
     };
+    PaymentSettingsViewDto_Output: {
+      value: {
+        bkash: {
+          number: string | null;
+          /** @enum {string} */
+          accountType: 'personal' | 'agent' | 'merchant';
+        };
+        nagad: {
+          number: string | null;
+          /** @enum {string} */
+          accountType: 'personal' | 'agent' | 'merchant';
+        };
+      };
+      meta: {
+        updatedAt: string | null;
+        updatedBy: string | null;
+      };
+    };
+    PaymentSettingsDto: {
+      bkash: {
+        number: string | null;
+        /** @enum {string} */
+        accountType: 'personal' | 'agent' | 'merchant';
+      };
+      nagad: {
+        number: string | null;
+        /** @enum {string} */
+        accountType: 'personal' | 'agent' | 'merchant';
+      };
+    };
+    CheckoutSettingsViewDto_Output: {
+      value: {
+        /** @enum {string} */
+        advanceMode: 'fixed' | 'percent';
+        /** @example 349000 */
+        advanceFixedPaisa: number;
+        advancePercent: number;
+      };
+      meta: {
+        updatedAt: string | null;
+        updatedBy: string | null;
+      };
+    };
+    CheckoutSettingsDto: {
+      /** @enum {string} */
+      advanceMode: 'fixed' | 'percent';
+      /** @example 349000 */
+      advanceFixedPaisa: number;
+      advancePercent: number;
+    };
+    ShippingSettingsViewDto_Output: {
+      value: {
+        /** @example 349000 */
+        dhakaFeePaisa: number;
+        /** @example 349000 */
+        suburbFeePaisa: number;
+        /** @example 349000 */
+        outsideFeePaisa: number;
+        baseWeightGrams: number;
+        /** @example 349000 */
+        extraPerKgPaisa: number;
+      };
+      meta: {
+        updatedAt: string | null;
+        updatedBy: string | null;
+      };
+    };
+    ShippingSettingsDto: {
+      /** @example 349000 */
+      dhakaFeePaisa: number;
+      /** @example 349000 */
+      suburbFeePaisa: number;
+      /** @example 349000 */
+      outsideFeePaisa: number;
+      baseWeightGrams: number;
+      /** @example 349000 */
+      extraPerKgPaisa: number;
+    };
+    NotificationSettingsViewDto_Output: {
+      value: {
+        ownerPhone: string | null;
+      };
+      meta: {
+        updatedAt: string | null;
+        updatedBy: string | null;
+      };
+    };
+    NotificationSettingsDto: {
+      ownerPhone: string | null;
+    };
+    TeamListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        phone: string;
+        name: string | null;
+        email: string | null;
+        /** @enum {string} */
+        role: 'OWNER' | 'STAFF';
+        isActive: boolean;
+        lastLoginAt: string | null;
+        createdAt: string;
+      }[];
+    };
+    CreateTeamMemberDto: {
+      phone: string;
+      name: string;
+      /** @default null */
+      email?: (string | '') | null;
+      /**
+       * @default STAFF
+       * @enum {string}
+       */
+      role?: 'OWNER' | 'STAFF';
+      password: string;
+    };
+    TeamMemberDto_Output: {
+      /** Format: uuid */
+      id: string;
+      phone: string;
+      name: string | null;
+      email: string | null;
+      /** @enum {string} */
+      role: 'OWNER' | 'STAFF';
+      isActive: boolean;
+      lastLoginAt: string | null;
+      createdAt: string;
+    };
+    UpdateTeamMemberDto: {
+      name?: string;
+      email?: (string | '') | null;
+      /** @enum {string} */
+      role?: 'OWNER' | 'STAFF';
+      isActive?: boolean;
+    };
+    ResetPasswordDto: {
+      password: string;
+    };
+    OkDto_Output: {
+      /** @enum {boolean} */
+      ok: true;
+    };
+    UpdateProfileDto: {
+      name: string;
+      email: (string | '') | null;
+    };
+    AccountDto_Output: {
+      /** Format: uuid */
+      id: string;
+      /** @example +8801712345678 */
+      phone: string;
+      name: string | null;
+      email: string | null;
+      /** @enum {string} */
+      role: 'CUSTOMER' | 'STAFF' | 'OWNER';
+    };
+    ChangePasswordDto: {
+      currentPassword: string;
+      newPassword: string;
+    };
   };
   responses: never;
   parameters: never;
@@ -4933,6 +5242,312 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ProfitLossDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_payments: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaymentSettingsViewDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_setPayments: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PaymentSettingsDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PaymentSettingsViewDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_checkout: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CheckoutSettingsViewDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_setCheckout: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CheckoutSettingsDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CheckoutSettingsViewDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_shipping: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ShippingSettingsViewDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_setShipping: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ShippingSettingsDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ShippingSettingsViewDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_notifications: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['NotificationSettingsViewDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_setNotifications: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['NotificationSettingsDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['NotificationSettingsViewDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_team: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['TeamListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_addMember: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateTeamMemberDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['TeamMemberDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_updateMember: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateTeamMemberDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['TeamMemberDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_resetPassword: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResetPasswordDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OkDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_profile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateProfileDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AccountDto_Output'];
+        };
+      };
+    };
+  };
+  AdminSettingsController_password: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ChangePasswordDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OkDto_Output'];
         };
       };
     };

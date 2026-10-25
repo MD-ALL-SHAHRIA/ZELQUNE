@@ -10,6 +10,7 @@ import { PaymentEventHandlers } from './payments/payment.handlers';
 import { PaymentRpcController } from './payments/payment.rpc.controller';
 import { PaymentService } from './payments/payment.service';
 import { PrismaService } from './prisma/prisma.service';
+import { PaymentSettingsRpcController, PaymentSettingsService } from './settings/payment-settings';
 
 @Module({
   imports: [
@@ -19,9 +20,10 @@ import { PrismaService } from './prisma/prisma.service';
       envSchema: paymentEnvSchema,
     }),
   ],
-  controllers: [PaymentRpcController],
+  controllers: [PaymentRpcController, PaymentSettingsRpcController],
   providers: [
     PaymentService,
+    PaymentSettingsService,
     PaymentEventHandlers,
     // Gateway providers (SSLCommerz, bKash PGW) are added here in M3.
     {

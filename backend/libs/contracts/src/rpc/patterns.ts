@@ -8,6 +8,14 @@ export const RPC_PATTERNS = {
     refresh: 'identity.auth.refresh',
     logout: 'identity.auth.logout',
     me: 'identity.users.me',
+    team: {
+      list: 'identity.admin.team.list',
+      create: 'identity.admin.team.create',
+      update: 'identity.admin.team.update',
+      resetPassword: 'identity.admin.team.resetPassword',
+      changePassword: 'identity.users.changePassword',
+      updateProfile: 'identity.users.updateProfile',
+    },
   },
   catalog: {
     categoriesList: 'catalog.categories.list',
@@ -55,6 +63,7 @@ export const RPC_PATTERNS = {
     void: 'payment.payments.void',
     summaryByOrder: 'payment.payments.summaryByOrder',
     instructions: 'payment.instructions.get',
+    settings: { get: 'payment.admin.settings.get', update: 'payment.admin.settings.update' },
     admin: {
       verify: 'payment.admin.payments.verify',
       reject: 'payment.admin.payments.reject',
@@ -65,6 +74,7 @@ export const RPC_PATTERNS = {
     districts: 'shipping.districts.list',
     quote: 'shipping.quotes.quote',
     shipmentByOrder: 'shipping.shipments.byOrder',
+    settings: { get: 'shipping.admin.settings.get', update: 'shipping.admin.settings.update' },
     admin: {
       createShipment: 'shipping.admin.shipments.create',
       updateStatus: 'shipping.admin.shipments.updateStatus',
@@ -77,6 +87,7 @@ export const RPC_PATTERNS = {
     quote: 'order.carts.quote',
     checkout: 'order.checkout.checkout',
     track: 'order.orders.track',
+    settings: { get: 'order.admin.settings.get', update: 'order.admin.settings.update' },
     admin: {
       transition: 'order.admin.orders.transition',
       list: 'order.admin.orders.list',
@@ -104,6 +115,12 @@ export const RPC_PATTERNS = {
         reject: 'order.admin.quotes.reject',
         convert: 'order.admin.quotes.convert',
       },
+    },
+  },
+  notification: {
+    settings: {
+      get: 'notification.admin.settings.get',
+      update: 'notification.admin.settings.update',
     },
   },
   analytics: {

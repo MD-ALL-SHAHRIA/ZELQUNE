@@ -2,6 +2,10 @@ import { Module } from '@nestjs/common';
 import { ServiceCoreModule } from '@zelqune/common';
 import { shippingEnvSchema } from './config/shipping-env';
 import { PrismaService } from './prisma/prisma.service';
+import {
+  ShippingSettingsRpcController,
+  ShippingSettingsService,
+} from './settings/shipping-settings';
 import { COURIER_PROVIDERS, ManualCourierProvider } from './shipments/courier.provider';
 import { ShippingRpcController } from './shipments/shipping.rpc.controller';
 import { ShippingService } from './shipments/shipping.service';
@@ -14,9 +18,10 @@ import { ShippingService } from './shipments/shipping.service';
       envSchema: shippingEnvSchema,
     }),
   ],
-  controllers: [ShippingRpcController],
+  controllers: [ShippingRpcController, ShippingSettingsRpcController],
   providers: [
     ShippingService,
+    ShippingSettingsService,
     // Add courier API providers here in M3.
     { provide: COURIER_PROVIDERS, useValue: [new ManualCourierProvider()] },
   ],

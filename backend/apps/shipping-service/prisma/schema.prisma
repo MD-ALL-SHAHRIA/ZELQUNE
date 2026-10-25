@@ -86,3 +86,13 @@ model ShipmentStatusChange {
   @@index([shipmentId])
   @@map("shipment_status_changes")
 }
+
+/// Owner-editable settings (ADR 0017): one JSON value per key; env values apply until saved.
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
+  updatedBy String?  @map("updated_by")
+
+  @@map("settings")
+}

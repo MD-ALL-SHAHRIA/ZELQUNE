@@ -7,6 +7,8 @@ import { RefreshTokenRepository } from './auth/refresh-token.repository';
 import { TokenService } from './auth/token.service';
 import { identityEnvSchema } from './config/identity-env';
 import { PrismaService } from './prisma/prisma.service';
+import { TeamRpcController } from './team/team.rpc.controller';
+import { TeamService } from './team/team.service';
 import { UserRepository } from './users/user.repository';
 
 @Module({
@@ -17,7 +19,14 @@ import { UserRepository } from './users/user.repository';
       envSchema: identityEnvSchema,
     }),
   ],
-  controllers: [AuthRpcController],
-  providers: [AuthService, PasswordService, TokenService, UserRepository, RefreshTokenRepository],
+  controllers: [AuthRpcController, TeamRpcController],
+  providers: [
+    AuthService,
+    PasswordService,
+    TokenService,
+    UserRepository,
+    RefreshTokenRepository,
+    TeamService,
+  ],
 })
 export class AppModule {}
