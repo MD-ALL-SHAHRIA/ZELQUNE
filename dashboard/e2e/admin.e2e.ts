@@ -14,10 +14,8 @@ test('sign in, home, edit the home page, orders, a coupon, settings and finance'
   await page.getByLabel('Phone').fill(phone ?? '');
   await page.getByLabel('Password', { exact: true }).fill(password ?? '');
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    /^Good (morning|afternoon|evening)/,
-  );
-  await expect(page.getByRole('progressbar', { name: 'GO target' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Overview' })).toBeVisible();
+  await expect(page.getByText(/^GO \d+ of \d+$/)).toBeVisible();
   const nav = page.getByRole('navigation', { name: 'Main' });
 
   // Edit: the save bar appears; discard puts the text back.

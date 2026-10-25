@@ -1,46 +1,44 @@
-import { ArrowDownRight, ArrowRight, ArrowUpRight, type LucideIcon } from 'lucide-react';
+import { ArrowDown, ArrowUp, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Sparkline } from '@/components/charts/sparkline';
 import { cn } from '@/lib/cn';
 
 /**
- * Change against the previous period as a pill (▲ 12.4%). `invert` for costs, where up is bad.
- * Direction is carried by the arrow and the words, not by colour alone.
+ * Change against the previous period, Northstar style: a circled arrow and a monospace figure.
+ * `invert` for costs, where up is bad. Direction is in the arrow and the words.
  */
 export function Delta({ value, invert = false }: { value: number | null; invert?: boolean }) {
-  if (value === null) return <span className="text-xs text-stone">No earlier data</span>;
+  if (value === null)
+    return (
+      <span className="font-mono text-[0.75rem] tracking-[0.06em] text-stone uppercase">
+        No earlier data
+      </span>
+    );
   const up = value >= 0;
   const good = invert ? !up : up;
-  const Icon = up ? ArrowUpRight : ArrowDownRight;
+  const Icon = up ? ArrowUp : ArrowDown;
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs">
-      <span
-        className={cn(
-          'inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 font-semibold tabular',
-          good ? 'bg-success/12 text-success' : 'bg-danger/10 text-danger',
-        )}
-      >
-        <Icon className="size-3.5" aria-hidden />
-        {Math.abs(value).toFixed(1)}%<span className="sr-only">{up ? ' up' : ' down'}</span>
+    <span
+      className={cn(
+        'inline-flex items-center gap-1.5 font-mono text-[0.8125rem] font-medium tracking-[0.04em] uppercase tabular',
+        good ? 'text-accent' : 'text-danger',
+      )}
+    >
+      <span className="grid size-[1.125rem] place-items-center rounded-full border-[1.5px] border-current">
+        <Icon className="size-2.5" strokeWidth={2.75} aria-hidden />
       </span>
-      <span className="text-stone">vs previous</span>
+      {Math.abs(value).toFixed(1)}%<span className="sr-only">{up ? ' up' : ' down'}</span>
+      <span className="text-stone">vs prev</span>
     </span>
   );
 }
 
-/** Icon chip tints: one hue per meaning, brand-warm first. */
-const CHIP = {
-  walnut: 'bg-walnut/12 text-walnut',
-  brass: 'bg-[#d9b47a]/22 text-[#7a5c30] dark:text-[#d9b47a]',
-  sage: 'bg-success/12 text-success',
-  sky: 'bg-chart-a/12 text-chart-a',
-  clay: 'bg-chart-b/12 text-chart-b',
-} as const;
-export type ChipTone = keyof typeof CHIP;
+/** Kept for pages that pass a tone; the Northstar card uses the strip label instead of chips. */
+export type ChipTone = 'walnut' | 'brass' | 'sage' | 'sky' | 'clay';
 
 /**
- * A headline number with an icon chip, its change and an optional trend line (DashStack /
- * BankDash pattern); a link when `href` is set.
+ * A headline number (Northstar KPI card): the label in a grey strip, then on white the big
+ * number, its change and a smooth trend line over a faint grid. A link when `href` is set.
  */
 export function Kpi({
   label,
@@ -51,7 +49,6 @@ export function Kpi({
   invert,
   hint,
   icon: Icon,
-  tone = 'walnut',
 }: {
   label: string;
   value: string;
@@ -66,49 +63,33 @@ export function Kpi({
 }) {
   const body = (
     <>
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-[0.8125rem] font-medium text-stone">{label}</p>
-          <p className="mt-1.5 truncate text-[1.65rem] leading-tight font-semibold tracking-[-0.025em] text-ink tabular">
-            {value}
-          </p>
-        </div>
+      <div className="flex items-center justify-between gap-3 px-5 py-3.5">
+        <p className="truncate text-[0.9375rem] text-ink/70">{label}</p>
         {Icon ? (
-          <span
-            className={cn('grid size-10 shrink-0 place-items-center rounded-xl', CHIP[tone])}
-            aria-hidden
-          >
-            <Icon className="size-[1.15rem]" strokeWidth={1.9} />
-          </span>
-        ) : href ? (
-          <ArrowRight
-            className="size-3.5 text-stone opacity-0 transition-opacity group-hover:opacity-100"
-            aria-hidden
-          />
+          <Icon className="size-4 shrink-0 text-stone/80" strokeWidth={1.75} aria-hidden />
         ) : null}
       </div>
-      <div className="mt-3 flex items-end justify-between gap-2">
-        <div className="min-w-0">
+      <div className="-mx-px -mb-px flex min-h-[9.5rem] flex-1 flex-col rounded-[1.25rem] border border-line bg-surface px-5 pt-4 pb-3">
+        <p className="truncate text-[2.25rem] leading-none font-normal tracking-[-0.035em] text-ink tabular">
+          {value}
+        </p>
+        <div className="mt-3">
           {change !== undefined ? (
             <Delta value={change} invert={invert} />
           ) : hint ? (
-            <span className="text-xs text-stone">{hint}</span>
+            <span className="font-mono text-[0.75rem] tracking-[0.05em] text-stone uppercase">
+              {hint}
+            </span>
           ) : null}
         </div>
-        {spark ? <Sparkline values={spark} className="-mb-1 shrink-0" /> : null}
+        {spark && spark.length > 1 ? <Sparkline values={spark} className="mt-auto pt-2" /> : null}
       </div>
     </>
   );
   const box =
-    'relative block overflow-hidden rounded-2xl border border-line bg-surface p-4 shadow-[var(--shadow-card)] transition-[border-color,box-shadow,transform] duration-200';
+    'flex min-w-0 flex-col rounded-[1.375rem] border border-line bg-strip transition-[border-color,box-shadow] duration-200';
   return href ? (
-    <Link
-      href={href}
-      className={cn(
-        box,
-        'group hover:-translate-y-px hover:border-ink/20 hover:shadow-[var(--shadow-pop)]',
-      )}
-    >
+    <Link href={href} className={cn(box, 'hover:border-ink/20 hover:shadow-[var(--shadow-card)]')}>
       {body}
     </Link>
   ) : (

@@ -6,6 +6,16 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Admin dashboard restyled after the owner's Northstar reference: off-white canvas with the
+  sidebar and page title on it and each page in one large white panel; two-tone cards (grey
+  title strip, white inset); big light numbers with monospace changes beside a circled arrow;
+  smooth grey trend lines over a faint grid; the sales funnel as pill segments; tinted monospace
+  status chips; lists with letter avatars, dashed separators and small outlined actions; a
+  "Search or jump to" pill, monospace section labels and outlined counts in the sidebar; an
+  amber-walnut primary button. Home is now "Overview" (chips for payments to check and new
+  requests, GO status, payments-to-check list with Verify, Export CSV). Night mode kept.
+
 ### Added
 - Admin dashboard design pass (after DashStack/BankDash on Figma, Envato admin templates and
   Dribbble): an espresso welcome band on Home (date, today's revenue/orders/to-dos, the GO target

@@ -12,9 +12,31 @@
   --color-chart-revenue: var(--chart-revenue);
   --color-chart-a: var(--chart-a);
   --color-chart-b: var(--chart-b);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-canvas: var(--canvas);
+  --color-strip: var(--strip);
 }
 
+/*
+ * Admin day theme (Northstar-style clarity): warm near-white canvas, white panels, a whisper
+ * grey strip on cards, hairline borders, espresso ink and a walnut-amber accent. The storefront
+ * keeps its cream; night mode below keeps the shared Dark Walnut tokens.
+ */
+:root:not([data-theme='dark']) {
+  --zq-paper: #ffffff;
+  --zq-surface: #ffffff;
+  --zq-cream: #f8f7f5;
+  --zq-sand: #efedea;
+  --zq-line: #e9e6e2;
+  --zq-stone: #7a716b;
+  --zq-ink: #241c18;
+}
 :root {
+  --canvas: #f6f5f3;
+  --strip: #f9f8f6;
+  --accent: #9a5a22;
+  --accent-soft: #f6ece2;
   --chart-revenue: #b5651d;
   --chart-a: #2a78d6;
   --chart-b: #eb6834;
@@ -22,6 +44,10 @@
   --shadow-pop: 0 12px 40px -12px rgba(59, 41, 34, 0.28), 0 2px 6px rgba(59, 41, 34, 0.08);
 }
 :root[data-theme='dark'] {
+  --canvas: #100d0b;
+  --strip: #1a1512;
+  --accent: #dba56a;
+  --accent-soft: #2a2019;
   --chart-revenue: #cc7a2e;
   --chart-a: #3987e5;
   --chart-b: #d95926;
@@ -31,7 +57,7 @@
 
 @layer base {
   html {
-    background: var(--color-paper);
+    background: var(--canvas);
     color: var(--color-ink);
     -webkit-text-size-adjust: 100%;
   }
@@ -54,6 +80,30 @@
 @layer utilities {
   .tabular {
     font-variant-numeric: tabular-nums;
+  }
+  /* A faint square grid behind sparklines. */
+  .bg-faint-grid {
+    background-image:
+      linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-line) 70%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--color-line) 70%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 22px 22px;
+    mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+  }
+  /* Diagonal hatching (funnel rows), decorative. */
+  .bg-hatch {
+    background-image: repeating-linear-gradient(
+      -60deg,
+      color-mix(in oklab, var(--color-stone) 35%, transparent) 0 1px,
+      transparent 1px 9px
+    );
   }
 }
 
