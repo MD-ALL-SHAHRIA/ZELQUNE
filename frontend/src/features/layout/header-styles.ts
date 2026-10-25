@@ -4,4 +4,4 @@ export const iconButton =
 
 /** Tracked uppercase Latin labels; Bangla stays natural (globals.css resets .uppercase on /bn). */
 export const navLabel =
-  'text-[0.7rem] font-medium uppercase tracking-[0.18em] [:lang(bn)_&]:text-[0.85rem] [:lang(bn)_&]:font-normal';
+  'text-[0.68rem] font-medium uppercase tracking-[0.2em] [:lang(bn)_&]:text-[0.85rem] [:lang(bn)_&]:font-normal';

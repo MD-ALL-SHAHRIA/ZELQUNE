@@ -6,7 +6,93 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Home hero follows the owner's reference: full-bleed, warm room scenes with one of our pieces
+  lit on the wall (the owner's renders widened to 2400×1350 by continuing each photo's own wall
+  around it, the piece at about three quarters of the height so it is always seen whole;
+  `public/images/hero`, phone cuts `-1200`), cross-fading with a slow drift every 6 s. Set
+  entirely in the logo's Cormorant Garamond: "Handcrafted wood and gentle light, made to turn
+  every wall of your home into a *quiet story.*", "Explore the collection"; bars and a pause
+  button bottom left, a "Now on the wall" caption with price and link plus square arrows bottom
+  right; swipe on phones, where the scene sits above the words. Pauses on hover and focus, never
+  moves by itself with reduced motion; only the first scene loads up front.
+- Hero, cinematic pass: shorter lines at full size ("Handcrafted wood and gentle light, for walls
+  that tell a *quiet story.*"); the pieces sit further right (about 76% across);
+  a film look over the scenes in both themes (fine grain, vignette, a slow beam of window light,
+  a bloom on the lit piece, a hint of letterbox), golden hour by day and dimmed and lamp-lit by
+  night; scenes change with a soft focus pull. The film layers arrive after the page has loaded.
+- Home, after the owner's reference: a slim trust strip under the hero (Handcrafted · Safe 5V
+  light · ৳300 advance · Across Bangladesh, from the copy) and a "Find your perfect piece"
+  collections row (title and link left, wide room cards right with round arrows, swipe and snap)
+  that replaces "Pieces for every wall". Collections and their piece counts come from the
+  catalog, so new categories appear by themselves; empty ones are left out.
+- Header: the Interior Design and Construction links show from 1360px wide (they stay in the
+  menu), so they never collide with the wordmark.
+- Day and night themes: day is the default for everyone (soft cream #F7F1E8 with espresso
+  #3B2922 and antique brass; dark bands are espresso coffee, nothing black). Night (Dark Walnut)
+  only when the visitor picks it with the sun/moon toggle (header; in the menu on phones); the
+  choice is remembered, no flash on load. The wordmark is back in the owner's logo lettering
+  (Cormorant Garamond), and the favicon and share images are the originals again.
+- Storefront redesign, dark walnut luxury (owner's choice): ivory text on deep espresso with
+  champagne-brass details and the warm lamp glow, Cormorant Garamond headings (the owner's original face, set at medium weight) with Jost text, an
+  editorial split hero ("Make your walls feel alive.") with the lit moon panel in an arch frame,
+  and the owner's own lit-shelf renders as product, category and material photos until real
+  photos are uploaded from the dashboard. Share images and the favicon follow the dark palette.
+- Home sections each have their own form: gallery-mount featured piece, a materials accordion
+  of light, and an ivory marquee band for the brand statement.
+- Footer: the oversized wordmark is shown in full (brass), link and copyright text are readable,
+  and the statement is no longer repeated there.
+- No more "01 / 02 / 03" step numerals anywhere: hairlines and amber dots instead.
+- Motion: staggered hero entrance, scroll-linked photo settle, product cards lift with a warm
+  glow on hover, drifting marquee (all off with reduced motion; transforms and opacity only).
+
 ### Added
+- Owner settings and team (ADR 0017): bKash/Nagad receiving numbers (payment-service), the
+  pre-order advance (order-service), delivery fees (shipping-service) and the owner alert phone
+  (notification-service) are editable at `GET|PUT /v1/admin/settings/{payments,checkout,shipping,notifications}`
+  (staff read, owner writes), stored per service in a `settings` table with env values as
+  defaults, audited. Team management at `/v1/admin/team` (owner): add members, change role or
+  access, reset passwords (sessions revoked; never yourself, never the last owner). Everyone:
+  `PUT /v1/admin/account/{profile,password}`. Migrations: `settings` in four services.
+- Business operations (ADR 0016):
+  - **Flash and seasonal sales** (catalog `Promotion`), applied in price resolution so the
+    storefront and checkout charge the sale price; public `GET /v1/catalog/sale`.
+  - **Coupon codes** (order-service), checked in the cart quote and at checkout and redeemed in
+    the order's own transaction; `couponCode` on quote and checkout, `discountPaisa` in the totals.
+  - Unit cost per variant (`costPaisa`) and an **expense ledger** (analytics-service).
+  - Reports: `GET /v1/admin/reports/sales`, `GET /v1/admin/customers`, and an OWNER-only
+    `GET /v1/admin/reports/profit-loss` that compares against the previous period.
+  - Admin CRUD for `/v1/admin/{coupons,promotions,expenses}`, all audited.
+  - Migrations: `coupons`, `promotions_costs`, `expenses`.
+- Admin dashboard redesign (Polaris/Stripe/Linear patterns): fixed sidebar with a live payment-check
+  count, ⌘K search, Geist UI type, day/night themes, toasts, skeletons, unsaved-changes bar;
+  Home with date ranges, KPI cards with change and sparklines, revenue chart with tooltip, GO
+  ring, order pipeline, funnel and price test; order detail with a primary next step, dialogs and
+  a timeline; products with drag-and-drop photos; the home page editor with a live preview.
+- Admin dashboard (`dashboard/`, port 3200, step 1.5): sign-in (access token in memory, httpOnly
+  refresh cookie), overview (GO counter, funnel, price experiment), orders (TanStack Table list,
+  detail with verify/reject advance, confirm COD, state-machine moves, notes, shipment),
+  products (details in English and Bangla, publish/archive, photo upload) and a **Home page**
+  editor for the storefront content (announcement, hero words and scenes, trust strip,
+  collections row, contact and social links; image upload; version check).
+- Storefront reads the owner's home content (`GET /v1/content/home`, ISR 60 s): hero scenes and
+  words, trust strip icons and texts, collections order and covers, the announcement bar, footer
+  contact and social links, and the WhatsApp number; built-in copy wherever a field is empty.
+- Local dev storage serves `content/` keys and answers CORS for the dashboard origin
+  (`DEV_STORAGE_CORS_ORIGINS`).
+- Storefront content (ADR 0015): catalog-service stores the home page content (hero scenes,
+  trust strip, collections order, announcement, contact and social links; English + Bangla) as a
+  versioned document with uploaded images. Public `GET /v1/content/home`; OWNER/STAFF
+  `GET|PUT /v1/admin/content/home` (optimistic concurrency, audited) and content image upload
+  (`POST /v1/admin/content/assets/uploads`, `.../:id/confirm`). Migration `site_content`.
+
+### Added
+- Premium storefront: "Shop the room" (tap markers on a room photo to see each piece),
+  materials and statement sections, a shared "Buy with confidence" trust band, a "Made for you"
+  timeline and mobile sticky purchase bar on product pages, "See it on your wall" (place a piece
+  on a photo of your own wall; the photo never leaves the device; code-split), per-product
+  share cards for Facebook (`opengraph-image`), and an optional "Chat on WhatsApp" button
+  (`NEXT_PUBLIC_WHATSAPP_NUMBER`; hidden when empty).
 - Services (ADR 0014): Zelqune Interior Design (homes, offices, restaurants and cafés, hotels,
   shops) and Zelqune Construction (ground up to finished interiors). Requests are RFQs of kind
   `DESIGN` / `CONSTRUCTION` with a brief (space/building type, area, district, budget, floors),
@@ -17,6 +103,10 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
   Shelves, Lighting.
 
 ### Changed
+- Premium redesign pass: refined type scale, buttons and hover details, condensing header,
+  editorial footer, cinematic home hero, RH-catalog listings, design-studio and
+  architecture-firm service pages, shared help layout. Bangla display headings use Tiro Bangla
+  (OFL, self-hosted), registered after page load so it never delays the first paint.
 - Storefront redesign (references: RH, Ferm Living): brand v2 from the owner's logo (vector
   arch mark, ink on cream, walnut and amber glow), Cormorant Garamond + Manrope (Hind
   Siliguri for Bangla, self-hosted and preloaded on /bn only), editorial landing page (hero, values, featured product,

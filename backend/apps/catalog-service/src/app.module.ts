@@ -7,7 +7,11 @@ import { CatalogRepository } from './catalog/catalog.repository';
 import { CatalogRpcController } from './catalog/catalog.rpc.controller';
 import { PublicCatalogService } from './catalog/public-catalog.service';
 import { catalogEnvSchema } from './config/catalog-env';
+import { ContentRpcController } from './content/content.rpc.controller';
+import { ContentService } from './content/content.service';
 import { PrismaService } from './prisma/prisma.service';
+import { PromotionRpcController } from './promotions/promotion.rpc.controller';
+import { PromotionService } from './promotions/promotion.service';
 import { StorageModule } from './storage/storage.module';
 
 @Module({
@@ -19,7 +23,19 @@ import { StorageModule } from './storage/storage.module';
     }),
     StorageModule,
   ],
-  controllers: [CatalogRpcController, CatalogAdminRpcController],
-  providers: [CatalogRepository, PublicCatalogService, CatalogAdminService, CatalogAdminQueries],
+  controllers: [
+    CatalogRpcController,
+    CatalogAdminRpcController,
+    ContentRpcController,
+    PromotionRpcController,
+  ],
+  providers: [
+    CatalogRepository,
+    PublicCatalogService,
+    CatalogAdminService,
+    CatalogAdminQueries,
+    ContentService,
+    PromotionService,
+  ],
 })
 export class AppModule {}

@@ -140,6 +140,8 @@ model Order {
   shippingZone          String        @map("shipping_zone")
   chargeableWeightGrams Int           @map("chargeable_weight_grams")
   experimentKey         String?       @map("experiment_key")
+  /// Coupon applied at checkout (discountPaisa holds its value).
+  couponCode            String?       @map("coupon_code")
   utm                   Json?
   cancelReason          String?       @map("cancel_reason")
   confirmedAt           DateTime?     @map("confirmed_at") @db.Timestamptz(3)
@@ -154,6 +156,8 @@ model Order {
   @@index([status, createdAt])
   @@index([channel, createdAt])
   @@index([customerPhone])
+  @@index([confirmedAt])
+  @@index([couponCode])
   @@map("orders")
 }
 
@@ -314,4 +318,41 @@ model QuoteLine {
 
   @@index([quoteId])
   @@map("quote_lines")
+}
+
+enum CouponKind {
+  PERCENT
+  FIXED
+}
+
+/// Checkout discount codes. usedCount is incremented in the transaction that creates the order
+/// (guarded by maxUses), so a code can never be redeemed more often than allowed.
+model Coupon {
+  id               String     @id @default(uuid()) @db.Uuid
+  code             String     @unique
+  description      String?
+  kind             CouponKind
+  /// PERCENT: 1-90. FIXED: paisa.
+  value            Int
+  minSubtotalPaisa Int        @default(0) @map("min_subtotal_paisa")
+  maxDiscountPaisa Int?       @map("max_discount_paisa")
+  startsAt         DateTime?  @map("starts_at") @db.Timestamptz(3)
+  endsAt           DateTime?  @map("ends_at") @db.Timestamptz(3)
+  maxUses          Int?       @map("max_uses")
+  usedCount        Int        @default(0) @map("used_count")
+  active           Boolean    @default(true)
+  createdAt        DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt        DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("coupons")
+}
+
+/// Owner-editable settings (ADR 0017): one JSON value per key; env values apply until saved.
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
+  updatedBy String?  @map("updated_by")
+
+  @@map("settings")
 }

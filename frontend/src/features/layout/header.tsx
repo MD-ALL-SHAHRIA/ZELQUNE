@@ -6,6 +6,7 @@ import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { type Category } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
+import { CopyText } from '@/shared/ui/copy-text';
 import { href } from '@/shared/lib/site';
 import { Logo } from '@/shared/ui/logo';
 import { CartButton, MenuButton } from './header-actions';
@@ -15,6 +16,9 @@ import { categoryLinks, helpNav, serviceNav, shopNav } from './nav';
 import { ActiveLink, NavTabs } from './nav-tabs';
 import { type SearchIndex } from './search';
 import { SearchButton } from './search-button';
+import { ThemeToggle } from './theme-toggle';
+import { SaleBar } from '@/features/offers/sale-bar';
+import { type ActiveSale } from '@/shared/api/types';
 import { Overlays } from './overlays';
 
 /**
@@ -27,11 +31,14 @@ export function Header({
   dict,
   categories,
   searchIndex,
+  sale,
 }: {
   lang: Locale;
   dict: Dictionary;
   categories: Category[];
   searchIndex: SearchIndex;
+  /** A live sale replaces the announcement with its name, discount and countdown. */
+  sale?: ActiveSale | null;
 }) {
   const cats = categoryLinks(lang, categories);
   const services = serviceNav(lang, dict);
@@ -42,15 +49,19 @@ export function Header({
     <>
       <a
         href="#main"
-        className="sr-only z-50 bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:left-3 focus:top-3"
+        className="sr-only z-50 bg-night px-4 py-2 text-ivory focus:not-sr-only focus:fixed focus:left-3 focus:top-3"
       >
         {dict.ui.skip}
       </a>
-      <p className="bg-ink px-4 py-2.5 text-center text-[0.66rem] uppercase tracking-[0.2em] text-paper/85 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
-        {dict.layout.announcement}
-      </p>
-      <header className="sticky top-0 z-30 border-b border-line bg-paper/[0.97] backdrop-blur-md supports-[backdrop-filter]:bg-paper/90">
-        <div className="mx-auto grid h-16 w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-5 md:px-10 lg:h-[5.5rem]">
+      {sale ? (
+        <SaleBar sale={sale} lang={lang} dict={dict} />
+      ) : (
+        <p className="tone-dark bg-night px-4 py-[0.7rem] text-center text-[0.6rem] uppercase leading-relaxed tracking-[0.2em] text-balance text-ivory/80 sm:text-[0.62rem] sm:tracking-[0.26em] [:lang(bn)_&]:py-2 [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+          {dict.layout.announcement}
+        </p>
+      )}
+      <header className="site-header sticky top-0 z-30 border-b border-line/90 bg-paper/[0.97] backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-paper/[0.88]">
+        <div className="mx-auto grid h-16 w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-5 md:px-10 lg:h-[5.75rem]">
           <div className="flex items-center gap-0.5 lg:gap-4">
             <MenuButton label={dict.layout.menu} />
             <SearchButton
@@ -69,13 +80,13 @@ export function Header({
           <Link
             href={href(lang)}
             aria-label={dict.brand.name}
-            className="flex justify-self-center transition-opacity duration-300 hover:opacity-75"
+            className="site-header-logo flex justify-self-center transition-opacity duration-500 hover:opacity-70"
           >
-            <Logo className="gap-2.5 [&>span]:text-[1.08rem] [&>svg]:h-6 lg:gap-3 lg:[&>span]:text-[1.4rem] lg:[&>svg]:h-8" />
+            <Logo className="gap-2.5 [&>span]:text-[1.06rem] [&>svg]:h-6 lg:gap-3.5 lg:[&>span]:text-[1.45rem] lg:[&>svg]:h-[2.1rem]" />
           </Link>
 
           <div className="flex items-center justify-end gap-0.5 lg:gap-5 xl:gap-8">
-            <ul className="hidden items-center gap-5 lg:flex xl:gap-8">
+            <ul className="hidden items-center gap-6 min-[1360px]:flex min-[1360px]:gap-9">
               {services.map((l) => (
                 <li key={l.href}>
                   <ActiveLink {...l} />
@@ -83,11 +94,12 @@ export function Header({
               ))}
             </ul>
             {/* Below xl the language switch lives in the menu and footer, keeping the logo centred. */}
-            <span aria-hidden className="hidden h-4 w-px bg-line xl:block" />
+            <span aria-hidden className="hidden h-5 w-px bg-line xl:block" />
             <Suspense fallback={null}>
               <LanguageSwitcher lang={lang} labels={dict.ui} className="hidden xl:flex" />
             </Suspense>
             <div className="flex items-center gap-0.5 lg:gap-2">
+              <ThemeToggle labels={dict.ui} className="hidden sm:grid" />
               <Link
                 href={account}
                 aria-label={dict.header.account}
@@ -128,9 +140,15 @@ export function Header({
             },
           ],
           footer: (
-            <Suspense fallback={null}>
-              <LanguageSwitcher lang={lang} labels={dict.ui} className="text-sm" />
-            </Suspense>
+            <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+              <Suspense fallback={null}>
+                <LanguageSwitcher lang={lang} labels={dict.ui} variant="full" />
+              </Suspense>
+              <ThemeToggle labels={dict.ui} className="-ml-2.5" />
+              <p className="text-xs text-stone">
+                <CopyText>{dict.footer.contact}</CopyText>
+              </p>
+            </div>
           ),
         }}
       />

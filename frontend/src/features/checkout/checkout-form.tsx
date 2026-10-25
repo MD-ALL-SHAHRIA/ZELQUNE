@@ -21,8 +21,9 @@ import { Field, Input, Select } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useCheckoutMutation, useCheckoutQuoteMutation } from '@/store/api';
 import { useAppDispatch } from '@/store/hooks';
+import { couponProblem, normalizeCoupon } from './coupon';
 
-type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product'>;
+type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product' | 'offers'>;
 
 interface Fields {
   name: string;
@@ -66,6 +67,10 @@ export function CheckoutForm({
   const [formError, setFormError] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState('');
   const [turnstileKey, setTurnstileKey] = useState(0);
+  // The applied coupon (sent with every quote) and what the customer is typing.
+  const [coupon, setCoupon] = useState<string | null>(null);
+  const [couponInput, setCouponInput] = useState('');
+  const [couponError, setCouponError] = useState<string | null>(null);
   // One Idempotency-Key per distinct order attempt: a retry of the same payload reuses it.
   const attempt = useRef<{ key: string; payload: string } | null>(null);
   const announced = useRef(false);
@@ -83,25 +88,41 @@ export function CheckoutForm({
     const area = fields.area.trim();
     if (!token || !fields.district || area.length < 2 || !cart?.items.length) return;
     const timer = setTimeout(() => {
-      requestQuote({ 'x-cart-token': token, quoteRequestDto: { district: fields.district, area } })
+      requestQuote({
+        'x-cart-token': token,
+        quoteRequestDto: {
+          district: fields.district,
+          area,
+          ...(coupon ? { couponCode: coupon } : {}),
+        },
+      })
         .unwrap()
         .then((next) => {
           setQuote(next);
+          // A quote without a code keeps the reason the last code was refused on screen.
+          if (coupon) setCouponError(null);
           setMethod((m) =>
             m && next.allowedPaymentMethods.includes(m)
               ? m
               : (next.allowedPaymentMethods[0] ?? null),
           );
         })
-        .catch(() => setQuote(null));
+        .catch((error: unknown) => {
+          const problem = coupon ? couponProblem(error, copy.offers.coupon.reasons, lang) : null;
+          if (problem) {
+            // Drop the code; the next quote runs without it.
+            setCouponError(problem);
+            setCoupon(null);
+          } else setQuote(null);
+        });
     }, 350);
     return () => clearTimeout(timer);
-  }, [fields.district, fields.area, cart, token, requestQuote]);
+  }, [fields.district, fields.area, cart, token, requestQuote, coupon, copy, lang]);
 
   if (!cart || !items.length) {
     return (
       <div className="space-y-6 py-10">
-        <p className="font-display text-3xl font-light">{c.emptyCart}</p>
+        <p className="font-display text-3xl font-medium">{c.emptyCart}</p>
         <ButtonLink href={href(lang, '/shop')} variant="outline">
           {copy.cart.keepBrowsing}
         </ButtonLink>
@@ -148,6 +169,7 @@ export function CheckoutForm({
         ...(fields.note.trim() ? { note: fields.note.trim() } : {}),
       },
       paymentMethod: method,
+      ...(quote.coupon ? { couponCode: quote.coupon.code } : {}),
       ...(advanceMethod ? { trxId: normalizeTrxId(fields.trxId) ?? fields.trxId } : {}),
       ...(utm ? { utm } : {}),
       ...(sessionId ? { sessionId } : {}),
@@ -193,10 +215,10 @@ export function CheckoutForm({
   const payLater = quote ? quote.totalPaisa - quote.advanceRequiredPaisa : 0;
   const section = (n: number, title: string) => (
     <legend className="mb-6 flex items-baseline gap-4">
-      <span className="font-display text-2xl font-light italic text-walnut">
+      <span className="font-display text-2xl font-medium italic text-walnut">
         {formatNumber(n, lang)}
       </span>
-      <span className="font-display text-3xl font-light">{title}</span>
+      <span className="font-display text-3xl font-medium">{title}</span>
     </legend>
   );
 
@@ -292,21 +314,15 @@ export function CheckoutForm({
       </div>
 
       <aside className="h-fit space-y-6 bg-cream/70 p-6 sm:p-8 lg:sticky lg:top-28">
-        <h2 className="font-display text-3xl font-light">{c.sections.summary}</h2>
+        <h2 className="font-display text-3xl font-medium">{c.sections.summary}</h2>
         <ul className="space-y-4 border-b border-line pb-6">
           {items.map((item) => (
             <li key={item.variantId} className="flex items-center gap-4">
               <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-t-full bg-sand">
-                <Image
-                  src={SAMPLE.productTubes.src}
-                  alt=""
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                />
+                <Image src={SAMPLE.zenith.src} alt="" fill sizes="64px" className="object-cover" />
               </div>
               <div className="flex-1 text-sm">
-                <p className="font-display text-lg font-light leading-tight">
+                <p className="font-display text-lg font-medium leading-tight">
                   {(item.productSlug && copy.products[item.productSlug]?.name) ??
                     (lang === 'bn' ? item.nameBn : item.nameEn)}
                 </p>
@@ -324,18 +340,78 @@ export function CheckoutForm({
             </li>
           ))}
         </ul>
+        <div className="border-b border-line pb-6">
+          {coupon ? (
+            <div className="flex items-center justify-between gap-3 text-sm">
+              <p data-testid="coupon-applied">
+                {fill(copy.offers.coupon.applied, { code: coupon })}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setCoupon(null);
+                  setCouponInput('');
+                }}
+                className="text-stone underline underline-offset-4 hover:text-ink"
+              >
+                {copy.offers.coupon.remove}
+              </button>
+            </div>
+          ) : (
+            <Field id="f-coupon" label={copy.offers.coupon.label} error={couponError ?? undefined}>
+              <div className="flex gap-2">
+                <Input
+                  id="f-coupon"
+                  name="coupon"
+                  value={couponInput}
+                  placeholder={copy.offers.coupon.placeholder}
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  onChange={(e) => setCouponInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key !== 'Enter') return;
+                    e.preventDefault();
+                    const code = normalizeCoupon(couponInput);
+                    if (code.length >= 3) {
+                      setCouponError(null);
+                      setCoupon(code);
+                    }
+                  }}
+                  className="uppercase"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={normalizeCoupon(couponInput).length < 3}
+                  onClick={() => {
+                    setCouponError(null);
+                    setCoupon(normalizeCoupon(couponInput));
+                  }}
+                >
+                  {copy.offers.coupon.apply}
+                </Button>
+              </div>
+            </Field>
+          )}
+        </div>
         <dl className="space-y-3 text-sm" data-testid="summary">
           <div className="flex justify-between">
             <dt className="text-stone">{c.summary.items}</dt>
             <dd>{formatTaka(quote?.subtotalPaisa ?? cart.subtotalPaisa, lang)}</dd>
           </div>
+          {quote?.coupon && quote.discountPaisa > 0 ? (
+            <div className="flex justify-between text-sale">
+              <dt>{fill(copy.offers.coupon.discount, { code: quote.coupon.code })}</dt>
+              <dd data-testid="discount">−{formatTaka(quote.discountPaisa, lang)}</dd>
+            </div>
+          ) : null}
           <div className="flex justify-between">
             <dt className="text-stone">{c.summary.delivery}</dt>
             <dd>{quote ? formatTaka(quote.shippingFeePaisa, lang) : '—'}</dd>
           </div>
           <div className="flex items-baseline justify-between border-t border-line pt-4">
             <dt className="text-[0.7rem] uppercase tracking-eyebrow">{c.summary.total}</dt>
-            <dd data-testid="total" className="font-display text-3xl font-light">
+            <dd data-testid="total" className="font-display text-3xl font-medium">
               {quote ? formatTaka(quote.totalPaisa, lang) : '—'}
             </dd>
           </div>

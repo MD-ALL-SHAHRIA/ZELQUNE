@@ -105,8 +105,8 @@ export function RfqForm({
   if (done) {
     const [before, after] = b.after.split('{code}');
     return (
-      <div role="status" className="space-y-8 bg-cream/70 p-8 sm:p-12">
-        <p className="font-display text-3xl font-light leading-snug">
+      <div role="status" className="space-y-8">
+        <p className="font-display text-3xl font-medium leading-snug">
           {before}
           <strong
             data-testid="quote-code"

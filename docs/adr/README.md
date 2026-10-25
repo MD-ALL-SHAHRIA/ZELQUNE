@@ -19,5 +19,8 @@ accepted ADR; supersede it with a new one.
 | [0012](0012-storefront-rendering-i18n-experiment.md) | Storefront: ISR per price arm, URL-decided language, direct gateway calls | Accepted |
 | [0013](0013-storefront-architecture-and-design-system.md) | Storefront architecture: feature folders, RTK Query, brand design system | Accepted |
 | [0014](0014-services-as-rfq-leads.md) | Interior design and construction requests are RFQ leads | Accepted |
+| [0015](0015-storefront-content-in-catalog.md) | Storefront content lives in catalog-service as versioned documents | Accepted |
+| [0016](0016-marketing-reports-and-finance.md) | Coupons, sales, reports and profit and loss, split by data owner | Accepted |
+| [0017](0017-owner-settings-and-team.md) | Owner-editable settings and the team, stored by the service that uses them | Accepted |
 
 Template: copy `0000-template.md`, take the next number, keep it under a page.

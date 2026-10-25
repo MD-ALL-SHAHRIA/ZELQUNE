@@ -6,7 +6,7 @@ import { listCategories } from '@/shared/api/server';
 import { resolvePage } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 // ISR: paths are rendered on first request, then cached (an empty list enables runtime ISR).
 export function generateStaticParams() {

@@ -1,7 +1,8 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, Optional } from '@nestjs/common';
 import { APP_CONFIG } from '@zelqune/common';
 import {
   type EventEnvelope,
+  normalizeBdPhone,
   orderCancelled,
   orderConfirmed,
   orderPlaced,
@@ -9,6 +10,7 @@ import {
   quoteRequested,
 } from '@zelqune/contracts';
 import { type NotificationEnv } from '../config/notification-env';
+import { NotificationSettingsService } from '../settings/notification-settings';
 import { type Prisma } from '../generated/prisma/client';
 import { SMS_PROVIDER, type SmsProvider } from '../sms/sms.provider';
 import { type OrderInfo, templates } from './templates';
@@ -27,7 +29,15 @@ export class NotificationService {
   constructor(
     @Inject(SMS_PROVIDER) private readonly sms: SmsProvider,
     @Inject(APP_CONFIG) private readonly config: NotificationEnv,
+    /** Owner phone saved in the dashboard (ADR 0017); env OWNER_NOTIFY_PHONE without it. */
+    @Optional() private readonly settings?: NotificationSettingsService,
   ) {}
+
+  private async ownerPhone(): Promise<string | undefined> {
+    if (!this.settings) return this.config.OWNER_NOTIFY_PHONE;
+    const phone = (await this.settings.value()).ownerPhone;
+    return phone ? (normalizeBdPhone(phone) ?? undefined) : undefined;
+  }
 
   async onOrderPlaced(event: EventEnvelope, tx: Tx): Promise<void> {
     const p = orderPlaced.parse(event).payload;
@@ -96,17 +106,12 @@ export class NotificationService {
 
   async onQuoteRequested(event: EventEnvelope, tx: Tx): Promise<void> {
     const p = quoteRequested.parse(event).payload;
-    if (!this.config.OWNER_NOTIFY_PHONE) {
-      this.logger.warn(`New bulk request ${p.code}: OWNER_NOTIFY_PHONE not set, no alert sent`);
+    const owner = await this.ownerPhone();
+    if (!owner) {
+      this.logger.warn(`New bulk request ${p.code}: no owner alert phone set, no alert sent`);
       return;
     }
-    await this.send(
-      tx,
-      event.id,
-      'quote.requested.owner',
-      this.config.OWNER_NOTIFY_PHONE,
-      templates.quoteRequested(p),
-    );
+    await this.send(tx, event.id, 'quote.requested.owner', owner, templates.quoteRequested(p));
   }
 
   /**

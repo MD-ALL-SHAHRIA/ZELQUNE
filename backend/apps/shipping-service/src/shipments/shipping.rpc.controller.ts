@@ -26,7 +26,7 @@ export class ShippingRpcController {
   }
 
   @MessagePattern(P.quote)
-  quote(@Payload() req: RpcRequest<ShippingQuoteRequest>): ShippingQuote {
+  quote(@Payload() req: RpcRequest<ShippingQuoteRequest>): Promise<ShippingQuote> {
     return this.shipping.quote(req.data);
   }
 

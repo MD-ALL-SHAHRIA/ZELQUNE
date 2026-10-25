@@ -14,6 +14,7 @@ export function Picture({
   ratio = 'aspect-[4/5]',
   className,
   note,
+  fetchPriority,
 }: {
   src: string;
   alt: string;
@@ -23,6 +24,8 @@ export function Picture({
   ratio?: string;
   className?: string;
   note?: string;
+  /** e.g. 'low' for images that peek into view but are never the page's main image. */
+  fetchPriority?: 'high' | 'low' | 'auto';
 }) {
   return (
     <figure className={cn('relative', className)}>
@@ -32,12 +35,15 @@ export function Picture({
           alt={alt}
           fill
           sizes={sizes}
-          priority={priority}
-          className="object-cover transition-transform duration-[1.6s] ease-out-soft group-hover:scale-[1.03]"
+          preload={priority}
+          fetchPriority={fetchPriority}
+          className="img-hover object-cover"
         />
       </div>
       {note ? (
-        <figcaption className="mt-2 text-[0.7rem] tracking-wide text-stone">{note}</figcaption>
+        <figcaption className="mt-2.5 text-[0.68rem] tracking-[0.06em] text-stone/90">
+          {note}
+        </figcaption>
       ) : null}
     </figure>
   );

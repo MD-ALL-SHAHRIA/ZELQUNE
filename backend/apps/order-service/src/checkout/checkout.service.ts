@@ -56,6 +56,8 @@ export interface OrderSpec {
   address: { district: string; area: string; line: string; note: string | null };
   lines: SpecLine[];
   totals: Totals;
+  /** Redeemed in the order's own transaction (saga step 3). */
+  couponCode?: string | null;
   shipping: { zone: string; chargeableWeightGrams: number };
   payment: {
     method: PaymentMethod;
@@ -117,7 +119,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
   async checkout(cartToken: string, raw: CheckoutRequest): Promise<CheckoutResponse> {
     const request = checkoutRequestSchema.parse(raw);
     const cart = await this.carts.loadActive(cartToken);
-    const prepared = await this.carts.prepare(cart, request.address);
+    const prepared = await this.carts.prepare(cart, request.address, request.couponCode);
     const plan = paymentPlan(
       prepared.saleMode,
       request.paymentMethod,
@@ -145,6 +147,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
         qty: l.qty,
       })),
       totals: prepared.totals,
+      couponCode: prepared.coupon?.code ?? null,
       shipping: {
         zone: prepared.shipping.zone,
         chargeableWeightGrams: prepared.shipping.chargeableWeightGrams,
@@ -306,6 +309,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       shippingZone: spec.shipping.zone,
       chargeableWeightGrams: spec.shipping.chargeableWeightGrams,
       experimentKey: spec.experimentKey,
+      couponCode: spec.couponCode ?? null,
       utm: spec.utm ?? undefined,
       items: spec.lines.map((l) => ({ ...l, lineTotalPaisa: l.unitPricePaisa * l.qty })),
     };

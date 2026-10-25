@@ -104,6 +104,7 @@ model Product {
   variants   ProductVariant[]
   media      Media[]
   categories ProductCategory[]
+  promotions PromotionProduct[]
 
   @@index([status, publishedAt])
   @@map("products")
@@ -139,6 +140,8 @@ model ProductVariant {
   packageWeightGrams Int?     @map("package_weight_grams")
   position           Int      @default(0)
   isActive           Boolean  @default(true) @map("is_active")
+  /// What one unit costs to make (materials + labour), for profit and loss. Admin only.
+  costPaisa          Int?     @map("cost_paisa")
   createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
 
@@ -206,4 +209,68 @@ model PriceExperiment {
 
   @@unique([variantId, key])
   @@map("price_experiments")
+}
+
+/// Storefront content documents edited by the owner (ADR 0015), one row per key ("home").
+/// `data` is validated by homeContentSchema (libs/contracts) on every write.
+model SiteContent {
+  key       String   @id
+  version   Int
+  data      Json
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("site_content")
+}
+
+/// Images uploaded for content (hero scenes, collection covers), not tied to a product.
+model ContentAsset {
+  id         String      @id @db.Uuid
+  storageKey String      @unique @map("storage_key")
+  mimeType   String      @map("mime_type")
+  bytes      Int
+  status     MediaStatus @default(PENDING)
+  createdAt  DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt  DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("content_assets")
+}
+
+enum PromotionKind {
+  PERCENT
+  FIXED
+}
+
+/// Flash and seasonal sales: lower the price of the covered products between startsAt and
+/// endsAt (no products = every product). Applied in price resolution, so checkout charges it.
+model Promotion {
+  id        String        @id @default(uuid()) @db.Uuid
+  nameEn    String        @map("name_en")
+  nameBn    String        @map("name_bn")
+  kind      PromotionKind
+  /// PERCENT: 1-90. FIXED: paisa off each unit.
+  value     Int
+  startsAt  DateTime      @map("starts_at") @db.Timestamptz(3)
+  endsAt    DateTime      @map("ends_at") @db.Timestamptz(3)
+  flash     Boolean       @default(true)
+  active    Boolean       @default(true)
+  createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  products PromotionProduct[]
+
+  @@index([active, startsAt, endsAt])
+  @@map("promotions")
+}
+
+model PromotionProduct {
+  promotionId String @map("promotion_id") @db.Uuid
+  productId   String @map("product_id") @db.Uuid
+
+  promotion Promotion @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([promotionId, productId])
+  @@index([productId])
+  @@map("promotion_products")
 }

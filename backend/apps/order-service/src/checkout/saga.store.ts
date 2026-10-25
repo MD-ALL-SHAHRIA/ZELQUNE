@@ -47,7 +47,7 @@ export interface SagaStore {
   finishCompensation(id: string): Promise<void>;
   /**
    * In one transaction: requires saga PAYMENT_CREATED and the source still open (cart ACTIVE /
-   * quote ACCEPTED and not converted), creates the order with its items and first history row,
+   * quote ACCEPTED and not converted), redeems the coupon (if any), creates the order with its items and first history row,
    * closes the source, marks the saga COMPLETED and writes order.placed to the outbox.
    */
   complete(id: string, order: OrderDraft, event: EventEnvelope, source: SagaSource): Promise<void>;
@@ -146,6 +146,16 @@ export class PrismaSagaStore implements SagaStore {
       }
 
       const { items, ...fields } = order;
+      if (fields.couponCode) {
+        const redeemed = await tx.$executeRaw`
+          UPDATE coupons SET used_count = used_count + 1, updated_at = now()
+          WHERE code = ${fields.couponCode} AND active
+            AND (max_uses IS NULL OR used_count < max_uses)`;
+        if (redeemed !== 1)
+          throw new AppError('COUPON_INVALID', 'This code has been fully used', 422, {
+            reason: 'USED_UP',
+          });
+      }
       await tx.order.create({
         data: {
           ...fields,

@@ -119,6 +119,28 @@
         ]
       }
     },
+    "/v1/catalog/sale": {
+      "get": {
+        "operationId": "CatalogController_sale",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActiveSaleDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "The flash or seasonal sale running now (for the banner), or null.",
+        "tags": [
+          "catalog"
+        ]
+      }
+    },
     "/v1/catalog/products": {
       "get": {
         "operationId": "CatalogController_products",
@@ -237,6 +259,163 @@
         "summary": "Product detail: active variants with resolved prices and READY media only.",
         "tags": [
           "catalog"
+        ]
+      }
+    },
+    "/v1/content/home": {
+      "get": {
+        "operationId": "ContentController_home",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeContentResponseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Home page content with image URLs (null before the first save).",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/v1/admin/content/home": {
+      "get": {
+        "operationId": "AdminContentController_home",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeContentResponseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: content"
+        ]
+      },
+      "put": {
+        "operationId": "AdminContentController_save",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHomeContentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateHomeContentResultDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Save the home content. Send the version you loaded (0 for the first save); 409 if it changed.",
+        "tags": [
+          "admin: content"
+        ]
+      }
+    },
+    "/v1/admin/content/assets/uploads": {
+      "post": {
+        "operationId": "AdminContentController_requestUpload",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestContentAssetDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentAssetTicketDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a presigned upload URL for an image; PUT the file there, then confirm.",
+        "tags": [
+          "admin: content"
+        ]
+      }
+    },
+    "/v1/admin/content/assets/{id}/confirm": {
+      "post": {
+        "operationId": "AdminContentController_confirm",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentAssetDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: content"
         ]
       }
     },
@@ -2591,6 +2770,1115 @@
         ]
       }
     },
+    "/v1/admin/coupons": {
+      "get": {
+        "operationId": "AdminBusinessController_coupons",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      },
+      "post": {
+        "operationId": "AdminBusinessController_createCoupon",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertCouponDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/coupons/{id}": {
+      "put": {
+        "operationId": "AdminBusinessController_updateCoupon",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertCouponDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminBusinessController_removeCoupon",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Deletes an unused coupon; a redeemed one is deactivated instead.",
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/promotions": {
+      "get": {
+        "operationId": "AdminBusinessController_promotions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromotionListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      },
+      "post": {
+        "operationId": "AdminBusinessController_createPromotion",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertPromotionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromotionDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "A sale lowers storefront and checkout prices while it runs.",
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/promotions/{id}": {
+      "put": {
+        "operationId": "AdminBusinessController_updatePromotion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertPromotionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromotionDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminBusinessController_removePromotion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/reports/sales": {
+      "get": {
+        "operationId": "AdminBusinessController_sales",
+        "parameters": [
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesReportDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Sales by day, product, variant, district, payment, channel and coupon (BD days).",
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/customers": {
+      "get": {
+        "operationId": "AdminBusinessController_customers",
+        "parameters": [
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "recent",
+              "type": "string",
+              "enum": [
+                "recent",
+                "spent",
+                "orders"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 9007199254740991,
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Everyone who has ordered, grouped by phone, with lifetime spend.",
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/expenses": {
+      "get": {
+        "operationId": "AdminBusinessController_expenses",
+        "parameters": [
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "MATERIALS",
+                "PACKAGING",
+                "DELIVERY",
+                "MARKETING",
+                "SALARIES",
+                "RENT",
+                "UTILITIES",
+                "TOOLS",
+                "FEES",
+                "OTHER"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      },
+      "post": {
+        "operationId": "AdminBusinessController_createExpense",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertExpenseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/expenses/{id}": {
+      "put": {
+        "operationId": "AdminBusinessController_updateExpense",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertExpenseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminBusinessController_removeExpense",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/reports/profit-loss": {
+      "get": {
+        "operationId": "AdminBusinessController_profitLoss",
+        "parameters": [
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfitLossDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Revenue - cost of goods (variant unit costs) - expenses, with the previous period and months.",
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
+    "/v1/admin/settings/payments": {
+      "get": {
+        "operationId": "AdminSettingsController_payments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentSettingsViewDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      },
+      "put": {
+        "operationId": "AdminSettingsController_setPayments",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentSettingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentSettingsViewDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "bKash/Nagad receiving numbers (a method without a number is hidden).",
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/settings/checkout": {
+      "get": {
+        "operationId": "AdminSettingsController_checkout",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutSettingsViewDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      },
+      "put": {
+        "operationId": "AdminSettingsController_setCheckout",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutSettingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutSettingsViewDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Advance for pre-order and made-to-order items (fixed or percent).",
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/settings/shipping": {
+      "get": {
+        "operationId": "AdminSettingsController_shipping",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShippingSettingsViewDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      },
+      "put": {
+        "operationId": "AdminSettingsController_setShipping",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShippingSettingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShippingSettingsViewDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delivery fee per zone and per extra kg.",
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/settings/notifications": {
+      "get": {
+        "operationId": "AdminSettingsController_notifications",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationSettingsViewDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      },
+      "put": {
+        "operationId": "AdminSettingsController_setNotifications",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationSettingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationSettingsViewDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/team": {
+      "get": {
+        "operationId": "AdminSettingsController_team",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      },
+      "post": {
+        "operationId": "AdminSettingsController_addMember",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTeamMemberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamMemberDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Give someone dashboard access (owner or staff) with a password.",
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/team/{id}": {
+      "patch": {
+        "operationId": "AdminSettingsController_updateMember",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTeamMemberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamMemberDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Name, email, role or access; role/access changes sign them out.",
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/team/{id}/password": {
+      "post": {
+        "operationId": "AdminSettingsController_resetPassword",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/account/profile": {
+      "put": {
+        "operationId": "AdminSettingsController_profile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/account/password": {
+      "put": {
+        "operationId": "AdminSettingsController_password",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: settings"
+        ]
+      }
+    },
     "/health": {
       "get": {
         "operationId": "HealthController_check",
@@ -2959,6 +4247,69 @@
         ],
         "additionalProperties": false
       },
+      "ActiveSaleDto_Output": {
+        "type": "object",
+        "properties": {
+          "sale": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "nameEn": {
+                "type": "string"
+              },
+              "nameBn": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "PERCENT",
+                  "FIXED"
+                ]
+              },
+              "value": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "endsAt": {
+                "type": "string"
+              },
+              "flash": {
+                "type": "boolean"
+              },
+              "productIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "nameEn",
+              "nameBn",
+              "kind",
+              "value",
+              "endsAt",
+              "flash",
+              "productIds"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          }
+        },
+        "required": [
+          "sale"
+        ],
+        "additionalProperties": false
+      },
       "ProductListResponseDto_Output": {
         "type": "object",
         "properties": {
@@ -3024,6 +4375,44 @@
                         "b",
                         null
                       ],
+                      "nullable": true
+                    },
+                    "sale": {
+                      "type": "object",
+                      "properties": {
+                        "promotionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "nameEn": {
+                          "type": "string"
+                        },
+                        "nameBn": {
+                          "type": "string"
+                        },
+                        "endsAt": {
+                          "type": "string"
+                        },
+                        "flash": {
+                          "type": "boolean"
+                        },
+                        "regularPaisa": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991,
+                          "example": 349000
+                        }
+                      },
+                      "required": [
+                        "promotionId",
+                        "nameEn",
+                        "nameBn",
+                        "endsAt",
+                        "flash",
+                        "regularPaisa"
+                      ],
+                      "additionalProperties": false,
                       "nullable": true
                     }
                   },
@@ -3184,6 +4573,44 @@
                   "b",
                   null
                 ],
+                "nullable": true
+              },
+              "sale": {
+                "type": "object",
+                "properties": {
+                  "promotionId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "nameEn": {
+                    "type": "string"
+                  },
+                  "nameBn": {
+                    "type": "string"
+                  },
+                  "endsAt": {
+                    "type": "string"
+                  },
+                  "flash": {
+                    "type": "boolean"
+                  },
+                  "regularPaisa": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991,
+                    "example": 349000
+                  }
+                },
+                "required": [
+                  "promotionId",
+                  "nameEn",
+                  "nameBn",
+                  "endsAt",
+                  "flash",
+                  "regularPaisa"
+                ],
+                "additionalProperties": false,
                 "nullable": true
               }
             },
@@ -3415,6 +4842,44 @@
                         null
                       ],
                       "nullable": true
+                    },
+                    "sale": {
+                      "type": "object",
+                      "properties": {
+                        "promotionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "nameEn": {
+                          "type": "string"
+                        },
+                        "nameBn": {
+                          "type": "string"
+                        },
+                        "endsAt": {
+                          "type": "string"
+                        },
+                        "flash": {
+                          "type": "boolean"
+                        },
+                        "regularPaisa": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991,
+                          "example": 349000
+                        }
+                      },
+                      "required": [
+                        "promotionId",
+                        "nameEn",
+                        "nameBn",
+                        "endsAt",
+                        "flash",
+                        "regularPaisa"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -3507,6 +4972,779 @@
           "categories",
           "variants",
           "media"
+        ],
+        "additionalProperties": false
+      },
+      "HomeContentResponseDto_Output": {
+        "type": "object",
+        "properties": {
+          "home": {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "updatedAt": {
+                "type": "string"
+              },
+              "content": {
+                "type": "object",
+                "properties": {
+                  "announcement": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 140
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 140
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "hero": {
+                    "type": "object",
+                    "properties": {
+                      "eyebrow": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 80
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 80
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "heading": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 160
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 160
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "accent": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 60
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 60
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "subline": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 200
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 200
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "scenes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "assetId": {
+                              "type": "string",
+                              "format": "uuid",
+                              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                              "default": null,
+                              "nullable": true
+                            },
+                            "productSlug": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 120,
+                              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                            },
+                            "position": {
+                              "default": "76% 50%",
+                              "type": "string",
+                              "pattern": "^\\d{1,3}% \\d{1,3}%$"
+                            },
+                            "phonePosition": {
+                              "default": "95% 50%",
+                              "type": "string",
+                              "pattern": "^\\d{1,3}% \\d{1,3}%$"
+                            },
+                            "imageUrl": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "assetId",
+                            "productSlug",
+                            "position",
+                            "phonePosition",
+                            "imageUrl"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "eyebrow",
+                      "heading",
+                      "accent",
+                      "subline",
+                      "scenes"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "trust": {
+                    "minItems": 2,
+                    "maxItems": 6,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "icon": {
+                          "type": "string",
+                          "enum": [
+                            "hammer",
+                            "lightbulb",
+                            "coins",
+                            "truck",
+                            "leaf",
+                            "shield",
+                            "hand",
+                            "sparkles"
+                          ]
+                        },
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "type": "string",
+                              "maxLength": 40
+                            },
+                            "bn": {
+                              "type": "string",
+                              "maxLength": 40
+                            }
+                          },
+                          "required": [
+                            "en",
+                            "bn"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "text": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "type": "string",
+                              "maxLength": 80
+                            },
+                            "bn": {
+                              "type": "string",
+                              "maxLength": 80
+                            }
+                          },
+                          "required": [
+                            "en",
+                            "bn"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "icon",
+                        "title",
+                        "text"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "collections": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "categorySlug": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 120,
+                          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                        },
+                        "assetId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                          "nullable": true
+                        },
+                        "imageUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "categorySlug",
+                        "assetId",
+                        "imageUrl"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "contact": {
+                    "type": "object",
+                    "properties": {
+                      "phone": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 20
+                      },
+                      "whatsapp": {
+                        "default": "",
+                        "type": "string",
+                        "pattern": "^(\\d{8,15})?$"
+                      },
+                      "email": {
+                        "default": "",
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 120,
+                            "format": "email",
+                            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              ""
+                            ]
+                          }
+                        ]
+                      },
+                      "facebook": {
+                        "default": "",
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 300,
+                            "format": "uri"
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              ""
+                            ]
+                          }
+                        ]
+                      },
+                      "instagram": {
+                        "default": "",
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 300,
+                            "format": "uri"
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              ""
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "phone",
+                      "whatsapp",
+                      "email",
+                      "facebook",
+                      "instagram"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "announcement",
+                  "hero",
+                  "trust",
+                  "collections",
+                  "contact"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "version",
+              "updatedAt",
+              "content"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          }
+        },
+        "required": [
+          "home"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateHomeContentDto": {
+        "type": "object",
+        "properties": {
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "announcement": {
+                "type": "object",
+                "properties": {
+                  "en": {
+                    "type": "string",
+                    "maxLength": 140
+                  },
+                  "bn": {
+                    "type": "string",
+                    "maxLength": 140
+                  }
+                },
+                "required": [
+                  "en",
+                  "bn"
+                ]
+              },
+              "hero": {
+                "type": "object",
+                "properties": {
+                  "eyebrow": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 80
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 80
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "heading": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 160
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 160
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "accent": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 60
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 60
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "subline": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 200
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "scenes": {
+                    "minItems": 1,
+                    "maxItems": 8,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "assetId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                          "default": null,
+                          "nullable": true
+                        },
+                        "productSlug": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 120,
+                          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                        },
+                        "position": {
+                          "default": "76% 50%",
+                          "type": "string",
+                          "pattern": "^\\d{1,3}% \\d{1,3}%$"
+                        },
+                        "phonePosition": {
+                          "default": "95% 50%",
+                          "type": "string",
+                          "pattern": "^\\d{1,3}% \\d{1,3}%$"
+                        }
+                      },
+                      "required": [
+                        "productSlug"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "eyebrow",
+                  "heading",
+                  "accent",
+                  "subline",
+                  "scenes"
+                ]
+              },
+              "trust": {
+                "minItems": 2,
+                "maxItems": 6,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "icon": {
+                      "type": "string",
+                      "enum": [
+                        "hammer",
+                        "lightbulb",
+                        "coins",
+                        "truck",
+                        "leaf",
+                        "shield",
+                        "hand",
+                        "sparkles"
+                      ]
+                    },
+                    "title": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string",
+                          "maxLength": 40
+                        },
+                        "bn": {
+                          "type": "string",
+                          "maxLength": 40
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "bn"
+                      ]
+                    },
+                    "text": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string",
+                          "maxLength": 80
+                        },
+                        "bn": {
+                          "type": "string",
+                          "maxLength": 80
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "bn"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "icon",
+                    "title",
+                    "text"
+                  ]
+                }
+              },
+              "collections": {
+                "maxItems": 12,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "categorySlug": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 120,
+                      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                    },
+                    "assetId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      "default": null,
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "categorySlug"
+                  ]
+                }
+              },
+              "contact": {
+                "type": "object",
+                "properties": {
+                  "phone": {
+                    "default": "",
+                    "type": "string",
+                    "maxLength": 20
+                  },
+                  "whatsapp": {
+                    "default": "",
+                    "type": "string",
+                    "pattern": "^(\\d{8,15})?$"
+                  },
+                  "email": {
+                    "default": "",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 120,
+                        "format": "email",
+                        "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
+                  },
+                  "facebook": {
+                    "default": "",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 300,
+                        "format": "uri"
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
+                  },
+                  "instagram": {
+                    "default": "",
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 300,
+                        "format": "uri"
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          ""
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "announcement",
+              "hero",
+              "trust",
+              "collections",
+              "contact"
+            ]
+          }
+        },
+        "required": [
+          "expectedVersion",
+          "content"
+        ]
+      },
+      "UpdateHomeContentResultDto_Output": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "updatedAt"
+        ],
+        "additionalProperties": false
+      },
+      "RequestContentAssetDto": {
+        "type": "object",
+        "properties": {
+          "mimeType": {
+            "type": "string",
+            "enum": [
+              "image/webp",
+              "image/jpeg",
+              "image/png",
+              "image/avif"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 10485760,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "mimeType",
+          "bytes"
+        ]
+      },
+      "ContentAssetTicketDto_Output": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "uploadUrl": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "PUT"
+            ]
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "expiresAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetId",
+          "uploadUrl",
+          "method",
+          "headers",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "ContentAssetDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "url": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "READY"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "status"
         ],
         "additionalProperties": false
       },
@@ -3689,6 +5927,44 @@
                             null
                           ],
                           "nullable": true
+                        },
+                        "sale": {
+                          "type": "object",
+                          "properties": {
+                            "promotionId": {
+                              "type": "string",
+                              "format": "uuid",
+                              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                            },
+                            "nameEn": {
+                              "type": "string"
+                            },
+                            "nameBn": {
+                              "type": "string"
+                            },
+                            "endsAt": {
+                              "type": "string"
+                            },
+                            "flash": {
+                              "type": "boolean"
+                            },
+                            "regularPaisa": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991,
+                              "example": 349000
+                            }
+                          },
+                          "required": [
+                            "promotionId",
+                            "nameEn",
+                            "nameBn",
+                            "endsAt",
+                            "flash",
+                            "regularPaisa"
+                          ],
+                          "additionalProperties": false,
+                          "nullable": true
                         }
                       },
                       "required": [
@@ -3866,6 +6142,44 @@
                         null
                       ],
                       "nullable": true
+                    },
+                    "sale": {
+                      "type": "object",
+                      "properties": {
+                        "promotionId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                        },
+                        "nameEn": {
+                          "type": "string"
+                        },
+                        "nameBn": {
+                          "type": "string"
+                        },
+                        "endsAt": {
+                          "type": "string"
+                        },
+                        "flash": {
+                          "type": "boolean"
+                        },
+                        "regularPaisa": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991,
+                          "example": 349000
+                        }
+                      },
+                      "required": [
+                        "promotionId",
+                        "nameEn",
+                        "nameBn",
+                        "endsAt",
+                        "flash",
+                        "regularPaisa"
+                      ],
+                      "additionalProperties": false,
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -3968,6 +6282,12 @@
             "type": "string",
             "minLength": 2,
             "maxLength": 100
+          },
+          "couponCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 24,
+            "pattern": "^[A-Za-z0-9-]+$"
           }
         },
         "required": [
@@ -3991,6 +6311,39 @@
             "minimum": 0,
             "maximum": 9007199254740991,
             "example": 349000
+          },
+          "discountPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "coupon": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "description": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "discountPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              }
+            },
+            "required": [
+              "code",
+              "description",
+              "discountPaisa"
+            ],
+            "additionalProperties": false,
+            "nullable": true
           },
           "shippingFeePaisa": {
             "type": "integer",
@@ -4083,6 +6436,8 @@
         "required": [
           "saleMode",
           "subtotalPaisa",
+          "discountPaisa",
+          "coupon",
           "shippingFeePaisa",
           "totalPaisa",
           "advanceRequiredPaisa",
@@ -4166,6 +6521,12 @@
             "minLength": 1,
             "maxLength": 32,
             "nullable": true
+          },
+          "couponCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 24,
+            "pattern": "^[A-Za-z0-9-]+$"
           },
           "utm": {
             "type": "object",
@@ -5559,6 +7920,12 @@
               "null"
             ]
           },
+          "couponCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "cancelReason": {
             "type": [
               "string",
@@ -5697,6 +8064,7 @@
           "utm",
           "organizationId",
           "quoteCode",
+          "couponCode",
           "cancelReason",
           "payment",
           "shipment"
@@ -6532,6 +8900,13 @@
                   "maximum": 9007199254740991,
                   "nullable": true
                 },
+                "costPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000,
+                  "nullable": true
+                },
                 "basePrice": {
                   "type": "object",
                   "properties": {
@@ -6601,6 +8976,7 @@
                 "packageWidthMm",
                 "packageHeightMm",
                 "packageWeightGrams",
+                "costPaisa",
                 "basePrice",
                 "experiments"
               ],
@@ -6851,6 +9227,13 @@
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991,
             "default": null,
+            "nullable": true
+          },
+          "costPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000,
             "nullable": true
           }
         }
@@ -8112,6 +10495,2274 @@
           "orderId"
         ],
         "additionalProperties": false
+      },
+      "CouponListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "PERCENT",
+                    "FIXED"
+                  ]
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "minSubtotalPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                },
+                "maxDiscountPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000,
+                  "nullable": true
+                },
+                "startsAt": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "endsAt": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "maxUses": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "nullable": true
+                },
+                "usedCount": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "active": {
+                  "type": "boolean"
+                },
+                "ordersCount": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "discountGivenPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "code",
+                "description",
+                "kind",
+                "value",
+                "minSubtotalPaisa",
+                "maxDiscountPaisa",
+                "startsAt",
+                "endsAt",
+                "maxUses",
+                "usedCount",
+                "active",
+                "ordersCount",
+                "discountGivenPaisa",
+                "createdAt",
+                "updatedAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "UpsertCouponDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 24,
+            "pattern": "^[A-Za-z0-9-]+$"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 200,
+            "default": null,
+            "nullable": true
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "PERCENT",
+              "FIXED"
+            ]
+          },
+          "value": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "minSubtotalPaisa": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "maxDiscountPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000,
+            "default": null,
+            "nullable": true
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "default": null,
+            "nullable": true
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+            "default": null,
+            "nullable": true
+          },
+          "maxUses": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "default": null,
+            "nullable": true
+          },
+          "active": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "kind",
+          "value"
+        ]
+      },
+      "CouponDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "PERCENT",
+              "FIXED"
+            ]
+          },
+          "value": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "minSubtotalPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "maxDiscountPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000,
+            "nullable": true
+          },
+          "startsAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "endsAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "maxUses": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "usedCount": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "ordersCount": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "discountGivenPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "description",
+          "kind",
+          "value",
+          "minSubtotalPaisa",
+          "maxDiscountPaisa",
+          "startsAt",
+          "endsAt",
+          "maxUses",
+          "usedCount",
+          "active",
+          "ordersCount",
+          "discountGivenPaisa",
+          "createdAt",
+          "updatedAt"
+        ],
+        "additionalProperties": false
+      },
+      "DeletedDto_Output": {
+        "type": "object",
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "deleted"
+        ],
+        "additionalProperties": false
+      },
+      "PromotionListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "nameEn": {
+                  "type": "string"
+                },
+                "nameBn": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "PERCENT",
+                    "FIXED"
+                  ]
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "startsAt": {
+                  "type": "string"
+                },
+                "endsAt": {
+                  "type": "string"
+                },
+                "flash": {
+                  "type": "boolean"
+                },
+                "active": {
+                  "type": "boolean"
+                },
+                "productIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  }
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "SCHEDULED",
+                    "LIVE",
+                    "ENDED",
+                    "PAUSED"
+                  ]
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "nameEn",
+                "nameBn",
+                "kind",
+                "value",
+                "startsAt",
+                "endsAt",
+                "flash",
+                "active",
+                "productIds",
+                "state",
+                "createdAt",
+                "updatedAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "UpsertPromotionDto": {
+        "type": "object",
+        "properties": {
+          "nameEn": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 80
+          },
+          "nameBn": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "PERCENT",
+              "FIXED"
+            ]
+          },
+          "value": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "flash": {
+            "default": true,
+            "type": "boolean"
+          },
+          "active": {
+            "default": true,
+            "type": "boolean"
+          },
+          "productIds": {
+            "default": [],
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          }
+        },
+        "required": [
+          "nameEn",
+          "nameBn",
+          "kind",
+          "value",
+          "startsAt",
+          "endsAt"
+        ]
+      },
+      "PromotionDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "nameEn": {
+            "type": "string"
+          },
+          "nameBn": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "PERCENT",
+              "FIXED"
+            ]
+          },
+          "value": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "flash": {
+            "type": "boolean"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            }
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "SCHEDULED",
+              "LIVE",
+              "ENDED",
+              "PAUSED"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nameEn",
+          "nameBn",
+          "kind",
+          "value",
+          "startsAt",
+          "endsAt",
+          "flash",
+          "active",
+          "productIds",
+          "state",
+          "createdAt",
+          "updatedAt"
+        ],
+        "additionalProperties": false
+      },
+      "SalesReportDto_Output": {
+        "type": "object",
+        "properties": {
+          "range": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to"
+            ],
+            "additionalProperties": false
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "orders": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "units": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "grossPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "discountPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "shippingPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "netPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "averageOrderPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "customers": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "repeatCustomers": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "cancelledOrders": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "cancelledPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "returnedOrders": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "returnedPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              }
+            },
+            "required": [
+              "orders",
+              "units",
+              "grossPaisa",
+              "discountPaisa",
+              "shippingPaisa",
+              "netPaisa",
+              "averageOrderPaisa",
+              "customers",
+              "repeatCustomers",
+              "cancelledOrders",
+              "cancelledPaisa",
+              "returnedOrders",
+              "returnedPaisa"
+            ],
+            "additionalProperties": false
+          },
+          "byDay": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "netPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "date",
+                "orders",
+                "netPaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "byProduct": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "nameEn": {
+                  "type": "string"
+                },
+                "nameBn": {
+                  "type": "string"
+                },
+                "units": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "revenuePaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "productId",
+                "nameEn",
+                "nameBn",
+                "units",
+                "orders",
+                "revenuePaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "byVariant": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "variantId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "productId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "sku": {
+                  "type": "string"
+                },
+                "nameEn": {
+                  "type": "string"
+                },
+                "units": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "revenuePaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "variantId",
+                "productId",
+                "sku",
+                "nameEn",
+                "units",
+                "revenuePaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "byDistrict": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "district": {
+                  "type": "string"
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "netPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "district",
+                "orders",
+                "netPaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "byPaymentMethod": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string"
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "netPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "method",
+                "orders",
+                "netPaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "bySaleMode": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "saleMode": {
+                  "type": "string"
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "netPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "saleMode",
+                "orders",
+                "netPaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "byChannel": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "channel": {
+                  "type": "string"
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "netPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "channel",
+                "orders",
+                "netPaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "byCoupon": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "discountPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "code",
+                "orders",
+                "discountPaisa"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "byStatus": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "status",
+                "orders"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "range",
+          "totals",
+          "byDay",
+          "byProduct",
+          "byVariant",
+          "byDistrict",
+          "byPaymentMethod",
+          "bySaleMode",
+          "byChannel",
+          "byCoupon",
+          "byStatus"
+        ],
+        "additionalProperties": false
+      },
+      "CustomerListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "phone": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "district": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "orders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "paidOrders": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "spentPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                },
+                "firstOrderAt": {
+                  "type": "string"
+                },
+                "lastOrderAt": {
+                  "type": "string"
+                },
+                "isFriend": {
+                  "type": "boolean"
+                },
+                "channels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "phone",
+                "name",
+                "district",
+                "orders",
+                "paidOrders",
+                "spentPaisa",
+                "firstOrderAt",
+                "lastOrderAt",
+                "isFriend",
+                "channels"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "page": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "stats": {
+            "type": "object",
+            "properties": {
+              "customers": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "repeat": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "spentPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              }
+            },
+            "required": [
+              "customers",
+              "repeat",
+              "spentPaisa"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "pageSize",
+          "stats"
+        ],
+        "additionalProperties": false
+      },
+      "ExpenseListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "date": {
+                  "type": "string"
+                },
+                "category": {
+                  "type": "string",
+                  "enum": [
+                    "MATERIALS",
+                    "PACKAGING",
+                    "DELIVERY",
+                    "MARKETING",
+                    "SALARIES",
+                    "RENT",
+                    "UTILITIES",
+                    "TOOLS",
+                    "FEES",
+                    "OTHER"
+                  ]
+                },
+                "amountPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                },
+                "description": {
+                  "type": "string"
+                },
+                "vendor": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "createdBy": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "date",
+                "category",
+                "amountPaisa",
+                "description",
+                "vendor",
+                "createdBy",
+                "createdAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "totalPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "byCategory": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "enum": [
+                    "MATERIALS",
+                    "PACKAGING",
+                    "DELIVERY",
+                    "MARKETING",
+                    "SALARIES",
+                    "RENT",
+                    "UTILITIES",
+                    "TOOLS",
+                    "FEES",
+                    "OTHER"
+                  ]
+                },
+                "amountPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                }
+              },
+              "required": [
+                "category",
+                "amountPaisa"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items",
+          "totalPaisa",
+          "byCategory"
+        ],
+        "additionalProperties": false
+      },
+      "UpsertExpenseDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "MATERIALS",
+              "PACKAGING",
+              "DELIVERY",
+              "MARKETING",
+              "SALARIES",
+              "RENT",
+              "UTILITIES",
+              "TOOLS",
+              "FEES",
+              "OTHER"
+            ]
+          },
+          "amountPaisa": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "description": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "vendor": {
+            "type": "string",
+            "maxLength": 100,
+            "default": null,
+            "nullable": true
+          }
+        },
+        "required": [
+          "date",
+          "category",
+          "amountPaisa",
+          "description"
+        ]
+      },
+      "ExpenseDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "date": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "MATERIALS",
+              "PACKAGING",
+              "DELIVERY",
+              "MARKETING",
+              "SALARIES",
+              "RENT",
+              "UTILITIES",
+              "TOOLS",
+              "FEES",
+              "OTHER"
+            ]
+          },
+          "amountPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "description": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "date",
+          "category",
+          "amountPaisa",
+          "description",
+          "vendor",
+          "createdBy",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      },
+      "ProfitLossDto_Output": {
+        "type": "object",
+        "properties": {
+          "range": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to"
+            ],
+            "additionalProperties": false
+          },
+          "revenue": {
+            "type": "object",
+            "properties": {
+              "grossSalesPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "discountsPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "netSalesPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "shippingIncomePaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "totalPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              }
+            },
+            "required": [
+              "grossSalesPaisa",
+              "discountsPaisa",
+              "netSalesPaisa",
+              "shippingIncomePaisa",
+              "totalPaisa"
+            ],
+            "additionalProperties": false
+          },
+          "costOfGoods": {
+            "type": "object",
+            "properties": {
+              "totalPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "missingCostSkus": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "totalPaisa",
+              "missingCostSkus"
+            ],
+            "additionalProperties": false
+          },
+          "grossProfitPaisa": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "grossMarginPercent": {
+            "type": "number"
+          },
+          "expenses": {
+            "type": "object",
+            "properties": {
+              "totalPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "byCategory": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "category": {
+                      "type": "string",
+                      "enum": [
+                        "MATERIALS",
+                        "PACKAGING",
+                        "DELIVERY",
+                        "MARKETING",
+                        "SALARIES",
+                        "RENT",
+                        "UTILITIES",
+                        "TOOLS",
+                        "FEES",
+                        "OTHER"
+                      ]
+                    },
+                    "amountPaisa": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991,
+                      "example": 349000
+                    }
+                  },
+                  "required": [
+                    "category",
+                    "amountPaisa"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "totalPaisa",
+              "byCategory"
+            ],
+            "additionalProperties": false
+          },
+          "netProfitPaisa": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "netMarginPercent": {
+            "type": "number"
+          },
+          "previous": {
+            "type": "object",
+            "properties": {
+              "totalRevenuePaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "grossProfitPaisa": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "expensesPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "netProfitPaisa": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "totalRevenuePaisa",
+              "grossProfitPaisa",
+              "expensesPaisa",
+              "netProfitPaisa"
+            ],
+            "additionalProperties": false
+          },
+          "byMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "month": {
+                  "type": "string"
+                },
+                "revenuePaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                },
+                "costOfGoodsPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                },
+                "expensesPaisa": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "example": 349000
+                },
+                "netProfitPaisa": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "month",
+                "revenuePaisa",
+                "costOfGoodsPaisa",
+                "expensesPaisa",
+                "netProfitPaisa"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "range",
+          "revenue",
+          "costOfGoods",
+          "grossProfitPaisa",
+          "grossMarginPercent",
+          "expenses",
+          "netProfitPaisa",
+          "netMarginPercent",
+          "previous",
+          "byMonth"
+        ],
+        "additionalProperties": false
+      },
+      "PaymentSettingsViewDto_Output": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "bkash": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "accountType": {
+                    "type": "string",
+                    "enum": [
+                      "personal",
+                      "agent",
+                      "merchant"
+                    ]
+                  }
+                },
+                "required": [
+                  "number",
+                  "accountType"
+                ],
+                "additionalProperties": false
+              },
+              "nagad": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "accountType": {
+                    "type": "string",
+                    "enum": [
+                      "personal",
+                      "agent",
+                      "merchant"
+                    ]
+                  }
+                },
+                "required": [
+                  "number",
+                  "accountType"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "bkash",
+              "nagad"
+            ],
+            "additionalProperties": false
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "updatedAt": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "updatedBy": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "updatedAt",
+              "updatedBy"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "value",
+          "meta"
+        ],
+        "additionalProperties": false
+      },
+      "PaymentSettingsDto": {
+        "type": "object",
+        "properties": {
+          "bkash": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "string",
+                "pattern": "^(?:\\+?880|0)1[3-9]\\d{8}$",
+                "nullable": true
+              },
+              "accountType": {
+                "type": "string",
+                "enum": [
+                  "personal",
+                  "agent",
+                  "merchant"
+                ]
+              }
+            },
+            "required": [
+              "number",
+              "accountType"
+            ]
+          },
+          "nagad": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "string",
+                "pattern": "^(?:\\+?880|0)1[3-9]\\d{8}$",
+                "nullable": true
+              },
+              "accountType": {
+                "type": "string",
+                "enum": [
+                  "personal",
+                  "agent",
+                  "merchant"
+                ]
+              }
+            },
+            "required": [
+              "number",
+              "accountType"
+            ]
+          }
+        },
+        "required": [
+          "bkash",
+          "nagad"
+        ]
+      },
+      "CheckoutSettingsViewDto_Output": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "advanceMode": {
+                "type": "string",
+                "enum": [
+                  "fixed",
+                  "percent"
+                ]
+              },
+              "advanceFixedPaisa": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "advancePercent": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              }
+            },
+            "required": [
+              "advanceMode",
+              "advanceFixedPaisa",
+              "advancePercent"
+            ],
+            "additionalProperties": false
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "updatedAt": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "updatedBy": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "updatedAt",
+              "updatedBy"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "value",
+          "meta"
+        ],
+        "additionalProperties": false
+      },
+      "CheckoutSettingsDto": {
+        "type": "object",
+        "properties": {
+          "advanceMode": {
+            "type": "string",
+            "enum": [
+              "fixed",
+              "percent"
+            ]
+          },
+          "advanceFixedPaisa": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "advancePercent": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "advanceMode",
+          "advanceFixedPaisa",
+          "advancePercent"
+        ]
+      },
+      "ShippingSettingsViewDto_Output": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "dhakaFeePaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "suburbFeePaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "outsideFeePaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              },
+              "baseWeightGrams": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 50000
+              },
+              "extraPerKgPaisa": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "example": 349000
+              }
+            },
+            "required": [
+              "dhakaFeePaisa",
+              "suburbFeePaisa",
+              "outsideFeePaisa",
+              "baseWeightGrams",
+              "extraPerKgPaisa"
+            ],
+            "additionalProperties": false
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "updatedAt": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "updatedBy": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "updatedAt",
+              "updatedBy"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "value",
+          "meta"
+        ],
+        "additionalProperties": false
+      },
+      "ShippingSettingsDto": {
+        "type": "object",
+        "properties": {
+          "dhakaFeePaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "suburbFeePaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "outsideFeePaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          },
+          "baseWeightGrams": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 50000
+          },
+          "extraPerKgPaisa": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "example": 349000
+          }
+        },
+        "required": [
+          "dhakaFeePaisa",
+          "suburbFeePaisa",
+          "outsideFeePaisa",
+          "baseWeightGrams",
+          "extraPerKgPaisa"
+        ]
+      },
+      "NotificationSettingsViewDto_Output": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "ownerPhone": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "ownerPhone"
+            ],
+            "additionalProperties": false
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "updatedAt": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "updatedBy": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "updatedAt",
+              "updatedBy"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "value",
+          "meta"
+        ],
+        "additionalProperties": false
+      },
+      "NotificationSettingsDto": {
+        "type": "object",
+        "properties": {
+          "ownerPhone": {
+            "type": "string",
+            "pattern": "^(?:\\+?880|0)1[3-9]\\d{8}$",
+            "nullable": true
+          }
+        },
+        "required": [
+          "ownerPhone"
+        ]
+      },
+      "TeamListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "email": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "OWNER",
+                    "STAFF"
+                  ]
+                },
+                "isActive": {
+                  "type": "boolean"
+                },
+                "lastLoginAt": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "phone",
+                "name",
+                "email",
+                "role",
+                "isActive",
+                "lastLoginAt",
+                "createdAt"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "CreateTeamMemberDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "pattern": "^(?:\\+?880|0)1[3-9]\\d{8}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120,
+                "format": "email",
+                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  ""
+                ]
+              }
+            ],
+            "default": null,
+            "nullable": true
+          },
+          "role": {
+            "default": "STAFF",
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "STAFF"
+            ]
+          },
+          "password": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "phone",
+          "name",
+          "password"
+        ]
+      },
+      "TeamMemberDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "STAFF"
+            ]
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "lastLoginAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "phone",
+          "name",
+          "email",
+          "role",
+          "isActive",
+          "lastLoginAt",
+          "createdAt"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateTeamMemberDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120,
+                "format": "email",
+                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  ""
+                ]
+              }
+            ],
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "STAFF"
+            ]
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "password"
+        ]
+      },
+      "OkDto_Output": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        },
+        "required": [
+          "ok"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateProfileDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120,
+                "format": "email",
+                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  ""
+                ]
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "required": [
+          "name",
+          "email"
+        ]
+      },
+      "AccountDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+8801712345678"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CUSTOMER",
+              "STAFF",
+              "OWNER"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "phone",
+          "name",
+          "email",
+          "role"
+        ],
+        "additionalProperties": false
+      },
+      "ChangePasswordDto": {
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "newPassword": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ]
       }
     }
   }

@@ -1,6 +1,6 @@
 /**
  * Sample photography until real product photos exist (owner's decision, step 1.4 redesign).
- * All images are from Unsplash under the Unsplash License (free for commercial use, no
+ * Room and service photos are from Unsplash under the Unsplash License (free for commercial use, no
  * attribution required; credited here anyway). Product photos uploaded through the admin
  * dashboard replace them automatically (the catalog's media always wins).
  * Shown with a "sample photo" note where they stand in for the product. Remove before launch.
@@ -137,18 +137,40 @@ export const SAMPLE = {
     src: unsplash('photo-1742112125567-3e8967bad60f'),
     credit: 'Ronnakorn Triraganon (IvEYfb-3B70)',
   },
+  // The owner's own product renders (frontend/public/images/samples), first choice wherever a
+  // product is shown. `w`/`h`: the file's real size, so the hero
+  // gallery shows each wall whole at its own proportions. The six shelf crops come from the owner's collection sheet.
+  moonPanel: { src: '/images/samples/moon-bonsai-panel.webp', credit: 'Zelqune', w: 853, h: 1280 },
+  curveShelf: {
+    src: '/images/samples/curve-walnut-shelf.webp',
+    credit: 'Zelqune',
+    w: 853,
+    h: 1280,
+  },
+  halfMoonPlanter: {
+    src: '/images/samples/half-moon-planter.webp',
+    credit: 'Zelqune',
+    w: 853,
+    h: 1280,
+  },
+  aurora: { src: '/images/samples/aurora.webp', credit: 'Zelqune', w: 400, h: 520 },
+  zenith: { src: '/images/samples/zenith.webp', credit: 'Zelqune', w: 400, h: 520 },
+  solace: { src: '/images/samples/solace.webp', credit: 'Zelqune', w: 402, h: 520 },
+  nami: { src: '/images/samples/nami.webp', credit: 'Zelqune', w: 400, h: 470 },
+  vela: { src: '/images/samples/vela.webp', credit: 'Zelqune', w: 400, h: 470 },
+  terra: { src: '/images/samples/terra.webp', credit: 'Zelqune', w: 402, h: 470 },
 } as const;
 
 type SampleKey = keyof typeof SAMPLE;
 
 /** Lookalike photos per product (by slug) until the real photos are uploaded. */
 export const SAMPLE_PRODUCT_GALLERY: Record<string, SampleKey[]> = {
-  'alo-arch-panel': ['productTubes', 'testTubes', 'dayVase', 'nightVase'],
-  'diamond-shelf-pair': ['shelvesPlants', 'shelvesDecor', 'livingShelves'],
-  'wave-shelf': ['shelvesDecor', 'shelvesPlants', 'livingNeutral'],
-  'half-moon-planter-light': ['livingNeutral', 'living', 'sconceNight'],
-  'fluted-niche-panel': ['slatsWarm', 'hotelLobby', 'slats'],
-  'capsule-vase-light': ['dayVase', 'productTubes', 'nightVase'],
+  'alo-arch-panel': ['terra', 'zenith', 'moonPanel'],
+  'diamond-shelf-pair': ['aurora', 'vela', 'solace'],
+  'wave-shelf': ['curveShelf', 'nami', 'aurora'],
+  'half-moon-planter-light': ['halfMoonPlanter', 'vela', 'aurora'],
+  'fluted-niche-panel': ['moonPanel', 'solace', 'terra'],
+  'capsule-vase-light': ['zenith', 'terra', 'halfMoonPlanter'],
 };
 
 /** Photos for the interior design sectors (by space type). */
@@ -162,3 +184,29 @@ export const SAMPLE_SECTOR: Record<
   HOTEL: ['hotelLobby', 'bedroom'],
   RETAIL: ['retail', 'slatsWarm'],
 };
+
+/**
+ * Hero scenes: the owner's room renders widened to 2400×1350 (each photo's own wall continued
+ * left and right; phone cut `-1200.webp`). `position` keeps the piece in view on any screen.
+ * Replace a file with a real wide room photo of the same name to upgrade a scene.
+ */
+export const HERO_SCENES = [
+  {
+    src: '/images/hero/moon-v2.webp',
+    productSlug: 'fluted-niche-panel',
+    position: '76% 50%',
+    phonePosition: '95% 50%',
+  },
+  {
+    src: '/images/hero/half-v2.webp',
+    productSlug: 'half-moon-planter-light',
+    position: '75% 50%',
+    phonePosition: '93% 50%',
+  },
+  {
+    src: '/images/hero/curve-v2.webp',
+    productSlug: 'wave-shelf',
+    position: '76% 50%',
+    phonePosition: '95% 50%',
+  },
+] as const;

@@ -1,5 +1,5 @@
 # Zelqune frontend (storefront)
-Next.js App Router, TypeScript strict, Tailwind + shadcn/ui. Brand tokens: walnut #4A3426, cream #F4ECDF, amber #E3A857.
+Next.js App Router, TypeScript strict, Tailwind + shadcn/ui. Brand tokens (v6): Day is the default (espresso #3B2922 on soft cream #F7F1E8, brass #7A5C30; dark bands are espresso coffee, never black); Night only when chosen (data-theme="dark"). Cormorant Garamond (the owner's logo face) for headings at medium weight and the wordmark; Jost text. Use semantic tokens; dark bands add `tone-dark`.
 Talks ONLY to the backend gateway (NEXT_PUBLIC_API_URL). API types generated from gateway OpenAPI with
 openapi-typescript (`pnpm gen:api`); never hand-write API types.
 - Storefront: English default + Bangla (/en and /bn routes; the URL decides the language), mobile-first, SSG/ISR, next/image, Lighthouse mobile >= 90, minimal client JS.

@@ -2,12 +2,14 @@ import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public, ZodResponse, ServiceRegistry } from '@zelqune/common';
 import {
+  type ActiveSale,
   type CategoryView,
   type ProductDetail,
   type ProductListResponse,
   RPC_PATTERNS,
 } from '@zelqune/contracts';
 import {
+  ActiveSaleDto,
   CategoryListResponseDto,
   ProductDetailDto,
   ProductDetailQueryDto,
@@ -28,6 +30,13 @@ export class CatalogController {
   @ZodResponse({ type: CategoryListResponseDto })
   categories(): Promise<{ items: CategoryView[] }> {
     return this.services.get('catalog').send(RPC_PATTERNS.catalog.categoriesList, {});
+  }
+
+  @Get('sale')
+  @ApiOperation({ summary: 'The flash or seasonal sale running now (for the banner), or null.' })
+  @ZodResponse({ type: ActiveSaleDto })
+  sale(): Promise<ActiveSale> {
+    return this.services.get('catalog').send(RPC_PATTERNS.catalog.activeSale, {});
   }
 
   @Get('products')

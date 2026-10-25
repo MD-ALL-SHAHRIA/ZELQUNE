@@ -6,7 +6,7 @@ docs/website-build-plan.md. Architecture: docs/architecture.md. Decisions: docs/
 ## Layout
 - backend/      NestJS microservices (Nest monorepo): gateway + 8 services, libs/common, libs/contracts. Rules: backend/CLAUDE.md
 - frontend/     Next.js storefront. Rules: frontend/CLAUDE.md
-- dashboard/    Next.js admin. Rules: dashboard/CLAUDE.md
+- dashboard/    Next.js admin (port 3200): orders, products, home page content. Rules: dashboard/CLAUDE.md
 - packages/     api-client (generated from gateway OpenAPI), ui-tokens (brand tokens)
 - infra/        dev docker-compose, Dockerfiles, Postgres init
 - pnpm workspaces + Turborepo; Node 20 (.nvmrc), pnpm 9.

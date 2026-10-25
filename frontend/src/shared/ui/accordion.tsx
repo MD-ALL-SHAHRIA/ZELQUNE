@@ -21,7 +21,7 @@ export function Accordion({
           className="group border-b border-line [&::-webkit-details-marker]:hidden"
         >
           <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
-            <span className="font-display text-xl font-light sm:text-2xl">{item.title}</span>
+            <span className="font-display text-xl font-medium sm:text-2xl">{item.title}</span>
             <Plus
               aria-hidden
               strokeWidth={1.25}

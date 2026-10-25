@@ -8,7 +8,14 @@ import { orderEnvSchema } from './config/order-env';
 import { OrderEventHandlers } from './orders/order.handlers';
 import { OrderRpcController } from './orders/order.rpc.controller';
 import { OrderService } from './orders/order.service';
+import { CouponService } from './marketing/coupon.service';
 import { PrismaService } from './prisma/prisma.service';
+import { ReportRpcController } from './reports/report.rpc.controller';
+import { ReportService } from './reports/report.service';
+import {
+  CheckoutSettingsRpcController,
+  CheckoutSettingsService,
+} from './settings/checkout-settings';
 import { QuoteRpcController } from './quotes/quote.rpc.controller';
 import { QuoteService } from './quotes/quote.service';
 
@@ -21,7 +28,12 @@ import { QuoteService } from './quotes/quote.service';
     }),
     ServiceClientsModule,
   ],
-  controllers: [OrderRpcController, QuoteRpcController],
+  controllers: [
+    OrderRpcController,
+    QuoteRpcController,
+    ReportRpcController,
+    CheckoutSettingsRpcController,
+  ],
   providers: [
     CartService,
     { provide: CART_SERVICE, useExisting: CartService },
@@ -31,6 +43,9 @@ import { QuoteService } from './quotes/quote.service';
     OrderService,
     OrderEventHandlers,
     QuoteService,
+    ReportService,
+    CouponService,
+    CheckoutSettingsService,
   ],
 })
 export class AppModule {}

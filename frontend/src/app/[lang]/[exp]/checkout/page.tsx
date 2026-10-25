@@ -33,6 +33,7 @@ export default async function CheckoutPage({ params }: { params: PageParams }) {
           cart: dict.cart,
           products: dict.products,
           product: dict.product,
+          offers: dict.offers,
         }}
       />
     </Container>

@@ -4,6 +4,10 @@ import { notificationEnvSchema } from './config/notification-env';
 import { NotificationEventHandlers } from './notify/notification.handlers';
 import { NotificationService } from './notify/notification.service';
 import { PrismaService } from './prisma/prisma.service';
+import {
+  NotificationSettingsRpcController,
+  NotificationSettingsService,
+} from './settings/notification-settings';
 import { ConsoleSmsProvider, SMS_PROVIDER } from './sms/sms.provider';
 
 @Module({
@@ -14,8 +18,10 @@ import { ConsoleSmsProvider, SMS_PROVIDER } from './sms/sms.provider';
       envSchema: notificationEnvSchema,
     }),
   ],
+  controllers: [NotificationSettingsRpcController],
   providers: [
     NotificationService,
+    NotificationSettingsService,
     NotificationEventHandlers,
     // M3: real SMS gateway provider (paid, owner approval).
     { provide: SMS_PROVIDER, useValue: new ConsoleSmsProvider() },

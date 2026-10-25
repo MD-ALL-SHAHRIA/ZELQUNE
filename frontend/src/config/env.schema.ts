@@ -9,6 +9,10 @@ export const publicEnvSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z.url().optional(),
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().optional(),
   NEXT_PUBLIC_META_PIXEL_ID: z.string().regex(/^\d+$/, 'Meta Pixel IDs are digits only').optional(),
+  NEXT_PUBLIC_WHATSAPP_NUMBER: z
+    .string()
+    .regex(/^8801[3-9]\d{8}$/, 'WhatsApp number: international digits only, e.g. 8801711000000')
+    .optional(),
 });
 
 const blankToUndefined = (v: string | undefined) => (v ? v : undefined);
@@ -19,5 +23,6 @@ export function validatePublicEnv(source: Record<string, string | undefined>): v
     NEXT_PUBLIC_SITE_URL: blankToUndefined(source.NEXT_PUBLIC_SITE_URL),
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: blankToUndefined(source.NEXT_PUBLIC_TURNSTILE_SITE_KEY),
     NEXT_PUBLIC_META_PIXEL_ID: blankToUndefined(source.NEXT_PUBLIC_META_PIXEL_ID),
+    NEXT_PUBLIC_WHATSAPP_NUMBER: blankToUndefined(source.NEXT_PUBLIC_WHATSAPP_NUMBER),
   });
 }

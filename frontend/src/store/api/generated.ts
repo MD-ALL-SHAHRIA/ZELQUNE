@@ -7,6 +7,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/v1/catalog/categories` }),
     }),
+    catalogControllerSale: build.query<
+      CatalogControllerSaleApiResponse,
+      CatalogControllerSaleApiArg
+    >({
+      query: () => ({ url: `/v1/catalog/sale` }),
+    }),
     catalogControllerProducts: build.query<
       CatalogControllerProductsApiResponse,
       CatalogControllerProductsApiArg
@@ -32,6 +38,12 @@ const injectedRtkApi = api.injectEndpoints({
           p: queryArg.p,
         },
       }),
+    }),
+    contentControllerHome: build.query<
+      ContentControllerHomeApiResponse,
+      ContentControllerHomeApiArg
+    >({
+      query: () => ({ url: `/v1/content/home` }),
     }),
     shopControllerDistricts: build.query<
       ShopControllerDistrictsApiResponse,
@@ -167,6 +179,8 @@ export { injectedRtkApi as gatewayApi };
 export type CatalogControllerCategoriesApiResponse =
   /** status 200  */ CategoryListResponseDtoOutput;
 export type CatalogControllerCategoriesApiArg = void;
+export type CatalogControllerSaleApiResponse = /** status 200  */ ActiveSaleDtoOutput;
+export type CatalogControllerSaleApiArg = void;
 export type CatalogControllerProductsApiResponse = /** status 200  */ ProductListResponseDtoOutput;
 export type CatalogControllerProductsApiArg = {
   category?: string;
@@ -180,6 +194,8 @@ export type CatalogControllerProductApiArg = {
   slug: string;
   p?: string;
 };
+export type ContentControllerHomeApiResponse = /** status 200  */ HomeContentResponseDtoOutput;
+export type ContentControllerHomeApiArg = void;
 export type ShopControllerDistrictsApiResponse = /** status 200  */ DistrictListDtoOutput;
 export type ShopControllerDistrictsApiArg = void;
 export type ShopControllerShippingEstimateApiResponse =
@@ -257,6 +273,18 @@ export type CategoryListResponseDtoOutput = {
     position: number;
   }[];
 };
+export type ActiveSaleDtoOutput = {
+  sale: {
+    id: string;
+    nameEn: string;
+    nameBn: string;
+    kind: 'PERCENT' | 'FIXED';
+    value: number;
+    endsAt: string;
+    flash: boolean;
+    productIds: string[];
+  } | null;
+};
 export type ProductListResponseDtoOutput = {
   items: {
     id: string;
@@ -270,6 +298,14 @@ export type ProductListResponseDtoOutput = {
       compareAtPaisa: number | null;
       currency: 'BDT';
       experimentKey: ('a' | 'b' | null) | null;
+      sale?: {
+        promotionId: string;
+        nameEn: string;
+        nameBn: string;
+        endsAt: string;
+        flash: boolean;
+        regularPaisa: number;
+      } | null;
     } | null;
     primaryMedia: {
       id: string;
@@ -297,6 +333,14 @@ export type ProductDetailDtoOutput = {
     compareAtPaisa: number | null;
     currency: 'BDT';
     experimentKey: ('a' | 'b' | null) | null;
+    sale?: {
+      promotionId: string;
+      nameEn: string;
+      nameBn: string;
+      endsAt: string;
+      flash: boolean;
+      regularPaisa: number;
+    } | null;
   } | null;
   primaryMedia: {
     id: string;
@@ -339,6 +383,14 @@ export type ProductDetailDtoOutput = {
       compareAtPaisa: number | null;
       currency: 'BDT';
       experimentKey: ('a' | 'b' | null) | null;
+      sale?: {
+        promotionId: string;
+        nameEn: string;
+        nameBn: string;
+        endsAt: string;
+        flash: boolean;
+        regularPaisa: number;
+      } | null;
     } | null;
   }[];
   media: {
@@ -350,6 +402,66 @@ export type ProductDetailDtoOutput = {
     position: number;
     variantId: string | null;
   }[];
+};
+export type HomeContentResponseDtoOutput = {
+  home: {
+    version: number;
+    updatedAt: string;
+    content: {
+      announcement: {
+        en: string;
+        bn: string;
+      };
+      hero: {
+        eyebrow: {
+          en: string;
+          bn: string;
+        };
+        heading: {
+          en: string;
+          bn: string;
+        };
+        accent: {
+          en: string;
+          bn: string;
+        };
+        subline: {
+          en: string;
+          bn: string;
+        };
+        scenes: {
+          assetId: string | null;
+          productSlug: string;
+          position: string;
+          phonePosition: string;
+          imageUrl: string | null;
+        }[];
+      };
+      trust: {
+        icon: 'hammer' | 'lightbulb' | 'coins' | 'truck' | 'leaf' | 'shield' | 'hand' | 'sparkles';
+        title: {
+          en: string;
+          bn: string;
+        };
+        text: {
+          en: string;
+          bn: string;
+        };
+      }[];
+      collections: {
+        categorySlug: string;
+        assetId: string | null;
+        imageUrl: string | null;
+      }[];
+      contact: {
+        phone: string;
+        whatsapp: string;
+        email: string | '';
+        facebook: string | '';
+        instagram: string | '';
+      };
+    };
+  } | null;
 };
 export type DistrictListDtoOutput = {
   items: {
@@ -385,6 +497,14 @@ export type CreateCartResponseDtoOutput = {
         compareAtPaisa: number | null;
         currency: 'BDT';
         experimentKey: ('a' | 'b' | null) | null;
+        sale?: {
+          promotionId: string;
+          nameEn: string;
+          nameBn: string;
+          endsAt: string;
+          flash: boolean;
+          regularPaisa: number;
+        } | null;
       } | null;
       lineTotalPaisa: number | null;
       available: boolean;
@@ -416,6 +536,14 @@ export type CartDtoOutput = {
       compareAtPaisa: number | null;
       currency: 'BDT';
       experimentKey: ('a' | 'b' | null) | null;
+      sale?: {
+        promotionId: string;
+        nameEn: string;
+        nameBn: string;
+        endsAt: string;
+        flash: boolean;
+        regularPaisa: number;
+      } | null;
     } | null;
     lineTotalPaisa: number | null;
     available: boolean;
@@ -431,6 +559,12 @@ export type SetCartItemDto = {
 export type CheckoutQuoteDtoOutput = {
   saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
   subtotalPaisa: number;
+  discountPaisa: number;
+  coupon: {
+    code: string;
+    description: string | null;
+    discountPaisa: number;
+  } | null;
   shippingFeePaisa: number;
   totalPaisa: number;
   advanceRequiredPaisa: number;
@@ -451,6 +585,7 @@ export type CheckoutQuoteDtoOutput = {
 export type QuoteRequestDto = {
   district: string;
   area: string;
+  couponCode?: string;
 };
 export type CheckoutResponseDtoOutput = {
   orderCode: string;
@@ -503,6 +638,7 @@ export type CheckoutRequestDto = {
   paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
   trxId?: string | null;
   payerPhone?: string | null;
+  couponCode?: string;
   utm?: {
     source?: string;
     medium?: string;
@@ -681,10 +817,14 @@ export type BeaconEventDto = {
 export const {
   useCatalogControllerCategoriesQuery,
   useLazyCatalogControllerCategoriesQuery,
+  useCatalogControllerSaleQuery,
+  useLazyCatalogControllerSaleQuery,
   useCatalogControllerProductsQuery,
   useLazyCatalogControllerProductsQuery,
   useCatalogControllerProductQuery,
   useLazyCatalogControllerProductQuery,
+  useContentControllerHomeQuery,
+  useLazyContentControllerHomeQuery,
   useShopControllerDistrictsQuery,
   useLazyShopControllerDistrictsQuery,
   useShopControllerShippingEstimateQuery,

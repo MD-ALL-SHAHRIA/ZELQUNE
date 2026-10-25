@@ -36,8 +36,8 @@ describe('ShippingService', () => {
   const outbox = { add: jest.fn().mockResolvedValue(undefined) } as unknown as OutboxService;
   const service = new ShippingService(prisma, outbox, config, [new ManualCourierProvider(), fake]);
 
-  it('quotes by district/area with chargeable weight', () => {
-    expect(service.quote({ district: 'dhaka', area: 'Mirpur', lines: [aloArch] })).toEqual({
+  it('quotes by district/area with chargeable weight', async () => {
+    expect(await service.quote({ district: 'dhaka', area: 'Mirpur', lines: [aloArch] })).toEqual({
       zone: 'DHAKA',
       district: 'dhaka',
       actualWeightGrams: 2500,
@@ -45,14 +45,14 @@ describe('ShippingService', () => {
       chargeableWeightGrams: 6000,
       feePaisa: 17000,
     });
-    expect(service.quote({ district: 'dhaka', area: 'Savar', lines: [aloArch] }).feePaisa).toBe(
-      21000,
-    );
-    expect(service.quote({ district: 'Sylhet', lines: [aloArch] }).feePaisa).toBe(23000);
+    expect(
+      (await service.quote({ district: 'dhaka', area: 'Savar', lines: [aloArch] })).feePaisa,
+    ).toBe(21000);
+    expect((await service.quote({ district: 'Sylhet', lines: [aloArch] })).feePaisa).toBe(23000);
   });
 
-  it('rejects unknown districts', () => {
-    expect(() => service.quote({ district: 'atlantis', lines: [aloArch] })).toThrow(
+  it('rejects unknown districts', async () => {
+    await expect(service.quote({ district: 'atlantis', lines: [aloArch] })).rejects.toThrow(
       expect.objectContaining({ code: 'UNKNOWN_DISTRICT' }) as Error,
     );
   });

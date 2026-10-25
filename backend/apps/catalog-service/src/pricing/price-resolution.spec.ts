@@ -1,4 +1,6 @@
 import {
+  applySale,
+  type LiveSale,
   currentBasePrice,
   lowestPrice,
   parseExperimentKey,
@@ -93,5 +95,38 @@ describe('price resolution', () => {
     const b = resolvePrice({ prices: base, experiments, p: 'b', now });
     expect(lowestPrice([b, null, a])?.amountPaisa).toBe(349000);
     expect(lowestPrice([null])).toBeNull();
+  });
+});
+
+describe('applySale', () => {
+  const base = {
+    amountPaisa: 349_000,
+    compareAtPaisa: null,
+    currency: 'BDT' as const,
+    experimentKey: null,
+  };
+  const sale = (over: Partial<LiveSale> = {}): LiveSale => ({
+    id: '00000000-0000-4000-8000-000000000001',
+    nameEn: 'Eid flash sale',
+    nameBn: 'ঈদ ফ্ল্যাশ সেল',
+    kind: 'PERCENT',
+    value: 15,
+    endsAt: new Date('2026-11-01T00:00:00Z'),
+    flash: true,
+    productIds: null,
+    ...over,
+  });
+
+  it('takes the best sale off and shows the regular price struck through', () => {
+    const price = applySale(base, 'p1', [sale(), sale({ kind: 'FIXED', value: 20_000 })]);
+    expect(price?.amountPaisa).toBe(296_600);
+    expect(price?.compareAtPaisa).toBe(349_000);
+    expect(price?.sale?.regularPaisa).toBe(349_000);
+  });
+
+  it('only covers listed products, never goes below ৳1 and skips experiment prices', () => {
+    expect(applySale(base, 'p1', [sale({ productIds: new Set(['p2']) })])?.sale).toBeNull();
+    expect(applySale(base, 'p1', [sale({ kind: 'FIXED', value: 999_999 })])?.amountPaisa).toBe(100);
+    expect(applySale({ ...base, experimentKey: 'a' }, 'p1', [sale()])?.amountPaisa).toBe(349_000);
   });
 });

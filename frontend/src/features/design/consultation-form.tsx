@@ -94,8 +94,8 @@ export function ConsultationForm({
   if (done) {
     const [before, after] = c.after.split('{code}');
     return (
-      <div role="status" className="space-y-8 bg-cream/70 p-8 sm:p-12">
-        <p className="font-display text-3xl font-light leading-snug">
+      <div role="status" className="space-y-8">
+        <p className="font-display text-3xl font-medium leading-snug">
           {before}
           <strong
             data-testid="consult-code"
@@ -208,7 +208,7 @@ export function ConsultationForm({
           <CopyText>{formError}</CopyText>
         </p>
       ) : null}
-      <Button type="submit" size="lg" disabled={sending}>
+      <Button type="submit" size="lg" disabled={sending} className="w-full sm:w-auto">
         {sending ? c.sending : c.button}
       </Button>
     </form>

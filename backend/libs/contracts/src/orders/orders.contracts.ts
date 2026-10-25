@@ -11,6 +11,7 @@ import {
   paymentSummarySchema,
   trxIdSchema,
 } from '../payments/payments.contracts';
+import { appliedCouponSchema, couponCodeSchema } from '../marketing/coupons.contracts';
 import { bdPhoneSchema } from '../phone';
 import {
   areaSchema,
@@ -103,12 +104,19 @@ export const addressSchema = z.object({
 export type AddressInput = z.input<typeof addressSchema>;
 export type Address = z.output<typeof addressSchema>;
 
-export const quoteRequestSchema = z.object({ district: districtCodeSchema, area: areaSchema });
+export const quoteRequestSchema = z.object({
+  district: districtCodeSchema,
+  area: areaSchema,
+  couponCode: couponCodeSchema.optional(),
+});
 export type QuoteRequest = z.input<typeof quoteRequestSchema>;
 
 export const checkoutQuoteSchema = z.object({
   saleMode: saleModeSchema,
   subtotalPaisa: paisaSchema,
+  /** Coupon discount on the product subtotal (0 without a coupon). */
+  discountPaisa: paisaSchema,
+  coupon: appliedCouponSchema.nullable(),
   shippingFeePaisa: paisaSchema,
   totalPaisa: paisaSchema,
   /** Must be paid upfront via bKash/Nagad (0 when COD is allowed for the whole order). */
@@ -139,6 +147,7 @@ export const checkoutRequestSchema = z
     trxId: trxIdSchema.nullable().default(null),
     /** The number the customer paid from (defaults to the customer phone). */
     payerPhone: bdPhoneSchema.nullable().default(null),
+    couponCode: couponCodeSchema.optional(),
     utm: utmSchema,
     /** Anonymous analytics session (links storefront events to the order). */
     sessionId: z
@@ -288,6 +297,7 @@ export const adminOrderDetailSchema = adminOrderSummarySchema.extend({
   utm: z.record(z.string(), z.string()).nullable(),
   organizationId: z.uuid().nullable(),
   quoteCode: z.string().nullable(),
+  couponCode: z.string().nullable(),
   cancelReason: z.string().nullable(),
   payment: paymentSummarySchema.nullable(),
   shipment: shipmentSummarySchema.nullable(),

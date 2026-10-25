@@ -8,6 +8,14 @@ export const RPC_PATTERNS = {
     refresh: 'identity.auth.refresh',
     logout: 'identity.auth.logout',
     me: 'identity.users.me',
+    team: {
+      list: 'identity.admin.team.list',
+      create: 'identity.admin.team.create',
+      update: 'identity.admin.team.update',
+      resetPassword: 'identity.admin.team.resetPassword',
+      changePassword: 'identity.users.changePassword',
+      updateProfile: 'identity.users.updateProfile',
+    },
   },
   catalog: {
     categoriesList: 'catalog.categories.list',
@@ -15,6 +23,8 @@ export const RPC_PATTERNS = {
     productBySlug: 'catalog.products.bySlug',
     pricesResolve: 'catalog.prices.resolve',
     checkoutSnapshot: 'catalog.variants.checkoutSnapshot',
+    contentHome: 'catalog.content.home',
+    activeSale: 'catalog.promotions.active',
     admin: {
       listCategories: 'catalog.admin.categories.list',
       updateCategory: 'catalog.admin.categories.update',
@@ -31,6 +41,15 @@ export const RPC_PATTERNS = {
       setExperimentPrice: 'catalog.admin.prices.setExperiment',
       requestMediaUpload: 'catalog.admin.media.requestUpload',
       confirmMediaUpload: 'catalog.admin.media.confirmUpload',
+      getHomeContent: 'catalog.admin.content.home.get',
+      updateHomeContent: 'catalog.admin.content.home.update',
+      requestContentAsset: 'catalog.admin.content.assets.requestUpload',
+      confirmContentAsset: 'catalog.admin.content.assets.confirmUpload',
+      listPromotions: 'catalog.admin.promotions.list',
+      createPromotion: 'catalog.admin.promotions.create',
+      updatePromotion: 'catalog.admin.promotions.update',
+      removePromotion: 'catalog.admin.promotions.remove',
+      variantCosts: 'catalog.admin.variants.costs',
     },
   },
   inventory: {
@@ -44,6 +63,7 @@ export const RPC_PATTERNS = {
     void: 'payment.payments.void',
     summaryByOrder: 'payment.payments.summaryByOrder',
     instructions: 'payment.instructions.get',
+    settings: { get: 'payment.admin.settings.get', update: 'payment.admin.settings.update' },
     admin: {
       verify: 'payment.admin.payments.verify',
       reject: 'payment.admin.payments.reject',
@@ -54,6 +74,7 @@ export const RPC_PATTERNS = {
     districts: 'shipping.districts.list',
     quote: 'shipping.quotes.quote',
     shipmentByOrder: 'shipping.shipments.byOrder',
+    settings: { get: 'shipping.admin.settings.get', update: 'shipping.admin.settings.update' },
     admin: {
       createShipment: 'shipping.admin.shipments.create',
       updateStatus: 'shipping.admin.shipments.updateStatus',
@@ -66,6 +87,7 @@ export const RPC_PATTERNS = {
     quote: 'order.carts.quote',
     checkout: 'order.checkout.checkout',
     track: 'order.orders.track',
+    settings: { get: 'order.admin.settings.get', update: 'order.admin.settings.update' },
     admin: {
       transition: 'order.admin.orders.transition',
       list: 'order.admin.orders.list',
@@ -74,6 +96,13 @@ export const RPC_PATTERNS = {
       addNote: 'order.admin.orders.addNote',
       setFriend: 'order.admin.customers.setFriend',
       orderIdByCode: 'order.admin.orders.idByCode',
+      salesReport: 'order.admin.reports.sales',
+      unitsSold: 'order.admin.reports.unitsSold',
+      listCustomers: 'order.admin.customers.list',
+      listCoupons: 'order.admin.coupons.list',
+      createCoupon: 'order.admin.coupons.create',
+      updateCoupon: 'order.admin.coupons.update',
+      removeCoupon: 'order.admin.coupons.remove',
     },
     quotes: {
       request: 'order.quotes.request',
@@ -88,10 +117,20 @@ export const RPC_PATTERNS = {
       },
     },
   },
+  notification: {
+    settings: {
+      get: 'notification.admin.settings.get',
+      update: 'notification.admin.settings.update',
+    },
+  },
   analytics: {
     track: 'analytics.events.track',
     dashboard: 'analytics.stats.dashboard',
     auditLog: 'analytics.audit.list',
+    listExpenses: 'analytics.admin.expenses.list',
+    createExpense: 'analytics.admin.expenses.create',
+    updateExpense: 'analytics.admin.expenses.update',
+    removeExpense: 'analytics.admin.expenses.remove',
   },
 } as const;
 
