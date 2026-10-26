@@ -127,7 +127,7 @@ export function Hero({
       <style>{HERO_CSS}</style>
       <HeroScenes scenes={scenes} labels={l.heroWall}>
         <Container className="pb-4 lg:pb-24">
-          <div className="max-w-[38rem] space-y-6">
+          <div className="max-w-[40rem] space-y-6">
             <Eyebrow
               className="hero-rise text-[0.8rem] font-semibold tracking-[0.3em] text-ivory/90"
               style={rise(0)}
@@ -135,7 +135,7 @@ export function Hero({
               {l.heroEyebrow}
             </Eyebrow>
             <h1
-              className="hero-rise max-w-[20ch] font-display text-[clamp(2.6rem,1.5rem+3.3vw,4.75rem)] font-medium leading-[1.04] tracking-[-0.01em] text-balance [:lang(bn)_&]:text-[clamp(2.1rem,1.4rem+2.2vw,3.4rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal"
+              className="hero-rise max-w-[22ch] font-display text-[clamp(2.4rem,1.4rem+2.6vw,3.9rem)] font-medium leading-[1.08] tracking-[-0.01em] text-balance [:lang(bn)_&]:text-[clamp(2.1rem,1.4rem+2.2vw,3.4rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal"
               style={rise(1)}
             >
               {dict.home.heroHeading}{' '}
@@ -155,7 +155,7 @@ export function Hero({
                 href={href(lang, '/shop')}
                 variant="light"
                 size="lg"
-                className="group gap-3 text-[0.85rem] font-semibold tracking-[0.22em]"
+                className="group gap-3 text-[0.85rem] font-semibold tracking-[0.16em]"
               >
                 {dict.home.explore}
                 <ArrowRight
@@ -167,7 +167,7 @@ export function Hero({
                 <ButtonLink
                   href={href(lang, `/products/${lead.slug}`)}
                   variant="linkLight"
-                  className="text-[0.85rem] font-semibold tracking-[0.22em]"
+                  className="text-[0.85rem] font-semibold tracking-[0.16em]"
                 >
                   {dict.home.cta}
                 </ButtonLink>
