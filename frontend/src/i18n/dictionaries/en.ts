@@ -383,7 +383,10 @@ export const en = {
     sampleNote: 'Sample photo. Real product photos are coming soon.',
   },
   productSections: { details: 'Details', delivery: 'Delivery and payment', care: 'Care' },
-  story: { title: 'Our story', text: "Zelqune began in a small Dhaka workshop with one idea: wood and soft light make a home feel warm. Every panel, shelf and lamp is designed here, cut and finished by hand by local craftspeople, and checked before it reaches your door." },
+  story: {
+    title: 'Our story',
+    text: 'Zelqune began in a small Dhaka workshop with one idea: wood and soft light make a home feel warm. Every panel, shelf and lamp is designed here, cut and finished by hand by local craftspeople, and checked before it reaches your door.',
+  },
   nav2: {
     design: 'Interior Design',
     byCategory: 'Shop by category',
@@ -614,8 +617,7 @@ export const en = {
     button: 'Request a call',
     sending: 'Sending your request…',
     errors: { floors: 'Please enter 1 to 60 floors.' },
-    after:
-      'Thank you! Your request code is {code}. Our team will call you within 1 working day.',
+    after: 'Thank you! Your request code is {code}. Our team will call you within 1 working day.',
     trackLabel: 'Construction request',
     trackFloors: '{n} floors',
     trackFloor: '{n} floor',
