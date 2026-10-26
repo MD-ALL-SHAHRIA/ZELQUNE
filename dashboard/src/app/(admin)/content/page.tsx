@@ -721,7 +721,7 @@ export default function ContentPage() {
         </Section>
         <Section
           title="Pages and policies"
-          description="Your story, privacy policy, terms, FAQ answers and promises. The faded text is what the site shows now; leave a field empty to keep it. Switch English/Bangla at the top."
+          description="Your story, privacy policy, terms, FAQ answers and promises. The faded text is what the site shows now; leave a field empty to keep it. Switch English/Bangla at the top. Changes show on the site within a minute of saving."
         >
           <div className="grid gap-6">
             {[...new Set(SITE_TEXTS.map((t) => t.group))].map((group) => (
