@@ -3,6 +3,9 @@ import { Cormorant_Garamond, Jost } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { env } from '@/config/env';
 import { isLocale, LOCALES } from '@/i18n/config';
+import { getDictionary } from '@/i18n';
+import { jsonForScript, siteJsonLd } from '@/shared/lib/json-ld';
+import { SITE_URL } from '@/shared/lib/site';
 import { BanglaDisplayFont } from '@/features/layout/bangla-display-font';
 import { THEME_KEY } from '@/features/layout/theme';
 import { StoreProvider } from '@/store/provider';
@@ -42,7 +45,19 @@ const BANGLA_FONTS = ['/fonts/hind-siliguri-400-bengali.woff2'];
 /** Day is the default; the night theme only when the visitor chose it (theme-toggle.tsx). */
 const THEME_SCRIPT = `try{if(localStorage.getItem('${THEME_KEY}')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}`;
 
-export const metadata: Metadata = { metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL) };
+/** Pages without their own description fall back to the brand's SEO line. */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const dict = isLocale(lang) ? getDictionary(lang) : null;
+  return {
+    metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
+    ...(dict ? { description: dict.brand.seoDescription } : {}),
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: '#F7F1E8',
@@ -88,6 +103,14 @@ export default async function RootLayout({
           : null}
       </head>
       <body className="min-h-dvh text-ink">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: jsonForScript(
+              siteJsonLd(SITE_URL, 'Zelqune', getDictionary(lang).brand.seoDescription),
+            ),
+          }}
+        />
         {lang === 'bn' ? <BanglaDisplayFont /> : null}
         <StoreProvider>{children}</StoreProvider>
       </body>

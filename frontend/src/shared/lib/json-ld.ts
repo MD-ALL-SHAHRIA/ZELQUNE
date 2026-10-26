@@ -37,3 +37,22 @@ export function productJsonLd(
 export function jsonForScript(value: unknown): string {
   return JSON.stringify(value).replace(/</g, '\\u003c');
 }
+
+/** schema.org Organization + WebSite for every page; contact details only once they are real. */
+export function siteJsonLd(url: string, name: string, description: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'Organization', '@id': `${url}/#org`, name, url, logo: `${url}/icon.svg` },
+      {
+        '@type': 'WebSite',
+        '@id': `${url}/#site`,
+        name,
+        url,
+        description,
+        publisher: { '@id': `${url}/#org` },
+        inLanguage: ['en', 'bn'],
+      },
+    ],
+  };
+}

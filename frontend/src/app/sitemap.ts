@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { SECTORS } from '@/features/design/sectors';
 import { LOCALES } from '@/i18n/config';
-import { listProducts } from '@/shared/api/server';
+import { listCategories, listProducts } from '@/shared/api/server';
 import { href, SITE_URL } from '@/shared/lib/site';
 
 export const revalidate = 3600;
@@ -22,8 +22,15 @@ const PAGES = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // The sitemap must not break the build or the site when the catalog is unreachable.
-  const products = await listProducts('base').catch(() => []);
-  const paths = [...PAGES, ...products.map((p) => `/products/${p.slug}`)];
+  const [products, categories] = await Promise.all([
+    listProducts('base').catch(() => []),
+    listCategories().catch(() => []),
+  ]);
+  const paths = [
+    ...PAGES,
+    ...categories.map((c) => `/category/${c.slug}`),
+    ...products.map((p) => `/products/${p.slug}`),
+  ];
   return paths.map((path) => ({
     url: `${SITE_URL}${href('en', path)}`,
     alternates: {
