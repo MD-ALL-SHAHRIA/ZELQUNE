@@ -460,6 +460,12 @@ export type HomeContentResponseDtoOutput = {
         facebook: string | '';
         instagram: string | '';
       };
+      texts: {
+        [key: string]: {
+          en: string;
+          bn: string;
+        };
+      };
     };
   } | null;
 };
