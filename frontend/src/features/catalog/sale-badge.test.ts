@@ -11,8 +11,9 @@ describe('saleBadgeText', () => {
     );
   });
 
-  it('keeps [[N]] visible while the lead time is not set', () => {
-    expect(saleBadgeText(en, 'en', 'MADE_TO_ORDER', null)).toBe('Made to order · [[N]] days');
+  it('uses the default making time while the lead time is not set', () => {
+    expect(saleBadgeText(en, 'en', 'MADE_TO_ORDER', null)).toBe('Made to order · 10 days');
+    expect(saleBadgeText(bn, 'bn', 'MADE_TO_ORDER', null)).toBe('অর্ডারে বানানো · ১০ দিন');
   });
 
   it('never says in stock unless the product is IN_STOCK', () => {

@@ -17,7 +17,7 @@ export function variantLabel(options: Record<string, unknown>, dict: Dictionary)
 }
 
 /** Making time shown while a product has no lead time in the catalog. */
-const DEFAULT_LEAD_DAYS = 10;
+export const DEFAULT_LEAD_DAYS = 10;
 
 /** "Made for you" steps: `{days}` becomes the product's lead time (or the default). */
 export function timelineSteps(
