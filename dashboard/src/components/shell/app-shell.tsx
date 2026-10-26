@@ -219,18 +219,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       ) : null}
 
       <div className="lg:pl-64">
-        <div className="flex items-start gap-3 px-4 pt-4 pb-4 sm:px-6 lg:pt-6 lg:pr-6 lg:pb-5 lg:pl-3">
+        {/* Tools on their own row; the page title and its buttons sit underneath. */}
+        <div className="flex h-14 items-center gap-3 px-4 pt-2 sm:px-6 lg:pr-6 lg:pl-3">
           <button
             type="button"
             aria-label="Open menu"
             onClick={() => setDrawer(true)}
-            className="mt-1 grid size-9 shrink-0 place-items-center rounded-xl hover:bg-ink/6 lg:hidden"
+            className="grid size-9 shrink-0 place-items-center rounded-xl hover:bg-ink/6 lg:hidden"
           >
             <Menu className="size-5" />
           </button>
-          <div ref={setSlot} className="min-w-0 flex-1" />
-          <HeaderTools inbox={pending} onSearch={() => setPalette(true)} />
+          <div className="ml-auto">
+            <HeaderTools inbox={pending} onSearch={() => setPalette(true)} />
+          </div>
         </div>
+        <div ref={setSlot} className="min-w-0 px-4 pb-4 sm:px-6 lg:pr-6 lg:pb-5 lg:pl-3" />
         <main className="px-2 pb-2 sm:px-3 sm:pb-3 lg:pr-4 lg:pb-4 lg:pl-0">
           <div className="min-h-[calc(100dvh-7.5rem)] rounded-[1.75rem] border border-line bg-surface p-3 shadow-[0_1px_2px_rgba(36,28,24,0.04)] sm:p-5 lg:p-6">
             <HeaderSlot.Provider value={slot}>{children}</HeaderSlot.Provider>

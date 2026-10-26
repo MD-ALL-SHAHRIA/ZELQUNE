@@ -68,4 +68,15 @@ test('sign in, home, edit the home page, orders, a coupon, settings and finance'
   await nav.getByRole('link', { name: 'Profit and loss' }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Profit and loss' })).toBeVisible();
   await expect(page.getByText('Net profit', { exact: true }).first()).toBeVisible();
+
+  // A new product starts as a draft and opens its page for finishes, prices and photos.
+  await nav.getByRole('link', { name: 'Products' }).click();
+  await page.getByRole('button', { name: 'New product' }).click();
+  const create = page.getByRole('button', { name: 'Create draft' });
+  await expect(create).toBeDisabled();
+  await page.getByLabel('Name (English)').fill(`E2E Panel ${Date.now()}`);
+  await page.getByLabel('Name (Bangla)').fill('পরীক্ষা প্যানেল');
+  await create.click();
+  await expect(page).toHaveURL(/\/products\/[0-9a-f-]{36}$/);
+  await expect(page.getByText('Finishes', { exact: true })).toBeVisible();
 });
