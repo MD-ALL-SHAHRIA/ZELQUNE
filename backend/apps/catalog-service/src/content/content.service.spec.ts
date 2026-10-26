@@ -25,6 +25,21 @@ const draft = (sceneAsset: string | null = null): HomeContentInput => ({
   contact: {},
 });
 
+describe('homeContentSchema texts', () => {
+  it('defaults to none and keeps owner texts by dictionary path', () => {
+    expect(homeContentSchema.parse(draft()).texts).toEqual({});
+    const texts = { 'privacy.text': localized('We never sell your data.') };
+    expect(homeContentSchema.parse({ ...draft(), texts }).texts).toEqual(texts);
+  });
+
+  it('rejects keys that are not dictionary paths', () => {
+    for (const key of ['privacy', '__proto__.x', 'Privacy.text', 'a.b c'])
+      expect(() =>
+        homeContentSchema.parse({ ...draft(), texts: { [key]: localized('x') } }),
+      ).toThrow();
+  });
+});
+
 function setup(state: {
   row?: { version: number; data: unknown } | null;
   assets?: { id: string; storageKey: string; status: string; bytes?: number; mimeType?: string }[];

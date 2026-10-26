@@ -33,3 +33,6 @@ media already uses (ADR 0007).
   the version check turns that into a clear "reload and try again".
 - If content grows (blog, pages, many locales), move it to its own content-service; the
   contracts and gateway routes stay the same.
+
+## Addendum (2026-10-27): editable page texts
+The home content gains `texts` (dictionary path → {en, bn}). The storefront applies only the paths in `frontend/src/content/editable-texts.ts`; the dashboard's list (`site-texts.ts`) is generated from the same paths and dictionaries.

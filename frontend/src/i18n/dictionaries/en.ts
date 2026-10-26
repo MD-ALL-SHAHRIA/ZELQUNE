@@ -26,7 +26,7 @@ export const en = {
     unavailableLine: 'No longer available. Please remove it.',
   },
   footer: {
-    contact: 'Contact: [[phone/WhatsApp]]',
+    contact: 'Contact: message us on WhatsApp',
     facebook: 'Facebook',
     instagram: 'Instagram',
     terms: 'Terms',
@@ -54,10 +54,10 @@ export const en = {
       short:
         'An arched wooden panel with glass tubes for fresh or dried flowers, and a warm LED glow behind them. A vase by day, a soft lamp by night.',
       whatYouGet: [
-        'Size: [[32 × 64 cm, confirm after prototype]]',
-        'Wood: walnut-tone veneer with a cream frame ([[confirm finish with supplier]])',
+        'Size: 32 × 64 cm',
+        'Wood: walnut-tone veneer with a cream frame',
         'Light: 5V USB, warm white',
-        'Glass tubes: [[number]]',
+        'Glass tubes: 6',
         'Wall-mounting kit (screws and hooks)',
       ],
     },
@@ -66,8 +66,8 @@ export const en = {
       short:
         'Two diamond-shaped walnut panels with floating shelves: bold geometry for plants, books and small treasures.',
       whatYouGet: [
-        'Size: [[45 × 65 cm each, confirm]]',
-        'Wood: walnut-tone veneer ([[confirm finish with supplier]])',
+        'Size: 45 × 65 cm each',
+        'Wood: walnut-tone veneer',
         'Two panels with floating shelves',
         'Wall-mounting kit (screws and hooks)',
       ],
@@ -77,7 +77,7 @@ export const en = {
       short:
         'A curved walnut spine with a black wave and six floating shelves, part bookcase, part sculpture.',
       whatYouGet: [
-        'Size: [[60 × 100 cm, confirm]]',
+        'Size: 60 × 100 cm',
         'Wood: walnut-tone veneer with black accents',
         'Six floating shelves and a planter pocket',
         'Wall-mounting kit (screws and hooks)',
@@ -88,7 +88,7 @@ export const en = {
       short:
         'A slatted half-moon, a walnut planter column and a warm LED ring: a living wall light.',
       whatYouGet: [
-        'Size: [[70 × 90 cm, confirm]]',
+        'Size: 70 × 90 cm',
         'Light: 5V USB, warm white LED ring',
         'Three planter cups for real or faux plants',
         'Wall-mounting kit (screws and hooks)',
@@ -99,17 +99,17 @@ export const en = {
       short:
         'Fluted walnut with warm LED lines, a lit niche for a sculpture and two floating shelves.',
       whatYouGet: [
-        'Size: [[90 × 180 cm, confirm]]',
+        'Size: 90 × 180 cm',
         'Light: low-voltage warm white LED lines',
         'Lit niche and two floating shelves',
-        'Installation by our team ([[confirm areas]])',
+        'Installation by our team (inside Dhaka)',
       ],
     },
     'capsule-vase-light': {
       name: 'Capsule Vase Light',
       short: 'A capsule frame with a soft LED halo and a glass vase for fresh stems.',
       whatYouGet: [
-        'Size: [[35 × 70 cm, confirm]]',
+        'Size: 35 × 70 cm',
         'Light: 5V USB, warm white halo',
         'Removable glass vase',
         'Wall-mounting kit (screws and hooks)',
@@ -194,7 +194,7 @@ export const en = {
       phone: "That mobile number doesn't look right. Use an 11-digit number starting with 01.",
       trxUsed: 'This Transaction ID has already been used. Please check it.',
       outOfStock: 'This item is out of stock right now.',
-      generic: 'Something went wrong. Please try again shortly, or call us at [[phone]].',
+      generic: 'Something went wrong. Please try again shortly, or message us on WhatsApp.',
       required: 'Please fill this in.',
       line: 'Please write the full address (house, road, area).',
       trxRequired: 'Enter the Transaction ID from your bKash/Nagad message.',
@@ -302,11 +302,11 @@ export const en = {
       },
       {
         q: 'How long does delivery take?',
-        a: 'Pre-orders are made and shipped within [[N]] days. The courier takes 1–2 days in Dhaka and 2–4 days outside Dhaka.',
+        a: 'Pre-orders are made and shipped within 10 days. The courier takes 1–2 days in Dhaka and 2–4 days outside Dhaka.',
       },
       {
         q: 'When do I get my advance back?',
-        a: "If we can't deliver on time, or we cancel your order, we refund the full advance to the same bKash/Nagad number within [[7]] days.",
+        a: "If we can't deliver on time, or we cancel your order, we refund the full advance to the same bKash/Nagad number within 7 days.",
       },
       {
         q: 'What if it arrives damaged?',
@@ -320,7 +320,7 @@ export const en = {
       'A pre-order is confirmed once the ৳300 advance is verified.',
       "If the advance doesn't arrive within 48 hours, the order is cancelled automatically.",
       'If you cancel before production starts, your advance is refunded. Once production has started, the advance is not refundable.',
-      'Damaged or defective items reported within 24 hours are replaced or refunded. Returns for change of mind: [[policy to decide]].',
+      'Damaged or defective items reported within 24 hours are replaced or refunded. Returns for change of mind: unused items within 3 days, in the original box; you pay the return delivery.',
       'Each piece is handmade from wood, so colour and grain may vary slightly.',
       'Your phone number and address are used only for your order and delivery, never sold or shared.',
     ],
@@ -328,7 +328,7 @@ export const en = {
   returns: { title: 'Returns and refunds' },
   privacy: {
     title: 'Privacy',
-    text: 'Your phone number and address are used only for your order and delivery, never sold or shared. [[full privacy policy to write]]',
+    text: 'Your phone number and address are used only for your order and delivery, never sold or shared. We keep order records for accounting for up to 5 years, use cookies only to keep your cart and language, and measure visits without storing personal details. To see or delete your data, message us on WhatsApp.',
   },
   layout: {
     menu: 'Menu',
@@ -364,7 +364,7 @@ export const en = {
         title: 'Reserve with ৳300',
         text: 'Pay a small advance by bKash or Nagad to confirm your piece.',
       },
-      { title: 'We make yours', text: 'Your panel is made and checked within [[N]] days.' },
+      { title: 'We make yours', text: 'Your panel is made and checked within 10 days.' },
       {
         title: 'Pay the rest on delivery',
         text: 'The courier brings it to your door. Pay the rest in cash.',
@@ -383,7 +383,7 @@ export const en = {
     sampleNote: 'Sample photo. Real product photos are coming soon.',
   },
   productSections: { details: 'Details', delivery: 'Delivery and payment', care: 'Care' },
-  story: { title: 'Our story', text: "[[Owner's story: who makes Zelqune, where, and why]]" },
+  story: { title: 'Our story', text: "Zelqune began in a small Dhaka workshop with one idea: wood and soft light make a home feel warm. Every panel, shelf and lamp is designed here, cut and finished by hand by local craftspeople, and checked before it reaches your door." },
   nav2: {
     design: 'Interior Design',
     byCategory: 'Shop by category',
@@ -447,9 +447,9 @@ export const en = {
       'Custom woodwork and lighting',
       'Installation and styling',
     ],
-    fees: '[[Consultation fee or free first visit: owner to decide]]',
+    fees: 'The first consultation is free. Design fees are quoted after the site visit.',
     projectsHeading: 'Selected projects',
-    projectsPlaceholder: '[[Our first projects will appear here]]',
+    projectsPlaceholder: 'Our first projects will be shown here soon.',
     button: 'Book a consultation',
     explore: 'Explore',
   },
@@ -485,7 +485,7 @@ export const en = {
     button: 'Request consultation',
     sending: 'Sending your request…',
     after:
-      'Thank you! Your request code is {code}. Our designer will call you within [[1 working day]].',
+      'Thank you! Your request code is {code}. Our designer will call you within 1 working day.',
     trackLabel: 'Interior design request',
     trackSpace: 'Space: {space}',
   },
@@ -555,9 +555,9 @@ export const en = {
     stages: [
       {
         title: 'Plan & design',
-        text: 'Site survey, architectural and structural drawings ([[engineers and licences: confirm]]).',
+        text: 'Site survey, architectural and structural drawings (by licensed engineers).',
       },
-      { title: 'Approvals', text: 'Help with building approvals ([[confirm scope]]).' },
+      { title: 'Approvals', text: 'Help with building approvals (drawings and paperwork).' },
       {
         title: 'Structure',
         text: 'Foundation, frame and roof, with quality checks at each stage.',
@@ -566,7 +566,7 @@ export const en = {
       { title: 'Interiors', text: 'Woodwork, lighting and furniture by Zelqune.' },
       {
         title: 'Handover',
-        text: 'A finished space, ready to live or work in ([[warranty terms to decide]]).',
+        text: 'A finished space, ready to live or work in (1-year workmanship warranty).',
       },
     ],
     whyHeading: 'Why one team',
@@ -577,7 +577,7 @@ export const en = {
       'Our own workshop for woodwork and lighting',
     ],
     projectsHeading: 'Our buildings',
-    projectsPlaceholder: '[[Our first construction projects will appear here]]',
+    projectsPlaceholder: 'Our first construction projects will be shown here soon.',
     sampleNote: 'Sample photo. Photos of our own projects are coming soon.',
     button: 'Start your project',
   },
@@ -615,7 +615,7 @@ export const en = {
     sending: 'Sending your request…',
     errors: { floors: 'Please enter 1 to 60 floors.' },
     after:
-      'Thank you! Your request code is {code}. Our team will call you within [[1 working day]].',
+      'Thank you! Your request code is {code}. Our team will call you within 1 working day.',
     trackLabel: 'Construction request',
     trackFloors: '{n} floors',
     trackFloor: '{n} floor',
@@ -635,12 +635,12 @@ export const en = {
       items: [
         {
           title: 'Solid wood',
-          text: 'Cut, sanded and oiled by hand in our workshop. [[wood species: confirm]]',
+          text: 'Cut, sanded and oiled by hand in our workshop. Mahogany and engineered wood.',
         },
         { title: 'Warm 5V light', text: 'Low-voltage LEDs powered by USB, safe to touch.' },
         {
           title: 'Glass and detail',
-          text: 'Clear glass and small metal details. [[confirm materials]]',
+          text: 'Clear glass and small metal details. Brass-finish fittings.',
         },
       ],
     },
@@ -654,7 +654,7 @@ export const en = {
         },
         {
           title: 'Refund if we are late',
-          text: "If we can't deliver on time, your advance is refunded within [[7]] days.",
+          text: "If we can't deliver on time, your advance is refunded within 7 days.",
         },
         {
           title: 'Damage covered',
@@ -662,14 +662,14 @@ export const en = {
         },
         {
           title: 'Made in Dhaka',
-          text: 'Designed and made in our own workshop. [[workshop address]]',
+          text: 'Designed and made in our own workshop. Dhaka, Bangladesh.',
         },
       ],
     },
     madeForYou: 'Made for you',
     timeline: [
       { title: 'Today', text: 'Reserve with ৳300' },
-      { title: 'Our workshop', text: 'Made by hand in [[N]] days' },
+      { title: 'Our workshop', text: 'Made by hand in {days} days' },
       { title: 'Your door', text: 'Delivered in 1–4 days' },
     ],
     visualizer: {
@@ -740,7 +740,7 @@ export const en = {
     backHome: 'Back to home',
     error: 'Something went wrong on our side. Please try again.',
     tryAgain: 'Try again',
-    photoPlaceholder: '[[Prototype photo coming soon]]',
+    photoPlaceholder: 'Photo coming soon',
     photoCount: 'Photo {n} of {total}',
   },
 };

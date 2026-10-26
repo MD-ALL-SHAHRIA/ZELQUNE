@@ -70,6 +70,7 @@ export const DEFAULT_HOME: HomeContent = {
     { categorySlug: 'wall-panels', assetId: null },
   ],
   contact: { phone: '', whatsapp: '', email: '', facebook: '', instagram: '' },
+  texts: {},
 };
 
 export const TRUST_ICONS = [

@@ -16,17 +16,17 @@ export function variantLabel(options: Record<string, unknown>, dict: Dictionary)
   return dict.product.variants[value] ?? value;
 }
 
-/**
- * "Made for you" steps. The workshop step's `[[N]]` becomes the catalog's lead time once it is
- * set; until then it stays the visible placeholder.
- */
+/** Making time shown while a product has no lead time in the catalog. */
+const DEFAULT_LEAD_DAYS = 10;
+
+/** "Made for you" steps: `{days}` becomes the product's lead time (or the default). */
 export function timelineSteps(
   steps: readonly { title: string; text: string }[],
   leadTimeDays: number | null | undefined,
   lang: Locale,
 ): { title: string; text: string }[] {
-  const days = leadTimeDays ? formatNumber(leadTimeDays, lang) : null;
-  return steps.map((s) => ({ ...s, text: days ? s.text.replaceAll('[[N]]', days) : s.text }));
+  const days = formatNumber(leadTimeDays || DEFAULT_LEAD_DAYS, lang);
+  return steps.map((s) => ({ ...s, text: s.text.replaceAll('{days}', days) }));
 }
 
 /** Prefilled WhatsApp message naming the product. */

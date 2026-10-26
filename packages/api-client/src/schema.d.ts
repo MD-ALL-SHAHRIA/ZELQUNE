@@ -1524,6 +1524,13 @@ export interface components {
             /** @default  */
             instagram: string | '';
           };
+          /** @default {} */
+          texts: {
+            [key: string]: {
+              en: string;
+              bn: string;
+            };
+          };
         };
       } | null;
     };
@@ -1596,6 +1603,13 @@ export interface components {
           facebook?: string | '';
           /** @default  */
           instagram?: string | '';
+        };
+        /** @default {} */
+        texts?: {
+          [key: string]: {
+            en: string;
+            bn: string;
+          };
         };
       };
     };

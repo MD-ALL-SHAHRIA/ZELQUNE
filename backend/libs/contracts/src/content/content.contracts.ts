@@ -71,6 +71,20 @@ export const homeContentSchema = z.object({
     facebook: optionalUrl.default(''),
     instagram: optionalUrl.default(''),
   }),
+  /**
+   * Owner overrides of storefront copy, keyed by dictionary path ("privacy.text"). The storefront
+   * applies only the paths it lists as editable; an empty language keeps the built-in text.
+   */
+  texts: z
+    .record(
+      z
+        .string()
+        .max(80)
+        .regex(/^[a-z][A-Za-z0-9]*(\.[A-Za-z0-9]+){1,5}$/),
+      localizedSchema(3000),
+    )
+    .refine((t) => Object.keys(t).length <= 80, 'Too many texts')
+    .default({}),
 });
 export type HomeContent = z.infer<typeof homeContentSchema>;
 export type HomeContentInput = z.input<typeof homeContentSchema>;

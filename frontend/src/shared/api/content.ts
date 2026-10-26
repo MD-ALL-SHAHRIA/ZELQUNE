@@ -2,6 +2,7 @@ import 'server-only';
 import { createApiClient, type Schemas } from '@zelqune/api-client';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
+import { applyTexts } from '@/content/editable-texts';
 
 export type HomeContent = NonNullable<Schemas['HomeContentResponseDto_Output']['home']>['content'];
 
@@ -39,27 +40,28 @@ export function withContent(
 ): Dictionary {
   if (!content) return dict;
   const h = content.hero;
+  const base = applyTexts(dict, content.texts, lang);
   return {
-    ...dict,
+    ...base,
     layout: {
-      ...dict.layout,
+      ...base.layout,
       announcement: pick(content.announcement, lang, dict.layout.announcement),
     },
     home: {
-      ...dict.home,
+      ...base.home,
       heroHeading: pick(h.heading, lang, dict.home.heroHeading),
       heroHeadingAccent: pick(h.accent, lang, dict.home.heroHeadingAccent),
       heroSubline: pick(h.subline, lang, dict.home.heroSubline),
     },
     landing: {
-      ...dict.landing,
+      ...base.landing,
       heroEyebrow: pick(h.eyebrow, lang, dict.landing.heroEyebrow),
       values: content.trust.length
         ? content.trust.map((t, i) => ({
-            title: pick(t.title, lang, dict.landing.values[i]?.title ?? ''),
-            text: pick(t.text, lang, dict.landing.values[i]?.text ?? ''),
+            title: pick(t.title, lang, base.landing.values[i]?.title ?? ''),
+            text: pick(t.text, lang, base.landing.values[i]?.text ?? ''),
           }))
-        : dict.landing.values,
+        : base.landing.values,
     },
   };
 }
