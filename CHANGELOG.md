@@ -7,6 +7,12 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Dashboard: "New product" button on Products; creates a draft and opens it for finishes, prices and photos.
+
+### Changed
+- Dashboard: bell, theme and profile sit on their own top row, so page buttons (Export CSV, New product) line up with the page title.
+
+### Added
 - Storefront SEO: Organization and WebSite schema on every page, category pages in the sitemap, the brand description as the default meta description (FAQ, terms, returns, privacy had none).
 
 ### Changed

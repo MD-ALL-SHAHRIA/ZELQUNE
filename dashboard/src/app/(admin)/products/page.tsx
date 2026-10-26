@@ -1,9 +1,10 @@
 'use client';
 
-import { Package, Search } from 'lucide-react';
+import { Package, Plus, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/field';
 import { EmptyState, PageHeader } from '@/components/ui/page';
@@ -11,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { LineTabs } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/toast';
 import { api, errorMessage, type Schemas } from '@/lib/api';
+import { NewProductDialog } from '@/features/products/new-product';
 import { sampleProductPhoto } from '@/features/content/defaults';
 import { formatTaka, humanize, timeAgo } from '@/lib/format';
 
@@ -45,6 +47,7 @@ export default function ProductsPage() {
   const [tab, setTab] = useState<Status>('ALL');
   const [q, setQ] = useState('');
   const cards = useStorefrontCards();
+  const [creating, setCreating] = useState(false);
 
   useEffect(() => {
     void api
@@ -72,7 +75,17 @@ export default function ProductsPage() {
 
   return (
     <>
-      <PageHeader title="Products" description="Names, photos, how they are sold and publishing." />
+      <PageHeader
+        title="Products"
+        description="Names, photos, how they are sold and publishing."
+        actions={
+          <Button onClick={() => setCreating(true)}>
+            <Plus className="size-4" aria-hidden />
+            New product
+          </Button>
+        }
+      />
+      <NewProductDialog open={creating} onClose={() => setCreating(false)} />
       <Card>
         <div className="px-3 pt-1">
           <LineTabs
