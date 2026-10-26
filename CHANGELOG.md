@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Storefront SEO: Organization and WebSite schema on every page, category pages in the sitemap, the brand description as the default meta description (FAQ, terms, returns, privacy had none).
+
 ### Changed
 - Product page redesigned after a UX audit (docs/ux/product-page-audit.md, following the Apex
   case study method): large two-column gallery; Buy now / Pre-order now plus Add to cart as the
