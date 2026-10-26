@@ -91,7 +91,7 @@ export function SaveBar({
 }) {
   if (!dirty) return null;
   return (
-    <div className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 [animation:pop-in_.16s_ease-out] lg:left-64">
+    <div className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 [animation:pop-in_.16s_ease-out] lg:left-(--sb)">
       <div className="flex w-full max-w-3xl items-center justify-between gap-4 rounded-xl bg-espresso px-4 py-2.5 text-ivory shadow-[var(--shadow-pop)]">
         <p className="text-sm font-medium">{message}</p>
         <div className="flex gap-2">

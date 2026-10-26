@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Dashboard: the sidebar panel button now collapses the sidebar to icons (names as tooltips, a dot for waiting orders and quotes); remembered per browser.
+
+### Added
 - Dashboard: "New product" button on Products; creates a draft and opens it for finishes, prices and photos.
 
 ### Changed
