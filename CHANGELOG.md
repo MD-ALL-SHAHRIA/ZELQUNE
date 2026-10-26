@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Fixed
+- Quotes: interior design and construction requests can be accepted ("Take on this project") straight from New; before, only Decline was possible because these requests are never priced.
+
 ### Added
 - Dashboard: the sidebar panel button now collapses the sidebar to icons (names as tooltips, a dot for waiting orders and quotes); remembered per browser.
 
