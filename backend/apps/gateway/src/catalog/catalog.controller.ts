@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, UseInterceptors, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public, ZodResponse, ServiceRegistry } from '@zelqune/common';
 import {
@@ -17,10 +17,12 @@ import {
   ProductListResponseDto,
   ProductSlugParamDto,
 } from './catalog.dto';
+import { PublicCacheInterceptor } from '../cache/public-cache.interceptor';
 
 /** Public storefront catalog. Prices honour the price experiment bucket `?p=a|b`. */
 @ApiTags('catalog')
 @Public()
+@UseInterceptors(PublicCacheInterceptor)
 @Controller('catalog')
 export class CatalogController {
   constructor(private readonly services: ServiceRegistry) {}

@@ -211,6 +211,8 @@ export async function startStack(options: StackOptions): Promise<Stack> {
     LOGIN_MAX_PER_IP: '3',
     LOGIN_MAX_FAILED_PER_PHONE: '5',
     TURNSTILE_DRIVER: 'fake',
+    // Tests change catalog data and read it straight back; the cache has its own unit tests.
+    PUBLIC_CACHE_SECONDS: '0',
     ...options.gatewayEnv,
   });
   setupGateway(gateway, { CORS_ORIGINS: [ALLOWED_ORIGIN], TRUST_PROXY: true });

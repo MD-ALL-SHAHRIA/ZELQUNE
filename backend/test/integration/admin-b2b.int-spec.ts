@@ -491,6 +491,14 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
       (await http().get(`/v1/quote-requests/track?code=${quoteCode}&phone=01933333333`).expect(200))
         .body.orderCode,
     ).toBe(converted.body.orderCode);
+    // the admin list resolves order codes in one batch (no query per row)
+    const listed = (await as(staffToken).get(`/v1/admin/quotes?q=${quoteCode}`).expect(200))
+      .body as {
+      items: { code: string; orderCode: string | null }[];
+    };
+    expect(listed.items.find((q) => q.code === quoteCode)?.orderCode).toBe(
+      converted.body.orderCode,
+    );
 
     // the owner was alerted about the RFQ; B2B never counts for GO
     const alert = await eventually(

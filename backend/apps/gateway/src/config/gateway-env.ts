@@ -40,6 +40,8 @@ export const gatewayEnvSchema = baseEnvSchema
     /** e.g. ".zelqune.com" so admin.<domain> and api.<domain> share it (ADR 0006). */
     COOKIE_DOMAIN: z.string().optional(),
     RATE_LIMIT_PER_MINUTE: z.coerce.number().int().positive().default(120),
+    /** Seconds public catalog/content GETs are cached in Redis; 0 disables. */
+    PUBLIC_CACHE_SECONDS: z.coerce.number().int().min(0).max(3600).default(30),
     LOGIN_MAX_PER_IP: z.coerce.number().int().positive().default(5),
     LOGIN_IP_WINDOW_SECONDS: z.coerce.number().int().positive().default(900),
     LOGIN_MAX_FAILED_PER_PHONE: z.coerce.number().int().positive().default(5),
