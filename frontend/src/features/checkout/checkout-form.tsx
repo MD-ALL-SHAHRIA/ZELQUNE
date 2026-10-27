@@ -313,7 +313,7 @@ export function CheckoutForm({
         </fieldset>
       </div>
 
-      <aside className="h-fit space-y-6 bg-cream/70 p-6 sm:p-8 lg:sticky lg:top-28">
+      <aside className="h-fit space-y-6 bg-cream p-6 sm:p-8 lg:sticky lg:top-28">
         <h2 className="font-display text-3xl font-medium">{c.sections.summary}</h2>
         <ul className="space-y-4 border-b border-line pb-6">
           {items.map((item) => (

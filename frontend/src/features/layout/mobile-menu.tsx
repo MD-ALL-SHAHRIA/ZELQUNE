@@ -57,7 +57,7 @@ export function MobileMenu({ title, closeLabel, sections, footer }: MenuProps) {
             key={section.title ?? i}
             className={cn(
               'py-7 first:pt-1 last:pb-0',
-              section.size === 'md' && '-mx-6 my-1 bg-cream/70 px-6 sm:-mx-8 sm:px-8',
+              section.size === 'md' && '-mx-6 my-1 bg-cream px-6 sm:-mx-8 sm:px-8',
             )}
           >
             {section.title ? (

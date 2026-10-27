@@ -37,7 +37,7 @@ export default async function AccountPage({ params }: { params: PageParams }) {
             <li key={target} className="flex">
               <Link
                 href={target}
-                className="group flex min-h-40 w-full flex-col justify-between gap-10 bg-paper p-8 transition-colors duration-500 ease-out-soft hover:bg-cream/70 sm:min-h-64 sm:p-10"
+                className="group flex min-h-40 w-full flex-col justify-between gap-10 bg-paper p-8 transition-colors duration-500 ease-out-soft hover:bg-cream sm:min-h-64 sm:p-10"
               >
                 <Icon aria-hidden className="size-6 text-walnut" strokeWidth={1.1} />
                 <span className="flex items-end justify-between gap-6">

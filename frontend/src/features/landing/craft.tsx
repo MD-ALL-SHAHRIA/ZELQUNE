@@ -12,7 +12,7 @@ import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 export function Craft({ dict }: { dict: Dictionary; lang: Locale }) {
   const l = dict.landing;
   return (
-    <section id="craft" className="scroll-mt-24 bg-cream/70 pb-24 sm:pb-32">
+    <section id="craft" className="scroll-mt-24 bg-cream pb-24 sm:pb-32">
       <div className="relative h-[62svh] min-h-[420px] overflow-hidden bg-sand lg:h-[88svh] lg:max-h-[920px]">
         <Image
           src={SAMPLE.craft.src}

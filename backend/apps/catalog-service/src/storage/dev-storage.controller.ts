@@ -77,7 +77,11 @@ export class DevStorageController {
     const key = this.key(folder, file);
     const object = await local.head(key).catch(() => null);
     if (!object) throw new NotFoundException();
-    res.type(object.contentType ?? 'application/octet-stream').sendFile(local.filePath(key));
+    // Every upload gets a new key, so a stored file never changes: browsers keep it for a year
+    // instead of downloading the hero photo again on every visit.
+    res
+      .type(object.contentType ?? 'application/octet-stream')
+      .sendFile(local.filePath(key), { maxAge: '365d', immutable: true });
   }
 
   private key(folder: string, file: string): string {

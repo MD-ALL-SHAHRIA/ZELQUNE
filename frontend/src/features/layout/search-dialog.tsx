@@ -149,7 +149,7 @@ export function SearchDialog({
                           {...option(i)}
                           className={cn(
                             'group -mx-3 flex items-center gap-4 border-b border-line/70 px-3 py-3 transition-colors duration-200',
-                            i === current && 'bg-cream/70',
+                            i === current && 'bg-cream',
                             !q.trim() && i >= 3 && 'max-sm:hidden',
                           )}
                         >
@@ -194,7 +194,7 @@ export function SearchDialog({
                             {...option(i)}
                             className={cn(
                               '-mx-3 flex items-center justify-between gap-4 border-b border-line/70 px-3 py-4 transition-colors duration-200',
-                              i === current && 'bg-cream/70',
+                              i === current && 'bg-cream',
                             )}
                           >
                             <span className="font-display text-xl font-medium leading-tight [:lang(bn)_&]:text-lg">

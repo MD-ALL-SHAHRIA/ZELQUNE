@@ -6,6 +6,10 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Fixed
+- Day theme: alternate sections and cards now stand apart from the page (cream #f2eadf → #ece0ce, sand #efe6d8 → #e9dcc8, borders #e4d8c6 → #d9cab3; section bands use solid cream). Secondary text darkened (#75604f → #69543f) so it keeps ≥ 4.5:1 contrast on every surface.
+- Uploaded photos (dev storage) are served with a one-year immutable cache (keys never change), so the hero photo is not downloaded again on every visit.
+
 ### Changed
 - Home hero: the headline rises in word by word (masked, once, off for reduced motion); trust-strip icons draw their strokes as they scroll into view (CSS scroll-driven). A WebGL light layer and mouse parallax were tried and dropped: they washed out the photo's colours.
 

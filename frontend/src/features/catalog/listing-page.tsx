@@ -230,7 +230,7 @@ function EditorialTile({
     <aside className="@container h-full">
       <Link
         href={tile.target}
-        className="group grid h-full bg-cream/70 @xl:min-h-[30rem] @xl:grid-cols-2 @6xl:grid-cols-[1.35fr_1fr] focus-visible:outline-offset-4"
+        className="group grid h-full bg-cream @xl:min-h-[30rem] @xl:grid-cols-2 @6xl:grid-cols-[1.35fr_1fr] focus-visible:outline-offset-4"
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-sand @xl:aspect-auto @xl:min-h-full">
           <Image
