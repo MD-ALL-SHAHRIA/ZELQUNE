@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Construction journey now plays a real film: licensed Pexels footage (dusk aerial of a modern house, concrete frame, a building rising, the finished house, two finished interiors) cut, graded warm and timed to the six stage chapters; the scroll scrubs it both ways (frontend/public/videos, credits in CREDITS.md). CSP allows `media-src blob:` for smooth seeking.
+
+### Changed
 - Construction page opens with a scroll-driven journey of one building (after the owner's reference): land at dusk with survey pegs → the plan draws itself → dimensions and an approval seal → slab, columns and floors rise → glass, wood-slat facade, stone wall and garden → windows light up → the camera flies into a lit window and lands in a room with the Fluted Niche Panel. Six stage chapters rise and fade over it with a stage chip and progress rail; progress eases toward the scroll (no scroll hijack). A fly-through video can replace the drawing and is then scrubbed by the scroll. Reduced motion gets the chapters stacked. Bangla uses Bangla digits and no letter-spacing.
 
 ### Changed

@@ -57,6 +57,12 @@ export default async function ConstructionPage({ params }: { params: PageParams 
         }}
         chapters={chapters}
         room="/images/hero/moon-v2.webp"
+        // A real fly-through: licensed Pexels footage (Pexels License), cut and graded into one
+        // film; the scroll plays it. Without it the journey draws the building instead.
+        video={{
+          src: '/videos/construction-journey.mp4',
+          poster: '/videos/construction-journey.jpg',
+        }}
         labels={{
           stage: d.journey.stage,
           scroll: d.journey.scroll,
