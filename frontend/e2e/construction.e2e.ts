@@ -9,7 +9,9 @@ test('a landowner requests a construction call and checks it', async ({ page }) 
     'From the ground up to the last light',
   );
   await expect(page.getByRole('heading', { name: 'What we build' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'From land to living' })).toBeVisible();
+  // The scroll journey through the six stages ("From land to living").
+  await expect(page.getByRole('region', { name: 'From land to living' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Plan & design' })).toBeAttached();
   // The projects section says work is coming, never invented projects.
   await expect(
     page.getByText('Our first construction projects will be shown here soon.'),

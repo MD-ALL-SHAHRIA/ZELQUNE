@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Construction page opens with a scroll-driven journey of one building (after the owner's reference): land at dusk with survey pegs → the plan draws itself → dimensions and an approval seal → slab, columns and floors rise → glass, wood-slat facade, stone wall and garden → windows light up → the camera flies into a lit window and lands in a room with the Fluted Niche Panel. Six stage chapters rise and fade over it with a stage chip and progress rail; progress eases toward the scroll (no scroll hijack). A fly-through video can replace the drawing and is then scrubbed by the scroll. Reduced motion gets the chapters stacked. Bangla uses Bangla digits and no letter-spacing.
+
+### Changed
 - Hero slide 1 polish: "Light" in the logo's italic, warm brass with a soft glow; lamplight halo from the lit panel onto the dark wall, fine grain and a soft vignette (all still); brass hairline mount inside the tall photo; brass rules over the top line and caption; N° 01 / 02 on the piece cards. Slide 3 uses a warmer dusk photo of a modern home.
 
 ### Fixed

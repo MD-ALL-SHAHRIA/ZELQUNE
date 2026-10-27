@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import { SAMPLE } from '@/content/sample-images';
+import { type Chapter, ConstructionJourney } from '@/features/construction/journey.client';
 import {
-  BuildStages,
   BuildTypes,
-  ConstructionHero,
   ConstructionProjects,
   StartSection,
   WhyOneTeam,
@@ -29,9 +28,43 @@ export default async function ConstructionPage({ params }: { params: PageParams 
   const projects =
     (await getHomeContent())?.projects.filter((p) => p.kind === 'CONSTRUCTION') ?? [];
   const districts = await listDistricts();
+  const d = dict.construction;
+  // One scene per stage: from the drawing board to the keys.
+  const stageImages = [
+    SAMPLE.plans.src,
+    SAMPLE.archModel.src,
+    SAMPLE.structure.src,
+    SAMPLE.modernHouse.src,
+    SAMPLE.woodLounge.src,
+    SAMPLE.villa.src,
+  ];
+  const chapters: Chapter[] = d.stages.map((stage, i) => ({
+    title: stage.title,
+    text: stage.text,
+    image: stageImages[i % stageImages.length]!,
+    // Alternate sides; the last chapters stay left, clear of the panel in the room.
+    side: i % 2 && i < d.stages.length - 2 ? 'right' : 'left',
+  }));
   return (
     <>
-      <ConstructionHero lang={lang} dict={dict} image={SAMPLE.villa.src} />
+      <ConstructionJourney
+        intro={{
+          eyebrow: d.eyebrow,
+          title: d.heading,
+          text: d.lead,
+          button: d.button,
+          image: SAMPLE.duskHouse.src,
+        }}
+        chapters={chapters}
+        room="/images/hero/moon-v2.webp"
+        labels={{
+          stage: d.journey.stage,
+          scroll: d.journey.scroll,
+          section: d.stagesHeading,
+          approved: d.journey.approved,
+        }}
+        lang={lang}
+      />
       <BuildTypes
         lang={lang}
         dict={dict}
@@ -41,18 +74,6 @@ export default async function ConstructionPage({ params }: { params: PageParams 
           office: SAMPLE.office.src,
           cafeLights: SAMPLE.cafeLights.src,
         }}
-      />
-      <BuildStages
-        lang={lang}
-        dict={dict}
-        images={[
-          SAMPLE.plans.src,
-          SAMPLE.engineers.src,
-          SAMPLE.foundation.src,
-          SAMPLE.structure.src,
-          SAMPLE.dining.src,
-          SAMPLE.livingNeutral.src,
-        ]}
       />
       <WhyOneTeam lang={lang} dict={dict} image={SAMPLE.rebar.src} />
       <ConstructionProjects dict={dict} lang={lang} projects={projects} />

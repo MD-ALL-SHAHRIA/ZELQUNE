@@ -595,6 +595,7 @@ export const en = {
     projectsPlaceholder: 'Our first construction projects will be shown here soon.',
     sampleNote: 'Sample photo. Photos of our own projects are coming soon.',
     button: 'Start your project',
+    journey: { stage: 'Stage {n} of {total}', scroll: 'Scroll to build', approved: 'Approved' },
   },
   build: {
     heading: 'Start your building project',

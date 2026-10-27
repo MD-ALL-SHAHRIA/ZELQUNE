@@ -146,6 +146,10 @@ export const SAMPLE = {
     src: unsplash('photo-1757359056339-22968344cce6'),
     credit: 'Unsplash (photo-1757359056339)',
   },
+  archModel: {
+    src: unsplash('photo-1624066969616-69b0b0301d4d'),
+    credit: 'Unsplash (photo-1624066969616)',
+  },
   woodReception: {
     src: unsplash('photo-1758448500688-3ababa93fd67'),
     credit: 'Aalo Lens (Unsplash, photo-1758448500688)',
