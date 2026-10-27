@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Home hero is now four slides: our panels (giant "Wood · Light" split around a tall lit panel; a loader first, then the photo opens out, then the cards and line), interior design, construction and bulk orders (full-bleed premium photo, very large headline, text and buttons). Letters rise one by one (Bangla word by word); compact controls at the foot; 7 s per slide, paused on hover, focus, a hidden tab and for reduced motion. Slide words are editable in Content → Pages and policies → Home hero.
+
 ### Fixed
 - Day theme: alternate sections and cards now stand apart from the page (cream #f2eadf → #ece0ce, sand #efe6d8 → #e9dcc8, borders #e4d8c6 → #d9cab3; section bands use solid cream). Secondary text darkened (#75604f → #69543f) so it keeps ≥ 4.5:1 contrast on every surface.
 - Uploaded photos (dev storage) are served with a one-year immutable cache (keys never change), so the hero photo is not downloaded again on every visit.

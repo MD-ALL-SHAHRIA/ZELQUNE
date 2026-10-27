@@ -4,6 +4,14 @@
  * The dashboard's list (dashboard/src/features/content/site-texts.ts) uses the same paths.
  */
 export const EDITABLE_TEXTS = [
+  'heroSlides.panels.left',
+  'heroSlides.panels.right',
+  'heroSlides.panels.side',
+  'heroSlides.design.title',
+  'heroSlides.construction.title',
+  'heroSlides.bulk.title',
+  'heroSlides.bulk.cta',
+  'heroSlides.work',
   'story.text',
   'privacy.text',
   ...[0, 1, 2, 3, 4, 5].map((i) => `terms.items.${i}`),

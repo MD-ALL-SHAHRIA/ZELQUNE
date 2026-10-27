@@ -337,6 +337,17 @@ export const en = {
     announcement: 'Pre-orders are open · ৳300 advance, the rest on delivery',
     columns: { shop: 'Shop', help: 'Help', company: 'Company' },
   },
+  heroSlides: {
+    panels: {
+      left: 'Wood',
+      right: 'Light',
+      side: 'Panels, shelves and lamps that turn a plain wall into the warm centre of a room.',
+    },
+    design: { title: 'Designed spaces' },
+    construction: { title: 'Built to last' },
+    bulk: { title: 'Panels at scale', cta: 'Plan a bulk order' },
+    work: 'See our work',
+  },
   landing: {
     heroEyebrow: 'Sculptural wall decor · Made to order',
     heroTrust: 'Made in Bangladesh · Natural wood tones · Warm LED light',

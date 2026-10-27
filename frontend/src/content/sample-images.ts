@@ -137,6 +137,19 @@ export const SAMPLE = {
     src: unsplash('photo-1742112125567-3e8967bad60f'),
     credit: 'Ronnakorn Triraganon (IvEYfb-3B70)',
   },
+  // Home hero slides 2–4 (premium, warm-lit; Unsplash License).
+  woodLounge: {
+    src: unsplash('photo-1768144092684-c1a5dd6c7aad'),
+    credit: 'Unsplash (photo-1768144092684)',
+  },
+  duskHouse: {
+    src: unsplash('photo-1748063578185-3d68121b11ff'),
+    credit: 'Unsplash (photo-1748063578185)',
+  },
+  woodReception: {
+    src: unsplash('photo-1758448500688-3ababa93fd67'),
+    credit: 'Aalo Lens (Unsplash, photo-1758448500688)',
+  },
   // The owner's own product renders (frontend/public/images/samples), first choice wherever a
   // product is shown. `w`/`h`: the file's real size, so the hero
   // gallery shows each wall whole at its own proportions. The six shelf crops come from the owner's collection sheet.

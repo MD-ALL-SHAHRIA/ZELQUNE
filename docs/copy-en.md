@@ -255,6 +255,9 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 
 ### Home page
 - **Clients strip heading:** Trusted by businesses across Bangladesh
+- **Hero slide 1 words:** Wood · Light
+- **Hero slide 1 line:** Panels, shelves and lamps that turn a plain wall into the warm centre of a room.
+- **Hero slides 2–4:** Designed spaces · Built to last · Panels at scale (Plan a bulk order) · See our work
 - **Categories eyebrow:** Featured collections
 - **Categories heading:** Find your perfect piece
 - **Categories link:** View all collections
