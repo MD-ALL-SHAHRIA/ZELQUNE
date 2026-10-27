@@ -7,8 +7,19 @@ import { cn } from '@/shared/lib/cn';
 import { BuildingScene } from './building-scene';
 
 interface Film {
+  /** Full HD, for larger screens. */
   src: string;
+  /** A lighter 720p cut for phones. */
+  small?: string;
   poster?: string;
+}
+
+/** Phones and small tablets get the 720p cut; everything wider gets full HD. */
+const LARGE = '(min-width: 900px)';
+function subscribeLarge(onChange: () => void) {
+  const media = window.matchMedia(LARGE);
+  media.addEventListener('change', onChange);
+  return () => media.removeEventListener('change', onChange);
 }
 
 export interface Chapter {
@@ -92,7 +103,12 @@ export function ConstructionJourney({
     () => document.documentElement.dataset.theme === 'dark',
     () => false,
   );
-  const reel = video ? (dark ? video.night : video.day) : undefined;
+  const large = useSyncExternalStore(
+    subscribeLarge,
+    () => window.matchMedia(LARGE).matches,
+    () => true,
+  );
+  const poster = video ? (dark ? video.night : video.day).poster : undefined;
   const total = chapters.length + 1; // the intro is chapter 0
 
   useEffect(() => {
@@ -203,28 +219,45 @@ export function ConstructionJourney({
   }, [still]);
 
   // Play from the stream straight away; once the whole film is in memory (smooth seeking both
-  // ways), swap to it at the same frame.
+  // ways), swap to it at the same frame. The film is chosen here from the real screen and theme
+  // (never the first render's guess), so a phone never starts the full-HD download, and a
+  // replaced download is cancelled.
+  const loaded = useRef<{ src: string; ctrl: AbortController; url: string } | null>(null);
   useEffect(() => {
     const v = film.current;
-    if (!reel || !v || still) return;
-    let url = '';
-    let alive = true;
-    v.src = reel.src;
-    void fetch(reel.src)
+    if (!video || !v || still) return;
+    const pick = document.documentElement.dataset.theme === 'dark' ? video.night : video.day;
+    const src = window.matchMedia(LARGE).matches || !pick.small ? pick.src : pick.small;
+    if (loaded.current?.src === src) return;
+    if (loaded.current) {
+      loaded.current.ctrl.abort();
+      if (loaded.current.url) URL.revokeObjectURL(loaded.current.url);
+    }
+    const entry = { src, ctrl: new AbortController(), url: '' };
+    loaded.current = entry;
+    const at = v.currentTime;
+    v.src = src;
+    v.addEventListener('loadedmetadata', () => (v.currentTime = at), { once: true });
+    void fetch(src, { signal: entry.ctrl.signal })
       .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
       .then((b) => {
-        if (!alive) return;
-        url = URL.createObjectURL(b);
-        const at = v.currentTime;
-        v.src = url;
-        v.addEventListener('loadedmetadata', () => (v.currentTime = at), { once: true });
+        if (loaded.current !== entry) return;
+        entry.url = URL.createObjectURL(b);
+        const now = v.currentTime;
+        v.src = entry.url;
+        v.addEventListener('loadedmetadata', () => (v.currentTime = now), { once: true });
       })
       .catch(() => undefined);
-    return () => {
-      alive = false;
-      if (url) URL.revokeObjectURL(url);
-    };
-  }, [reel, still]);
+  }, [video, still, dark, large]);
+  useEffect(
+    () => () => {
+      const e = loaded.current;
+      e?.ctrl.abort();
+      if (e?.url) URL.revokeObjectURL(e.url);
+      loaded.current = null;
+    },
+    [],
+  );
 
   if (still) {
     return (
@@ -271,7 +304,7 @@ export function ConstructionJourney({
             muted
             playsInline
             preload="auto"
-            poster={reel?.poster}
+            poster={poster}
             className="absolute inset-0 h-full w-full object-cover"
             aria-hidden
           />
