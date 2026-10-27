@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Hero slide 1 polish: "Light" in the logo's italic, warm brass with a soft glow; lamplight halo from the lit panel onto the dark wall, fine grain and a soft vignette (all still); brass hairline mount inside the tall photo; brass rules over the top line and caption; N° 01 / 02 on the piece cards. Slide 3 uses a warmer dusk photo of a modern home.
+
 ### Fixed
 - Storefront (dev console): "Transition was aborted because of invalid state. Document hidden". A page change in a hidden tab now updates without the fade instead of failing the View Transition; this also removes the follow-on "Encountered a script tag" warning, which came from React re-rendering the page to recover from that error. The theme script still runs before first paint (no flash in night mode).
 
