@@ -143,8 +143,8 @@ export const SAMPLE = {
     credit: 'Unsplash (photo-1768144092684)',
   },
   duskHouse: {
-    src: unsplash('photo-1748063578185-3d68121b11ff'),
-    credit: 'Unsplash (photo-1748063578185)',
+    src: unsplash('photo-1757359056339-22968344cce6'),
+    credit: 'Unsplash (photo-1757359056339)',
   },
   woodReception: {
     src: unsplash('photo-1758448500688-3ababa93fd67'),

@@ -34,6 +34,10 @@ html[lang='bn'] .hero-slides .rise-word { padding-block: .25em .32em; margin-blo
 @keyframes hero-ch { from { transform: translateY(108%) rotate(3deg); } }
 @keyframes hero-fade { from { opacity: 0; transform: translateY(18px); } }
 @keyframes hero-zoom { from { transform: scale(1.08); } }
+.hero-slides .light-word { font-family: var(--font-cormorant-italic), var(--font-cormorant-wordmark), Georgia, serif; filter: drop-shadow(0 0 .18em rgba(233,184,114,.45)) drop-shadow(0 0 .6em rgba(233,184,114,.2)); }
+html[lang='bn'] .hero-slides .light-word { font-family: inherit; }
+.hero-slides .hero-grain { opacity: .06; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
 .hero-slides .spark-spoke { opacity: .35; }
 @media (prefers-reduced-motion: no-preference) {
   .hero-slides .spark-spoke { animation: spark 1.2s linear infinite; animation-delay: calc(var(--s) * 150ms - 1.2s); }
@@ -121,7 +125,7 @@ export function Hero({
       name: dict.services.construction.title,
       title: h.construction.title,
       text: dict.construction.lead,
-      photo: { src: SAMPLE.duskHouse.src, position: '50% 55%', phonePosition: '45% 50%' },
+      photo: { src: SAMPLE.duskHouse.src, position: '50% 62%', phonePosition: '42% 55%' },
       primary: { label: dict.construction.button, href: href(lang, '/construction#start') },
       secondary: { label: h.work, href: href(lang, '/construction') },
     },

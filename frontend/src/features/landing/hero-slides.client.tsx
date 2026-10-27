@@ -170,8 +170,16 @@ function Panels({
         <span className="absolute inset-y-0 left-[66%] w-px bg-ivory/[0.07]" />
         <span className="absolute inset-x-0 top-[52%] h-px bg-ivory/[0.07]" />
       </div>
+      {/* Lamplight: the lit panel warms the dark wall around it; fine grain gives the espresso
+          a printed, velvety finish. Both are still (no motion). */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
+        <span className="absolute inset-0 bg-[radial-gradient(42%_62%_at_50%_42%,rgba(233,184,114,.17),rgba(233,184,114,.05)_45%,transparent_72%)]" />
+        <span className="absolute inset-0 bg-[radial-gradient(130%_100%_at_50%_45%,transparent_55%,rgba(18,12,10,.55))]" />
+        <span className="hero-grain absolute inset-0" />
+      </div>
 
       <p className="slide-early max-w-[22rem] text-[0.98rem] leading-snug text-ivory/80 lg:absolute lg:top-10 lg:left-10 lg:text-[1.05rem]">
+        <span aria-hidden className="mb-4 block h-px w-10 bg-glow/70" />
         {s.top}
       </p>
 
@@ -195,7 +203,13 @@ function Panels({
           aria-hidden
           className="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,18,15,.35),transparent_30%,transparent_65%,rgba(26,18,15,.7))]"
         />
-        <figcaption className="absolute inset-x-0 bottom-6 text-center lg:bottom-24">
+        {/* A brass hairline just inside the photo, like a gallery mount. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-3 border border-glow/30 lg:inset-4"
+        />
+        <figcaption className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-3 text-center lg:bottom-24">
+          <span aria-hidden className="h-px w-8 bg-glow/70" />
           <Link
             href={s.main.href}
             className="text-[0.78rem] tracking-[0.22em] text-ivory/90 uppercase hover:text-ivory [:lang(bn)_&]:text-[0.9rem] [:lang(bn)_&]:tracking-normal"
@@ -214,7 +228,8 @@ function Panels({
           <Rise text={s.left} lang={lang} />
         </span>
         <Spark className="slide-spin hidden size-[3.4vw] max-h-14 max-w-14 text-ivory/90 lg:block" />
-        <span className="rise">
+        {/* "Light" glows: warm, in the logo's italic. */}
+        <span className="rise light-word text-glow italic [:lang(bn)_&]:not-italic">
           <Rise text={s.right} lang={lang} from={s.left.length} />
         </span>
       </p>
@@ -225,7 +240,7 @@ function Panels({
           <li key={c.src} className="slide-card w-1/2" style={{ '--i': i } as React.CSSProperties}>
             <Link
               href={c.href}
-              className="group relative block aspect-[3/4] overflow-hidden bg-espresso"
+              className="group relative block aspect-[3/4] overflow-hidden bg-espresso ring-1 ring-ivory/10"
             >
               {load ? (
                 <Image
@@ -239,8 +254,11 @@ function Panels({
               ) : null}
               <span
                 aria-hidden
-                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(26,18,15,.75))]"
+                className="absolute inset-0 bg-[linear-gradient(180deg,rgba(26,18,15,.5),transparent_28%,transparent_55%,rgba(26,18,15,.75))]"
               />
+              <span className="absolute top-3 left-3 font-display text-[0.8rem] tracking-[0.12em] text-ivory/90 italic">
+                N° {String(i + 1).padStart(2, '0')}
+              </span>
               <span className="absolute inset-x-3 bottom-3 text-center text-[0.68rem] leading-tight tracking-[0.18em] text-ivory/85 uppercase [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
                 {c.caption}
               </span>
