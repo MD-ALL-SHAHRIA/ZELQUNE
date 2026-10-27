@@ -12,6 +12,7 @@ import { ButtonLink } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Picture } from '@/shared/ui/image';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
+import { ProjectGrid, type Project } from '@/features/showcase/project-grid';
 import { ConsultationForm } from './consultation-form';
 import { SECTORS, sectorImages, type SectorSpace } from './sectors';
 
@@ -264,10 +265,30 @@ export function Included({ dict, image }: { lang: Locale; dict: Dictionary; imag
 }
 
 /**
- * No invented portfolio: three empty frames (one arched) wait for the first real projects, with
- * the placeholder left visible.
+ * The owner's design projects (Content → Projects). No invented portfolio: until there are any,
+ * three empty frames (one arched) wait with the "coming soon" line.
  */
-export function Projects({ dict }: { dict: Dictionary }) {
+export function Projects({
+  dict,
+  lang,
+  projects,
+}: {
+  dict: Dictionary;
+  lang: Locale;
+  projects: Project[];
+}) {
+  if (projects.length)
+    return (
+      <section className="glow border-y border-line py-24 sm:py-28">
+        <Container className="space-y-14">
+          <div className="mx-auto max-w-2xl space-y-6 text-center">
+            <Eyebrow>{dict.design.eyebrow}</Eyebrow>
+            <Heading>{dict.design.projectsHeading}</Heading>
+          </div>
+          <ProjectGrid projects={projects} lang={lang} />
+        </Container>
+      </section>
+    );
   return (
     <section className="glow border-y border-line py-24 sm:py-28">
       <Container className="space-y-14">

@@ -389,6 +389,7 @@ export const bn: Dictionary = {
     allProducts: 'সব পণ্য',
   },
   home2: {
+    clientsHeading: 'বাংলাদেশজুড়ে যেসব প্রতিষ্ঠান আমাদের ওপর ভরসা রাখে',
     categoriesEyebrow: 'বাছাই করা সংগ্রহ',
     categoriesHeading: 'আপনার পছন্দের পণ্যটি খুঁজুন',
     categoriesAll: 'সব সংগ্রহ দেখুন',

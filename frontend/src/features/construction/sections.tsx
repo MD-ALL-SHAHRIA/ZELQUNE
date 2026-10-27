@@ -10,6 +10,7 @@ import { ButtonLink } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Picture } from '@/shared/ui/image';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
+import { ProjectGrid, type Project } from '@/features/showcase/project-grid';
 import { BuildForm } from './build-form';
 
 /** Fine drafting-paper grid: the site plan behind the construction story. */
@@ -254,7 +255,27 @@ export function WhyOneTeam({ dict, image }: { lang: Locale; dict: Dictionary; im
 }
 
 /** No invented portfolio: a visible placeholder until real projects exist. */
-export function ConstructionProjects({ dict }: { dict: Dictionary }) {
+/** The owner's construction projects (Content → Projects), or the "coming soon" sheet. */
+export function ConstructionProjects({
+  dict,
+  lang,
+  projects,
+}: {
+  dict: Dictionary;
+  lang: Locale;
+  projects: Project[];
+}) {
+  if (projects.length)
+    return (
+      <section className="py-20 sm:py-28">
+        <Container className="space-y-12">
+          <Heading level="h3" className="text-center">
+            {dict.construction.projectsHeading}
+          </Heading>
+          <ProjectGrid projects={projects} lang={lang} />
+        </Container>
+      </section>
+    );
   return (
     <section className="py-20 sm:py-28">
       <Container>

@@ -8,6 +8,7 @@ import {
   Projects,
   SectorGrid,
 } from '@/features/design/sections';
+import { getHomeContent } from '@/shared/api/content';
 import { listDistricts } from '@/shared/api/server';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 
 export default async function DesignPage({ params }: { params: PageParams }) {
   const { lang, dict } = await resolvePage(params);
+  const projects = (await getHomeContent())?.projects.filter((p) => p.kind === 'DESIGN') ?? [];
   const districts = await listDistricts();
   return (
     <>
@@ -38,7 +40,7 @@ export default async function DesignPage({ params }: { params: PageParams }) {
       <SectorGrid lang={lang} dict={dict} />
       <DesignProcess lang={lang} dict={dict} />
       <Included lang={lang} dict={dict} image={SAMPLE.dining.src} />
-      <Projects dict={dict} />
+      <Projects dict={dict} lang={lang} projects={projects} />
       <ConsultSection lang={lang} dict={dict} districts={districts} />
     </>
   );

@@ -14,6 +14,7 @@ import { TrustBand } from '@/features/trust/trust-band';
 import { TrustStrip } from '@/features/trust/trust-strip';
 import { listCategories, listProducts } from '@/shared/api/server';
 import { getHomeContent, withContent } from '@/shared/api/content';
+import { ClientsStrip } from '@/features/showcase/clients-strip';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 
@@ -83,6 +84,7 @@ export default async function Home({ params }: { params: PageParams }) {
       <Craft dict={dict} lang={lang} />
       {products.length > 1 ? <ProductRail products={products} lang={lang} dict={dict} /> : null}
       <Statement dict={dict} />
+      <ClientsStrip clients={content?.clients ?? []} dict={dict} />
       <Services lang={lang} dict={dict} />
       <TrustBand dict={dict} />
       <FaqPreview lang={lang} dict={dict} />

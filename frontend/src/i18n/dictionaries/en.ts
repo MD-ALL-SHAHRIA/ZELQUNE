@@ -393,6 +393,7 @@ export const en = {
     allProducts: 'All products',
   },
   home2: {
+    clientsHeading: 'Trusted by businesses across Bangladesh',
     categoriesEyebrow: 'Featured collections',
     categoriesHeading: 'Find your perfect piece',
     categoriesAll: 'View all collections',
