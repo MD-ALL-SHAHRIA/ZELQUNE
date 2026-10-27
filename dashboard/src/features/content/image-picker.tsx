@@ -77,7 +77,7 @@ export function ImagePicker({
           // eslint-disable-next-line @next/next/no-img-element -- admin preview of the stored file
           <img
             src={shown}
-            alt=""
+            alt={label}
             className={cn(
               'absolute inset-0 h-full w-full object-cover',
               !url && 'opacity-70 saturate-50',
@@ -86,21 +86,22 @@ export function ImagePicker({
         ) : null}
         <span
           className={cn(
-            'absolute inset-0 grid place-items-center bg-espresso/0 text-ivory transition-colors',
+            'absolute inset-0 grid place-items-center bg-espresso/0 transition-colors',
+            shown || busy ? 'text-ivory' : 'text-stone group-hover:text-ivory',
             busy ? 'bg-espresso/55' : 'group-hover:bg-espresso/45',
           )}
         >
           <span
             className={cn(
               'flex flex-col items-center gap-1 text-[0.8125rem] font-medium',
-              busy ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
+              busy || !shown ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
             )}
           >
             <ImagePlus className="size-5" aria-hidden />
             {busy ? 'Uploading…' : url ? 'Replace photo' : 'Upload photo'}
           </span>
         </span>
-        {!url && !busy ? (
+        {!url && fallback && !busy ? (
           <span className="absolute top-2 left-2 rounded-md bg-surface/90 px-1.5 py-0.5 text-[0.6875rem] font-medium text-stone">
             Site sample
           </span>
@@ -124,7 +125,8 @@ export function ImagePicker({
           onClick={() => onChange(null)}
           className="mt-1.5 inline-flex items-center gap-1 text-xs text-stone hover:text-ink"
         >
-          <RotateCcw className="size-3" aria-hidden /> Use the site sample
+          <RotateCcw className="size-3" aria-hidden />{' '}
+          {fallback ? 'Use the site sample' : 'Remove photo'}
         </button>
       ) : null}
     </div>
