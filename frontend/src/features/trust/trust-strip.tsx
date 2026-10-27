@@ -42,7 +42,11 @@ export function TrustStrip({ dict, icons }: { dict: Dictionary; icons?: string[]
                 key={v.title}
                 className="reveal flex items-center gap-4 border-line px-2 py-6 odd:border-r sm:px-6 lg:justify-center lg:border-r lg:py-8 lg:last:border-r-0 [&:nth-child(-n+2)]:border-b lg:[&:nth-child(-n+2)]:border-b-0"
               >
-                <Icon aria-hidden className="size-6 shrink-0 text-walnut" strokeWidth={1.1} />
+                <Icon
+                  aria-hidden
+                  className="draw-icon size-6 shrink-0 text-walnut"
+                  strokeWidth={1.1}
+                />
                 <div className="min-w-0">
                   <p className="text-[0.7rem] font-medium uppercase tracking-eyebrow text-ink [:lang(bn)_&]:text-[0.85rem] [:lang(bn)_&]:tracking-normal">
                     {v.title}

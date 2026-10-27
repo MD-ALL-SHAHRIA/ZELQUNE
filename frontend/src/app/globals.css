@@ -330,3 +330,27 @@ html[lang='bn'] .font-display .italic {
     display: none !important;
   }
 }
+
+/* Line icons draw themselves as they scroll into view (scroll-driven, no script). Strokes are
+   shorter than 100 units in a 24-unit icon, so a 100 dash covers each one exactly once. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .draw-icon {
+      view-timeline-name: --draw;
+    }
+    .draw-icon > * {
+      stroke-dasharray: 100;
+      animation: draw-stroke linear both;
+      animation-timeline: --draw;
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+@keyframes draw-stroke {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

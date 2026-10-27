@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { productName } from '@/features/catalog/product-copy';
 import { HERO_SCENES } from '@/content/sample-images';
@@ -69,9 +70,34 @@ html[lang='en'] .hero-root em { font-family: var(--font-cormorant-italic), var(-
 @keyframes cine-bloom { from { transform: translate(-50%, -50%) scale(.92); } to { transform: translate(-50%, -50%) scale(1.06); } }
 @keyframes cine-grain { 0% { transform: translate(0,0); } 20% { transform: translate(-3%,2%); } 40% { transform: translate(2%,-3%); } 60% { transform: translate(-2%,-1%); } 80% { transform: translate(3%,1%); } 100% { transform: translate(0,2%); } }
 @keyframes cine-bar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+/* Words rise out of their own line, one after another (masked, so nothing jumps). Extra room
+   above and below keeps Bangla vowel signs and italic overhangs from being clipped. */
+.hero-root .word { display: inline-block; overflow: hidden; vertical-align: top; padding: .06em .08em .14em 0; margin: -.06em -.08em -.14em 0; }
+html[lang='bn'] .hero-root .word { padding-block: .22em .3em; margin-block: -.22em -.3em; }
+.hero-root .word > span { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-root .word > span { animation: word-up 1.1s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(.2s + var(--w) * 60ms); }
+}
+@keyframes word-up { from { transform: translateY(110%); } }
 `;
 
 const rise = (step: number) => ({ animationDelay: `${120 + step * 110}ms` });
+
+/** Each word in its own mask for the rise; `from` continues the stagger across parts. */
+function words(text: string, from: number) {
+  return text
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w, i) => (
+      <Fragment key={i}>
+        {i ? ' ' : null}
+        <span className="word">
+          <span style={{ '--w': from + i } as React.CSSProperties}>{w}</span>
+        </span>
+      </Fragment>
+    ));
+}
 
 /**
  * Cinematic hero: full-bleed room scenes, each with one of our pieces lit on the wall, the words
@@ -134,12 +160,11 @@ export function Hero({
             >
               {l.heroEyebrow}
             </Eyebrow>
-            <h1
-              className="hero-rise max-w-[22ch] font-display text-[clamp(2.4rem,1.4rem+2.6vw,3.9rem)] font-medium leading-[1.08] tracking-[-0.01em] text-balance [:lang(bn)_&]:text-[clamp(2.1rem,1.4rem+2.2vw,3.4rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal"
-              style={rise(1)}
-            >
-              {dict.home.heroHeading}{' '}
-              <em className="text-glow [:lang(bn)_&]:not-italic">{dict.home.heroHeadingAccent}</em>
+            <h1 className="max-w-[22ch] font-display text-[clamp(2.4rem,1.4rem+2.6vw,3.9rem)] font-medium leading-[1.08] tracking-[-0.01em] text-balance [:lang(bn)_&]:text-[clamp(2.1rem,1.4rem+2.2vw,3.4rem)] [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal">
+              {words(dict.home.heroHeading, 0)}{' '}
+              <em className="text-glow [:lang(bn)_&]:not-italic">
+                {words(dict.home.heroHeadingAccent, dict.home.heroHeading.split(/\s+/).length)}
+              </em>
             </h1>
             <p
               className="hero-rise max-w-md text-[1.2rem] font-medium leading-relaxed text-ivory/90 sm:text-[1.35rem]"
