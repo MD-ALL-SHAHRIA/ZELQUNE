@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Home hero: the headline rises in word by word (masked, once, off for reduced motion); trust-strip icons draw their strokes as they scroll into view (CSS scroll-driven). A WebGL light layer and mouse parallax were tried and dropped: they washed out the photo's colours.
+
 ### Performance
 - Gateway: public catalog, sale and home-content responses cached in Redis for 30 s with CDN-ready `Cache-Control` (ADR 0018).
 - Quotes list: order codes fetched in one query instead of one per converted quote (N+1).
