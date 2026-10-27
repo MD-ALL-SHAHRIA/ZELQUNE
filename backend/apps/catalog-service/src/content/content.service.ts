@@ -37,6 +37,8 @@ export function referencedAssets(content: HomeContent): string[] {
   const ids = [
     ...content.hero.scenes.map((s) => s.assetId),
     ...content.collections.map((c) => c.assetId),
+    ...content.projects.flatMap((p) => p.assetIds),
+    ...content.clients.map((c) => c.assetId),
   ];
   return [...new Set(ids.filter((id): id is string => id !== null))];
 }
@@ -76,6 +78,11 @@ export class ContentService {
             scenes: content.hero.scenes.map((s) => ({ ...s, imageUrl: url(s.assetId) })),
           },
           collections: content.collections.map((c) => ({ ...c, imageUrl: url(c.assetId) })),
+          projects: content.projects.map((p) => ({
+            ...p,
+            imageUrls: p.assetIds.map(url).filter((u): u is string => u !== null),
+          })),
+          clients: content.clients.map((c) => ({ ...c, logoUrl: url(c.assetId) })),
         },
       },
     };

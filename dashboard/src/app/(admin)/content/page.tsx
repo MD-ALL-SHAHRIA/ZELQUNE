@@ -236,6 +236,8 @@ export default function ContentPage() {
             scenes: view.content.hero.scenes.map(({ imageUrl: _, ...s }) => s),
           },
           collections: view.content.collections.map(({ imageUrl: _, ...c }) => c),
+          projects: view.content.projects.map(({ imageUrls: _, ...p }) => p),
+          clients: view.content.clients.map(({ logoUrl: _, ...c }) => c),
         }
       : structuredClone(DEFAULT_HOME);
     if (view) {
@@ -244,6 +246,11 @@ export default function ContentPage() {
         if (s.assetId && s.imageUrl) p[s.assetId] = s.imageUrl;
       for (const c of view.content.collections)
         if (c.assetId && c.imageUrl) p[c.assetId] = c.imageUrl;
+      // Photos come back READY-only; match them by position only when none were dropped.
+      for (const pr of view.content.projects)
+        if (pr.assetIds.length === pr.imageUrls.length)
+          pr.assetIds.forEach((id, k) => (p[id] = pr.imageUrls[k] ?? ''));
+      for (const c of view.content.clients) if (c.assetId && c.logoUrl) p[c.assetId] = c.logoUrl;
       setPreviews(p);
     }
     setVersion(view?.version ?? 0);
@@ -289,6 +296,8 @@ export default function ContentPage() {
     );
   }
   const hero = content.hero;
+  const projects = content.projects ?? [];
+  const clients = content.clients ?? [];
   const setHero = (patch: Partial<HomeContent['hero']>) =>
     setContent({ ...content, hero: { ...hero, ...patch } });
   const categoryName = (slug: string) =>
@@ -655,6 +664,218 @@ export default function ContentPage() {
               </li>
             ))}
           </ol>
+        </Section>
+
+        <Section
+          title="Projects"
+          description="Finished interior design and construction work. Each project shows on its page (Interior design or Construction) with up to 6 photos; the first photo is the cover. Until you add one, those pages say projects are coming soon."
+          aside={
+            <div className="flex flex-wrap gap-2">
+              {(['DESIGN', 'CONSTRUCTION'] as const).map((kind) => (
+                <Button
+                  key={kind}
+                  variant="secondary"
+                  disabled={projects.length >= 24}
+                  onClick={() =>
+                    setContent({
+                      ...content,
+                      projects: [
+                        ...projects,
+                        {
+                          kind,
+                          title: { en: '', bn: '' },
+                          location: { en: '', bn: '' },
+                          text: { en: '', bn: '' },
+                          assetIds: [],
+                        },
+                      ],
+                    })
+                  }
+                >
+                  <Plus className="size-4" aria-hidden />
+                  {kind === 'DESIGN' ? 'Interior project' : 'Construction project'}
+                </Button>
+              ))}
+            </div>
+          }
+        >
+          {projects.length ? (
+            <ol className="grid gap-4">
+              {projects.map((pr, i) => {
+                const patch = (next: Partial<typeof pr>) =>
+                  setContent({
+                    ...content,
+                    projects: projects.map((x, j) => (j === i ? { ...x, ...next } : x)),
+                  });
+                return (
+                  <li key={i} className="rounded-xl border border-line bg-paper/50 p-4">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <Select
+                        value={pr.kind}
+                        onChange={(e) => patch({ kind: e.target.value as typeof pr.kind })}
+                        className="w-56"
+                      >
+                        <option value="DESIGN">Interior design page</option>
+                        <option value="CONSTRUCTION">Construction page</option>
+                      </Select>
+                      <RowTools
+                        label="project"
+                        index={i}
+                        count={projects.length}
+                        onMove={(to) => setContent({ ...content, projects: move(projects, i, to) })}
+                        onRemove={() =>
+                          setContent({
+                            ...content,
+                            projects: projects.filter((_, j) => j !== i),
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <Text
+                        label="Title"
+                        lang={lang}
+                        max={80}
+                        value={pr.title}
+                        onChange={(title) => patch({ title })}
+                        placeholder="e.g. Gulshan family apartment"
+                      />
+                      <Text
+                        label="Place"
+                        lang={lang}
+                        max={60}
+                        value={pr.location}
+                        onChange={(location) => patch({ location })}
+                        placeholder="e.g. Gulshan, Dhaka"
+                      />
+                    </div>
+                    <Field label="What we did" className="mt-3">
+                      <Textarea
+                        lang={lang}
+                        rows={3}
+                        maxLength={400}
+                        value={pr.text[lang]}
+                        onChange={(e) => patch({ text: { ...pr.text, [lang]: e.target.value } })}
+                      />
+                    </Field>
+                    <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                      {(pr.assetIds ?? []).map((id, k) => (
+                        <ImagePicker
+                          key={id}
+                          label={k === 0 ? 'Cover photo' : `Photo ${k + 1}`}
+                          aspect="aspect-[4/3]"
+                          url={previews[id] ?? null}
+                          onChange={(asset) => {
+                            if (asset) setPreviews({ ...previews, [asset.id]: asset.url });
+                            patch({
+                              assetIds: asset
+                                ? (pr.assetIds ?? []).map((x, n) => (n === k ? asset.id : x))
+                                : (pr.assetIds ?? []).filter((_, n) => n !== k),
+                            });
+                          }}
+                        />
+                      ))}
+                      {(pr.assetIds ?? []).length < 6 ? (
+                        <ImagePicker
+                          key={`add-${(pr.assetIds ?? []).length}`}
+                          label={(pr.assetIds ?? []).length ? 'Add a photo' : 'Cover photo'}
+                          aspect="aspect-[4/3]"
+                          url={null}
+                          onChange={(asset) => {
+                            if (!asset) return;
+                            setPreviews({ ...previews, [asset.id]: asset.url });
+                            patch({ assetIds: [...(pr.assetIds ?? []), asset.id] });
+                          }}
+                        />
+                      ) : null}
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <p className="text-sm text-stone">
+              No projects yet. Add an interior or construction project to show your work.
+            </p>
+          )}
+        </Section>
+
+        <Section
+          title="Clients"
+          description="Businesses that bought from you. Their logos drift slowly across the home page under the statement band; with no clients the strip is hidden. Use PNG or WebP logos with a transparent background."
+          aside={
+            <Button
+              variant="secondary"
+              disabled={clients.length >= 30}
+              onClick={() =>
+                setContent({
+                  ...content,
+                  clients: [...clients, { name: '', assetId: null, url: '' }],
+                })
+              }
+            >
+              <Plus className="size-4" aria-hidden />
+              Add a client
+            </Button>
+          }
+        >
+          {clients.length ? (
+            <ol className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {clients.map((c, i) => {
+                const patch = (next: Partial<typeof c>) =>
+                  setContent({
+                    ...content,
+                    clients: clients.map((x, j) => (j === i ? { ...x, ...next } : x)),
+                  });
+                return (
+                  <li key={i} className="rounded-xl border border-line bg-paper/50 p-3">
+                    <ImagePicker
+                      label={`${c.name || 'Client'} logo`}
+                      aspect="aspect-[3/1]"
+                      url={c.assetId ? (previews[c.assetId] ?? null) : null}
+                      onChange={(asset) => {
+                        if (asset) setPreviews({ ...previews, [asset.id]: asset.url });
+                        patch({ assetId: asset?.id ?? null });
+                      }}
+                    />
+                    <div className="mt-3 grid gap-2">
+                      <Field label="Company name">
+                        <Input
+                          value={c.name}
+                          maxLength={60}
+                          onChange={(e) => patch({ name: e.target.value })}
+                        />
+                      </Field>
+                      <Field label="Website (optional)">
+                        <Input
+                          type="url"
+                          placeholder="https://…"
+                          value={c.url ?? ''}
+                          onChange={(e) => patch({ url: e.target.value })}
+                        />
+                      </Field>
+                    </div>
+                    <div className="mt-2 flex justify-end">
+                      <RowTools
+                        label="client"
+                        index={i}
+                        count={clients.length}
+                        onMove={(to) => setContent({ ...content, clients: move(clients, i, to) })}
+                        onRemove={() =>
+                          setContent({
+                            ...content,
+                            clients: clients.filter((_, j) => j !== i),
+                          })
+                        }
+                      />
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <p className="text-sm text-stone">No clients yet. The home page strip stays hidden.</p>
+          )}
         </Section>
 
         <Section

@@ -254,6 +254,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Shop menu:** Shop by category · All products
 
 ### Home page
+- **Clients strip heading:** Trusted by businesses across Bangladesh
 - **Categories eyebrow:** Featured collections
 - **Categories heading:** Find your perfect piece
 - **Categories link:** View all collections

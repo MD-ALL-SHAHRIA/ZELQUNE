@@ -8,6 +8,7 @@ import {
   StartSection,
   WhyOneTeam,
 } from '@/features/construction/sections';
+import { getHomeContent } from '@/shared/api/content';
 import { listDistricts } from '@/shared/api/server';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
@@ -25,6 +26,8 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 
 export default async function ConstructionPage({ params }: { params: PageParams }) {
   const { lang, dict } = await resolvePage(params);
+  const projects =
+    (await getHomeContent())?.projects.filter((p) => p.kind === 'CONSTRUCTION') ?? [];
   const districts = await listDistricts();
   return (
     <>
@@ -52,7 +55,7 @@ export default async function ConstructionPage({ params }: { params: PageParams 
         ]}
       />
       <WhyOneTeam lang={lang} dict={dict} image={SAMPLE.rebar.src} />
-      <ConstructionProjects dict={dict} />
+      <ConstructionProjects dict={dict} lang={lang} projects={projects} />
       <StartSection lang={lang} dict={dict} districts={districts} />
     </>
   );

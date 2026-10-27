@@ -39,6 +39,24 @@ export const heroSceneSchema = z.object({
   phonePosition: position.default('95% 50%'),
 });
 
+export const PROJECT_KINDS = ['DESIGN', 'CONSTRUCTION'] as const;
+
+/** A finished project shown on the interior design or construction page. */
+export const projectSchema = z.object({
+  kind: z.enum(PROJECT_KINDS),
+  title: localizedSchema(80),
+  location: localizedSchema(60),
+  text: localizedSchema(400),
+  assetIds: z.array(z.uuid()).max(6).default([]),
+});
+
+/** A business that bought from Zelqune, shown in the home page's logo strip. */
+export const clientSchema = z.object({
+  name: text(60).min(1),
+  assetId: z.uuid().nullable().default(null),
+  url: optionalUrl.default(''),
+});
+
 export const homeContentSchema = z.object({
   announcement: localizedSchema(140),
   hero: z.object({
@@ -85,6 +103,8 @@ export const homeContentSchema = z.object({
     )
     .refine((t) => Object.keys(t).length <= 80, 'Too many texts')
     .default({}),
+  projects: z.array(projectSchema).max(24).default([]),
+  clients: z.array(clientSchema).max(30).default([]),
 });
 export type HomeContent = z.infer<typeof homeContentSchema>;
 export type HomeContentInput = z.input<typeof homeContentSchema>;
@@ -104,6 +124,9 @@ export const homeContentViewSchema = z.object({
         imageUrl: z.string().nullable(),
       }),
     ),
+    /** Only READY photos, in order. */
+    projects: z.array(projectSchema.extend({ imageUrls: z.array(z.string()) })),
+    clients: z.array(clientSchema.extend({ logoUrl: z.string().nullable() })),
   }),
 });
 export type HomeContentView = z.infer<typeof homeContentViewSchema>;

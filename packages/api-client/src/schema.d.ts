@@ -1531,6 +1531,36 @@ export interface components {
               bn: string;
             };
           };
+          projects: {
+            /** @enum {string} */
+            kind: 'DESIGN' | 'CONSTRUCTION';
+            title: {
+              en: string;
+              bn: string;
+            };
+            location: {
+              en: string;
+              bn: string;
+            };
+            text: {
+              en: string;
+              bn: string;
+            };
+            /** @default [] */
+            assetIds: string[];
+            imageUrls: string[];
+          }[];
+          clients: {
+            name: string;
+            /**
+             * Format: uuid
+             * @default null
+             */
+            assetId: string | null;
+            /** @default  */
+            url: string | '';
+            logoUrl: string | null;
+          }[];
         };
       } | null;
     };
@@ -1611,6 +1641,36 @@ export interface components {
             bn: string;
           };
         };
+        /** @default [] */
+        projects?: {
+          /** @enum {string} */
+          kind: 'DESIGN' | 'CONSTRUCTION';
+          title: {
+            en: string;
+            bn: string;
+          };
+          location: {
+            en: string;
+            bn: string;
+          };
+          text: {
+            en: string;
+            bn: string;
+          };
+          /** @default [] */
+          assetIds?: string[];
+        }[];
+        /** @default [] */
+        clients?: {
+          name: string;
+          /**
+           * Format: uuid
+           * @default null
+           */
+          assetId?: string | null;
+          /** @default  */
+          url?: string | '';
+        }[];
       };
     };
     UpdateHomeContentResultDto_Output: {
