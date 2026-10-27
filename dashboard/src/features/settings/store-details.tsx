@@ -20,7 +20,7 @@ const EMPTY: Contact = { phone: '', whatsapp: '', email: '', facebook: '', insta
 
 /**
  * The store's public contact details (footer, WhatsApp button). They live in the home page
- * document (ADR 0015), so saving here and in the Home page editor is the same version check.
+ * document (ADR 0015), so saving here and in the Website content editor is the same version check.
  */
 export function StoreDetails({ readOnly }: { readOnly: boolean }) {
   const toast = useToast();
@@ -145,11 +145,11 @@ export function StoreDetails({ readOnly }: { readOnly: boolean }) {
               )}
             </div>
             <p className="text-[0.8125rem] text-stone">
-              The hero, trust strip and collections are on the{' '}
+              The hero, trust strip, collections, projects, clients and policies are in{' '}
               <Link href="/content" className="font-medium text-ink underline underline-offset-2">
-                Home page
-              </Link>{' '}
-              editor.
+                Website content
+              </Link>
+              .
             </p>
           </fieldset>
         ) : (

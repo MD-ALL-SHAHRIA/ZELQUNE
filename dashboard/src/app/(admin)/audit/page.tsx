@@ -26,7 +26,7 @@ const ENTITIES: Record<string, string> = {
   price: 'Prices',
   category: 'Categories',
   stock: 'Stock',
-  content: 'Home page',
+  content: 'Website content',
   promotion: 'Sales',
   coupon: 'Coupons',
   expense: 'Expenses',
