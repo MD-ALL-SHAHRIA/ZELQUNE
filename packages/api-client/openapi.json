@@ -5308,6 +5308,28 @@
                       "instagram"
                     ],
                     "additionalProperties": false
+                  },
+                  "texts": {
+                    "default": {},
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string",
+                          "maxLength": 3000
+                        },
+                        "bn": {
+                          "type": "string",
+                          "maxLength": 3000
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "bn"
+                      ],
+                      "additionalProperties": false
+                    }
                   }
                 },
                 "required": [
@@ -5315,7 +5337,8 @@
                   "hero",
                   "trust",
                   "collections",
-                  "contact"
+                  "contact",
+                  "texts"
                 ],
                 "additionalProperties": false
               }
@@ -5627,6 +5650,27 @@
                       }
                     ]
                   }
+                }
+              },
+              "texts": {
+                "default": {},
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "en": {
+                      "type": "string",
+                      "maxLength": 3000
+                    },
+                    "bn": {
+                      "type": "string",
+                      "maxLength": 3000
+                    }
+                  },
+                  "required": [
+                    "en",
+                    "bn"
+                  ]
                 }
               }
             },

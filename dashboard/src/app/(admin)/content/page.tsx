@@ -12,7 +12,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, buttonClass } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Field, Input, Select } from '@/components/ui/field';
+import { Field, Input, Select, Textarea } from '@/components/ui/field';
 import { PageHeader, SaveBar } from '@/components/ui/page';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs } from '@/components/ui/tabs';
@@ -25,6 +25,7 @@ import {
   sampleScene,
   TRUST_ICONS,
 } from '@/features/content/defaults';
+import { SITE_TEXTS } from '@/features/content/site-texts';
 import { ImagePicker } from '@/features/content/image-picker';
 import { api, errorCode, errorMessage, type Schemas } from '@/lib/api';
 import { cn } from '@/lib/cn';
@@ -716,6 +717,41 @@ export default function ContentPage() {
                 }
               />
             </Field>
+          </div>
+        </Section>
+        <Section
+          title="Pages and policies"
+          description="Your story, privacy policy, terms, FAQ answers and promises. The faded text is what the site shows now; leave a field empty to keep it. Switch English/Bangla at the top. Changes show on the site within a minute of saving."
+        >
+          <div className="grid gap-6">
+            {[...new Set(SITE_TEXTS.map((t) => t.group))].map((group) => (
+              <fieldset key={group} className="grid gap-4">
+                <legend className="mb-1 font-mono text-[0.75rem] tracking-[0.12em] text-stone uppercase">
+                  {group}
+                </legend>
+                {SITE_TEXTS.filter((t) => t.group === group).map((t) => {
+                  const value = content.texts?.[t.key] ?? { en: '', bn: '' };
+                  return (
+                    <Field key={t.key} label={t.label}>
+                      <Textarea
+                        lang={lang}
+                        rows={t.long ? 4 : 2}
+                        maxLength={3000}
+                        value={value[lang]}
+                        placeholder={t[lang]}
+                        onChange={(e) => {
+                          const next = { ...value, [lang]: e.target.value };
+                          const texts = { ...content.texts };
+                          if (next.en.trim() || next.bn.trim()) texts[t.key] = next;
+                          else delete texts[t.key];
+                          setContent({ ...content, texts });
+                        }}
+                      />
+                    </Field>
+                  );
+                })}
+              </fieldset>
+            ))}
           </div>
         </Section>
       </Card>

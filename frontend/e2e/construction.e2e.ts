@@ -10,9 +10,9 @@ test('a landowner requests a construction call and checks it', async ({ page }) 
   );
   await expect(page.getByRole('heading', { name: 'What we build' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'From land to living' })).toBeVisible();
-  // The projects section is a visible placeholder, never invented work.
+  // The projects section says work is coming, never invented projects.
   await expect(
-    page.getByText('[[Our first construction projects will appear here]]'),
+    page.getByText('Our first construction projects will be shown here soon.'),
   ).toBeVisible();
 
   await page.getByRole('link', { name: /Start your project/ }).click();

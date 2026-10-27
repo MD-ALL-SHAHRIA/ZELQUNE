@@ -7,6 +7,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Content → Pages and policies: the owner edits 24 storefront texts (story, privacy, terms, FAQ answers, making time, refund days, materials, workshop, design fee, warranty, footer contact) in English and Bangla; empty keeps the built-in copy. Stored as `texts` in the home content (only listed paths are applied).
+
+### Changed
+- Copy: every `[[…]]` placeholder replaced with draft wording for the owner to review; no invented phone numbers (contact lines point to WhatsApp, whose number is set in Content).
+- The product page's making time uses `{days}` (the product's lead time, 10 days by default).
+
+### Added
 - Dashboard: the sidebar panel button now collapses the sidebar to icons (names as tooltips, a dot for waiting orders and quotes); remembered per browser.
 
 ### Added

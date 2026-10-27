@@ -11,7 +11,7 @@
 ## Header and footer
 - **Menu:** Home · Shop · Bulk & Corporate · Track order · FAQ
 - **Cart:** Cart · Your cart is empty · Go to checkout
-- **Footer:** Contact: [[phone/WhatsApp]] · Facebook · Instagram · Terms · Returns · Privacy
+- **Footer:** Contact: message us on WhatsApp · Facebook · Instagram · Terms · Returns · Privacy
 - **Copyright:** © 2026 Zelqune. All rights reserved.
 
 ## Home
@@ -29,15 +29,15 @@
 - **Name:** Alo-Arch Panel
 - **Short description:** An arched wooden panel with glass tubes for fresh or dried flowers, and a warm LED glow behind them. A vase by day, a soft lamp by night.
 - **What you get:**
-  - Size: [[32 × 64 cm, confirm after prototype]]
-  - Wood: walnut-tone veneer with a cream frame ([[confirm finish with supplier]])
+  - Size: 32 × 64 cm
+  - Wood: walnut-tone veneer with a cream frame
   - Light: 5V USB, warm white
-  - Glass tubes: [[number]]
+  - Glass tubes: 6
   - Wall-mounting kit (screws and hooks)
 - **Variants:** Walnut (dark) · Natural (light)
 - **Badges:**
-  - Pre-order: "Pre-order · ships within [[N]] days"
-  - Made to order: "Made to order · [[N]] days"
+  - Pre-order: "Pre-order · ships within 10 days"
+  - Made to order: "Made to order · 10 days"
   - In stock: "In stock · delivered in 1–3 days" (only when actually in stock)
 - **Delivery fee field:** Delivery fee: shown when you choose your area
 - **Pre-order note (small box):** This is a pre-order. Pay a ৳300 advance to confirm, the rest on delivery. If we can't deliver on time, you get your full advance back.
@@ -47,7 +47,7 @@
 - **Heading:** Confirm your order
 - **Fields:** Your name · Mobile number (01XXXXXXXXX) · District · Area/Thana · Full address · Delivery note (optional)
 - **Payment:**
-  - **bKash/Nagad advance:** Send ৳300 to [[bKash number]] / [[Nagad number]] (Send Money), then enter the Transaction ID below.
+  - **bKash/Nagad advance:** Send ৳300 to the bKash / Nagad number shown at checkout (Send Money), then enter the Transaction ID below.
   - **Cash on delivery:** Pay when it arrives. (In-stock items only)
 - **Transaction ID field:** Transaction ID (e.g. 9AB1C2D3EF)
 - **Summary:** Items · Delivery · Total · Pay now (advance) · Pay on delivery
@@ -56,7 +56,7 @@
   - That mobile number doesn't look right. Use an 11-digit number starting with 01.
   - This Transaction ID has already been used. Please check it.
   - This item is out of stock right now.
-  - Something went wrong. Please try again shortly, or call us at [[phone]].
+  - Something went wrong. Please try again shortly, or message us on WhatsApp.
 
 ## Order placed
 - **Heading:** Thank you! We've received your order
@@ -98,15 +98,15 @@
 - **How do I hang it?** Screws and hooks are included. Drill two holes and hang it. You'll need a USB port or charger nearby.
 - **What goes in the glass tubes?** Fresh flowers with water (change it every 2–3 days), or dried flowers and pampas grass.
 - **How do I care for it?** Wipe with a soft, dry cloth. Wipe off any water on the wood right away.
-- **How long does delivery take?** Pre-orders are made and shipped within [[N]] days. The courier takes 1–2 days in Dhaka and 2–4 days outside Dhaka.
-- **When do I get my advance back?** If we can't deliver on time, or we cancel your order, we refund the full advance to the same bKash/Nagad number within [[7]] days.
+- **How long does delivery take?** Pre-orders are made and shipped within 10 days. The courier takes 1–2 days in Dhaka and 2–4 days outside Dhaka.
+- **When do I get my advance back?** If we can't deliver on time, or we cancel your order, we refund the full advance to the same bKash/Nagad number within 7 days.
 - **What if it arrives damaged?** Tell us within 24 hours of delivery with a photo or video, and we'll replace it or refund you.
 
 ## Terms and returns (summary)
 - A pre-order is confirmed once the ৳300 advance is verified.
 - If the advance doesn't arrive within 48 hours, the order is cancelled automatically.
 - If you cancel before production starts, your advance is refunded. Once production has started, the advance is not refundable.
-- Damaged or defective items reported within 24 hours are replaced or refunded. Returns for change of mind: [[policy to decide]].
+- Damaged or defective items reported within 24 hours are replaced or refunded. Returns for change of mind: unused items within 3 days, in the original box; you pay the return delivery.
 - Each piece is handmade from wood, so colour and grain may vary slightly.
 - Your phone number and address are used only for your order and delivery, never sold or shared.
 
@@ -124,7 +124,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Not found page:** We couldn't find that page. · Back to home
 - **Error page:** Something went wrong on our side. Please try again. · Try again
 - **Too many attempts:** Too many attempts. Please wait a few minutes and try again.
-- **Photo placeholder:** [[Prototype photo coming soon]]
+- **Photo placeholder:** Photo coming soon
 - **Photo count:** Photo {n} of {total}
 
 ### Page titles
@@ -134,7 +134,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Terms:** Terms
 - **Returns:** Returns and refunds
 - **Privacy:** Privacy
-- **Privacy text:** Your phone number and address are used only for your order and delivery, never sold or shared. [[full privacy policy to write]]
+- **Privacy text:** Your phone number and address are used only for your order and delivery, never sold or shared. We keep order records for accounting for up to 5 years, use cookies only to keep your cart and language, and measure visits without storing personal details. To see or delete your data, message us on WhatsApp.
 
 ### Product page
 - **Variant label:** Finish
@@ -199,7 +199,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Process eyebrow:** How pre-order works
 - **Process steps:**
   - **Reserve with ৳300:** Pay a small advance by bKash or Nagad to confirm your piece.
-  - **We make yours:** Your panel is made and checked within [[N]] days.
+  - **We make yours:** Your panel is made and checked within 10 days.
   - **Pay the rest on delivery:** The courier brings it to your door. Pay the rest in cash.
 - **Rooms eyebrow:** Inspiration
 - **Rooms heading:** Warmth for every room
@@ -217,34 +217,34 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 
 ### Our story
 - **Heading:** Our story
-- **Text:** [[Owner's story: who makes Zelqune, where, and why]]
+- **Text:** Zelqune began in a small Dhaka workshop with one idea: wood and soft light make a home feel warm. Every panel, shelf and lamp is designed here, cut and finished by hand by local craftspeople, and checked before it reaches your door.
 
 ## Product range and interior design (added in step 1.4 interior design, for owner review)
 > New demo products (dev seed) and the Zelqune Interior Design service. Same structure in copy-bn.md.
 
 ### Products
 - **Diamond Shelf (pair):** Two diamond-shaped walnut panels with floating shelves: bold geometry for plants, books and small treasures.
-  - Size: [[45 × 65 cm each, confirm]]
-  - Wood: walnut-tone veneer ([[confirm finish with supplier]])
+  - Size: 45 × 65 cm each
+  - Wood: walnut-tone veneer
   - Two panels with floating shelves
   - Wall-mounting kit (screws and hooks)
 - **Wave Shelf:** A curved walnut spine with a black wave and six floating shelves, part bookcase, part sculpture.
-  - Size: [[60 × 100 cm, confirm]]
+  - Size: 60 × 100 cm
   - Wood: walnut-tone veneer with black accents
   - Six floating shelves and a planter pocket
   - Wall-mounting kit (screws and hooks)
 - **Half-Moon Planter Light:** A slatted half-moon, a walnut planter column and a warm LED ring: a living wall light.
-  - Size: [[70 × 90 cm, confirm]]
+  - Size: 70 × 90 cm
   - Light: 5V USB, warm white LED ring
   - Three planter cups for real or faux plants
   - Wall-mounting kit (screws and hooks)
 - **Fluted Niche Panel:** Fluted walnut with warm LED lines, a lit niche for a sculpture and two floating shelves.
-  - Size: [[90 × 180 cm, confirm]]
+  - Size: 90 × 180 cm
   - Light: low-voltage warm white LED lines
   - Lit niche and two floating shelves
-  - Installation by our team ([[confirm areas]])
+  - Installation by our team (inside Dhaka)
 - **Capsule Vase Light:** A capsule frame with a soft LED halo and a glass vase for fresh stems.
-  - Size: [[35 × 70 cm, confirm]]
+  - Size: 35 × 70 cm
   - Light: 5V USB, warm white halo
   - Removable glass vase
   - Wall-mounting kit (screws and hooks)
@@ -283,9 +283,9 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
   - **Installation:** We install, style and hand over the finished space.
 - **Included heading:** What's included
 - **Included:** Site visit or video call · Layout and material plan · Custom woodwork and lighting · Installation and styling
-- **Fees:** [[Consultation fee or free first visit: owner to decide]]
+- **Fees:** The first consultation is free. Design fees are quoted after the site visit.
 - **Projects heading:** Selected projects
-- **Projects placeholder:** [[Our first projects will appear here]]
+- **Projects placeholder:** Our first projects will be shown here soon.
 - **Button:** Book a consultation
 - **Sector page link:** Explore
 
@@ -297,7 +297,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Budgets:** Under ৳1 lakh · ৳1–5 lakh · ৳5–15 lakh · Above ৳15 lakh · Not sure yet
 - **Button:** Request consultation
 - **Sending:** Sending your request…
-- **After sending:** Thank you! Your request code is {code}. Our designer will call you within [[1 working day]].
+- **After sending:** Thank you! Your request code is {code}. Our designer will call you within 1 working day.
 - **Quote track label:** Interior design request · Space: {space}
 
 ## Header, listing, services and construction (added in step 1.4 RH-style redesign, for owner review)
@@ -339,15 +339,15 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
   - **Restaurant & hospitality:** Restaurants, cafés and small hotels.
 - **Stages heading:** From land to living
 - **Stages:**
-  - **Plan & design:** Site survey, architectural and structural drawings ([[engineers and licences: confirm]]).
-  - **Approvals:** Help with building approvals ([[confirm scope]]).
+  - **Plan & design:** Site survey, architectural and structural drawings (by licensed engineers).
+  - **Approvals:** Help with building approvals (drawings and paperwork).
   - **Structure:** Foundation, frame and roof, with quality checks at each stage.
   - **Finishing:** Walls, floors, plumbing and electrical work.
   - **Interiors:** Woodwork, lighting and furniture by Zelqune.
-  - **Handover:** A finished space, ready to live or work in ([[warranty terms to decide]]).
+  - **Handover:** A finished space, ready to live or work in (1-year workmanship warranty).
 - **Why heading:** Why one team
 - **Why:** One contract from foundation to furniture · Interiors planned with the structure, not after it · Clear stage-by-stage costs · Our own workshop for woodwork and lighting
-- **Projects placeholder:** [[Our first construction projects will appear here]]
+- **Projects placeholder:** Our first construction projects will be shown here soon.
 - **Button:** Start your project
 
 ### Construction enquiry form
@@ -357,7 +357,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Building types:** Family home · Commercial building · Restaurant & hospitality · Hotel · Shop & showroom · Apartment building
 - **Budgets:** Under ৳50 lakh · ৳50 lakh–1 crore · ৳1–3 crore · Above ৳3 crore · Not sure yet
 - **Button:** Request a call
-- **After sending:** Thank you! Your request code is {code}. Our team will call you within [[1 working day]].
+- **After sending:** Thank you! Your request code is {code}. Our team will call you within 1 working day.
 - **Track label:** Construction request · {n} floors
 
 ### Additions from the RH-style build (for owner review)
@@ -373,15 +373,15 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Scroll cue:** Scroll
 - **Shop the room:** Shop the room · One room, lit by Zelqune · Tap a marker to see each piece in this room. · View piece
 - **Materials:** Materials · Honest materials, finished by hand
-  - **Solid wood:** Cut, sanded and oiled by hand in our workshop. [[wood species: confirm]]
+  - **Solid wood:** Cut, sanded and oiled by hand in our workshop. Mahogany and engineered wood.
   - **Warm 5V light:** Low-voltage LEDs powered by USB, safe to touch.
-  - **Glass and detail:** Clear glass and small metal details. [[confirm materials]]
+  - **Glass and detail:** Clear glass and small metal details. Brass-finish fittings.
 - **Trust:** Why Zelqune · Buy with confidence
   - **Pay the rest on delivery:** Only a ৳300 advance by bKash or Nagad. The rest is cash on delivery.
-  - **Refund if we are late:** If we can't deliver on time, your advance is refunded within [[7]] days.
+  - **Refund if we are late:** If we can't deliver on time, your advance is refunded within 7 days.
   - **Damage covered:** Tell us within 24 hours with a photo and we replace it or refund you.
-  - **Made in Dhaka:** Designed and made in our own workshop. [[workshop address]]
-- **Product timeline:** Made for you · Today: Reserve with ৳300 · Our workshop: Made by hand in [[N]] days · Your door: Delivered in 1–4 days
+  - **Made in Dhaka:** Designed and made in our own workshop. Dhaka, Bangladesh.
+- **Product timeline:** Made for you · Today: Reserve with ৳300 · Our workshop: Made by hand in 10 days · Your door: Delivered in 1–4 days
 - **Wall preview:** See it on your wall · Add a photo of your wall, then drag and resize the piece. Your photo stays on your phone. · Choose a photo · Try a sample wall · Size · Reset · Save image · Drag to move · use the slider to resize
 - **WhatsApp:** Chat on WhatsApp · Hello Zelqune, I have a question about {item}
 - **Statement:** Wood, light and space, made for the way Bangladesh lives.

@@ -3,10 +3,11 @@ import { fill, formatNumber } from '@/i18n/format';
 import { type Locale } from '@/i18n/config';
 import { type SaleMode } from '@/shared/api/types';
 import { CopyText } from '@/shared/ui/copy-text';
+import { DEFAULT_LEAD_DAYS } from './product-copy';
 
 /**
- * Badge text for a sale mode. The lead time comes from the catalog; until it is set it stays the
- * visible `[[N]]` placeholder. Only IN_STOCK products can ever say "in stock".
+ * Badge text for a sale mode. The lead time comes from the catalog (the default making time
+ * until it is set). Only IN_STOCK products can ever say "in stock".
  */
 export function saleBadgeText(
   dict: Dictionary,
@@ -14,7 +15,7 @@ export function saleBadgeText(
   saleMode: SaleMode,
   leadTimeDays: number | null | undefined,
 ): string {
-  const days = leadTimeDays ? formatNumber(leadTimeDays, lang) : '[[N]]';
+  const days = formatNumber(leadTimeDays || DEFAULT_LEAD_DAYS, lang);
   return fill(dict.product.badge[saleMode], { days });
 }
 

@@ -87,36 +87,30 @@ export function Footer({
                 <CopyText>{dict.footer.contact}</CopyText>
               </p>
             )}
-            <p className="flex flex-wrap gap-x-6 gap-y-2">
-              {contact?.facebook ? (
-                <a
-                  href={contact.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-reveal"
-                >
-                  {dict.footer.facebook}
-                </a>
-              ) : (
-                <span>
-                  {dict.footer.facebook} <CopyText>{'[[link]]'}</CopyText>
-                </span>
-              )}
-              {contact?.instagram ? (
-                <a
-                  href={contact.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-reveal"
-                >
-                  {dict.footer.instagram}
-                </a>
-              ) : (
-                <span>
-                  {dict.footer.instagram} <CopyText>{'[[link]]'}</CopyText>
-                </span>
-              )}
-            </p>
+            {contact?.facebook || contact?.instagram ? (
+              <p className="flex flex-wrap gap-x-6 gap-y-2">
+                {contact?.facebook ? (
+                  <a
+                    href={contact.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-reveal"
+                  >
+                    {dict.footer.facebook}
+                  </a>
+                ) : null}
+                {contact?.instagram ? (
+                  <a
+                    href={contact.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-reveal"
+                  >
+                    {dict.footer.instagram}
+                  </a>
+                ) : null}
+              </p>
+            ) : null}
           </div>
         </div>
 

@@ -1,0 +1,208 @@
+/**
+ * Storefront texts the owner can rewrite (Content → Pages and policies). Paths and built-in
+ * wording match frontend/src/content/editable-texts.ts and the storefront dictionaries; the
+ * built-in text shows as the placeholder, and an empty field keeps it.
+ */
+export type SiteText = {
+  key: string;
+  group: string;
+  label: string;
+  en: string;
+  bn: string;
+  long: boolean;
+};
+
+export const SITE_TEXTS: SiteText[] = [
+  {
+    key: 'story.text',
+    group: 'Pages',
+    label: 'Our story',
+    en: 'Zelqune began in a small Dhaka workshop with one idea: wood and soft light make a home feel warm. Every panel, shelf and lamp is designed here, cut and finished by hand by local craftspeople, and checked before it reaches your door.',
+    bn: 'Zelqune শুরু হয়েছিল ঢাকার একটি ছোট ওয়ার্কশপে, একটি ভাবনা নিয়ে: কাঠ আর নরম আলো ঘরকে উষ্ণ করে। প্রতিটি প্যানেল, শেলফ আর ল্যাম্প এখানেই ডিজাইন করা, স্থানীয় কারিগরদের হাতে কাটা ও ফিনিশ করা, আর আপনার দরজায় পৌঁছানোর আগে যাচাই করা।',
+    long: true,
+  },
+  {
+    key: 'privacy.text',
+    group: 'Pages',
+    label: 'Privacy policy',
+    en: 'Your phone number and address are used only for your order and delivery, never sold or shared. We keep order records for accounting for up to 5 years, use cookies only to keep your cart and language, and measure visits without storing personal details. To see or delete your data, message us on WhatsApp.',
+    bn: 'আপনার ফোন নম্বর আর ঠিকানা শুধু অর্ডার আর ডেলিভারির কাজে ব্যবহার হবে, কারো কাছে বিক্রি বা শেয়ার করা হবে না। হিসাবের জন্য অর্ডারের তথ্য সর্বোচ্চ ৫ বছর রাখা হয়। কুকি শুধু আপনার কার্ট আর ভাষা মনে রাখতে ব্যবহার হয়, আর ভিজিট মাপা হয় কোনো ব্যক্তিগত তথ্য ছাড়া। আপনার তথ্য দেখতে বা মুছতে WhatsApp-এ মেসেজ করুন।',
+    long: true,
+  },
+  {
+    key: 'terms.items.0',
+    group: 'Terms',
+    label: 'Term 1',
+    en: 'A pre-order is confirmed once the ৳300 advance is verified.',
+    bn: 'প্রি-অর্ডার নিশ্চিত হয় ৳৩০০ অগ্রিম যাচাই হওয়ার পর।',
+    long: false,
+  },
+  {
+    key: 'terms.items.1',
+    group: 'Terms',
+    label: 'Term 2',
+    en: "If the advance doesn't arrive within 48 hours, the order is cancelled automatically.",
+    bn: '৪৮ ঘণ্টার মধ্যে অগ্রিম না এলে অর্ডার নিজে থেকে বাতিল হয়ে যাবে।',
+    long: false,
+  },
+  {
+    key: 'terms.items.2',
+    group: 'Terms',
+    label: 'Term 3',
+    en: 'If you cancel before production starts, your advance is refunded. Once production has started, the advance is not refundable.',
+    bn: 'ক্রেতা নিজে অর্ডার বাতিল করতে চাইলে, তৈরি শুরু হওয়ার আগে জানালে অগ্রিম ফেরত। তৈরি শুরু হয়ে গেলে অগ্রিম ফেরত হবে না।',
+    long: true,
+  },
+  {
+    key: 'terms.items.3',
+    group: 'Terms',
+    label: 'Term 4',
+    en: 'Damaged or defective items reported within 24 hours are replaced or refunded. Returns for change of mind: unused items within 3 days, in the original box; you pay the return delivery.',
+    bn: 'ভাঙা বা ত্রুটিপূর্ণ পণ্য ২৪ ঘণ্টার মধ্যে জানালে বদলে দেওয়া হবে বা টাকা ফেরত। পছন্দ না হওয়ার কারণে ফেরত ব্যবহার না করা পণ্য ৩ দিনের মধ্যে, আসল বাক্সে; ফেরতের ডেলিভারি খরচ আপনার।',
+    long: true,
+  },
+  {
+    key: 'terms.items.4',
+    group: 'Terms',
+    label: 'Term 5',
+    en: 'Each piece is handmade from wood, so colour and grain may vary slightly.',
+    bn: 'হাতে বানানো কাঠের পণ্য, তাই রং আর কাঠের দাগে সামান্য পার্থক্য থাকতে পারে।',
+    long: false,
+  },
+  {
+    key: 'terms.items.5',
+    group: 'Terms',
+    label: 'Term 6',
+    en: 'Your phone number and address are used only for your order and delivery, never sold or shared.',
+    bn: 'আপনার ফোন নম্বর আর ঠিকানা শুধু অর্ডার আর ডেলিভারির কাজে ব্যবহার হবে, কারো কাছে বিক্রি বা শেয়ার করা হবে না।',
+    long: false,
+  },
+  {
+    key: 'faq.items.0.a',
+    group: 'FAQ',
+    label: 'Is the light safe?',
+    en: "Yes. It runs on 5V USB, like a phone charger. There's no 220V wiring inside the wood.",
+    bn: 'হ্যাঁ। আলো চলে ৫ ভোল্ট USB-তে, মোবাইল চার্জারের মতো। কাঠের ভেতরে ২২০ ভোল্টের কোনো তার নেই।',
+    long: false,
+  },
+  {
+    key: 'faq.items.1.a',
+    group: 'FAQ',
+    label: 'How do I hang it?',
+    en: "Screws and hooks are included. Drill two holes and hang it. You'll need a USB port or charger nearby.",
+    bn: 'সাথে স্ক্রু আর হুক দেওয়া থাকে। দেয়ালে দুটো ছিদ্র করে ঝুলিয়ে দিলেই হবে। কাছেই একটা USB পোর্ট বা চার্জার লাগবে।',
+    long: false,
+  },
+  {
+    key: 'faq.items.2.a',
+    group: 'FAQ',
+    label: 'What goes in the glass tubes?',
+    en: 'Fresh flowers with water (change it every 2–3 days), or dried flowers and pampas grass.',
+    bn: 'তাজা ফুল হলে পানি দিয়ে রাখুন, প্রতি দুই-তিন দিনে পানি বদলান। শুকনো ফুল বা পাম্পাস ঘাসও সুন্দর লাগে।',
+    long: false,
+  },
+  {
+    key: 'faq.items.3.a',
+    group: 'FAQ',
+    label: 'How do I care for it?',
+    en: 'Wipe with a soft, dry cloth. Wipe off any water on the wood right away.',
+    bn: 'শুকনো নরম কাপড় দিয়ে মুছবেন। কাঠে পানি পড়লে সাথে সাথে মুছে ফেলবেন।',
+    long: false,
+  },
+  {
+    key: 'faq.items.4.a',
+    group: 'FAQ',
+    label: 'How long does delivery take?',
+    en: 'Pre-orders are made and shipped within 10 days. The courier takes 1–2 days in Dhaka and 2–4 days outside Dhaka.',
+    bn: 'প্রি-অর্ডারে ১০ দিনের মধ্যে তৈরি হয়ে পাঠানো হবে। কুরিয়ারে ঢাকায় ১–২ দিন, ঢাকার বাইরে ২–৪ দিন লাগে।',
+    long: false,
+  },
+  {
+    key: 'faq.items.5.a',
+    group: 'FAQ',
+    label: 'When do I get my advance back?',
+    en: "If we can't deliver on time, or we cancel your order, we refund the full advance to the same bKash/Nagad number within 7 days.",
+    bn: 'নির্ধারিত সময়ে পণ্য দিতে না পারলে, বা আমরা অর্ডার বাতিল করলে, অগ্রিমের পুরো টাকা ৭ দিনের মধ্যে একই bKash/Nagad নম্বরে ফেরত দেব।',
+    long: true,
+  },
+  {
+    key: 'faq.items.6.a',
+    group: 'FAQ',
+    label: 'What if it arrives damaged?',
+    en: "Tell us within 24 hours of delivery with a photo or video, and we'll replace it or refund you.",
+    bn: 'ডেলিভারির ২৪ ঘণ্টার মধ্যে ছবি বা ভিডিওসহ আমাদের জানান। আমরা বদলে দেব বা টাকা ফেরত দেব।',
+    long: false,
+  },
+  {
+    key: 'landing.steps.1.text',
+    group: 'Making and delivery',
+    label: 'Home page: making step',
+    en: 'Your panel is made and checked within 10 days.',
+    bn: '১০ দিনের মধ্যে আপনার প্যানেল বানিয়ে যাচাই করা হয়।',
+    long: false,
+  },
+  {
+    key: 'premium.timeline.1.text',
+    group: 'Making and delivery',
+    label: 'Product page: workshop step ({days} = the product’s making time)',
+    en: 'Made by hand in {days} days',
+    bn: '{days} দিনে হাতে বানানো',
+    long: false,
+  },
+  {
+    key: 'premium.trust.items.1.text',
+    group: 'Making and delivery',
+    label: 'Refund promise',
+    en: "If we can't deliver on time, your advance is refunded within 7 days.",
+    bn: 'সময়মতো দিতে না পারলে ৭ দিনের মধ্যে অগ্রিম ফেরত দেওয়া হয়।',
+    long: false,
+  },
+  {
+    key: 'premium.trust.items.3.text',
+    group: 'Making and delivery',
+    label: 'Where it is made',
+    en: 'Designed and made in our own workshop. Dhaka, Bangladesh.',
+    bn: 'আমাদের নিজেদের ওয়ার্কশপে ডিজাইন করা আর বানানো। ঢাকা, বাংলাদেশ।',
+    long: false,
+  },
+  {
+    key: 'premium.materials.items.0.text',
+    group: 'Making and delivery',
+    label: 'Materials: wood',
+    en: 'Cut, sanded and oiled by hand in our workshop. Mahogany and engineered wood.',
+    bn: 'আমাদের ওয়ার্কশপে হাতে কাটা, ঘষা আর তেল দেওয়া। মেহগনি আর ইঞ্জিনিয়ার্ড কাঠ।',
+    long: false,
+  },
+  {
+    key: 'premium.materials.items.2.text',
+    group: 'Making and delivery',
+    label: 'Materials: glass and metal',
+    en: 'Clear glass and small metal details. Brass-finish fittings.',
+    bn: 'স্বচ্ছ কাচ আর ছোট ধাতব কাজ। ব্রাস-ফিনিশ ফিটিংস।',
+    long: false,
+  },
+  {
+    key: 'design.fees',
+    group: 'Pages',
+    label: 'Design consultation fee',
+    en: 'The first consultation is free. Design fees are quoted after the site visit.',
+    bn: 'প্রথম কনসালটেশন ফ্রি। সাইট ভিজিটের পর ডিজাইন ফি জানানো হবে।',
+    long: false,
+  },
+  {
+    key: 'construction.stages.5.text',
+    group: 'Pages',
+    label: 'Construction handover and warranty',
+    en: 'A finished space, ready to live or work in (1-year workmanship warranty).',
+    bn: 'থাকা বা কাজের জন্য তৈরি জায়গা (কাজের ওপর ১ বছরের ওয়ারেন্টি)।',
+    long: false,
+  },
+  {
+    key: 'footer.contact',
+    group: 'Pages',
+    label: 'Footer contact line',
+    en: 'Contact: message us on WhatsApp',
+    bn: 'যোগাযোগ: WhatsApp-এ মেসেজ করুন',
+    long: false,
+  },
+];

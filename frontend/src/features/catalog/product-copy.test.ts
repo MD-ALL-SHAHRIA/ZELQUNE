@@ -12,8 +12,8 @@ describe('timelineSteps', () => {
   it('uses Bangla digits on Bangla pages', () => {
     expect(timelineSteps(bn.premium.timeline, 21, 'bn')[1]?.text).toBe('২১ দিনে হাতে বানানো');
   });
-  it('keeps the visible placeholder while the lead time is unknown', () => {
-    expect(timelineSteps(en.premium.timeline, null, 'en')[1]?.text).toContain('[[N]]');
+  it('uses the default making time while the lead time is unknown', () => {
+    expect(timelineSteps(en.premium.timeline, null, 'en')[1]?.text).toBe('Made by hand in 10 days');
   });
 });
 
