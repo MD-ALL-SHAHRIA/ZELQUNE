@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Fixed
+- Quotes: interior design and construction requests can be accepted ("Take on this project") straight from New; before, only Decline was possible because these requests are never priced.
+
 ### Added
 - Content → Pages and policies: the owner edits 24 storefront texts (story, privacy, terms, FAQ answers, making time, refund days, materials, workshop, design fee, warranty, footer contact) in English and Bangla; empty keeps the built-in copy. Stored as `texts` in the home content (only listed paths are applied).
 

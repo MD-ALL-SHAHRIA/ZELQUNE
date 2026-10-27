@@ -107,3 +107,13 @@ describe('assertProductQuote', () => {
     );
   });
 });
+
+describe('design and construction leads', () => {
+  it('can be accepted straight from NEW; product quotes still need a price first', () => {
+    expect(canTransitionQuote('NEW', 'ACCEPTED', 'DESIGN')).toBe(true);
+    expect(canTransitionQuote('NEW', 'ACCEPTED', 'CONSTRUCTION')).toBe(true);
+    expect(canTransitionQuote('NEW', 'ACCEPTED', 'PRODUCT')).toBe(false);
+    expect(canTransitionQuote('NEW', 'ACCEPTED')).toBe(false);
+    expect(canTransitionQuote('REJECTED', 'ACCEPTED', 'DESIGN')).toBe(false);
+  });
+});

@@ -473,7 +473,7 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
     await this.expireIfDue(quote);
     if (quote.orderId)
       throw new AppError('QUOTE_ALREADY_CONVERTED', 'This quote was already converted', 409);
-    assertQuoteTransition(quote.status, to);
+    assertQuoteTransition(quote.status, to, quote.kind);
     await this.prisma.$transaction(async (tx) => {
       await this.lock(tx, quoteId);
       await tx.quote.update({

@@ -1,5 +1,10 @@
 import { AppError } from '@zelqune/common';
-import { type Actor, type PaymentMethod, type QuoteStatus } from '@zelqune/contracts';
+import {
+  type Actor,
+  type PaymentMethod,
+  type QuoteKind,
+  type QuoteStatus,
+} from '@zelqune/contracts';
 
 const TRANSITIONS: Record<QuoteStatus, QuoteStatus[]> = {
   NEW: ['QUOTED', 'REJECTED', 'EXPIRED'],
@@ -10,13 +15,18 @@ const TRANSITIONS: Record<QuoteStatus, QuoteStatus[]> = {
   EXPIRED: [],
 };
 
-/** NEW -> QUOTED -> ACCEPTED (-> converted to an order); REJECTED / EXPIRED are final. */
-export function canTransitionQuote(from: QuoteStatus, to: QuoteStatus): boolean {
+/**
+ * NEW -> QUOTED -> ACCEPTED (-> converted to an order); REJECTED / EXPIRED are final.
+ * Design and construction leads are never priced here, so the owner can take one on
+ * (NEW -> ACCEPTED) straight after the call.
+ */
+export function canTransitionQuote(from: QuoteStatus, to: QuoteStatus, kind?: QuoteKind): boolean {
+  if (kind && kind !== 'PRODUCT' && from === 'NEW' && to === 'ACCEPTED') return true;
   return TRANSITIONS[from].includes(to);
 }
 
-export function assertQuoteTransition(from: QuoteStatus, to: QuoteStatus): void {
-  if (!canTransitionQuote(from, to)) {
+export function assertQuoteTransition(from: QuoteStatus, to: QuoteStatus, kind?: QuoteKind): void {
+  if (!canTransitionQuote(from, to, kind)) {
     throw new AppError('INVALID_QUOTE_TRANSITION', `Quote is ${from}, cannot become ${to}`, 409);
   }
 }

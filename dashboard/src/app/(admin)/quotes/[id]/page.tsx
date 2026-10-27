@@ -122,6 +122,11 @@ export default function QuotePage() {
                 <Check /> Customer accepted
               </Button>
             ) : null}
+            {lead && quote.status === 'NEW' ? (
+              <Button disabled={busy} onClick={() => void act('accept')}>
+                <Check /> Take on this project
+              </Button>
+            ) : null}
             {quote.status === 'ACCEPTED' && !quote.orderCode && !lead ? (
               <Button onClick={() => setConvert(true)}>Create the order</Button>
             ) : null}
