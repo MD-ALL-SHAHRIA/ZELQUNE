@@ -28,6 +28,8 @@ function securityHeaders(dev: boolean) {
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob: ${mediaBase.origin} https://images.unsplash.com https://www.facebook.com`,
     "font-src 'self' data:",
+    // The construction film is read into memory (blob:) so the scroll can seek it smoothly.
+    `media-src 'self' blob: ${mediaBase.origin}`,
     `connect-src 'self' ${api} https://www.facebook.com https://connect.facebook.net${dev ? ' ws: wss:' : ''}`,
     'frame-src https://challenges.cloudflare.com https://www.facebook.com',
     "frame-ancestors 'none'",
