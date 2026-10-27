@@ -466,6 +466,29 @@ export type HomeContentResponseDtoOutput = {
           bn: string;
         };
       };
+      projects: {
+        kind: 'DESIGN' | 'CONSTRUCTION';
+        title: {
+          en: string;
+          bn: string;
+        };
+        location: {
+          en: string;
+          bn: string;
+        };
+        text: {
+          en: string;
+          bn: string;
+        };
+        assetIds: string[];
+        imageUrls: string[];
+      }[];
+      clients: {
+        name: string;
+        assetId: string | null;
+        url: string | '';
+        logoUrl: string | null;
+      }[];
     };
   } | null;
 };

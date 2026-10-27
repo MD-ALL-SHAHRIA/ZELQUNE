@@ -141,6 +141,33 @@ describe('ContentService', () => {
     expect(home?.content.collections[0]?.imageUrl).toBeNull();
   });
 
+  it('resolves project photos and client logos, skipping assets that are not READY', async () => {
+    const content = homeContentSchema.parse({
+      ...draft(),
+      projects: [
+        {
+          kind: 'DESIGN',
+          title: localized('Gulshan apartment'),
+          location: localized('Gulshan, Dhaka'),
+          text: localized('Living room wall and lighting.'),
+          assetIds: [assetA, assetB],
+        },
+      ],
+      clients: [{ name: 'Café Nirvana', assetId: assetA }],
+    });
+    expect(referencedAssets(content).sort()).toEqual([assetA, assetB].sort());
+    const { service } = setup({
+      row: { version: 4, data: content },
+      assets: [{ id: assetA, storageKey: `content/${assetA}.webp`, status: 'READY' }],
+    });
+    const { home } = await service.home();
+    expect(home?.content.projects[0]?.imageUrls).toEqual([
+      `https://media.test/content/${assetA}.webp`,
+    ]);
+    expect(home?.content.clients[0]?.logoUrl).toBe(`https://media.test/content/${assetA}.webp`);
+    expect(home?.content.clients[0]?.url).toBe('');
+  });
+
   it('first save creates version 1 and is audited', async () => {
     const { service, tx, audits } = setup({ row: null, readyCount: 1 });
     const result = await service.updateHome({ expectedVersion: 0, content: draft() });

@@ -5330,6 +5330,149 @@
                       ],
                       "additionalProperties": false
                     }
+                  },
+                  "projects": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "DESIGN",
+                            "CONSTRUCTION"
+                          ]
+                        },
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "type": "string",
+                              "maxLength": 80
+                            },
+                            "bn": {
+                              "type": "string",
+                              "maxLength": 80
+                            }
+                          },
+                          "required": [
+                            "en",
+                            "bn"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "type": "string",
+                              "maxLength": 60
+                            },
+                            "bn": {
+                              "type": "string",
+                              "maxLength": 60
+                            }
+                          },
+                          "required": [
+                            "en",
+                            "bn"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "text": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "type": "string",
+                              "maxLength": 400
+                            },
+                            "bn": {
+                              "type": "string",
+                              "maxLength": 400
+                            }
+                          },
+                          "required": [
+                            "en",
+                            "bn"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "assetIds": {
+                          "default": [],
+                          "maxItems": 6,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          }
+                        },
+                        "imageUrls": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "title",
+                        "location",
+                        "text",
+                        "assetIds",
+                        "imageUrls"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "clients": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 60
+                        },
+                        "assetId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                          "default": null,
+                          "nullable": true
+                        },
+                        "url": {
+                          "default": "",
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 300,
+                              "format": "uri"
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                ""
+                              ]
+                            }
+                          ]
+                        },
+                        "logoUrl": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "assetId",
+                        "url",
+                        "logoUrl"
+                      ],
+                      "additionalProperties": false
+                    }
                   }
                 },
                 "required": [
@@ -5338,7 +5481,9 @@
                   "trust",
                   "collections",
                   "contact",
-                  "texts"
+                  "texts",
+                  "projects",
+                  "clients"
                 ],
                 "additionalProperties": false
               }
@@ -5670,6 +5815,131 @@
                   "required": [
                     "en",
                     "bn"
+                  ]
+                }
+              },
+              "projects": {
+                "default": [],
+                "maxItems": 24,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "DESIGN",
+                        "CONSTRUCTION"
+                      ]
+                    },
+                    "title": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string",
+                          "maxLength": 80
+                        },
+                        "bn": {
+                          "type": "string",
+                          "maxLength": 80
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "bn"
+                      ]
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string",
+                          "maxLength": 60
+                        },
+                        "bn": {
+                          "type": "string",
+                          "maxLength": 60
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "bn"
+                      ]
+                    },
+                    "text": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string",
+                          "maxLength": 400
+                        },
+                        "bn": {
+                          "type": "string",
+                          "maxLength": 400
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "bn"
+                      ]
+                    },
+                    "assetIds": {
+                      "default": [],
+                      "maxItems": 6,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "title",
+                    "location",
+                    "text"
+                  ]
+                }
+              },
+              "clients": {
+                "default": [],
+                "maxItems": 30,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 60
+                    },
+                    "assetId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      "default": null,
+                      "nullable": true
+                    },
+                    "url": {
+                      "default": "",
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "maxLength": 300,
+                          "format": "uri"
+                        },
+                        {
+                          "type": "string",
+                          "enum": [
+                            ""
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "name"
                   ]
                 }
               }
