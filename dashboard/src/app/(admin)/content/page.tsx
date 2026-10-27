@@ -312,10 +312,10 @@ export default function ContentPage() {
         saving={busy}
         onSave={() => void save()}
         onDiscard={() => setContent(JSON.parse(saved) as HomeContent)}
-        message="Unsaved changes to the home page"
+        message="Unsaved changes to the website content"
       />
       <PageHeader
-        title="Home page"
+        title="Website content"
         description={
           version
             ? `Version ${version}${updatedAt ? ` · saved ${timeAgo(updatedAt)}` : ''}`

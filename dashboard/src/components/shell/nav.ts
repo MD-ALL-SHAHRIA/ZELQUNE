@@ -105,9 +105,10 @@ export const NAV_GROUPS: { label?: string; items: NavItem[] }[] = [
     items: [
       {
         href: '/content',
-        label: 'Home page',
+        label: 'Website content',
         icon: FileText,
-        keywords: 'hero banner trust collections contact announcement',
+        keywords:
+          'home page hero banner trust collections contact announcement projects portfolio clients logos partners privacy terms faq story policies',
       },
       {
         href: '/audit',

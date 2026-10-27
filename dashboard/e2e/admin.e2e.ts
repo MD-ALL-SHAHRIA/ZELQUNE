@@ -19,15 +19,15 @@ test('sign in, home, edit the home page, orders, a coupon, settings and finance'
   const nav = page.getByRole('navigation', { name: 'Main' });
 
   // Edit: the save bar appears; discard puts the text back.
-  await nav.getByRole('link', { name: 'Home page', exact: true }).click();
-  await expect(page.getByRole('heading', { level: 1, name: 'Home page' })).toBeVisible();
+  await nav.getByRole('link', { name: 'Website content', exact: true }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Website content' })).toBeVisible();
   const text = page.getByRole('textbox').first();
   const original = await text.inputValue();
   await text.fill(`${original} ✦`);
-  await expect(page.getByText('Unsaved changes to the home page')).toBeVisible();
+  await expect(page.getByText('Unsaved changes to the website content')).toBeVisible();
   await page.getByRole('button', { name: 'Discard' }).click();
   await expect(text).toHaveValue(original);
-  await expect(page.getByText('Unsaved changes to the home page')).toBeHidden();
+  await expect(page.getByText('Unsaved changes to the website content')).toBeHidden();
 
   // ⌘K jumps to orders.
   await page.keyboard.press('ControlOrMeta+k');

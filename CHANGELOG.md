@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Dashboard: the content editor is now called "Website content" (it holds the home page, projects, clients and page texts); ⌘K finds it by "projects", "clients", "privacy" and more.
+
 ### Added
 - Content → Projects: interior design and construction projects (title, place, note, up to 6 photos, EN/BN) shown on the Interior design and Construction pages instead of "coming soon".
 - Content → Clients: company logos (name, logo, optional website) drifting across the home page under the statement band; hidden until the first client is added.
