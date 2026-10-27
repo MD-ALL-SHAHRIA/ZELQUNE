@@ -7,6 +7,10 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Construction film: 56 s, eleven licensed Pexels shots across the seven chapters (architect drafting, concrete pour, frame, rising structure, wood-clad and pool houses, two interiors, dusk aerial), in two grades: bright and clean for day mode, warm and moody for night mode (switches with the theme, same frame). More reliable scrubbing: plays from the stream at once and swaps to the in-memory copy at the same frame; one seek at a time; redraws when ready; iPhone warm-up on first touch.
+- Construction page: a brass roadmap thread runs from the film through the following sections (down one edge, across on a diagonal, down the other) and draws with the scroll, a glowing point at its tip; "Why one team" is a small point-and-line roadmap.
+
+### Changed
 - Construction journey now plays a real film: licensed Pexels footage (dusk aerial of a modern house, concrete frame, a building rising, the finished house, two finished interiors) cut, graded warm and timed to the six stage chapters; the scroll scrubs it both ways (frontend/public/videos, credits in CREDITS.md). CSP allows `media-src blob:` for smooth seeking.
 
 ### Changed

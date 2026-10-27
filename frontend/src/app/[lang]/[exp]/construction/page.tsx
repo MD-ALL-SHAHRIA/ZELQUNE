@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SAMPLE } from '@/content/sample-images';
 import { type Chapter, ConstructionJourney } from '@/features/construction/journey.client';
+import { ThreadLine } from '@/features/construction/thread-line.client';
 import {
   BuildTypes,
   ConstructionProjects,
@@ -60,8 +61,14 @@ export default async function ConstructionPage({ params }: { params: PageParams 
         // A real fly-through: licensed Pexels footage (Pexels License), cut and graded into one
         // film; the scroll plays it. Without it the journey draws the building instead.
         video={{
-          src: '/videos/construction-journey.mp4',
-          poster: '/videos/construction-journey.jpg',
+          day: {
+            src: '/videos/construction-journey-day.mp4',
+            poster: '/videos/construction-journey-day.jpg',
+          },
+          night: {
+            src: '/videos/construction-journey-night.mp4',
+            poster: '/videos/construction-journey-night.jpg',
+          },
         }}
         labels={{
           stage: d.journey.stage,
@@ -71,19 +78,22 @@ export default async function ConstructionPage({ params }: { params: PageParams 
         }}
         lang={lang}
       />
-      <BuildTypes
-        lang={lang}
-        dict={dict}
-        images={{
-          modernHouse: SAMPLE.modernHouse.src,
-          woodFacade: SAMPLE.woodFacade.src,
-          office: SAMPLE.office.src,
-          cafeLights: SAMPLE.cafeLights.src,
-        }}
-      />
-      <WhyOneTeam lang={lang} dict={dict} image={SAMPLE.rebar.src} />
-      <ConstructionProjects dict={dict} lang={lang} projects={projects} />
-      <StartSection lang={lang} dict={dict} districts={districts} />
+      {/* The roadmap thread runs on from the film through the rest of the page. */}
+      <ThreadLine>
+        <BuildTypes
+          lang={lang}
+          dict={dict}
+          images={{
+            modernHouse: SAMPLE.modernHouse.src,
+            woodFacade: SAMPLE.woodFacade.src,
+            office: SAMPLE.office.src,
+            cafeLights: SAMPLE.cafeLights.src,
+          }}
+        />
+        <WhyOneTeam lang={lang} dict={dict} image={SAMPLE.rebar.src} />
+        <ConstructionProjects dict={dict} lang={lang} projects={projects} />
+        <StartSection lang={lang} dict={dict} districts={districts} />
+      </ThreadLine>
     </>
   );
 }

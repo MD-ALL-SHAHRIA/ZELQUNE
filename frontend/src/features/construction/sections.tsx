@@ -235,13 +235,21 @@ export function WhyOneTeam({ dict, image }: { lang: Locale; dict: Dictionary; im
             <Eyebrow className="text-ivory/60">{d.eyebrow}</Eyebrow>
             <Heading>{d.whyHeading}</Heading>
           </div>
-          <ul className="mt-12 border-t border-ivory/15">
-            {d.why.map((item) => (
+          {/* A small roadmap: one line, a point for each promise. */}
+          <ul className="relative mt-12 before:absolute before:top-9 before:bottom-9 before:left-[4px] before:w-px before:bg-ivory/20">
+            {d.why.map((item, i) => (
               <li
                 key={item}
-                className="reveal flex items-baseline gap-6 border-b border-ivory/15 py-7"
+                className="reveal relative flex items-baseline gap-7 border-b border-ivory/10 py-7 pl-9 last:border-b-0"
               >
-                <span aria-hidden className="block bg-glow h-px w-8" />
+                <span
+                  aria-hidden
+                  className={
+                    i === 0
+                      ? 'absolute top-[2.35rem] left-0 size-[9px] rounded-full bg-glow shadow-[0_0_0_5px_rgba(233,184,114,.18),0_0_18px_rgba(233,184,114,.6)]'
+                      : 'absolute top-[2.35rem] left-[1px] size-[7px] rounded-full border border-ivory/50 bg-night'
+                  }
+                />
                 <span className="font-display text-2xl font-medium leading-snug sm:text-[1.9rem]">
                   {item}
                 </span>

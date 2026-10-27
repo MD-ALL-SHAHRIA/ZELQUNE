@@ -6,6 +6,11 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { cn } from '@/shared/lib/cn';
 import { BuildingScene } from './building-scene';
 
+interface Film {
+  src: string;
+  poster?: string;
+}
+
 export interface Chapter {
   title: string;
   text: string;
@@ -27,6 +32,13 @@ const two = (n: number, lang: string) => {
   const t = String(n).padStart(2, '0');
   return lang === 'bn' ? t.replace(/\d/g, (d) => BN_DIGITS[Number(d)]!) : t;
 };
+
+/** The site's theme (night when the visitor chose it), kept in step with the toggle. */
+function subscribeTheme(onChange: () => void) {
+  const watch = new MutationObserver(onChange);
+  watch.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  return () => watch.disconnect();
+}
 
 const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
 const smooth = (a: number, b: number, v: number) => {
@@ -59,7 +71,8 @@ export function ConstructionJourney({
   chapters: Chapter[];
   /** The room inside the building the camera flies into (Interiors and Handover). */
   room: string;
-  video?: { src: string; poster?: string };
+  /** A fly-through film per theme: bright and clean by day, warm and moody by night. */
+  video?: { day: Film; night: Film };
   labels: { stage: string; scroll: string; section: string; approved: string };
   /** Bangla pages count in Bangla digits. */
   lang: string;
@@ -74,6 +87,12 @@ export function ConstructionJourney({
   const rail = useRef<HTMLSpanElement>(null);
   const film = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(0);
+  const dark = useSyncExternalStore(
+    subscribeTheme,
+    () => document.documentElement.dataset.theme === 'dark',
+    () => false,
+  );
+  const reel = video ? (dark ? video.night : video.day) : undefined;
   const total = chapters.length + 1; // the intro is chapter 0
 
   useEffect(() => {
@@ -84,6 +103,29 @@ export function ConstructionJourney({
     let current = 0;
     let frame = 0;
     let shown = -1;
+    let pending: number | null = null;
+    const v = film.current;
+    const onSeeked = () => {
+      if (v && pending !== null) {
+        v.currentTime = pending;
+        pending = null;
+      }
+    };
+    // Show the right frame as soon as the film can play (and again after a source swap).
+    const onReady = () => paint(current);
+    // iPhones draw no frames from a paused film until it has played once.
+    let warmed = false;
+    const warm = () => {
+      if (warmed || !v) return;
+      warmed = true;
+      void v
+        .play()
+        .then(() => v.pause())
+        .catch(() => undefined);
+    };
+    v?.addEventListener('seeked', onSeeked);
+    v?.addEventListener('loadeddata', onReady);
+    window.addEventListener('touchstart', warm, { once: true, passive: true });
 
     const measure = () => {
       const r = el.getBoundingClientRect();
@@ -110,7 +152,12 @@ export function ConstructionJourney({
       });
       if (rail.current) rail.current.style.transform = `scaleY(${p})`;
       const v = film.current;
-      if (v && v.duration) v.currentTime = p * (v.duration - 0.05);
+      if (v && v.duration) {
+        // One seek at a time: a seek sent while another is running piles up and freezes.
+        const want = p * (v.duration - 0.05);
+        if (v.seeking) pending = want;
+        else if (Math.abs(v.currentTime - want) > 0.01) v.currentTime = want;
+      }
       if (i !== shown) {
         shown = i;
         setActive(i);
@@ -134,6 +181,9 @@ export function ConstructionJourney({
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     return () => {
+      v?.removeEventListener('seeked', onSeeked);
+      v?.removeEventListener('loadeddata', onReady);
+      window.removeEventListener('touchstart', warm);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
       cancelAnimationFrame(frame);
@@ -152,25 +202,29 @@ export function ConstructionJourney({
     return () => watch.disconnect();
   }, [still]);
 
-  // Smooth scrubbing needs the whole film in memory (seeking a stream stutters).
+  // Play from the stream straight away; once the whole film is in memory (smooth seeking both
+  // ways), swap to it at the same frame.
   useEffect(() => {
     const v = film.current;
-    if (!video || !v || still) return;
+    if (!reel || !v || still) return;
     let url = '';
     let alive = true;
-    void fetch(video.src)
-      .then((r) => r.blob())
+    v.src = reel.src;
+    void fetch(reel.src)
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
       .then((b) => {
         if (!alive) return;
         url = URL.createObjectURL(b);
+        const at = v.currentTime;
         v.src = url;
+        v.addEventListener('loadedmetadata', () => (v.currentTime = at), { once: true });
       })
-      .catch(() => (v.src = video.src));
+      .catch(() => undefined);
     return () => {
       alive = false;
       if (url) URL.revokeObjectURL(url);
     };
-  }, [video, still]);
+  }, [reel, still]);
 
   if (still) {
     return (
@@ -217,7 +271,7 @@ export function ConstructionJourney({
             muted
             playsInline
             preload="auto"
-            poster={video.poster}
+            poster={reel?.poster}
             className="absolute inset-0 h-full w-full object-cover"
             aria-hidden
           />
@@ -246,12 +300,22 @@ export function ConstructionJourney({
         {/* Shade under the words, which sit at the top. */}
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(20,13,10,.85)_0%,rgba(20,13,10,.45)_26%,transparent_46%)]"
+          className={cn(
+            'pointer-events-none absolute inset-0',
+            dark || !video
+              ? 'bg-[linear-gradient(180deg,rgba(20,13,10,.85)_0%,rgba(20,13,10,.45)_26%,transparent_46%)]'
+              : 'bg-[linear-gradient(180deg,rgba(40,26,18,.62)_0%,rgba(40,26,18,.28)_26%,transparent_44%)]',
+          )}
         />
         {/* Shade for the words, top and bottom; a soft vignette. */}
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(26,18,15,.55)_0%,rgba(26,18,15,0)_30%,rgba(26,18,15,0)_55%,rgba(26,18,15,.7)_100%),radial-gradient(130%_100%_at_50%_45%,transparent_55%,rgba(18,12,10,.5))]"
+          className={cn(
+            'pointer-events-none absolute inset-0',
+            dark || !video
+              ? 'bg-[linear-gradient(180deg,rgba(26,18,15,.55)_0%,rgba(26,18,15,0)_30%,rgba(26,18,15,0)_55%,rgba(26,18,15,.7)_100%),radial-gradient(130%_100%_at_50%_45%,transparent_55%,rgba(18,12,10,.5))]'
+              : 'bg-[linear-gradient(180deg,transparent_60%,rgba(40,26,18,.45)_100%)]',
+          )}
         />
 
         {/* Chapter 0: the page's own opening words. */}
