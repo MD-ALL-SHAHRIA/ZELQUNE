@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { type Locale } from '@/i18n/config';
 import { type HomeContent } from '@/shared/api/content';
+import { cn } from '@/shared/lib/cn';
 
 export type Project = HomeContent['projects'][number];
 
@@ -12,7 +13,17 @@ const pick = (v: { en: string; bn: string }, lang: Locale) => v[lang].trim() || 
  */
 export function ProjectGrid({ projects, lang }: { projects: Project[]; lang: Locale }) {
   return (
-    <ul className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+    <ul
+      className={cn(
+        'mx-auto grid gap-x-8 gap-y-14',
+        // One or two projects sit centred instead of hugging the left of a three-column grid.
+        projects.length === 1
+          ? 'max-w-xl'
+          : projects.length === 2
+            ? 'max-w-4xl sm:grid-cols-2'
+            : 'sm:grid-cols-2 lg:grid-cols-3',
+      )}
+    >
       {projects.map((p, i) => {
         const [cover, ...more] = p.imageUrls;
         const title = pick(p.title, lang);
