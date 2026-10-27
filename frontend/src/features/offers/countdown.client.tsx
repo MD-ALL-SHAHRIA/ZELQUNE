@@ -25,8 +25,9 @@ function subscribe(cb: () => void) {
 }
 
 /**
- * A live countdown to a sale's real end time (never a fake timer). Renders nothing on the
- * server and after the end, so cached pages never show a stale clock.
+ * A live countdown to a sale's real end time (never a fake timer). On the server it is an
+ * invisible placeholder of the same width (no layout shift when the clock starts), so cached
+ * pages never show a stale time; after the end it renders nothing.
  */
 export function Countdown({
   endsAt,
@@ -44,7 +45,15 @@ export function Countdown({
     () => now,
     () => null,
   );
-  const left = t === null ? null : timeLeft(endsAt, t);
+  if (t === null) {
+    const blank = fill(copy.time, { d: '0', hh: '00', mm: '00', ss: '00' });
+    return (
+      <span className={className} aria-hidden style={{ visibility: 'hidden' }}>
+        {fill(copy.endsIn, { time: blank })}
+      </span>
+    );
+  }
+  const left = timeLeft(endsAt, t);
   if (!left) return null;
   const time = fill(copy.time, {
     d: formatNumber(left.d, lang),

@@ -6,6 +6,12 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Performance
+- Gateway: public catalog, sale and home-content responses cached in Redis for 30 s with CDN-ready `Cache-Control` (ADR 0018).
+- Quotes list: order codes fetched in one query instead of one per converted quote (N+1).
+- Storefront: the sale countdown reserves its space before the clock starts (layout shift 0.11 → 0 on every page).
+- Removed unused dependencies (dashboard: zod, openapi-fetch; storefront: openapi-fetch).
+
 ### Changed
 - Dashboard: the content editor is now called "Website content" (it holds the home page, projects, clients and page texts); ⌘K finds it by "projects", "clients", "privacy" and more.
 

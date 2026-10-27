@@ -202,9 +202,18 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
       }),
       this.prisma.quote.count({ where }),
     ]);
+    // One query for every converted quote's order code (not one per row).
+    const orderIds = rows.flatMap((r) => (r.orderId ? [r.orderId] : []));
+    const orders = orderIds.length
+      ? await this.prisma.order.findMany({
+          where: { id: { in: orderIds } },
+          select: { id: true, code: true },
+        })
+      : [];
+    const codes = new Map(orders.map((o) => [o.id, o.code]));
     const items = await Promise.all(
       rows.map(async (r) => {
-        const view: Partial<AdminQuote> = await this.view(r);
+        const view: Partial<AdminQuote> = await this.view(r, codes);
         delete view.lines; // the list omits lines
         return view as Omit<AdminQuote, 'lines'>;
       }),
@@ -531,12 +540,15 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
     await tx.$queryRaw`SELECT id FROM quotes WHERE id = ${quoteId}::uuid FOR UPDATE`;
   }
 
-  private async view(q: QuoteWithLines): Promise<AdminQuote> {
+  /** `orderCodes` (from a list) saves a lookup per converted quote. */
+  private async view(q: QuoteWithLines, orderCodes?: Map<string, string>): Promise<AdminQuote> {
     const priced = q.lines.every((l) => l.unitPricePaisa !== null);
     const subtotal = q.lines.reduce((sum, l) => sum + (l.unitPricePaisa ?? 0) * l.qty, 0);
-    const order = q.orderId
-      ? await this.prisma.order.findUnique({ where: { id: q.orderId }, select: { code: true } })
-      : null;
+    const order = !q.orderId
+      ? null
+      : orderCodes
+        ? { code: orderCodes.get(q.orderId) ?? null }
+        : await this.prisma.order.findUnique({ where: { id: q.orderId }, select: { code: true } });
     return {
       id: q.id,
       code: q.code,
