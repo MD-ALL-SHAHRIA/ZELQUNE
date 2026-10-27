@@ -63,10 +63,12 @@ export default async function ConstructionPage({ params }: { params: PageParams 
         video={{
           day: {
             src: '/videos/construction-journey-day.mp4',
+            small: '/videos/construction-journey-day-720.mp4',
             poster: '/videos/construction-journey-day.jpg',
           },
           night: {
             src: '/videos/construction-journey-night.mp4',
+            small: '/videos/construction-journey-night-720.mp4',
             poster: '/videos/construction-journey-night.jpg',
           },
         }}

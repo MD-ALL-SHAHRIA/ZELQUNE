@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Fixed
+- Construction film is sharp: full HD (1920×1080) for larger screens and a separate 720p cut for phones, re-encoded from the 1080p–4K sources at much higher quality with a light denoise (was 720p at heavy compression, soft and grainy when stretched full screen). Each screen downloads only its own file; a replaced download is cancelled; the in-memory copy now loads after React's dev double-mount too.
+
 ### Changed
 - Construction film: 56 s, eleven licensed Pexels shots across the seven chapters (architect drafting, concrete pour, frame, rising structure, wood-clad and pool houses, two interiors, dusk aerial), in two grades: bright and clean for day mode, warm and moody for night mode (switches with the theme, same frame). More reliable scrubbing: plays from the stream at once and swaps to the in-memory copy at the same frame; one seek at a time; redraws when ready; iPhone warm-up on first touch.
 - Construction page: a brass roadmap thread runs from the film through the following sections (down one edge, across on a diagonal, down the other) and draws with the scroll, a glowing point at its tip; "Why one team" is a small point-and-line roadmap.
