@@ -213,7 +213,7 @@ export function Purchase({
 
       <div className="space-y-3">
         {/* Delivery card (Apex pattern: delivery assurance right under the buttons). */}
-        <section aria-labelledby="delivery-card" className="bg-cream/70 p-5">
+        <section aria-labelledby="delivery-card" className="bg-cream p-5">
           <h2
             id="delivery-card"
             className="flex items-center gap-2.5 text-[0.95rem] font-medium text-ink"

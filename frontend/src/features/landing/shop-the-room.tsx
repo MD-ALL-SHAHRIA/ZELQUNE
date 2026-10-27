@@ -57,7 +57,7 @@ export function ShopTheRoom({
   if (!spots.length) return null;
 
   return (
-    <section aria-labelledby="room-heading" className="bg-cream/70 py-20 sm:py-28 lg:py-36">
+    <section aria-labelledby="room-heading" className="bg-cream py-20 sm:py-28 lg:py-36">
       <style>{PULSE_CSS}</style>
       <Container className="grid gap-10 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-0">
         <div className="reveal space-y-6 lg:col-span-4 lg:col-start-1 lg:row-start-1 lg:pt-6">

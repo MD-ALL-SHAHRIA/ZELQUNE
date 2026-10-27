@@ -15,7 +15,7 @@ const PROMISE_ICONS = [Banknote, Undo2, ShieldCheck];
 export function ConfidenceCard({ dict }: { dict: Dictionary }) {
   const items = dict.premium.trust.items.slice(0, PROMISE_ICONS.length);
   return (
-    <section aria-labelledby="buy-with-confidence" className="bg-cream/70 p-5">
+    <section aria-labelledby="buy-with-confidence" className="bg-cream p-5">
       <h2
         id="buy-with-confidence"
         className="flex items-center gap-2.5 text-[0.95rem] font-medium text-ink"

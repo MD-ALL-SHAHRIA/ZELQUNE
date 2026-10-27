@@ -41,7 +41,7 @@ export function ProductRail({
         <li className="w-[74vw] max-w-[360px] shrink-0 snap-start sm:w-[42vw] lg:w-[26vw]">
           <Link
             href={href(lang, '/shop')}
-            className="group flex aspect-[4/5] flex-col items-center justify-center gap-6 border border-line bg-cream/60 text-center transition-colors duration-500 ease-out-soft hover:bg-cream"
+            className="group flex aspect-[4/5] flex-col items-center justify-center gap-6 border border-line bg-cream text-center transition-colors duration-500 ease-out-soft hover:bg-cream"
           >
             <span
               aria-hidden
