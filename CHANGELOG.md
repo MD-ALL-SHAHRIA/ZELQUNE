@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Fixed
+- Storefront (dev console): "Transition was aborted because of invalid state. Document hidden". A page change in a hidden tab now updates without the fade instead of failing the View Transition; this also removes the follow-on "Encountered a script tag" warning, which came from React re-rendering the page to recover from that error. The theme script still runs before first paint (no flash in night mode).
+
 ### Changed
 - Home hero is now four slides: our panels (giant "Wood · Light" split around a tall lit panel; a loader first, then the photo opens out, then the cards and line), interior design, construction and bulk orders (full-bleed premium photo, very large headline, text and buttons). Letters rise one by one (Bangla word by word); compact controls at the foot; 7 s per slide, paused on hover, focus, a hidden tab and for reduced motion. Slide words are editable in Content → Pages and policies → Home hero.
 
