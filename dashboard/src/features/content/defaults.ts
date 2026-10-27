@@ -71,6 +71,8 @@ export const DEFAULT_HOME: HomeContent = {
   ],
   contact: { phone: '', whatsapp: '', email: '', facebook: '', instagram: '' },
   texts: {},
+  projects: [],
+  clients: [],
 };
 
 export const TRUST_ICONS = [

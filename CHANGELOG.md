@@ -6,6 +6,10 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Content → Projects: interior design and construction projects (title, place, note, up to 6 photos, EN/BN) shown on the Interior design and Construction pages instead of "coming soon".
+- Content → Clients: company logos (name, logo, optional website) drifting across the home page under the statement band; hidden until the first client is added.
+
 ### Fixed
 - Quotes: interior design and construction requests can be accepted ("Take on this project") straight from New; before, only Decline was possible because these requests are never priced.
 

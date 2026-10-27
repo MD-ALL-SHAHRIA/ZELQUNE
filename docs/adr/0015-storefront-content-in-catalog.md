@@ -36,3 +36,6 @@ media already uses (ADR 0007).
 
 ## Addendum (2026-10-27): editable page texts
 The home content gains `texts` (dictionary path → {en, bn}). The storefront applies only the paths in `frontend/src/content/editable-texts.ts`; the dashboard's list (`site-texts.ts`) is generated from the same paths and dictionaries.
+
+## Addendum (2026-10-27): projects and clients
+The home content gains `projects` (kind DESIGN|CONSTRUCTION, localized title/location/text, up to 6 content assets) and `clients` (name, logo asset, optional URL). Their assets count as referenced, so only READY ones resolve to URLs; nothing is shown until the owner adds real entries.
