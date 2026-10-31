@@ -11,6 +11,7 @@ import { Button } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input } from '@/shared/ui/field';
 import { useTrackQuoteMutation } from '@/store/api';
+import { FormNotice } from '@/features/legal/form-notice';
 
 type Copy = Pick<Dictionary, 'bulk' | 'checkout' | 'ui' | 'consult' | 'build'>;
 
@@ -73,6 +74,12 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
         <Button type="submit" disabled={isFetching}>
           {isFetching ? copy.ui.loading : b.trackButton}
         </Button>
+        <FormNotice
+          lang={lang}
+          text={copy.checkout.privacyNotice.lookup}
+          link={copy.checkout.privacyNotice.link}
+          className="sm:col-span-3"
+        />
       </form>
       {error ? (
         <p role="alert" className="bg-danger/10 p-4 text-danger">

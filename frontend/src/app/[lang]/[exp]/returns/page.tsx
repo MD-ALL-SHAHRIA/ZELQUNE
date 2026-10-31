@@ -2,33 +2,27 @@ import type { Metadata } from 'next';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 import { PageHeader } from '@/shared/ui/page-header';
-import { Clauses, HelpLayout } from '@/features/help/help-layout';
+import { HelpLayout, PolicyBody } from '@/features/help/help-layout';
 
 export const revalidate = 3600;
 
 export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
   const { lang, dict } = await resolvePage(params);
   return {
-    title: `${dict.returns.title} · ${dict.brand.name}`,
+    title: `${dict.legal.returns.title} · ${dict.brand.name}`,
+    description: dict.legal.returns.intro,
     alternates: alternates(lang, '/returns'),
   };
 }
 
 export default async function Page({ params }: { params: PageParams }) {
   const { lang, dict } = await resolvePage(params);
+  const policy = dict.legal.returns;
   return (
     <>
-      <PageHeader eyebrow={dict.layout.columns.help} title={dict.returns.title} />
+      <PageHeader eyebrow={dict.layout.columns.help} title={policy.title} />
       <HelpLayout lang={lang} dict={dict} current="/returns">
-        <Clauses
-          lang={lang}
-          items={[
-            dict.terms.items[2] ?? '',
-            dict.terms.items[3] ?? '',
-            dict.terms.items[4] ?? '',
-            dict.faq.items[6]?.a ?? '',
-          ]}
-        />
+        <PolicyBody policy={policy} updated={dict.legal.updated} contact={dict.legal.contact} />
       </HelpLayout>
     </>
   );

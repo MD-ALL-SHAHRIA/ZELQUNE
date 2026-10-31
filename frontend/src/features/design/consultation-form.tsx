@@ -13,6 +13,7 @@ import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input, Select, Textarea } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
+import { FormNotice } from '@/features/legal/form-notice';
 
 type Space = keyof Dictionary['consult']['spaces'];
 type Budget = keyof Dictionary['consult']['budgets'];
@@ -208,6 +209,11 @@ export function ConsultationForm({
           <CopyText>{formError}</CopyText>
         </p>
       ) : null}
+      <FormNotice
+        lang={lang}
+        text={copy.checkout.privacyNotice.request}
+        link={copy.checkout.privacyNotice.link}
+      />
       <Button type="submit" size="lg" disabled={sending} className="w-full sm:w-auto">
         {sending ? c.sending : c.button}
       </Button>

@@ -22,6 +22,7 @@ import { Turnstile } from '@/shared/ui/turnstile';
 import { useCheckoutMutation, useCheckoutQuoteMutation } from '@/store/api';
 import { useAppDispatch } from '@/store/hooks';
 import { couponProblem, normalizeCoupon } from './coupon';
+import { FormNotice } from '@/features/legal/form-notice';
 
 type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product' | 'offers'>;
 
@@ -435,6 +436,11 @@ export function CheckoutForm({
             <CopyText>{formError}</CopyText>
           </p>
         ) : null}
+        <FormNotice
+          lang={lang}
+          text={copy.checkout.privacyNotice.order}
+          link={copy.checkout.privacyNotice.link}
+        />
         <Button type="submit" size="lg" disabled={sending || !quote} className="w-full">
           {sending ? c.sending : c.placeOrder}
         </Button>

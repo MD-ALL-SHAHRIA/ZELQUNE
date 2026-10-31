@@ -12,6 +12,7 @@ import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input, Select, Textarea } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
+import { FormNotice } from '@/features/legal/form-notice';
 
 const OTHER = '__other__';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -253,6 +254,11 @@ export function RfqForm({
           <CopyText>{formError}</CopyText>
         </p>
       ) : null}
+      <FormNotice
+        lang={lang}
+        text={copy.checkout.privacyNotice.request}
+        link={copy.checkout.privacyNotice.link}
+      />
       <Button type="submit" size="lg" disabled={sending}>
         {sending ? b.sending : b.button}
       </Button>

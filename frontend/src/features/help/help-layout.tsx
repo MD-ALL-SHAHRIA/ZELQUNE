@@ -84,3 +84,46 @@ export function Clauses({ items }: { lang: Locale; items: string[] }) {
     </ol>
   );
 }
+
+interface Policy {
+  title: string;
+  intro: string;
+  sections: readonly { heading: string; items: readonly string[] }[];
+}
+
+/**
+ * A full policy page (Privacy, Terms, Returns): the date it was last changed, a short intro and
+ * headed sections. Details the owner has not confirmed yet stay visible as `[[...]]` marks.
+ */
+export function PolicyBody({
+  policy,
+  updated,
+  contact,
+}: {
+  policy: Policy;
+  updated: string;
+  contact: string;
+}) {
+  return (
+    <div className="space-y-10 text-[1rem] leading-relaxed">
+      <p className="text-[0.85rem] text-stone">{updated}</p>
+      <p className="text-[1.05rem]">{policy.intro}</p>
+      {policy.sections.map((s) => (
+        <section key={s.heading} className="space-y-3 border-t border-line pt-8">
+          <h2 className="font-display text-2xl">{s.heading}</h2>
+          <ul className="space-y-2.5">
+            {s.items.map((item) => (
+              <li key={item} className="grid grid-cols-[1.25rem_1fr]">
+                <span aria-hidden className="mt-[0.8em] block h-px w-2.5 bg-walnut" />
+                <span>
+                  <CopyText>{item}</CopyText>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+      <p className="border-t border-line pt-8 text-stone">{contact}</p>
+    </div>
+  );
+}

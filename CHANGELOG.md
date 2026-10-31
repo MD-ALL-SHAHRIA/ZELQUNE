@@ -7,6 +7,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Full Privacy Policy, Terms and Conditions, and Returns, Refunds and Cancellations pages (EN/BN), written from how the site actually works (audit 2026-10-31). Details the owner has not confirmed (legal name, address, trade licence, hosting, retention periods, COD refund method, reply time) stay visible as `[[...]]` marks.
+- A one-line privacy notice with a Privacy Policy link beside the checkout, design, construction, bulk quote and tracking forms.
+
+### Changed
+- The short privacy summary no longer says cookies are used only for the cart and language; it now matches the consent banner.
+
+### Added
 - Cookie consent (ADR 0019): banner with Accept all / Reject all / Customize, settings dialog (footer and Cookie Policy), versioned `zq_consent` cookie. Analytics cookies and beacons only with analytics consent (cleared on refusal or withdrawal); Meta Pixel only with marketing consent.
 - Cookie Policy page (EN/BN) listing every cookie with its purpose, provider and lifetime; linked from the footer, the help pages and the sitemap.
 
