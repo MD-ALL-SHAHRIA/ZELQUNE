@@ -181,11 +181,13 @@ export class ShopController {
       .send(RPC_PATTERNS.order.checkout, { cartToken, request: body }, { timeoutMs: 20_000 });
   }
 
-  @Get('orders/track')
+  /** POST so the phone number travels in the body, never in a URL (URLs end up in logs). */
+  @Post('orders/track')
+  @HttpCode(200)
   @RouteThrottle('track')
   @ApiOperation({ summary: 'Track an order by code and the phone number used to place it.' })
-  @ZodResponse({ type: OrderTrackingDto })
-  async track(@Query() query: TrackQueryDto): Promise<OrderTracking> {
+  @ZodResponse({ status: 200, type: OrderTrackingDto })
+  async track(@Body() query: TrackQueryDto): Promise<OrderTracking> {
     const { orderId, ...order } = await this.services
       .get('order')
       .send<OrderTrackingCore>(RPC_PATTERNS.order.track, query);

@@ -270,7 +270,8 @@ describe('shop routes (e2e, services mocked)', () => {
     h.clients.payment.send.mockResolvedValueOnce(checkoutResponse.payment);
     h.clients.shipping.send.mockResolvedValueOnce(null);
     const res = await request(h.app.getHttpServer())
-      .get('/v1/orders/track?code=zq-7k3m9p&phone=01712345678')
+      .post('/v1/orders/track')
+      .send({ code: 'zq-7k3m9p', phone: '01712345678' })
       .expect(200);
     expect(res.body).toMatchObject({
       code: 'ZQ-7K3M9P',
@@ -283,7 +284,16 @@ describe('shop routes (e2e, services mocked)', () => {
       phone: '+8801712345678',
     });
     await request(h.app.getHttpServer())
-      .get('/v1/orders/track?code=ZQ-10001&phone=01712345678')
+      .post('/v1/orders/track')
+      .send({ code: 'ZQ-10001', phone: '01712345678' })
       .expect(400);
+  });
+
+  it('never takes the phone in a URL: the old GET tracking routes are gone', async () => {
+    for (const path of ['/v1/orders/track', '/v1/quote-requests/track']) {
+      await request(h.app.getHttpServer())
+        .get(`${path}?code=ZQ-7K3M9P&phone=01712345678`)
+        .expect(404);
+    }
   });
 });

@@ -6,6 +6,11 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Security / privacy
+- Order and quote tracking are POST requests with the phone in the body (`POST /v1/orders/track`, `POST /v1/quote-requests/track`); the old GET routes put customers' phone numbers in URLs and so in request logs. Request logs drop query strings.
+- Price experiment (`?p=a|b`, `zq_p`) is off unless `PRICE_EXPERIMENT=on` (owner decision: off at launch until a lawyer clears it); an old arm cookie is cleared.
+- Audit report: `docs/compliance/audit-2026-10-31.md` (data, cookies, third parties, findings, assets, open legal questions).
+
 ### Fixed
 - Construction film is sharp: full HD (1920×1080) for larger screens and a separate 720p cut for phones, re-encoded from the 1080p–4K sources at much higher quality with a light denoise (was 720p at heavy compression, soft and grainy when stretched full screen). Each screen downloads only its own file; a replaced download is cancelled; the in-memory copy now loads after React's dev double-mount too.
 

@@ -3,13 +3,14 @@ import { fillCheckout, uniquePhone, uniqueTrxId } from './helpers';
 
 /**
  * Checkout path against the real backend (Docker stack, `pnpm seed`): a visitor from an ad
- * with ?p=b sees ৳4,290 in Bangla, pre-orders with a bKash advance, and tracks the order.
+ * with ?p=b still sees the base ৳3,490 in Bangla (the price experiment is off at launch),
+ * pre-orders with a bKash advance, and tracks the order.
  */
 test('pre-order with a bKash advance, then track it', async ({ page }) => {
   const phone = uniquePhone();
 
   await page.goto('/bn/products/alo-arch-panel?p=b');
-  await expect(page.getByTestId('price')).toHaveText('৳৪,২৯০');
+  await expect(page.getByTestId('price')).toHaveText('৳৩,৪৯০');
   await expect(page.locator('[data-sale-mode="PRE_ORDER"]')).toBeVisible();
   await expect(page.locator('body')).not.toContainText('স্টকে আছে');
 
@@ -17,9 +18,9 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await page.locator('#estimate-district').selectOption('chattogram');
   await expect(page.getByTestId('delivery-estimate')).toContainText('৳');
 
-  // The arm sticks: a later ?p=a does not change the price.
+  // No experiment: another arm in the link changes nothing either.
   await page.goto('/bn/products/alo-arch-panel?p=a');
-  await expect(page.getByTestId('price')).toHaveText('৳৪,২৯০');
+  await expect(page.getByTestId('price')).toHaveText('৳৩,৪৯০');
 
   // The panel button and the mobile sticky bar share the label; either places the pre-order.
   await page.getByRole('button', { name: 'এখনই প্রি-অর্ডার করুন' }).first().click();
@@ -49,7 +50,7 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await page.locator('#t-phone').fill(phone);
   await page.getByRole('button', { name: 'দেখুন', exact: true }).click();
   await expect(page.getByTestId('order-status')).toHaveText('পেমেন্ট যাচাই হচ্ছে');
-  await expect(page.locator('section[aria-live]')).toContainText('৳৪,২৯০');
+  await expect(page.locator('section[aria-live]')).toContainText('৳৩,৪৯০');
 });
 
 test('a visitor with no ?p sees the base price, which equals arm a (৳3,490)', async ({ page }) => {

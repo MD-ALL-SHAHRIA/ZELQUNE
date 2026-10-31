@@ -25,7 +25,9 @@ export type RouteDecision =
  * Pure routing rules behind proxy.ts:
  * - no language prefix -> redirect to /en/...;
  * - the price arm comes from the zq_p cookie, else from ?p=a|b (then remembered for 90 days);
- *   no arm means the base price and no experiment;
+ *   no arm means the base price and no experiment. The experiment runs only when switched on
+ *   (`experiment`); while it is off everyone gets the base price and an old arm cookie is
+ *   cleared (owner decision 2026-10-31: off at launch until a lawyer clears it);
  * - every visitor gets an anonymous session id and first-touch UTM is remembered;
  * - the page is served from the hidden /{lang}/{arm}/... segment, so each arm is static.
  */
@@ -33,6 +35,7 @@ export function decideRoute(
   url: URL,
   cookies: Record<string, string | undefined>,
   newSessionId: () => string,
+  options: { experiment: boolean } = { experiment: false },
 ): RouteDecision {
   const [, first, ...rest] = url.pathname.split('/');
   if (!isLocale(first)) {
@@ -44,7 +47,9 @@ export function decideRoute(
   let segment: PriceSegment = 'base';
   const remembered = cookies[COOKIE.experiment];
   const requested = url.searchParams.get('p');
-  if (isExperimentKey(remembered)) {
+  if (!options.experiment) {
+    if (remembered !== undefined) set.push({ name: COOKIE.experiment, value: '', maxAge: 0 });
+  } else if (isExperimentKey(remembered)) {
     segment = remembered;
   } else if (isExperimentKey(requested)) {
     segment = requested;

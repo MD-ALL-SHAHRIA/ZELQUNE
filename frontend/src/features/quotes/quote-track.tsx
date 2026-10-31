@@ -10,7 +10,7 @@ import { normalizeCode, normalizePhone, QUOTE_CODE } from '@/shared/lib/forms';
 import { Button } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input } from '@/shared/ui/field';
-import { useLazyTrackQuoteQuery } from '@/store/api';
+import { useTrackQuoteMutation } from '@/store/api';
 
 type Copy = Pick<Dictionary, 'bulk' | 'checkout' | 'ui' | 'consult' | 'build'>;
 
@@ -19,7 +19,7 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
   const [code, setCode] = useState(useSearchParams().get('code') ?? '');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [track, { data: quote, isFetching }] = useLazyTrackQuoteQuery();
+  const [track, { data: quote, isLoading: isFetching }] = useTrackQuoteMutation();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -29,7 +29,7 @@ export function QuoteTrack({ lang, copy }: { lang: Locale; copy: Copy }) {
     if (!QUOTE_CODE.test(normalized)) return setError(b.codeFormat);
     if (!mobile) return setError(copy.checkout.errors.phone);
     try {
-      await track({ code: normalized, phone: mobile }).unwrap();
+      await track({ quoteTrackQueryDto: { code: normalized, phone: mobile } }).unwrap();
     } catch (err) {
       const apiError = toApiError(err);
       setError(

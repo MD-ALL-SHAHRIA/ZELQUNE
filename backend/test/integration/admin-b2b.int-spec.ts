@@ -432,7 +432,8 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
     expect(validDays).toBeLessThan(7.1);
 
     const tracked = await http()
-      .get(`/v1/quote-requests/track?code=${quoteCode}&phone=01933333333`)
+      .post('/v1/quote-requests/track')
+      .send({ code: quoteCode, phone: '01933333333' })
       .expect(200);
     expect(tracked.body).toMatchObject({
       status: 'QUOTED',
@@ -488,8 +489,12 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
       ).body.error.code,
     ).toBe('QUOTE_ALREADY_CONVERTED');
     expect(
-      (await http().get(`/v1/quote-requests/track?code=${quoteCode}&phone=01933333333`).expect(200))
-        .body.orderCode,
+      (
+        await http()
+          .post('/v1/quote-requests/track')
+          .send({ code: quoteCode, phone: '01933333333' })
+          .expect(200)
+      ).body.orderCode,
     ).toBe(converted.body.orderCode);
     // the admin list resolves order codes in one batch (no query per row)
     const listed = (await as(staffToken).get(`/v1/admin/quotes?q=${quoteCode}`).expect(200))
@@ -570,7 +575,8 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
       })
       .expect(201);
     const buildTrack = await http()
-      .get(`/v1/quote-requests/track?code=${build.body.quoteCode as string}&phone=01944444446`)
+      .post('/v1/quote-requests/track')
+      .send({ code: build.body.quoteCode as string, phone: '01944444446' })
       .expect(200);
     expect(buildTrack.body).toMatchObject({
       kind: 'CONSTRUCTION',
@@ -578,7 +584,8 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
     });
 
     const tracked = await http()
-      .get(`/v1/quote-requests/track?code=${code}&phone=01944444444`)
+      .post('/v1/quote-requests/track')
+      .send({ code: code, phone: '01944444444' })
       .expect(200);
     expect(tracked.body).toMatchObject({
       kind: 'DESIGN',
