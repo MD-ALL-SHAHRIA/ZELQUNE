@@ -1,3 +1,4 @@
+import { businessLine } from '@/shared/lib/business';
 import { href } from '@/shared/lib/site';
 import { CookieBanner } from '@/features/consent/cookie-banner';
 import { Suspense, ViewTransition } from 'react';
@@ -54,7 +55,13 @@ export default async function SiteLayout({
       <ViewTransition update="zq-page" default="none">
         <main id="main">{children}</main>
       </ViewTransition>
-      <Footer lang={lang} dict={dict} categories={categories} contact={content?.contact} />
+      <Footer
+        lang={lang}
+        dict={dict}
+        categories={categories}
+        contact={content?.contact}
+        business={businessLine(content?.business, lang, dict.legal.business.licence)}
+      />
       <WhatsappFab dict={dict} number={content?.contact.whatsapp} />
       <Suspense fallback={null}>
         <SiteAnalytics />

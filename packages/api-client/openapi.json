@@ -5285,6 +5285,74 @@
                     ],
                     "additionalProperties": false
                   },
+                  "business": {
+                    "default": {
+                      "legalName": {
+                        "en": "",
+                        "bn": ""
+                      },
+                      "address": {
+                        "en": "",
+                        "bn": ""
+                      },
+                      "tradeLicence": "",
+                      "confirmed": false
+                    },
+                    "type": "object",
+                    "properties": {
+                      "legalName": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 160
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 160
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "address": {
+                        "type": "object",
+                        "properties": {
+                          "en": {
+                            "type": "string",
+                            "maxLength": 300
+                          },
+                          "bn": {
+                            "type": "string",
+                            "maxLength": 300
+                          }
+                        },
+                        "required": [
+                          "en",
+                          "bn"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "tradeLicence": {
+                        "type": "string",
+                        "maxLength": 40,
+                        "pattern": "^[\\p{L}\\p{N} ./-]*$"
+                      },
+                      "confirmed": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "legalName",
+                      "address",
+                      "tradeLicence",
+                      "confirmed"
+                    ],
+                    "additionalProperties": false
+                  },
                   "texts": {
                     "default": {},
                     "type": "object",
@@ -5457,6 +5525,7 @@
                   "trust",
                   "collections",
                   "contact",
+                  "business",
                   "texts",
                   "projects",
                   "clients"
@@ -5772,6 +5841,71 @@
                     ]
                   }
                 }
+              },
+              "business": {
+                "default": {
+                  "legalName": {
+                    "en": "",
+                    "bn": ""
+                  },
+                  "address": {
+                    "en": "",
+                    "bn": ""
+                  },
+                  "tradeLicence": "",
+                  "confirmed": false
+                },
+                "type": "object",
+                "properties": {
+                  "legalName": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 160
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 160
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "address": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string",
+                        "maxLength": 300
+                      },
+                      "bn": {
+                        "type": "string",
+                        "maxLength": 300
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "bn"
+                    ]
+                  },
+                  "tradeLicence": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "pattern": "^[\\p{L}\\p{N} ./-]*$"
+                  },
+                  "confirmed": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "legalName",
+                  "address",
+                  "tradeLicence",
+                  "confirmed"
+                ]
               },
               "texts": {
                 "default": {},

@@ -17,12 +17,15 @@ export function Footer({
   dict,
   categories,
   contact,
+  business,
 }: {
   lang: Locale;
   dict: Dictionary;
   categories: Category[];
   /** Phone, email and social links from the dashboard (copy-doc placeholders until set). */
   contact?: HomeContent['contact'] | null;
+  /** The confirmed legal identity line; hidden until the owner confirms it. */
+  business?: string | null;
 }) {
   const columns = [
     {
@@ -167,6 +170,7 @@ export function Footer({
       <div className="border-t border-ivory/10">
         <Container className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 py-6 text-[0.8rem] text-ivory/75 sm:justify-between">
           <p>{dict.footer.copyright}</p>
+          {business ? <p className="text-ivory/60">{business}</p> : null}
           {/* Change or withdraw the cookie choice at any time. */}
           <CookieSettingsButton label={dict.consent.settings} />
           <LogoMark className="hidden h-4 text-brass sm:block" />

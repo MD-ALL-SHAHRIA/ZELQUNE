@@ -12,6 +12,7 @@ import {
   type ContentAssetTicket,
   type HomeContent,
   type HomeContentResponse,
+  EMPTY_BUSINESS,
   homeContentSchema,
   requestContentAssetUploadInputSchema,
   type RequestContentAssetUploadInput,
@@ -56,8 +57,11 @@ export class ContentService {
     @Inject(STORAGE_PROVIDER) private readonly storage: StorageProvider,
   ) {}
 
-  /** The home document with asset URLs resolved, or `null` before the first save. */
-  async home(): Promise<HomeContentResponse> {
+  /**
+   * The home document with asset URLs resolved, or `null` before the first save. The public view
+   * hides business details the owner has not confirmed yet.
+   */
+  async home({ audience }: { audience: 'public' | 'admin' }): Promise<HomeContentResponse> {
     const row = await this.prisma.siteContent.findUnique({ where: { key: HOME } });
     if (!row) return { home: null };
     const content = homeContentSchema.parse(row.data);
@@ -73,6 +77,8 @@ export class ContentService {
         updatedAt: row.updatedAt.toISOString(),
         content: {
           ...content,
+          business:
+            audience === 'admin' || content.business.confirmed ? content.business : EMPTY_BUSINESS,
           hero: {
             ...content.hero,
             scenes: content.hero.scenes.map((s) => ({ ...s, imageUrl: url(s.assetId) })),

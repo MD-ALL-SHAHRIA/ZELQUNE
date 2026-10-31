@@ -99,10 +99,13 @@ export function PolicyBody({
   policy,
   updated,
   contact,
+  business,
 }: {
   policy: Policy;
   updated: string;
   contact: string;
+  /** The confirmed `[[...]]`-free line, or the visible "to be confirmed" mark. */
+  business: string;
 }) {
   return (
     <div className="space-y-10 text-[1rem] leading-relaxed">
@@ -116,7 +119,7 @@ export function PolicyBody({
               <li key={item} className="grid grid-cols-[1.25rem_1fr]">
                 <span aria-hidden className="mt-[0.8em] block h-px w-2.5 bg-walnut" />
                 <span>
-                  <CopyText>{item}</CopyText>
+                  <CopyText>{item.replace('{business}', business)}</CopyText>
                 </span>
               </li>
             ))}

@@ -7,6 +7,12 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Legal business details (legal name EN/BN, registered address EN/BN, trade licence) in Dashboard → Settings → Store. Marked "Incomplete" until all three are filled and the owner confirms they match the trade licence; only then does the public content API return them and the footer, Privacy Policy and Terms show them. Until then the policy pages keep a visible "to be confirmed" mark and the footer shows nothing.
+
+### Changed
+- The cookie banner is now a compact corner card (desktop) or short strip (phones) with a shorter text; the full explanation stays in Customize.
+
+### Added
 - Full Privacy Policy, Terms and Conditions, and Returns, Refunds and Cancellations pages (EN/BN), written from how the site actually works (audit 2026-10-31). Details the owner has not confirmed (legal name, address, trade licence, hosting, retention periods, COD refund method, reply time) stay visible as `[[...]]` marks.
 - A one-line privacy notice with a Privacy Policy link beside the checkout, design, construction, bulk quote and tracking forms.
 

@@ -464,7 +464,7 @@ This policy explains what personal information Zelqune collects through this web
 **Who we are**
 
 - Zelqune makes handcrafted wood and light home decor in Dhaka, Bangladesh, and takes interior design, construction and bulk orders.
-- Business name and address: [[legal business name and address]]. You can reach us on WhatsApp (link in the footer).
+- This website is run by [[business name, address and trade licence, to be confirmed]]. You can reach us on WhatsApp (link in the footer).
 
 **What we collect**
 
@@ -521,7 +521,7 @@ These terms apply when you use this website or order from Zelqune. Please read t
 
 **About us**
 
-- Business name, address and trade licence: [[legal business name, address and trade licence number]].
+- This website and shop are run by [[business name, address and trade licence, to be confirmed]].
 
 **Products and prices**
 
@@ -596,3 +596,6 @@ How to cancel an order, return an item or get your money back.
 - Cancellations and refunds for these projects follow the written quote you agreed.
 
 - **privacy summary:** Your phone number and address are used only for your order and delivery, never sold. Analytics cookies run only if you allow them. To see, correct or delete your data, message us on WhatsApp.
+- **business details pending:** [[business name, address and trade licence, to be confirmed]]
+- **business licence label:** Trade licence
+- **cookie banner short text:** We use necessary cookies for your cart and settings. With your OK, we also use analytics and ad-measurement cookies.

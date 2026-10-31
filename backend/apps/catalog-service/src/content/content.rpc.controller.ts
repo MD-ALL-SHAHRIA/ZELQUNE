@@ -20,12 +20,12 @@ export class ContentRpcController {
 
   @MessagePattern(RPC_PATTERNS.catalog.contentHome)
   home(): Promise<HomeContentResponse> {
-    return this.content.home();
+    return this.content.home({ audience: 'public' });
   }
 
   @MessagePattern(A.getHomeContent)
   adminHome(): Promise<HomeContentResponse> {
-    return this.content.home();
+    return this.content.home({ audience: 'admin' });
   }
 
   @MessagePattern(A.updateHomeContent)

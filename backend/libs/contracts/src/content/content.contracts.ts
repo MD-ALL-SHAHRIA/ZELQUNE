@@ -57,6 +57,35 @@ export const clientSchema = z.object({
   url: optionalUrl.default(''),
 });
 
+/**
+ * The legal identity shown in the footer and on the policy pages. Nothing is published until the
+ * owner ticks `confirmed` (the details match the trade licence); until then the public API returns
+ * the empty value and the storefront keeps its "to be confirmed" marks. A Bangla field left empty
+ * falls back to English.
+ */
+export const EMPTY_BUSINESS = {
+  legalName: { en: '', bn: '' },
+  address: { en: '', bn: '' },
+  tradeLicence: '',
+  confirmed: false,
+};
+export const businessSchema = z
+  .object({
+    legalName: localizedSchema(160),
+    address: localizedSchema(300),
+    tradeLicence: z
+      .string()
+      .trim()
+      .max(40)
+      .regex(/^[\p{L}\p{N} ./-]*$/u, 'Letters, digits, spaces, . / - only'),
+    confirmed: z.boolean(),
+  })
+  .refine((b) => !b.confirmed || (b.legalName.en && b.address.en && b.tradeLicence), {
+    message: 'Fill the legal name, address and trade licence before confirming',
+    path: ['confirmed'],
+  });
+export type BusinessDetails = z.infer<typeof businessSchema>;
+
 export const homeContentSchema = z.object({
   announcement: localizedSchema(140),
   hero: z.object({
@@ -89,6 +118,7 @@ export const homeContentSchema = z.object({
     facebook: optionalUrl.default(''),
     instagram: optionalUrl.default(''),
   }),
+  business: businessSchema.default(EMPTY_BUSINESS),
   /**
    * Owner overrides of storefront copy, keyed by dictionary path ("privacy.text"). The storefront
    * applies only the paths it lists as editable; an empty language keeps the built-in text.
