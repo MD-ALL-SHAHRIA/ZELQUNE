@@ -410,3 +410,40 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Size:** Size · {w} × {h} cm
 - **Delivery card:** Delivery across Bangladesh
 - **Cross-sell:** Complete the wall · Pieces that sit well beside this one · Add · Added
+
+## Cookies and consent
+
+- **title:** Cookies on Zelqune
+- **text:** We use necessary cookies to keep your cart and your settings. With your permission we also use analytics cookies to see which pages and products people visit, and marketing cookies to measure our ads. You can change your choice at any time.
+- **policy:** Cookie Policy
+- **accept:** Accept all
+- **reject:** Reject all
+- **customize:** Customize
+- **save:** Save my choices
+- **settings:** Cookie settings
+- **dialogTitle:** Cookie settings
+- **dialogText:** Choose which cookies we may use. Necessary cookies are always on because the shop cannot work without them.
+- **alwaysOn:** Always on
+- **close:** Close
+- **necessary:** Necessary: Your cart, your cookie choice, day or night mode, and bot protection on forms.
+- **analytics:** Analytics: A random visit id and the campaign link you came from, so we can see which pages and products are used. Never your name or phone number.
+- **marketing:** Marketing: Meta (Facebook) Pixel, to measure our ads. Used only if we run ads.
+- **title:** Cookie Policy
+- **updated:** Last updated: 1 November 2026
+- **intro:** This page explains the cookies and similar browser storage this website uses, why we use them, and how you can control them.
+- **whatHeading:** What cookies are
+- **what:** Cookies are small text files a website stores in your browser. Browser storage works in a similar way. Necessary ones make the shop work; the others are used only if you agree.
+- **tableHeading:** The cookies we use
+- **columns:** Name | Type | Set by | Why | How long
+- zq_cart | Necessary | Zelqune | Remembers your cart between visits. | 30 days
+- zq_consent | Necessary | Zelqune | Remembers your cookie choice. | 6 months
+- zq-theme (browser storage) | Necessary | Zelqune | Remembers day or night mode. | Until you clear it
+- Cloudflare Turnstile | Necessary | Cloudflare | Checks that forms are sent by a person, not a bot. | Set by Cloudflare
+- zq_sid | Analytics | Zelqune | A random visit id, to count which pages and products are viewed. | 12 months
+- zq_utm | Analytics | Zelqune | The campaign link you arrived from. | 30 days
+- Meta Pixel (for example _fbp) | Marketing | Meta Platforms | Measures our Facebook and Instagram ads; used only if we run ads. | Set by Meta
+- **changeHeading:** Changing your choice
+- **change:** You can change or withdraw your choice at any time with Cookie settings, here or in the footer. Saying no to analytics deletes those cookies straight away. You can also delete cookies in your browser; the website will then ask again.
+- **thirdHeading:** Other services
+- **third:** Sample room photos load from Unsplash, which receives your IP address like any web request. Cloudflare provides the bot check on forms. Meta receives data only if you accept marketing cookies.
+- **footer link:** Cookie Policy

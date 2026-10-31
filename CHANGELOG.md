@@ -6,6 +6,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Cookie consent (ADR 0019): banner with Accept all / Reject all / Customize, settings dialog (footer and Cookie Policy), versioned `zq_consent` cookie. Analytics cookies and beacons only with analytics consent (cleared on refusal or withdrawal); Meta Pixel only with marketing consent.
+- Cookie Policy page (EN/BN) listing every cookie with its purpose, provider and lifetime; linked from the footer, the help pages and the sitemap.
+
+### Fixed
+- Help pages: the link row no longer widens the page on phones.
+
 ### Security / privacy
 - Order and quote tracking are POST requests with the phone in the body (`POST /v1/orders/track`, `POST /v1/quote-requests/track`); the old GET routes put customers' phone numbers in URLs and so in request logs. Request logs drop query strings.
 - Price experiment (`?p=a|b`, `zq_p`) is off unless `PRICE_EXPERIMENT=on` (owner decision: off at launch until a lawyer clears it); an old arm cookie is cleared.

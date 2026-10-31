@@ -1,3 +1,4 @@
+import { CookieSettingsButton } from '@/features/consent/cookie-banner';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { type Locale } from '@/i18n/config';
@@ -49,6 +50,7 @@ export function Footer({
         { href: href(lang, '/story'), label: dict.layout.story },
         { href: href(lang, '/terms'), label: dict.footer.terms },
         { href: href(lang, '/privacy'), label: dict.footer.privacy },
+        { href: href(lang, '/cookies'), label: dict.cookies.footer },
       ],
     },
   ];
@@ -163,8 +165,10 @@ export function Footer({
         </svg>
       </Container>
       <div className="border-t border-ivory/10">
-        <Container className="flex items-center justify-center gap-3 py-6 text-[0.8rem] text-ivory/75 sm:justify-between">
+        <Container className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 py-6 text-[0.8rem] text-ivory/75 sm:justify-between">
           <p>{dict.footer.copyright}</p>
+          {/* Change or withdraw the cookie choice at any time. */}
+          <CookieSettingsButton label={dict.consent.settings} />
           <LogoMark className="hidden h-4 text-brass sm:block" />
         </Container>
       </div>
