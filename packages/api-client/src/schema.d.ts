@@ -1524,6 +1524,32 @@ export interface components {
             /** @default  */
             instagram: string | '';
           };
+          /**
+           * @default {
+           *       "legalName": {
+           *         "en": "",
+           *         "bn": ""
+           *       },
+           *       "address": {
+           *         "en": "",
+           *         "bn": ""
+           *       },
+           *       "tradeLicence": "",
+           *       "confirmed": false
+           *     }
+           */
+          business: {
+            legalName: {
+              en: string;
+              bn: string;
+            };
+            address: {
+              en: string;
+              bn: string;
+            };
+            tradeLicence: string;
+            confirmed: boolean;
+          };
           /** @default {} */
           texts: {
             [key: string]: {
@@ -1633,6 +1659,32 @@ export interface components {
           facebook?: string | '';
           /** @default  */
           instagram?: string | '';
+        };
+        /**
+         * @default {
+         *       "legalName": {
+         *         "en": "",
+         *         "bn": ""
+         *       },
+         *       "address": {
+         *         "en": "",
+         *         "bn": ""
+         *       },
+         *       "tradeLicence": "",
+         *       "confirmed": false
+         *     }
+         */
+        business?: {
+          legalName: {
+            en: string;
+            bn: string;
+          };
+          address: {
+            en: string;
+            bn: string;
+          };
+          tradeLicence: string;
+          confirmed: boolean;
         };
         /** @default {} */
         texts?: {

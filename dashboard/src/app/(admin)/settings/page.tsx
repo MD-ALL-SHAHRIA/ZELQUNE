@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PageHeader } from '@/components/ui/page';
 import { AccountSettings } from '@/features/settings/account-settings';
+import { BusinessDetails } from '@/features/settings/business-details';
 import { StoreDetails } from '@/features/settings/store-details';
 import {
   CheckoutSettings,
@@ -97,7 +98,12 @@ export default function SettingsPage() {
           </ul>
         </nav>
         <div className="min-w-0 max-w-3xl">
-          {current === 'store' ? <StoreDetails readOnly={!owner} /> : null}
+          {current === 'store' ? (
+            <div className="space-y-6">
+              <StoreDetails readOnly={!owner} />
+              <BusinessDetails readOnly={!owner} />
+            </div>
+          ) : null}
           {current === 'payments' ? <PaymentSettings readOnly={!owner} /> : null}
           {current === 'checkout' ? <CheckoutSettings readOnly={!owner} /> : null}
           {current === 'shipping' ? <ShippingSettings readOnly={!owner} /> : null}

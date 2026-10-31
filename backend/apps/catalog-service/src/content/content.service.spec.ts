@@ -1,4 +1,9 @@
-import { type EventEnvelope, homeContentSchema, type HomeContentInput } from '@zelqune/contracts';
+import {
+  EMPTY_BUSINESS,
+  type EventEnvelope,
+  homeContentSchema,
+  type HomeContentInput,
+} from '@zelqune/contracts';
 import { type OutboxService } from '@zelqune/common';
 import { type PrismaService } from '../prisma/prisma.service';
 import { type StorageProvider } from '../storage/storage.provider';
@@ -125,7 +130,7 @@ describe('homeContentSchema', () => {
 describe('ContentService', () => {
   it('home is null before the first save', async () => {
     const { service } = setup({ row: null });
-    await expect(service.home()).resolves.toEqual({ home: null });
+    await expect(service.home({ audience: 'public' })).resolves.toEqual({ home: null });
   });
 
   it('resolves only READY assets to URLs', async () => {
@@ -133,7 +138,7 @@ describe('ContentService', () => {
       row: { version: 3, data: homeContentSchema.parse(draft(assetA)) },
       assets: [{ id: assetA, storageKey: `content/${assetA}.webp`, status: 'READY' }],
     });
-    const { home } = await service.home();
+    const { home } = await service.home({ audience: 'public' });
     expect(home?.version).toBe(3);
     expect(home?.content.hero.scenes[0]?.imageUrl).toBe(
       `https://media.test/content/${assetA}.webp`,
@@ -160,12 +165,45 @@ describe('ContentService', () => {
       row: { version: 4, data: content },
       assets: [{ id: assetA, storageKey: `content/${assetA}.webp`, status: 'READY' }],
     });
-    const { home } = await service.home();
+    const { home } = await service.home({ audience: 'public' });
     expect(home?.content.projects[0]?.imageUrls).toEqual([
       `https://media.test/content/${assetA}.webp`,
     ]);
     expect(home?.content.clients[0]?.logoUrl).toBe(`https://media.test/content/${assetA}.webp`);
     expect(home?.content.clients[0]?.url).toBe('');
+  });
+
+  it('shows business details publicly only once the owner confirms them', async () => {
+    const business = {
+      legalName: localized('Zelqune Test Ltd'),
+      address: localized('House 1, Road 2, Dhaka'),
+      tradeLicence: 'TRAD/DNCC/123',
+      confirmed: false,
+    };
+    const draftRow = homeContentSchema.parse({ ...draft(), business });
+    const { service } = setup({ row: { version: 5, data: draftRow } });
+    expect((await service.home({ audience: 'public' })).home?.content.business).toEqual(
+      EMPTY_BUSINESS,
+    );
+    expect((await service.home({ audience: 'admin' })).home?.content.business).toEqual(business);
+
+    const confirmed = homeContentSchema.parse({
+      ...draft(),
+      business: { ...business, confirmed: true },
+    });
+    const { service: live } = setup({ row: { version: 6, data: confirmed } });
+    expect((await live.home({ audience: 'public' })).home?.content.business.legalName.en).toBe(
+      'Zelqune Test Ltd',
+    );
+  });
+
+  it('refuses to confirm incomplete business details', () => {
+    const r = homeContentSchema.safeParse({
+      ...draft(),
+      business: { ...EMPTY_BUSINESS, legalName: localized('Zelqune'), confirmed: true },
+    });
+    expect(r.success).toBe(false);
+    expect(homeContentSchema.parse(draft()).business).toEqual(EMPTY_BUSINESS);
   });
 
   it('first save creates version 1 and is audited', async () => {

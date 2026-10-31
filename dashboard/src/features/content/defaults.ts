@@ -70,6 +70,12 @@ export const DEFAULT_HOME: HomeContent = {
     { categorySlug: 'wall-panels', assetId: null },
   ],
   contact: { phone: '', whatsapp: '', email: '', facebook: '', instagram: '' },
+  business: {
+    legalName: { en: '', bn: '' },
+    address: { en: '', bn: '' },
+    tradeLicence: '',
+    confirmed: false,
+  },
   texts: {},
   projects: [],
   clients: [],

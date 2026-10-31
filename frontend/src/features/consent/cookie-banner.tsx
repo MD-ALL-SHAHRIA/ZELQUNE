@@ -16,6 +16,7 @@ import {
 
 export interface ConsentCopy {
   title: string;
+  short: string;
   text: string;
   policy: string;
   accept: string;
@@ -61,7 +62,8 @@ export function CookieBanner({ copy, policyHref }: { copy: ConsentCopy; policyHr
     saveConsent(c);
     setOpen(false);
   };
-  const btn = 'h-11 min-w-[7.5rem] flex-1 px-4 text-[0.85rem] sm:flex-none';
+  const btn = 'h-10 min-w-0 px-2 text-[0.75rem]';
+  const dialogBtn = 'h-11 min-w-[7.5rem] flex-1 px-4 text-[0.85rem] sm:flex-none';
 
   return (
     <>
@@ -69,29 +71,31 @@ export function CookieBanner({ copy, policyHref }: { copy: ConsentCopy; policyHr
         <section
           role="region"
           aria-labelledby={titleId}
-          className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-3xl border border-line bg-paper p-5 text-ink shadow-[0_20px_60px_rgba(43,30,25,0.22)] sm:inset-x-6 sm:bottom-6 sm:p-6"
+          // Compact: a small corner card on desktop, a short strip on phones, so the page stays
+          // the first thing people see.
+          className="fixed inset-x-3 bottom-3 z-[60] border border-line bg-paper/95 p-4 text-ink shadow-[0_12px_40px_rgba(43,30,25,0.18)] backdrop-blur-sm sm:right-auto sm:bottom-5 sm:left-5 sm:w-[24rem]"
         >
-          <h2 id={titleId} className="font-display text-[1.35rem] leading-tight">
+          <h2 id={titleId} className="text-[0.95rem] font-medium">
             {copy.title}
           </h2>
-          <p className="mt-2 text-[0.92rem] leading-relaxed text-stone">
-            {copy.text}{' '}
+          <p className="mt-1 text-[0.8rem] leading-relaxed text-stone">
+            {copy.short}{' '}
             <Link href={policyHref} className="text-ink underline underline-offset-4">
               {copy.policy}
             </Link>
           </p>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-3 grid grid-cols-3 gap-2">
             <button
               type="button"
               onClick={() => choose(ALL)}
-              className={buttonClass('primary', 'md', btn)}
+              className={buttonClass('primary', 'sm', btn)}
             >
               {copy.accept}
             </button>
             <button
               type="button"
               onClick={() => choose(NONE)}
-              className={buttonClass('primary', 'md', btn)}
+              className={buttonClass('primary', 'sm', btn)}
             >
               {copy.reject}
             </button>
@@ -101,7 +105,7 @@ export function CookieBanner({ copy, policyHref }: { copy: ConsentCopy; policyHr
                 setDraft(NONE);
                 setOpen(true);
               }}
-              className={buttonClass('secondary', 'md', btn)}
+              className={buttonClass('secondary', 'sm', btn)}
             >
               {copy.customize}
             </button>
@@ -155,21 +159,21 @@ export function CookieBanner({ copy, policyHref }: { copy: ConsentCopy; policyHr
               <button
                 type="button"
                 onClick={() => choose(draft)}
-                className={buttonClass('primary', 'md', btn)}
+                className={buttonClass('primary', 'md', dialogBtn)}
               >
                 {copy.save}
               </button>
               <button
                 type="button"
                 onClick={() => choose(ALL)}
-                className={buttonClass('secondary', 'md', btn)}
+                className={buttonClass('secondary', 'md', dialogBtn)}
               >
                 {copy.accept}
               </button>
               <button
                 type="button"
                 onClick={() => choose(NONE)}
-                className={buttonClass('secondary', 'md', btn)}
+                className={buttonClass('secondary', 'md', dialogBtn)}
               >
                 {copy.reject}
               </button>

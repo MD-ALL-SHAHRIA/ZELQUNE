@@ -454,6 +454,18 @@ export type HomeContentResponseDtoOutput = {
         facebook: string | '';
         instagram: string | '';
       };
+      business: {
+        legalName: {
+          en: string;
+          bn: string;
+        };
+        address: {
+          en: string;
+          bn: string;
+        };
+        tradeLicence: string;
+        confirmed: boolean;
+      };
       texts: {
         [key: string]: {
           en: string;

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
+import { getHomeContent } from '@/shared/api/content';
+import { businessLine } from '@/shared/lib/business';
 import { alternates } from '@/shared/lib/site';
 import { PageHeader } from '@/shared/ui/page-header';
 import { HelpLayout, PolicyBody } from '@/features/help/help-layout';
@@ -17,12 +19,19 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 
 export default async function Page({ params }: { params: PageParams }) {
   const { lang, dict } = await resolvePage(params);
+  const b = dict.legal.business;
+  const business = businessLine((await getHomeContent())?.business, lang, b.licence) ?? b.pending;
   const policy = dict.legal.terms;
   return (
     <>
       <PageHeader eyebrow={dict.layout.columns.help} title={policy.title} />
       <HelpLayout lang={lang} dict={dict} current="/terms">
-        <PolicyBody policy={policy} updated={dict.legal.updated} contact={dict.legal.contact} />
+        <PolicyBody
+          policy={policy}
+          updated={dict.legal.updated}
+          contact={dict.legal.contact}
+          business={business}
+        />
       </HelpLayout>
     </>
   );
