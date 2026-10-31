@@ -2,8 +2,26 @@ import { describe, expect, it } from 'vitest';
 import { decideRoute } from './routing';
 
 const sid = () => 'sid_0123456789abcdef';
+/** These rules describe the price experiment switched on (it is off by default). */
 const decide = (path: string, cookies: Record<string, string> = {}) =>
+  decideRoute(new URL(path, 'http://localhost:3100'), cookies, sid, { experiment: true });
+const decideOff = (path: string, cookies: Record<string, string> = {}) =>
   decideRoute(new URL(path, 'http://localhost:3100'), cookies, sid);
+
+describe('decideRoute with the price experiment off (the launch default)', () => {
+  it('ignores ?p, serves the base price and sets no arm cookie', () => {
+    const d = decideOff('/en/products/x?p=b');
+    expect(d).toMatchObject({ pathname: '/en/base/products/x', segment: 'base' });
+    if (d.kind === 'rewrite') expect(d.cookies.find((c) => c.name === 'zq_p')).toBeUndefined();
+  });
+
+  it('clears an arm remembered from before', () => {
+    const d = decideOff('/en', { zq_p: 'b' });
+    expect(d).toMatchObject({ segment: 'base' });
+    if (d.kind === 'rewrite')
+      expect(d.cookies).toContainEqual({ name: 'zq_p', value: '', maxAge: 0 });
+  });
+});
 
 describe('decideRoute', () => {
   it('redirects paths without a language to English, keeping the query', () => {

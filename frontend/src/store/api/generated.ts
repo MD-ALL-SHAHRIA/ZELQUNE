@@ -132,13 +132,11 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
-    shopControllerTrack: build.query<ShopControllerTrackApiResponse, ShopControllerTrackApiArg>({
+    shopControllerTrack: build.mutation<ShopControllerTrackApiResponse, ShopControllerTrackApiArg>({
       query: (queryArg) => ({
         url: `/v1/orders/track`,
-        params: {
-          code: queryArg.code,
-          phone: queryArg.phone,
-        },
+        method: 'POST',
+        body: queryArg.trackQueryDto,
       }),
     }),
     publicB2BControllerRequest: build.mutation<
@@ -154,16 +152,14 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
-    publicB2BControllerTrack: build.query<
+    publicB2BControllerTrack: build.mutation<
       PublicB2BControllerTrackApiResponse,
       PublicB2BControllerTrackApiArg
     >({
       query: (queryArg) => ({
         url: `/v1/quote-requests/track`,
-        params: {
-          code: queryArg.code,
-          phone: queryArg.phone,
-        },
+        method: 'POST',
+        body: queryArg.quoteTrackQueryDto,
       }),
     }),
     publicB2BControllerBeacon: build.mutation<
@@ -245,8 +241,7 @@ export type ShopControllerCheckoutApiArg = {
 };
 export type ShopControllerTrackApiResponse = /** status 200  */ OrderTrackingDtoOutput;
 export type ShopControllerTrackApiArg = {
-  code: string;
-  phone: string;
+  trackQueryDto: TrackQueryDto;
 };
 export type PublicB2BControllerRequestApiResponse = /** status 201  */ RfqResponseDtoOutput;
 export type PublicB2BControllerRequestApiArg = {
@@ -256,8 +251,7 @@ export type PublicB2BControllerRequestApiArg = {
 };
 export type PublicB2BControllerTrackApiResponse = /** status 200  */ PublicQuoteDtoOutput;
 export type PublicB2BControllerTrackApiArg = {
-  code: string;
-  phone: string;
+  quoteTrackQueryDto: QuoteTrackQueryDto;
 };
 export type PublicB2BControllerBeaconApiResponse = unknown;
 export type PublicB2BControllerBeaconApiArg = {
@@ -747,6 +741,10 @@ export type OrderTrackingDtoOutput = {
     trackingUrl: string | null;
   } | null;
 };
+export type TrackQueryDto = {
+  code: string;
+  phone: string;
+};
 export type RfqResponseDtoOutput = {
   quoteCode: string;
   status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
@@ -828,6 +826,10 @@ export type PublicQuoteDtoOutput = {
   } | null;
   orderCode: string | null;
 };
+export type QuoteTrackQueryDto = {
+  code: string;
+  phone: string;
+};
 export type BeaconEventDto = {
   type: 'VIEW' | 'ADD_TO_CART';
   sessionId: string;
@@ -865,10 +867,8 @@ export const {
   useShopControllerRemoveItemMutation,
   useShopControllerQuoteMutation,
   useShopControllerCheckoutMutation,
-  useShopControllerTrackQuery,
-  useLazyShopControllerTrackQuery,
+  useShopControllerTrackMutation,
   usePublicB2BControllerRequestMutation,
-  usePublicB2BControllerTrackQuery,
-  useLazyPublicB2BControllerTrackQuery,
+  usePublicB2BControllerTrackMutation,
   usePublicB2BControllerBeaconMutation,
 } = injectedRtkApi;

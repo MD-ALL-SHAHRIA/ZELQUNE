@@ -18,7 +18,8 @@ export const {
   useLazyShopControllerShippingEstimateQuery: useLazyShippingEstimateQuery,
   useShopControllerQuoteMutation: useCheckoutQuoteMutation,
   useShopControllerCheckoutMutation: useCheckoutMutation,
-  useLazyShopControllerTrackQuery: useLazyTrackOrderQuery,
+  // Tracking is a POST: the phone goes in the body, never in a URL.
+  useShopControllerTrackMutation: useTrackOrderMutation,
   usePublicB2BControllerRequestMutation: useRequestQuoteMutation,
-  useLazyPublicB2BControllerTrackQuery: useLazyTrackQuoteQuery,
+  usePublicB2BControllerTrackMutation: useTrackQuoteMutation,
 } = api;

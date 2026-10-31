@@ -752,31 +752,19 @@
       }
     },
     "/v1/orders/track": {
-      "get": {
+      "post": {
         "operationId": "ShopController_track",
-        "parameters": [
-          {
-            "name": "code",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "pattern": "^ZQ-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$",
-              "example": "ZQ-7K3M9P",
-              "type": "string"
-            }
-          },
-          {
-            "name": "phone",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "minLength": 1,
-              "maxLength": 32,
-              "example": "01712345678",
-              "type": "string"
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrackQueryDto"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "",
@@ -838,31 +826,19 @@
       }
     },
     "/v1/quote-requests/track": {
-      "get": {
+      "post": {
         "operationId": "PublicB2bController_track",
-        "parameters": [
-          {
-            "name": "code",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "pattern": "^QT-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$",
-              "example": "QT-8M4K2P",
-              "type": "string"
-            }
-          },
-          {
-            "name": "phone",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "minLength": 1,
-              "maxLength": 32,
-              "example": "01712345678",
-              "type": "string"
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteTrackQueryDto"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "",
@@ -7020,6 +6996,26 @@
         ],
         "additionalProperties": false
       },
+      "TrackQueryDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^ZQ-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$",
+            "example": "ZQ-7K3M9P"
+          },
+          "phone": {
+            "example": "01712345678",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          }
+        },
+        "required": [
+          "code",
+          "phone"
+        ]
+      },
       "OrderTrackingDto_Output": {
         "type": "object",
         "properties": {
@@ -7500,6 +7496,26 @@
           "status"
         ],
         "additionalProperties": false
+      },
+      "QuoteTrackQueryDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^QT-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$",
+            "example": "QT-8M4K2P"
+          },
+          "phone": {
+            "example": "01712345678",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          }
+        },
+        "required": [
+          "code",
+          "phone"
+        ]
       },
       "PublicQuoteDto_Output": {
         "type": "object",

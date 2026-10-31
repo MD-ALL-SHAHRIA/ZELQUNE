@@ -140,7 +140,7 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
       where: { variantId: lamp },
     });
   const track = (code: string, phone = CUSTOMER.phone) =>
-    http().get(`/v1/orders/track?code=${code}&phone=${phone}`);
+    http().post('/v1/orders/track').send({ code: code, phone: phone });
 
   let preOrderCode = '';
   let preOrderPaymentId = '';

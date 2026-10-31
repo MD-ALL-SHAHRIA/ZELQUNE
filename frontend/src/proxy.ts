@@ -3,8 +3,12 @@ import { decideRoute } from './shared/lib/routing';
 
 export function proxy(request: NextRequest) {
   const cookies = Object.fromEntries(request.cookies.getAll().map((c) => [c.name, c.value]));
-  const decision = decideRoute(request.nextUrl, cookies, () =>
-    crypto.randomUUID().replaceAll('-', ''),
+  const decision = decideRoute(
+    request.nextUrl,
+    cookies,
+    () => crypto.randomUUID().replaceAll('-', ''),
+    // The price experiment is off unless explicitly switched on (see routing.ts).
+    { experiment: process.env.PRICE_EXPERIMENT === 'on' },
   );
   if (decision.kind === 'redirect') {
     return NextResponse.redirect(new URL(decision.location, request.url), 307);

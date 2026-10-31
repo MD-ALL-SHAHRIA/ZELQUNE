@@ -332,10 +332,10 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    /** Track an order by code and the phone number used to place it. */
-    get: operations['ShopController_track'];
+    get?: never;
     put?: never;
-    post?: never;
+    /** Track an order by code and the phone number used to place it. */
+    post: operations['ShopController_track'];
     delete?: never;
     options?: never;
     head?: never;
@@ -366,10 +366,10 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    /** Status of a quote by code and phone. */
-    get: operations['PublicB2bController_track'];
+    get?: never;
     put?: never;
-    post?: never;
+    /** Status of a quote by code and phone. */
+    post: operations['PublicB2bController_track'];
     delete?: never;
     options?: never;
     head?: never;
@@ -1938,6 +1938,12 @@ export interface components {
         trxIdLast4: string | null;
       } | null;
     };
+    TrackQueryDto: {
+      /** @example ZQ-7K3M9P */
+      code: string;
+      /** @example 01712345678 */
+      phone: string;
+    };
     OrderTrackingDto_Output: {
       code: string;
       /** @enum {string} */
@@ -2105,6 +2111,12 @@ export interface components {
       quoteCode: string;
       /** @enum {string} */
       status: 'NEW' | 'QUOTED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+    };
+    QuoteTrackQueryDto: {
+      /** @example QT-8M4K2P */
+      code: string;
+      /** @example 01712345678 */
+      phone: string;
     };
     PublicQuoteDto_Output: {
       code: string;
@@ -4010,15 +4022,16 @@ export interface operations {
   };
   ShopController_track: {
     parameters: {
-      query: {
-        code: string;
-        phone: string;
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    requestBody?: never;
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['TrackQueryDto'];
+      };
+    };
     responses: {
       200: {
         headers: {
@@ -4058,15 +4071,16 @@ export interface operations {
   };
   PublicB2bController_track: {
     parameters: {
-      query: {
-        code: string;
-        phone: string;
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    requestBody?: never;
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['QuoteTrackQueryDto'];
+      };
+    };
     responses: {
       200: {
         headers: {

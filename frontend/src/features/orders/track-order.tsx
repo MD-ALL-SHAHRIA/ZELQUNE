@@ -10,7 +10,7 @@ import { normalizeCode, normalizePhone, ORDER_CODE } from '@/shared/lib/forms';
 import { Button } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input } from '@/shared/ui/field';
-import { useLazyTrackOrderQuery } from '@/store/api';
+import { useTrackOrderMutation } from '@/store/api';
 import { displayStatus } from './order-status';
 
 type Copy = Pick<Dictionary, 'track' | 'checkout' | 'ui' | 'products' | 'product'>;
@@ -20,7 +20,7 @@ export function TrackOrder({ lang, copy }: { lang: Locale; copy: Copy }) {
   const [code, setCode] = useState(useSearchParams().get('code') ?? '');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [track, { data: order, isFetching }] = useLazyTrackOrderQuery();
+  const [track, { data: order, isLoading: isFetching }] = useTrackOrderMutation();
   const t = copy.track;
 
   async function submit(e: React.FormEvent) {
@@ -31,7 +31,7 @@ export function TrackOrder({ lang, copy }: { lang: Locale; copy: Copy }) {
     if (!ORDER_CODE.test(normalized)) return setError(t.codeFormat);
     if (!mobile) return setError(copy.checkout.errors.phone);
     try {
-      await track({ code: normalized, phone: mobile }).unwrap();
+      await track({ trackQueryDto: { code: normalized, phone: mobile } }).unwrap();
     } catch (err) {
       const apiError = toApiError(err);
       setError(

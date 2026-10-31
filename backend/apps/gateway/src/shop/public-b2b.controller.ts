@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { createZodDto, Public, ServiceRegistry, ZodResponse } from '@zelqune/common';
 import {
@@ -36,11 +36,13 @@ export class PublicB2bController {
     return this.services.get('order').send<RfqResponse>(RPC_PATTERNS.order.quotes.request, body);
   }
 
-  @Get('quote-requests/track')
+  /** POST so the phone number travels in the body, never in a URL (URLs end up in logs). */
+  @Post('quote-requests/track')
+  @HttpCode(200)
   @RouteThrottle('track')
   @ApiOperation({ summary: 'Status of a quote by code and phone.' })
-  @ZodResponse({ type: PublicQuoteDto })
-  track(@Query() query: QuoteTrackQueryDto) {
+  @ZodResponse({ status: 200, type: PublicQuoteDto })
+  track(@Body() query: QuoteTrackQueryDto) {
     return this.services.get('order').send<PublicQuote>(RPC_PATTERNS.order.quotes.track, query);
   }
 
