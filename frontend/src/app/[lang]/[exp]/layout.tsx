@@ -1,3 +1,5 @@
+import { href } from '@/shared/lib/site';
+import { CookieBanner } from '@/features/consent/cookie-banner';
 import { Suspense, ViewTransition } from 'react';
 import { SiteAnalytics } from '@/features/analytics/site-analytics';
 import { WhatsappFab } from '@/features/chat/whatsapp-fab';
@@ -33,6 +35,13 @@ export default async function SiteLayout({
   const dict = withContent(base, content, lang);
   return (
     <>
+      {/* Cookie choice first in the tab order (it is fixed at the foot of the screen). */}
+      <CookieBanner
+        copy={{
+          ...dict.consent,
+        }}
+        policyHref={href(lang, '/cookies')}
+      />
       <Header
         lang={lang}
         dict={dict}

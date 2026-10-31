@@ -7,7 +7,7 @@ import { href } from '@/shared/lib/site';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Container } from '@/shared/ui/typography';
 
-type HelpPage = '/faq' | '/returns' | '/terms' | '/privacy' | '/track';
+type HelpPage = '/faq' | '/returns' | '/terms' | '/privacy' | '/cookies' | '/track';
 
 /**
  * Help and policy pages share one calm frame: a quiet index of the help pages on the left
@@ -29,11 +29,16 @@ export function HelpLayout({
     { path: '/returns', label: dict.returns.title },
     { path: '/terms', label: dict.terms.title },
     { path: '/privacy', label: dict.privacy.title },
+    { path: '/cookies', label: dict.cookies.title },
     { path: '/track', label: dict.nav.track },
   ];
   return (
     <Container className="grid gap-10 py-12 sm:py-20 lg:grid-cols-[15rem_1fr] lg:gap-20 xl:grid-cols-[18rem_1fr]">
-      <nav aria-label={dict.layout.columns.help} className="lg:sticky lg:top-44 lg:self-start">
+      <nav
+        aria-label={dict.layout.columns.help}
+        // min-w-0: the link row scrolls inside its own track instead of widening the page.
+        className="min-w-0 lg:sticky lg:top-44 lg:self-start"
+      >
         <ul className="scrollbar-none -mx-5 flex gap-6 overflow-x-auto border-b border-line px-5 md:mx-0 md:px-0 lg:flex-col lg:gap-0 lg:border-b-0 lg:border-l">
           {links.map((l) => {
             const here = l.path === current;

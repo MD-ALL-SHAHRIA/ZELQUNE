@@ -1,3 +1,4 @@
+import { CONSENT_COOKIE, parseConsent } from './consent';
 import { DEFAULT_LOCALE, isLocale } from '@/i18n/config';
 import {
   COOKIE,
@@ -28,7 +29,8 @@ export type RouteDecision =
  *   no arm means the base price and no experiment. The experiment runs only when switched on
  *   (`experiment`); while it is off everyone gets the base price and an old arm cookie is
  *   cleared (owner decision 2026-10-31: off at launch until a lawyer clears it);
- * - every visitor gets an anonymous session id and first-touch UTM is remembered;
+ * - the anonymous analytics session id and first-touch UTM are set only with analytics consent
+ *   (`zq_consent`); without it they are never set, and any left from before are cleared;
  * - the page is served from the hidden /{lang}/{arm}/... segment, so each arm is static.
  */
 export function decideRoute(
@@ -56,11 +58,16 @@ export function decideRoute(
     set.push({ name: COOKIE.experiment, value: requested, maxAge: EXPERIMENT_MAX_AGE });
   }
 
-  if (!SESSION_ID_PATTERN.test(cookies[COOKIE.session] ?? '')) {
+  const analytics = parseConsent(cookies[CONSENT_COOKIE])?.analytics ?? false;
+  if (!analytics) {
+    for (const name of [COOKIE.session, COOKIE.utm]) {
+      if (cookies[name] !== undefined) set.push({ name, value: '', maxAge: 0 });
+    }
+  } else if (!SESSION_ID_PATTERN.test(cookies[COOKIE.session] ?? '')) {
     set.push({ name: COOKIE.session, value: newSessionId(), maxAge: SESSION_MAX_AGE });
   }
 
-  if (!cookies[COOKIE.utm]) {
+  if (analytics && !cookies[COOKIE.utm]) {
     const utm: Utm = {};
     for (const key of UTM_KEYS) {
       const value = url.searchParams.get(`utm_${key}`);

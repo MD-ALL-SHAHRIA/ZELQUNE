@@ -15,7 +15,27 @@ export default defineConfig({
   workers: 1,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
-  use: { baseURL, trace: 'retain-on-failure' },
+  use: {
+    baseURL,
+    trace: 'retain-on-failure',
+    // Tests start with a saved cookie choice (analytics yes, marketing no) so the consent banner
+    // never covers what they click; e2e/consent.e2e.ts starts empty, like a first visit.
+    storageState: {
+      cookies: [
+        {
+          name: 'zq_consent',
+          value: 'v1.a1.m0',
+          domain: new URL(baseURL).hostname,
+          path: '/',
+          expires: -1,
+          httpOnly: false,
+          secure: false,
+          sameSite: 'Lax',
+        },
+      ],
+      origins: [],
+    },
+  },
   projects: [
     {
       name: 'mobile',
