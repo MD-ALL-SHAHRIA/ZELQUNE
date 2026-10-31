@@ -12,6 +12,7 @@ import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input } from '@/shared/ui/field';
 import { useTrackOrderMutation } from '@/store/api';
 import { displayStatus } from './order-status';
+import { FormNotice } from '@/features/legal/form-notice';
 
 type Copy = Pick<Dictionary, 'track' | 'checkout' | 'ui' | 'products' | 'product'>;
 
@@ -74,6 +75,12 @@ export function TrackOrder({ lang, copy }: { lang: Locale; copy: Copy }) {
         <Button type="submit" disabled={isFetching}>
           {isFetching ? copy.ui.loading : t.button}
         </Button>
+        <FormNotice
+          lang={lang}
+          text={copy.checkout.privacyNotice.lookup}
+          link={copy.checkout.privacyNotice.link}
+          className="sm:col-span-3"
+        />
       </form>
 
       {error ? (
