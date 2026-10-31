@@ -13,6 +13,7 @@ import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input, Select, Textarea } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
+import { FormNotice } from '@/features/legal/form-notice';
 
 type BuildingType = keyof Dictionary['build']['types'];
 type Budget = keyof Dictionary['build']['budgets'];
@@ -235,6 +236,11 @@ export function BuildForm({
           <CopyText>{formError}</CopyText>
         </p>
       ) : null}
+      <FormNotice
+        lang={lang}
+        text={copy.checkout.privacyNotice.request}
+        link={copy.checkout.privacyNotice.link}
+      />
       <Button type="submit" size="lg" disabled={sending} className="w-full sm:w-auto">
         {sending ? c.sending : c.button}
       </Button>

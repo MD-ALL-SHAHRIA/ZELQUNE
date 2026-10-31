@@ -447,3 +447,152 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **thirdHeading:** Other services
 - **third:** Sample room photos load from Unsplash, which receives your IP address like any web request. Cloudflare provides the bot check on forms. Meta receives data only if you accept marketing cookies.
 - **footer link:** Cookie Policy
+
+## Legal pages and form notices
+
+- **updated:** Last updated: 1 November 2026
+- **contact:** Questions about this page? Message us on WhatsApp.
+- **form notice order:** We use your name, phone and address only to confirm, make and deliver this order.
+- **form notice request:** We use these details only to contact you about this request.
+- **form notice lookup:** Your code and phone are used only to find your order and are not stored.
+- **form notice link:** Privacy Policy
+
+### Privacy Policy
+
+This policy explains what personal information Zelqune collects through this website, why we use it, who receives it, how long we keep it and what you can ask us to do with it.
+
+**Who we are**
+
+- Zelqune makes handcrafted wood and light home decor in Dhaka, Bangladesh, and takes interior design, construction and bulk orders.
+- Business name and address: [[legal business name and address]]. You can reach us on WhatsApp (link in the footer).
+
+**What we collect**
+
+- Orders: your name, mobile number, delivery address, payment method, the bKash or Nagad Transaction ID for your advance, and any coupon you use.
+- Interior design and construction requests: your name, mobile number, email if you give it, and the project details you describe (type, size, district, budget, start date, notes).
+- Bulk and corporate quotes: company name, contact person, mobile number, email, the date you need the order by, and your notes.
+- Order and quote tracking: the code and mobile number you type are used to find your order and are not stored.
+- Only if you allow analytics cookies: a random visit id, the campaign link you came from, and the pages and products you view. Never your name or phone number. See the Cookie Policy.
+- We never ask for card details or your bKash or Nagad PIN. You pay in the bKash or Nagad app; the website only receives the Transaction ID.
+
+**Why we use it**
+
+- To confirm, make and deliver your order, and to check your advance payment.
+- To call or message you about your order or request.
+- To stop spam and fraud, for example with the bot check on our forms.
+- If you allow it, to understand which pages and products are used and which campaigns bring visitors.
+- To keep the accounting and tax records the law requires.
+- We do not sell your personal information, and we do not send you marketing messages.
+
+**Who receives it**
+
+- The delivery courier receives your name, phone number and address to deliver your order.
+- Cloudflare runs the bot check on our forms and receives your IP address and basic browser information.
+- Sample photos load from Unsplash, which receives your IP address like any website does.
+- Meta (Facebook) receives data only if you accept marketing cookies and we run ads.
+- WhatsApp receives only the messages you choose to send us.
+- Our website and data are hosted by [[hosting provider and country]].
+- We share information with authorities only when the law requires it.
+
+**How long we keep it**
+
+- Order and payment records: [[retention period for order and tax records]].
+- Design, construction and bulk requests that do not become an order: [[retention period for requests]].
+- Analytics data (no names or phone numbers): [[retention period for analytics]].
+
+**How we protect it**
+
+- The website uses HTTPS. Only staff who need it can see order details, and staff sign in with a password. No system is perfectly secure, but we work to keep your information safe.
+
+**Your choices**
+
+- You can ask us to show you the personal information we hold about you, to correct it, or to delete it. Some order records must be kept for accounting and tax; in that case we remove everything else.
+- To ask, message us on WhatsApp from the phone number you used, with your order or quote code, so we know it is you. We aim to reply within [[response time]].
+- You can change your cookie choice at any time with Cookie settings in the footer.
+
+**Changes to this policy**
+
+- When we change this policy, we update the date at the top of this page.
+
+
+### Terms and Conditions
+
+These terms apply when you use this website or order from Zelqune. Please read them before you order.
+
+**About us**
+
+- Business name, address and trade licence: [[legal business name, address and trade licence number]].
+
+**Products and prices**
+
+- Prices are in Bangladeshi taka (৳). The total you pay, including delivery, is shown at checkout before you order.
+- Each piece is handmade from wood, so colour and grain may vary slightly.
+- Photos may show sample rooms, and colours on screen can look a little different in real life.
+
+**Orders and payment**
+
+- A pre-order is confirmed once the ৳300 advance is verified.
+- If the advance doesn't arrive within 48 hours, the order is cancelled automatically.
+- You pay the rest in cash on delivery.
+- If we cannot verify your advance or cannot make your order, we cancel it and refund any advance you paid.
+
+**Delivery**
+
+- Pre-orders are made and shipped within 10 days. The courier takes 1–2 days in Dhaka and 2–4 days outside Dhaka.
+
+**Cancellations, returns and refunds**
+
+- If you cancel before production starts, your advance is refunded. Once production has started, the advance is not refundable.
+- Returns, damaged items and refunds are covered in our Returns and refunds policy.
+
+**Interior design, construction and bulk orders**
+
+- Sending a request on this website does not create a contract. The price, scope, schedule and payments for these projects are agreed in a separate written quote.
+
+**Using this website**
+
+- The text, photos and designs on this website belong to Zelqune or the people who licensed them to us. Please do not copy them for commercial use without our permission.
+- Please do not misuse the website, for example by sending false orders or trying to break its security.
+
+**Law**
+
+- These terms are governed by the laws of Bangladesh.
+- When we change these terms, we update the date at the top of this page. The terms in force when you ordered apply to your order.
+
+
+### Returns, Refunds and Cancellations
+
+How to cancel an order, return an item or get your money back.
+
+**Damaged or defective items**
+
+- Tell us within 24 hours of delivery with a photo or video, and we'll replace it or refund you.
+
+**Returns for change of mind**
+
+- Unused items within 3 days, in the original box; you pay the return delivery.
+- Each piece is handmade from wood, so colour and grain may vary slightly. This alone is not a defect.
+
+**Cancelling an order**
+
+- If you cancel before production starts, your advance is refunded. Once production has started, the advance is not refundable.
+- If the advance doesn't arrive within 48 hours, the order is cancelled automatically.
+
+**If we are late or cancel**
+
+- If we can't deliver on time, or we cancel your order, we refund the full advance to the same bKash/Nagad number within 7 days.
+
+**How refunds are paid**
+
+- Advances are refunded to the bKash or Nagad number they came from.
+- Money paid in cash on delivery is refunded by [[refund method for cash-on-delivery payments]].
+
+**How to ask**
+
+- Message us on WhatsApp with your order code and, for damage, a photo or video.
+
+**Design, construction and bulk orders**
+
+- Cancellations and refunds for these projects follow the written quote you agreed.
+
+- **privacy summary:** Your phone number and address are used only for your order and delivery, never sold. Analytics cookies run only if you allow them. To see, correct or delete your data, message us on WhatsApp.
