@@ -22,7 +22,9 @@ test('forms say what the details are for and link the privacy policy', async ({ 
   await expect(page).toHaveURL(/\/en\/privacy$/);
 });
 
-test('privacy request: validates inline, then confirms with a code and next steps', async ({ page }) => {
+test('privacy request: validates inline, then confirms with a code and next steps', async ({
+  page,
+}) => {
   await page.goto('/en/privacy-request');
   await page.getByLabel('Correct my data').check();
   await page.getByRole('button', { name: 'Send request' }).click();
