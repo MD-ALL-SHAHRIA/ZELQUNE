@@ -8,6 +8,22 @@ export const RPC_PATTERNS = {
     refresh: 'identity.auth.refresh',
     logout: 'identity.auth.logout',
     me: 'identity.users.me',
+    customer: {
+      register: 'identity.customer.register',
+      login: 'identity.customer.login',
+      refresh: 'identity.customer.refresh',
+      verifyEmail: 'identity.customer.verifyEmail',
+      resendVerification: 'identity.customer.resendVerification',
+      forgotPassword: 'identity.customer.forgotPassword',
+      resetPassword: 'identity.customer.resetPassword',
+      oauth: 'identity.customer.oauth',
+      me: 'identity.customer.me',
+      updateProfile: 'identity.customer.updateProfile',
+      changePassword: 'identity.customer.changePassword',
+      sessions: 'identity.customer.sessions',
+      revokeSession: 'identity.customer.revokeSession',
+      revokeOthers: 'identity.customer.revokeOthers',
+    },
     team: {
       list: 'identity.admin.team.list',
       create: 'identity.admin.team.create',
@@ -133,6 +149,7 @@ export const RPC_PATTERNS = {
     },
   },
   notification: {
+    sendAuthEmail: 'notification.email.auth',
     settings: {
       get: 'notification.admin.settings.get',
       update: 'notification.admin.settings.update',

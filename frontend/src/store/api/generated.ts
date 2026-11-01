@@ -1,6 +1,142 @@
 import { baseApi as api } from './base';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
+    customerAuthControllerProviders: build.query<
+      CustomerAuthControllerProvidersApiResponse,
+      CustomerAuthControllerProvidersApiArg
+    >({
+      query: () => ({ url: `/v1/auth/providers` }),
+    }),
+    customerAuthControllerRegister: build.mutation<
+      CustomerAuthControllerRegisterApiResponse,
+      CustomerAuthControllerRegisterApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/auth/register`,
+        method: 'POST',
+        body: queryArg.registerDto,
+        headers: {
+          'cf-turnstile-response': queryArg['cf-turnstile-response'],
+        },
+      }),
+    }),
+    customerAuthControllerLogin: build.mutation<
+      CustomerAuthControllerLoginApiResponse,
+      CustomerAuthControllerLoginApiArg
+    >({
+      query: (queryArg) => ({ url: `/v1/auth/login`, method: 'POST', body: queryArg.loginDto }),
+    }),
+    customerAuthControllerRefresh: build.mutation<
+      CustomerAuthControllerRefreshApiResponse,
+      CustomerAuthControllerRefreshApiArg
+    >({
+      query: () => ({ url: `/v1/auth/refresh`, method: 'POST' }),
+    }),
+    customerAuthControllerLogout: build.mutation<
+      CustomerAuthControllerLogoutApiResponse,
+      CustomerAuthControllerLogoutApiArg
+    >({
+      query: () => ({ url: `/v1/auth/logout`, method: 'POST' }),
+    }),
+    customerAuthControllerVerifyEmail: build.mutation<
+      CustomerAuthControllerVerifyEmailApiResponse,
+      CustomerAuthControllerVerifyEmailApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/auth/verify-email`,
+        method: 'POST',
+        body: queryArg.tokenDto,
+      }),
+    }),
+    customerAuthControllerResend: build.mutation<
+      CustomerAuthControllerResendApiResponse,
+      CustomerAuthControllerResendApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/auth/resend-verification`,
+        method: 'POST',
+        body: queryArg.emailDto,
+      }),
+    }),
+    customerAuthControllerForgot: build.mutation<
+      CustomerAuthControllerForgotApiResponse,
+      CustomerAuthControllerForgotApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/auth/forgot-password`,
+        method: 'POST',
+        body: queryArg.emailDto,
+        headers: {
+          'cf-turnstile-response': queryArg['cf-turnstile-response'],
+        },
+      }),
+    }),
+    customerAuthControllerReset: build.mutation<
+      CustomerAuthControllerResetApiResponse,
+      CustomerAuthControllerResetApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/auth/reset-password`,
+        method: 'POST',
+        body: queryArg.resetDto,
+      }),
+    }),
+    customerAuthControllerPendingProfile: build.query<
+      CustomerAuthControllerPendingProfileApiResponse,
+      CustomerAuthControllerPendingProfileApiArg
+    >({
+      query: () => ({ url: `/v1/auth/oauth/pending` }),
+    }),
+    customerAuthControllerComplete: build.mutation<
+      CustomerAuthControllerCompleteApiResponse,
+      CustomerAuthControllerCompleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/auth/oauth/complete`,
+        method: 'POST',
+        body: queryArg.completeSignupDto,
+      }),
+    }),
+    customerAuthControllerMe: build.query<
+      CustomerAuthControllerMeApiResponse,
+      CustomerAuthControllerMeApiArg
+    >({
+      query: () => ({ url: `/v1/auth/me` }),
+    }),
+    customerAuthControllerUpdateProfile: build.mutation<
+      CustomerAuthControllerUpdateProfileApiResponse,
+      CustomerAuthControllerUpdateProfileApiArg
+    >({
+      query: (queryArg) => ({ url: `/v1/auth/me`, method: 'PUT', body: queryArg.profileDto }),
+    }),
+    customerAuthControllerChangePassword: build.mutation<
+      CustomerAuthControllerChangePasswordApiResponse,
+      CustomerAuthControllerChangePasswordApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/auth/change-password`,
+        method: 'POST',
+        body: queryArg.changePasswordDto,
+      }),
+    }),
+    customerAuthControllerSessions: build.query<
+      CustomerAuthControllerSessionsApiResponse,
+      CustomerAuthControllerSessionsApiArg
+    >({
+      query: () => ({ url: `/v1/auth/sessions` }),
+    }),
+    customerAuthControllerRevokeSession: build.mutation<
+      CustomerAuthControllerRevokeSessionApiResponse,
+      CustomerAuthControllerRevokeSessionApiArg
+    >({
+      query: (queryArg) => ({ url: `/v1/auth/sessions/${queryArg.id}`, method: 'DELETE' }),
+    }),
+    customerAuthControllerRevokeOthers: build.mutation<
+      CustomerAuthControllerRevokeOthersApiResponse,
+      CustomerAuthControllerRevokeOthersApiArg
+    >({
+      query: () => ({ url: `/v1/auth/sessions/revoke-others`, method: 'POST' }),
+    }),
     catalogControllerCategories: build.query<
       CatalogControllerCategoriesApiResponse,
       CatalogControllerCategoriesApiArg
@@ -195,6 +331,65 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as gatewayApi };
+export type CustomerAuthControllerProvidersApiResponse = /** status 200  */ ProvidersDtoOutput;
+export type CustomerAuthControllerProvidersApiArg = void;
+export type CustomerAuthControllerRegisterApiResponse = /** status 202  */ AcceptedDtoOutput;
+export type CustomerAuthControllerRegisterApiArg = {
+  /** Cloudflare Turnstile token */
+  'cf-turnstile-response': string;
+  registerDto: RegisterDto;
+};
+export type CustomerAuthControllerLoginApiResponse = /** status 200  */ CustomerTokenDtoOutput;
+export type CustomerAuthControllerLoginApiArg = {
+  loginDto: LoginDto;
+};
+export type CustomerAuthControllerRefreshApiResponse = /** status 200  */ CustomerTokenDtoOutput;
+export type CustomerAuthControllerRefreshApiArg = void;
+export type CustomerAuthControllerLogoutApiResponse = unknown;
+export type CustomerAuthControllerLogoutApiArg = void;
+export type CustomerAuthControllerVerifyEmailApiResponse =
+  /** status 200  */ CustomerTokenDtoOutput;
+export type CustomerAuthControllerVerifyEmailApiArg = {
+  tokenDto: TokenDto;
+};
+export type CustomerAuthControllerResendApiResponse = /** status 202  */ AcceptedDtoOutput;
+export type CustomerAuthControllerResendApiArg = {
+  emailDto: EmailDto;
+};
+export type CustomerAuthControllerForgotApiResponse = /** status 202  */ AcceptedDtoOutput;
+export type CustomerAuthControllerForgotApiArg = {
+  /** Cloudflare Turnstile token */
+  'cf-turnstile-response': string;
+  emailDto: EmailDto;
+};
+export type CustomerAuthControllerResetApiResponse = /** status 200  */ OkDtoOutput;
+export type CustomerAuthControllerResetApiArg = {
+  resetDto: ResetDto;
+};
+export type CustomerAuthControllerPendingProfileApiResponse = /** status 200  */ PendingDtoOutput;
+export type CustomerAuthControllerPendingProfileApiArg = void;
+export type CustomerAuthControllerCompleteApiResponse = /** status 200  */ CustomerTokenDtoOutput;
+export type CustomerAuthControllerCompleteApiArg = {
+  completeSignupDto: CompleteSignupDto;
+};
+export type CustomerAuthControllerMeApiResponse = /** status 200  */ CustomerDtoOutput;
+export type CustomerAuthControllerMeApiArg = void;
+export type CustomerAuthControllerUpdateProfileApiResponse = /** status 200  */ CustomerDtoOutput;
+export type CustomerAuthControllerUpdateProfileApiArg = {
+  profileDto: ProfileDto;
+};
+export type CustomerAuthControllerChangePasswordApiResponse = /** status 200  */ OkDtoOutput;
+export type CustomerAuthControllerChangePasswordApiArg = {
+  changePasswordDto: ChangePasswordDto;
+};
+export type CustomerAuthControllerSessionsApiResponse = /** status 200  */ SessionListDtoOutput;
+export type CustomerAuthControllerSessionsApiArg = void;
+export type CustomerAuthControllerRevokeSessionApiResponse = /** status 200  */ OkDtoOutput;
+export type CustomerAuthControllerRevokeSessionApiArg = {
+  id: string;
+};
+export type CustomerAuthControllerRevokeOthersApiResponse = /** status 200  */ OkDtoOutput;
+export type CustomerAuthControllerRevokeOthersApiArg = void;
 export type CatalogControllerCategoriesApiResponse =
   /** status 200  */ CategoryListResponseDtoOutput;
 export type CatalogControllerCategoriesApiArg = void;
@@ -291,6 +486,86 @@ export type PublicB2BControllerPrivacyTrackApiArg = {
 export type PublicB2BControllerBeaconApiResponse = unknown;
 export type PublicB2BControllerBeaconApiArg = {
   beaconEventDto: BeaconEventDto;
+};
+export type ProvidersDtoOutput = {
+  providers: ('GOOGLE' | 'FACEBOOK')[];
+};
+export type AcceptedDtoOutput = {
+  accepted: true;
+};
+export type RegisterDto = {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  lang?: 'en' | 'bn';
+};
+export type CustomerTokenDtoOutput = {
+  accessToken: string;
+  tokenType: 'Bearer';
+  expiresIn: number;
+  user: {
+    id: string;
+    phone: string;
+    name: string | null;
+    email: string | null;
+    role: 'CUSTOMER' | 'STAFF' | 'OWNER';
+  };
+};
+export type LoginDto = {
+  email: string;
+  password: string;
+};
+export type TokenDto = {
+  token: string;
+};
+export type EmailDto = {
+  email: string;
+  lang?: 'en' | 'bn';
+};
+export type OkDtoOutput = {
+  ok: true;
+};
+export type ResetDto = {
+  token: string;
+  password: string;
+};
+export type PendingDtoOutput = {
+  email: string;
+  name: string | null;
+  provider: 'GOOGLE' | 'FACEBOOK';
+};
+export type CompleteSignupDto = {
+  name: string;
+  phone: string;
+};
+export type CustomerDtoOutput = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  emailVerified: boolean;
+  phone: string;
+  hasPassword: boolean;
+  providers: ('GOOGLE' | 'FACEBOOK')[];
+  createdAt: string;
+};
+export type ProfileDto = {
+  name: string;
+  phone: string;
+};
+export type ChangePasswordDto = {
+  currentPassword: string;
+  newPassword: string;
+};
+export type SessionListDtoOutput = {
+  items: {
+    id: string;
+    userAgent: string | null;
+    ip: string | null;
+    createdAt: string;
+    lastUsedAt: string;
+    current: boolean;
+  }[];
 };
 export type CategoryListResponseDtoOutput = {
   items: {
@@ -914,6 +1189,27 @@ export type BeaconEventDto = {
   };
 };
 export const {
+  useCustomerAuthControllerProvidersQuery,
+  useLazyCustomerAuthControllerProvidersQuery,
+  useCustomerAuthControllerRegisterMutation,
+  useCustomerAuthControllerLoginMutation,
+  useCustomerAuthControllerRefreshMutation,
+  useCustomerAuthControllerLogoutMutation,
+  useCustomerAuthControllerVerifyEmailMutation,
+  useCustomerAuthControllerResendMutation,
+  useCustomerAuthControllerForgotMutation,
+  useCustomerAuthControllerResetMutation,
+  useCustomerAuthControllerPendingProfileQuery,
+  useLazyCustomerAuthControllerPendingProfileQuery,
+  useCustomerAuthControllerCompleteMutation,
+  useCustomerAuthControllerMeQuery,
+  useLazyCustomerAuthControllerMeQuery,
+  useCustomerAuthControllerUpdateProfileMutation,
+  useCustomerAuthControllerChangePasswordMutation,
+  useCustomerAuthControllerSessionsQuery,
+  useLazyCustomerAuthControllerSessionsQuery,
+  useCustomerAuthControllerRevokeSessionMutation,
+  useCustomerAuthControllerRevokeOthersMutation,
   useCatalogControllerCategoriesQuery,
   useLazyCatalogControllerCategoriesQuery,
   useCatalogControllerSaleQuery,

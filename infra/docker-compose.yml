@@ -75,6 +75,13 @@ services:
       timeout: 10s
       retries: 10
 
+  # Local test inbox for account emails (free, offline): SMTP on 1025, web inbox on 8025.
+  mailpit:
+    image: axllent/mailpit:v1.27.11
+    restart: unless-stopped
+    ports: ['127.0.0.1:8025:8025', '127.0.0.1:1025:1025']
+    networks: [backend]
+
   redis:
     image: redis:7-alpine
     restart: unless-stopped
@@ -100,6 +107,12 @@ services:
       HTTP_PORT: 3000
       REDIS_URL: redis://redis:6379
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3100,http://localhost:3200}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:3000}
+      STOREFRONT_URL: ${STOREFRONT_URL:-http://localhost:3100}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      FACEBOOK_APP_ID: ${FACEBOOK_APP_ID:-}
+      FACEBOOK_APP_SECRET: ${FACEBOOK_APP_SECRET:-}
       TRUST_PROXY: 'false'
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY:?JWT keys missing - run pnpm keys:dev}
       COOKIE_SECURE: 'true'
@@ -247,6 +260,14 @@ services:
       APP: notification-service
       OWNER_NOTIFY_PHONE: ${OWNER_NOTIFY_PHONE:-}
       STOREFRONT_URL: ${STOREFRONT_URL:-http://localhost:3100}
+      # Dev: every email lands in Mailpit (http://localhost:8025); nothing leaves this machine.
+      EMAIL_DRIVER: ${EMAIL_DRIVER:-smtp}
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      MAIL_FROM: ${MAIL_FROM:-Zelqune <hello@zelqune.com>}
       HTTP_PORT: 3007
       TCP_PORT: 4007
       DB_SCHEMA: notifications

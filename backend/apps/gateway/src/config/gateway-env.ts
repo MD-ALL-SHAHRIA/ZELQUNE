@@ -51,6 +51,34 @@ export const gatewayEnvSchema = baseEnvSchema
     CART_WRITES_PER_MINUTE: z.coerce.number().int().positive().default(60),
     TRACK_PER_MINUTE: z.coerce.number().int().positive().default(20),
     RFQ_PER_HOUR: z.coerce.number().int().positive().default(5),
+    /** Customer account emails (sign-up, resend, reset) per IP per hour (ADR 0021). */
+    AUTH_EMAILS_PER_HOUR: z.coerce.number().int().positive().default(10),
+    /** Customer refresh cookie (separate from the admin one, path /v1/auth). */
+    CUSTOMER_REFRESH_COOKIE_NAME: z.string().min(1).default('zq_crt'),
+    /** Public URL of this API (OAuth redirect URIs) and of the storefront (where users return). */
+    PUBLIC_API_URL: z.string().url().default('http://localhost:3000'),
+    STOREFRONT_URL: z.string().url().default('http://localhost:3100'),
+    /** Google / Facebook sign-in: off until the owner registers the apps (docs/accounts-setup.md). */
+    GOOGLE_CLIENT_ID: z
+      .string()
+      .trim()
+      .optional()
+      .transform((v) => v || undefined),
+    GOOGLE_CLIENT_SECRET: z
+      .string()
+      .trim()
+      .optional()
+      .transform((v) => v || undefined),
+    FACEBOOK_APP_ID: z
+      .string()
+      .trim()
+      .optional()
+      .transform((v) => v || undefined),
+    FACEBOOK_APP_SECRET: z
+      .string()
+      .trim()
+      .optional()
+      .transform((v) => v || undefined),
     BEACON_PER_MINUTE: z.coerce.number().int().positive().default(120),
     /** Bot check on checkout: fake (dev/tests) or Cloudflare Turnstile. */
     TURNSTILE_DRIVER: z.enum(['fake', 'cloudflare']).default('fake'),
