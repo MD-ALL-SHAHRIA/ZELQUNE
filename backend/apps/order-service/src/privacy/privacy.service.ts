@@ -470,7 +470,7 @@ export class PrivacyService {
       // Conditional on the status read above, so two clicks cannot both apply.
       const { count } = await tx.privacyRequest.updateMany({
         where: { id, status: r.status },
-        data: { ...(data), status: to },
+        data: { ...data, status: to },
       });
       if (!count) throw new AppError('PRIVACY_BAD_TRANSITION', 'The request changed; reload', 409);
       await recordAudit(this.outbox, tx, SOURCE, {
