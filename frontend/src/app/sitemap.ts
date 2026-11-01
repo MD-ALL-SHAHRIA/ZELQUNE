@@ -19,6 +19,7 @@ const PAGES = [
   '/returns',
   '/privacy',
   '/cookies',
+  '/privacy-request',
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

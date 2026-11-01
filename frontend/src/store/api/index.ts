@@ -22,4 +22,6 @@ export const {
   useShopControllerTrackMutation: useTrackOrderMutation,
   usePublicB2BControllerRequestMutation: useRequestQuoteMutation,
   usePublicB2BControllerTrackMutation: useTrackQuoteMutation,
+  usePublicB2BControllerPrivacyRequestMutation: useSubmitPrivacyRequestMutation,
+  usePublicB2BControllerPrivacyTrackMutation: useTrackPrivacyRequestMutation,
 } = api;
