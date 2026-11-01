@@ -117,7 +117,7 @@ const chip =
 
 export default function HomePage() {
   const { state } = useAuth();
-  const owner = state.status === 'signedIn' && state.user.role === 'OWNER';
+  const owner = 'user' in state && state.user.role === 'OWNER';
   const [period, setPeriod] = useState<Period>('30');
   const [stats, setStats] = useState<{ now: Stats; before: Stats } | null>(null);
   const [report, setReport] = useState<Report | null>(null);
@@ -421,7 +421,17 @@ export default function HomePage() {
                     ))}
                   </ul>
                 ) : (
-                  <EmptyState icon={<ShoppingBag />} title="No orders yet" />
+                  <EmptyState
+                    icon={<ShoppingBag />}
+                    title="No orders yet"
+                    action={
+                      <Link href="/products" className={buttonClass('secondary', 'sm')}>
+                        Check your products
+                      </Link>
+                    }
+                  >
+                    Orders appear here as soon as a customer checks out on the website.
+                  </EmptyState>
                 )}
               </>
             )}
@@ -590,7 +600,9 @@ export default function HomePage() {
               {activity === null ? (
                 <Skeleton className="h-56" />
               ) : activity.length === 0 ? (
-                <EmptyState icon={<History />} title="Nothing changed yet" />
+                <EmptyState icon={<History />} title="Nothing changed yet">
+                  Edits to products, orders and settings by you or your team show here.
+                </EmptyState>
               ) : (
                 <ul>
                   {activity.map((a) => (

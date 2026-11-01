@@ -11,7 +11,10 @@ describe('error copy', () => {
     ] as const) {
       expect(ERROR_COPY[lang]).toEqual({
         error: dict.ui.error,
+        errorHelp: dict.ui.errorHelp,
+        errorOffline: dict.ui.errorOffline,
         tryAgain: dict.ui.tryAgain,
+        loading: dict.ui.loading,
         backHome: dict.ui.backHome,
       });
     }

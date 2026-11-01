@@ -48,7 +48,7 @@ const SECTIONS: {
 /** Shopify/Stripe-style settings: sections on the left, one form at a time on the right. */
 export default function SettingsPage() {
   const { state } = useAuth();
-  const owner = state.status === 'signedIn' && state.user.role === 'OWNER';
+  const owner = 'user' in state && state.user.role === 'OWNER';
   const params = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

@@ -68,7 +68,17 @@ export function CartDrawer({ lang, copy }: { lang: Locale; copy: CartCopy }) {
     >
       {!items.length ? (
         <div className="grid h-full place-items-center text-center">
-          <p className="font-display text-2xl font-medium text-stone">{copy.cart.empty}</p>
+          <div className="max-w-xs">
+            <p className="font-display text-2xl font-medium text-stone">{copy.cart.empty}</p>
+            <p className="mt-3 text-[0.92rem] leading-relaxed text-stone">{copy.cart.emptyText}</p>
+            <Link
+              href={href(lang, '/shop')}
+              onClick={() => setOpen(false)}
+              className="mt-6 inline-block border-b border-ink pb-1 text-sm font-medium"
+            >
+              {copy.cart.browse}
+            </Link>
+          </div>
         </div>
       ) : (
         <ul className="space-y-6">

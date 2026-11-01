@@ -1,3 +1,4 @@
+import { NetworkStatus } from '@/features/network/network-status';
 import { businessLine } from '@/shared/lib/business';
 import { href } from '@/shared/lib/site';
 import { CookieBanner } from '@/features/consent/cookie-banner';
@@ -37,6 +38,7 @@ export default async function SiteLayout({
   return (
     <>
       {/* Cookie choice first in the tab order (it is fixed at the foot of the screen). */}
+      <NetworkStatus copy={dict.network} />
       <CookieBanner
         copy={{
           ...dict.consent,

@@ -34,6 +34,11 @@ export default function PageError({
           <h1 className="mt-10 font-display text-[clamp(1.9rem,1.5rem+1.8vw,2.8rem)] font-medium leading-[1.1] text-balance">
             {copy.error}
           </h1>
+          <p className="mt-5 max-w-md text-[1.02rem] leading-relaxed text-stone">
+            {typeof navigator !== 'undefined' && !navigator.onLine
+              ? copy.errorOffline
+              : copy.errorHelp}
+          </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Button onClick={() => retry()}>{copy.tryAgain}</Button>
             <ButtonLink href={`/${lang}`} variant="outline">

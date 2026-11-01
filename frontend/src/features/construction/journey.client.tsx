@@ -1,5 +1,6 @@
 'use client';
 
+import { isSlowNetwork, subscribeNetwork } from '@/shared/lib/network';
 import { ArrowDown } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
@@ -88,16 +89,21 @@ export function ConstructionJourney({
   /** Bangla pages count in Bangla digits. */
   lang: string;
 }) {
-  const still = useSyncExternalStore(
+  const reduced = useSyncExternalStore(
     subscribeMotion,
     () => window.matchMedia(REDUCE).matches,
     () => false,
   );
+  // Data saver or 2G: the lighter path (one photo per chapter) instead of a 20–40 MB film.
+  const slow = useSyncExternalStore(subscribeNetwork, isSlowNetwork, () => false);
+  const still = reduced || slow;
   const root = useRef<HTMLElement>(null);
   const words = useRef<(HTMLDivElement | null)[]>([]);
   const rail = useRef<HTMLSpanElement>(null);
   const film = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(0);
+  /** Film download progress (0–99), null when not downloading. */
+  const [pct, setPct] = useState<number | null>(null);
   const dark = useSyncExternalStore(
     subscribeTheme,
     () => document.documentElement.dataset.theme === 'dark',
@@ -238,16 +244,36 @@ export function ConstructionJourney({
     const at = v.currentTime;
     v.src = src;
     v.addEventListener('loadedmetadata', () => (v.currentTime = at), { once: true });
+    setPct(0);
     void fetch(src, { signal: entry.ctrl.signal })
-      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
+      .then(async (r) => {
+        if (!r.ok || !r.body) throw new Error(String(r.status));
+        // Real progress from the bytes received (the bar hides once the film is in memory).
+        const size = Number(r.headers.get('content-length')) || 0;
+        const reader = r.body.getReader();
+        const parts: BlobPart[] = [];
+        let got = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          parts.push(value);
+          got += value.length;
+          if (size && loaded.current === entry)
+            setPct(Math.min(99, Math.round((got / size) * 100)));
+        }
+        return new Blob(parts, { type: r.headers.get('content-type') ?? 'video/mp4' });
+      })
       .then((b) => {
+        setPct(null);
         if (loaded.current !== entry) return;
         entry.url = URL.createObjectURL(b);
         const now = v.currentTime;
         v.src = entry.url;
         v.addEventListener('loadedmetadata', () => (v.currentTime = now), { once: true });
       })
-      .catch(() => undefined);
+      .catch(() => {
+        if (loaded.current === entry) setPct(null);
+      });
   }, [video, still, dark, large]);
   useEffect(
     () => () => {
@@ -330,6 +356,21 @@ export function ConstructionJourney({
             </div>
           </>
         )}
+        {video && pct !== null ? (
+          <div
+            role="progressbar"
+            aria-label={labels.section}
+            aria-valuenow={pct}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            className="absolute inset-x-0 bottom-0 z-10 h-0.5 bg-ivory/10"
+          >
+            <span
+              className="block h-full bg-brass transition-[width] duration-300"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        ) : null}
         {/* Shade under the words, which sit at the top. */}
         <span
           aria-hidden

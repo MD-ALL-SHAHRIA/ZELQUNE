@@ -14,6 +14,7 @@ import { Field, Input, Select, Textarea } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
 import { FormNotice } from '@/features/legal/form-notice';
+import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
 
 type BuildingType = keyof Dictionary['build']['types'];
 type Budget = keyof Dictionary['build']['budgets'];
@@ -73,6 +74,7 @@ export function BuildForm({
       found.floors = c.errors.floors;
     if (!token) found.turnstile = copy.checkout.errors.turnstile;
     setErrors(found);
+    if (Object.keys(found).length) focusFirstInvalid(e.currentTarget as HTMLFormElement);
     if (Object.keys(found).length || !mobile) return;
 
     const { utm } = visitor();

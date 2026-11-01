@@ -1,5 +1,6 @@
 'use client';
 
+import { NetworkBanner } from './network-banner';
 import { ExternalLink, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -295,6 +296,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       ) : null}
 
       <div className="transition-[padding] duration-200 lg:pl-(--sb)">
+        <NetworkBanner />
         {/* Tools on their own row; the page title and its buttons sit underneath. */}
         <div className="flex h-14 items-center gap-3 px-4 pt-2 sm:px-6 lg:pr-6 lg:pl-3">
           <button

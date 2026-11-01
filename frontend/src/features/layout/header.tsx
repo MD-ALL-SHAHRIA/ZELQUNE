@@ -73,6 +73,8 @@ export function Header({
                 products: dict.header.searchProducts,
                 pages: dict.header.searchPages,
                 empty: dict.header.searchEmpty,
+                didYouMean: dict.header.searchDidYouMean,
+                tryInstead: dict.header.searchTry,
               }}
             />
           </div>

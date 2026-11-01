@@ -29,7 +29,7 @@ const local = (p: string) => p.replace(/^\+880/, '0');
 export function TeamSettings() {
   const toast = useToast();
   const { state } = useAuth();
-  const me = state.status === 'signedIn' ? state.user.id : null;
+  const me = 'user' in state ? state.user.id : null;
   const [items, setItems] = useState<Member[] | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState({

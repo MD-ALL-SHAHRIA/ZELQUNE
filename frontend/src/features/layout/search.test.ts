@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { haystackOf, search, type SearchIndex } from './search';
+import { correct, haystackOf, search, type SearchIndex } from './search';
 import { isActivePath } from './nav';
 
 const index: SearchIndex = {
@@ -52,5 +52,28 @@ describe('isActivePath', () => {
   it('matches home only exactly', () => {
     expect(isActivePath('/en', '/en')).toBe(true);
     expect(isActivePath('/en/shop', '/en')).toBe(false);
+  });
+});
+
+describe('correct (did you mean)', () => {
+  const idx = {
+    products: [
+      {
+        href: '/p/1',
+        title: 'Alo-Arch Panel',
+        haystack: 'alo-arch panel wall lighting',
+        price: null,
+        image: null,
+      },
+    ],
+    pages: [{ href: '/shelves', title: 'Shelves', haystack: 'shelves floating' }],
+  };
+  it('fixes a typo when the fixed query finds something', () => {
+    expect(correct(idx, 'lightng')).toBe('lighting');
+    expect(correct(idx, 'shelfs')).toBe('shelves');
+  });
+  it('leaves good or hopeless queries alone', () => {
+    expect(correct(idx, 'panel')).toBeNull();
+    expect(correct(idx, 'zzzzzz')).toBeNull();
   });
 });

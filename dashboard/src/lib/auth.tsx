@@ -11,7 +11,15 @@ import {
 } from './api';
 
 type User = Schemas['AuthUserDto_Output'];
-type State = { status: 'loading' } | { status: 'signedOut' } | { status: 'signedIn'; user: User };
+/**
+ * `expired`: the session ended while someone was working. The page stays mounted (unsaved edits
+ * stay in memory) and a dialog asks them to sign in again; nothing is thrown away.
+ */
+type State =
+  | { status: 'loading' }
+  | { status: 'signedOut' }
+  | { status: 'signedIn'; user: User }
+  | { status: 'expired'; user: User };
 
 interface Auth {
   state: State;
@@ -32,7 +40,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    onSessionEnded(() => setState({ status: 'signedOut' }));
+    onSessionEnded(() =>
+      setState((s) =>
+        s.status === 'signedIn' || s.status === 'expired'
+          ? { status: 'expired', user: s.user }
+          : { status: 'signedOut' },
+      ),
+    );
     let cancelled = false;
     void refreshSession().then(async (ok) => {
       if (cancelled) return;

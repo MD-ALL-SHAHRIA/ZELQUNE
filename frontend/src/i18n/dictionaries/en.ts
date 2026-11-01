@@ -20,6 +20,9 @@ export const en = {
   cart: {
     title: 'Cart',
     empty: 'Your cart is empty',
+    emptyText:
+      'Nothing added yet. Pieces you add stay here on this device, even if you close the page.',
+    browse: 'Browse the shop',
     checkout: 'Go to checkout',
     mixed: "Pre-order and in-stock items can't be ordered together. Remove one to continue.",
     keepBrowsing: 'Keep browsing',
@@ -198,10 +201,13 @@ export const en = {
     emptyCart: 'Your cart is empty. Add a product first.',
     errors: {
       phone: "That mobile number doesn't look right. Use an 11-digit number starting with 01.",
-      trxUsed: 'This Transaction ID has already been used. Please check it.',
-      outOfStock: 'This item is out of stock right now.',
-      generic: 'Something went wrong. Please try again shortly, or message us on WhatsApp.',
-      required: 'Please fill this in.',
+      trxUsed:
+        'This Transaction ID has already been used. Check the ID in your latest bKash/Nagad message and enter it again.',
+      outOfStock:
+        'This item is out of stock right now. Remove it from your cart or choose another finish.',
+      generic:
+        'Our server had a problem; it is not your fault. Your details are still here. Try again in a minute, or message us on WhatsApp.',
+      required: 'This field is needed. Please fill it in.',
       line: 'Please write the full address (house, road, area).',
       trxRequired: 'Enter the Transaction ID from your bKash/Nagad message.',
       turnstile: 'Please complete the security check.',
@@ -212,6 +218,14 @@ export const en = {
   success: {
     heading: "Thank you! We've received your order",
     text: "Your order code is {code}. Keep it to track your order. We'll check your payment and confirm by SMS.",
+    reassure:
+      'Your order is saved. If anything is unclear, message us on WhatsApp with your order code.',
+    nextHeading: 'What happens next',
+    steps: [
+      'We check your bKash or Nagad advance and confirm your order.',
+      'We make your piece. Pre-orders are made and shipped within 10 days.',
+      'The courier delivers it, and you pay the rest in cash on delivery.',
+    ],
     track: 'Track order',
     keepBrowsing: 'Keep browsing',
   },
@@ -353,6 +367,12 @@ export const en = {
     construction: { title: 'Built to last' },
     bulk: { title: 'Panels at scale', cta: 'Plan a bulk order' },
     work: 'See our work',
+  },
+  network: {
+    offline:
+      "You're offline. This page stays on screen and your cart is saved on this device. Placing an order or sending a form needs the internet again.",
+    slow: "Your connection looks slow, so we're showing a lighter version of the site: photos instead of videos.",
+    dismiss: 'Dismiss',
   },
   consent: {
     title: 'Cookies on Zelqune',
@@ -786,6 +806,8 @@ export const en = {
     searchPlaceholder: 'Search products and services',
     searchProducts: 'Products',
     searchPages: 'Services and pages',
+    searchDidYouMean: 'Did you mean',
+    searchTry: 'Or try one of these:',
     searchEmpty: 'Nothing found for "{q}".',
   },
   account: {
@@ -1028,6 +1050,10 @@ export const en = {
     notFound: "We couldn't find that page.",
     backHome: 'Back to home',
     error: 'Something went wrong on our side. Please try again.',
+    errorHelp:
+      "This page didn't load because of a problem on our side, not anything you did. Try again; if it keeps happening, message us on WhatsApp and we'll help.",
+    errorOffline:
+      "You seem to be offline, so this page couldn't load. Check your internet connection, then try again.",
     tryAgain: 'Try again',
     photoPlaceholder: 'Photo coming soon',
     photoCount: 'Photo {n} of {total}',

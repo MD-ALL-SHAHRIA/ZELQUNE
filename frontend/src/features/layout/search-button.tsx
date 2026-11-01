@@ -14,6 +14,8 @@ export interface SearchCopy {
   products: string;
   pages: string;
   empty: string;
+  didYouMean: string;
+  tryInstead: string;
 }
 
 // The overlay (Radix Dialog + results) loads on first open, so it adds no JS until used.

@@ -599,3 +599,21 @@ How to cancel an order, return an item or get your money back.
 - **business details pending:** [[business name, address and trade licence, to be confirmed]]
 - **business licence label:** Trade licence
 - **cookie banner short text:** We use necessary cookies for your cart and settings. With your OK, we also use analytics and ad-measurement cookies.
+- **search did you mean:** Did you mean
+- **search try instead:** Or try one of these:
+- **errorHelp:** This page didn't load because of a problem on our side, not anything you did. Try again; if it keeps happening, message us on WhatsApp and we'll help.
+- **errorOffline:** You seem to be offline, so this page couldn't load. Check your internet connection, then try again.
+- **network offline:** You're offline. This page stays on screen and your cart is saved on this device. Placing an order or sending a form needs the internet again.
+- **network slow:** Your connection looks slow, so we're showing a lighter version of the site: photos instead of videos.
+- **network dismiss:** Dismiss
+- **cart empty text:** Nothing added yet. Pieces you add stay here on this device, even if you close the page.
+- **cart browse:** Browse the shop
+- **order placed reassure:** Your order is saved. If anything is unclear, message us on WhatsApp with your order code.
+- **order placed next heading:** What happens next
+- **order placed next step:** We check your bKash or Nagad advance and confirm your order.
+- **order placed next step:** We make your piece. Pre-orders are made and shipped within 10 days.
+- **order placed next step:** The courier delivers it, and you pay the rest in cash on delivery.
+- **required (checkout error):** This field is needed. Please fill it in.
+- **generic (checkout error):** Our server had a problem; it is not your fault. Your details are still here. Try again in a minute, or message us on WhatsApp.
+- **outOfStock (checkout error):** This item is out of stock right now. Remove it from your cart or choose another finish.
+- **trxUsed (checkout error):** This Transaction ID has already been used. Check the ID in your latest bKash/Nagad message and enter it again.

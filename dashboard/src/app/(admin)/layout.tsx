@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { AppShell } from '@/components/shell/app-shell';
+import { SessionExpired } from '@/components/shell/session-expired';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '@/lib/auth';
 
@@ -13,6 +14,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (state.status === 'signedOut') router.replace('/login');
   }, [state.status, router]);
+  if (state.status === 'expired') {
+    return (
+      <>
+        <AppShell>{children}</AppShell>
+        <SessionExpired phone={state.user.phone} />
+      </>
+    );
+  }
   if (state.status !== 'signedIn') {
     return (
       <div className="flex min-h-dvh" role="status" aria-label="Loading">
