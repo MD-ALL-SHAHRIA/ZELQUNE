@@ -1,3 +1,4 @@
+import { formatNumber } from '@/i18n/format';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LogoMark } from '@/shared/ui/logo';
@@ -41,6 +42,23 @@ export default async function OrderPlaced({ params }: { params: Params }) {
           </strong>
           {after}
         </p>
+        <p className="max-w-xl text-stone">{dict.success.reassure}</p>
+        <div className="w-full max-w-xl border-y border-line py-8 text-left">
+          <h2 className="font-display text-2xl">{dict.success.nextHeading}</h2>
+          <ol className="mt-5 space-y-4">
+            {dict.success.steps.map((step, i) => (
+              <li key={step} className="grid grid-cols-[2rem_1fr] gap-3 leading-relaxed">
+                <span
+                  aria-hidden
+                  className="grid size-7 place-items-center rounded-full border border-walnut text-sm text-walnut"
+                >
+                  {formatNumber(i + 1, lang)}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           <ButtonLink href={`${href(lang, '/track')}?code=${code}`} size="lg">
             {dict.success.track}

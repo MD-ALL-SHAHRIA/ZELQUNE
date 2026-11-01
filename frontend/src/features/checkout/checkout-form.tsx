@@ -23,6 +23,7 @@ import { useCheckoutMutation, useCheckoutQuoteMutation } from '@/store/api';
 import { useAppDispatch } from '@/store/hooks';
 import { couponProblem, normalizeCoupon } from './coupon';
 import { FormNotice } from '@/features/legal/form-notice';
+import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
 
 type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product' | 'offers'>;
 
@@ -158,6 +159,7 @@ export function CheckoutForm({
     setFormError(null);
     const found = validate();
     setErrors(found);
+    if (Object.keys(found).length) focusFirstInvalid(e.currentTarget as HTMLFormElement);
     if (Object.keys(found).length || !method || !quote || !token) return;
 
     const { sessionId, utm } = visitor();

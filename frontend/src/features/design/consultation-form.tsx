@@ -14,6 +14,7 @@ import { Field, Input, Select, Textarea } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
 import { FormNotice } from '@/features/legal/form-notice';
+import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
 
 type Space = keyof Dictionary['consult']['spaces'];
 type Budget = keyof Dictionary['consult']['budgets'];
@@ -62,6 +63,7 @@ export function ConsultationForm({
     if (sqft !== null && (!Number.isInteger(sqft) || sqft < 20)) found.size = copy.bulk.errors.qty;
     if (!token) found.turnstile = copy.checkout.errors.turnstile;
     setErrors(found);
+    if (Object.keys(found).length) focusFirstInvalid(e.currentTarget as HTMLFormElement);
     if (Object.keys(found).length || !mobile) return;
 
     const { utm } = visitor();

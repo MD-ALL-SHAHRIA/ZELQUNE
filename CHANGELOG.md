@@ -7,6 +7,11 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Screen states, following ten rules (empty, loading, error, offline, slow, no results, permission, session, validation, success):
+  - Storefront: page-shaped skeletons for shop, category and product pages; the error page says what happened, whose fault, and what to do (with an offline variant); an offline notice (page and cart stay) and a slow-connection notice. On data saver or 2G the construction page shows its photo version instead of the film, and on normal connections the film shows real download progress. Search suggests a typo fix ("Did you mean") and next searches. The empty cart says why it's empty and links to the shop. The order-placed page reassures and lists what happens next. Forms move focus to the first invalid field, and checkout errors say how to fix them.
+  - Dashboard: an expired session keeps the page and unsaved edits and asks for the password in a dialog instead of redirecting to login; offline banner; network failures return a clear message instead of crashing; owner-only pages explain why and link back; empty states explain and offer a next step.
+
+### Added
 - Legal business details (legal name EN/BN, registered address EN/BN, trade licence) in Dashboard → Settings → Store. Marked "Incomplete" until all three are filled and the owner confirms they match the trade licence; only then does the public content API return them and the footer, Privacy Policy and Terms show them. Until then the policy pages keep a visible "to be confirmed" mark and the footer shows nothing.
 
 ### Changed

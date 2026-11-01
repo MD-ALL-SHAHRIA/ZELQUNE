@@ -9,7 +9,7 @@ import { useId, useMemo, useRef, useState } from 'react';
 import { fill } from '@/i18n/format';
 import { cn } from '@/shared/lib/cn';
 import { navLabel } from './header-styles';
-import { search, type SearchIndex } from './search';
+import { correct, search, type SearchIndex } from './search';
 import type { SearchCopy } from './search-button';
 
 /** With an empty query the overlay suggests a few pieces and every service page. */
@@ -70,6 +70,14 @@ export function SearchDialog({
     onClick: close,
   });
   const empty = !flat.length;
+  // No results: fix the typo for them, and offer a few next searches.
+  const fixed = empty ? correct(index, q) : null;
+  const ideas = empty ? index.pages.slice(0, 4).map((p) => p.title) : [];
+  const retry = (next: string) => {
+    setQuery(next);
+    setActive(0);
+    input.current?.focus();
+  };
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -125,17 +133,46 @@ export function SearchDialog({
           <div className="flex-1 overflow-y-auto overscroll-contain">
             <div
               id={`${id}-results`}
-              role="listbox"
-              aria-label={copy.search}
+              role={empty ? undefined : 'listbox'}
+              aria-label={empty ? undefined : copy.search}
               className="mx-auto grid w-full max-w-[1440px] gap-x-16 gap-y-10 px-5 py-8 md:px-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:py-12"
             >
               {empty ? (
-                <p
-                  role="presentation"
-                  className="font-display text-2xl font-medium text-stone lg:col-span-2"
-                >
-                  {fill(copy.empty, { q: query.trim() })}
-                </p>
+                <div role="presentation" className="space-y-5 lg:col-span-2">
+                  <p className="font-display text-2xl font-medium text-stone">
+                    {fill(copy.empty, { q: query.trim() })}
+                  </p>
+                  {fixed ? (
+                    <p className="text-lg">
+                      {copy.didYouMean}{' '}
+                      <button
+                        type="button"
+                        onClick={() => retry(fixed)}
+                        className="font-medium text-ink underline underline-offset-4"
+                      >
+                        {fixed}
+                      </button>
+                      ?
+                    </p>
+                  ) : null}
+                  {ideas.length ? (
+                    <div>
+                      <p className="text-sm text-stone">{copy.tryInstead}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {ideas.map((t) => (
+                          <button
+                            key={t}
+                            type="button"
+                            onClick={() => retry(t)}
+                            className="border border-line px-4 py-2 text-sm transition-colors hover:border-ink"
+                          >
+                            {t}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               ) : null}
 
               {results.products.length ? (

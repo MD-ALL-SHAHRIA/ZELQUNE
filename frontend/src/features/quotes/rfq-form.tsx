@@ -13,6 +13,7 @@ import { Field, Input, Select, Textarea } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
 import { FormNotice } from '@/features/legal/form-notice';
+import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
 
 const OTHER = '__other__';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -77,6 +78,7 @@ export function RfqForm({
     });
     if (!token) found.turnstile = copy.checkout.errors.turnstile;
     setErrors(found);
+    if (Object.keys(found).length) focusFirstInvalid(e.currentTarget as HTMLFormElement);
     if (Object.keys(found).length || !mobile) return;
 
     const { utm } = visitor();
