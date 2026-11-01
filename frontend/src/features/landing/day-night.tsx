@@ -3,6 +3,7 @@ import { SAMPLE } from '@/content/sample-images';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { cn } from '@/shared/lib/cn';
 import { Eyebrow, Heading } from '@/shared/ui/typography';
+import { SplitText } from '@/shared/ui/split-text';
 
 /**
  * "A vase by day. A soft lamp by night." A full-bleed split, edge to edge: daylight on cream to
@@ -67,7 +68,7 @@ export function DayNight({ dict }: { dict: Dictionary }) {
         <div className="reveal max-w-[46rem] bg-paper/90 px-7 py-8 text-center backdrop-blur-sm sm:px-12 sm:py-10">
           <Eyebrow className="mb-4">{l.dayNightEyebrow}</Eyebrow>
           <Heading level="h3" className="sm:text-[2.4rem]">
-            {l.dayNightHeading}
+            <SplitText text={l.dayNightHeading} />
           </Heading>
         </div>
       </div>

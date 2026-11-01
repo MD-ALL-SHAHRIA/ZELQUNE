@@ -4,6 +4,7 @@ import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
+import { SplitText } from '@/shared/ui/split-text';
 
 /**
  * The making: a full-bleed workshop photograph with a paper card stepping over its lower edge,
@@ -13,7 +14,7 @@ export function Craft({ dict }: { dict: Dictionary; lang: Locale }) {
   const l = dict.landing;
   return (
     <section id="craft" className="scroll-mt-24 bg-cream pb-24 sm:pb-32">
-      <div className="relative h-[62svh] min-h-[420px] overflow-hidden bg-sand lg:h-[88svh] lg:max-h-[920px]">
+      <div className="media-reveal relative h-[62svh] min-h-[420px] overflow-hidden bg-sand lg:h-[88svh] lg:max-h-[920px]">
         <Image
           src={SAMPLE.craft.src}
           alt=""
@@ -27,7 +28,9 @@ export function Craft({ dict }: { dict: Dictionary; lang: Locale }) {
         {/* The card overlaps the photo's lower edge. */}
         <div className="reveal relative -mt-28 ml-auto max-w-[40rem] bg-paper p-8 shadow-[0_40px_80px_-40px_rgba(43,30,25,0.35)] sm:-mt-40 sm:p-12 lg:-mt-64 lg:mr-10 lg:p-16">
           <Eyebrow className="mb-6">{l.craftEyebrow}</Eyebrow>
-          <Heading level="h1">{l.craftHeading}</Heading>
+          <Heading level="h1">
+            <SplitText text={l.craftHeading} />
+          </Heading>
           <Lead className="mt-6 max-w-md">{l.craftText}</Lead>
         </div>
 

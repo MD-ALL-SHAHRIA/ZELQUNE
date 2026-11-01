@@ -4,6 +4,7 @@ import { href } from '@/shared/lib/site';
 import { Accordion } from '@/shared/ui/accordion';
 import { ButtonLink } from '@/shared/ui/button';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
+import { SplitText } from '@/shared/ui/split-text';
 
 export function FaqPreview({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   return (
@@ -11,7 +12,9 @@ export function FaqPreview({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       <Container className="grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:items-start lg:gap-24">
         <div className="reveal space-y-6 lg:sticky lg:top-32">
           <Eyebrow>{dict.nav.faq}</Eyebrow>
-          <Heading>{dict.faq.title}</Heading>
+          <Heading>
+            <SplitText text={dict.faq.title} />
+          </Heading>
           <ButtonLink href={href(lang, '/faq')} variant="outline">
             {dict.nav.faq}
           </ButtonLink>

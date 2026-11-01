@@ -9,6 +9,7 @@ import { type Category } from '@/shared/api/types';
 import { href } from '@/shared/lib/site';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
 import { CollectionsArrows } from './collections-row.client';
+import { SplitText } from '@/shared/ui/split-text';
 
 /** A wide room scene per collection until each category has its own photo. */
 const SCENE_FOR: Record<string, string> = {
@@ -45,7 +46,9 @@ export function CollectionsRow({
       <Container className="grid gap-10 lg:grid-cols-[minmax(0,0.32fr)_minmax(0,1fr)] lg:items-center lg:gap-14">
         <div className="reveal space-y-5">
           <Eyebrow>{h.categoriesEyebrow}</Eyebrow>
-          <Heading id="collections-heading">{h.categoriesHeading}</Heading>
+          <Heading id="collections-heading">
+            <SplitText text={h.categoriesHeading} />
+          </Heading>
           <div className="flex items-center justify-between gap-6 pt-2 lg:flex-col lg:items-start">
             <Link
               href={href(lang, '/shop')}

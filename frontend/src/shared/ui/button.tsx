@@ -49,20 +49,44 @@ export function buttonClass(variant: Variant = 'primary', size: Size = 'md', cla
   );
 }
 
+/**
+ * On hover a plain-text label rolls up and its copy rolls in from below (the copy is CSS
+ * generated content, so screen readers and tests still see one label). Text-only variants and
+ * labels with icons stay as they are.
+ */
+function Label({ variant, children }: { variant?: Variant; children: React.ReactNode }) {
+  if (typeof children !== 'string' || textOnly.includes(variant ?? 'primary')) return children;
+  return (
+    <span className="roll" data-label={children}>
+      <span>{children}</span>
+    </span>
+  );
+}
+
 export function Button({
   variant,
   size,
   className,
+  children,
   ...props
 }: React.ComponentProps<'button'> & { variant?: Variant; size?: Size }) {
-  return <button className={buttonClass(variant, size, className)} {...props} />;
+  return (
+    <button className={buttonClass(variant, size, className)} {...props}>
+      <Label variant={variant}>{children}</Label>
+    </button>
+  );
 }
 
 export function ButtonLink({
   variant,
   size,
   className,
+  children,
   ...props
 }: React.ComponentProps<typeof Link> & { variant?: Variant; size?: Size }) {
-  return <Link className={buttonClass(variant, size, className)} {...props} />;
+  return (
+    <Link className={buttonClass(variant, size, className)} {...props}>
+      <Label variant={variant}>{children}</Label>
+    </Link>
+  );
 }
