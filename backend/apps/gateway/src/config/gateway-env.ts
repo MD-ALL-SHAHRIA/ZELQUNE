@@ -53,6 +53,7 @@ export const gatewayEnvSchema = baseEnvSchema
     RFQ_PER_HOUR: z.coerce.number().int().positive().default(5),
     /** Customer account emails (sign-up, resend, reset) per IP per hour (ADR 0021). */
     AUTH_EMAILS_PER_HOUR: z.coerce.number().int().positive().default(10),
+    CUSTOMER_LOGIN_MAX_PER_IP: z.coerce.number().int().positive().default(30),
     /** Customer refresh cookie (separate from the admin one, path /v1/auth). */
     CUSTOMER_REFRESH_COOKIE_NAME: z.string().min(1).default('zq_crt'),
     /** Public URL of this API (OAuth redirect URIs) and of the storefront (where users return). */

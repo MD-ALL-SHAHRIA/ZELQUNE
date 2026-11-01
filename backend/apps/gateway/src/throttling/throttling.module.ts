@@ -12,7 +12,14 @@ const ROUTE_THROTTLE_METADATA = 'zelqune:route-throttle';
 
 /** Stricter per-IP limits applied to specific routes on top of the default limit. */
 export type RouteThrottleName =
-  'login' | 'checkout' | 'cartWrite' | 'track' | 'rfq' | 'beacon' | 'accountEmail';
+  | 'login'
+  | 'checkout'
+  | 'cartWrite'
+  | 'track'
+  | 'rfq'
+  | 'beacon'
+  | 'accountEmail'
+  | 'customerLogin';
 
 export const RouteThrottle = (name: RouteThrottleName): MethodDecorator =>
   SetMetadata(ROUTE_THROTTLE_METADATA, name);
@@ -47,6 +54,8 @@ export class ThrottlerStorageModule {}
  * - rfq:       RFQ_PER_HOUR (bulk/corporate requests)
  * - beacon:    BEACON_PER_MINUTE (analytics events)
  * - accountEmail: AUTH_EMAILS_PER_HOUR (sign-up, resend and reset emails: no email bombing)
+ * - customerLogin: CUSTOMER_LOGIN_MAX_PER_IP per LOGIN_IP_WINDOW_SECONDS (higher than admin:
+ *   mobile carriers put many customers behind one IP; the per-account lock does the real work)
  * Client IPs are correct behind the proxy via TRUST_PROXY.
  */
 @Module({
@@ -78,6 +87,12 @@ export class ThrottlerStorageModule {}
           },
           { name: 'track', ttl: 60_000, limit: config.TRACK_PER_MINUTE, skipIf: onlyFor('track') },
           { name: 'rfq', ttl: 3_600_000, limit: config.RFQ_PER_HOUR, skipIf: onlyFor('rfq') },
+          {
+            name: 'customerLogin',
+            ttl: config.LOGIN_IP_WINDOW_SECONDS * 1000,
+            limit: config.CUSTOMER_LOGIN_MAX_PER_IP,
+            skipIf: onlyFor('customerLogin'),
+          },
           {
             name: 'accountEmail',
             ttl: 3_600_000,

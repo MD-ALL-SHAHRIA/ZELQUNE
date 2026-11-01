@@ -7,6 +7,12 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Customer sign-in pages (EN/BN, ADR 0021): sign in, create account (live password strength, show/hide), check-your-email with resend, email confirmation, forgot and reset password, Google/Facebook buttons (shown only when switched on) with a "complete your details" step, and the post-sign-in return. The account page is now the customer's portal: details (name, phone), password (change or set), signed-in devices (sign out one or all others), and links to orders and requests. Tokens are read from the URL fragment and wiped from the address bar; the access token is kept in memory only.
+
+### Changed
+- Customer sign-in has its own per-IP limit (CUSTOMER_LOGIN_MAX_PER_IP, default 30 per 15 minutes) because mobile carriers share IPs; the per-account lock after 5 wrong passwords is unchanged. Admin sign-in keeps 5 per IP.
+
+### Added
 - Customer accounts, backend (ADR 0021): /v1/auth register, verified-email sign-in, refresh/logout, email verification, forgot/reset password, profile, change password, signed-in devices (end one or all others), Google and Facebook sign-in (PKCE, state, nonce; off until keys are set). argon2id with NIST-style checks, no account enumeration, per-IP and per-account limits, single-use hashed links in URL fragments, sign-out everywhere after a reset.
 - Email sending in notification-service (SMTP or console) with EN/BN account emails; Mailpit in the dev stack (http://localhost:8025). Setup guide: docs/accounts-setup.md.
 

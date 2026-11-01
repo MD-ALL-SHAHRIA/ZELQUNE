@@ -653,3 +653,100 @@ How to cancel an order, return an item or get your money back.
 - **status COMPLETED:** Completed
 - **status REJECTED:** Closed without action
 - **policyLink:** Make a privacy request
+
+## Customer accounts
+
+- **brandTitle:** Your Zelqune account
+- **brandText:** Every order, consultation and project in one place, with your details kept safe.
+- **google:** Continue with Google
+- **facebook:** Continue with Facebook
+- **or:** or
+- **email:** Email
+- **password:** Password
+- **name:** Full name
+- **phone:** Mobile number
+- **show:** Show password
+- **hide:** Hide password
+- **loginTitle:** Sign in
+- **loginLead:** Welcome back. Sign in to order and follow your requests.
+- **loginButton:** Sign in
+- **signingIn:** Signing in…
+- **forgotLink:** Forgot password?
+- **noAccount:** New to Zelqune?
+- **createLink:** Create an account
+- **registerTitle:** Create your account
+- **registerLead:** One account for products, interior design, construction and bulk orders.
+- **registerButton:** Create account
+- **creating:** Creating…
+- **haveAccount:** Already have an account?
+- **signInLink:** Sign in
+- **passwordHint:** At least 10 characters. A short sentence is easiest to remember.
+- **strength:** Too short | Weak | Good | Strong
+- **notice:** We use these details only for your account, orders and requests.
+- **checkTitle:** Check your email
+- **checkText:** If {email} can be used, a link is on its way. Open it within 24 hours to switch on your account.
+- **checkSpam:** Can't find it? Look in spam, or send it again.
+- **resend:** Send the link again
+- **resent:** Sent again. Check your inbox.
+- **verifying:** Confirming your email…
+- **verifiedTitle:** Email confirmed
+- **verifiedText:** Your account is ready.
+- **goAccount:** Go to my account
+- **forgotTitle:** Forgot your password?
+- **forgotLead:** Enter your email and we will send a link to choose a new password.
+- **forgotButton:** Send link
+- **sending:** Sending…
+- **forgotSent:** If an account uses {email}, a link is on its way. It works for 30 minutes.
+- **backToSignIn:** Back to sign in
+- **resetTitle:** Choose a new password
+- **resetButton:** Save new password
+- **resetDone:** Password changed. Every device has been signed out. Sign in with your new password.
+- **completeTitle:** Almost done
+- **completeLead:** Add your name and mobile number so we can deliver and call you about your orders.
+- **completeButton:** Create my account
+- **completeVia:** Signing up with {provider} as {email}
+- **redirecting:** Signing you in…
+- **error INVALID_CREDENTIALS:** Wrong email or password.
+- **error EMAIL_NOT_VERIFIED:** Confirm your email first. We can send the link again.
+- **error LOGIN_LOCKED:** Too many tries. Wait 15 minutes, or reset your password.
+- **error WEAK_PASSWORD:** Choose a less common password that doesn't contain your name, email or phone.
+- **error INVALID_LINK:** This link is invalid or has expired. Ask for a new one.
+- **error ACCOUNT_CONFLICT:** This email or phone number already belongs to an account. Sign in to it instead.
+- **error PHONE_IN_USE:** This phone number belongs to another account.
+- **error OAUTH_DISABLED:** This sign-in option is not available yet.
+- **error OAUTH_EMAIL_REQUIRED:** We need a verified email from that account. Please sign up with email instead.
+- **error OAUTH_STATE:** Sign-in timed out. Please try again.
+- **error OAUTH_FAILED:** Sign-in with that account didn't finish. Please try again.
+- **error TOO_MANY_REQUESTS:** Too many tries from this connection. Please wait a little and try again.
+- **error NETWORK:** You seem to be offline. Check your connection and try again.
+- **error generic:** Something went wrong on our side, not yours. Please try again in a minute.
+- **error emailInvalid:** Enter a valid email address, like name@example.com.
+- **error passwordShort:** Use at least 10 characters.
+- **error passwordMissing:** Enter your password.
+- **error nameShort:** Enter your full name.
+- **error turnstile:** Please complete the security check.
+- **portalTitle:** My account
+- **hello:** Hello, {name}
+- **profileHeading:** Your details
+- **save:** Save changes
+- **saving:** Saving…
+- **saved:** Saved.
+- **emailNote:** Your sign-in email. Contact us to change it.
+- **verified:** Verified
+- **securityHeading:** Password and security
+- **changePassword:** Change password
+- **setPassword:** Set a password
+- **setPasswordText:** You sign in with {providers}. A password lets you sign in with your email too.
+- **currentPassword:** Current password
+- **newPassword:** New password
+- **passwordChanged:** Password changed. Other devices were signed out.
+- **devicesHeading:** Signed-in devices
+- **thisDevice:** This device
+- **lastActive:** Last active {when}
+- **signOutDevice:** Sign out
+- **signOutOthers:** Sign out everywhere else
+- **signedOutOthers:** Other devices were signed out.
+- **signOut:** Sign out
+- **linkedWith:** Linked with {providers}
+- **activityHeading:** Orders and requests
+- **unknownDevice:** Browser
