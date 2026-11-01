@@ -13,7 +13,9 @@ import { CopyText } from '@/shared/ui/copy-text';
 import { Picture } from '@/shared/ui/image';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { ProjectGrid, type Project } from '@/features/showcase/project-grid';
+import { SplitText } from '@/shared/ui/split-text';
 import { ConsultationForm } from './consultation-form';
+import { OrbitProcess } from './orbit-process';
 import { SECTORS, sectorImages, type SectorSpace } from './sectors';
 
 /**
@@ -188,41 +190,51 @@ export function SectorGrid({
 }
 
 /**
- * How it works: four steps as one drawn line, with a node per step (horizontal on desktop,
- * vertical on phones), from first call to the lit, finished room.
+ * How it works, from first call to the lit, finished room: on desktop an orbit that turns with
+ * the scroll (OrbitProcess); on phones and with reduced motion, one drawn line with a node per
+ * step.
  */
-export function DesignProcess({ dict }: { lang: Locale; dict: Dictionary }) {
+export function DesignProcess({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const d = dict.design;
   const last = d.steps.length - 1;
+  const header = (
+    <div className="reveal space-y-5">
+      <Eyebrow className="text-ivory/60">{d.eyebrow}</Eyebrow>
+      <Heading>
+        <SplitText text={d.processHeading} />
+      </Heading>
+    </div>
+  );
+  // Phones and reduced motion: the drawn line with a node per step.
+  const timeline = (
+    <Container className="py-24 sm:py-32">
+      <div className="mb-16 sm:mb-20">{header}</div>
+      <ol className="relative grid gap-12 pl-12 md:grid-cols-4 md:gap-10 md:pl-0">
+        {/* The line: ink to amber, like a room coming to light. */}
+        <span
+          aria-hidden
+          className="absolute bottom-2 left-[5px] top-2 w-px bg-[linear-gradient(180deg,rgba(243,236,225,0.3),var(--color-amber))] md:bottom-auto md:left-0 md:right-0 md:top-[5px] md:h-px md:w-auto md:bg-[linear-gradient(90deg,rgba(243,236,225,0.3),var(--color-amber))]"
+        />
+        {d.steps.map((step, i) => (
+          <li key={step.title} className="reveal relative space-y-4 md:pt-12">
+            <span
+              aria-hidden
+              className={cn(
+                'absolute -left-12 top-1 size-[11px] border md:left-0 md:top-0',
+                i === last ? 'rounded-full border-amber bg-amber' : 'border-ivory/60 bg-night',
+              )}
+            />
+            <span aria-hidden className="block bg-glow h-px w-8" />
+            <p className="font-display text-[1.7rem] font-medium leading-tight">{step.title}</p>
+            <p className="max-w-xs text-sm leading-relaxed text-ivory/70">{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </Container>
+  );
   return (
-    <section className="tone-dark bg-night py-24 text-ivory sm:py-32">
-      <Container>
-        <div className="reveal mb-16 space-y-5 sm:mb-20">
-          <Eyebrow className="text-ivory/60">{d.eyebrow}</Eyebrow>
-          <Heading>{d.processHeading}</Heading>
-        </div>
-        <ol className="relative grid gap-12 pl-12 md:grid-cols-4 md:gap-10 md:pl-0">
-          {/* The line: ink to amber, like a room coming to light. */}
-          <span
-            aria-hidden
-            className="absolute bottom-2 left-[5px] top-2 w-px bg-[linear-gradient(180deg,rgba(243,236,225,0.3),var(--color-amber))] md:bottom-auto md:left-0 md:right-0 md:top-[5px] md:h-px md:w-auto md:bg-[linear-gradient(90deg,rgba(243,236,225,0.3),var(--color-amber))]"
-          />
-          {d.steps.map((step, i) => (
-            <li key={step.title} className="reveal relative space-y-4 md:pt-12">
-              <span
-                aria-hidden
-                className={cn(
-                  'absolute -left-12 top-1 size-[11px] border md:left-0 md:top-0',
-                  i === last ? 'rounded-full border-amber bg-amber' : 'border-ivory/60 bg-night',
-                )}
-              />
-              <span aria-hidden className="block bg-glow h-px w-8" />
-              <p className="font-display text-[1.7rem] font-medium leading-tight">{step.title}</p>
-              <p className="max-w-xs text-sm leading-relaxed text-ivory/70">{step.text}</p>
-            </li>
-          ))}
-        </ol>
-      </Container>
+    <section className="tone-dark bg-night text-ivory">
+      <OrbitProcess lang={lang} steps={d.steps} header={header} fallback={timeline} />
     </section>
   );
 }

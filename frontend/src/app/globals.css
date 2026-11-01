@@ -431,3 +431,13 @@ html[lang='bn'] .font-display .italic {
     transform: none;
   }
 }
+
+/* Process orbit (design page): badge i sits on the ring at (i - t) steps from the left point,
+   where t follows the scroll; the counter-rotation keeps the numbers upright. */
+.orbit {
+  --r: calc(min(68svh, 560px) / 2);
+}
+.orbit-badge {
+  --angle: calc(180deg + (var(--i) - var(--t)) * (360deg / var(--n)));
+  transform: rotate(var(--angle)) translateX(var(--r)) rotate(calc(-1 * var(--angle)));
+}

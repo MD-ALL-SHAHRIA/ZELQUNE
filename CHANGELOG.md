@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Interior design "How it works" as a scroll-driven orbit on desktop: the section pins, a ring carries the numbered steps and turns so the current step faces its text (lit in amber, with a connector), pausing on each step. Phones and reduced motion keep the drawn timeline.
+
+### Added
 - Home page motion, following a reference study (same design, new movement): headings write themselves in letter by letter (word by word in Bangla) as they scroll into view; button labels roll on hover; the product rail pins on desktop and slides sideways with the scroll (keyboard focus scrolls to the card); the craft and shop-the-room photos open from the edges and settle from a slight zoom. All of it is off for reduced motion, and phones keep the swipe row.
 
 ### Added
