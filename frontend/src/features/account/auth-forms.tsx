@@ -315,15 +315,18 @@ export function RegisterForm({ lang, copy: c, privacyLink, phoneError }: Props) 
 
 /** Reads #token= (never sent to any server), then forgets it from the address bar. */
 function useFragmentToken(): string | null {
-  const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
     const t = new URLSearchParams(window.location.hash.slice(1)).get('token');
-    // Through Next's router, so it does not put the fragment back.
-    router.replace(window.location.pathname + window.location.search, { scroll: false });
+    // After Next has synced its own history entry (same tick would be undone), drop the fragment
+    // and keep Next's state object.
+    const id = window.setTimeout(() =>
+      history.replaceState(history.state, '', window.location.pathname + window.location.search),
+    );
     // eslint-disable-next-line react-hooks/set-state-in-effect -- read once from the URL fragment
     setToken(t ?? '');
-  }, [router]);
+    return () => window.clearTimeout(id);
+  }, []);
   return token;
 }
 
