@@ -376,6 +376,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/privacy-requests': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Ask to see, correct or delete your data, or withdraw consent. */
+    post: operations['PublicB2bController_privacyRequest'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/privacy-requests/track': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Status of a privacy request by code and phone. */
+    post: operations['PublicB2bController_privacyTrack'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/events': {
     parameters: {
       query?: never;
@@ -1217,6 +1251,153 @@ export interface paths {
     get?: never;
     put: operations['AdminSettingsController_password'];
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminPrivacyController_list'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['AdminPrivacyController_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests/{id}/ask-verification': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Ask the requester to confirm from the number on file. */
+    post: operations['AdminPrivacyController_askVerification'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests/{id}/verify': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminPrivacyController_verify'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests/{id}/reject': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminPrivacyController_reject'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests/{id}/export': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Access request: everything held for this phone, as JSON. */
+    post: operations['AdminPrivacyController_export'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests/{id}/correct': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminPrivacyController_correct'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests/{id}/erase': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Deletion request: erase what may go, keep sale records. */
+    post: operations['AdminPrivacyController_erase'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/admin/privacy-requests/{id}/complete': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['AdminPrivacyController_complete'];
     delete?: never;
     options?: never;
     head?: never;
@@ -2218,6 +2399,36 @@ export interface components {
         advanceRequiredPaisa: number;
       } | null;
       orderCode: string | null;
+    };
+    SubmitPrivacyRequestDto: {
+      /** @enum {string} */
+      type: 'ACCESS' | 'CORRECTION' | 'DELETION' | 'CONSENT_WITHDRAWAL';
+      /** @example 01712345678 */
+      phone: string;
+      reference?: string;
+      /** Format: email */
+      email?: string;
+      /** @default  */
+      details?: string;
+    };
+    SubmitPrivacyResultDto_Output: {
+      /** @example PR-8M4K2P */
+      code: string;
+    };
+    PrivacyTrackDto: {
+      /** @example PR-8M4K2P */
+      code: string;
+      /** @example 01712345678 */
+      phone: string;
+    };
+    PublicPrivacyRequestDto_Output: {
+      code: string;
+      /** @enum {string} */
+      type: 'ACCESS' | 'CORRECTION' | 'DELETION' | 'CONSENT_WITHDRAWAL';
+      /** @enum {string} */
+      status: 'PENDING' | 'VERIFICATION_REQUIRED' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED';
+      createdAt: string;
+      updatedAt: string;
     };
     BeaconEventDto: {
       /** @enum {string} */
@@ -3599,6 +3810,143 @@ export interface components {
       currentPassword: string;
       newPassword: string;
     };
+    PrivacyListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        code: string;
+        /** @enum {string} */
+        type: 'ACCESS' | 'CORRECTION' | 'DELETION' | 'CONSENT_WITHDRAWAL';
+        /** @enum {string} */
+        status: 'PENDING' | 'VERIFICATION_REQUIRED' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED';
+        referenceMatched: boolean;
+        createdAt: string;
+        updatedAt: string;
+      }[];
+      total: number;
+      page: number;
+      limit: number;
+    };
+    PrivacyRequestDetailDto_Output: {
+      /** Format: uuid */
+      id: string;
+      code: string;
+      /** @enum {string} */
+      type: 'ACCESS' | 'CORRECTION' | 'DELETION' | 'CONSENT_WITHDRAWAL';
+      /** @enum {string} */
+      status: 'PENDING' | 'VERIFICATION_REQUIRED' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED';
+      referenceMatched: boolean;
+      createdAt: string;
+      updatedAt: string;
+      phone: string;
+      email: string | null;
+      reference: string | null;
+      details: string;
+      found: {
+        orders: number;
+        quotes: number;
+      };
+      verification: {
+        /** @enum {string} */
+        method: 'CALLED_NUMBER_ON_FILE' | 'WHATSAPP_FROM_NUMBER_ON_FILE' | 'IN_PERSON';
+        note: string;
+        at: string;
+        by: string;
+      } | null;
+      decisionNote: string | null;
+      result:
+        | (
+            | {
+                /** @enum {string} */
+                kind: 'ERASURE';
+                erasedOrders: string[];
+                erasedQuotes: string[];
+                retainedOrders: {
+                  code: string;
+                  /** @enum {string} */
+                  reason: 'SALE_RECORD' | 'CONTRACT_RECORD';
+                }[];
+                retainedQuotes: {
+                  code: string;
+                  /** @enum {string} */
+                  reason: 'SALE_RECORD' | 'CONTRACT_RECORD';
+                }[];
+                customerFlagDeleted: boolean;
+              }
+            | {
+                /** @enum {string} */
+                kind: 'CORRECTION';
+                fields: ('name' | 'email')[];
+                orders: number;
+                quotes: number;
+              }
+            | {
+                /** @enum {string} */
+                kind: 'ACCESS';
+                exportedAt: string;
+              }
+            | {
+                /** @enum {string} */
+                kind: 'NOTE';
+              }
+          )
+        | null;
+      resolvedAt: string | null;
+    };
+    AskVerificationDto: {
+      /** @default  */
+      note?: string;
+    };
+    VerifyPrivacyDto: {
+      /** @enum {string} */
+      method: 'CALLED_NUMBER_ON_FILE' | 'WHATSAPP_FROM_NUMBER_ON_FILE' | 'IN_PERSON';
+      /** @default  */
+      note?: string;
+    };
+    RejectPrivacyDto: {
+      reason: string;
+    };
+    PrivacyExportDto_Output: {
+      generatedAt: string;
+      phone: string;
+      orders: {
+        code: string;
+        createdAt: string;
+        status: string;
+        name: string;
+        address: unknown;
+        paymentMethod: string;
+        totalPaisa: number;
+        couponCode: string | null;
+        items: {
+          name: string;
+          qty: number;
+          unitPricePaisa: number;
+        }[];
+      }[];
+      quotes: {
+        code: string;
+        createdAt: string;
+        kind: string;
+        status: string;
+        contactName: string;
+        email: string | null;
+        organizationName: string | null;
+        notes: string | null;
+      }[];
+      customerFlag: {
+        isFriend: boolean;
+      } | null;
+      elsewhere: string[];
+    };
+    CorrectPrivacyDto: {
+      name?: string;
+      /** Format: email */
+      email?: string;
+    };
+    CompletePrivacyDto: {
+      note: string;
+    };
   };
   responses: never;
   parameters: never;
@@ -4140,6 +4488,55 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['PublicQuoteDto_Output'];
+        };
+      };
+    };
+  };
+  PublicB2bController_privacyRequest: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Cloudflare Turnstile token */
+        'cf-turnstile-response': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SubmitPrivacyRequestDto'];
+      };
+    };
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SubmitPrivacyResultDto_Output'];
+        };
+      };
+    };
+  };
+  PublicB2bController_privacyTrack: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PrivacyTrackDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicPrivacyRequestDto_Output'];
         };
       };
     };
@@ -5688,6 +6085,217 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['OkDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_list: {
+    parameters: {
+      query?: {
+        status?: 'PENDING' | 'VERIFICATION_REQUIRED' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED';
+        page?: number;
+        limit?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyRequestDetailDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_askVerification: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AskVerificationDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyRequestDetailDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_verify: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VerifyPrivacyDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyRequestDetailDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_reject: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RejectPrivacyDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyRequestDetailDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_export: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyExportDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_correct: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CorrectPrivacyDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyRequestDetailDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_erase: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyRequestDetailDto_Output'];
+        };
+      };
+    };
+  };
+  AdminPrivacyController_complete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CompletePrivacyDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PrivacyRequestDetailDto_Output'];
         };
       };
     };

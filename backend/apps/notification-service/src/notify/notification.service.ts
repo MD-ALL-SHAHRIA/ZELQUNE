@@ -7,6 +7,7 @@ import {
   orderConfirmed,
   orderPlaced,
   paymentVerified,
+  privacyErased,
   quoteRequested,
 } from '@zelqune/contracts';
 import { type NotificationEnv } from '../config/notification-env';
@@ -37,6 +38,20 @@ export class NotificationService {
     if (!this.settings) return this.config.OWNER_NOTIFY_PHONE;
     const phone = (await this.settings.value()).ownerPhone;
     return phone ? (normalizeBdPhone(phone) ?? undefined) : undefined;
+  }
+
+  /**
+   * Erasure (ADR 0020): forget the contact for erased orders, and redact every message sent to
+   * this number (the log keeps that a message was sent, not to whom or what it said).
+   */
+  async onPrivacyErased(event: EventEnvelope, tx: Tx): Promise<void> {
+    const p = privacyErased.parse(event).payload;
+    if (p.erasedOrderIds.length)
+      await tx.orderContact.deleteMany({ where: { orderId: { in: p.erasedOrderIds } } });
+    await tx.notificationLog.updateMany({
+      where: { recipient: p.phone },
+      data: { recipient: 'ERASED', body: '[erased on request]' },
+    });
   }
 
   async onOrderPlaced(event: EventEnvelope, tx: Tx): Promise<void> {

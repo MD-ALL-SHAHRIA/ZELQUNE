@@ -16,6 +16,8 @@ import {
   CheckoutSettingsRpcController,
   CheckoutSettingsService,
 } from './settings/checkout-settings';
+import { PrivacyRpcController } from './privacy/privacy.rpc.controller';
+import { PrivacyService } from './privacy/privacy.service';
 import { QuoteRpcController } from './quotes/quote.rpc.controller';
 import { QuoteService } from './quotes/quote.service';
 
@@ -31,6 +33,7 @@ import { QuoteService } from './quotes/quote.service';
   controllers: [
     OrderRpcController,
     QuoteRpcController,
+    PrivacyRpcController,
     ReportRpcController,
     CheckoutSettingsRpcController,
   ],
@@ -43,6 +46,7 @@ import { QuoteService } from './quotes/quote.service';
     OrderService,
     OrderEventHandlers,
     QuoteService,
+    PrivacyService,
     ReportService,
     CouponService,
     CheckoutSettingsService,

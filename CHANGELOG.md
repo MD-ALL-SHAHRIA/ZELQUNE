@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Privacy requests (ADR 0020): a public form at /privacy-request (EN/BN) to see, correct or delete personal data or withdraw consent, with a status check by code and phone; an owner-only dashboard queue (Privacy requests) to confirm identity, export data as JSON, correct names/emails, erase what may be erased (sales kept as accounting records; running orders block) and reject with a reason. Erasure reaches payment, notification and analytics via the `privacy.erased` event. All steps are audited without personal data.
+
+### Added
 - Screen states, following ten rules (empty, loading, error, offline, slow, no results, permission, session, validation, success):
   - Storefront: page-shaped skeletons for shop, category and product pages; the error page says what happened, whose fault, and what to do (with an offline variant); an offline notice (page and cart stay) and a slow-connection notice. On data saver or 2G the construction page shows its photo version instead of the film, and on normal connections the film shows real download progress. Search suggests a typo fix ("Did you mean") and next searches. The empty cart says why it's empty and links to the shop. The order-placed page reassures and lists what happens next. Forms move focus to the first invalid field, and checkout errors say how to fix them.
   - Dashboard: an expired session keeps the page and unsaved edits and asks for the password in a dialog instead of redirecting to login; offline banner; network failures return a clear message instead of crashing; owner-only pages explain why and link back; empty states explain and offer a next step.

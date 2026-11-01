@@ -1,4 +1,5 @@
 import {
+  ShieldCheck,
   BarChart3,
   Boxes,
   FileSignature,
@@ -109,6 +110,13 @@ export const NAV_GROUPS: { label?: string; items: NavItem[] }[] = [
         icon: FileText,
         keywords:
           'home page hero banner trust collections contact announcement projects portfolio clients logos partners privacy terms faq story policies',
+      },
+      {
+        href: '/privacy',
+        label: 'Privacy requests',
+        icon: ShieldCheck,
+        keywords: 'privacy data delete erase access gdpr correction consent request',
+        ownerOnly: true,
       },
       {
         href: '/audit',

@@ -6,6 +6,7 @@ import {
   orderCancelled,
   orderConfirmed,
   orderPlaced,
+  privacyErased,
   orderStatusChanged,
   paymentVerified,
 } from '@zelqune/contracts';
@@ -28,6 +29,16 @@ export class AnalyticsEventHandlers implements OnModuleInit {
       this.consumer.subscribe(type, `analytics.${name}`, (event, tx) =>
         fn(event, tx as Prisma.TransactionClient),
       );
+    // Erasure (ADR 0020): unlink sales from the person (no customer key, no visit id) and drop
+    // the friend flag. Totals stay, so reports do not change.
+    on(privacyErased.type, 'privacyErased', async (e, tx) => {
+      const { customerKey } = privacyErased.parse(e).payload;
+      await tx.orderFact.updateMany({
+        where: { customerKey },
+        data: { customerKey: null, sessionId: null },
+      });
+      await tx.customerFlag.deleteMany({ where: { customerKey } });
+    });
     on(orderPlaced.type, 'projectOrderPlaced', (e, tx) => this.projections.onOrderPlaced(e, tx));
     on(orderConfirmed.type, 'projectOrderConfirmed', (e, tx) =>
       this.projections.onOrderConfirmed(e, tx),

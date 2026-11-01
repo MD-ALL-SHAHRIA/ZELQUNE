@@ -5,6 +5,7 @@ import {
   orderConfirmed,
   orderPlaced,
   paymentVerified,
+  privacyErased,
   quoteRequested,
 } from '@zelqune/contracts';
 import { type Prisma } from '../generated/prisma/client';
@@ -20,6 +21,9 @@ export class NotificationEventHandlers implements OnModuleInit {
   onModuleInit(): void {
     const n = this.notifications;
     const tx = (t: unknown) => t as Prisma.TransactionClient;
+    this.consumer.subscribe(privacyErased.type, 'notification.privacyErased', (e, t) =>
+      n.onPrivacyErased(e, tx(t)),
+    );
     this.consumer.subscribe(orderPlaced.type, 'notification.orderPlaced', (e, t) =>
       n.onOrderPlaced(e, tx(t)),
     );

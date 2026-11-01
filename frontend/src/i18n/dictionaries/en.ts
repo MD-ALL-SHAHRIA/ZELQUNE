@@ -453,6 +453,59 @@ export const en = {
       'Sample room photos load from Unsplash, which receives your IP address like any web request. Cloudflare provides the bot check on forms. Meta receives data only if you accept marketing cookies.',
     footer: 'Cookie Policy',
   },
+  privacyRequest: {
+    title: 'Privacy request',
+    intro:
+      'Ask to see, correct or delete the personal information we hold about you, or to withdraw a consent. Before we show or change anything, we call the phone number on file to make sure it is you.',
+    typeLabel: 'What would you like?',
+    types: {
+      ACCESS: {
+        title: 'See my data',
+        text: 'A copy of the orders and requests linked to your phone number.',
+      },
+      CORRECTION: {
+        title: 'Correct my data',
+        text: 'A wrong name or email on your orders or requests.',
+      },
+      DELETION: {
+        title: 'Delete my data',
+        text: 'We remove what we can. Completed sales are kept for accounting.',
+      },
+      CONSENT_WITHDRAWAL: {
+        title: 'Withdraw consent',
+        text: 'Stop something you agreed to. For cookies, use Cookie settings in the footer; it works at once.',
+      },
+    },
+    phone: 'Mobile number you ordered with',
+    reference: 'Order or request code (optional)',
+    referenceHint: 'For example ZQ-7K3M9P or QT-8M4K2P. It helps us find your records faster.',
+    email: 'Email for our reply (optional)',
+    details: 'Anything we should know',
+    detailsCorrection: 'What should be corrected?',
+    detailsRequired: 'Tell us what should be corrected.',
+    referenceInvalid: 'Codes look like ZQ-7K3M9P or QT-8M4K2P.',
+    submit: 'Send request',
+    sending: 'Sending…',
+    notice: 'We use these details only to handle this request and to confirm it is you.',
+    doneHeading: 'Request received',
+    done: 'Your request code is {code}. Keep it with your phone number to check the status here.',
+    doneNext:
+      'Next, we will call or WhatsApp the phone number on file to confirm it is you. Nothing is shown, changed or deleted before that.',
+    doneNoDelivery: 'We do not send confirmation emails or SMS yet.',
+    trackHeading: 'Check a request',
+    trackCode: 'Request code (PR-XXXXXX)',
+    trackButton: 'Check status',
+    trackNotFound: "We couldn't find a request with that code and number.",
+    statusLabel: 'Status',
+    statuses: {
+      PENDING: 'Received',
+      VERIFICATION_REQUIRED: 'Waiting to confirm it is you',
+      IN_PROGRESS: 'Confirmed, being handled',
+      COMPLETED: 'Completed',
+      REJECTED: 'Closed without action',
+    },
+    policyLink: 'Make a privacy request',
+  },
   legal: {
     business: {
       pending: '[[business name, address and trade licence, to be confirmed]]',
@@ -524,7 +577,7 @@ export const en = {
           heading: 'Your choices',
           items: [
             'You can ask us to show you the personal information we hold about you, to correct it, or to delete it. Some order records must be kept for accounting and tax; in that case we remove everything else.',
-            'To ask, message us on WhatsApp from the phone number you used, with your order or quote code, so we know it is you. We aim to reply within [[response time]].',
+            'To ask, use the privacy request form below, or message us on WhatsApp from the phone number you used. Before we show or change anything, we call that number to confirm it is you. We aim to reply within [[response time]].',
             'You can change your cookie choice at any time with Cookie settings in the footer.',
           ],
         },

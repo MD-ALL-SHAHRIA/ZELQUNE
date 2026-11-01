@@ -19,3 +19,4 @@ export * from './marketing/promotions.contracts';
 export * from './reports/reports.contracts';
 export * from './reports/bd-calendar';
 export * from './settings/settings.contracts';
+export * from './privacy/privacy.contracts';

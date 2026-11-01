@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { getHomeContent } from '@/shared/api/content';
 import { businessLine } from '@/shared/lib/business';
-import { alternates } from '@/shared/lib/site';
+import { alternates, href } from '@/shared/lib/site';
+import { ButtonLink } from '@/shared/ui/button';
 import { PageHeader } from '@/shared/ui/page-header';
 import { HelpLayout, PolicyBody } from '@/features/help/help-layout';
 
@@ -32,6 +33,11 @@ export default async function Page({ params }: { params: PageParams }) {
           contact={dict.legal.contact}
           business={business}
         />
+        <p className="mt-10">
+          <ButtonLink href={href(lang, '/privacy-request')} variant="outline">
+            {dict.privacyRequest.policyLink}
+          </ButtonLink>
+        </p>
       </HelpLayout>
     </>
   );

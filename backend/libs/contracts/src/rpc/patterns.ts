@@ -104,6 +104,21 @@ export const RPC_PATTERNS = {
       updateCoupon: 'order.admin.coupons.update',
       removeCoupon: 'order.admin.coupons.remove',
     },
+    privacy: {
+      submit: 'order.privacy.submit',
+      track: 'order.privacy.track',
+      admin: {
+        list: 'order.admin.privacy.list',
+        get: 'order.admin.privacy.get',
+        askVerification: 'order.admin.privacy.askVerification',
+        verify: 'order.admin.privacy.verify',
+        reject: 'order.admin.privacy.reject',
+        export: 'order.admin.privacy.export',
+        correct: 'order.admin.privacy.correct',
+        erase: 'order.admin.privacy.erase',
+        complete: 'order.admin.privacy.complete',
+      },
+    },
     quotes: {
       request: 'order.quotes.request',
       track: 'order.quotes.track',

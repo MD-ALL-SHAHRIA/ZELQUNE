@@ -507,7 +507,7 @@ This policy explains what personal information Zelqune collects through this web
 **Your choices**
 
 - You can ask us to show you the personal information we hold about you, to correct it, or to delete it. Some order records must be kept for accounting and tax; in that case we remove everything else.
-- To ask, message us on WhatsApp from the phone number you used, with your order or quote code, so we know it is you. We aim to reply within [[response time]].
+- To ask, use the privacy request form below, or message us on WhatsApp from the phone number you used. Before we show or change anything, we call that number to confirm it is you. We aim to reply within [[response time]].
 - You can change your cookie choice at any time with Cookie settings in the footer.
 
 **Changes to this policy**
@@ -617,3 +617,39 @@ How to cancel an order, return an item or get your money back.
 - **generic (checkout error):** Our server had a problem; it is not your fault. Your details are still here. Try again in a minute, or message us on WhatsApp.
 - **outOfStock (checkout error):** This item is out of stock right now. Remove it from your cart or choose another finish.
 - **trxUsed (checkout error):** This Transaction ID has already been used. Check the ID in your latest bKash/Nagad message and enter it again.
+
+## Privacy requests
+
+- **title:** Privacy request
+- **intro:** Ask to see, correct or delete the personal information we hold about you, or to withdraw a consent. Before we show or change anything, we call the phone number on file to make sure it is you.
+- **typeLabel:** What would you like?
+- **type ACCESS:** See my data: A copy of the orders and requests linked to your phone number.
+- **type CORRECTION:** Correct my data: A wrong name or email on your orders or requests.
+- **type DELETION:** Delete my data: We remove what we can. Completed sales are kept for accounting.
+- **type CONSENT_WITHDRAWAL:** Withdraw consent: Stop something you agreed to. For cookies, use Cookie settings in the footer; it works at once.
+- **phone:** Mobile number you ordered with
+- **reference:** Order or request code (optional)
+- **referenceHint:** For example ZQ-7K3M9P or QT-8M4K2P. It helps us find your records faster.
+- **email:** Email for our reply (optional)
+- **details:** Anything we should know
+- **detailsCorrection:** What should be corrected?
+- **detailsRequired:** Tell us what should be corrected.
+- **referenceInvalid:** Codes look like ZQ-7K3M9P or QT-8M4K2P.
+- **submit:** Send request
+- **sending:** Sending…
+- **notice:** We use these details only to handle this request and to confirm it is you.
+- **doneHeading:** Request received
+- **done:** Your request code is {code}. Keep it with your phone number to check the status here.
+- **doneNext:** Next, we will call or WhatsApp the phone number on file to confirm it is you. Nothing is shown, changed or deleted before that.
+- **doneNoDelivery:** We do not send confirmation emails or SMS yet.
+- **trackHeading:** Check a request
+- **trackCode:** Request code (PR-XXXXXX)
+- **trackButton:** Check status
+- **trackNotFound:** We couldn't find a request with that code and number.
+- **statusLabel:** Status
+- **status PENDING:** Received
+- **status VERIFICATION_REQUIRED:** Waiting to confirm it is you
+- **status IN_PROGRESS:** Confirmed, being handled
+- **status COMPLETED:** Completed
+- **status REJECTED:** Closed without action
+- **policyLink:** Make a privacy request

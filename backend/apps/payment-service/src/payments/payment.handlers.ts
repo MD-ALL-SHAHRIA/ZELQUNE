@@ -1,6 +1,6 @@
 import { Injectable, type OnModuleInit } from '@nestjs/common';
 import { EventConsumer } from '@zelqune/common';
-import { orderCancelled } from '@zelqune/contracts';
+import { orderCancelled, privacyErased } from '@zelqune/contracts';
 import { type Prisma } from '../generated/prisma/client';
 import { PaymentService } from './payment.service';
 
@@ -24,5 +24,15 @@ export class PaymentEventHandlers implements OnModuleInit {
         );
       },
     );
+    // Erasure (ADR 0020): orders where no money moved lose the paying number. Payments of
+    // retained sales are untouched (accounting record).
+    this.consumer.subscribe(privacyErased.type, 'payment.privacyErased', async (event, tx) => {
+      const { erasedOrderIds } = privacyErased.parse(event).payload;
+      if (!erasedOrderIds.length) return;
+      await (tx as Prisma.TransactionClient).payment.updateMany({
+        where: { orderId: { in: erasedOrderIds } },
+        data: { payerPhone: null },
+      });
+    });
   }
 }
