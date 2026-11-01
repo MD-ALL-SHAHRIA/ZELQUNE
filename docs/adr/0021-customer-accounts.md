@@ -40,7 +40,15 @@ email + password, Google or Facebook. SMS one-time codes need a paid gateway and
   link. A first social sign-in asks for name and phone before the account exists. Off until the
   owner sets the keys (docs/accounts-setup.md).
 
+## Orders and requests
+- Checkout and quote requests (bulk, design, construction) need a CUSTOMER token
+  (`RequireAccount`); the gateway passes `customerUserId` from the verified token, never from the
+  body. Orders and quotes store `customer_user_id`; B2B orders converted from a quote inherit it.
+- `/v1/me/orders` and `/v1/me/requests` return only the caller's records.
+- Tracking by code + phone and privacy requests stay open without an account (a privacy right
+  must not depend on having one).
+- The dashboard order page shows the account (name, verified email, phone, sign-in method); the
+  Customer accounts page lists sign-ups.
+
 ## Later
-- Requiring an account at checkout and on request forms, the customer portal, and accounts in
-  the dashboard (next PRs).
 - SMS one-time codes once an SMS gateway is approved; optional two-step verification.

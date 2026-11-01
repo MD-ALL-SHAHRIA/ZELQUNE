@@ -67,9 +67,14 @@ export class OrderRpcController {
 
   @MessagePattern(P.checkout)
   checkout(
-    @Payload() req: RpcRequest<{ cartToken: string; request: CheckoutRequest }>,
+    @Payload()
+    req: RpcRequest<{ cartToken: string; request: CheckoutRequest; customerUserId?: string }>,
   ): Promise<CheckoutResponse> {
-    return this.checkoutService.checkout(token.parse(req.data.cartToken), req.data.request);
+    return this.checkoutService.checkout(
+      token.parse(req.data.cartToken),
+      req.data.request,
+      req.data.customerUserId ?? null,
+    );
   }
 
   @MessagePattern(P.track)

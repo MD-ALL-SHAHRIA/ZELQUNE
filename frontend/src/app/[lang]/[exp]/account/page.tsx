@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { AccountPortal } from '@/features/account/account-portal';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
-import { alternates, href } from '@/shared/lib/site';
+import { alternates } from '@/shared/lib/site';
 import { Container } from '@/shared/ui/typography';
 
 export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
@@ -22,10 +22,7 @@ export default async function AccountPage({ params }: { params: PageParams }) {
         lang={lang}
         copy={dict.auth}
         phoneError={dict.checkout.errors.phone}
-        links={[
-          { href: href(lang, '/track'), label: dict.account.trackOrder },
-          { href: href(lang, '/bulk/track'), label: dict.account.checkQuote },
-        ]}
+        statuses={{ orders: dict.track.statuses, requests: dict.bulk.statuses }}
       />
     </Container>
   );

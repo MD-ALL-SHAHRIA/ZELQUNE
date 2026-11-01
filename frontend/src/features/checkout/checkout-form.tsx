@@ -24,6 +24,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { couponProblem, normalizeCoupon } from './coupon';
 import { FormNotice } from '@/features/legal/form-notice';
 import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
+import { AccountGate, type AccountPrefill } from '@/features/account/account-gate';
 
 type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product' | 'offers'>;
 
@@ -48,21 +49,25 @@ const EMPTY: Fields = {
   trxId: '',
 };
 
-export function CheckoutForm({
+function CheckoutFormInner({
   lang,
   districts,
   copy,
+  account,
 }: {
   lang: Locale;
   districts: District[];
   copy: Copy;
+  account?: AccountPrefill;
 }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { cart, token } = useCart();
   const [requestQuote] = useCheckoutQuoteMutation();
   const [placeOrder, { isLoading: sending }] = useCheckoutMutation();
-  const [fields, setFields] = useState<Fields>(EMPTY);
+  const [fields, setFields] = useState<Fields>(
+    account ? { ...EMPTY, name: account.name, phone: account.phone } : EMPTY,
+  );
   const [quote, setQuote] = useState<CheckoutQuote | null>(null);
   const [method, setMethod] = useState<PaymentMethod | null>(null);
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -448,5 +453,14 @@ export function CheckoutForm({
         </Button>
       </aside>
     </form>
+  );
+}
+
+/** Needs a signed-in customer (ADR 0021); the form starts with the account's details. */
+export function CheckoutForm(props: Omit<Parameters<typeof CheckoutFormInner>[0], 'account'>) {
+  return (
+    <AccountGate lang={props.lang} copy={props.copy.checkout.accountGate} kind="order">
+      {(account) => <CheckoutFormInner {...props} account={account} />}
+    </AccountGate>
   );
 }

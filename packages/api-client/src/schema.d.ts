@@ -336,6 +336,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/me/orders': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['MeController_orders'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/me/requests': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['MeController_requests'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/catalog/categories': {
     parameters: {
       query?: never;
@@ -1323,6 +1355,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/admin/customer-accounts': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Customer accounts: name, verified email, phone, sign-in method. */
+    get: operations['AdminBusinessController_customerAccounts'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/admin/expenses': {
     parameters: {
       query?: never;
@@ -1817,6 +1866,29 @@ export interface components {
         createdAt: string;
         lastUsedAt: string;
         current: boolean;
+      }[];
+    };
+    MyOrdersDto_Output: {
+      items: {
+        code: string;
+        status: string;
+        saleMode: string;
+        createdAt: string;
+        totalPaisa: number;
+        items: {
+          nameEn: string;
+          nameBn: string;
+          qty: number;
+        }[];
+      }[];
+    };
+    MyRequestsDto_Output: {
+      items: {
+        code: string;
+        /** @enum {string} */
+        kind: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
+        status: string;
+        createdAt: string;
       }[];
     };
     CategoryListResponseDto_Output: {
@@ -2835,6 +2907,8 @@ export interface components {
         saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
         customerName: string;
         customerPhone: string;
+        /** Format: uuid */
+        customerUserId: string | null;
         isFriend: boolean;
         /** @enum {string} */
         paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
@@ -2876,6 +2950,8 @@ export interface components {
       saleMode: 'IN_STOCK' | 'MADE_TO_ORDER' | 'PRE_ORDER';
       customerName: string;
       customerPhone: string;
+      /** Format: uuid */
+      customerUserId: string | null;
       isFriend: boolean;
       /** @enum {string} */
       paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
@@ -3000,6 +3076,17 @@ export interface components {
           | 'CANCELLED';
         consignmentId: string | null;
         trackingUrl: string | null;
+      } | null;
+      account: {
+        /** Format: uuid */
+        id: string;
+        name: string | null;
+        email: string | null;
+        emailVerified: boolean;
+        phone: string;
+        providers: ('GOOGLE' | 'FACEBOOK')[];
+        createdAt: string;
+        lastLoginAt: string | null;
       } | null;
     };
     TransitionRequestDto: {
@@ -3862,6 +3949,22 @@ export interface components {
         /** @example 349000 */
         spentPaisa: number;
       };
+    };
+    CustomerAccountListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        name: string | null;
+        email: string | null;
+        emailVerified: boolean;
+        phone: string;
+        providers: ('GOOGLE' | 'FACEBOOK')[];
+        createdAt: string;
+        lastLoginAt: string | null;
+      }[];
+      total: number;
+      page: number;
+      limit: number;
     };
     ExpenseListDto_Output: {
       items: {
@@ -4751,6 +4854,44 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['OkDto_Output'];
+        };
+      };
+    };
+  };
+  MeController_orders: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MyOrdersDto_Output'];
+        };
+      };
+    };
+  };
+  MeController_requests: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MyRequestsDto_Output'];
         };
       };
     };
@@ -6376,6 +6517,29 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['CustomerListDto_Output'];
+        };
+      };
+    };
+  };
+  AdminBusinessController_customerAccounts: {
+    parameters: {
+      query?: {
+        q?: string;
+        page?: number;
+        limit?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CustomerAccountListDto_Output'];
         };
       };
     };

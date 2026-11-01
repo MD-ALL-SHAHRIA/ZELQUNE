@@ -1,4 +1,5 @@
 import {
+  CircleUserRound,
   ShieldCheck,
   BarChart3,
   Boxes,
@@ -50,6 +51,12 @@ export const NAV_GROUPS: { label?: string; items: NavItem[] }[] = [
         keywords: 'b2b bulk corporate rfq interior design construction leads',
       },
       { href: '/customers', label: 'Customers', icon: Users, keywords: 'people buyers phone' },
+      {
+        href: '/customers/accounts',
+        label: 'Customer accounts',
+        icon: CircleUserRound,
+        keywords: 'accounts sign up registered users email verified login',
+      },
     ],
   },
   {

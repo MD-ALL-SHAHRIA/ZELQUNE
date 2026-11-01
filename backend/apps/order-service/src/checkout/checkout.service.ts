@@ -70,6 +70,8 @@ export interface OrderSpec {
   utm?: Record<string, string>;
   sessionId?: string;
   organizationId?: string | null;
+  /** The signed-in customer account (ADR 0021). */
+  customerUserId?: string | null;
 }
 
 export interface PlacedOrder {
@@ -116,7 +118,11 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
   }
 
   /** Storefront checkout of a guest cart (always B2C). */
-  async checkout(cartToken: string, raw: CheckoutRequest): Promise<CheckoutResponse> {
+  async checkout(
+    cartToken: string,
+    raw: CheckoutRequest,
+    customerUserId: string | null = null,
+  ): Promise<CheckoutResponse> {
     const request = checkoutRequestSchema.parse(raw);
     const cart = await this.carts.loadActive(cartToken);
     const prepared = await this.carts.prepare(cart, request.address, request.couponCode);
@@ -133,6 +139,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       source: { kind: 'cart', cartId: cart.id },
       channel: 'B2C',
       saleMode: prepared.saleMode,
+      customerUserId,
       customer: request.customer,
       address: request.address,
       lines: prepared.lines.map((l) => ({
@@ -301,6 +308,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       sessionId: spec.sessionId ?? null,
       customerName: spec.customer.name,
       customerPhone: spec.customer.phone,
+      customerUserId: spec.customerUserId ?? null,
       address: spec.address,
       saleMode: spec.saleMode,
       status: 'PENDING_PAYMENT' as const,

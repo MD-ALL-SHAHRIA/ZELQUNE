@@ -1,8 +1,9 @@
 import { expect, test } from '@playwright/test';
-import { uniquePhone } from './helpers';
+import { uniquePhone, signInCustomer } from './helpers';
 
 /** Interior design path: menu -> sector page -> consultation request -> track shows the space. */
 test('a café owner books an interior design consultation and checks it', async ({ page }) => {
+  await signInCustomer(page);
   const phone = uniquePhone();
   await page.goto('/en');
   await page.getByRole('button', { name: 'Menu' }).click();
@@ -39,6 +40,7 @@ test('a café owner books an interior design consultation and checks it', async 
 });
 
 test('the Bangla design page and its sectors render', async ({ page }) => {
+  await signInCustomer(page);
   await page.goto('/bn/design');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('কাঠ আর আলো ঘিরে সাজানো জায়গা');
   await page.goto('/bn/design/home');

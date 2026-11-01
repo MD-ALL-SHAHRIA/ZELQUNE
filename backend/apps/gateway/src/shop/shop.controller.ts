@@ -1,4 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from '@nestjs/common';
+import { type AuthenticatedUser } from '../auth/auth.types';
+import { CurrentUser, RequireAccount } from '../auth/guards';
 import { ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   AppError,
@@ -157,6 +159,7 @@ export class ShopController {
   }
 
   @Post('checkout')
+  @RequireAccount()
   @RouteThrottle('checkout')
   @RequireTurnstile()
   @Idempotent({ scope: 'cart' })
@@ -174,11 +177,17 @@ export class ShopController {
   checkout(
     @CartToken() cartToken: string,
     @Body() body: CheckoutRequestDto,
+    @CurrentUser() user: AuthenticatedUser,
   ): Promise<CheckoutResponse> {
-    // order-service validates again: it never trusts its callers.
+    // order-service validates again: it never trusts its callers. The account comes from the
+    // verified token, never from the body.
     return this.services
       .get('order')
-      .send(RPC_PATTERNS.order.checkout, { cartToken, request: body }, { timeoutMs: 20_000 });
+      .send(
+        RPC_PATTERNS.order.checkout,
+        { cartToken, request: body, customerUserId: user.id },
+        { timeoutMs: 20_000 },
+      );
   }
 
   /** POST so the phone number travels in the body, never in a URL (URLs end up in logs). */

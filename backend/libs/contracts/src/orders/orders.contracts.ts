@@ -1,3 +1,4 @@
+import { customerAccountSchema } from '../auth/auth.contracts';
 import { z } from 'zod';
 import {
   experimentKeySchema,
@@ -255,6 +256,8 @@ export const adminOrderSummarySchema = z.object({
   saleMode: saleModeSchema,
   customerName: z.string(),
   customerPhone: z.string(),
+  /** The customer account that placed it (ADR 0021); null for older orders. */
+  customerUserId: z.uuid().nullable(),
   isFriend: z.boolean(),
   paymentMethod: paymentMethodSchema,
   subtotalPaisa: paisaSchema,
@@ -301,10 +304,12 @@ export const adminOrderDetailSchema = adminOrderSummarySchema.extend({
   cancelReason: z.string().nullable(),
   payment: paymentSummarySchema.nullable(),
   shipment: shipmentSummarySchema.nullable(),
+  /** The customer account behind the order: name, verified email, phone (ADR 0021). */
+  account: customerAccountSchema.nullable(),
 });
 export type AdminOrderDetail = z.infer<typeof adminOrderDetailSchema>;
-/** order-service part; the gateway adds payment and shipment. */
-export type AdminOrderDetailCore = Omit<AdminOrderDetail, 'payment' | 'shipment'>;
+/** order-service part; the gateway adds payment, shipment and the account. */
+export type AdminOrderDetailCore = Omit<AdminOrderDetail, 'payment' | 'shipment' | 'account'>;
 
 export const addOrderNoteSchema = z.object({ text: z.string().trim().min(1).max(2000) });
 export const transitionRequestSchema = z.object({
@@ -312,3 +317,24 @@ export const transitionRequestSchema = z.object({
   reason: z.string().trim().max(300).nullable().default(null),
 });
 export const setFriendSchema = z.object({ isFriend: z.boolean() });
+
+/* Signed-in customer: their own orders and requests (ADR 0021). No other customer's data. */
+export const myOrderSchema = z.object({
+  code: z.string(),
+  status: z.string(),
+  saleMode: z.string(),
+  createdAt: z.string(),
+  totalPaisa: z.number().int(),
+  items: z.array(z.object({ nameEn: z.string(), nameBn: z.string(), qty: z.number().int() })),
+});
+export const myOrdersSchema = z.object({ items: z.array(myOrderSchema) });
+export type MyOrders = z.infer<typeof myOrdersSchema>;
+
+export const myRequestSchema = z.object({
+  code: z.string(),
+  kind: z.enum(['PRODUCT', 'DESIGN', 'CONSTRUCTION']),
+  status: z.string(),
+  createdAt: z.string(),
+});
+export const myRequestsSchema = z.object({ items: z.array(myRequestSchema) });
+export type MyRequests = z.infer<typeof myRequestsSchema>;

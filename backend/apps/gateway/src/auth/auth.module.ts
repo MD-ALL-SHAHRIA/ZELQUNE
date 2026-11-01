@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { CustomerAuthController } from '../customer-auth/customer-auth.controller';
+import { MeController } from '../customer-auth/me.controller';
 import { OAuthService } from '../customer-auth/oauth.service';
 import { turnstileVerifierProvider, TurnstileGuard } from '../turnstile/turnstile';
 import { AdminAuthController } from './admin-auth.controller';
@@ -9,7 +10,7 @@ import { JwtVerifierService } from './jwt-verifier.service';
 import { LoginAttemptsService } from './login-attempts.service';
 
 @Module({
-  controllers: [AdminAuthController, CustomerAuthController],
+  controllers: [AdminAuthController, CustomerAuthController, MeController],
   providers: [
     JwtVerifierService,
     LoginAttemptsService,

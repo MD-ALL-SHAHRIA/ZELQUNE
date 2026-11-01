@@ -15,6 +15,7 @@ import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
 import { FormNotice } from '@/features/legal/form-notice';
 import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
+import { AccountGate, type AccountPrefill } from '@/features/account/account-gate';
 
 type BuildingType = keyof Dictionary['build']['types'];
 type Budget = keyof Dictionary['build']['budgets'];
@@ -24,19 +25,21 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const MAX_FLOORS = 60;
 
 /** Construction enquiry: an RFQ of kind CONSTRUCTION with a building brief. */
-export function BuildForm({
+function BuildFormInner({
   lang,
   districts,
   copy,
+  account,
 }: {
   lang: Locale;
   districts: District[];
   copy: Copy;
+  account?: AccountPrefill;
 }) {
   const c = copy.build;
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState(account?.name ?? '');
+  const [phone, setPhone] = useState(account?.phone ?? '');
+  const [email, setEmail] = useState(account?.email ?? '');
   const [type, setType] = useState<BuildingType>('HOME');
   const [size, setSize] = useState('');
   const [floors, setFloors] = useState('');
@@ -247,5 +250,14 @@ export function BuildForm({
         {sending ? c.sending : c.button}
       </Button>
     </form>
+  );
+}
+
+/** Needs a signed-in customer (ADR 0021); the form starts with the account's details. */
+export function BuildForm(props: Omit<Parameters<typeof BuildFormInner>[0], 'account'>) {
+  return (
+    <AccountGate lang={props.lang} copy={props.copy.checkout.accountGate} kind="request">
+      {(account) => <BuildFormInner {...props} account={account} />}
+    </AccountGate>
   );
 }

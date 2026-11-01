@@ -16,6 +16,7 @@ import {
   CheckoutSettingsRpcController,
   CheckoutSettingsService,
 } from './settings/checkout-settings';
+import { MineRpcController } from './orders/mine.rpc.controller';
 import { PrivacyRpcController } from './privacy/privacy.rpc.controller';
 import { PrivacyService } from './privacy/privacy.service';
 import { QuoteRpcController } from './quotes/quote.rpc.controller';
@@ -34,6 +35,7 @@ import { QuoteService } from './quotes/quote.service';
     OrderRpcController,
     QuoteRpcController,
     PrivacyRpcController,
+    MineRpcController,
     ReportRpcController,
     CheckoutSettingsRpcController,
   ],

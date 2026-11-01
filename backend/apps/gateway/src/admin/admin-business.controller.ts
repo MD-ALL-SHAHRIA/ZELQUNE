@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AppError, ServiceRegistry, ZodResponse } from '@zelqune/common';
+import { AppError, createZodDto, ServiceRegistry, ZodResponse } from '@zelqune/common';
 import {
+  type CustomerAccountList,
+  customerAccountListQuerySchema,
+  customerAccountListSchema,
   type Coupon,
   type CustomerList,
   type Expense,
@@ -41,6 +44,9 @@ const C = RPC_PATTERNS.catalog.admin;
 const A = RPC_PATTERNS.analytics;
 
 /** Marketing (coupons, sales), reports, customers and finance (ADR 0016). Changes are audited. */
+class CustomerAccountListDto extends createZodDto(customerAccountListSchema) {}
+class CustomerAccountListQueryDto extends createZodDto(customerAccountListQuerySchema) {}
+
 @ApiTags('admin: business')
 @ApiBearerAuth()
 @Roles('OWNER', 'STAFF')
@@ -121,6 +127,15 @@ export class AdminBusinessController {
   }
 
   // ---------- finance (OWNER only) ----------
+
+  @Get('customer-accounts')
+  @ApiOperation({ summary: 'Customer accounts: name, verified email, phone, sign-in method.' })
+  @ZodResponse({ type: CustomerAccountListDto })
+  customerAccounts(@Query() query: CustomerAccountListQueryDto) {
+    return this.services
+      .get('identity')
+      .send<CustomerAccountList>(RPC_PATTERNS.identity.accounts.list, query);
+  }
 
   @Get('expenses')
   @Roles('OWNER')

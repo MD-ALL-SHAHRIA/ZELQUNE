@@ -80,7 +80,7 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
   }
 
   /** Public RFQ. */
-  async request(raw: RfqRequest): Promise<RfqResponse> {
+  async request(raw: RfqRequest, customerUserId: string | null = null): Promise<RfqResponse> {
     const input = rfqRequestSchema.parse(raw);
     for (let attempt = 1; attempt <= CODE_ATTEMPTS; attempt++) {
       const code = quoteCode();
@@ -98,6 +98,7 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
               designFloors: input.design?.floors ?? null,
               contactName: input.contactName,
               phone: input.phone,
+              customerUserId,
               email: input.email,
               neededBy: input.neededBy ? new Date(`${input.neededBy}T00:00:00Z`) : null,
               customizationNotes: input.customizationNotes,
@@ -426,6 +427,7 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
     const placed = await this.checkout.runSaga({
       source: { kind: 'quote', quoteId },
       channel: 'B2B',
+      customerUserId: quote.customerUserId,
       saleMode: lines[0].saleMode,
       customer: {
         name: quote.organizationName

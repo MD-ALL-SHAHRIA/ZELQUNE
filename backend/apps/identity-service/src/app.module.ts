@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ServiceCoreModule } from '@zelqune/common';
+import { AccountsRpcController } from './auth/accounts.rpc.controller';
 import { AuthRpcController } from './auth/auth.rpc.controller';
 import { AuthService } from './auth/auth.service';
 import { CustomerRpcController } from './auth/customer.rpc.controller';
@@ -21,7 +22,7 @@ import { UserRepository } from './users/user.repository';
       envSchema: identityEnvSchema,
     }),
   ],
-  controllers: [AuthRpcController, CustomerRpcController, TeamRpcController],
+  controllers: [AuthRpcController, CustomerRpcController, AccountsRpcController, TeamRpcController],
   providers: [
     AuthService,
     CustomerService,

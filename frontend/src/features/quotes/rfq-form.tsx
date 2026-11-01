@@ -14,6 +14,7 @@ import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
 import { FormNotice } from '@/features/legal/form-notice';
 import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
+import { AccountGate, type AccountPrefill } from '@/features/account/account-gate';
 
 const OTHER = '__other__';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,20 +27,22 @@ interface Line {
 
 type Copy = Pick<Dictionary, 'bulk' | 'checkout'>;
 
-export function RfqForm({
+function RfqFormInner({
   lang,
   products,
   copy,
+  account,
 }: {
   lang: Locale;
   products: { slug: string; name: string }[];
   copy: Copy;
+  account?: AccountPrefill;
 }) {
   const b = copy.bulk;
   const [org, setOrg] = useState('');
-  const [contact, setContact] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [contact, setContact] = useState(account?.name ?? '');
+  const [phone, setPhone] = useState(account?.phone ?? '');
+  const [email, setEmail] = useState(account?.email ?? '');
   const [lines, setLines] = useState<Line[]>([
     { product: products[0]?.slug ?? OTHER, description: '', qty: '' },
   ]);
@@ -265,5 +268,14 @@ export function RfqForm({
         {sending ? b.sending : b.button}
       </Button>
     </form>
+  );
+}
+
+/** Needs a signed-in customer (ADR 0021); the form starts with the account's details. */
+export function RfqForm(props: Omit<Parameters<typeof RfqFormInner>[0], 'account'>) {
+  return (
+    <AccountGate lang={props.lang} copy={props.copy.checkout.accountGate} kind="request">
+      {(account) => <RfqFormInner {...props} account={account} />}
+    </AccountGate>
   );
 }

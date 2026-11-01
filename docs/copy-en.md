@@ -750,3 +750,17 @@ How to cancel an order, return an item or get your money back.
 - **linkedWith:** Linked with {providers}
 - **activityHeading:** Orders and requests
 - **unknownDevice:** Browser
+- **account gate title:** Sign in to continue
+- **account gate order:** Orders are linked to your account, so you can follow every step and we can reach you about delivery. It takes a minute.
+- **account gate request:** Requests are linked to your account, so you can follow them in one place and we can reach you.
+- **account gate signIn:** Sign in
+- **account gate create:** Create an account
+- **portal ordersHeading:** Your orders
+- **portal requestsHeading:** Your requests
+- **portal noOrders:** No orders yet. Pieces you order appear here with every step until delivery.
+- **portal noRequests:** No requests yet. Interior design, construction and bulk requests you send appear here.
+- **portal browseShop:** Browse the shop
+- **portal viewOrder:** Track
+- **portal kindPRODUCT:** Bulk order
+- **portal kindDESIGN:** Interior design
+- **portal kindCONSTRUCTION:** Construction

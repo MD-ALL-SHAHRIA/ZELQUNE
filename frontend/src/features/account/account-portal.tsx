@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { type Locale } from '@/i18n/config';
-import { fill, formatDate } from '@/i18n/format';
+import { fill, formatDate, formatNumber, formatTaka } from '@/i18n/format';
 import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
 import { normalizePhone } from '@/shared/lib/forms';
 import { href } from '@/shared/lib/site';
@@ -67,12 +67,12 @@ export function AccountPortal({
   lang,
   copy: c,
   phoneError,
-  links,
+  statuses,
 }: {
   lang: Locale;
   copy: AuthCopy;
   phoneError: string;
-  links: { href: string; label: string }[];
+  statuses: { orders: Record<string, string>; requests: Record<string, string> };
 }) {
   const router = useRouter();
   const state = useCustomer();
@@ -121,25 +121,7 @@ export function AccountPortal({
         </Button>
       </div>
 
-      <Section title={c.activityHeading}>
-        <ul className="grid gap-px border border-line bg-line sm:grid-cols-2">
-          {links.map((l) => (
-            <li key={l.href} className="flex">
-              <Link
-                href={l.href}
-                className="group flex w-full items-center justify-between gap-6 bg-paper p-6 transition-colors hover:bg-cream"
-              >
-                <span className="font-display text-2xl">{l.label}</span>
-                <ArrowRight
-                  className="size-5 transition-transform group-hover:translate-x-1"
-                  strokeWidth={1.2}
-                  aria-hidden
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      <Activity lang={lang} copy={c} statuses={statuses} />
 
       <Section title={c.profileHeading}>
         <Profile me={me} copy={c} phoneError={phoneError} />
@@ -383,5 +365,121 @@ function Devices({ lang, copy: c }: { lang: Locale; copy: AuthCopy }) {
         </p>
       ) : null}
     </div>
+  );
+}
+
+type MyOrder = {
+  code: string;
+  status: string;
+  createdAt: string;
+  totalPaisa: number;
+  items: { nameEn: string; nameBn: string; qty: number }[];
+};
+type MyRequest = {
+  code: string;
+  kind: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
+  status: string;
+  createdAt: string;
+};
+
+/** Their own orders and requests, newest first; empty lists say why and what to do next. */
+function Activity({
+  lang,
+  copy: c,
+  statuses,
+}: {
+  lang: Locale;
+  copy: AuthCopy;
+  statuses: { orders: Record<string, string>; requests: Record<string, string> };
+}) {
+  const [orders, setOrders] = useState<MyOrder[] | null>(null);
+  const [requests, setRequests] = useState<MyRequest[] | null>(null);
+  useEffect(() => {
+    void authed<{ items: MyOrder[] }>('/v1/me/orders')
+      .then((r) => setOrders(r.items))
+      .catch(() => setOrders([]));
+    void authed<{ items: MyRequest[] }>('/v1/me/requests')
+      .then((r) => setRequests(r.items))
+      .catch(() => setRequests([]));
+  }, []);
+  const label = (map: Record<string, string>, s: string) =>
+    (map[s] ?? s).replace(/\s*\([^)]*\{\w+\}[^)]*\)/, '');
+  const row =
+    'group flex items-center gap-4 border-b border-line py-5 transition-colors hover:bg-cream/60 sm:px-2';
+  return (
+    <>
+      <Section title={c.ordersHeading}>
+        {!orders ? (
+          <Skeleton className="h-28 w-full" />
+        ) : !orders.length ? (
+          <p className="text-stone">
+            {c.noOrders}{' '}
+            <Link
+              href={href(lang, '/shop')}
+              className="font-medium text-ink underline underline-offset-4"
+            >
+              {c.browseShop}
+            </Link>
+          </p>
+        ) : (
+          <ul className="border-t border-line">
+            {orders.map((o) => (
+              <li key={o.code}>
+                <Link href={`${href(lang, '/track')}?code=${o.code}`} className={row}>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mono text-sm tracking-[0.12em]">{o.code}</p>
+                    <p className="truncate text-stone">
+                      {o.items
+                        .map(
+                          (i) =>
+                            `${lang === 'bn' ? i.nameBn : i.nameEn} × ${formatNumber(i.qty, lang)}`,
+                        )
+                        .join(', ')}
+                    </p>
+                    <p className="text-sm text-stone">{formatDate(o.createdAt, lang)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium">{formatTaka(o.totalPaisa, lang)}</p>
+                    <p className="text-sm text-walnut">{label(statuses.orders, o.status)}</p>
+                  </div>
+                  <ArrowRight
+                    className="size-4 shrink-0 transition-transform group-hover:translate-x-1"
+                    aria-hidden
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Section>
+
+      <Section title={c.requestsHeading}>
+        {!requests ? (
+          <Skeleton className="h-20 w-full" />
+        ) : !requests.length ? (
+          <p className="text-stone">{c.noRequests}</p>
+        ) : (
+          <ul className="border-t border-line">
+            {requests.map((r) => (
+              <li key={r.code}>
+                <Link href={`${href(lang, '/bulk/track')}?code=${r.code}`} className={row}>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mono text-sm tracking-[0.12em]">{r.code}</p>
+                    <p className="text-stone">
+                      {c[`kind${r.kind}`]} · {formatDate(r.createdAt, lang)}
+                    </p>
+                  </div>
+                  <p className="text-sm text-walnut">{label(statuses.requests, r.status)}</p>
+                  <ArrowRight
+                    className="size-4 shrink-0 transition-transform group-hover:translate-x-1"
+                    aria-hidden
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Section>
+    </>
   );
 }

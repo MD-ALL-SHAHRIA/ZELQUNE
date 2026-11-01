@@ -158,6 +158,15 @@ export const en = {
     addedShort: 'Added',
   },
   checkout: {
+    accountGate: {
+      title: 'Sign in to continue',
+      order:
+        'Orders are linked to your account, so you can follow every step and we can reach you about delivery. It takes a minute.',
+      request:
+        'Requests are linked to your account, so you can follow them in one place and we can reach you.',
+      signIn: 'Sign in',
+      create: 'Create an account',
+    },
     privacyNotice: {
       order: 'We use your name, phone and address only to confirm, make and deliver this order.',
       request: 'We use these details only to contact you about this request.',
@@ -507,6 +516,16 @@ export const en = {
     policyLink: 'Make a privacy request',
   },
   auth: {
+    ordersHeading: 'Your orders',
+    requestsHeading: 'Your requests',
+    noOrders: 'No orders yet. Pieces you order appear here with every step until delivery.',
+    noRequests:
+      'No requests yet. Interior design, construction and bulk requests you send appear here.',
+    browseShop: 'Browse the shop',
+    viewOrder: 'Track',
+    kindPRODUCT: 'Bulk order',
+    kindDESIGN: 'Interior design',
+    kindCONSTRUCTION: 'Construction',
     brandTitle: 'Your Zelqune account',
     brandText: 'Every order, consultation and project in one place, with your details kept safe.',
     google: 'Continue with Google',

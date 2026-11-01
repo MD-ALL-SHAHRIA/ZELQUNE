@@ -1,4 +1,5 @@
 import {
+  applyDecorators,
   type CanActivate,
   createParamDecorator,
   type ExecutionContext,
@@ -6,6 +7,7 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { AppError, IS_PUBLIC_METADATA, requestContext } from '@zelqune/common';
 import { type Role } from '@zelqune/contracts';
 import { type AuthenticatedRequest, type AuthenticatedUser } from './auth.types';
@@ -16,6 +18,13 @@ const ROLES_METADATA = 'zelqune:roles';
 /** Restricts a route to the given roles (after authentication). */
 export const Roles = (...roles: Role[]): MethodDecorator & ClassDecorator =>
   SetMetadata(ROLES_METADATA, roles);
+
+/**
+ * A route inside a public controller that needs a signed-in customer account (ADR 0021):
+ * overrides @Public() on the class for this one handler.
+ */
+export const RequireAccount = (): MethodDecorator =>
+  applyDecorators(SetMetadata(IS_PUBLIC_METADATA, false), Roles('CUSTOMER'), ApiBearerAuth());
 
 export const CurrentUser = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext): AuthenticatedUser | undefined =>

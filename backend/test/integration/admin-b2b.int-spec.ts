@@ -46,6 +46,7 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
   let staffId = '';
   let ip = 0;
   let key = 0;
+  let shopper = '';
   const http = () => request(gw.getHttpServer());
   const as = (token: string) => ({
     get: (p: string) => http().get(p).set('Authorization', `Bearer ${token}`),
@@ -80,6 +81,7 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
       gatewayEnv: { LOGIN_MAX_PER_IP: '100' },
     });
     gw = stack.gateway;
+    shopper = await stack.customerToken();
     await seedOwner(stack.identity!);
     const passwords = svc(stack.identity, PasswordService);
     const staff = await svc(stack.identity, UserRepository).upsertAdmin({
@@ -130,6 +132,7 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
       .expect(200);
     return http()
       .post('/v1/checkout')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('x-forwarded-for', `198.21.0.${++ip}`)
       .set('x-cart-token', token)
       .set('idempotency-key', `admin-it-checkout-${++key}`)
@@ -382,6 +385,7 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
   it('B2B: RFQ -> discount guard -> OWNER prices -> accept -> COD convert is OWNER only -> B2B order at quoted prices', async () => {
     const rfq = await http()
       .post('/v1/quote-requests')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('cf-turnstile-response', 'dev-pass')
       .send({
         organizationName: 'Hotel Sea Pearl',
@@ -523,6 +527,7 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
   it('interior design consultation: stored as a DESIGN lead, listed by kind, never priced', async () => {
     const rfq = await http()
       .post('/v1/quote-requests')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('cf-turnstile-response', 'dev-pass')
       .send({
         kind: 'DESIGN',
@@ -542,6 +547,7 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
     // A design request without a brief is rejected before anything is stored.
     await http()
       .post('/v1/quote-requests')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('cf-turnstile-response', 'dev-pass')
       .send({ kind: 'DESIGN', contactName: 'No Brief', phone: '01944444445' })
       .expect(400);
@@ -566,6 +572,7 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
 
     const build = await http()
       .post('/v1/quote-requests')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('cf-turnstile-response', 'dev-pass')
       .send({
         kind: 'CONSTRUCTION',
@@ -603,6 +610,7 @@ describe('admin, analytics, notifications and B2B through the gateway on real in
   it('quotes expire after validUntil and cannot be accepted or converted', async () => {
     const rfq = await http()
       .post('/v1/quote-requests')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('cf-turnstile-response', 'dev-pass')
       .send({
         organizationName: 'Cafe Aroma',
