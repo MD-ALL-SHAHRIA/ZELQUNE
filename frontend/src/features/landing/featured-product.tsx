@@ -10,6 +10,7 @@ import { ButtonLink } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Picture } from '@/shared/ui/image';
 import { Container, Heading, Lead } from '@/shared/ui/typography';
+import { SplitText } from '@/shared/ui/split-text';
 
 /**
  * The featured piece as an asymmetric editorial spread: a tall arch (the brand motif) with a
@@ -81,7 +82,7 @@ export function FeaturedProduct({
             leadTimeDays={product.leadTimeDays}
           />
           <Heading level="display" className="lg:-mr-24">
-            {name}
+            <SplitText text={name} />
           </Heading>
           {copy ? <Lead className="max-w-md">{copy.short}</Lead> : null}
           {product.fromPrice ? (

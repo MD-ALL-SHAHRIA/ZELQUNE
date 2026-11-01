@@ -4,6 +4,7 @@ import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
+import { SplitText } from '@/shared/ui/split-text';
 
 /** One close-up per material: wood grain, a warm bulb, clear glass. */
 const FALLBACK = { ...SAMPLE.slats, position: 'center' };
@@ -25,7 +26,7 @@ export function Materials({ dict }: { dict: Dictionary; lang: Locale }) {
         <div className="reveal mx-auto max-w-3xl space-y-6 text-center">
           <Eyebrow>{m.eyebrow}</Eyebrow>
           <Heading id="materials-heading" level="h1">
-            {m.heading}
+            <SplitText text={m.heading} />
           </Heading>
         </div>
 

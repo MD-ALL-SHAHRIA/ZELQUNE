@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Home page motion, following a reference study (same design, new movement): headings write themselves in letter by letter (word by word in Bangla) as they scroll into view; button labels roll on hover; the product rail pins on desktop and slides sideways with the scroll (keyboard focus scrolls to the card); the craft and shop-the-room photos open from the edges and settle from a slight zoom. All of it is off for reduced motion, and phones keep the swipe row.
+
+### Added
 - Privacy requests (ADR 0020): a public form at /privacy-request (EN/BN) to see, correct or delete personal data or withdraw consent, with a status check by code and phone; an owner-only dashboard queue (Privacy requests) to confirm identity, export data as JSON, correct names/emails, erase what may be erased (sales kept as accounting records; running orders block) and reject with a reason. Erasure reaches payment, notification and analytics via the `privacy.erased` event. All steps are audited without personal data.
 
 ### Added

@@ -6,6 +6,7 @@ import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { href } from '@/shared/lib/site';
 import { Container, Eyebrow, Heading } from '@/shared/ui/typography';
+import { SplitText } from '@/shared/ui/split-text';
 
 const SECTORS = ['HOME', 'OFFICE', 'RESTAURANT_CAFE', 'HOTEL', 'RETAIL'] as const;
 
@@ -37,7 +38,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           <div className="lg:col-span-9">
             <Eyebrow className="mb-6 text-ivory/60">{s.eyebrow}</Eyebrow>
             <Heading level="display" className="max-w-[14ch] [:lang(bn)_&]:max-w-[16ch]">
-              {s.heading}
+              <SplitText text={s.heading} />
             </Heading>
           </div>
           <div aria-hidden className="hidden h-px bg-ivory/25 lg:col-span-3 lg:mb-6 lg:block" />
