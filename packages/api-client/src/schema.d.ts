@@ -72,6 +72,270 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/auth/providers': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Which social sign-in options are switched on. */
+    get: operations['CustomerAuthController_providers'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/register': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create an account; a confirmation link goes to the email. */
+    post: operations['CustomerAuthController_register'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/login': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Sign in with email and password. Sets the session cookie. */
+    post: operations['CustomerAuthController_login'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/refresh': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Rotate the session cookie and get a new access token. */
+    post: operations['CustomerAuthController_refresh'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/logout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Sign out this device. */
+    post: operations['CustomerAuthController_logout'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/verify-email': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Confirm the email with the link token, and sign in. */
+    post: operations['CustomerAuthController_verifyEmail'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/resend-verification': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['CustomerAuthController_resend'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/forgot-password': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['CustomerAuthController_forgot'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/reset-password': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['CustomerAuthController_reset'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/oauth/pending': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** The Google/Facebook details waiting for name and phone. */
+    get: operations['CustomerAuthController_pendingProfile'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/oauth/complete': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** First Google/Facebook sign-in: add name and phone, create the account. */
+    post: operations['CustomerAuthController_complete'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['CustomerAuthController_me'];
+    put: operations['CustomerAuthController_updateProfile'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/change-password': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['CustomerAuthController_changePassword'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/sessions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['CustomerAuthController_sessions'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/sessions/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete: operations['CustomerAuthController_revokeSession'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/auth/sessions/revoke-others': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations['CustomerAuthController_revokeOthers'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/catalog/categories': {
     parameters: {
       query?: never;
@@ -1454,6 +1718,106 @@ export interface components {
       email: string | null;
       /** @enum {string} */
       role: 'CUSTOMER' | 'STAFF' | 'OWNER';
+    };
+    ProvidersDto_Output: {
+      providers: ('GOOGLE' | 'FACEBOOK')[];
+    };
+    RegisterDto: {
+      name: string;
+      email: string;
+      /** @example 01712345678 */
+      phone: string;
+      password: string;
+      /**
+       * @default en
+       * @enum {string}
+       */
+      lang?: 'en' | 'bn';
+    };
+    AcceptedDto_Output: {
+      /** @enum {boolean} */
+      accepted: true;
+    };
+    LoginDto: {
+      email: string;
+      password: string;
+    };
+    CustomerTokenDto_Output: {
+      accessToken: string;
+      /** @enum {string} */
+      tokenType: 'Bearer';
+      expiresIn: number;
+      user: {
+        /** Format: uuid */
+        id: string;
+        /** @example +8801712345678 */
+        phone: string;
+        name: string | null;
+        email: string | null;
+        /** @enum {string} */
+        role: 'CUSTOMER' | 'STAFF' | 'OWNER';
+      };
+    };
+    TokenDto: {
+      token: string;
+    };
+    EmailDto: {
+      email: string;
+      /**
+       * @default en
+       * @enum {string}
+       */
+      lang?: 'en' | 'bn';
+    };
+    ResetDto: {
+      token: string;
+      password: string;
+    };
+    OkDto_Output: {
+      /** @enum {boolean} */
+      ok: true;
+    };
+    PendingDto_Output: {
+      email: string;
+      name: string | null;
+      /** @enum {string} */
+      provider: 'GOOGLE' | 'FACEBOOK';
+    };
+    CompleteSignupDto: {
+      name: string;
+      /** @example 01712345678 */
+      phone: string;
+    };
+    CustomerDto_Output: {
+      /** Format: uuid */
+      id: string;
+      name: string | null;
+      email: string | null;
+      emailVerified: boolean;
+      phone: string;
+      hasPassword: boolean;
+      providers: ('GOOGLE' | 'FACEBOOK')[];
+      createdAt: string;
+    };
+    ProfileDto: {
+      name: string;
+      /** @example 01712345678 */
+      phone: string;
+    };
+    ChangePasswordDto: {
+      currentPassword: string;
+      newPassword: string;
+    };
+    SessionListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        userAgent: string | null;
+        ip: string | null;
+        createdAt: string;
+        lastUsedAt: string;
+        current: boolean;
+      }[];
     };
     CategoryListResponseDto_Output: {
       items: {
@@ -3788,10 +4152,6 @@ export interface components {
     ResetPasswordDto: {
       password: string;
     };
-    OkDto_Output: {
-      /** @enum {boolean} */
-      ok: true;
-    };
     UpdateProfileDto: {
       name: string;
       email: (string | '') | null;
@@ -3805,10 +4165,6 @@ export interface components {
       email: string | null;
       /** @enum {string} */
       role: 'CUSTOMER' | 'STAFF' | 'OWNER';
-    };
-    ChangePasswordDto: {
-      currentPassword: string;
-      newPassword: string;
     };
     PrivacyListDto_Output: {
       items: {
@@ -4030,6 +4386,371 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['AuthUserDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_providers: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ProvidersDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_register: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Cloudflare Turnstile token */
+        'cf-turnstile-response': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RegisterDto'];
+      };
+    };
+    responses: {
+      202: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AcceptedDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_login: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LoginDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CustomerTokenDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_refresh: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CustomerTokenDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_logout: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  CustomerAuthController_verifyEmail: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['TokenDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CustomerTokenDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_resend: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['EmailDto'];
+      };
+    };
+    responses: {
+      202: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AcceptedDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_forgot: {
+    parameters: {
+      query?: never;
+      header: {
+        /** @description Cloudflare Turnstile token */
+        'cf-turnstile-response': string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['EmailDto'];
+      };
+    };
+    responses: {
+      202: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AcceptedDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_reset: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResetDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OkDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_pendingProfile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PendingDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_complete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CompleteSignupDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CustomerTokenDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_me: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CustomerDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_updateProfile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ProfileDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['CustomerDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_changePassword: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ChangePasswordDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OkDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_sessions: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SessionListDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_revokeSession: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OkDto_Output'];
+        };
+      };
+    };
+  };
+  CustomerAuthController_revokeOthers: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['OkDto_Output'];
         };
       };
     };

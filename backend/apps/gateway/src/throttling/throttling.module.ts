@@ -11,7 +11,8 @@ export const THROTTLER_STORAGE = Symbol('THROTTLER_STORAGE');
 const ROUTE_THROTTLE_METADATA = 'zelqune:route-throttle';
 
 /** Stricter per-IP limits applied to specific routes on top of the default limit. */
-export type RouteThrottleName = 'login' | 'checkout' | 'cartWrite' | 'track' | 'rfq' | 'beacon';
+export type RouteThrottleName =
+  'login' | 'checkout' | 'cartWrite' | 'track' | 'rfq' | 'beacon' | 'accountEmail';
 
 export const RouteThrottle = (name: RouteThrottleName): MethodDecorator =>
   SetMetadata(ROUTE_THROTTLE_METADATA, name);
@@ -45,6 +46,7 @@ export class ThrottlerStorageModule {}
  * - track:     TRACK_PER_MINUTE (slows order-code guessing)
  * - rfq:       RFQ_PER_HOUR (bulk/corporate requests)
  * - beacon:    BEACON_PER_MINUTE (analytics events)
+ * - accountEmail: AUTH_EMAILS_PER_HOUR (sign-up, resend and reset emails: no email bombing)
  * Client IPs are correct behind the proxy via TRUST_PROXY.
  */
 @Module({
@@ -76,6 +78,12 @@ export class ThrottlerStorageModule {}
           },
           { name: 'track', ttl: 60_000, limit: config.TRACK_PER_MINUTE, skipIf: onlyFor('track') },
           { name: 'rfq', ttl: 3_600_000, limit: config.RFQ_PER_HOUR, skipIf: onlyFor('rfq') },
+          {
+            name: 'accountEmail',
+            ttl: 3_600_000,
+            limit: config.AUTH_EMAILS_PER_HOUR,
+            skipIf: onlyFor('accountEmail'),
+          },
           {
             name: 'beacon',
             ttl: 60_000,

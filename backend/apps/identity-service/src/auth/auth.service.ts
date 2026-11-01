@@ -5,6 +5,7 @@ import {
   type AuthUser,
   type LoginRpcRequest,
   type RefreshRpcRequest,
+  type Role,
   type SessionMeta,
   type SessionTokens,
 } from '@zelqune/contracts';
@@ -56,7 +57,10 @@ export class AuthService {
    * Rotates a refresh token. Presenting a token that was already rotated or revoked is treated
    * as theft: the whole family (session) is revoked and the caller must log in again.
    */
-  async refresh({ refreshToken, ...meta }: RefreshRpcRequest): Promise<SessionTokens> {
+  async refresh(
+    { refreshToken, ...meta }: RefreshRpcRequest,
+    roles: readonly Role[] = ADMIN_ROLES,
+  ): Promise<SessionTokens> {
     const hash = this.tokens.hashRefreshToken(refreshToken);
     const now = new Date();
 
@@ -71,7 +75,7 @@ export class AuthService {
         return { kind: 'reused' };
       }
       const { user } = current;
-      if (current.expiresAt <= now || !user.isActive || !ADMIN_ROLES.includes(user.role)) {
+      if (current.expiresAt <= now || !user.isActive || !roles.includes(user.role)) {
         await store.revokeFamily(current.familyId, 'LOGOUT', now);
         return { kind: 'invalid' };
       }
@@ -102,6 +106,11 @@ export class AuthService {
     const user = await this.users.findById(userId);
     if (!user || !user.isActive) throw new AppError('USER_NOT_FOUND', 'User not found', 404);
     return toAuthUser(user);
+  }
+
+  /** A new session (refresh-token family) for a user who just proved who they are. */
+  openSession(user: UserRecord, meta: SessionMeta): Promise<SessionTokens> {
+    return this.startSession(user, randomUUID(), meta, this.refreshTokens);
   }
 
   private async startSession(

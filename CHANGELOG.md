@@ -7,6 +7,10 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Customer accounts, backend (ADR 0021): /v1/auth register, verified-email sign-in, refresh/logout, email verification, forgot/reset password, profile, change password, signed-in devices (end one or all others), Google and Facebook sign-in (PKCE, state, nonce; off until keys are set). argon2id with NIST-style checks, no account enumeration, per-IP and per-account limits, single-use hashed links in URL fragments, sign-out everywhere after a reset.
+- Email sending in notification-service (SMTP or console) with EN/BN account emails; Mailpit in the dev stack (http://localhost:8025). Setup guide: docs/accounts-setup.md.
+
+### Added
 - Interior design "How it works" as a scroll-driven orbit on desktop: the section pins, a ring carries the numbered steps and turns so the current step faces its text (lit in amber, with a connector), pausing on each step. Phones and reduced motion keep the drawn timeline.
 
 ### Added
