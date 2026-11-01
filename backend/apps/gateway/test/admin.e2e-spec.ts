@@ -13,6 +13,7 @@ const summary = {
   saleMode: 'PRE_ORDER',
   customerName: '=cmd|calc',
   customerPhone: '+8801712345678',
+  customerUserId: null,
   isFriend: false,
   paymentMethod: 'BKASH_MANUAL',
   subtotalPaisa: 429000,
@@ -159,8 +160,12 @@ describe('admin routes (e2e, services mocked)', () => {
 
 describe('public RFQ and beacon (e2e, services mocked)', () => {
   let h: GatewayHarness;
+  let customer = '';
+  let staff = '';
   beforeAll(async () => {
     h = await createGatewayHarness();
+    customer = await h.signAccessToken({ sub: ADMIN_ID, role: 'CUSTOMER' });
+    staff = await h.signAccessToken({ sub: ADMIN_ID, role: 'STAFF' });
   });
   afterAll(async () => {
     await h.app.close();
@@ -173,16 +178,24 @@ describe('public RFQ and beacon (e2e, services mocked)', () => {
     items: [{ description: 'Alo-Arch Panel, walnut', qty: 40 }],
   };
 
-  it('RFQ needs Turnstile and validates the request', async () => {
-    await request(h.app.getHttpServer()).post('/v1/quote-requests').send(rfq).expect(403);
-    await request(h.app.getHttpServer())
-      .post('/v1/quote-requests')
+  it('RFQ needs a customer account, Turnstile and a valid request', async () => {
+    const rfqPost = () => request(h.app.getHttpServer()).post('/v1/quote-requests');
+    // ADR 0021: requests come from signed-in customers only.
+    await rfqPost().set('cf-turnstile-response', 'dev-pass').send(rfq).expect(401);
+    await rfqPost()
+      .set('Authorization', `Bearer ${staff}`)
+      .set('cf-turnstile-response', 'dev-pass')
+      .send(rfq)
+      .expect(403);
+    await rfqPost().set('Authorization', `Bearer ${customer}`).send(rfq).expect(403);
+    await rfqPost()
+      .set('Authorization', `Bearer ${customer}`)
       .set('cf-turnstile-response', 'dev-pass')
       .send({ ...rfq, items: [] })
       .expect(400);
     h.clients.order.send.mockResolvedValueOnce({ quoteCode: 'QT-8M4K2P', status: 'NEW' });
-    const res = await request(h.app.getHttpServer())
-      .post('/v1/quote-requests')
+    const res = await rfqPost()
+      .set('Authorization', `Bearer ${customer}`)
       .set('cf-turnstile-response', 'dev-pass')
       .send(rfq)
       .expect(201);
@@ -190,8 +203,11 @@ describe('public RFQ and beacon (e2e, services mocked)', () => {
     expect(h.clients.order.send).toHaveBeenCalledWith(
       'order.quotes.request',
       expect.objectContaining({
-        phone: '+8801812345678',
-        items: [expect.objectContaining({ qty: 40 })],
+        customerUserId: ADMIN_ID,
+        request: expect.objectContaining({
+          phone: '+8801812345678',
+          items: [expect.objectContaining({ qty: 40 })],
+        }),
       }),
     );
   });

@@ -165,3 +165,28 @@ export const completeSignupSchema = z.object({
 export interface PendingSignup extends OAuthProfile {
   email: string;
 }
+
+/** Dashboard view of a customer account (OWNER/STAFF). */
+export const customerAccountSchema = z.object({
+  id: z.uuid(),
+  name: z.string().nullable(),
+  email: z.string().nullable(),
+  emailVerified: z.boolean(),
+  phone: z.string(),
+  providers: z.array(oauthProviderSchema),
+  createdAt: z.string(),
+  lastLoginAt: z.string().nullable(),
+});
+export type CustomerAccount = z.infer<typeof customerAccountSchema>;
+export const customerAccountListQuerySchema = z.object({
+  q: z.string().trim().max(80).optional(),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(100).default(25),
+});
+export const customerAccountListSchema = z.object({
+  items: z.array(customerAccountSchema),
+  total: z.number().int(),
+  page: z.number().int(),
+  limit: z.number().int(),
+});
+export type CustomerAccountList = z.infer<typeof customerAccountListSchema>;

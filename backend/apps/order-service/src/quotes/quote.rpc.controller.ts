@@ -18,8 +18,8 @@ export class QuoteRpcController {
   constructor(private readonly quotes: QuoteService) {}
 
   @MessagePattern(P.request)
-  request(@Payload() req: RpcRequest<RfqRequest>) {
-    return this.quotes.request(req.data);
+  request(@Payload() req: RpcRequest<{ request: RfqRequest; customerUserId?: string }>) {
+    return this.quotes.request(req.data.request, req.data.customerUserId ?? null);
   }
 
   @MessagePattern(P.track)

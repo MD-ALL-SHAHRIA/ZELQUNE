@@ -75,6 +75,7 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
       services: ['catalog', 'inventory', 'payment', 'shipping', 'order'],
     });
     gw = stack.gateway;
+    shopper = await stack.customerToken();
 
     await seedCatalog(stack.catalog!);
     const catalogDb = svc(stack.catalog, CatalogDb);
@@ -117,6 +118,7 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
     await redis?.quit();
   });
 
+  let shopper = '';
   const http = () => request(gw.getHttpServer());
   const newCart = async (p?: string): Promise<string> => {
     const res = await http()
@@ -130,6 +132,7 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
   const checkout = (token: string, body: object, key = `checkout-${++keySeq}-key`) =>
     http()
       .post('/v1/checkout')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('x-forwarded-for', `198.19.0.${++ipSeq}`)
       .set('x-cart-token', token)
       .set('idempotency-key', key)
@@ -370,12 +373,29 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
     const token = await newCart();
     const res = await http()
       .post('/v1/checkout')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('x-cart-token', token)
       .set('idempotency-key', 'turnstile-check-1')
       .set('cf-turnstile-response', 'fail-bot')
       .send({ customer: CUSTOMER, address: DHAKA, paymentMethod: 'COD' })
       .expect(403);
     expect(res.body.error.code).toBe('TURNSTILE_FAILED');
+  });
+
+  it('a customer sees only their own orders (ADR 0021)', async () => {
+    const mine = await http()
+      .get('/v1/me/orders')
+      .set('Authorization', `Bearer ${shopper}`)
+      .expect(200);
+    const codes = (mine.body.items as { code: string }[]).map((o) => o.code);
+    expect(codes).toContain(preOrderCode);
+    const stranger = await stack.customerToken('0d9e8f7a-6b5c-4d3e-8f1a-2b3c4d5e6f70');
+    const theirs = await http()
+      .get('/v1/me/orders')
+      .set('Authorization', `Bearer ${stranger}`)
+      .expect(200);
+    expect(theirs.body.items).toEqual([]);
+    await http().get('/v1/me/orders').expect(401);
   });
 
   it('every saga and lifecycle event reached RabbitMQ', async () => {

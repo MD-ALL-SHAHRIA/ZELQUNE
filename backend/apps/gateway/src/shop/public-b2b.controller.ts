@@ -1,4 +1,6 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { type AuthenticatedUser } from '../auth/auth.types';
+import { CurrentUser, RequireAccount } from '../auth/guards';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { createZodDto, Public, ServiceRegistry, ZodResponse } from '@zelqune/common';
 import {
@@ -38,12 +40,16 @@ export class PublicB2bController {
   constructor(private readonly services: ServiceRegistry) {}
 
   @Post('quote-requests')
+  @RequireAccount()
   @RouteThrottle('rfq')
   @RequireTurnstile()
   @ApiOperation({ summary: 'Bulk / corporate order request (RFQ). We reply with a priced quote.' })
   @ZodResponse({ status: 201, type: RfqResponseDto })
-  request(@Body() body: RfqRequestDto) {
-    return this.services.get('order').send<RfqResponse>(RPC_PATTERNS.order.quotes.request, body);
+  request(@Body() body: RfqRequestDto, @CurrentUser() user: AuthenticatedUser) {
+    return this.services.get('order').send<RfqResponse>(RPC_PATTERNS.order.quotes.request, {
+      request: body,
+      customerUserId: user.id,
+    });
   }
 
   /** POST so the phone number travels in the body, never in a URL (URLs end up in logs). */

@@ -24,6 +24,10 @@ export const RPC_PATTERNS = {
       revokeSession: 'identity.customer.revokeSession',
       revokeOthers: 'identity.customer.revokeOthers',
     },
+    accounts: {
+      list: 'identity.admin.accounts.list',
+      byIds: 'identity.admin.accounts.byIds',
+    },
     team: {
       list: 'identity.admin.team.list',
       create: 'identity.admin.team.create',
@@ -120,6 +124,7 @@ export const RPC_PATTERNS = {
       updateCoupon: 'order.admin.coupons.update',
       removeCoupon: 'order.admin.coupons.remove',
     },
+    mine: { orders: 'order.mine.orders', requests: 'order.mine.requests' },
     privacy: {
       submit: 'order.privacy.submit',
       track: 'order.privacy.track',

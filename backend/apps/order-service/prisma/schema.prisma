@@ -123,6 +123,8 @@ model Order {
   cartId                String?       @unique @map("cart_id") @db.Uuid
   customerName          String        @map("customer_name")
   customerPhone         String        @map("customer_phone")
+  /// The signed-in customer account that placed it (ADR 0021); null for orders before accounts.
+  customerUserId        String?       @map("customer_user_id") @db.Uuid
   address               Json
   saleMode              SaleMode      @map("sale_mode")
   /// B2C (storefront) or B2B (converted quote). organizationId is for M2 business accounts.
@@ -156,6 +158,7 @@ model Order {
   @@index([status, createdAt])
   @@index([channel, createdAt])
   @@index([customerPhone])
+  @@index([customerUserId, createdAt])
   @@index([confirmedAt])
   @@index([couponCode])
   @@map("orders")
@@ -271,6 +274,8 @@ model Quote {
   designFloors         Int?        @map("design_floors")
   contactName          String      @map("contact_name")
   phone                String
+  /// The signed-in customer account that sent it (ADR 0021); null for requests before accounts.
+  customerUserId       String?     @map("customer_user_id") @db.Uuid
   email                String?
   neededBy             DateTime?   @map("needed_by") @db.Date
   customizationNotes   String?     @map("customization_notes")
@@ -291,6 +296,7 @@ model Quote {
 
   @@index([status, createdAt])
   @@index([kind, createdAt])
+  @@index([customerUserId, createdAt])
   @@map("quotes")
 }
 

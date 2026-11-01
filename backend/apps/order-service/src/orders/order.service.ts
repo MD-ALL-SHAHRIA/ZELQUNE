@@ -403,6 +403,7 @@ export class OrderService implements OnApplicationBootstrap, OnModuleDestroy {
       saleMode: o.saleMode,
       customerName: o.customerName,
       customerPhone: o.customerPhone,
+      customerUserId: o.customerUserId,
       isFriend: friends.has(o.customerPhone),
       paymentMethod: o.paymentMethod,
       subtotalPaisa: o.subtotalPaisa,

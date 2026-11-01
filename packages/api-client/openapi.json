@@ -602,6 +602,58 @@
         ]
       }
     },
+    "/v1/me/orders": {
+      "get": {
+        "operationId": "MeController_orders",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyOrdersDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "customer auth"
+        ]
+      }
+    },
+    "/v1/me/requests": {
+      "get": {
+        "operationId": "MeController_requests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyRequestsDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "customer auth"
+        ]
+      }
+    },
     "/v1/catalog/categories": {
       "get": {
         "operationId": "CatalogController_categories",
@@ -1250,6 +1302,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Place the order (reserves stock, records payment). Safe to retry with the same Idempotency-Key.",
         "tags": [
           "shop"
@@ -1324,6 +1381,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Bulk / corporate order request (RFQ). We reply with a priced quote.",
         "tags": [
           "shop"
@@ -3732,6 +3794,65 @@
         ]
       }
     },
+    "/v1/admin/customer-accounts": {
+      "get": {
+        "operationId": "AdminBusinessController_customerAccounts",
+        "parameters": [
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 80,
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 9007199254740991,
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerAccountListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Customer accounts: name, verified email, phone, sign-in method.",
+        "tags": [
+          "admin: business"
+        ]
+      }
+    },
     "/v1/admin/expenses": {
       "get": {
         "operationId": "AdminBusinessController_expenses",
@@ -5574,6 +5695,115 @@
                 "createdAt",
                 "lastUsedAt",
                 "current"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "MyOrdersDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "saleMode": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "totalPaisa": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "nameEn": {
+                        "type": "string"
+                      },
+                      "nameBn": {
+                        "type": "string"
+                      },
+                      "qty": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "nameEn",
+                      "nameBn",
+                      "qty"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "code",
+                "status",
+                "saleMode",
+                "createdAt",
+                "totalPaisa",
+                "items"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "MyRequestsDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "PRODUCT",
+                    "DESIGN",
+                    "CONSTRUCTION"
+                  ]
+                },
+                "status": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code",
+                "kind",
+                "status",
+                "createdAt"
               ],
               "additionalProperties": false
             }
@@ -9491,6 +9721,12 @@
                 "customerPhone": {
                   "type": "string"
                 },
+                "customerUserId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                  "nullable": true
+                },
                 "isFriend": {
                   "type": "boolean"
                 },
@@ -9547,6 +9783,7 @@
                 "saleMode",
                 "customerName",
                 "customerPhone",
+                "customerUserId",
                 "isFriend",
                 "paymentMethod",
                 "subtotalPaisa",
@@ -9630,6 +9867,12 @@
           },
           "customerPhone": {
             "type": "string"
+          },
+          "customerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+            "nullable": true
           },
           "isFriend": {
             "type": "boolean"
@@ -10026,6 +10269,65 @@
             ],
             "additionalProperties": false,
             "nullable": true
+          },
+          "account": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "email": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "emailVerified": {
+                "type": "boolean"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "providers": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "GOOGLE",
+                    "FACEBOOK"
+                  ]
+                }
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "lastLoginAt": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "email",
+              "emailVerified",
+              "phone",
+              "providers",
+              "createdAt",
+              "lastLoginAt"
+            ],
+            "additionalProperties": false,
+            "nullable": true
           }
         },
         "required": [
@@ -10036,6 +10338,7 @@
           "saleMode",
           "customerName",
           "customerPhone",
+          "customerUserId",
           "isFriend",
           "paymentMethod",
           "subtotalPaisa",
@@ -10056,7 +10359,8 @@
           "couponCode",
           "cancelReason",
           "payment",
-          "shipment"
+          "shipment",
+          "account"
         ],
         "additionalProperties": false
       },
@@ -13551,6 +13855,94 @@
           "page",
           "pageSize",
           "stats"
+        ],
+        "additionalProperties": false
+      },
+      "CustomerAccountListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "email": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "emailVerified": {
+                  "type": "boolean"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "providers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "GOOGLE",
+                      "FACEBOOK"
+                    ]
+                  }
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "lastLoginAt": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "email",
+                "emailVerified",
+                "phone",
+                "providers",
+                "createdAt",
+                "lastLoginAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "page": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "limit"
         ],
         "additionalProperties": false
       },

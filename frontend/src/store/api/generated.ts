@@ -137,6 +137,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/v1/auth/sessions/revoke-others`, method: 'POST' }),
     }),
+    meControllerOrders: build.query<MeControllerOrdersApiResponse, MeControllerOrdersApiArg>({
+      query: () => ({ url: `/v1/me/orders` }),
+    }),
+    meControllerRequests: build.query<MeControllerRequestsApiResponse, MeControllerRequestsApiArg>({
+      query: () => ({ url: `/v1/me/requests` }),
+    }),
     catalogControllerCategories: build.query<
       CatalogControllerCategoriesApiResponse,
       CatalogControllerCategoriesApiArg
@@ -390,6 +396,10 @@ export type CustomerAuthControllerRevokeSessionApiArg = {
 };
 export type CustomerAuthControllerRevokeOthersApiResponse = /** status 200  */ OkDtoOutput;
 export type CustomerAuthControllerRevokeOthersApiArg = void;
+export type MeControllerOrdersApiResponse = /** status 200  */ MyOrdersDtoOutput;
+export type MeControllerOrdersApiArg = void;
+export type MeControllerRequestsApiResponse = /** status 200  */ MyRequestsDtoOutput;
+export type MeControllerRequestsApiArg = void;
 export type CatalogControllerCategoriesApiResponse =
   /** status 200  */ CategoryListResponseDtoOutput;
 export type CatalogControllerCategoriesApiArg = void;
@@ -565,6 +575,28 @@ export type SessionListDtoOutput = {
     createdAt: string;
     lastUsedAt: string;
     current: boolean;
+  }[];
+};
+export type MyOrdersDtoOutput = {
+  items: {
+    code: string;
+    status: string;
+    saleMode: string;
+    createdAt: string;
+    totalPaisa: number;
+    items: {
+      nameEn: string;
+      nameBn: string;
+      qty: number;
+    }[];
+  }[];
+};
+export type MyRequestsDtoOutput = {
+  items: {
+    code: string;
+    kind: 'PRODUCT' | 'DESIGN' | 'CONSTRUCTION';
+    status: string;
+    createdAt: string;
   }[];
 };
 export type CategoryListResponseDtoOutput = {
@@ -1210,6 +1242,10 @@ export const {
   useLazyCustomerAuthControllerSessionsQuery,
   useCustomerAuthControllerRevokeSessionMutation,
   useCustomerAuthControllerRevokeOthersMutation,
+  useMeControllerOrdersQuery,
+  useLazyMeControllerOrdersQuery,
+  useMeControllerRequestsQuery,
+  useLazyMeControllerRequestsQuery,
   useCatalogControllerCategoriesQuery,
   useLazyCatalogControllerCategoriesQuery,
   useCatalogControllerSaleQuery,

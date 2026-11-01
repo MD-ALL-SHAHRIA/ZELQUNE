@@ -36,6 +36,7 @@ describe('privacy requests (ADR 0020) on real infrastructure', () => {
   let ownerToken = '';
   let staffToken = '';
   let ip = 0;
+  let shopper = '';
   const http = () => request(gw.getHttpServer());
   const owner = {
     get: (p: string) => http().get(p).set('Authorization', `Bearer ${ownerToken}`),
@@ -101,6 +102,7 @@ describe('privacy requests (ADR 0020) on real infrastructure', () => {
       gatewayEnv: { LOGIN_MAX_PER_IP: '100' },
     });
     gw = stack.gateway;
+    shopper = await stack.customerToken();
     await seedOwner(stack.identity!);
     const passwords = db(stack.identity, PasswordService);
     await db(stack.identity, UserRepository).upsertAdmin({
@@ -135,6 +137,7 @@ describe('privacy requests (ADR 0020) on real infrastructure', () => {
     await orders.customer.create({ data: { phone: E164, isFriend: true } });
     await http()
       .post('/v1/quote-requests')
+      .set('Authorization', `Bearer ${shopper}`)
       .set('cf-turnstile-response', 'dev-pass')
       .send({
         kind: 'DESIGN',

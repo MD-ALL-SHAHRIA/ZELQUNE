@@ -8,7 +8,8 @@ import {
   serviceQueues,
 } from '@zelqune/common';
 import { connect } from 'amqplib';
-import { exportPKCS8, exportSPKI, generateKeyPair } from 'jose';
+import { exportPKCS8, exportSPKI, generateKeyPair, SignJWT } from 'jose';
+import { randomUUID } from 'node:crypto';
 import { mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -96,6 +97,8 @@ const SERVICES: Record<
 
 export type Stack = Partial<Record<ServiceKey, INestApplication>> & {
   gateway: INestApplication;
+  /** A signed-in customer's access token (ADR 0021: orders and requests need an account). */
+  customerToken(userId?: string): Promise<string>;
   close(): Promise<void>;
 };
 
@@ -218,7 +221,21 @@ export async function startStack(options: StackOptions): Promise<Stack> {
   setupGateway(gateway, { CORS_ORIGINS: [ALLOWED_ORIGIN], TRUST_PROXY: true });
   await gateway.init();
 
+  /** Same defaults as gateway-env and identity-env. */
+  const JWT_DEFAULTS = { issuer: 'zelqune-identity', audience: 'zelqune-api' };
+  const customerToken = (userId = '5c1e0a7b-2d4f-4c8e-9a1b-3f6d8e2c4a10') =>
+    new SignJWT({ role: 'CUSTOMER', typ: 'access' })
+      .setProtectedHeader({ alg: 'ES256', typ: 'JWT' })
+      .setSubject(userId)
+      .setIssuer(JWT_DEFAULTS.issuer)
+      .setAudience(JWT_DEFAULTS.audience)
+      .setJti(randomUUID())
+      .setIssuedAt()
+      .setExpirationTime('15m')
+      .sign(privateKey);
+
   return {
+    customerToken,
     ...stack,
     gateway,
     close: async () => {

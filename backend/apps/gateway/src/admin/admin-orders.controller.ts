@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiProduces, ApiTags } from '@nestjs/swagg
 import { ServiceRegistry, ZodResponse } from '@zelqune/common';
 import {
   type AdminOrderDetail,
+  type CustomerAccount,
   type AdminOrderDetailCore,
   type AdminOrderList,
   type AdminOrderSummary,
@@ -96,15 +97,22 @@ export class AdminOrdersController {
     const order = await this.services
       .get('order')
       .send<AdminOrderDetailCore>(O.detail, { orderId: id });
-    const [payment, shipment] = await Promise.all([
+    const [payment, shipment, accounts] = await Promise.all([
       this.services
         .get('payment')
         .send<PaymentSummary | null>(RPC_PATTERNS.payment.summaryByOrder, { orderId: id }),
       this.services
         .get('shipping')
         .send<ShipmentSummary | null>(RPC_PATTERNS.shipping.shipmentByOrder, { orderId: id }),
+      order.customerUserId
+        ? this.services
+            .get('identity')
+            .send<CustomerAccount[]>(RPC_PATTERNS.identity.accounts.byIds, {
+              ids: [order.customerUserId],
+            })
+        : Promise.resolve([]),
     ]);
-    return { ...order, payment, shipment };
+    return { ...order, payment, shipment, account: accounts[0] ?? null };
   }
 
   @Post('orders/:id/transitions')

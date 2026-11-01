@@ -37,19 +37,30 @@ describe('shop routes (e2e, services mocked)', () => {
   let ip = 0;
   const nextIp = () => `203.0.113.${++ip}`;
 
+  const CUSTOMER_ID = '7b1d2c3e-4f50-4a6b-8c7d-9e0f1a2b3c4d';
+  let customer = '';
   beforeEach(async () => {
     h = await createGatewayHarness({ CHECKOUT_MAX_PER_IP: '100' });
+    customer = await h.signAccessToken({ sub: CUSTOMER_ID, role: 'CUSTOMER' });
   });
   afterEach(async () => {
     await h.app.close();
   });
 
   const checkout = (
-    opts: { token?: string; key?: string; turnstile?: string; body?: object; from?: string } = {},
+    opts: {
+      token?: string;
+      key?: string;
+      turnstile?: string;
+      body?: object;
+      from?: string;
+      auth?: string;
+    } = {},
   ) => {
     const req = request(h.app.getHttpServer())
       .post('/v1/checkout')
       .set('x-forwarded-for', opts.from ?? nextIp());
+    if (opts.auth !== '') req.set('Authorization', `Bearer ${opts.auth ?? customer}`);
     if (opts.token !== '') req.set('x-cart-token', opts.token ?? TOKEN);
     if (opts.key !== '') req.set('idempotency-key', opts.key ?? 'checkout-key-0001');
     if (opts.turnstile !== '') req.set('cf-turnstile-response', opts.turnstile ?? 'dev-pass');
@@ -198,6 +209,14 @@ describe('shop routes (e2e, services mocked)', () => {
     );
   });
 
+  it('checkout needs a signed-in customer account (ADR 0021)', async () => {
+    h.clients.order.send.mockResolvedValue(checkoutResponse);
+    expect((await checkout({ auth: '' }).expect(401)).body.error.code).toBe('UNAUTHENTICATED');
+    const staff = await h.signAccessToken({ sub: CUSTOMER_ID, role: 'STAFF' });
+    await checkout({ auth: staff }).expect(403);
+    expect(h.clients.order.send).not.toHaveBeenCalled();
+  });
+
   it('replays the same checkout (same cart + key) with the original 201 and body', async () => {
     h.clients.order.send.mockResolvedValue(checkoutResponse);
     const first = await checkout().expect(201);
@@ -209,6 +228,7 @@ describe('shop routes (e2e, services mocked)', () => {
       'order.checkout.checkout',
       expect.objectContaining({
         cartToken: TOKEN,
+        customerUserId: CUSTOMER_ID,
         request: expect.objectContaining({ paymentMethod: 'COD' }),
       }),
       { timeoutMs: 20000 },
@@ -240,9 +260,11 @@ describe('shop routes (e2e, services mocked)', () => {
     const strict = await createGatewayHarness({ CHECKOUT_MAX_PER_IP: '2' });
     try {
       strict.clients.order.send.mockResolvedValue(checkoutResponse);
+      const shopper = await strict.signAccessToken({ sub: CUSTOMER_ID, role: 'CUSTOMER' });
       const hit = (n: number) =>
         request(strict.app.getHttpServer())
           .post('/v1/checkout')
+          .set('Authorization', `Bearer ${shopper}`)
           .set('x-forwarded-for', '192.0.2.77')
           .set('x-cart-token', TOKEN)
           .set('idempotency-key', `checkout-key-${n}000`)
