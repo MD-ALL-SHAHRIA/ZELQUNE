@@ -181,7 +181,7 @@ export class CustomerAuthController {
   @Public()
   @Post('login')
   @HttpCode(200)
-  @RouteThrottle('login')
+  @RouteThrottle('customerLogin')
   @ApiOperation({ summary: 'Sign in with email and password. Sets the session cookie.' })
   @ZodResponse({ status: 200, type: CustomerTokenDto })
   async login(
@@ -300,7 +300,7 @@ export class CustomerAuthController {
 
   @Public()
   @Get('oauth/:provider/start')
-  @RouteThrottle('login')
+  @RouteThrottle('customerLogin')
   @ApiExcludeEndpoint()
   async oauthStart(
     @Param('provider') provider: string,
@@ -392,7 +392,7 @@ export class CustomerAuthController {
   @Public()
   @Post('oauth/complete')
   @HttpCode(200)
-  @RouteThrottle('login')
+  @RouteThrottle('customerLogin')
   @ApiOperation({
     summary: 'First Google/Facebook sign-in: add name and phone, create the account.',
   })
@@ -439,7 +439,7 @@ export class CustomerAuthController {
   @HttpCode(200)
   @Roles('CUSTOMER')
   @ApiBearerAuth()
-  @RouteThrottle('login')
+  @RouteThrottle('customerLogin')
   @ZodResponse({ status: 200, type: OkDto })
   changePassword(
     @CurrentUser() user: AuthenticatedUser,

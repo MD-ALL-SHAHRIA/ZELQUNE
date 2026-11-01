@@ -48,13 +48,11 @@ test('search matches Bangla names, finds service pages and shows an empty state'
   await expect(dialog).toBeHidden();
 });
 
-test('the account icon opens the account page with tracking links', async ({ page }) => {
+test('the account icon asks a signed-out visitor to sign in', async ({ page }) => {
   await page.goto('/en');
   await page.getByRole('banner').getByRole('link', { name: 'Account' }).click();
-  await expect(page).toHaveURL(/\/en\/account$/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your account');
-  await page.getByRole('main').getByRole('link', { name: 'Check a quote' }).click();
-  await expect(page).toHaveURL(/\/en\/bulk\/track$/);
+  await expect(page).toHaveURL(/\/en\/account\/login\?next=/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sign in');
 });
 
 test('the menu lists services and the language switch', async ({ page }) => {
