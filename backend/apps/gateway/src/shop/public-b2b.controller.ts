@@ -7,7 +7,13 @@ import {
   quoteTrackQuerySchema,
   rfqRequestSchema,
   rfqResponseSchema,
+  type PublicPrivacyRequest,
+  publicPrivacyRequestSchema,
+  privacyTrackSchema,
   type PublicQuote,
+  submitPrivacyRequestSchema,
+  submitPrivacyResultSchema,
+  type SubmitPrivacyResult,
   type RfqResponse,
   RPC_PATTERNS,
 } from '@zelqune/contracts';
@@ -19,6 +25,10 @@ class RfqResponseDto extends createZodDto(rfqResponseSchema) {}
 class QuoteTrackQueryDto extends createZodDto(quoteTrackQuerySchema) {}
 class PublicQuoteDto extends createZodDto(publicQuoteSchema) {}
 class BeaconEventDto extends createZodDto(beaconEventSchema) {}
+class SubmitPrivacyRequestDto extends createZodDto(submitPrivacyRequestSchema) {}
+class SubmitPrivacyResultDto extends createZodDto(submitPrivacyResultSchema) {}
+class PrivacyTrackDto extends createZodDto(privacyTrackSchema) {}
+class PublicPrivacyRequestDto extends createZodDto(publicPrivacyRequestSchema) {}
 
 /** Public B2B request-for-quote (section 5ক) and the storefront analytics beacon. */
 @ApiTags('shop')
@@ -44,6 +54,32 @@ export class PublicB2bController {
   @ZodResponse({ status: 200, type: PublicQuoteDto })
   track(@Body() query: QuoteTrackQueryDto) {
     return this.services.get('order').send<PublicQuote>(RPC_PATTERNS.order.quotes.track, query);
+  }
+
+  /**
+   * Privacy request (ADR 0020). The answer is the same whether or not the phone has records, so
+   * the form cannot be used to find out who is a customer.
+   */
+  @Post('privacy-requests')
+  @RouteThrottle('rfq')
+  @RequireTurnstile()
+  @ApiOperation({ summary: 'Ask to see, correct or delete your data, or withdraw consent.' })
+  @ZodResponse({ status: 201, type: SubmitPrivacyResultDto })
+  privacyRequest(@Body() body: SubmitPrivacyRequestDto) {
+    return this.services
+      .get('order')
+      .send<SubmitPrivacyResult>(RPC_PATTERNS.order.privacy.submit, body);
+  }
+
+  @Post('privacy-requests/track')
+  @HttpCode(200)
+  @RouteThrottle('track')
+  @ApiOperation({ summary: 'Status of a privacy request by code and phone.' })
+  @ZodResponse({ status: 200, type: PublicPrivacyRequestDto })
+  privacyTrack(@Body() body: PrivacyTrackDto) {
+    return this.services
+      .get('order')
+      .send<PublicPrivacyRequest>(RPC_PATTERNS.order.privacy.track, body);
   }
 
   @Post('events')

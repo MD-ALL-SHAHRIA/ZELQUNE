@@ -857,6 +857,80 @@
         ]
       }
     },
+    "/v1/privacy-requests": {
+      "post": {
+        "operationId": "PublicB2bController_privacyRequest",
+        "parameters": [
+          {
+            "name": "cf-turnstile-response",
+            "in": "header",
+            "description": "Cloudflare Turnstile token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitPrivacyRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitPrivacyResultDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Ask to see, correct or delete your data, or withdraw consent.",
+        "tags": [
+          "shop"
+        ]
+      }
+    },
+    "/v1/privacy-requests/track": {
+      "post": {
+        "operationId": "PublicB2bController_privacyTrack",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivacyTrackDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicPrivacyRequestDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Status of a privacy request by code and phone.",
+        "tags": [
+          "shop"
+        ]
+      }
+    },
     "/v1/events": {
       "post": {
         "operationId": "PublicB2bController_beacon",
@@ -3852,6 +3926,419 @@
         ],
         "tags": [
           "admin: settings"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests": {
+      "get": {
+        "operationId": "AdminPrivacyController_list",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VERIFICATION_REQUIRED",
+                "IN_PROGRESS",
+                "COMPLETED",
+                "REJECTED"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 9007199254740991,
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: privacy"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests/{id}": {
+      "get": {
+        "operationId": "AdminPrivacyController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyRequestDetailDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: privacy"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests/{id}/ask-verification": {
+      "post": {
+        "operationId": "AdminPrivacyController_askVerification",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AskVerificationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyRequestDetailDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Ask the requester to confirm from the number on file.",
+        "tags": [
+          "admin: privacy"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests/{id}/verify": {
+      "post": {
+        "operationId": "AdminPrivacyController_verify",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyPrivacyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyRequestDetailDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: privacy"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests/{id}/reject": {
+      "post": {
+        "operationId": "AdminPrivacyController_reject",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RejectPrivacyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyRequestDetailDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: privacy"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests/{id}/export": {
+      "post": {
+        "operationId": "AdminPrivacyController_export",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyExportDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Access request: everything held for this phone, as JSON.",
+        "tags": [
+          "admin: privacy"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests/{id}/correct": {
+      "post": {
+        "operationId": "AdminPrivacyController_correct",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorrectPrivacyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyRequestDetailDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: privacy"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests/{id}/erase": {
+      "post": {
+        "operationId": "AdminPrivacyController_erase",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyRequestDetailDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Deletion request: erase what may go, keep sale records.",
+        "tags": [
+          "admin: privacy"
+        ]
+      }
+    },
+    "/v1/admin/privacy-requests/{id}/complete": {
+      "post": {
+        "operationId": "AdminPrivacyController_complete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompletePrivacyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyRequestDetailDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin: privacy"
         ]
       }
     },
@@ -7848,6 +8335,119 @@
           "lines",
           "totals",
           "orderCode"
+        ],
+        "additionalProperties": false
+      },
+      "SubmitPrivacyRequestDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ACCESS",
+              "CORRECTION",
+              "DELETION",
+              "CONSENT_WITHDRAWAL"
+            ]
+          },
+          "phone": {
+            "example": "01712345678",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "reference": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 120,
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          "details": {
+            "default": "",
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "type",
+          "phone"
+        ]
+      },
+      "SubmitPrivacyResultDto_Output": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^PR-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$",
+            "example": "PR-8M4K2P"
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "additionalProperties": false
+      },
+      "PrivacyTrackDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^PR-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$",
+            "example": "PR-8M4K2P"
+          },
+          "phone": {
+            "example": "01712345678",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          }
+        },
+        "required": [
+          "code",
+          "phone"
+        ]
+      },
+      "PublicPrivacyRequestDto_Output": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ACCESS",
+              "CORRECTION",
+              "DELETION",
+              "CONSENT_WITHDRAWAL"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "VERIFICATION_REQUIRED",
+              "IN_PROGRESS",
+              "COMPLETED",
+              "REJECTED"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "type",
+          "status",
+          "createdAt",
+          "updatedAt"
         ],
         "additionalProperties": false
       },
@@ -13226,6 +13826,623 @@
         "required": [
           "currentPassword",
           "newPassword"
+        ]
+      },
+      "PrivacyListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "ACCESS",
+                    "CORRECTION",
+                    "DELETION",
+                    "CONSENT_WITHDRAWAL"
+                  ]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "PENDING",
+                    "VERIFICATION_REQUIRED",
+                    "IN_PROGRESS",
+                    "COMPLETED",
+                    "REJECTED"
+                  ]
+                },
+                "referenceMatched": {
+                  "type": "boolean"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "code",
+                "type",
+                "status",
+                "referenceMatched",
+                "createdAt",
+                "updatedAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "page": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "limit"
+        ],
+        "additionalProperties": false
+      },
+      "PrivacyRequestDetailDto_Output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "code": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ACCESS",
+              "CORRECTION",
+              "DELETION",
+              "CONSENT_WITHDRAWAL"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "VERIFICATION_REQUIRED",
+              "IN_PROGRESS",
+              "COMPLETED",
+              "REJECTED"
+            ]
+          },
+          "referenceMatched": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reference": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "details": {
+            "type": "string"
+          },
+          "found": {
+            "type": "object",
+            "properties": {
+              "orders": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "quotes": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "orders",
+              "quotes"
+            ],
+            "additionalProperties": false
+          },
+          "verification": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "CALLED_NUMBER_ON_FILE",
+                  "WHATSAPP_FROM_NUMBER_ON_FILE",
+                  "IN_PERSON"
+                ]
+              },
+              "note": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "by": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "method",
+              "note",
+              "at",
+              "by"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "decisionNote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "result": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "ERASURE"
+                    ]
+                  },
+                  "erasedOrders": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "erasedQuotes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "retainedOrders": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "reason": {
+                          "type": "string",
+                          "enum": [
+                            "SALE_RECORD",
+                            "CONTRACT_RECORD"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "retainedQuotes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "reason": {
+                          "type": "string",
+                          "enum": [
+                            "SALE_RECORD",
+                            "CONTRACT_RECORD"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "customerFlagDeleted": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "erasedOrders",
+                  "erasedQuotes",
+                  "retainedOrders",
+                  "retainedQuotes",
+                  "customerFlagDeleted"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "CORRECTION"
+                    ]
+                  },
+                  "fields": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "name",
+                        "email"
+                      ]
+                    }
+                  },
+                  "orders": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "quotes": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "kind",
+                  "fields",
+                  "orders",
+                  "quotes"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "ACCESS"
+                    ]
+                  },
+                  "exportedAt": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "exportedAt"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "NOTE"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ],
+                "additionalProperties": false
+              }
+            ],
+            "nullable": true
+          },
+          "resolvedAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "type",
+          "status",
+          "referenceMatched",
+          "createdAt",
+          "updatedAt",
+          "phone",
+          "email",
+          "reference",
+          "details",
+          "found",
+          "verification",
+          "decisionNote",
+          "result",
+          "resolvedAt"
+        ],
+        "additionalProperties": false
+      },
+      "AskVerificationDto": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "default": "",
+            "type": "string",
+            "maxLength": 300
+          }
+        }
+      },
+      "VerifyPrivacyDto": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "CALLED_NUMBER_ON_FILE",
+              "WHATSAPP_FROM_NUMBER_ON_FILE",
+              "IN_PERSON"
+            ]
+          },
+          "note": {
+            "default": "",
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "method"
+        ]
+      },
+      "RejectPrivacyDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "PrivacyExportDto_Output": {
+        "type": "object",
+        "properties": {
+          "generatedAt": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "address": {},
+                "paymentMethod": {
+                  "type": "string"
+                },
+                "totalPaisa": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "couponCode": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "qty": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "unitPricePaisa": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "qty",
+                      "unitPricePaisa"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "code",
+                "createdAt",
+                "status",
+                "name",
+                "address",
+                "paymentMethod",
+                "totalPaisa",
+                "couponCode",
+                "items"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "quotes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "contactName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "organizationName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "notes": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "code",
+                "createdAt",
+                "kind",
+                "status",
+                "contactName",
+                "email",
+                "organizationName",
+                "notes"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "customerFlag": {
+            "type": "object",
+            "properties": {
+              "isFriend": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "isFriend"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "elsewhere": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "generatedAt",
+          "phone",
+          "orders",
+          "quotes",
+          "customerFlag",
+          "elsewhere"
+        ],
+        "additionalProperties": false
+      },
+      "CorrectPrivacyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 120,
+            "format": "email",
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          }
+        }
+      },
+      "CompletePrivacyDto": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "note"
         ]
       }
     }

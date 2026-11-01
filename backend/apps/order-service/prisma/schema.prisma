@@ -356,3 +356,48 @@ model Setting {
 
   @@map("settings")
 }
+
+enum PrivacyRequestType {
+  ACCESS
+  CORRECTION
+  DELETION
+  CONSENT_WITHDRAWAL
+}
+
+enum PrivacyRequestStatus {
+  PENDING
+  VERIFICATION_REQUIRED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+/// A customer's privacy request (ADR 0020). After an erasure the phone is masked and the email
+/// and details are cleared; the request itself stays as the record of what was done.
+model PrivacyRequest {
+  id                 String               @id @default(uuid()) @db.Uuid
+  code               String               @unique
+  type               PrivacyRequestType
+  status             PrivacyRequestStatus @default(PENDING)
+  /// Masked after an erasure; phoneKey (HMAC) still lets the requester check the status.
+  phone              String
+  phoneKey           String               @map("phone_key")
+  email              String?
+  reference          String?
+  referenceMatched   Boolean              @default(false) @map("reference_matched")
+  details            String               @default("")
+  verificationMethod String?              @map("verification_method")
+  verificationNote   String?              @map("verification_note")
+  verifiedAt         DateTime?            @map("verified_at") @db.Timestamptz(3)
+  verifiedBy         String?              @map("verified_by")
+  decisionNote       String?              @map("decision_note")
+  result             Json?
+  resolvedAt         DateTime?            @map("resolved_at") @db.Timestamptz(3)
+  resolvedBy         String?              @map("resolved_by")
+  createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt          DateTime             @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([status, createdAt])
+  @@index([phoneKey, type, status])
+  @@map("privacy_requests")
+}

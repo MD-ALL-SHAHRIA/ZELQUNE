@@ -162,6 +162,29 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.quoteTrackQueryDto,
       }),
     }),
+    publicB2BControllerPrivacyRequest: build.mutation<
+      PublicB2BControllerPrivacyRequestApiResponse,
+      PublicB2BControllerPrivacyRequestApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/privacy-requests`,
+        method: 'POST',
+        body: queryArg.submitPrivacyRequestDto,
+        headers: {
+          'cf-turnstile-response': queryArg['cf-turnstile-response'],
+        },
+      }),
+    }),
+    publicB2BControllerPrivacyTrack: build.mutation<
+      PublicB2BControllerPrivacyTrackApiResponse,
+      PublicB2BControllerPrivacyTrackApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/privacy-requests/track`,
+        method: 'POST',
+        body: queryArg.privacyTrackDto,
+      }),
+    }),
     publicB2BControllerBeacon: build.mutation<
       PublicB2BControllerBeaconApiResponse,
       PublicB2BControllerBeaconApiArg
@@ -252,6 +275,18 @@ export type PublicB2BControllerRequestApiArg = {
 export type PublicB2BControllerTrackApiResponse = /** status 200  */ PublicQuoteDtoOutput;
 export type PublicB2BControllerTrackApiArg = {
   quoteTrackQueryDto: QuoteTrackQueryDto;
+};
+export type PublicB2BControllerPrivacyRequestApiResponse =
+  /** status 201  */ SubmitPrivacyResultDtoOutput;
+export type PublicB2BControllerPrivacyRequestApiArg = {
+  /** Cloudflare Turnstile token */
+  'cf-turnstile-response': string;
+  submitPrivacyRequestDto: SubmitPrivacyRequestDto;
+};
+export type PublicB2BControllerPrivacyTrackApiResponse =
+  /** status 200  */ PublicPrivacyRequestDtoOutput;
+export type PublicB2BControllerPrivacyTrackApiArg = {
+  privacyTrackDto: PrivacyTrackDto;
 };
 export type PublicB2BControllerBeaconApiResponse = unknown;
 export type PublicB2BControllerBeaconApiArg = {
@@ -842,6 +877,27 @@ export type QuoteTrackQueryDto = {
   code: string;
   phone: string;
 };
+export type SubmitPrivacyResultDtoOutput = {
+  code: string;
+};
+export type SubmitPrivacyRequestDto = {
+  type: 'ACCESS' | 'CORRECTION' | 'DELETION' | 'CONSENT_WITHDRAWAL';
+  phone: string;
+  reference?: string;
+  email?: string;
+  details?: string;
+};
+export type PublicPrivacyRequestDtoOutput = {
+  code: string;
+  type: 'ACCESS' | 'CORRECTION' | 'DELETION' | 'CONSENT_WITHDRAWAL';
+  status: 'PENDING' | 'VERIFICATION_REQUIRED' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED';
+  createdAt: string;
+  updatedAt: string;
+};
+export type PrivacyTrackDto = {
+  code: string;
+  phone: string;
+};
 export type BeaconEventDto = {
   type: 'VIEW' | 'ADD_TO_CART';
   sessionId: string;
@@ -882,5 +938,7 @@ export const {
   useShopControllerTrackMutation,
   usePublicB2BControllerRequestMutation,
   usePublicB2BControllerTrackMutation,
+  usePublicB2BControllerPrivacyRequestMutation,
+  usePublicB2BControllerPrivacyTrackMutation,
   usePublicB2BControllerBeaconMutation,
 } = injectedRtkApi;
