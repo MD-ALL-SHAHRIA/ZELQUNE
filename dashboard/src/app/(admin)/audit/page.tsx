@@ -34,6 +34,7 @@ const ENTITIES: Record<string, string> = {
   expense: 'Expenses',
   quote: 'Quotes',
   customer: 'Customers',
+  privacy_request: 'Privacy requests',
 };
 
 const tone = (action: string): Tone =>
