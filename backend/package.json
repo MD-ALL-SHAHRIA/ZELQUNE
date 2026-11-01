@@ -19,8 +19,8 @@
     "test:integration": "jest -c jest.integration.config.js --runInBand"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "3.1152.0",
-    "@aws-sdk/s3-request-presigner": "3.1152.0",
+    "@aws-sdk/client-s3": "3.1159.0",
+    "@aws-sdk/s3-request-presigner": "3.1159.0",
     "@nest-lab/throttler-storage-redis": "1.2.0",
     "@nestjs/common": "^11",
     "@nestjs/core": "^11",
@@ -39,7 +39,7 @@
     "jose": "^5",
     "nestjs-pino": "^5.3.1",
     "nestjs-zod": "5.5.0",
-    "nodemailer": "7.0.10",
+    "nodemailer": "7.0.13",
     "pg": "^8.23.1",
     "pino": "^10.4.0",
     "pino-http": "^11.0.0",
