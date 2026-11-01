@@ -1,8 +1,9 @@
 import { expect, test } from '@playwright/test';
-import { uniquePhone } from './helpers';
+import { uniquePhone, signInCustomer } from './helpers';
 
 /** Construction path: page -> start a project -> request code -> track shows type and floors. */
 test('a landowner requests a construction call and checks it', async ({ page }) => {
+  await signInCustomer(page);
   const phone = uniquePhone();
   await page.goto('/en/construction');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
@@ -50,6 +51,7 @@ test('a landowner requests a construction call and checks it', async ({ page }) 
 });
 
 test('the Bangla construction page renders without sideways scroll', async ({ page }) => {
+  await signInCustomer(page);
   await page.goto('/bn/construction');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('ভিত থেকে শেষ আলোটা পর্যন্ত');
   await expect(page.locator('#b-type')).toHaveValue('HOME');

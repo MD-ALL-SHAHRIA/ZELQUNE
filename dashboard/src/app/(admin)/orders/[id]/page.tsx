@@ -360,6 +360,52 @@ export default function OrderPage() {
                   <MessageSquare className="size-3.5" aria-hidden /> WhatsApp
                 </a>
               </div>
+              {/* The account that placed it (ADR 0021): verified email and phone. */}
+              <div className="border-t border-line pt-3">
+                {order.account ? (
+                  <dl className="space-y-1.5 text-[0.8125rem]">
+                    <div className="flex items-center justify-between gap-3">
+                      <dt className="text-stone">Account</dt>
+                      <dd className="font-medium">{order.account.name ?? '—'}</dd>
+                    </div>
+                    <div className="flex items-center justify-between gap-3">
+                      <dt className="text-stone">Email</dt>
+                      <dd className="flex items-center gap-1.5 truncate">
+                        <a
+                          href={`mailto:${order.account.email}`}
+                          className="truncate hover:underline"
+                        >
+                          {order.account.email}
+                        </a>
+                        {order.account.emailVerified ? (
+                          <Badge tone="success">Verified</Badge>
+                        ) : (
+                          <Badge tone="warning">Unverified</Badge>
+                        )}
+                      </dd>
+                    </div>
+                    <div className="flex items-center justify-between gap-3">
+                      <dt className="text-stone">Account phone</dt>
+                      <dd>{order.account.phone}</dd>
+                    </div>
+                    <div className="flex items-center justify-between gap-3">
+                      <dt className="text-stone">Signs in with</dt>
+                      <dd>
+                        {[
+                          'Email',
+                          ...order.account.providers.map((p) =>
+                            p === 'GOOGLE' ? 'Google' : 'Facebook',
+                          ),
+                        ].join(', ')}
+                      </dd>
+                    </div>
+                  </dl>
+                ) : (
+                  <p className="text-[0.8125rem] text-stone">
+                    Placed before customer accounts, so no account is linked.
+                  </p>
+                )}
+              </div>
             </CardBody>
           </Card>
           <Card>

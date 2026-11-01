@@ -6,6 +6,14 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Orders and requests need a customer account (ADR 0021): checkout and the bulk, interior design and construction forms show a "Sign in to continue" card to signed-out visitors (sign in or create an account, then come back), and start prefilled with the account's name, phone and email. The account id is taken from the verified token only. Order and quote tracking and privacy requests stay open without an account.
+
+### Added
+- My account lists the customer's own orders (items, total, status, link to tracking) and requests, with empty states that explain and offer a next step; `/v1/me/orders` and `/v1/me/requests` return only the caller's records.
+- Dashboard: the order page shows the account behind the order (name, verified email, account phone, sign-in method); a new Customer accounts page lists sign-ups with search.
+- `AUTH_EMAILS_PER_HOUR` and `CUSTOMER_LOGIN_MAX_PER_IP` are configurable in the dev stack (raised only for the CI e2e run).
+
 ### Added
 - Customer sign-in pages (EN/BN, ADR 0021): sign in, create account (live password strength, show/hide), check-your-email with resend, email confirmation, forgot and reset password, Google/Facebook buttons (shown only when switched on) with a "complete your details" step, and the post-sign-in return. The account page is now the customer's portal: details (name, phone), password (change or set), signed-in devices (sign out one or all others), and links to orders and requests. Tokens are read from the URL fragment and wiped from the address bar; the access token is kept in memory only.
 

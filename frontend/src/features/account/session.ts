@@ -96,6 +96,12 @@ export async function authed<T>(path: string, init: RequestInit = {}): Promise<T
 
 export const publicCall = call;
 
+/** The current access token for other API clients (waits for a refresh already in flight). */
+export async function currentToken(): Promise<string | null> {
+  if (!token && refreshing) await refreshing;
+  return token;
+}
+
 async function loadMe(): Promise<void> {
   try {
     set({ status: 'signedIn', customer: await authed<Customer>('/v1/auth/me') });

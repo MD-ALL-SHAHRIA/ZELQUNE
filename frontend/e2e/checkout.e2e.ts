@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { fillCheckout, uniquePhone, uniqueTrxId } from './helpers';
+import { fillCheckout, uniquePhone, uniqueTrxId, signInCustomer } from './helpers';
 
 /**
  * Checkout path against the real backend (Docker stack, `pnpm seed`): a visitor from an ad
@@ -7,6 +7,7 @@ import { fillCheckout, uniquePhone, uniqueTrxId } from './helpers';
  * pre-orders with a bKash advance, and tracks the order.
  */
 test('pre-order with a bKash advance, then track it', async ({ page }) => {
+  await signInCustomer(page);
   const phone = uniquePhone();
 
   await page.goto('/bn/products/alo-arch-panel?p=b');
@@ -51,9 +52,22 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await page.getByRole('button', { name: 'দেখুন', exact: true }).click();
   await expect(page.getByTestId('order-status')).toHaveText('পেমেন্ট যাচাই হচ্ছে');
   await expect(page.locator('section[aria-live]')).toContainText('৳৩,৪৯০');
+
+  // The order is linked to the account and shows in My account (ADR 0021).
+  await page.goto('/bn/account');
+  await expect(page.getByText(code)).toBeVisible();
 });
 
 test('a visitor with no ?p sees the base price, which equals arm a (৳3,490)', async ({ page }) => {
   await page.goto('/en/products/alo-arch-panel');
   await expect(page.getByTestId('price')).toHaveText('৳3,490');
+});
+
+test('checkout asks a signed-out visitor to sign in first', async ({ page }) => {
+  await page.goto('/en/checkout');
+  await expect(page.getByRole('heading', { name: 'Sign in to continue' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Sign in' })).toHaveAttribute(
+    'href',
+    /\/en\/account\/login\?next=%2Fen%2Fcheckout/,
+  );
 });

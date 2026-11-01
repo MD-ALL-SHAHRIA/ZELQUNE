@@ -758,3 +758,17 @@
 - **linkedWith:** {providers}-এর সঙ্গে যুক্ত
 - **activityHeading:** অর্ডার ও অনুরোধ
 - **unknownDevice:** ব্রাউজার
+- **account gate title:** চালিয়ে যেতে সাইন ইন করুন
+- **account gate order:** অর্ডার আপনার অ্যাকাউন্টের সঙ্গে যুক্ত থাকে, যাতে প্রতিটি ধাপ দেখতে পারেন আর ডেলিভারি নিয়ে আমরা যোগাযোগ করতে পারি। এক মিনিট লাগবে।
+- **account gate request:** অনুরোধ আপনার অ্যাকাউন্টের সঙ্গে যুক্ত থাকে, যাতে এক জায়গায় সব দেখতে পারেন আর আমরা যোগাযোগ করতে পারি।
+- **account gate signIn:** সাইন ইন
+- **account gate create:** অ্যাকাউন্ট খুলুন
+- **portal ordersHeading:** আপনার অর্ডার
+- **portal requestsHeading:** আপনার অনুরোধ
+- **portal noOrders:** এখনো কোনো অর্ডার নেই। যা অর্ডার করবেন, ডেলিভারি পর্যন্ত প্রতিটি ধাপসহ এখানে দেখাবে।
+- **portal noRequests:** এখনো কোনো অনুরোধ নেই। ইন্টেরিয়র ডিজাইন, নির্মাণ আর বাল্ক অনুরোধ এখানে দেখাবে।
+- **portal browseShop:** দোকান ঘুরে দেখুন
+- **portal viewOrder:** ট্র্যাক
+- **portal kindPRODUCT:** বাল্ক অর্ডার
+- **portal kindDESIGN:** ইন্টেরিয়র ডিজাইন
+- **portal kindCONSTRUCTION:** নির্মাণ

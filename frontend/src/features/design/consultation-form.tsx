@@ -15,6 +15,7 @@ import { Turnstile } from '@/shared/ui/turnstile';
 import { useRequestQuoteMutation } from '@/store/api';
 import { FormNotice } from '@/features/legal/form-notice';
 import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
+import { AccountGate, type AccountPrefill } from '@/features/account/account-gate';
 
 type Space = keyof Dictionary['consult']['spaces'];
 type Budget = keyof Dictionary['consult']['budgets'];
@@ -23,21 +24,23 @@ type Copy = Pick<Dictionary, 'consult' | 'checkout' | 'bulk'>;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Interior design consultation request: an RFQ of kind DESIGN with a space brief. */
-export function ConsultationForm({
+function ConsultationFormInner({
   lang,
   districts,
   copy,
+  account,
   defaultSpace = 'HOME',
 }: {
   lang: Locale;
   districts: District[];
   copy: Copy;
+  account?: AccountPrefill;
   defaultSpace?: Space;
 }) {
   const c = copy.consult;
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState(account?.name ?? '');
+  const [phone, setPhone] = useState(account?.phone ?? '');
+  const [email, setEmail] = useState(account?.email ?? '');
   const [space, setSpace] = useState<Space>(defaultSpace);
   const [size, setSize] = useState('');
   const [district, setDistrict] = useState('');
@@ -220,5 +223,16 @@ export function ConsultationForm({
         {sending ? c.sending : c.button}
       </Button>
     </form>
+  );
+}
+
+/** Needs a signed-in customer (ADR 0021); the form starts with the account's details. */
+export function ConsultationForm(
+  props: Omit<Parameters<typeof ConsultationFormInner>[0], 'account'>,
+) {
+  return (
+    <AccountGate lang={props.lang} copy={props.copy.checkout.accountGate} kind="request">
+      {(account) => <ConsultationFormInner {...props} account={account} />}
+    </AccountGate>
   );
 }

@@ -174,7 +174,7 @@ export function SocialButtons({
 
 /** `?next=` only ever points inside this site. */
 export function safeNext(raw: string | null, lang: string): string {
-  return raw && /^\/(?!\/)[\w\-./?=&%]*$/.test(raw) ? raw : `/${lang}/account`;
+  return raw && /^\/(?!\/)[\w\-./?=&%#]*$/.test(raw) ? raw : `/${lang}/account`;
 }
 
 export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

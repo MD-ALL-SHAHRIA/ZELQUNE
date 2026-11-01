@@ -1,8 +1,9 @@
 import { expect, test } from '@playwright/test';
-import { uniquePhone } from './helpers';
+import { uniquePhone, signInCustomer } from './helpers';
 
 /** RFQ path against the real backend: header link -> request -> code -> quote status "New". */
 test('a company sends a bulk request and checks its status', async ({ page }) => {
+  await signInCustomer(page);
   const phone = uniquePhone();
   await page.goto('/en');
   // Mobile: the header navigation lives in the menu drawer.
