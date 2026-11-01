@@ -55,14 +55,20 @@ export function PageHeader({
   return slot ? createPortal(row, slot) : <div className="mb-6">{row}</div>;
 }
 
+/**
+ * Empty, nothing-matches and not-allowed screens: say why it is empty, then offer one next step
+ * (`action`: a single button or link).
+ */
 export function EmptyState({
   icon,
   title,
   children,
+  action,
 }: {
   icon: React.ReactNode;
   title: string;
   children?: React.ReactNode;
+  action?: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col items-center px-6 py-14 text-center">
@@ -71,6 +77,7 @@ export function EmptyState({
       </div>
       <p className="font-medium text-ink">{title}</p>
       {children ? <div className="mt-1 max-w-sm text-sm text-stone">{children}</div> : null}
+      {action ? <div className="mt-5">{action}</div> : null}
     </div>
   );
 }

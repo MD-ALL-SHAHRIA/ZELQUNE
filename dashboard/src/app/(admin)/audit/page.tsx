@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+import { buttonClass } from '@/components/ui/button';
 import { ChevronDown, History, Lock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Badge, type Tone } from '@/components/ui/badge';
@@ -48,7 +50,7 @@ export default function AuditPage() {
   const [page, setPage] = useState(1);
   const [data, setData] = useState<Page | null>(null);
   const [open, setOpen] = useState<string | null>(null);
-  const owner = state.status === 'signedIn' && state.user.role === 'OWNER';
+  const owner = 'user' in state && state.user.role === 'OWNER';
 
   useEffect(() => {
     if (!owner) return;
@@ -72,7 +74,18 @@ export default function AuditPage() {
       <>
         <PageHeader title="Audit log" />
         <Card>
-          <EmptyState icon={<Lock />} title="Only the owner can see the audit log" />
+          <EmptyState
+            icon={<Lock />}
+            title="Only the owner can see the audit log"
+            action={
+              <Link href="/" className={buttonClass('secondary', 'sm')}>
+                Back to overview
+              </Link>
+            }
+          >
+            It lists every change by every staff member, so it stays with the owner. Ask the owner
+            if you need to check a change.
+          </EmptyState>
         </Card>
       </>
     );
@@ -111,7 +124,11 @@ export default function AuditPage() {
             ))}
           </div>
         ) : data.items.length === 0 ? (
-          <EmptyState icon={<History />} title="No changes recorded yet" />
+          <EmptyState icon={<History />} title="No changes recorded yet">
+            {entityType
+              ? 'Nothing of this type has changed. Try All types.'
+              : 'Every edit by you or your team is recorded here.'}
+          </EmptyState>
         ) : (
           <ol className="divide-y divide-line">
             {data.items.map((e) => {

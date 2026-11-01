@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+import { buttonClass } from '@/components/ui/button';
 import { Download, Lock, Pencil, Plus, Receipt, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { BarList } from '@/components/charts/bar-list';
@@ -44,7 +46,7 @@ export default function ExpensesPage() {
   const [editing, setEditing] = useState<{ id: string | null; body: Body } | null>(null);
   const [saving, setSaving] = useState(false);
   const [confirm, setConfirm] = useState<Expense | null>(null);
-  const owner = state.status === 'signedIn' && state.user.role === 'OWNER';
+  const owner = 'user' in state && state.user.role === 'OWNER';
 
   const load = useCallback(() => {
     if (!owner) return;
@@ -64,7 +66,18 @@ export default function ExpensesPage() {
       <>
         <PageHeader title="Expenses" />
         <Card>
-          <EmptyState icon={<Lock />} title="Only the owner can see expenses" />
+          <EmptyState
+            icon={<Lock />}
+            title="Only the owner can see expenses"
+            action={
+              <Link href="/" className={buttonClass('secondary', 'sm')}>
+                Back to overview
+              </Link>
+            }
+          >
+            Expenses show costs and wages, so only the owner sees them. Ask the owner if you need to
+            add one.
+          </EmptyState>
         </Card>
       </>
     );

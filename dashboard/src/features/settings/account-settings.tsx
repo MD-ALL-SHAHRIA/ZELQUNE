@@ -15,7 +15,7 @@ import { passwordProblem } from './password';
 export function AccountSettings() {
   const toast = useToast();
   const { state } = useAuth();
-  const user = state.status === 'signedIn' ? state.user : null;
+  const user = 'user' in state ? state.user : null;
   const [name, setName] = useState(user?.name ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
   const [pw, setPw] = useState({ current: '', next: '', again: '' });

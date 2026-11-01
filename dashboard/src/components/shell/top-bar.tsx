@@ -49,7 +49,7 @@ const panel =
  */
 export function HeaderTools({ inbox, onSearch }: { inbox: Inbox | null; onSearch: () => void }) {
   const { state, signOut } = useAuth();
-  const user = state.status === 'signedIn' ? state.user : null;
+  const user = 'user' in state ? state.user : null;
   const bellRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const [bellOpen, setBellOpen] = useState(false);

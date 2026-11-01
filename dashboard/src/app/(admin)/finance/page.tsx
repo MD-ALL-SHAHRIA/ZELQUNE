@@ -73,7 +73,7 @@ export default function FinancePage() {
   const period = useReportRange('month');
   const { range } = period;
   const [pl, setPl] = useState<PL | null>(null);
-  const owner = state.status === 'signedIn' && state.user.role === 'OWNER';
+  const owner = 'user' in state && state.user.role === 'OWNER';
 
   useEffect(() => {
     if (!owner) return;
@@ -93,8 +93,17 @@ export default function FinancePage() {
       <>
         <PageHeader title="Profit and loss" />
         <Card>
-          <EmptyState icon={<Lock />} title="Only the owner can see finance">
-            Ask the owner if you need these numbers.
+          <EmptyState
+            icon={<Lock />}
+            title="Only the owner can see finance"
+            action={
+              <Link href="/" className={buttonClass('secondary', 'sm')}>
+                Back to overview
+              </Link>
+            }
+          >
+            Profit and loss shows costs and margins, so only the owner sees it. Ask the owner if you
+            need these numbers.
           </EmptyState>
         </Card>
       </>

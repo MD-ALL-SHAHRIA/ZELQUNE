@@ -40,11 +40,25 @@ export function refreshSession(): Promise<boolean> {
   return refreshing;
 }
 
+/**
+ * No connection (or the server is down): answer like the gateway would, so every screen shows a
+ * clear message instead of crashing. Nothing on screen is lost; the action can simply be retried.
+ */
+function offline(): Response {
+  const message = navigator.onLine
+    ? "Can't reach the Zelqune server right now. This is on our side; try again in a minute."
+    : "You're offline. Check your internet connection, then try again. Your changes are still here.";
+  return new Response(JSON.stringify({ error: { code: 'NETWORK', message } }), {
+    status: 503,
+    headers: { 'content-type': 'application/json' },
+  });
+}
+
 async function authFetch(input: Request): Promise<Response> {
   const send = (req: Request) => {
     const headers = new Headers(req.headers);
     if (accessToken) headers.set('Authorization', `Bearer ${accessToken}`);
-    return fetch(new Request(req, { headers, credentials: 'include' }));
+    return fetch(new Request(req, { headers, credentials: 'include' })).catch(() => offline());
   };
   const retry = input.clone();
   const res = await send(input);
@@ -58,7 +72,10 @@ async function authFetch(input: Request): Promise<Response> {
 export const api = createApiClient(baseUrl, { fetch: authFetch });
 
 /** The gateway's error envelope: `{ error: { code, message } }`. */
-export function errorMessage(error: unknown, fallback = 'Something went wrong'): string {
+export function errorMessage(
+  error: unknown,
+  fallback = 'Something went wrong on our side. Try again; if it keeps happening, reload the page.',
+): string {
   const e = (error as { error?: { message?: string; code?: string } } | undefined)?.error;
   return e?.message ?? fallback;
 }
