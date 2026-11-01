@@ -23,6 +23,8 @@ test('a landowner requests a construction call and checks it', async ({ page }) 
 
   // Validation runs before anything is sent.
   await page.locator('#b-floors').fill('80');
+  // Prefilled from the account (ADR 0021): empty it to check the inline validation.
+  await page.locator('#b-name').fill('');
   await page.getByRole('button', { name: 'Request a call' }).click();
   await expect(page.locator('#b-name')).toHaveAttribute('aria-invalid', 'true');
   await expect(page.locator('#b-floors')).toHaveAttribute('aria-invalid', 'true');

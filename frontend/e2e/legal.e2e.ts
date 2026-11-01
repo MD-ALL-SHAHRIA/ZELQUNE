@@ -43,5 +43,5 @@ test('privacy request: validates inline, then confirms with a code and next step
   await page.getByLabel('Request code (PR-XXXXXX)').fill((await code.textContent()) ?? '');
   await page.locator('#prt-phone').fill('01712345678');
   await page.getByRole('button', { name: 'Check status' }).click();
-  await expect(page.getByRole('status').filter({ hasText: 'Received' })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: /Status:\s*Received/ })).toBeVisible();
 });
