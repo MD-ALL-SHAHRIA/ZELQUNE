@@ -7,6 +7,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Interior design page opens with a "step inside" scroll journey: the camera pushes toward the building's door, an arch opens onto the home, then a room and its details, before the process. One sticky stage with transforms and clip-paths; reduced motion gets the scenes as still photos. Sector pages keep their hero.
 - Orders and requests need a customer account (ADR 0021): checkout and the bulk, interior design and construction forms show a "Sign in to continue" card to signed-out visitors (sign in or create an account, then come back), and start prefilled with the account's name, phone and email. The account id is taken from the verified token only. Order and quote tracking and privacy requests stay open without an account.
 
 ### Added

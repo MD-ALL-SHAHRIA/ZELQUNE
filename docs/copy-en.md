@@ -280,6 +280,11 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
   - **Restaurant & Café:** Feature walls, lighting and corners your guests remember.
   - **Hotel:** Lobbies and rooms with one handcrafted signature.
   - **Shop & Showroom:** Displays and walls that make your products glow.
+- **Journey scroll cue:** Scroll to step inside
+- **Journey scenes:**
+  - **Through the door:** It starts with a visit or a call: how you arrive, where the light falls and how you live.
+  - **Room by room:** We plan each room around the people in it, then choose the wood, the light and the layout.
+  - **Down to the detail:** Shelves, panels and lamps made in our workshop to your measurements.
 - **Process heading:** How it works
 - **Process steps:**
   - **Consultation:** We visit or call to understand your space, budget and timeline.

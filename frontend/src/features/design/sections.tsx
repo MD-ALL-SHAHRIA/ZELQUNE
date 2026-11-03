@@ -15,6 +15,8 @@ import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { ProjectGrid, type Project } from '@/features/showcase/project-grid';
 import { SplitText } from '@/shared/ui/split-text';
 import { ConsultationForm } from './consultation-form';
+import { DesignJourney, type Scene } from './design-journey.client';
+import { SAMPLE } from '@/content/sample-images';
 import { OrbitProcess } from './orbit-process';
 import { SECTORS, sectorImages, type SectorSpace } from './sectors';
 
@@ -387,4 +389,42 @@ export function ConsultSection({
       </Container>
     </section>
   );
+}
+
+/**
+ * The design overview's opening: the building, then a step through the door into the home, a
+ * room and its details (DesignJourney), with the page's h1 over the first scene.
+ */
+export function DesignIntroJourney({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+  const d = dict.design;
+  const j = d.journey;
+  const rooms: Pick<Scene, 'image' | 'focus'>[] = [
+    { image: '/images/design/journey-home.webp', focus: [0.3, 0.5] },
+    { image: SAMPLE.livingShelves.src, focus: [0.5, 0.55] },
+    { image: SAMPLE.shelvesDecor.src, focus: [0.5, 0.5] },
+  ];
+  const scenes: Scene[] = [
+    { image: '/images/design/journey-outside.webp', focus: [0.45, 0.47], title: '', text: '' },
+    ...j.scenes.map((words, k) => ({ ...rooms[k]!, ...words })),
+  ];
+  const intro = (
+    <div className="max-w-3xl space-y-6">
+      <Eyebrow className="flex items-center gap-4 text-ivory/80">
+        <span aria-hidden className="h-px w-10 bg-amber" />
+        {d.eyebrow}
+      </Eyebrow>
+      <Heading as="h1" level="display">
+        {d.heading}
+      </Heading>
+      <p className="max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg">{d.lead}</p>
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <ButtonLink href="#consult" size="lg" className="bg-paper text-ink hover:bg-glow">
+          {d.button}
+          <span aria-hidden>↓</span>
+        </ButtonLink>
+        <span className="text-[0.65rem] text-ivory/55">{dict.landing.sampleNote}</span>
+      </div>
+    </div>
+  );
+  return <DesignJourney key={lang} scenes={scenes} intro={intro} scrollLabel={j.scroll} />;
 }

@@ -913,6 +913,23 @@ export const en = {
         text: 'Displays and walls that make your products glow.',
       },
     },
+    journey: {
+      scroll: 'Scroll to step inside',
+      scenes: [
+        {
+          title: 'Through the door',
+          text: 'It starts with a visit or a call: how you arrive, where the light falls and how you live.',
+        },
+        {
+          title: 'Room by room',
+          text: 'We plan each room around the people in it, then choose the wood, the light and the layout.',
+        },
+        {
+          title: 'Down to the detail',
+          text: 'Shelves, panels and lamps made in our workshop to your measurements.',
+        },
+      ],
+    },
     processHeading: 'How it works',
     steps: [
       {
