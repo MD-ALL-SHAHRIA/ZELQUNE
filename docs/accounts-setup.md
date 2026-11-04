@@ -16,7 +16,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER=<from the provider>
 SMTP_PASS=<from the provider>
-MAIL_FROM=Zelqune <hello@zelqune.com>
+MAIL_FROM=Zelqune <support@zelqune.com>
 STOREFRONT_URL=https://zelqune.com
 PUBLIC_API_URL=https://api.zelqune.com
 ```

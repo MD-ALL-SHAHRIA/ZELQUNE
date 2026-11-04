@@ -127,7 +127,7 @@ export function StoreDetails({ readOnly }: { readOnly: boolean }) {
             {field(
               'email',
               'Email',
-              { type: 'email', placeholder: 'hello@zelqune.com' },
+              { type: 'email', placeholder: 'support@zelqune.com' },
               emailOk ? null : 'Not a valid email',
             )}
             <div className="grid gap-3 sm:grid-cols-2">

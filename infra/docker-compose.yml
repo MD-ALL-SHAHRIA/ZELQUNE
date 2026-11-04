@@ -269,7 +269,7 @@ services:
       SMTP_SECURE: ${SMTP_SECURE:-false}
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}
-      MAIL_FROM: ${MAIL_FROM:-Zelqune <hello@zelqune.com>}
+      MAIL_FROM: ${MAIL_FROM:-Zelqune <support@zelqune.com>}
       HTTP_PORT: 3007
       TCP_PORT: 4007
       DB_SCHEMA: notifications

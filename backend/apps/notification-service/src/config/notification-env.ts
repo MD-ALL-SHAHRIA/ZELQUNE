@@ -23,7 +23,7 @@ export const notificationEnvSchema = serviceEnvSchema.extend({
     .transform((v) => v === 'true'),
   SMTP_USER: optional,
   SMTP_PASS: optional,
-  MAIL_FROM: z.string().default('Zelqune <hello@zelqune.com>'),
+  MAIL_FROM: z.string().default('Zelqune <support@zelqune.com>'),
   /** Used in links inside messages. */
   STOREFRONT_URL: z.string().url().default('http://localhost:3100'),
 });
