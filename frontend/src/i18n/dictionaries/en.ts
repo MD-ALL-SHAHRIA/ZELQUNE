@@ -36,6 +36,17 @@ export const en = {
     returns: 'Returns',
     privacy: 'Privacy',
     copyright: '© 2026 Zelqune. All rights reserved.',
+    ctaEyebrow: 'Start a project',
+    ctaHeading: 'Let’s bring warmth to your space.',
+    ctaText:
+      'Tell us about your home, shop or café. We design it, make the woodwork and light in our workshop, and install it.',
+    ctaDesign: 'Book a design consultation',
+    ctaShop: 'Shop the collection',
+    made: 'Handcrafted in Dhaka, Bangladesh',
+    call: 'Call',
+    email: 'Email',
+    follow: 'Follow',
+    backToTop: 'Back to top',
   },
   home: {
     heroHeading: 'Handcrafted wood and gentle light, for walls that tell a',
