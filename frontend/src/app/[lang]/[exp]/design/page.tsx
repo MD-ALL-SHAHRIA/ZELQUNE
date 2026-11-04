@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { SAMPLE } from '@/content/sample-images';
 import {
   ConsultSection,
-  DesignHero,
+  DesignIntroJourney,
   DesignProcess,
   Included,
   Projects,
@@ -30,15 +30,9 @@ export default async function DesignPage({ params }: { params: PageParams }) {
   const districts = await listDistricts();
   return (
     <>
-      <DesignHero
-        lang={lang}
-        dict={dict}
-        image={SAMPLE.livingShelves.src}
-        title={dict.design.heading}
-        lead={dict.design.lead}
-      />
-      <SectorGrid lang={lang} dict={dict} />
+      <DesignIntroJourney lang={lang} dict={dict} />
       <DesignProcess lang={lang} dict={dict} />
+      <SectorGrid lang={lang} dict={dict} />
       <Included lang={lang} dict={dict} image={SAMPLE.dining.src} />
       <Projects dict={dict} lang={lang} projects={projects} />
       <ConsultSection lang={lang} dict={dict} districts={districts} />

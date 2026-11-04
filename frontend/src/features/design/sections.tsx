@@ -15,6 +15,7 @@ import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { ProjectGrid, type Project } from '@/features/showcase/project-grid';
 import { SplitText } from '@/shared/ui/split-text';
 import { ConsultationForm } from './consultation-form';
+import { DesignJourney } from './design-journey.client';
 import { OrbitProcess } from './orbit-process';
 import { SECTORS, sectorImages, type SectorSpace } from './sectors';
 
@@ -386,5 +387,50 @@ export function ConsultSection({
         </div>
       </Container>
     </section>
+  );
+}
+
+/**
+ * The design overview's opening: a filmed walk from a real house into its rooms (DesignJourney),
+ * with the page's h1 over the building.
+ */
+export function DesignIntroJourney({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+  const d = dict.design;
+  const j = d.journey;
+  const still = (n: number) => `/images/design/design-journey-${n}.webp`;
+  const intro = (
+    <div className="max-w-3xl space-y-6">
+      <Eyebrow className="flex items-center gap-4 text-ivory/80">
+        <span aria-hidden className="h-px w-10 bg-amber" />
+        {d.eyebrow}
+      </Eyebrow>
+      <Heading as="h1" level="display">
+        {d.heading}
+      </Heading>
+      <p className="max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg">{d.lead}</p>
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <ButtonLink href="#consult" size="lg" className="bg-paper text-ink hover:bg-glow">
+          {d.button}
+          <span aria-hidden>↓</span>
+        </ButtonLink>
+        <span className="text-[0.65rem] text-ivory/55">{j.footageNote}</span>
+      </div>
+    </div>
+  );
+  return (
+    <DesignJourney
+      key={lang}
+      lang={lang}
+      intro={{ content: intro, still: still(1) }}
+      arrive={{ ...j.arrive, still: still(2) }}
+      rooms={j.rooms.map((words, k) => ({ ...words, still: still(k + 3) }))}
+      film={{
+        src: '/videos/design-journey.mp4',
+        small: '/videos/design-journey-720.mp4',
+        poster: '/videos/design-journey.jpg',
+        chapterSeconds: 4,
+      }}
+      labels={{ scroll: j.scroll, section: j.section, room: j.room, rooms: j.roomsLabel }}
+    />
   );
 }

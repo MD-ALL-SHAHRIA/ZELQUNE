@@ -913,6 +913,36 @@ export const en = {
         text: 'Displays and walls that make your products glow.',
       },
     },
+    journey: {
+      scroll: 'Scroll to step inside',
+      section: 'A walk through a home',
+      room: 'Room {n} of {total}',
+      roomsLabel: 'Rooms',
+      footageNote: 'Stock footage of homes like the ones we design.',
+      arrive: {
+        title: 'Step inside',
+        text: 'Every project starts at the door: how you arrive, where the light falls and how you live.',
+      },
+      rooms: [
+        {
+          title: 'Living room',
+          text: 'Wall panels, a statement light and seating planned around the people who gather here.',
+        },
+        {
+          title: 'Dining room',
+          text: 'Warm wood, a pendant over the table and shelves for the things you love.',
+        },
+        {
+          title: 'Kitchen',
+          text: 'Cabinet fronts, open shelves and light over the counter, planned to your measurements.',
+        },
+        { title: 'Bedroom', text: 'Calm wood, soft lamps and a headboard wall for slow mornings.' },
+        {
+          title: 'Bathroom',
+          text: 'Vanity woodwork, mirror light and storage that keeps the room calm.',
+        },
+      ],
+    },
     processHeading: 'How it works',
     steps: [
       {

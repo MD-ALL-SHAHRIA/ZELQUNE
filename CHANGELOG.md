@@ -7,6 +7,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Interior design page opens with a filmed "step inside" journey: real footage of a house, a walk up to its glass front, then through the living room, dining room, kitchen, bedroom and bathroom, scrubbed by the scroll both ways (one sticky stage, the film held in memory, 720p on phones). Each room's words rise as it arrives; a room list jumps to any room. Reduced motion and data saver get one still per chapter. Footage: Pexels License (public/videos/CREDITS.md).
 - Orders and requests need a customer account (ADR 0021): checkout and the bulk, interior design and construction forms show a "Sign in to continue" card to signed-out visitors (sign in or create an account, then come back), and start prefilled with the account's name, phone and email. The account id is taken from the verified token only. Order and quote tracking and privacy requests stay open without an account.
 
 ### Added

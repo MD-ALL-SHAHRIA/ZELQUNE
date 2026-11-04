@@ -280,6 +280,18 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
   - **Restaurant & Café:** Feature walls, lighting and corners your guests remember.
   - **Hotel:** Lobbies and rooms with one handcrafted signature.
   - **Shop & Showroom:** Displays and walls that make your products glow.
+- **Journey scroll cue:** Scroll to step inside
+- **Journey section label:** A walk through a home
+- **Journey room counter:** Room {n} of {total}
+- **Journey room list label:** Rooms
+- **Journey footage note:** Stock footage of homes like the ones we design.
+- **Journey arrival — Step inside:** Every project starts at the door: how you arrive, where the light falls and how you live.
+- **Journey rooms:**
+  - **Living room:** Wall panels, a statement light and seating planned around the people who gather here.
+  - **Dining room:** Warm wood, a pendant over the table and shelves for the things you love.
+  - **Kitchen:** Cabinet fronts, open shelves and light over the counter, planned to your measurements.
+  - **Bedroom:** Calm wood, soft lamps and a headboard wall for slow mornings.
+  - **Bathroom:** Vanity woodwork, mirror light and storage that keeps the room calm.
 - **Process heading:** How it works
 - **Process steps:**
   - **Consultation:** We visit or call to understand your space, budget and timeline.
