@@ -6,6 +6,10 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Fixed
+- Storefront product page (wide screens): the floating WhatsApp button no longer covers "Add to cart"; it steps aside while the buy buttons are on screen.
+- Home hero (phones): the line and "Explore the collection" come straight after the Wood / Light words, so the way in is on the first screen.
+
 ### Changed
 - Orders and requests need a customer account (ADR 0021): checkout and the bulk, interior design and construction forms show a "Sign in to continue" card to signed-out visitors (sign in or create an account, then come back), and start prefilled with the account's name, phone and email. The account id is taken from the verified token only. Order and quote tracking and privacy requests stay open without an account.
 
