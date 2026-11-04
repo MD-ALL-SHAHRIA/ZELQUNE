@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- The shop's address is now support@zelqune.com (Cloudflare Email Routing to the owner's inbox): default `MAIL_FROM` and the dashboard email placeholder.
+
 ### Fixed
 - Storefront product page (wide screens): the floating WhatsApp button no longer covers "Add to cart"; it steps aside while the buy buttons are on screen.
 - Home hero (phones): the line and "Explore the collection" come straight after the Wood / Light words, so the way in is on the first screen.
