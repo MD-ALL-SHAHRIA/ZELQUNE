@@ -12,8 +12,9 @@ const MARQUEE_CSS = `
 `;
 
 /**
- * The one light band on the dark page: an ivory field with the brand's promises drifting by in
- * the display italic, then the sentence that says what Zelqune is for.
+ * The brand's sentence on cream, then its promises drifting by on a slim walnut ribbon that
+ * runs straight into the dark Services band below (the ribbon is the seam between light and
+ * dark, and the page's accent).
  */
 export function Statement({ dict }: { dict: Dictionary }) {
   const words = dict.premium.marquee;
@@ -21,28 +22,34 @@ export function Statement({ dict }: { dict: Dictionary }) {
     <ul aria-hidden={hidden || undefined} className="flex shrink-0 items-center">
       {words.map((w) => (
         <li key={w} className="flex items-center">
-          <span className="px-6 font-display text-[2rem] italic leading-none sm:px-10 sm:text-[3.2rem] lg:text-[4.2rem] [:lang(bn)_&]:not-italic">
+          <span className="px-6 font-display text-[1.5rem] leading-none italic sm:px-9 sm:text-[2rem] lg:text-[2.4rem] [:lang(bn)_&]:not-italic">
             {w}
           </span>
-          <span aria-hidden className="size-2 shrink-0 rotate-45 bg-walnut" />
+          <span aria-hidden className="size-1.5 shrink-0 rotate-45 bg-current opacity-60" />
         </li>
       ))}
     </ul>
   );
   return (
-    <section className="bg-ink py-20 text-paper sm:py-28">
+    <section className="bg-cream text-ink">
       <style>{MARQUEE_CSS}</style>
-      <div className="marquee overflow-hidden border-y border-paper/15 py-8 sm:py-10">
+      <Container className="reveal flex flex-col items-center py-20 text-center sm:py-24 lg:py-28">
+        {/* A small brass mark: a rule, a diamond, a rule. */}
+        <span aria-hidden className="mb-9 flex items-center gap-3 text-walnut">
+          <span className="h-px w-10 bg-current" />
+          <span className="size-1.5 rotate-45 bg-current" />
+          <span className="h-px w-10 bg-current" />
+        </span>
+        <p className="max-w-[24ch] font-display text-[2rem] leading-[1.12] tracking-[-0.01em] text-balance sm:text-[2.8rem] lg:text-[3.5rem] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.35] [:lang(bn)_&]:tracking-normal">
+          {dict.premium.statement}
+        </p>
+      </Container>
+      <div className="marquee overflow-hidden bg-walnut py-5 text-paper sm:py-6">
         <div className="marquee-run flex w-max">
           {run(false)}
           {run(true)}
         </div>
       </div>
-      <Container className="reveal mt-14 flex flex-col items-center text-center sm:mt-20">
-        <p className="max-w-[22ch] text-balance font-display text-[1.9rem] leading-[1.12] tracking-[-0.01em] sm:text-[2.8rem] lg:text-[3.6rem] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.35] [:lang(bn)_&]:tracking-normal">
-          {dict.premium.statement}
-        </p>
-      </Container>
     </section>
   );
 }

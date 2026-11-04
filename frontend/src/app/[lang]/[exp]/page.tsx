@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
  * Hero (full-bleed crossfade, ink) → featured piece (arch spread, glow) → shop the room (photo
  * with markers, cream) → categories (staggered tall cards) → day/night (edge-to-edge split) →
  * materials (centred specimen sheet) → the making (full-bleed photo, overlapping card, steps) →
- * collection rail (bleeding scroller) → statement (one large sentence) → services (dark bento)
+ * collection rail (bleeding scroller) → clients → statement (one sentence on cream, then a
+ * walnut ribbon of promises as the seam) → services (dark bento)
  * → buy with confidence (trust band) → FAQ (sticky heading, accordion).
  */
 export default async function Home({ params }: { params: PageParams }) {
@@ -83,8 +84,8 @@ export default async function Home({ params }: { params: PageParams }) {
       <Materials dict={dict} lang={lang} />
       <Craft dict={dict} lang={lang} />
       {products.length > 1 ? <ProductRail products={products} lang={lang} dict={dict} /> : null}
-      <Statement dict={dict} />
       <ClientsStrip clients={content?.clients ?? []} dict={dict} />
+      <Statement dict={dict} />
       <Services lang={lang} dict={dict} />
       <TrustBand dict={dict} />
       <FaqPreview lang={lang} dict={dict} />
