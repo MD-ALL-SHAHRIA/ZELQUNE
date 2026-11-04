@@ -2,7 +2,8 @@ import { expect, test } from '@playwright/test';
 
 test('category tabs mark the current section', async ({ page }) => {
   await page.goto('/en/shop');
-  const tabs = page.getByRole('navigation', { name: 'Shop', exact: true });
+  // The header's tabs (the footer has its own "Shop" column).
+  const tabs = page.getByRole('banner').getByRole('navigation', { name: 'Shop', exact: true });
   await expect(tabs.getByRole('link', { name: 'All products' })).toHaveAttribute(
     'aria-current',
     'page',

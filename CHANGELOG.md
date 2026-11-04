@@ -12,6 +12,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ### Changed
 - Shop and category pages: a compact title band (title and line beside a short photo strip), so the first products are on the first screen on laptops and phones; the product grid is two-up on phones, with cards that put the price under the name in a narrow column.
+- Home: the full product rail (every piece with its price) moves up to follow Shop the room, instead of sitting ninth; craft and pre-order steps now come before materials, keeping the paper / cream / espresso bands alternating.
 
 ### Changed
 - Home: the brand sentence now sits on cream and its promises drift by on a slim walnut ribbon that leads into the dark Services band, instead of two espresso bands in a row with a wide gap (70–20–10: cream field, espresso bands, brass/walnut accent). Services starts closer to the ribbon.

@@ -80,10 +80,12 @@ export default async function Home({ params }: { params: PageParams }) {
       <CollectionsRow lang={lang} dict={dict} collections={collections} />
       {featured ? <FeaturedProduct product={featured} lang={lang} dict={dict} /> : null}
       <ShopTheRoom products={products} lang={lang} dict={dict} />
-      <DayNight dict={dict} />
-      <Materials dict={dict} lang={lang} />
-      <Craft dict={dict} lang={lang} />
+      {/* The whole range with prices comes early (it used to sit ninth); the story follows. Bands
+          alternate paper / cream / espresso: rail, Day & Night, craft, materials, statement. */}
       {products.length > 1 ? <ProductRail products={products} lang={lang} dict={dict} /> : null}
+      <DayNight dict={dict} />
+      <Craft dict={dict} lang={lang} />
+      <Materials dict={dict} lang={lang} />
       <ClientsStrip clients={content?.clients ?? []} dict={dict} />
       <Statement dict={dict} />
       <Services lang={lang} dict={dict} />
