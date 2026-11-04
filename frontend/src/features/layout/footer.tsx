@@ -66,70 +66,76 @@ export function Footer({
     contact?.instagram ? { href: contact.instagram, label: f.instagram } : null,
   ].filter((x): x is { href: string; label: string } => !!x);
   return (
-    <footer className="tone-dark relative isolate mt-28 overflow-hidden bg-night text-ivory">
-      {/* Lamp light: a warm glow behind the invitation, a fainter one low on the left. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-64 right-[-12rem] -z-10 size-[52rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-glow)_18%,transparent),transparent)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-[-20rem] left-[-16rem] -z-10 size-[40rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-brass)_10%,transparent),transparent)]"
-      />
+    <footer className="tone-dark relative isolate mt-44 flow-root bg-night text-ivory sm:mt-56">
+      {/* Lamp light: a warm glow under the invitation, a fainter one low on the left. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-[-14rem] right-[-10rem] size-[50rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-glow)_14%,transparent),transparent)]" />
+        <div className="absolute bottom-[-20rem] left-[-16rem] size-[40rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-brass)_9%,transparent),transparent)]" />
+      </div>
 
-      {/* The invitation: start a project, framed by the brand's arch. */}
-      <Container className="pt-20 sm:pt-28">
-        <div className="grid items-end gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-7">
-            <p className="flex items-center gap-4 text-[0.7rem] font-medium uppercase tracking-eyebrow text-brass [:lang(bn)_&]:text-[0.85rem] [:lang(bn)_&]:tracking-normal">
-              <span aria-hidden className="h-px w-10 bg-brass" />
-              {f.ctaEyebrow}
-            </p>
-            <p className="mt-8 max-w-[16ch] font-display text-[clamp(2.6rem,1.5rem+4vw,5.6rem)] font-medium leading-[0.98] tracking-[-0.02em] text-balance [:lang(bn)_&]:max-w-[20ch] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal">
-              {f.ctaHeading}
-            </p>
-            <p className="mt-7 max-w-xl text-base leading-relaxed text-ivory/75 sm:text-lg">
-              {f.ctaText}
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <ButtonLink
-                href={`${href(lang, '/design')}#consult`}
-                size="lg"
-                className="bg-ivory text-espresso before:bg-glow"
-              >
-                {f.ctaDesign}
-              </ButtonLink>
-              <ButtonLink href={href(lang, '/shop')} size="lg" variant="light">
-                {f.ctaShop}
-              </ButtonLink>
+      {/* The invitation: a walnut card that rests on the footer's top edge, half over the page,
+          with a room framed by the brand's arch. Fixed walnut tones, so it stands apart from
+          both the page and the footer in either theme. */}
+      <Container>
+        <div className="relative -mt-28 overflow-hidden bg-[linear-gradient(135deg,#8c6a3b_0%,#6f522c_55%,#5b4224_100%)] shadow-[0_40px_90px_-40px_rgba(20,12,8,0.75)] ring-1 ring-[#e9b872]/25 sm:-mt-36">
+          {/* Fine grain of wood: soft vertical lines across the card. */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-[0.035] [background:repeating-linear-gradient(90deg,#fff_0_1px,transparent_1px_14px)]"
+          />
+          <div className="relative grid lg:grid-cols-12">
+            <div className="px-6 py-12 sm:px-12 sm:py-16 lg:col-span-7 lg:py-20 lg:pr-6 lg:pl-16">
+              <p className="flex items-center gap-4 text-[0.7rem] font-medium uppercase tracking-eyebrow text-[#f4dcb0] [:lang(bn)_&]:text-[0.85rem] [:lang(bn)_&]:tracking-normal">
+                <span aria-hidden className="h-px w-10 bg-[#f4dcb0]" />
+                {f.ctaEyebrow}
+              </p>
+              <p className="mt-7 max-w-[15ch] font-display text-[clamp(2.4rem,1.4rem+3.6vw,5rem)] font-medium leading-[0.98] tracking-[-0.02em] text-balance text-[#fdf8f0] [:lang(bn)_&]:max-w-[20ch] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal">
+                {f.ctaHeading}
+              </p>
+              <p className="mt-6 max-w-lg text-base leading-relaxed text-[#fdf8f0]/85 sm:text-lg">
+                {f.ctaText}
+              </p>
+              <div className="mt-10 flex flex-wrap gap-3 sm:gap-4">
+                <ButtonLink
+                  href={`${href(lang, '/design')}#consult`}
+                  size="lg"
+                  className="bg-[#fdf8f0] text-espresso before:bg-[#f4dcb0]"
+                >
+                  {f.ctaDesign}
+                </ButtonLink>
+                <ButtonLink
+                  href={href(lang, '/shop')}
+                  size="lg"
+                  variant="light"
+                  className="border-[#fdf8f0]/70 text-[#fdf8f0] before:bg-[#fdf8f0] hover:text-espresso"
+                >
+                  {f.ctaShop}
+                </ButtonLink>
+              </div>
             </div>
-          </div>
-          <div className="relative mx-auto w-full max-w-[22rem] lg:col-span-5 lg:mr-0 lg:max-w-[26rem]">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-t-full ring-1 ring-ivory/15">
-              <Image
-                src="/images/design/design-journey-4.webp"
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 26rem, 22rem"
-                className="object-cover object-[45%_50%] transition-transform duration-[1.6s] ease-out-soft hover:scale-105"
-              />
+            {/* The room, in an arch that stands on the card's lower edge. */}
+            <div className="relative hidden lg:col-span-5 lg:block">
+              <div className="absolute inset-x-12 top-14 bottom-0 overflow-hidden rounded-t-full ring-1 ring-[#f4dcb0]/30">
+                <Image
+                  src="/images/design/design-journey-4.webp"
+                  alt=""
+                  fill
+                  sizes="28rem"
+                  className="object-cover object-[45%_50%] transition-transform duration-[1.6s] ease-out-soft hover:scale-105"
+                />
+              </div>
               <span
                 aria-hidden
-                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(26,18,15,.55))]"
+                className="pointer-events-none absolute inset-x-8 top-10 bottom-0 rounded-t-full border border-b-0 border-[#f4dcb0]/35"
               />
             </div>
-            {/* A thin brass arch traced just outside the photo. */}
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -inset-x-3 -top-3 bottom-0 rounded-t-full border border-b-0 border-brass/30"
-            />
           </div>
         </div>
       </Container>
 
       {/* Brand and contact, then the links. */}
-      <Container className="mt-20 sm:mt-28">
-        <div className="grid gap-14 border-t border-ivory/15 pt-14 sm:pt-16 lg:grid-cols-12 lg:gap-10">
+      <Container className="mt-20 sm:mt-24">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
             <LogoMark className="h-9 text-ivory sm:h-10" />
             <p className="mt-6 max-w-[26ch] font-display text-2xl leading-snug text-ivory/90 [:lang(bn)_&]:leading-normal">
@@ -242,7 +248,7 @@ export function Footer({
           </svg>
         </Container>
       </div>
-      <div className="relative border-t border-ivory/10 bg-night">
+      <div className="relative bg-[#2a1d17]">
         <Container className="flex flex-col items-center gap-4 py-6 text-[0.8rem] text-ivory/65 sm:flex-row sm:flex-wrap sm:justify-between">
           <p>{f.copyright}</p>
           {business ? <p className="text-ivory/55">{business}</p> : null}
