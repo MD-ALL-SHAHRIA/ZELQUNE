@@ -11,6 +11,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Home hero (phones): the line and "Explore the collection" come straight after the Wood / Light words, so the way in is on the first screen.
 
 ### Changed
+- Shop and category pages: a compact title band (title and line beside a short photo strip), so the first products are on the first screen on laptops and phones; the product grid is two-up on phones, with cards that put the price under the name in a narrow column.
+
+### Changed
 - Home: the brand sentence now sits on cream and its promises drift by on a slim walnut ribbon that leads into the dark Services band, instead of two espresso bands in a row with a wide gap (70–20–10: cream field, espresso bands, brass/walnut accent). Services starts closer to the ribbon.
 - Footer redesigned: a walnut invitation card resting on the footer's top edge (book a design consultation or shop, beside a photo in the brand arch), so the footer stands apart from the page, the brand block with labelled contact details, link columns with a brass hover rule, a fading brass wordmark resting on a deeper bottom bar, and a back-to-top link.
 - Interior design page opens with a filmed "step inside" journey: real footage of a house, a walk up to its glass front, then through the living room, dining room, kitchen, bedroom and bathroom, scrubbed by the scroll both ways (one sticky stage, the film held in memory, 720p on phones). Each room's words rise as it arrives; a room list jumps to any room. Reduced motion and data saver get one still per chapter. Footage: Pexels License (public/videos/CREDITS.md).

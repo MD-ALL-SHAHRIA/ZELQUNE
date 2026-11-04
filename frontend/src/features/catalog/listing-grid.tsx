@@ -78,8 +78,8 @@ const STICKY = 'top-[var(--header-h,6.875rem)] lg:top-[var(--header-h,8.625rem)]
 
 /** Position of the editorial tile: after the first row of products (or at the end). */
 const EDITORIAL_AFTER = 3;
-/** Editorial tile width by products-per-row remainder (2 columns on sm, 3 on lg). */
-const SPAN_SM = ['sm:col-span-2', 'sm:col-span-1'] as const;
+/** Editorial tile width on lg (3 columns) by products-per-row remainder; below lg it spans the
+ * two columns and the dense flow fills the gap it leaves. */
 const SPAN_LG = ['lg:col-span-3', 'lg:col-span-2', 'lg:col-span-1'] as const;
 
 /**
@@ -151,7 +151,6 @@ export function ListingGrid({
   const showEditorial = !!editorial && !dirty && shown.length > 0;
   const editorialAt = Math.min(EDITORIAL_AFTER, shown.length);
   // The tile fills what the last row leaves open, so the grid always ends flush.
-  const n2 = shown.length % 2;
   const n3 = shown.length % 3;
 
   const clearButton = dirty ? (
@@ -273,7 +272,7 @@ export function ListingGrid({
       {shown.length ? (
         // The list is display:contents so the editorial tile can sit between products (CSS
         // order) while the list itself only ever holds products.
-        <div className="grid gap-x-5 gap-y-14 pt-10 sm:grid-cols-2 sm:gap-y-16 md:pt-14 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-24">
+        <div className="grid grid-flow-dense grid-cols-2 gap-x-3 lg:grid-flow-row gap-y-10 pt-6 sm:gap-x-5 sm:gap-y-16 md:pt-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-20">
           <ul className="contents" data-testid="product-grid">
             {shown.map((i, idx) => (
               <li
@@ -287,7 +286,7 @@ export function ListingGrid({
             ))}
           </ul>
           {showEditorial ? (
-            <div className={cn(SPAN_SM[n2], SPAN_LG[n3])} style={{ order: editorialAt }}>
+            <div className={cn('col-span-2', SPAN_LG[n3])} style={{ order: editorialAt }}>
               {editorial}
             </div>
           ) : null}

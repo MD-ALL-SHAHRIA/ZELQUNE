@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { SAMPLE } from '@/content/sample-images';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
-import { fill, formatNumber } from '@/i18n/format';
 import { type Category } from '@/shared/api/types';
 import { cn } from '@/shared/lib/cn';
 import { href } from '@/shared/lib/site';
@@ -29,8 +28,9 @@ const catName = (c: { nameEn: string; nameBn: string }, lang: Locale) =>
   lang === 'bn' ? c.nameBn : c.nameEn;
 
 /**
- * Shop and category listing pages (RH-style): a title band with the category's own photography,
- * breadcrumb, category pills, then the slim toolbar and a calm grid of large product images.
+ * Shop and category listing pages (RH-style): a compact title band (title and line beside a
+ * short strip of the category's own photography, so the first products show on the first
+ * screen), breadcrumb, category pills, then the slim toolbar and the grid.
  */
 export function ListingPage({
   lang,
@@ -94,9 +94,17 @@ export function ListingPage({
           </nav>
         </Container>
 
-        <Container className="grid items-end gap-8 pb-10 pt-6 md:pb-14 lg:grid-cols-12 lg:gap-12 lg:pb-16 lg:pt-8">
-          <div className="relative order-1 lg:order-2 lg:col-span-7">
-            <div className="relative -mx-5 aspect-[3/2] overflow-hidden bg-sand md:mx-0 lg:aspect-[16/11]">
+        <Container className="grid items-end gap-5 pb-6 pt-4 md:gap-8 md:pb-8 lg:grid-cols-12 lg:gap-12 lg:pt-6">
+          <div className="space-y-3 lg:col-span-5 lg:space-y-4 lg:pb-2">
+            <Eyebrow>{active ? dict.nav2.byCategory : dict.nav.shop}</Eyebrow>
+            <Heading as="h1" level="h1">
+              {title}
+            </Heading>
+            {line ? <Lead className="max-w-md text-pretty text-[0.98rem]">{line}</Lead> : null}
+          </div>
+
+          <div className="relative lg:col-span-7">
+            <div className="relative -mx-5 aspect-[5/2] overflow-hidden bg-sand md:mx-0 lg:aspect-[16/6]">
               <Image
                 src={SAMPLE[wide].src}
                 alt=""
@@ -106,35 +114,24 @@ export function ListingPage({
                 className="object-cover"
               />
             </div>
-            {/* The arch: the brand's one curved motif, as a detail photo overlapping the frame. */}
-            <div className="absolute -bottom-6 -left-10 hidden w-[24%] border-[6px] border-paper bg-paper xl:block rounded-t-[999px]">
+            {/* The arch: the brand's one curved motif, as a detail photo rising from the strip. */}
+            <div className="absolute -bottom-4 -left-8 hidden w-[15%] rounded-t-[999px] border-[5px] border-paper bg-paper xl:block">
               <div className="relative aspect-[3/4] overflow-hidden rounded-t-[999px] bg-sand">
                 <Image
                   src={SAMPLE[detail].src}
                   alt=""
                   fill
-                  sizes="200px"
+                  sizes="140px"
                   className="object-cover"
                 />
               </div>
             </div>
           </div>
-
-          <div className="order-2 space-y-5 lg:order-1 lg:col-span-5 lg:pb-4">
-            <Eyebrow>{active ? dict.nav2.byCategory : dict.nav.shop}</Eyebrow>
-            <Heading as="h1" level="display">
-              {title}
-            </Heading>
-            {line ? <Lead className="max-w-md text-pretty">{line}</Lead> : null}
-            <p className="text-sm text-stone">
-              {fill(dict.listing.results, { n: formatNumber(products.length, lang) })}
-            </p>
-          </div>
         </Container>
       </header>
 
-      <Container className="pb-24 pt-6 md:pt-8">
-        <nav aria-label={dict.nav2.byCategory} className="mb-6 md:mb-8">
+      <Container className="pb-24 pt-2 md:pt-4">
+        <nav aria-label={dict.nav2.byCategory} className="mb-2 md:mb-4">
           <ul className="scrollbar-none -mx-5 flex gap-7 overflow-x-auto px-5 md:mx-0 md:gap-10 md:px-0">
             {pills.map((p) => (
               <li key={p.key} className="shrink-0">

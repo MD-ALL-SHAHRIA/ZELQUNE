@@ -12,11 +12,12 @@ import { productName } from './product-copy';
 import { PriceTag, priceCopy } from '@/features/offers/price-tag';
 import { SaleBadge } from './sale-badge';
 
-const DEFAULT_SIZES = '(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 92vw';
+const DEFAULT_SIZES = '(min-width: 1024px) 31vw, 48vw';
 
 /**
  * Product tile in the RH / Ferm Living manner: a large image on a soft neutral field (the second
- * photo fades in on hover), the sale-mode badge, name, price and the finish swatches.
+ * photo fades in on hover), the sale-mode badge, name, price and the finish swatches. A size
+ * container: in a narrow column (two-up on phones) the price sits under the name.
  */
 export function ProductCard({
   product,
@@ -50,7 +51,7 @@ export function ProductCard({
   return (
     <Link
       href={href(lang, `/products/${product.slug}`)}
-      className="group block focus-visible:outline-offset-4"
+      className="group @container block focus-visible:outline-offset-4"
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-sand shadow-[0_0_0_0_transparent] transition-[transform,box-shadow] duration-700 ease-out-soft group-hover:-translate-y-1.5 group-hover:shadow-[0_36px_60px_-34px_rgba(227,168,87,0.6)] motion-reduce:transform-none">
         {first ? (
@@ -79,7 +80,7 @@ export function ProductCard({
             )}
           />
         ) : null}
-        <div className="absolute left-3 top-3 right-3">
+        <div className="absolute left-2 top-2 right-2 @[15rem]:left-3 @[15rem]:top-3 @[15rem]:right-3">
           <SaleBadge
             dict={dict}
             lang={lang}
@@ -89,9 +90,9 @@ export function ProductCard({
           />
         </div>
       </div>
-      <div className="mt-5 space-y-2.5">
-        <div className="flex items-baseline justify-between gap-4">
-          <Title className="font-display text-[1.45rem] font-medium leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
+      <div className="mt-3 space-y-2 @[15rem]:mt-5 @[15rem]:space-y-2.5">
+        <div className="flex flex-col gap-1 @[15rem]:flex-row @[15rem]:items-baseline @[15rem]:justify-between @[15rem]:gap-4">
+          <Title className="font-display text-[1.15rem] font-medium @[15rem]:text-[1.45rem] leading-tight underline-offset-[5px] decoration-1 group-hover:underline [:lang(bn)_&]:text-base @[15rem]:[:lang(bn)_&]:text-lg [:lang(bn)_&]:font-normal">
             {name}
           </Title>
           {product.fromPrice ? (

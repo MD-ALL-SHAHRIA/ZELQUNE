@@ -41,7 +41,7 @@ export function PriceTag({
   const off = regular ? percentOff(regular, price.amountPaisa) : 0;
   const page = size === 'page';
   return (
-    <div className={cn('flex flex-col', page ? 'gap-3' : 'items-end gap-1')}>
+    <div className={cn('flex flex-col', page ? 'gap-3' : 'items-start gap-1 @[15rem]:items-end')}>
       <div className={cn('flex items-baseline', page ? 'gap-4' : 'gap-2')}>
         <span
           data-testid={page ? 'price' : undefined}
