@@ -182,6 +182,8 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 ### Navigation
 - **Menu:** Menu · Close menu · Our story
 - **Footer columns:** Shop · Help · Company
+- **Footer invitation:** Start a project · Let’s bring warmth to your space. · Tell us about your home, shop or café. We design it, make the woodwork and light in our workshop, and install it. · Book a design consultation · Shop the collection
+- **Footer details:** Handcrafted in Dhaka, Bangladesh · Call · Email · Follow · Back to top
 - **Announcement:** Pre-orders are open · ৳300 advance, the rest on delivery
 
 ### Landing page

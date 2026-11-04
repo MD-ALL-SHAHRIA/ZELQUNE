@@ -42,6 +42,16 @@
     --sticky-bar-h: var(--sticky-bar-height, 4.5rem);
   }
 }
+/* Wide screens have no sticky bar, so the WhatsApp button would sit on top of the product
+   page's buy buttons (e.g. "Add to cart" on a 1440x900 laptop). It steps aside while they are
+   on screen and comes back once they scroll away. */
+@media (min-width: 1024px) {
+  :root:has([data-buy-cta-in-view]) [data-testid='whatsapp-fab'] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
 
 @layer base {
   html {

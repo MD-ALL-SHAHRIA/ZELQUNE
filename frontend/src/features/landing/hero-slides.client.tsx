@@ -163,7 +163,7 @@ function Panels({
   load: boolean;
 }) {
   return (
-    <div className="relative grid h-full grid-rows-[auto_auto_1fr] gap-6 px-5 pt-8 pb-28 md:px-10 lg:block lg:p-0">
+    <div className="relative grid h-full grid-rows-[auto_auto_auto_1fr] gap-6 px-5 pt-8 pb-28 md:px-10 lg:block lg:p-0">
       {/* Faint column lines, like a drawing sheet. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
         <span className="absolute inset-y-0 left-[34%] w-px bg-ivory/[0.07]" />
@@ -184,7 +184,7 @@ function Panels({
       </p>
 
       {/* The tall photo in the middle column; it opens out from a small frame in the centre. */}
-      <figure className="slide-reveal relative order-3 aspect-[4/5] overflow-hidden bg-espresso lg:absolute lg:inset-y-0 lg:left-[34%] lg:aspect-auto lg:w-[32%]">
+      <figure className="slide-reveal relative order-4 aspect-[4/5] overflow-hidden bg-espresso lg:absolute lg:inset-y-0 lg:left-[34%] lg:aspect-auto lg:w-[32%]">
         {load ? (
           <Image
             src={s.main.src}
@@ -235,7 +235,7 @@ function Panels({
       </p>
 
       {/* Two more pieces, small, bottom left. */}
-      <ul className="order-4 hidden gap-[3%] lg:absolute lg:bottom-10 lg:left-10 lg:flex lg:w-[28%]">
+      <ul className="order-5 hidden gap-[3%] lg:absolute lg:bottom-10 lg:left-10 lg:flex lg:w-[28%]">
         {s.cards.map((c, i) => (
           <li key={c.src} className="slide-card w-1/2" style={{ '--i': i } as React.CSSProperties}>
             <Link
@@ -267,8 +267,9 @@ function Panels({
         ))}
       </ul>
 
-      {/* The line and the way in, right column. */}
-      <div className="slide-fade order-5 space-y-7 lg:absolute lg:top-[58%] lg:right-10 lg:w-[26%] lg:text-center">
+      {/* The line and the way in, right column. On phones it comes straight after the words, so
+          the way in is on the first screen and the photo follows. */}
+      <div className="slide-fade order-3 space-y-5 lg:absolute lg:space-y-7 lg:top-[58%] lg:right-10 lg:w-[26%] lg:text-center">
         <p className="text-[1.05rem] leading-relaxed text-ivory/80">{s.side}</p>
         <div className="lg:flex lg:justify-center">
           <Actions slide={s} />
