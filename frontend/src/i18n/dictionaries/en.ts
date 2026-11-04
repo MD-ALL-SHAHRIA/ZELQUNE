@@ -915,18 +915,31 @@ export const en = {
     },
     journey: {
       scroll: 'Scroll to step inside',
-      scenes: [
+      section: 'A walk through a home',
+      room: 'Room {n} of {total}',
+      roomsLabel: 'Rooms',
+      footageNote: 'Stock footage of homes like the ones we design.',
+      arrive: {
+        title: 'Step inside',
+        text: 'Every project starts at the door: how you arrive, where the light falls and how you live.',
+      },
+      rooms: [
         {
-          title: 'Through the door',
-          text: 'It starts with a visit or a call: how you arrive, where the light falls and how you live.',
+          title: 'Living room',
+          text: 'Wall panels, a statement light and seating planned around the people who gather here.',
         },
         {
-          title: 'Room by room',
-          text: 'We plan each room around the people in it, then choose the wood, the light and the layout.',
+          title: 'Dining room',
+          text: 'Warm wood, a pendant over the table and shelves for the things you love.',
         },
         {
-          title: 'Down to the detail',
-          text: 'Shelves, panels and lamps made in our workshop to your measurements.',
+          title: 'Kitchen',
+          text: 'Cabinet fronts, open shelves and light over the counter, planned to your measurements.',
+        },
+        { title: 'Bedroom', text: 'Calm wood, soft lamps and a headboard wall for slow mornings.' },
+        {
+          title: 'Bathroom',
+          text: 'Vanity woodwork, mirror light and storage that keeps the room calm.',
         },
       ],
     },

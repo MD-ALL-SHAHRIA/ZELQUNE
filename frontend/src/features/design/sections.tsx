@@ -15,8 +15,7 @@ import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { ProjectGrid, type Project } from '@/features/showcase/project-grid';
 import { SplitText } from '@/shared/ui/split-text';
 import { ConsultationForm } from './consultation-form';
-import { DesignJourney, type Scene } from './design-journey.client';
-import { SAMPLE } from '@/content/sample-images';
+import { DesignJourney } from './design-journey.client';
 import { OrbitProcess } from './orbit-process';
 import { SECTORS, sectorImages, type SectorSpace } from './sectors';
 
@@ -392,21 +391,13 @@ export function ConsultSection({
 }
 
 /**
- * The design overview's opening: the building, then a step through the door into the home, a
- * room and its details (DesignJourney), with the page's h1 over the first scene.
+ * The design overview's opening: a filmed walk from a real house into its rooms (DesignJourney),
+ * with the page's h1 over the building.
  */
 export function DesignIntroJourney({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const d = dict.design;
   const j = d.journey;
-  const rooms: Pick<Scene, 'image' | 'focus'>[] = [
-    { image: '/images/design/journey-home.webp', focus: [0.3, 0.5] },
-    { image: SAMPLE.livingShelves.src, focus: [0.5, 0.55] },
-    { image: SAMPLE.shelvesDecor.src, focus: [0.5, 0.5] },
-  ];
-  const scenes: Scene[] = [
-    { image: '/images/design/journey-outside.webp', focus: [0.45, 0.47], title: '', text: '' },
-    ...j.scenes.map((words, k) => ({ ...rooms[k]!, ...words })),
-  ];
+  const still = (n: number) => `/images/design/design-journey-${n}.webp`;
   const intro = (
     <div className="max-w-3xl space-y-6">
       <Eyebrow className="flex items-center gap-4 text-ivory/80">
@@ -422,9 +413,24 @@ export function DesignIntroJourney({ lang, dict }: { lang: Locale; dict: Diction
           {d.button}
           <span aria-hidden>↓</span>
         </ButtonLink>
-        <span className="text-[0.65rem] text-ivory/55">{dict.landing.sampleNote}</span>
+        <span className="text-[0.65rem] text-ivory/55">{j.footageNote}</span>
       </div>
     </div>
   );
-  return <DesignJourney key={lang} scenes={scenes} intro={intro} scrollLabel={j.scroll} />;
+  return (
+    <DesignJourney
+      key={lang}
+      lang={lang}
+      intro={{ content: intro, still: still(1) }}
+      arrive={{ ...j.arrive, still: still(2) }}
+      rooms={j.rooms.map((words, k) => ({ ...words, still: still(k + 3) }))}
+      film={{
+        src: '/videos/design-journey.mp4',
+        small: '/videos/design-journey-720.mp4',
+        poster: '/videos/design-journey.jpg',
+        chapterSeconds: 4,
+      }}
+      labels={{ scroll: j.scroll, section: j.section, room: j.room, rooms: j.roomsLabel }}
+    />
+  );
 }
