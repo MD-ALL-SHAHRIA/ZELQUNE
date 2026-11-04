@@ -36,6 +36,17 @@ export const en = {
     returns: 'Returns',
     privacy: 'Privacy',
     copyright: '© 2026 Zelqune. All rights reserved.',
+    ctaEyebrow: 'Start a project',
+    ctaHeading: 'Let’s bring warmth to your space.',
+    ctaText:
+      'Tell us about your home, shop or café. We design it, make the woodwork and light in our workshop, and install it.',
+    ctaDesign: 'Book a design consultation',
+    ctaShop: 'Shop the collection',
+    made: 'Handcrafted in Dhaka, Bangladesh',
+    call: 'Call',
+    email: 'Email',
+    follow: 'Follow',
+    backToTop: 'Back to top',
   },
   home: {
     heroHeading: 'Handcrafted wood and gentle light, for walls that tell a',
@@ -912,6 +923,36 @@ export const en = {
         title: 'Shop & Showroom',
         text: 'Displays and walls that make your products glow.',
       },
+    },
+    journey: {
+      scroll: 'Scroll to step inside',
+      section: 'A walk through a home',
+      room: 'Room {n} of {total}',
+      roomsLabel: 'Rooms',
+      footageNote: 'Stock footage of homes like the ones we design.',
+      arrive: {
+        title: 'Step inside',
+        text: 'Every project starts at the door: how you arrive, where the light falls and how you live.',
+      },
+      rooms: [
+        {
+          title: 'Living room',
+          text: 'Wall panels, a statement light and seating planned around the people who gather here.',
+        },
+        {
+          title: 'Dining room',
+          text: 'Warm wood, a pendant over the table and shelves for the things you love.',
+        },
+        {
+          title: 'Kitchen',
+          text: 'Cabinet fronts, open shelves and light over the counter, planned to your measurements.',
+        },
+        { title: 'Bedroom', text: 'Calm wood, soft lamps and a headboard wall for slow mornings.' },
+        {
+          title: 'Bathroom',
+          text: 'Vanity woodwork, mirror light and storage that keeps the room calm.',
+        },
+      ],
     },
     processHeading: 'How it works',
     steps: [

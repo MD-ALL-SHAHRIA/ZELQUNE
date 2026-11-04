@@ -11,6 +11,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Home hero (phones): the line and "Explore the collection" come straight after the Wood / Light words, so the way in is on the first screen.
 
 ### Changed
+- Home: the brand sentence now sits on cream and its promises drift by on a slim walnut ribbon that leads into the dark Services band, instead of two espresso bands in a row with a wide gap (70–20–10: cream field, espresso bands, brass/walnut accent). Services starts closer to the ribbon.
+- Footer redesigned: a walnut invitation card resting on the footer's top edge (book a design consultation or shop, beside a photo in the brand arch), so the footer stands apart from the page, the brand block with labelled contact details, link columns with a brass hover rule, a fading brass wordmark resting on a deeper bottom bar, and a back-to-top link.
+- Interior design page opens with a filmed "step inside" journey: real footage of a house, a walk up to its glass front, then through the living room, dining room, kitchen, bedroom and bathroom, scrubbed by the scroll both ways (one sticky stage, the film held in memory, 720p on phones). Each room's words rise as it arrives; a room list jumps to any room. Reduced motion and data saver get one still per chapter. Footage: Pexels License (public/videos/CREDITS.md).
 - Orders and requests need a customer account (ADR 0021): checkout and the bulk, interior design and construction forms show a "Sign in to continue" card to signed-out visitors (sign in or create an account, then come back), and start prefilled with the account's name, phone and email. The account id is taken from the verified token only. Order and quote tracking and privacy requests stay open without an account.
 
 ### Added
