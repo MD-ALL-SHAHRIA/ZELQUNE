@@ -196,7 +196,11 @@ export function Purchase({
       ) : null}
 
       <div className="space-y-6">
-        <div ref={ctaRef} className="grid gap-3">
+        <div
+          ref={ctaRef}
+          data-buy-cta-in-view={barVisible ? undefined : ''}
+          className="grid gap-3"
+        >
           <Button size="lg" disabled={busy || !variant?.price} onClick={() => buy(true)}>
             {primaryLabel}
           </Button>
