@@ -343,7 +343,7 @@ export function DesignJourney({
               words.current[i + 1] = n;
             }}
             style={{ opacity: 0, visibility: 'hidden' }}
-            className="pointer-events-none absolute inset-x-0 bottom-28 px-5 sm:px-10 md:bottom-32 lg:px-16"
+            className="pointer-events-none absolute inset-x-0 bottom-28 px-5 sm:px-10 md:bottom-32 lg:bottom-44 lg:px-16"
           >
             <ChapterWords
               c={c}
@@ -362,7 +362,7 @@ export function DesignJourney({
         <nav
           aria-label={labels.rooms}
           className={cn(
-            'absolute inset-x-0 bottom-0 pr-24 pb-8 pl-5 transition-opacity duration-500 sm:pl-10 md:pb-9 lg:pr-64 lg:pl-16',
+            'absolute inset-x-0 bottom-0 pr-24 pb-8 pl-5 transition-opacity duration-500 sm:pl-10 md:pb-9 lg:pb-28 lg:px-16',
             active === 0 ? 'opacity-0' : 'opacity-100',
           )}
         >
