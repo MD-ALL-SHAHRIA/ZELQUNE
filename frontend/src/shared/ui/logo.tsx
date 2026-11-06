@@ -7,6 +7,7 @@ import { cn } from '@/shared/lib/cn';
 export function LogoMark({ className, title }: { className?: string; title?: string }) {
   return (
     <svg
+      data-protect
       viewBox="490 359 274 343"
       className={cn('h-8 w-auto', className)}
       role={title ? 'img' : undefined}

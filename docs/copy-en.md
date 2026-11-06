@@ -566,8 +566,14 @@ These terms apply when you use this website or order from Zelqune. Please read t
 
 **Using this website**
 
-- The text, photos and designs on this website belong to Zelqune or the people who licensed them to us. Please do not copy them for commercial use without our permission.
 - Please do not misuse the website, for example by sending false orders or trying to break its security.
+
+**Copyright**
+
+- All text, photos, videos, product designs, and the Zelqune name and logo on this website are protected by copyright and belong to Zelqune or to the people who licensed them to us. © 2026 Zelqune. All rights reserved.
+- You may not copy, download, save, reproduce, sell or reuse any of them, including our product designs, in any form or for any purpose without our written permission. This includes using them to train AI systems.
+- If we find our photos, videos or designs used without permission, we will ask for them to be removed and may take legal action under the Copyright Act, 2023 of Bangladesh.
+- To ask permission, or to report a copy of our work, contact us.
 
 **Law**
 

@@ -61,6 +61,12 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
     ...(dict ? { description: dict.brand.seoDescription } : {}),
+    // Ownership on every page, and a request not to use our photos and words for AI training
+    // (honoured by the crawlers that support "noai"/"noimageai").
+    other: {
+      copyright: dict?.footer.copyright ?? '© Zelqune',
+      robots: 'noai, noimageai',
+    },
   };
 }
 

@@ -10,6 +10,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Cookie notice: the card sits bottom right on wide screens (was bottom left); the WhatsApp button steps aside while it is open and returns after the choice.
 
 ### Added
+- Content protection: photos, videos and the logo can no longer be saved with right-click or long-press, or dragged out of the page, on every page including images added later (it cannot stop screenshots). Every page carries a copyright meta tag and `robots: noai, noimageai`; robots.txt blocks AI-training crawlers (GPTBot, CCBot, Google-Extended, ClaudeBot and others), not search engines. Terms (EN + BN) get a Copyright section: all rights reserved, no copying, downloading or AI training without written permission, action under the Copyright Act, 2023.
+
+### Added
 - Product page: "Order today, delivered by 20 November" in the delivery card: the lead time plus the longest courier time we promise (2 days in Dhaka, 4 outside, 4 until a district is chosen), worked out in the browser in Dhaka time. The pre-order note now mentions cash on delivery.
 - SMS when a shop order is marked delivered: a thank-you that asks the customer to send a photo of the piece on their wall and a few words (by reply, WhatsApp or Facebook), so the shop can collect real reviews and customer photos. Sent once per order; bulk (B2B) orders are skipped. Goes out once an SMS provider is connected.
 
