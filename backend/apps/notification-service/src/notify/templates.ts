@@ -31,6 +31,10 @@ export const templates = {
   orderConfirmedCod(o: OrderInfo): string {
     return `Zelqune: অর্ডার ${o.code} নিশ্চিত হয়েছে। ডেলিভারির সময় ${formatTaka(o.totalPaisa)} দিতে হবে।`;
   },
+  /** After delivery: thanks, and a real review or photo if they like it (never incentivised). */
+  orderDelivered(o: OrderInfo): string {
+    return `Zelqune: অর্ডার ${o.code} পৌঁছেছে, ধন্যবাদ! কেমন লাগলো? দেয়ালে লাগানোর পর একটা ছবি আর দুই লাইন মতামত এই নম্বরে রিপ্লাই বা আমাদের WhatsApp/Facebook-এ পাঠালে খুব খুশি হব।`;
+  },
   orderCancelled(o: OrderInfo, reason: string): string {
     const why =
       reason === 'PAYMENT_TIMEOUT' ? 'নির্দিষ্ট সময়ে পেমেন্ট না পাওয়ায়' : 'অনিবার্য কারণে';

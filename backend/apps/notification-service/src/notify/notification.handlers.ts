@@ -4,6 +4,7 @@ import {
   orderCancelled,
   orderConfirmed,
   orderPlaced,
+  orderStatusChanged,
   paymentVerified,
   privacyErased,
   quoteRequested,
@@ -32,6 +33,9 @@ export class NotificationEventHandlers implements OnModuleInit {
     );
     this.consumer.subscribe(orderConfirmed.type, 'notification.orderConfirmed', (e, t) =>
       n.onOrderConfirmed(e, tx(t)),
+    );
+    this.consumer.subscribe(orderStatusChanged.type, 'notification.orderStatusChanged', (e, t) =>
+      n.onOrderStatusChanged(e, tx(t)),
     );
     this.consumer.subscribe(orderCancelled.type, 'notification.orderCancelled', (e, t) =>
       n.onOrderCancelled(e, tx(t)),

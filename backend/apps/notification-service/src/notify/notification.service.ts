@@ -6,6 +6,7 @@ import {
   orderCancelled,
   orderConfirmed,
   orderPlaced,
+  orderStatusChanged,
   paymentVerified,
   privacyErased,
   quoteRequested,
@@ -104,6 +105,20 @@ export class NotificationService {
       'order.confirmed.cod',
       contact.phone,
       templates.orderConfirmedCod(contact),
+    );
+  }
+
+  /** Delivered shop orders get a thank-you that asks for a photo and a few words. */
+  async onOrderStatusChanged(event: EventEnvelope, tx: Tx): Promise<void> {
+    const p = orderStatusChanged.parse(event).payload;
+    if (p.to !== 'DELIVERED' || p.channel !== 'B2C') return;
+    const contact = await this.requireContact(tx, p.orderId);
+    await this.send(
+      tx,
+      event.id,
+      'order.delivered',
+      contact.phone,
+      templates.orderDelivered(contact),
     );
   }
 
