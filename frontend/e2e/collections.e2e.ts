@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test';
 
 test.use({ viewport: { width: 1280, height: 800 } });
 
-test('collections come from the catalog, link to their category and scroll with the arrows', async ({
+test('collections come from the catalog, each an arch that links to its category', async ({
   page,
 }) => {
   await page.goto('/en');
@@ -13,9 +13,10 @@ test('collections come from the catalog, link to their category and scroll with 
   const cards = section.getByRole('link').filter({ hasText: /pieces$/ });
   expect(await cards.count()).toBeGreaterThan(0);
   await expect(cards.first()).toHaveAttribute('href', /\/en\/category\//);
-
-  const row = page.locator('#collections-row');
-  const before = await row.evaluate((el) => el.scrollLeft);
-  await section.getByRole('button', { name: 'Next collections' }).click();
-  await expect.poll(() => row.evaluate((el) => el.scrollLeft)).toBeGreaterThan(before);
+  // Each collection name is a heading, and every card is fully in view on desktop (no carousel).
+  await expect(section.getByRole('heading', { level: 3 }).first()).toBeVisible();
+  for (const card of await cards.all()) {
+    const box = await card.boundingBox();
+    expect(box && box.x >= 0 && box.x + box.width <= 1280).toBe(true);
+  }
 });
