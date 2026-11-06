@@ -205,7 +205,7 @@ export function ListingGrid({
                   )}
                 >
                   {copy[f]}
-                  <sup className="ml-1 text-[0.62rem] tabular-nums text-stone">{n(counts[f])}</sup>
+                  <sup className="ml-1 text-[0.7rem] tabular-nums text-ink/75">{n(counts[f])}</sup>
                 </button>
               ))}
             </div>
