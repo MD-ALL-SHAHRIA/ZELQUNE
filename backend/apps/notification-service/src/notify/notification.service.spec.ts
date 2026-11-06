@@ -2,6 +2,7 @@ import {
   orderCancelled,
   orderConfirmed,
   orderPlaced,
+  orderStatusChanged,
   paymentVerified,
   quoteRequested,
 } from '@zelqune/contracts';
@@ -143,6 +144,33 @@ describe('NotificationService', () => {
     expect(sms.sent).toHaveLength(3);
     expect(sms.sent[0].body).toContain('ক্যাশ অন ডেলিভারি');
     expect(sms.sent[2].body).toContain('পেমেন্ট না পাওয়ায়');
+  });
+
+  it('delivered shop orders get one thank-you asking for a photo; other changes send nothing', async () => {
+    const sms = new FakeSmsProvider();
+    const { tx } = fakeTx();
+    const service = new NotificationService(sms, config);
+    await service.onOrderPlaced(placed(0, 'COD'), tx);
+    const changed = (to: 'SHIPPED' | 'DELIVERED', channel: 'B2C' | 'B2B' = 'B2C') =>
+      orderStatusChanged.create(
+        {
+          orderId,
+          code: 'ZQ-7K3M9P',
+          from: to === 'DELIVERED' ? 'SHIPPED' : 'READY_TO_SHIP',
+          to,
+          channel,
+          changedAt: new Date().toISOString(),
+        },
+        { source: 'order-service' },
+      );
+    await service.onOrderStatusChanged(changed('SHIPPED'), tx);
+    await service.onOrderStatusChanged(changed('DELIVERED', 'B2B'), tx);
+    const delivered = changed('DELIVERED');
+    await service.onOrderStatusChanged(delivered, tx);
+    await service.onOrderStatusChanged(delivered, tx); // redelivered event: no second SMS
+    expect(sms.sent).toHaveLength(2);
+    expect(sms.sent[1].body).toContain('ZQ-7K3M9P');
+    expect(sms.sent[1].body).toContain('ছবি');
   });
 
   it('an event that arrives before order.placed is retried, not dropped, then sent', async () => {
