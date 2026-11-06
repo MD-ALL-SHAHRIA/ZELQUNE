@@ -59,7 +59,12 @@ export class CustomerService {
     const byEmail = await this.prisma.user.findUnique({ where: { email: input.email } });
     if (byEmail) {
       if (byEmail.role === 'CUSTOMER' && !byEmail.emailVerifiedAt) {
-        // An unfinished sign-up: resend the link, never overwrite the stored password.
+        // An unfinished sign-up, maybe by someone else (pre-registration): never keep or overwrite
+        // the stored password here; mark it contested so verifying resets the credentials.
+        await this.prisma.user.update({
+          where: { id: byEmail.id },
+          data: { signupContestedAt: new Date() },
+        });
         return { mail: await this.verifyMail(byEmail, lang) };
       }
       return { mail: { kind: 'exists', to: input.email, name: byEmail.name ?? input.name, lang } };
@@ -114,7 +119,16 @@ export class CustomerService {
   async verifyEmail(raw: unknown, meta: SessionMeta): Promise<SessionTokens> {
     const { token } = tokenOnlySchema.parse(raw);
     const user = await this.consume(token, 'VERIFY_EMAIL', async (tx, u) => {
-      await tx.user.update({ where: { id: u.id }, data: { emailVerifiedAt: new Date() } });
+      const contested = !!u.signupContestedAt;
+      await tx.user.update({
+        where: { id: u.id },
+        // Contested: the stored password may be a stranger's. The inbox owner gets a session and
+        // sets a password from the account page (same as claiming via Google/Facebook).
+        data: contested
+          ? { emailVerifiedAt: new Date(), signupContestedAt: null, passwordHash: null }
+          : { emailVerifiedAt: new Date() },
+      });
+      if (contested) await this.resetCredentials(tx, u.id);
     });
     return this.auth.openSession(user, meta);
   }
@@ -388,13 +402,23 @@ export class CustomerService {
     return token;
   }
 
+  /** Ends every session, outstanding link and social login of a contested sign-up. */
+  private async resetCredentials(tx: Prisma.TransactionClient, userId: string): Promise<void> {
+    await tx.refreshToken.updateMany({
+      where: { userId, revokedAt: null },
+      data: { revokedAt: new Date(), revokedReason: 'LOGOUT' },
+    });
+    await tx.authToken.updateMany({ where: { userId, usedAt: null }, data: { usedAt: new Date() } });
+    await tx.oAuthAccount.deleteMany({ where: { userId } });
+  }
+
   /** Uses a link exactly once (a conditional update, so two clicks cannot both succeed). */
   private async consume(
     token: string,
     purpose: AuthTokenPurpose,
     apply: (
       tx: Prisma.TransactionClient,
-      user: UserRecord & { emailVerifiedAt: Date | null },
+      user: UserRecord & { emailVerifiedAt: Date | null; signupContestedAt: Date | null },
     ) => Promise<void>,
   ): Promise<UserRecord> {
     return this.prisma.$transaction(async (tx) => {
