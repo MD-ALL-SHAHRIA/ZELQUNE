@@ -82,6 +82,8 @@ describe('customer accounts (ADR 0021) on real infrastructure', () => {
     await redis?.quit();
   });
 
+  const VERIFIED_PASSWORD = 'jute-basket-morning-tide-58';
+
   it('registers, refuses sign-in until the email is confirmed, then signs in', async () => {
     const weak = await post('/v1/auth/register')
       .send({ ...PERSON, password: 'password123' })
@@ -92,11 +94,12 @@ describe('customer accounts (ADR 0021) on real infrastructure', () => {
     const verify = await mailTo(PERSON.email, /Confirm your email/);
     expect(verify.html).toContain('/en/account/verify#token=');
 
+    // The sign-up password is never stored: the account has no password until verify.
     const early = await post('/v1/auth/login').send({
       email: PERSON.email,
       password: PERSON.password,
     });
-    expect([early.status, early.body.error.code]).toEqual([403, 'EMAIL_NOT_VERIFIED']);
+    expect([early.status, early.body.error.code]).toEqual([401, 'INVALID_CREDENTIALS']);
     const wrong = await post('/v1/auth/login').send({
       email: PERSON.email,
       password: 'not the password',
@@ -104,14 +107,23 @@ describe('customer accounts (ADR 0021) on real infrastructure', () => {
     expect([wrong.status, wrong.body.error.code]).toEqual([401, 'INVALID_CREDENTIALS']);
 
     const token = tokenFrom(verify);
-    const ok = await post('/v1/auth/verify-email').send({ token }).expect(200);
+    await post('/v1/auth/verify-email').send({ token }).expect(400); // a password is required
+    const ok = await post('/v1/auth/verify-email')
+      .send({ token, password: VERIFIED_PASSWORD })
+      .expect(200);
     expect(ok.body.user.email).toBe(PERSON.email);
     expect(cookieOf(ok)).toBeDefined();
-    const again = await post('/v1/auth/verify-email').send({ token }).expect(400);
+    const again = await post('/v1/auth/verify-email')
+      .send({ token, password: VERIFIED_PASSWORD })
+      .expect(400);
     expect(again.body.error.code).toBe('INVALID_LINK');
 
+    await post('/v1/auth/login')
+      .send({ email: PERSON.email, password: PERSON.password })
+      .expect(401); // the sign-up password was discarded
+    PERSON.password = VERIFIED_PASSWORD;
     const login = await post('/v1/auth/login')
-      .send({ email: 'NUSRAT@example.com ', password: PERSON.password })
+      .send({ email: 'NUSRAT@example.com ', password: VERIFIED_PASSWORD })
       .expect(200);
     const me = await http()
       .get('/v1/auth/me')

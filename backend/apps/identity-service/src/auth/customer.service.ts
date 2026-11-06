@@ -8,13 +8,13 @@ import {
   customerProfileSchema,
   customerRegisterSchema,
   customerResetPasswordSchema,
+  customerVerifyEmailSchema,
   completeSignupSchema,
   emailOnlySchema,
   type OAuthProfile,
   type PendingSignup,
   type SessionMeta,
   type SessionTokens,
-  tokenOnlySchema,
 } from '@zelqune/contracts';
 import { createHash, randomBytes } from 'node:crypto';
 import { type AuthTokenPurpose, Prisma } from '../generated/prisma/client';
@@ -53,18 +53,11 @@ export class CustomerService {
   async register(raw: unknown): Promise<AuthMailResult> {
     const input = customerRegisterSchema.parse(raw);
     assertStrongPassword(input.password, [input.name, input.email, input.phone]);
-    // Hash first so every branch costs the same time.
-    const passwordHash = await this.passwords.hash(input.password);
     const lang = input.lang;
     const byEmail = await this.prisma.user.findUnique({ where: { email: input.email } });
     if (byEmail) {
       if (byEmail.role === 'CUSTOMER' && !byEmail.emailVerifiedAt) {
-        // An unfinished sign-up, maybe by someone else (pre-registration): never keep or overwrite
-        // the stored password here; mark it contested so verifying resets the credentials.
-        await this.prisma.user.update({
-          where: { id: byEmail.id },
-          data: { signupContestedAt: new Date() },
-        });
+        // An unfinished sign-up (maybe someone else's): just send a fresh link.
         return { mail: await this.verifyMail(byEmail, lang) };
       }
       return { mail: { kind: 'exists', to: input.email, name: byEmail.name ?? input.name, lang } };
@@ -76,7 +69,8 @@ export class CustomerService {
           phone: input.phone,
           name: input.name,
           role: 'CUSTOMER',
-          passwordHash,
+          // No password until the inbox owner sets one on the verify page (pre-registration).
+          passwordHash: null,
         },
       });
       return { mail: await this.verifyMail(user, lang) };
@@ -115,20 +109,20 @@ export class CustomerService {
     return this.auth.refresh({ refreshToken, ...meta }, CUSTOMER);
   }
 
-  /** Confirms the email and signs the person in. */
+  /**
+   * Confirms the email, sets the password chosen now (any earlier one is discarded) and signs
+   * the person in. Ends every other session and link: someone else may have started this sign-up.
+   */
   async verifyEmail(raw: unknown, meta: SessionMeta): Promise<SessionTokens> {
-    const { token } = tokenOnlySchema.parse(raw);
+    const { token, password } = customerVerifyEmailSchema.parse(raw);
+    const passwordHash = await this.passwords.hash(password);
     const user = await this.consume(token, 'VERIFY_EMAIL', async (tx, u) => {
-      const contested = !!u.signupContestedAt;
+      assertStrongPassword(password, [u.name ?? '', u.email ?? '', u.phone]);
       await tx.user.update({
         where: { id: u.id },
-        // Contested: the stored password may be a stranger's. The inbox owner gets a session and
-        // sets a password from the account page (same as claiming via Google/Facebook).
-        data: contested
-          ? { emailVerifiedAt: new Date(), signupContestedAt: null, passwordHash: null }
-          : { emailVerifiedAt: new Date() },
+        data: { emailVerifiedAt: new Date(), passwordHash },
       });
-      if (contested) await this.resetCredentials(tx, u.id);
+      await this.resetCredentials(tx, u.id);
     });
     return this.auth.openSession(user, meta);
   }
@@ -402,7 +396,7 @@ export class CustomerService {
     return token;
   }
 
-  /** Ends every session, outstanding link and social login of a contested sign-up. */
+  /** Ends every session, outstanding link and social login (someone else may have started the sign-up). */
   private async resetCredentials(tx: Prisma.TransactionClient, userId: string): Promise<void> {
     await tx.refreshToken.updateMany({
       where: { userId, revokedAt: null },
