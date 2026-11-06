@@ -49,7 +49,8 @@ export function SplitText({ text }: { text: string }) {
       data-state={state}
       style={{ '--split-step': `${step}ms` } as React.CSSProperties}
     >
-      <span className="sr-only">{text}</span>
+      {/* Not selectable: copying the heading gives the visible letters once. */}
+      <span className="sr-only select-none">{text}</span>
       <span aria-hidden>
         {words.map((word, w) => (
           <span key={w}>

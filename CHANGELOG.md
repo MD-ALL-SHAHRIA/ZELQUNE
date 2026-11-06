@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Home "Find your perfect piece": collections stand in tall arches (three across, the middle set lower; a swipe row on phones) with each piece centred, instead of a wide-card carousel with arrows. Copying a heading no longer gives its text twice.
+
 ### Added
 - Cancelling a paid order puts its items back in stock (once).
 - Orders with a submitted bKash/Nagad payment are no longer auto-cancelled after 48 h until staff verify or reject the payment.
