@@ -49,7 +49,10 @@ export function TrustBand({
                 <div className="space-y-2">
                   <p className="font-display text-2xl font-medium leading-tight">{item.title}</p>
                   <p
-                    className={cn('text-sm leading-relaxed text-pretty', dark ? 'text-ivory/70' : 'text-stone')}
+                    className={cn(
+                      'text-sm leading-relaxed text-pretty',
+                      dark ? 'text-ivory/70' : 'text-stone',
+                    )}
                   >
                     <CopyText>{item.text}</CopyText>
                   </p>
