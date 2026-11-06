@@ -69,7 +69,7 @@ export function FeaturedProduct({
             ) : null}
           </div>
           {main?.sample ? (
-            <p className="mt-4 text-right text-[0.7rem] text-stone">{dict.landing.sampleNote}</p>
+            <p className="mt-4 text-right text-[0.75rem] text-stone">{dict.landing.sampleNote}</p>
           ) : null}
         </div>
 

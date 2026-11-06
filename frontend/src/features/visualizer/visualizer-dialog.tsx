@@ -405,7 +405,7 @@ export default function VisualizerDialog({
               ) : null}
 
               {piece.sample ? (
-                <p className="text-[0.7rem] leading-relaxed text-stone">{copy.sampleNote}</p>
+                <p className="text-[0.75rem] leading-relaxed text-stone">{copy.sampleNote}</p>
               ) : null}
             </div>
           </div>

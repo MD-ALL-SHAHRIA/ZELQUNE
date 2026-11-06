@@ -184,7 +184,7 @@ export function ListingPage({
           }))}
         />
         {products.length ? (
-          <p className="mt-16 text-[0.7rem] tracking-wide text-stone">{dict.landing.sampleNote}</p>
+          <p className="mt-16 text-[0.75rem] tracking-wide text-stone">{dict.landing.sampleNote}</p>
         ) : null}
       </Container>
     </>

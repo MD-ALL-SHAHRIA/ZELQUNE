@@ -72,7 +72,7 @@ export function DayNight({ dict }: { dict: Dictionary }) {
           </Heading>
         </div>
       </div>
-      <p className="absolute bottom-3 right-4 text-[0.6rem] text-ivory/55">{l.sampleNote}</p>
+      <p className="absolute bottom-3 right-4 text-[0.75rem] text-ivory/80">{l.sampleNote}</p>
     </section>
   );
 }

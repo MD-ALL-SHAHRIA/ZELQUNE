@@ -58,7 +58,7 @@ export function Materials({ dict }: { dict: Dictionary; lang: Locale }) {
             </li>
           ))}
         </ol>
-        <p className="mt-6 text-center text-[0.7rem] text-stone md:mt-12">
+        <p className="mt-6 text-center text-[0.75rem] text-stone md:mt-12">
           {dict.landing.sampleNote}
         </p>
       </Container>
