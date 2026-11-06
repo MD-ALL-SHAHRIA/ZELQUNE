@@ -205,8 +205,11 @@ export const en = {
       COD: 'Cash on delivery',
     },
     advanceHeading: 'bKash/Nagad advance',
-    advanceText: 'Send {amount} to {number} (Send Money), then enter the Transaction ID below.',
-    codText: 'Pay when it arrives. (In-stock items only)',
+    advanceText:
+      'Open bKash or Nagad, choose Send Money and send {amount} to {number}. Then type the Transaction ID from the confirmation message below.',
+    copyNumber: 'Copy number',
+    copied: 'Copied',
+    codText: 'Pay the full amount in cash when it arrives, no advance. We call you to confirm the order.',
     trxId: 'Transaction ID (e.g. 9AB1C2D3EF)',
     summary: {
       items: 'Items',
@@ -374,7 +377,7 @@ export const en = {
     menu: 'Menu',
     closeMenu: 'Close menu',
     story: 'Our story',
-    announcement: 'Pre-orders are open · ৳300 advance, the rest on delivery',
+    announcement: 'Pre-orders are open · Cash on delivery available',
     columns: { shop: 'Shop', help: 'Help', company: 'Company' },
   },
   heroSlides: {
@@ -869,7 +872,7 @@ export const en = {
     values: [
       { title: 'Handcrafted', text: 'Made after you order' },
       { title: 'Safe 5V light', text: 'No 220V inside the wood' },
-      { title: '৳300 advance', text: 'The rest on delivery' },
+      { title: 'Cash on delivery', text: 'Or a ৳300 bKash advance' },
       { title: 'Across Bangladesh', text: 'Delivered to all 64 districts' },
     ],
     businessEyebrow: 'For business',
@@ -1178,8 +1181,8 @@ export const en = {
       heading: 'Buy with confidence',
       items: [
         {
-          title: 'Pay the rest on delivery',
-          text: 'Only a ৳300 advance by bKash or Nagad. The rest is cash on delivery.',
+          title: 'Cash on delivery',
+          text: 'Pay in cash when it arrives, or send a ৳300 bKash or Nagad advance and pay the rest on delivery.',
         },
         {
           title: 'Refund if we are late',

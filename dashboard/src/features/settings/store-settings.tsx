@@ -137,7 +137,7 @@ export function PaymentSettings({ readOnly }: { readOnly: boolean }) {
     <Frame
       setting={invalid ? { ...s, dirty: false } : s}
       title="Payments"
-      description="Where customers pay the advance. Cash on delivery is offered for in-stock items."
+      description="Where customers pay the advance. Cash on delivery is always offered for in-stock items; for pre-orders, see Checkout."
       readOnly={readOnly}
     >
       {wallet('bkash', 'bKash')}
@@ -212,6 +212,13 @@ export function CheckoutSettings({ readOnly }: { readOnly: boolean }) {
             </span>
             .
           </p>
+          <Switch
+            checked={d.codForAdvanceOrders}
+            onChange={(codForAdvanceOrders) => s.setDraft({ ...d, codForAdvanceOrders })}
+            disabled={readOnly}
+            label="Cash on delivery for pre-orders"
+            description="Customers can also pick cash on delivery and pay everything when it arrives, with no advance. Call each one to confirm before you start making the piece."
+          />
         </>
       ) : null}
     </Frame>

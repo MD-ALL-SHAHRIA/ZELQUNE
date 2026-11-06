@@ -34,8 +34,12 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
     area: 'Mirpur',
     line: 'House 1, Road 2, Mirpur 10',
   });
-  // Pre-order: COD is not offered; the ৳300 advance and the bKash number come from the API.
-  await expect(page.getByLabel('ক্যাশ অন ডেলিভারি')).toHaveCount(0);
+  // Pre-order: the bKash advance comes first and is chosen; cash on delivery is offered too
+  // (owner setting, on by default) and takes nothing now.
+  await expect(page.getByLabel('bKash অগ্রিম')).toBeChecked();
+  await page.getByLabel('ক্যাশ অন ডেলিভারি').check();
+  await expect(page.getByTestId('pay-now')).toHaveCount(0);
+  await expect(page.getByTestId('pay-later')).toHaveText('৳৩,৬৬০');
   await page.getByLabel('bKash অগ্রিম').check();
   await expect(page.getByTestId('pay-now')).toHaveText('৳৩০০');
   await expect(page.getByTestId('advance-instructions')).toContainText('৳৩০০');
@@ -56,6 +60,26 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   // The order is linked to the account and shows in My account (ADR 0021).
   await page.goto('/bn/account');
   await expect(page.getByText(code)).toBeVisible();
+});
+
+test('pre-order with cash on delivery: no advance, the whole total on delivery', async ({ page }) => {
+  await signInCustomer(page);
+  await page.goto('/en/products/alo-arch-panel');
+  await page.getByRole('button', { name: 'Pre-order now' }).first().click();
+  await expect(page).toHaveURL(/\/en\/checkout$/);
+  await fillCheckout(page, {
+    name: 'E2E Cod',
+    phone: uniquePhone(),
+    district: 'dhaka',
+    area: 'Mirpur',
+    line: 'House 1, Road 2, Mirpur 10',
+  });
+  await page.getByLabel('Cash on delivery').check();
+  await expect(page.getByTestId('advance-instructions')).toHaveCount(0);
+  await expect(page.getByTestId('pay-now')).toHaveCount(0);
+  await expect(page.getByTestId('pay-later')).toHaveText(await page.getByTestId('total').innerText());
+  await page.getByRole('button', { name: 'Place order', exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/order\/ZQ-[A-Z0-9]{6}$/);
 });
 
 test('a visitor with no ?p sees the base price, which equals arm a (৳3,490)', async ({ page }) => {

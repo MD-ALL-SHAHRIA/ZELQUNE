@@ -198,8 +198,10 @@ export const bn: Dictionary = {
     },
     advanceHeading: 'bKash/Nagad অগ্রিম',
     advanceText:
-      '{amount} পাঠান এই নম্বরে: {number} (Send Money)। তারপর নিচে Transaction ID লিখুন।',
-    codText: 'পণ্য হাতে পেয়ে টাকা দিন। (শুধু স্টকে থাকা পণ্যে)',
+      'bKash বা Nagad অ্যাপে Send Money দিয়ে {amount} পাঠান এই নম্বরে: {number}। তারপর কনফার্মেশন মেসেজের Transaction ID নিচে লিখুন।',
+    copyNumber: 'নম্বর কপি করুন',
+    copied: 'কপি হয়েছে',
+    codText: 'পণ্য হাতে পেয়ে পুরো টাকা নগদে দিন, কোনো অগ্রিম লাগবে না। অর্ডার নিশ্চিত করতে আমরা ফোন করব।',
     trxId: 'Transaction ID (যেমন 9AB1C2D3EF)',
     summary: {
       items: 'পণ্যের দাম',
@@ -365,7 +367,7 @@ export const bn: Dictionary = {
     menu: 'মেনু',
     closeMenu: 'মেনু বন্ধ করুন',
     story: 'আমাদের গল্প',
-    announcement: 'প্রি-অর্ডার চলছে · ৳৩০০ অগ্রিম, বাকি টাকা ডেলিভারিতে',
+    announcement: 'প্রি-অর্ডার চলছে · ক্যাশ অন ডেলিভারি আছে',
     columns: { shop: 'কেনাকাটা', help: 'সাহায্য', company: 'প্রতিষ্ঠান' },
   },
   heroSlides: {
@@ -858,7 +860,7 @@ export const bn: Dictionary = {
     values: [
       { title: 'হাতে বানানো', text: 'অর্ডারের পর বানানো' },
       { title: 'নিরাপদ ৫V আলো', text: 'কাঠের ভেতরে ২২০V নেই' },
-      { title: '৳৩০০ অগ্রিম', text: 'বাকি টাকা ডেলিভারিতে' },
+      { title: 'ক্যাশ অন ডেলিভারি', text: 'অথবা ৳৩০০ bKash অগ্রিম' },
       { title: 'সারা বাংলাদেশে', text: '৬৪ জেলাতেই ডেলিভারি' },
     ],
     businessEyebrow: 'ব্যবসার জন্য',
@@ -1149,8 +1151,8 @@ export const bn: Dictionary = {
       heading: 'নিশ্চিন্তে কিনুন',
       items: [
         {
-          title: 'বাকিটা ডেলিভারিতে',
-          text: 'bKash বা Nagad-এ মাত্র ৳৩০০ অগ্রিম। বাকিটা ক্যাশ অন ডেলিভারি।',
+          title: 'ক্যাশ অন ডেলিভারি',
+          text: 'পণ্য হাতে পেয়ে নগদে দিন, অথবা bKash বা Nagad-এ ৳৩০০ অগ্রিম দিয়ে বাকিটা ডেলিভারিতে।',
         },
         {
           title: 'দেরি হলে টাকা ফেরত',

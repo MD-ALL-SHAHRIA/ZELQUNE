@@ -6,6 +6,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Cash on delivery for pre-order and made-to-order items (ADR 0022): a new dashboard switch (Settings > Checkout, on by default). Checkout offers "Cash on delivery" beside the bKash/Nagad advance; a COD order takes no advance, the summary shows the whole total as "Pay on delivery", and staff confirm it by phone as before.
+- Checkout: the bKash/Nagad receiving number has a one-tap "Copy number" button, and the advance steps say exactly what to do in the app.
+
+### Changed
+- Storefront copy (EN + BN): the announcement bar, the trust strip and the product page's "Buy with confidence" now lead with cash on delivery.
+
 ### Changed
 - The shop's address is now support@zelqune.com (Cloudflare Email Routing to the owner's inbox): default `MAIL_FROM` and the dashboard email placeholder.
 
