@@ -53,7 +53,7 @@ export function NavTabs({ label, groups }: { label: string; groups: NavLink[][] 
                       'relative flex h-11 items-center whitespace-nowrap transition-colors duration-300 lg:h-[3.25rem]',
                       active
                         ? 'text-ink after:scale-x-100'
-                        : 'text-ink/65 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
+                        : 'text-ink/75 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
                     )}
                   >
                     {l.label}

@@ -47,7 +47,7 @@ export function Craft({ dict }: { dict: Dictionary; lang: Locale }) {
                 <p className="mt-6 font-display text-2xl font-medium sm:text-[1.75rem]">
                   {step.title}
                 </p>
-                <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/75">
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-pretty text-ink/75">
                   <CopyText>{step.text}</CopyText>
                 </p>
               </li>

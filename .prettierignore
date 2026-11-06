@@ -18,3 +18,6 @@ dashboard/next-env.d.ts
 **/playwright-report
 **/test-results
 **/screenshots
+
+# Vendored Impeccable skill (third-party, not formatted here)
+.claude/

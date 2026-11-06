@@ -144,7 +144,7 @@ export function ListingPage({
                     'relative inline-flex h-12 items-center text-[0.95rem] transition-colors duration-300 after:absolute after:inset-x-0 after:bottom-2 after:h-px after:origin-left after:bg-ink after:transition-transform after:duration-500 after:ease-out-soft',
                     p.current
                       ? 'text-ink after:scale-x-100'
-                      : 'text-ink/55 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
+                      : 'text-ink/75 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
                   )}
                 >
                   {p.label}
@@ -186,7 +186,7 @@ export function ListingPage({
           }))}
         />
         {products.length ? (
-          <p className="mt-16 text-[0.7rem] tracking-wide text-stone">{dict.landing.sampleNote}</p>
+          <p className="mt-16 text-[0.75rem] tracking-wide text-stone">{dict.landing.sampleNote}</p>
         ) : null}
       </Container>
     </>

@@ -70,7 +70,7 @@ export function PriceTag({
         <div
           className={cn(
             'flex flex-wrap items-center gap-x-3 gap-y-1',
-            page ? 'text-[0.8rem]' : 'justify-end text-[0.68rem]',
+            page ? 'text-[0.8rem]' : 'justify-end text-[0.6875rem]',
           )}
         >
           <span className="bg-sale-fill px-2 py-0.5 font-medium uppercase tracking-[0.12em] text-ivory [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal">

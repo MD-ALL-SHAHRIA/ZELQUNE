@@ -41,7 +41,7 @@ export function Picture({
         />
       </div>
       {note ? (
-        <figcaption className="mt-2.5 text-[0.68rem] tracking-[0.06em] text-stone/90">
+        <figcaption className="mt-2.5 text-[0.6875rem] tracking-[0.06em] text-stone/90">
           {note}
         </figcaption>
       ) : null}

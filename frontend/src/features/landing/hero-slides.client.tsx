@@ -264,7 +264,7 @@ function Panels({
               <span className="absolute top-3 left-3 font-display text-[0.8rem] tracking-[0.12em] text-ivory/90 italic">
                 N° {String(i + 1).padStart(2, '0')}
               </span>
-              <span className="absolute inset-x-3 bottom-3 text-center text-[0.68rem] leading-tight tracking-[0.18em] text-ivory/85 uppercase [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
+              <span className="absolute inset-x-3 bottom-3 text-center text-[0.6875rem] leading-tight tracking-[0.18em] text-ivory/85 uppercase [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:tracking-normal">
                 {c.caption}
               </span>
             </Link>

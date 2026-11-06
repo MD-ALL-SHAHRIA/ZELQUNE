@@ -103,10 +103,11 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             </div>
           </Link>
 
-          {/* 03 Bulk & Corporate: a walnut split, photo beside the words. */}
+          {/* 03 Bulk & Corporate: a walnut split, photo beside the words. Fixed walnut: the
+              walnut token turns light brass inside this dark band. */}
           <Link
             href={href(lang, '/bulk')}
-            className="reveal group grid overflow-hidden bg-walnut sm:grid-cols-[1fr_1.1fr] lg:col-span-5"
+            className="reveal group grid overflow-hidden bg-[#7a5c30] sm:grid-cols-[1fr_1.1fr] lg:col-span-5"
           >
             <div className="relative aspect-[16/10] overflow-hidden sm:aspect-auto sm:min-h-[260px] lg:min-h-0">
               <Image
@@ -123,7 +124,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
                 <h3 className="font-display text-3xl font-medium leading-[1.05] sm:text-4xl [:lang(bn)_&]:leading-tight">
                   {s.bulk.title}
                 </h3>
-                <p className="text-sm text-ivory/80">{s.bulk.text}</p>
+                <p className="text-sm text-ivory/90">{s.bulk.text}</p>
               </div>
               <More label={more} />
             </div>

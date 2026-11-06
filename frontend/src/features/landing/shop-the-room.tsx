@@ -83,7 +83,7 @@ export function ShopTheRoom({
             </div>
             <RoomHotspots spots={spots} view={t.view} />
           </div>
-          <figcaption className="mt-3 px-5 text-[0.7rem] text-stone md:px-0 lg:mx-auto lg:w-[min(100%,720px,calc(86svh*0.8))]">
+          <figcaption className="mt-3 px-5 text-[0.75rem] text-stone md:px-0 lg:mx-auto lg:w-[min(100%,720px,calc(86svh*0.8))]">
             {dict.landing.sampleNote}
           </figcaption>
         </figure>

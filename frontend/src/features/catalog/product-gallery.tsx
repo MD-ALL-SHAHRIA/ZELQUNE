@@ -74,7 +74,7 @@ export function ProductGallery({
           <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
             {actions}
             {first.sample ? (
-              <p className="text-[0.7rem] text-stone lg:ml-auto lg:text-right">{note}</p>
+              <p className="text-[0.75rem] text-stone lg:ml-auto lg:text-right">{note}</p>
             ) : null}
           </div>
         ) : null

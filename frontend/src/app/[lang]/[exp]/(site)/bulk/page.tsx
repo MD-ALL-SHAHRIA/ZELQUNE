@@ -54,7 +54,7 @@ export default async function BulkPage({ params }: { params: PageParams }) {
             {dict.bulk.text}
           </p>
         </Container>
-        <p className="absolute bottom-3 right-4 text-[0.6rem] text-ivory/50">
+        <p className="absolute bottom-3 right-4 text-[0.75rem] text-ivory/80">
           {dict.landing.sampleNote}
         </p>
       </section>

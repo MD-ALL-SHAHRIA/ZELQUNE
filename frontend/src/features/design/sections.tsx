@@ -101,7 +101,7 @@ export function DesignHero({
           </ul>
         </nav>
       </Container>
-      <p className="absolute right-4 top-24 text-[0.6rem] text-ivory/55 sm:bottom-3 sm:top-auto">
+      <p className="absolute right-4 top-24 text-[0.75rem] text-ivory/80 sm:bottom-3 sm:top-auto">
         {dict.landing.sampleNote}
       </p>
     </section>
