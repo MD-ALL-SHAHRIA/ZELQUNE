@@ -256,7 +256,7 @@ export function Purchase({
                 </p>
               ) : null}
               {copy.preOrderNote ? (
-                <p className="mt-1.5 text-xs leading-relaxed text-ink/65">
+                <p className="mt-1.5 text-xs leading-relaxed text-ink/80">
                   <CopyText>{copy.preOrderNote}</CopyText>
                 </p>
               ) : null}
