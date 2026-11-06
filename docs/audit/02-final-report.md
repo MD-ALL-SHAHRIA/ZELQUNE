@@ -25,10 +25,8 @@
 | direct deps | – | +1 (`helmet` 8.3.0 in backend) |
 
 ## Needs your decision
-See the approval list in [01-findings.md](01-findings.md#needs-your-approval-ground-rule-4). The top three:
-1. **ID-SEC-1 (High).** A customer can take over the dashboard by squatting a future staff member's phone number.
-2. **ID-SEC-2 (High).** An attacker can register a victim's email before the victim does and keep their own password on the account.
-3. **SEC-005 (High).** Upgrade nodemailer to 10.x, a major-version jump.
+All round-1 approval items were decided by the owner and done in round 2 (below). Still open:
+the ID-SEC-2 verify-page password prompt (frontend) and the not-yet-audited areas.
 
 ## Round 2 (owner-approved, 2026-11-06)
 
@@ -60,7 +58,7 @@ password on the verify page (frontend change).
 ## Remaining risks, ranked
 1. ~~High: ID-SEC-1/2 identity takeovers~~ fixed in round 2 (see the residual ID-SEC-2 note).
 2. **High once paid SMS or couriers go live (M3).** NOTIF-MSG-1: an SMS sent inside the consumer transaction is re-sent on retry. SHIP-MSG-1: a shipment can be double-booked.
-3. **Medium.** Stock consistency between inventory and order-service (INV-MSG-1 and INV-MSG-2). The gap between payment and auto-cancel (PAY-ARCH-1). Analytics retention and the scan on `tracked_events`.
+3. **Medium.** INV-MSG-1: a late `order.placed` can still leave a confirmed order without deducted stock. Fixed in round 2: restock on cancel (INV-MSG-2), auto-cancel vs. payment (PAY-ARCH-1), retention (AN-DB-2). The funnel scan (AN-DB-1) is still open.
 4. **Medium, deploy rule.** TCP now needs the shared secret (ADR 0024), but ports 4001–4008 must still stay private.
 5. **Not audited yet.** order-service (checkout saga, coupons, order lookup IDOR), catalog (uploads, content XSS), gateway routes in depth, frontend, dashboard, infra and DB grants. The audit agents for these stopped at the usage limit, so these need a second pass. That pass matters most for order-service and the gateway.
 
