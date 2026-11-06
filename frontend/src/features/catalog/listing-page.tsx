@@ -168,7 +168,7 @@ export function ListingPage({
               </Link>
             ) : null
           }
-          items={products.map((p) => ({
+          items={products.map((p, i) => ({
             id: p.id,
             saleMode: p.saleMode,
             pricePaisa: p.fromPrice?.amountPaisa ?? null,
@@ -179,6 +179,8 @@ export function ListingPage({
                 dict={dict}
                 finishes={p.finishes}
                 headingLevel="h2"
+                // The first row (two-up on phones) is the page's largest paint: fetch it first.
+                priority={i < 2}
               />
             ),
           }))}
