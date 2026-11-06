@@ -14,13 +14,14 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Internal service calls carry a shared secret (`INTERNAL_RPC_SECRET`, ADR 0024): run `pnpm keys:dev` once; required in production.
 
 ### Security
+- Customer sign-up: the password is now chosen on the email-confirmation page and the one typed at sign-up is discarded, so someone who signs up with another person's email can never sign in to that account.
 - Audit second pass (docs/audit/services/order-catalog-gateway-dashboard-infra.md): home-page client links and shipment tracking links accept only http(s); the dashboard sends a CSP (no framing, plugins, base or foreign form targets) and nosniff.
 - nodemailer 10.2.1 (clears all high advisories).
 - Production-readiness audit (docs/audit/): next 16.4.1 (fixes two critical RCE advisories), zod 4.6.7, Nest 11.2.8, body-parser/multer overrides; gateway sends security headers (helmet); SMS console log masks the phone and omits the body outside development; SMTP requires STARTTLS when credentials are set.
 
 ### Fixed
 - Checkout: a coupon that expires between the cart and placing the order is no longer applied (shows "expired").
-- Accounts: an owner adding a team member can no longer promote an existing customer account with that phone (409); a second sign-up for an unverified email resets the credentials when the inbox owner verifies.
+- Accounts: an owner adding a team member can no longer promote an existing customer account with that phone (409).
 - Inventory: one failing reservation no longer stops all reservation expiry.
 - Shipping: volumetric weight uses integer maths, so a parcel at an exact kg boundary is no longer billed one kg extra.
 - Backend tests: gateway e2e suites no longer time out on busy machines.

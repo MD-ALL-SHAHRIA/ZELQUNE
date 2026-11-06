@@ -102,6 +102,14 @@ export const customerResetPasswordSchema = z.object({
   token: z.string().min(20).max(200),
   password: newPasswordSchema,
 });
+/**
+ * Verifying an email sets the password: whoever controls the inbox chooses it, so a password
+ * typed at sign-up (maybe by someone else) is never used.
+ */
+export const customerVerifyEmailSchema = z.object({
+  token: z.string().min(20).max(200),
+  password: newPasswordSchema,
+});
 export const customerChangePasswordSchema = z.object({
   currentPassword: z.string().max(256).default(''),
   newPassword: newPasswordSchema,

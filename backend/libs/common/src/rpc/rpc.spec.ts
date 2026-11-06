@@ -136,7 +136,10 @@ describe('internal shared secret (INTERNAL_RPC_SECRET)', () => {
       SECRET,
     );
     await client.send('x', {});
-    expect(send).toHaveBeenCalledWith('x', expect.objectContaining({ meta: expect.objectContaining({ secret: SECRET }) }));
+    expect(send).toHaveBeenCalledWith(
+      'x',
+      expect.objectContaining({ meta: expect.objectContaining({ secret: SECRET }) }),
+    );
   });
 
   it('is mandatory in production', () => {
