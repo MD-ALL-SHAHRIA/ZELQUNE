@@ -23,7 +23,15 @@ html[lang='bn'] .hero-slides .rise-word { padding-block: .25em .32em; margin-blo
   .slide-on .slide-fade { animation: hero-fade 1s .6s cubic-bezier(.16,1,.3,1) both; }
   /* Slide 1 follows the owner's reference: the words first, then the photo opens out from a
      small frame in the centre, then the cards rise and the side line arrives. */
-  .slide-on .slide-reveal { animation: hero-reveal 1.3s .9s cubic-bezier(.65,0,.15,1) both; }
+  /* Four espresso bars part from the centre (transform only, on the GPU). The photo under them
+     is painted at once, so it counts as the page's first large paint (LCP) instead of only
+     after the reveal ends, as a clip-path reveal would. */
+  .slide-on .slide-reveal .reveal-bars { display: block; }
+  .slide-on .reveal-bars > i { animation: 1.3s .9s cubic-bezier(.65,0,.15,1) both; }
+  .slide-on .reveal-bars > i:nth-child(1) { animation-name: bar-up; }
+  .slide-on .reveal-bars > i:nth-child(2) { animation-name: bar-down; }
+  .slide-on .reveal-bars > i:nth-child(3) { animation-name: bar-left; }
+  .slide-on .reveal-bars > i:nth-child(4) { animation-name: bar-right; }
   .slide-on .slide-reveal ~ .slide-fade, .slide-on .slide-fade:has(~ .slide-reveal) { animation-delay: 2s; }
   .slide-on .slide-card { animation: hero-fade 1s calc(1.7s + var(--i) * 150ms) cubic-bezier(.16,1,.3,1) both; }
   .slide-on .slide-zoom { animation: hero-zoom 8s cubic-bezier(.16,1,.3,1) both; }
@@ -43,7 +51,19 @@ html[lang='bn'] .hero-slides .light-word { font-family: inherit; }
   .hero-slides .spark-spoke { animation: spark 1.2s linear infinite; animation-delay: calc(var(--s) * 150ms - 1.2s); }
 }
 @keyframes spark { 0% { opacity: 1; } 100% { opacity: .2; } }
-@keyframes hero-reveal { 0% { clip-path: inset(50% 50% 50% 50%); } 25% { clip-path: inset(40% 32% 40% 32%); } 100% { clip-path: inset(0); } }
+/* Same path as the old clip: closed, then a frame 20% x 36% in the centre at 25%, then open. */
+.hero-slides .reveal-bars { display: none; position: absolute; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
+.hero-slides .reveal-bars > i { position: absolute; background: var(--color-espresso); will-change: transform; }
+.hero-slides .reveal-bars > i:nth-child(-n+2) { inset-inline: 0; height: 50%; }
+.hero-slides .reveal-bars > i:nth-child(n+3) { inset-block: 0; width: 50%; }
+.hero-slides .reveal-bars > i:nth-child(1) { top: 0; }
+.hero-slides .reveal-bars > i:nth-child(2) { bottom: 0; }
+.hero-slides .reveal-bars > i:nth-child(3) { left: 0; }
+.hero-slides .reveal-bars > i:nth-child(4) { right: 0; }
+@keyframes bar-up { 25% { transform: translateY(-20%); } 100% { transform: translateY(-101%); } }
+@keyframes bar-down { 25% { transform: translateY(20%); } 100% { transform: translateY(101%); } }
+@keyframes bar-left { 25% { transform: translateX(-36%); } 100% { transform: translateX(-101%); } }
+@keyframes bar-right { 25% { transform: translateX(36%); } 100% { transform: translateX(101%); } }
 @keyframes hero-spin { from { opacity: 0; transform: scale(.6); } }
 @keyframes hero-spin-out { to { opacity: 0; transform: scale(.6); visibility: hidden; } }
 @keyframes hero-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
