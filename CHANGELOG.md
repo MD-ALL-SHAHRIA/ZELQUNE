@@ -6,6 +6,14 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Security
+- Production-readiness audit (docs/audit/): next 16.4.1 (fixes two critical RCE advisories), zod 4.6.7, Nest 11.2.8, body-parser/multer overrides; gateway sends security headers (helmet); SMS console log masks the phone and omits the body outside development; SMTP requires STARTTLS when credentials are set.
+
+### Fixed
+- Inventory: one failing reservation no longer stops all reservation expiry.
+- Shipping: volumetric weight uses integer maths, so a parcel at an exact kg boundary is no longer billed one kg extra.
+- Backend tests: gateway e2e suites no longer time out on busy machines.
+
 ### Changed
 - Cookie notice: the card sits bottom right on wide screens (was bottom left); the WhatsApp button steps aside while it is open and returns after the choice.
 
