@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from '@nestjs/common';
 import { type AuthenticatedUser } from '../auth/auth.types';
-import { CurrentUser, OptionalAccount, RequireAccount } from '../auth/guards';
+import { CurrentUser, OptionalAccount } from '../auth/guards';
 import { ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   AppError,
