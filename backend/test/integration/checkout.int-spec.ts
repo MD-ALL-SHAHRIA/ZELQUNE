@@ -171,17 +171,13 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
       advanceRequiredPaisa: 30000,
       zone: 'DHAKA',
       chargeableWeightGrams: 6000,
-      allowedPaymentMethods: ['BKASH_MANUAL'],
+      // The advance first; cash on delivery too (codForAdvanceOrders defaults on, ADR 0022).
+      allowedPaymentMethods: ['BKASH_MANUAL', 'COD'],
       paymentInstructions: {
         bkash: { number: TEST_BKASH_NUMBER, accountType: 'personal' },
         nagad: null,
       },
     });
-
-    // COD is refused for pre-orders
-    expect((await checkout(token, { paymentMethod: 'COD' }).expect(422)).body.error.code).toBe(
-      'ADVANCE_REQUIRED',
-    );
 
     // bKash advance with a trxId -> order placed; same Idempotency-Key replays exactly
     const key = 'preorder-checkout-1';
