@@ -34,7 +34,7 @@ export function LanguageSwitcher({
       className={cn(
         'transition-opacity duration-300',
         full && 'link-reveal',
-        target === lang ? 'opacity-100' : 'opacity-55 hover:opacity-100',
+        target === lang ? 'opacity-100' : 'opacity-75 hover:opacity-100',
       )}
     >
       {label}
