@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Security
+- Customer sign-up: the password is now chosen on the email-confirmation page and the one typed at sign-up is discarded, so someone who signs up with another person's email can never sign in to that account.
+
 ### Changed
 - Cookie notice: the card sits bottom right on wide screens (was bottom left); the WhatsApp button steps aside while it is open and returns after the choice.
 
