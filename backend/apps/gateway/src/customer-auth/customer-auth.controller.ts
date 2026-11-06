@@ -35,6 +35,7 @@ import {
   customerProfileSchema,
   customerRegisterSchema,
   customerResetPasswordSchema,
+  customerVerifyEmailSchema,
   customerSchema,
   customerSessionListSchema,
   emailOnlySchema,
@@ -42,7 +43,6 @@ import {
   type PendingSignup,
   RPC_PATTERNS,
   type SessionTokens,
-  tokenOnlySchema,
 } from '@zelqune/contracts';
 import { type CookieOptions, type Request, type Response } from 'express';
 import { type Redis } from 'ioredis';
@@ -61,8 +61,8 @@ import { OAuthService } from './oauth.service';
 class RegisterDto extends createZodDto(customerRegisterSchema) {}
 class LoginDto extends createZodDto(customerLoginSchema) {}
 class EmailDto extends createZodDto(emailOnlySchema) {}
-class TokenDto extends createZodDto(tokenOnlySchema) {}
 class ResetDto extends createZodDto(customerResetPasswordSchema) {}
+class VerifyEmailDto extends createZodDto(customerVerifyEmailSchema) {}
 class ChangePasswordDto extends createZodDto(customerChangePasswordSchema) {}
 class ProfileDto extends createZodDto(customerProfileSchema) {}
 class CompleteSignupDto extends createZodDto(completeSignupSchema) {}
@@ -242,10 +242,12 @@ export class CustomerAuthController {
   @Post('verify-email')
   @HttpCode(200)
   @RouteThrottle('track')
-  @ApiOperation({ summary: 'Confirm the email with the link token, and sign in.' })
+  @ApiOperation({
+    summary: 'Confirm the email with the link token, set the password, and sign in.',
+  })
   @ZodResponse({ status: 200, type: CustomerTokenDto })
   async verifyEmail(
-    @Body() body: TokenDto,
+    @Body() body: VerifyEmailDto,
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {

@@ -213,9 +213,18 @@ export class InventoryService implements OnApplicationBootstrap, OnModuleDestroy
         reservation.items.map((i) => i.variantId),
       );
       for (const { variantId, qty } of reservation.items) {
-        await t.inventoryItem.update({ where: { variantId }, data: { onHand: { increment: qty } } });
+        await t.inventoryItem.update({
+          where: { variantId },
+          data: { onHand: { increment: qty } },
+        });
         await t.stockMovement.create({
-          data: { variantId, delta: qty, reason: 'RETURN', refId: orderId, note: 'order cancelled' },
+          data: {
+            variantId,
+            delta: qty,
+            reason: 'RETURN',
+            refId: orderId,
+            note: 'order cancelled',
+          },
         });
       }
       await t.stockReservation.update({

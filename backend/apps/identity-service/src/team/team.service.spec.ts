@@ -69,7 +69,12 @@ describe('TeamService', () => {
     const customer = user('00000000-0000-4000-8000-000000000004', 'CUSTOMER');
     const { team, tx } = service([customer], 1);
     await expect(
-      team.create({ phone: customer.phone, name: 'New staff', role: 'STAFF', password: 'long-enough-pass-9' }),
+      team.create({
+        phone: customer.phone,
+        name: 'New staff',
+        role: 'STAFF',
+        password: 'long-enough-pass-9',
+      }),
     ).rejects.toMatchObject({ code: 'PHONE_USED_BY_CUSTOMER', status: 409 });
     expect(tx.user.update).not.toHaveBeenCalled();
     expect(tx.user.create).not.toHaveBeenCalled();

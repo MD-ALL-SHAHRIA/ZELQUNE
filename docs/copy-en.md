@@ -709,6 +709,8 @@ How to cancel an order, return an item or get your money back.
 - **checkSpam:** Can't find it? Look in spam, or send it again.
 - **resend:** Send the link again
 - **resent:** Sent again. Check your inbox.
+- **verifyIntro:** Choose a password to finish creating your account.
+- **verifyButton:** Confirm email and save password
 - **verifying:** Confirming your email…
 - **verifiedTitle:** Email confirmed
 - **verifiedText:** Your account is ready.

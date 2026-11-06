@@ -30,7 +30,9 @@ export class ConsoleSmsProvider implements SmsProvider {
 
   send(to: string, body: string): Promise<SmsResult> {
     this.logger.log(
-      this.showContent ? `[SMS -> ${to}] ${body}` : `[SMS -> ${maskPhone(to)}] (${body.length} chars)`,
+      this.showContent
+        ? `[SMS -> ${to}] ${body}`
+        : `[SMS -> ${maskPhone(to)}] (${body.length} chars)`,
     );
     return Promise.resolve({ providerRef: `console-${randomUUID()}` });
   }

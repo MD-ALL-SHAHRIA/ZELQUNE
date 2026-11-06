@@ -32,11 +32,12 @@ export async function signInCustomer(
   page: Page | { request: APIRequestContext },
   name = 'E2E Shopper',
 ): Promise<{ email: string; phone: string; accessToken: string }> {
+  const PASSWORD = 'walnut lamp by the window';
   const email = `shopper-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@example.com`;
   const phone = uniquePhone();
   const reg = await page.request.post(`${API}/v1/auth/register`, {
     headers: { 'cf-turnstile-response': 'dev-pass' },
-    data: { name, email, phone, password: 'walnut lamp by the window', lang: 'en' },
+    data: { name, email, phone, password: PASSWORD, lang: 'en' },
   });
   if (reg.status() !== 202) throw new Error(`register failed: ${reg.status()} ${await reg.text()}`);
   let token = '';
@@ -54,7 +55,10 @@ export async function signInCustomer(
     if (!token) await new Promise((r) => setTimeout(r, 250));
   }
   if (!token) throw new Error(`no confirmation email for ${email}`);
-  const verified = await page.request.post(`${API}/v1/auth/verify-email`, { data: { token } });
+  // The password is set at verification (the one sent at sign-up is not stored).
+  const verified = await page.request.post(`${API}/v1/auth/verify-email`, {
+    data: { token, password: PASSWORD },
+  });
   if (!verified.ok()) throw new Error(`verify failed: ${verified.status()}`);
   const { accessToken } = (await verified.json()) as { accessToken: string };
   return { email, phone, accessToken };

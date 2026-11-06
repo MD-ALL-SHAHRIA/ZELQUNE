@@ -3,7 +3,7 @@
 import { CheckCircle2, MailCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { type Locale } from '@/i18n/config';
 import { fill } from '@/i18n/format';
 import { FormNotice } from '@/features/legal/form-notice';
@@ -331,45 +331,66 @@ function useFragmentToken(): string | null {
 }
 
 export function VerifyView({ lang, copy: c }: Props) {
+  // The password is chosen here, by whoever controls the inbox; one typed at sign-up is not kept.
   const token = useFragmentToken();
-  const [state, setState] = useState<'working' | 'ok' | 'failed'>('working');
-  const [error, setError] = useState('');
-  const once = useRef(false);
-  useEffect(() => {
-    if (token === null || once.current) return;
-    once.current = true;
-    publicCall<TokenReply>('/v1/auth/verify-email', {
-      method: 'POST',
-      body: JSON.stringify({ token }),
-    })
-      .then(signedIn)
-      .then(() => setState('ok'))
-      .catch((err: unknown) => {
-        setError(errorText(err, c));
-        setState('failed');
-      });
-  }, [token, c]);
-  if (state === 'working')
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | undefined>();
+  const [formError, setFormError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const bad = password.length < 10;
+    setError(bad ? c.errors.passwordShort : undefined);
+    setFormError(null);
+    if (bad) return focusFirstInvalid(form);
+    setBusy(true);
+    try {
+      await signedIn(
+        await publicCall<TokenReply>('/v1/auth/verify-email', {
+          method: 'POST',
+          body: JSON.stringify({ token, password }),
+        }),
+      );
+      setDone(true);
+    } catch (err) {
+      if (err instanceof ApiError && err.code === 'WEAK_PASSWORD') {
+        setError(c.errors.WEAK_PASSWORD);
+        focusFirstInvalid(form);
+      } else setFormError(errorText(err, c));
+    }
+    setBusy(false);
+  }
+
+  if (done)
     return (
-      <p role="status" className="text-stone">
-        {c.verifying}
-      </p>
-    );
-  if (state === 'failed')
-    return (
-      <div className="space-y-5">
-        <FormError text={error} />
-        <ButtonLink href={href(lang, '/account/login')} variant="outline">
-          {c.backToSignIn}
+      <Done icon={<CheckCircle2 />} title={c.verifiedTitle} text={c.verifiedText}>
+        <ButtonLink href={href(lang, '/account')} size="lg">
+          {c.goAccount}
         </ButtonLink>
-      </div>
+      </Done>
     );
   return (
-    <Done icon={<CheckCircle2 />} title={c.verifiedTitle} text={c.verifiedText}>
-      <ButtonLink href={href(lang, '/account')} size="lg">
-        {c.goAccount}
-      </ButtonLink>
-    </Done>
+    <form onSubmit={(e) => void submit(e)} noValidate className="space-y-5">
+      <FormError text={token === '' ? c.errors.INVALID_LINK : formError} />
+      <p className="text-stone">{c.verifyIntro}</p>
+      <PasswordField
+        id="ve-password"
+        label={c.newPassword}
+        value={password}
+        onChange={setPassword}
+        error={error}
+        hint={c.passwordHint}
+        autoComplete="new-password"
+        copy={c}
+        meter
+      />
+      <Button type="submit" size="lg" disabled={busy || !token} className="w-full">
+        {busy ? c.verifying : c.verifyButton}
+      </Button>
+    </form>
   );
 }
 
