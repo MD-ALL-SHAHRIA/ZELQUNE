@@ -209,12 +209,20 @@ describe('shop routes (e2e, services mocked)', () => {
     );
   });
 
-  it('checkout needs a signed-in customer account (ADR 0021)', async () => {
+  it('guests can check out; a customer token links the account (ADR 0023)', async () => {
     h.clients.order.send.mockResolvedValue(checkoutResponse);
-    expect((await checkout({ auth: '' }).expect(401)).body.error.code).toBe('UNAUTHENTICATED');
+    const sent = () => h.clients.order.send.mock.calls.at(-1)?.[1] as { customerUserId: unknown };
+    await checkout({ auth: '', key: 'guest-key-00001' }).expect(201);
+    expect(sent().customerUserId).toBeNull();
+    // Another role's token is not an account: the order is a guest order.
     const staff = await h.signAccessToken({ sub: CUSTOMER_ID, role: 'STAFF' });
-    await checkout({ auth: staff }).expect(403);
-    expect(h.clients.order.send).not.toHaveBeenCalled();
+    await checkout({ auth: staff, key: 'staff-key-00001' }).expect(201);
+    expect(sent().customerUserId).toBeNull();
+    // A broken or expired token is refused, so the storefront refreshes it and retries.
+    expect(
+      (await checkout({ auth: 'not.a.jwt', key: 'bad-key-000001' }).expect(401)).body.error.code,
+    ).toBe('INVALID_TOKEN');
+    expect(h.clients.order.send).toHaveBeenCalledTimes(2);
   });
 
   it('replays the same checkout (same cart + key) with the original 201 and body', async () => {
