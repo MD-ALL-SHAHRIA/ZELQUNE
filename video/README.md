@@ -12,4 +12,7 @@ A 59 s story ad ("Switch on the warmth") built from real storefront captures. Se
 Everything is in src/video.config.ts: `copy` (all text), `colors`, `scenes` (start/length in beats of the 120 BPM grid), `springs`, `screens` and `audio`.
 
 ## Audio
-Drop `assets/music.mp3` (120 BPM), `assets/sfx/whoosh.mp3` and `assets/sfx/click.mp3`; they are picked up automatically (whoosh on every cut, click on cursor clicks). No audio is committed.
+`python3 scripts/compose_audio.py` composes the original soundtrack (120 BPM, D major) and SFX from the
+scene grid in video.config.ts, into `assets/music.mp3`, `assets/sfx/whoosh.mp3` and `assets/sfx/click.mp3`
+(needs numpy, scipy, ffmpeg). Re-run it after changing scene timings. To use licensed music instead,
+replace `assets/music.mp3` (120 BPM). Volumes: `audio` in video.config.ts.
