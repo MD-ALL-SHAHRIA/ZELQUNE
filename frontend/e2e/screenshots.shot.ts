@@ -1,5 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
-import { fillCheckout, uniquePhone, uniqueTrxId } from './helpers';
+import { fillCheckout, signInCustomer, uniquePhone, uniqueTrxId } from './helpers';
 
 /**
  * Screenshots of every storefront page, mobile (390x844) and desktop (1440x900), /en and /bn,
@@ -14,6 +14,8 @@ let orderCode = '';
 let quoteCode = '';
 
 test.describe.configure({ mode: 'serial' });
+// ~25 full pages per language and size, each scrolled once to reveal its sections.
+test.setTimeout(10 * 60_000);
 // Full-page captures: show scroll-revealed sections in their final state.
 test.use({ reducedMotion: 'reduce' });
 
@@ -40,8 +42,10 @@ test.beforeAll(async ({ request }) => {
   });
   expect(placed.ok()).toBeTruthy();
   orderCode = (await placed.json()).orderCode;
+  // Bulk requests need a customer account (ADR 0021); shop orders do not (ADR 0023).
+  const { accessToken } = await signInCustomer({ request }, 'Nadia Rahman');
   const quote = await request.post(`${API}/v1/quote-requests`, {
-    headers: { 'cf-turnstile-response': 'dev-pass' },
+    headers: { 'cf-turnstile-response': 'dev-pass', authorization: `Bearer ${accessToken}` },
     data: {
       organizationName: 'Demo Interiors Ltd',
       contactName: 'Nadia Rahman',
@@ -55,6 +59,16 @@ test.beforeAll(async ({ request }) => {
 
 async function shot(page: Page, name: string) {
   await page.evaluate(() => document.fonts.ready);
+  // Sections reveal as they scroll into view; walk the page once so the full-page capture shows
+  // them all, then return to the top.
+  await page.evaluate(async () => {
+    for (let y = 0; y < document.documentElement.scrollHeight; y += window.innerHeight / 2) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 60));
+    }
+    window.scrollTo(0, 0);
+  });
+  await page.waitForTimeout(300);
   await page.screenshot({ path: `screenshots/${name}.png`, fullPage: true });
 }
 
