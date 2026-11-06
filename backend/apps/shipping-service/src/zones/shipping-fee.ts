@@ -22,16 +22,15 @@ export interface WeightBreakdown {
  */
 export function chargeableWeight(lines: ParcelLine[], config: FeeConfig): WeightBreakdown {
   let actual = 0;
-  let volumetric = 0;
+  let cubicMm = 0;
   for (const line of lines) {
     actual += line.qty * (line.packageWeightGrams ?? config.defaultPackageWeightGrams);
     const { packageLengthMm: l, packageWidthMm: w, packageHeightMm: h } = line;
-    if (l && w && h) {
-      const cubicCm = (l / 10) * (w / 10) * (h / 10);
-      volumetric += line.qty * ((cubicCm / config.volumetricDivisor) * 1000);
-    }
+    if (l && w && h) cubicMm += line.qty * l * w * h;
   }
-  const volumetricWeightGrams = Math.ceil(volumetric);
+  // grams = cm³ / divisor * 1000 = mm³ / divisor. Integer maths: float cm conversions could add a
+  // stray gram and bill an extra kg at exact kg boundaries.
+  const volumetricWeightGrams = Math.ceil(cubicMm / config.volumetricDivisor);
   const chargeableKg = Math.max(1, Math.ceil(Math.max(actual, volumetricWeightGrams) / 1000));
   return {
     actualWeightGrams: actual,
