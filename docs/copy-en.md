@@ -40,7 +40,7 @@
   - Made to order: "Made to order · 10 days"
   - In stock: "In stock · delivered in 1–3 days" (only when actually in stock)
 - **Delivery fee field:** Delivery fee: shown when you choose your area
-- **Pre-order note (small box):** This is a pre-order. Pay a ৳300 advance to confirm, the rest on delivery. If we can't deliver on time, you get your full advance back.
+- **Pre-order note (small box):** This is a pre-order, made for you. Pay cash on delivery, or a ৳300 advance and the rest on delivery. If we can't deliver on time, any advance is refunded in full.
 - **Buttons:** Add to cart · Pre-order now
 
 ## Checkout
@@ -423,6 +423,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Buttons and title:** Buy now · Share · Link copied
 - **Size:** Size · {w} × {h} cm
 - **Delivery card:** Delivery across Bangladesh
+- **Arrival line:** Order today, delivered by {date}
 - **Cross-sell:** Complete the wall · Pieces that sit well beside this one · Add · Added
 
 ## Cookies and consent
