@@ -144,7 +144,7 @@ export function ListingPage({
                     'relative inline-flex h-12 items-center text-[0.95rem] transition-colors duration-300 after:absolute after:inset-x-0 after:bottom-2 after:h-px after:origin-left after:bg-ink after:transition-transform after:duration-500 after:ease-out-soft',
                     p.current
                       ? 'text-ink after:scale-x-100'
-                      : 'text-ink/55 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
+                      : 'text-ink/75 after:scale-x-0 hover:text-ink hover:after:scale-x-100',
                   )}
                 >
                   {p.label}

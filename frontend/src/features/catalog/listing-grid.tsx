@@ -62,7 +62,7 @@ export function applyListing<T extends Pick<ListingItem, 'saleMode' | 'pricePais
 }
 
 const label =
-  'text-[0.68rem] font-medium uppercase tracking-[0.16em] text-stone [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal';
+  'text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-stone [:lang(bn)_&]:text-[0.8rem] [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal';
 
 const selectClass =
   'h-10 w-full min-w-0 cursor-pointer appearance-none border border-line bg-paper bg-[length:10px] bg-[right_0.85rem_center] bg-no-repeat pl-3 pr-8 text-sm text-ink transition-colors hover:border-ink/40 focus-visible:border-ink';
@@ -205,7 +205,7 @@ export function ListingGrid({
                   )}
                 >
                   {copy[f]}
-                  <sup className="ml-1 text-[0.7rem] tabular-nums text-ink/75">{n(counts[f])}</sup>
+                  <sup className="ml-1 text-[0.7rem] tabular-nums text-ink">{n(counts[f])}</sup>
                 </button>
               ))}
             </div>

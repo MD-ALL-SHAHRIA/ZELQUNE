@@ -30,7 +30,7 @@ export function SaleBadge(props: {
   return (
     <span
       data-sale-mode={props.marked === false ? undefined : props.saleMode}
-      className="inline-flex items-center gap-2 bg-paper/90 px-2.5 py-1 text-[0.68rem] font-medium uppercase tracking-[0.12em] text-ink @max-[15rem]:gap-1.5 @max-[15rem]:px-2 @max-[15rem]:text-[0.56rem] @max-[15rem]:tracking-[0.08em] [:lang(bn)_&]:text-xs [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal"
+      className="inline-flex items-center gap-2 bg-paper/90 px-2.5 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-ink @max-[15rem]:gap-1.5 @max-[15rem]:px-2 @max-[15rem]:text-[0.56rem] @max-[15rem]:tracking-[0.08em] [:lang(bn)_&]:text-xs [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal"
     >
       <span
         aria-hidden
