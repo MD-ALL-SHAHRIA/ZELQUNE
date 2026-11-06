@@ -10,6 +10,7 @@ import { RefreshTokenRepository } from './auth/refresh-token.repository';
 import { TokenService } from './auth/token.service';
 import { identityEnvSchema } from './config/identity-env';
 import { PrismaService } from './prisma/prisma.service';
+import { IdentityPrivacyHandlers } from './privacy/privacy.handlers';
 import { TeamRpcController } from './team/team.rpc.controller';
 import { TeamService } from './team/team.service';
 import { UserRepository } from './users/user.repository';
@@ -25,6 +26,7 @@ import { UserRepository } from './users/user.repository';
   controllers: [AuthRpcController, CustomerRpcController, AccountsRpcController, TeamRpcController],
   providers: [
     AuthService,
+    IdentityPrivacyHandlers,
     CustomerService,
     PasswordService,
     TokenService,
