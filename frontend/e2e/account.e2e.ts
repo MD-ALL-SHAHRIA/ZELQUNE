@@ -49,13 +49,18 @@ test('account: register, confirm by email, portal, sign out, sign in again', asy
   await page.getByLabel('Email').fill(email);
   await page.locator('#li-password').fill(password);
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page.getByText('Confirm your email first.')).toBeVisible();
+  // No password exists until the email is confirmed, so this is the usual wrong-password answer
+  // (a different message would reveal which emails exist).
+  await expect(page.getByText('Wrong email or password.')).toBeVisible();
 
   const link = /(http\S+\/account\/verify#token=[\w-]+)/.exec(
     await lastEmailText(page, email),
   )?.[1];
   expect(link).toBeTruthy();
   await page.goto(link!);
+  // The inbox owner chooses the password here (the sign-up password is never stored).
+  await page.locator('#ve-password').fill(password);
+  await page.getByRole('button', { name: 'Confirm email and save password' }).click();
   await expect(page.getByRole('heading', { name: 'Email confirmed' })).toBeVisible();
   // The token is wiped from the address bar.
   await expect(page).not.toHaveURL(/token=/);
