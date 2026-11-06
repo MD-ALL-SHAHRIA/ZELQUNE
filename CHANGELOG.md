@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Fixed
+- Checkout: the coupon "Apply" button (EN and BN) is no longer squeezed and cut off ("APP…"); the code field gives up the space instead.
+
 ### Added
 - Guest checkout (ADR 0023): anyone can order with name and phone; signing in is offered ("Have one? Sign in to fill in your details"), never required. A signed-in customer's order is still linked to the account. Bulk, interior design and construction requests still need an account.
 - Cash on delivery for pre-order and made-to-order items (ADR 0022): a new dashboard switch (Settings > Checkout, on by default). Checkout offers "Cash on delivery" beside the bKash/Nagad advance; a COD order takes no advance, the summary shows the whole total as "Pay on delivery", and staff confirm it by phone as before.
