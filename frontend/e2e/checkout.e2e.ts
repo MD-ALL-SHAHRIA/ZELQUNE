@@ -16,10 +16,11 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await expect(page.locator('body')).not.toContainText('স্টকে আছে');
 
   // Delivery fee estimate for the product page.
+  // The arrival date is worked out in the browser, so it also shows the page is interactive
+  // (choosing a district before hydration would be reset).
+  await expect(page.getByTestId('arrival')).toContainText('পৌঁছানোর শেষ তারিখ');
   await page.locator('#estimate-district').selectOption('chattogram');
   await expect(page.getByTestId('delivery-estimate')).toContainText('৳');
-  // The latest arrival date (lead time + courier time for the district), worked out in the browser.
-  await expect(page.getByTestId('arrival')).toContainText('পৌঁছানোর শেষ তারিখ');
 
   // No experiment: another arm in the link changes nothing either.
   await page.goto('/bn/products/alo-arch-panel?p=a');
