@@ -402,7 +402,14 @@ export class CustomerService {
         where: { tokenHash: sha256(token) },
         include: { user: true },
       });
-      if (!row || row.purpose !== purpose || row.expiresAt <= new Date() || !row.user.isActive)
+      if (
+        !row ||
+        row.purpose !== purpose ||
+        row.expiresAt <= new Date() ||
+        !row.user.isActive ||
+        // Customer links never act on a dashboard account (defence in depth for promoted rows).
+        row.user.role !== 'CUSTOMER'
+      )
         throw invalidLink();
       const { count } = await tx.authToken.updateMany({
         where: { id: row.id, usedAt: null },
