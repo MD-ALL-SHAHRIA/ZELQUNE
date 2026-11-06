@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test';
+import { type APIRequestContext, type Page } from '@playwright/test';
 
 /** Unique 11-digit BD mobile and trxId per run, so reruns never collide. */
 export function uniquePhone(): string {
@@ -23,14 +23,15 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
 const MAILPIT = 'http://localhost:8025';
 
 /**
- * A real, confirmed customer account for this test (ADR 0021: orders and requests need one):
- * registers through the API, opens the confirmation link from Mailpit, and leaves the session
- * cookie in the browser context, so the storefront is signed in on the next page load.
+ * A real, confirmed customer account for this test (ADR 0021: requests need one; shop orders
+ * may use one): registers through the API, opens the confirmation link from Mailpit, and leaves
+ * the session cookie in the context, so the storefront is signed in on the next page load. Takes
+ * a page or a bare API context; the access token is returned for direct API calls.
  */
 export async function signInCustomer(
-  page: Page,
+  page: Page | { request: APIRequestContext },
   name = 'E2E Shopper',
-): Promise<{ email: string; phone: string }> {
+): Promise<{ email: string; phone: string; accessToken: string }> {
   const email = `shopper-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@example.com`;
   const phone = uniquePhone();
   const reg = await page.request.post(`${API}/v1/auth/register`, {
@@ -50,10 +51,11 @@ export async function signInCustomer(
       };
       token = /#token=([\w-]+)/.exec(msg.Text)?.[1] ?? '';
     }
-    if (!token) await page.waitForTimeout(250);
+    if (!token) await new Promise((r) => setTimeout(r, 250));
   }
   if (!token) throw new Error(`no confirmation email for ${email}`);
   const verified = await page.request.post(`${API}/v1/auth/verify-email`, { data: { token } });
   if (!verified.ok()) throw new Error(`verify failed: ${verified.status()}`);
-  return { email, phone };
+  const { accessToken } = (await verified.json()) as { accessToken: string };
+  return { email, phone, accessToken };
 }
