@@ -199,7 +199,11 @@ export class InventoryService implements OnApplicationBootstrap, OnModuleDestroy
     });
   }
 
-  /** Releases expired PENDING/HELD reservations. Safe with several replicas (SKIP LOCKED). */
+  /**
+   * Releases expired PENDING/HELD reservations. Safe with several replicas: release() locks the
+   * reservation row and re-checks its status. One failing reservation is logged and skipped, so it
+   * cannot block expiry of every reservation sorted after it.
+   */
   async releaseExpired(now = new Date()): Promise<number> {
     const due = await this.prisma.$queryRaw<{ order_id: string }[]>`
       SELECT order_id FROM stock_reservations
@@ -207,8 +211,12 @@ export class InventoryService implements OnApplicationBootstrap, OnModuleDestroy
       ORDER BY expires_at LIMIT ${SWEEP_BATCH}`;
     let released = 0;
     for (const { order_id } of due) {
-      const result = await this.release({ orderId: order_id, reason: 'EXPIRED' });
-      if (result.released) released++;
+      try {
+        const result = await this.release({ orderId: order_id, reason: 'EXPIRED' });
+        if (result.released) released++;
+      } catch (err) {
+        this.logger.error({ err, orderId: order_id }, 'Could not release expired reservation');
+      }
     }
     return released;
   }
