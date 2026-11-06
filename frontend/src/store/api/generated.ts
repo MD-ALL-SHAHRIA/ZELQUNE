@@ -45,7 +45,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/v1/auth/verify-email`,
         method: 'POST',
-        body: queryArg.tokenDto,
+        body: queryArg.verifyEmailDto,
       }),
     }),
     customerAuthControllerResend: build.mutation<
@@ -356,7 +356,7 @@ export type CustomerAuthControllerLogoutApiArg = void;
 export type CustomerAuthControllerVerifyEmailApiResponse =
   /** status 200  */ CustomerTokenDtoOutput;
 export type CustomerAuthControllerVerifyEmailApiArg = {
-  tokenDto: TokenDto;
+  verifyEmailDto: VerifyEmailDto;
 };
 export type CustomerAuthControllerResendApiResponse = /** status 202  */ AcceptedDtoOutput;
 export type CustomerAuthControllerResendApiArg = {
@@ -526,8 +526,9 @@ export type LoginDto = {
   email: string;
   password: string;
 };
-export type TokenDto = {
+export type VerifyEmailDto = {
   token: string;
+  password: string;
 };
 export type EmailDto = {
   email: string;
