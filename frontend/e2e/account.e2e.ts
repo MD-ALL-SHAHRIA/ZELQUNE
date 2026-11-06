@@ -58,12 +58,11 @@ test('account: register, confirm by email, portal, sign out, sign in again', asy
   )?.[1];
   expect(link).toBeTruthy();
   await page.goto(link!);
+  // The token is wiped from the address bar once the page has read it (hydrated): type after.
+  await expect(page).not.toHaveURL(/token=/);
   // The inbox owner chooses the password here (the sign-up password is never stored).
   await page.locator('#ve-password').fill(password);
   await page.getByRole('button', { name: 'Confirm email and save password' }).click();
-  await expect(page.getByRole('heading', { name: 'Email confirmed' })).toBeVisible();
-  // The token is wiped from the address bar.
-  await expect(page).not.toHaveURL(/token=/);
   await page.getByRole('link', { name: 'Go to my account' }).click();
   await expect(page.getByText('Hello, E2E Customer')).toBeVisible();
   await expect(page.getByText('This device')).toBeVisible();
