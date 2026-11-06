@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Truck } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useCart } from '@/features/cart/use-cart';
 import { PriceTag, type PriceCopy } from '@/features/offers/price-tag';
 import { type Locale } from '@/i18n/config';
@@ -14,6 +14,7 @@ import { Button } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Select } from '@/shared/ui/field';
 import { useLazyShippingEstimateQuery } from '@/store/api';
+import { arrivalDate, formatArrival } from './arrival';
 import { finishColor, variantValue } from './finishes';
 
 export interface PurchaseCopy {
@@ -23,6 +24,8 @@ export interface PurchaseCopy {
   addToCart: string;
   preOrderNow: string;
   deliveryFee: string;
+  /** "Order today, delivered by {date}". */
+  arrival: string;
   estimate: { district: string; choose: string; result: string; failed: string };
   unavailable: string;
   preOrder: boolean;
@@ -36,6 +39,8 @@ export interface PurchaseCopy {
   /** Pre-orders: how the advance works (shown in the delivery card). */
   preOrderNote?: string;
 }
+
+const noSubscribe = () => () => undefined;
 
 const label =
   'text-[0.7rem] font-medium uppercase tracking-eyebrow text-stone [:lang(bn)_&]:text-sm [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal';
@@ -54,7 +59,7 @@ export function Purchase({
   afterCta,
   sizeAction,
 }: {
-  product: Pick<ProductDetail, 'id' | 'variants' | 'saleMode'>;
+  product: Pick<ProductDetail, 'id' | 'variants' | 'saleMode' | 'leadTimeDays'>;
   districts: District[];
   lang: Locale;
   copy: PurchaseCopy;
@@ -68,6 +73,23 @@ export function Purchase({
   const variant = product.variants.find((v) => v.id === variantId);
   const [district, setDistrict] = useState('');
   const [estimate, { data: fee, isError, isFetching }] = useLazyShippingEstimateQuery();
+  // The date depends on today, so it is worked out in the browser only (the page is cached).
+  const inBrowser = useSyncExternalStore(
+    noSubscribe,
+    () => true,
+    () => false,
+  );
+  const arrival = inBrowser
+    ? formatArrival(
+        arrivalDate(
+          new Date(),
+          product.saleMode,
+          product.leadTimeDays,
+          district && fee ? fee.zone : null,
+        ),
+        lang,
+      )
+    : null;
   const ctaRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
   const [barVisible, setBarVisible] = useState(false);
@@ -226,6 +248,11 @@ export function Purchase({
               {copy.leadTime ? (
                 <p className="text-[0.82rem] font-medium leading-snug text-ink">
                   <CopyText>{copy.leadTime}</CopyText>
+                </p>
+              ) : null}
+              {arrival ? (
+                <p data-testid="arrival" className="mt-1.5 text-[0.82rem] leading-snug text-ink">
+                  {fill(copy.arrival, { date: arrival })}
                 </p>
               ) : null}
               {copy.preOrderNote ? (

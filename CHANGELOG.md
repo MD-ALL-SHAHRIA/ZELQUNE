@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Product page: "Order today, delivered by 20 November" in the delivery card: the lead time plus the longest courier time we promise (2 days in Dhaka, 4 outside, 4 until a district is chosen), worked out in the browser in Dhaka time. The pre-order note now mentions cash on delivery.
+
 ### Fixed
 - Checkout: the coupon "Apply" button (EN and BN) is no longer squeezed and cut off ("APP…"); the code field gives up the space instead.
 

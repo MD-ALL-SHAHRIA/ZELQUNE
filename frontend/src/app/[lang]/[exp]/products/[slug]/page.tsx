@@ -198,7 +198,12 @@ export default async function ProductPage({ params }: { params: Params }) {
                 {description ? <Lead className="text-pretty">{description}</Lead> : null}
               </div>
               <Purchase
-                product={{ id: product.id, variants: product.variants, saleMode: product.saleMode }}
+                product={{
+                  id: product.id,
+                  variants: product.variants,
+                  saleMode: product.saleMode,
+                  leadTimeDays: product.leadTimeDays,
+                }}
                 districts={districts}
                 lang={lang}
                 sizeAction={visualizer}
@@ -212,6 +217,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   sizeLabel: dict.product.sizeLabel,
                   size: dict.product.size,
                   deliveryHeading: dict.product.deliveryHeading,
+                  arrival: dict.product.arrival,
                   preOrderNote: preOrder ? dict.product.preOrderNote : undefined,
                   deliveryFee: dict.product.deliveryFee,
                   estimate: dict.product.estimate,
