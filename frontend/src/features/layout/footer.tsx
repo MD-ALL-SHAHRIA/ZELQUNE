@@ -85,14 +85,14 @@ export function Footer({
           />
           <div className="relative grid lg:grid-cols-12">
             <div className="px-6 py-12 sm:px-12 sm:py-16 lg:col-span-7 lg:py-20 lg:pr-6 lg:pl-16">
-              <p className="flex items-center gap-4 text-[0.7rem] font-medium uppercase tracking-eyebrow text-[#f4dcb0] [:lang(bn)_&]:text-[0.85rem] [:lang(bn)_&]:tracking-normal">
+              <p className="flex items-center gap-4 text-[0.7rem] font-medium uppercase tracking-eyebrow text-[#fdf2e0] [:lang(bn)_&]:text-[0.85rem] [:lang(bn)_&]:tracking-normal">
                 <span aria-hidden className="h-px w-10 bg-[#f4dcb0]" />
                 {f.ctaEyebrow}
               </p>
               <p className="mt-7 max-w-[15ch] font-display text-[clamp(2.4rem,1.4rem+3.6vw,5rem)] font-medium leading-[0.98] tracking-[-0.02em] text-balance text-[#fdf8f0] [:lang(bn)_&]:max-w-[20ch] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.25] [:lang(bn)_&]:tracking-normal">
                 {f.ctaHeading}
               </p>
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-[#fdf8f0]/85 sm:text-lg">
+              <p className="mt-6 max-w-lg text-base leading-relaxed text-[#fdf8f0]/95 sm:text-lg">
                 {f.ctaText}
               </p>
               <div className="mt-10 flex flex-wrap gap-3 sm:gap-4">
