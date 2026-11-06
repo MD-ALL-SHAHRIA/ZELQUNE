@@ -14,6 +14,11 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Storefront copy (EN + BN): the announcement bar, the trust strip and the product page's "Buy with confidence" now lead with cash on delivery.
 
 ### Changed
+- Home (conversion): every piece with its price now follows the trust strip, straight under the hero (products start on the second phone screen instead of about the sixth); Materials moves to the Our story page, shortening the home page by about two phone screens.
+- Phones: the WhatsApp button arrives after the visitor scrolls past most of the first screen, so it no longer covers the hero line, the product title or the shop filters; the cookie banner is a short strip (no heading, tighter spacing, about 110px tall).
+- Shop and category pages (phones): the decorative photo strip is hidden so the first products are on the first screen; phones download only its smallest file.
+
+### Changed
 - The shop's address is now support@zelqune.com (Cloudflare Email Routing to the owner's inbox): default `MAIL_FROM` and the dashboard email placeholder.
 
 ### Fixed

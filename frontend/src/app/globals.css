@@ -52,6 +52,31 @@
     pointer-events: none;
   }
 }
+/* Phones: the first screen is the hero, the product title or the shop filters, and a 56px
+   button in the corner hides part of them. The button arrives once the visitor has scrolled
+   past half a screen (browsers without scroll timelines show it as before). */
+@media (max-width: 1023.98px) {
+  @supports (animation-timeline: scroll()) {
+    [data-testid='whatsapp-fab'] {
+      animation: fab-arrive linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0px 70vh;
+    }
+  }
+}
+@keyframes fab-arrive {
+  0%,
+  70% {
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 1rem;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+  }
+}
 
 @layer base {
   html {

@@ -103,14 +103,16 @@ export function ListingPage({
             {line ? <Lead className="max-w-md text-pretty text-[0.98rem]">{line}</Lead> : null}
           </div>
 
-          <div className="relative lg:col-span-7">
+          {/* Phones skip the photo strip so the first products show on the first screen. */}
+          <div className="relative hidden md:block lg:col-span-7">
             <div className="relative -mx-5 aspect-[5/2] overflow-hidden bg-sand md:mx-0 lg:aspect-[16/6]">
               <Image
                 src={SAMPLE[wide].src}
                 alt=""
                 fill
                 preload
-                sizes="(min-width: 1440px) 780px, (min-width: 1024px) 55vw, 100vw"
+                // Hidden below md: "1px" makes phones fetch the smallest file only.
+                sizes="(min-width: 1440px) 780px, (min-width: 1024px) 55vw, (min-width: 768px) 100vw, 1px"
                 className="object-cover"
               />
             </div>
