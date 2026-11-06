@@ -2,9 +2,10 @@ import { useCurrentFrame, useVideoConfig } from 'remotion';
 import { FeatureStage, target } from '../components/FeatureStage';
 import { Cursor, ProductCard, Tap } from '../components/Ui';
 import { mix, springAt } from '../lib/motion';
-import { beats, copy, screens, springs } from '../video.config';
+import { copy, screens, springs, timing } from '../video.config';
 
-const CLICK = beats(4);
+const T = timing.find;
+const CLICK = T.click;
 
 /** Beat 1: the real shop; the cursor clicks the first real product card and the cards lift off. */
 export function Find() {
@@ -20,7 +21,7 @@ export function Find() {
         const t = target(s, 'firstCard');
         if (!t) return null;
         if (s.format !== 'wide') return <Tap x={t.x} y={t.y} at={CLICK} />;
-        return <Cursor stops={[{ at: beats(1), x: s.screen.w * 0.8, y: s.screen.h * 0.25 }, { at: beats(1.8), x: t.x, y: t.y, click: CLICK }]} size={38} />;
+        return <Cursor stops={[{ at: T.cursorIn, x: s.screen.w * 0.8, y: s.screen.h * 0.25 }, { at: T.cursorMove, x: t.x, y: t.y, click: CLICK }]} size={38} />;
       }}
       extras={(s) => {
         const wide = s.format === 'wide';
@@ -31,7 +32,7 @@ export function Find() {
         const xs = [-1, 0, 1].map((k) => center - w / 2 + k * w * (wide ? 1.25 : 1.08));
         const rot = [-7, 2, 8];
         return screens.cards.map((src, i) => {
-          const p = springAt(frame, fps, CLICK + 6 + i * 4, springs.pop);
+          const p = springAt(frame, fps, T.cards + i * T.cardStagger, springs.pop);
           return (
             <ProductCard
               key={src}

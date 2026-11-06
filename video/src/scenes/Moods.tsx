@@ -3,9 +3,10 @@ import { FeatureStage, ScreenSwap, target } from '../components/FeatureStage';
 import { Cursor, Glass, Tap } from '../components/Ui';
 import { ui } from '../lib/fonts';
 import { mix, springAt } from '../lib/motion';
-import { beats, colors, copy, screens, springs } from '../video.config';
+import { colors, copy, screens, springs, timing } from '../video.config';
 
-const CLICK = beats(4.5);
+const T = timing.moods;
+const CLICK = T.click;
 
 /**
  * Beat 2: the real product page. Desktop: the cursor clicks the site's own dark-mode toggle and
@@ -31,7 +32,7 @@ export function Moods() {
           <>
             <ScreenSwap src={wide ? screens.productNightDesktop : screens.productNightMobile} clip={`circle(${r}px at ${ox}px ${oy}px)`} />
             {wide && t && (
-              <Cursor stops={[{ at: beats(1.5), x: s.screen.w * 0.55, y: s.screen.h * 0.6 }, { at: beats(2.5), x: t.x, y: t.y, click: CLICK }]} size={36} />
+              <Cursor stops={[{ at: T.cursorIn, x: s.screen.w * 0.55, y: s.screen.h * 0.6 }, { at: T.cursorMove, x: t.x, y: t.y, click: CLICK }]} size={36} />
             )}
           </>
         );
@@ -41,7 +42,7 @@ export function Moods() {
         const pillW = 340;
         const left = s.device.x + s.device.w - pillW * 0.62;
         const top = s.device.y + s.device.h * 0.42;
-        const appear = springAt(frame, fps, beats(2), springs.pop);
+        const appear = springAt(frame, fps, T.pill, springs.pop);
         return (
           <div style={{ position: 'absolute', left, top, transform: `scale(${appear})` }}>
             <Glass style={{ width: pillW, height: 96, borderRadius: 999, position: 'relative', display: 'flex', alignItems: 'center', padding: 9 }}>

@@ -1,17 +1,40 @@
-import { FeatureStage, ScreenSwap, target } from '../components/FeatureStage';
+import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { FeatureStage, ScreenSwap, target, type Stage } from '../components/FeatureStage';
 import { Cursor, Tap, Toast } from '../components/Ui';
-import { springAt } from '../lib/motion';
-import { useCurrentFrame, useVideoConfig } from 'remotion';
-import { beats, copy, screens, springs } from '../video.config';
+import { typedCount, typingSchedule } from '../lib/typing';
+import { colors, copy, screens, timing } from '../video.config';
 
-const FOCUS = beats(2);
-const CLICK = beats(5.5);
+const T = timing.deliver;
+const schedule = typingSchedule();
 
-/** Beat 4: the real tracking form; the code types into the real fields, then a click on Track. */
+/** Beat 4: the real tracking form; the order code and phone number type in, then Track. */
 export function Deliver() {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const typed = springAt(frame, fps, FOCUS + 4, springs.camera);
+
+  const typed = (s: Stage) => {
+    const wide = s.format === 'wide';
+    const filled = wide ? screens.trackFilledDesktop : screens.trackFilledMobile;
+    return (['orderText', 'phoneText'] as const).map((name, i) => {
+      const box = target(s, name);
+      if (!box) return null;
+      const f = schedule.fields[i];
+      const n = typedCount(frame, f.start, f.text.length, schedule.perChar);
+      const x0 = box.left - 2;
+      const x1 = box.left + (box.w * n) / f.text.length;
+      const top = box.y - box.h * 0.42;
+      const bottom = box.y + box.h * 0.42;
+      const typing = frame >= f.start - 4 && frame < f.start + f.text.length * schedule.perChar + 10;
+      return (
+        <AbsoluteFill key={name}>
+          {n > 0 && <ScreenSwap src={filled} clip={`polygon(${x0}px ${top}px, ${x1 + 1}px ${top}px, ${x1 + 1}px ${bottom}px, ${x0}px ${bottom}px)`} />}
+          {typing && frame % 14 < 9 && (
+            <div style={{ position: 'absolute', left: x1 + 2, top: box.y - box.h * 0.22, width: wide ? 1.5 : 2, height: box.h * 0.44, background: colors.espresso }} />
+          )}
+        </AbsoluteFill>
+      );
+    });
+  };
+
   return (
     <FeatureStage
       eyebrow="Delivered to all 64 districts"
@@ -22,29 +45,22 @@ export function Deliver() {
         const input = target(s, 'orderInput');
         const button = target(s, 'trackButton');
         if (!input || !button) return null;
-        const wide = s.format === 'wide';
-        // Band covering the real input fields, revealed left to right like typing.
-        const top = input.y - input.h * 0.9;
-        const bottom = wide ? input.y + input.h * 0.9 : button.y - button.h * 0.7;
-        const right = wide ? button.left - 4 : s.screen.w;
-        const reveal = input.left + (right - input.left) * typed;
-        const clip = `polygon(0 ${top}px, ${reveal}px ${top}px, ${reveal}px ${bottom}px, 0 ${bottom}px)`;
         return (
           <>
-            <ScreenSwap src={wide ? screens.trackFilledDesktop : screens.trackFilledMobile} clip={clip} />
-            {wide ? (
+            {typed(s)}
+            {s.format === 'wide' ? (
               <Cursor
                 stops={[
-                  { at: beats(0.8), x: s.screen.w * 0.6, y: s.screen.h * 0.35 },
-                  { at: beats(1.2), x: input.x, y: input.y, click: FOCUS },
-                  { at: beats(4.3), x: button.x, y: button.y, click: CLICK },
+                  { at: T.cursorIn, x: s.screen.w * 0.6, y: s.screen.h * 0.35 },
+                  { at: T.cursorMove, x: input.x, y: input.y, click: T.focus },
+                  { at: T.buttonMove, x: button.x, y: button.y, click: T.click },
                 ]}
                 size={36}
               />
             ) : (
               <>
-                <Tap x={input.x} y={input.y} at={FOCUS} />
-                <Tap x={button.x} y={button.y} at={CLICK} />
+                <Tap x={input.x} y={input.y} at={T.focus} />
+                <Tap x={button.x} y={button.y} at={T.click} />
               </>
             )}
           </>
@@ -54,7 +70,7 @@ export function Deliver() {
         <Toast
           title={copy.deliver.toast.title}
           text={copy.deliver.toast.text}
-          delay={CLICK + 8}
+          delay={T.toast}
           scale={s.format === 'wide' ? 1 : 1.1}
           style={s.format === 'wide' ? { right: 90, top: s.device.y - 20 } : { left: 110, top: s.format === 'story' ? 700 : 450 }}
         />

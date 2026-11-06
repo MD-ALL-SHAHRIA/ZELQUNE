@@ -5,13 +5,25 @@
 //   node scripts/render.mjs stills-only <Comp> <frames...>
 import { bundle } from '@remotion/bundler';
 import { renderMedia, renderStill, selectComposition } from '@remotion/renderer';
-import { mkdirSync } from 'node:fs';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const out = path.join(root, 'out');
 const [mode, ...rest] = process.argv.slice(2);
 const formats = ['Reels-9x16', 'Feed-4x5', 'Web-16x9'];
+
+// Master the mix: two-pass loudnorm to -14 LUFS integrated, -1 dBTP true peak, AAC 320 kbps.
+// TP target sits 0.5 dB under the -1 dBTP ceiling to absorb AAC encoder overshoot.
+const LN = 'loudnorm=I=-14:TP=-1.5:LRA=11';
+function master(raw, final) {
+  const probe = spawnSync('ffmpeg', ['-hide_banner', '-i', raw, '-af', `${LN}:print_format=json`, '-f', 'null', '-'], { encoding: 'utf8' });
+  const m = JSON.parse(probe.stderr.slice(probe.stderr.lastIndexOf('{'), probe.stderr.lastIndexOf('}') + 1));
+  const af = `${LN}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`;
+  execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', raw, '-c:v', 'copy', '-af', af, '-ar', '48000', '-c:a', 'aac', '-b:a', '320k', '-movflags', '+faststart', final]);
+  rmSync(raw);
+}
 
 const serveUrl = await bundle({ entryPoint: path.join(root, 'src/index.ts'), publicDir: path.join(root, 'assets') });
 const comp = (id) => selectComposition({ serveUrl, id });
@@ -30,11 +42,12 @@ if (mode === 'stills' || mode === 'stills-only') {
   for (const id of mode === 'only' ? rest : formats) {
     const composition = await comp(id);
     await renderMedia({
-      serveUrl, composition, codec: 'h264', crf: 16, pixelFormat: 'yuv420p', imageFormat: 'jpeg', jpegQuality: 95,
-      outputLocation: path.join(out, `zelqune-${id.toLowerCase()}.mp4`),
+      serveUrl, composition, codec: 'h264', crf: 16, audioBitrate: '320k', pixelFormat: 'yuv420p', imageFormat: 'jpeg', jpegQuality: 95,
+      outputLocation: path.join(out, `zelqune-${id.toLowerCase()}.raw.mp4`),
       onProgress: ({ progress }) => process.stdout.write(`\r${id} ${Math.round(progress * 100)}%`),
     });
     console.log();
+    master(path.join(out, `zelqune-${id.toLowerCase()}.raw.mp4`), path.join(out, `zelqune-${id.toLowerCase()}.mp4`));
   }
   if (mode !== 'only') await renderStill({ serveUrl, composition: await comp('Thumbnail'), output: path.join(out, 'zelqune-thumbnail-1080.png') });
 }

@@ -12,7 +12,7 @@ export type Box = { x: number; y: number; w: number; h: number };
 export type Stage = { format: Format; device: Box; screen: Box };
 
 type Target = { x: number; y: number; w: number; h: number; left: number } | null;
-type TargetName = 'themeToggle' | 'preorder' | 'firstCard' | 'orderInput' | 'trackButton';
+type TargetName = 'themeToggle' | 'preorder' | 'firstCard' | 'orderInput' | 'phoneInput' | 'trackButton' | 'orderText' | 'phoneText';
 
 /** Where a real control sits on the device screen (px), from targets.json written by capture.mjs. */
 export function target(stage: Stage, name: TargetName): { x: number; y: number; w: number; h: number; left: number } | null {

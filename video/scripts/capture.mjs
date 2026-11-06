@@ -78,10 +78,25 @@ for (const [size, viewport] of Object.entries(sizes)) {
   const boxes = page.getByRole('textbox');
   t.orderInput = await where(boxes.nth(0));
   t.trackButton = await where(page.getByRole('button', { name: /^track$/i }));
+  t.phoneInput = await where(boxes.nth(1));
   await boxes.nth(0).fill('ZQ-4K7P2M');
   await boxes.nth(1).fill('01712 345678');
   await page.waitForTimeout(400);
   await shot('track-filled');
+  // Where the typed text actually sits inside each field (for per-character typing in the video).
+  const textBox = (i) =>
+    boxes.nth(i).evaluate((el, vw) => {
+      const cs = getComputedStyle(el);
+      const ctx = document.createElement('canvas').getContext('2d');
+      ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      const ls = parseFloat(cs.letterSpacing) || 0;
+      const r = el.getBoundingClientRect();
+      const left = r.left + parseFloat(cs.paddingLeft) + parseFloat(cs.borderLeftWidth);
+      const w = ctx.measureText(el.value).width + ls * el.value.length;
+      return { x: (left + w / 2) / vw.width, y: (r.top + r.height / 2) / vw.height, w: w / vw.width, h: r.height / vw.height, left: left / vw.width };
+    }, viewport);
+  t.orderText = await textBox(0);
+  t.phoneText = await textBox(1);
 
   // Real product cards, cut from the shop grid, for the cards that pop out in the video.
   if (size === 'desktop') {

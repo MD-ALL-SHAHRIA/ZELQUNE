@@ -1,6 +1,6 @@
 """Composes the promo's original music and SFX, synced to the scene grid in src/video.config.ts.
 
-    python3 scripts/compose_audio.py   ->  assets/music.mp3, assets/sfx/whoosh.mp3, assets/sfx/click.mp3
+    python3 scripts/compose_audio.py   ->  assets/music.mp3 + the SFX library in assets/sfx/
 
 120 BPM in D major, cinematic: sub drone, cold glass and lone piano notes under the intro cuts, a
 reverse swell into the reveal, then felt piano + string ensemble with a half-time heartbeat kick
@@ -180,14 +180,9 @@ tt = t(intro_len)
 sub_drone = np.sin(2 * np.pi * note(26) * tt) * env(len(tt), 1.5, 2.0) * 0.35
 add(dry, sub_drone, 0)
 add(dry, shimmer(intro_len), 0, 1.0)
-for b, g in ((0, 0.8), (SC['problem'], 0.75), (SC['problem'] + 2, 0.8), (SC['problem'] + 4, 0.9)):
-    add(dry, boom(g), b)
 # A lonely piano note answers each cut (cold, high, quiet).
 for b, n in ((0.5, 74), (SC['problem'] + 0.5, 73), (SC['problem'] + 2.5, 71), (SC['problem'] + 4.5, 69)):
     add(dry, piano(n, 0.35, 3.5), b)
-# The light comes on: swell into the reveal.
-add(dry, reverse_swell(4 * BEAT, 0.55), reveal - 4)
-add(dry, boom(1.0), reveal)
 
 # Harmony: Dmaj9 · Bm9 · Gmaj7 · Asus, one chord per bar.
 prog = [
@@ -220,7 +215,6 @@ for bar in range(reveal, TOTAL, 4):
         add(pads, strings(prog[0]['pad'], ring), bar, 0.5)
         for k, n in enumerate([38, 50, 57, 62, 66, 69, 76]):
             add(dry, piano(n, 0.55, ring), bar + k * 0.12)
-        add(dry, boom(0.6), bar)
         break
     pad_gain = {'reveal': 0.45, 'feature': 0.5, 'break': 0.32, 'peak': 0.62}[sec]
     add(pads, strings(c['pad'], 4 * BEAT + 1.6), bar, pad_gain)
@@ -246,13 +240,6 @@ for bar in range(reveal, TOTAL, 4):
             for k in range(8):
                 add(drums, hat(0.035 if k % 2 else 0.02), bar + k * 0.5 + 0.25)
 
-# Transitions into the services title, the first service, and the ending.
-add(dry, reverse_swell(2 * BEAT, 0.35, 3000), services - 2)
-add(dry, boom(0.55), services)
-add(dry, reverse_swell(2 * BEAT, 0.4), design - 2)
-add(dry, boom(0.7), design)
-add(dry, reverse_swell(4 * BEAT, 0.45), cta - 4)
-add(dry, boom(0.8), cta)
 
 # ---- mix --------------------------------------------------------------------------------------
 
@@ -287,15 +274,135 @@ def write(path, data):
 
 write(ROOT / 'assets/music.mp3', stereo)
 
-# Whoosh: a band-passed noise swell (0.7 s).
-tt = t(0.7)
-k = tt / 0.7
-wn = rng.standard_normal(len(tt))
-wh = (lp(wn, 700) * (1 - k) + bp(wn, 900, 4500) * k) * np.sin(np.pi * k) ** 2.5
-write(ROOT / 'assets/sfx/whoosh.mp3', reverb(wh / np.max(np.abs(wh)) * 0.6, 1.2, 0.35))
+# ---- SFX library (impacts and risers live here, so they follow the picture) ------------------
 
-# Click: a soft, short trackpad tick.
-tt = t(0.08)
-ck = np.sin(2 * np.pi * 1600 * tt) * np.exp(-tt * 220) * 0.7 + lp(hp(rng.standard_normal(len(tt)), 2500), 7000) * np.exp(-tt * 500) * 0.3
-write(ROOT / 'assets/sfx/click.mp3', ck / np.max(np.abs(ck)) * 0.7)
-print('wrote assets/music.mp3, assets/sfx/whoosh.mp3, assets/sfx/click.mp3', f'({TOTAL * BEAT:.1f} s)')
+SFX = ROOT / 'assets/sfx'
+
+
+def norm(x, peak=0.8):
+    return x / (np.max(np.abs(x)) + 1e-9) * peak
+
+
+def keystroke(seed):
+    """Soft mechanical key: low 'thock' body, a bright plastic tick, and a quieter release click."""
+    r = np.random.default_rng(100 + seed)
+    tt = t(0.16)
+    body_f = r.uniform(170, 260)
+    body = np.sin(2 * np.pi * body_f * tt) * np.exp(-tt * r.uniform(55, 75)) * 0.9
+    res = np.sin(2 * np.pi * r.uniform(1400, 2300) * tt) * np.exp(-tt * r.uniform(120, 180)) * 0.25
+    tick = bp(r.standard_normal(len(tt)), r.uniform(2500, 3500), r.uniform(7000, 9500)) * np.exp(-tt * r.uniform(260, 340)) * 0.8
+    down = body + res + tick
+    rel = np.zeros_like(tt)
+    off = int(r.uniform(0.055, 0.075) * SR)
+    m = len(tt) - off
+    rel[off:] = bp(r.standard_normal(m), 3000, 8000) * np.exp(-tt[:m] * 380) * 0.25
+    return norm(lp(down + rel, 9000), r.uniform(0.6, 0.75))
+
+
+def mouse_click():
+    tt = t(0.07)
+    a = bp(rng.standard_normal(len(tt)), 2000, 6000) * np.exp(-tt * 600)
+    b = np.zeros_like(tt)
+    o = int(0.018 * SR)
+    b[o:] = bp(rng.standard_normal(len(tt) - o), 1500, 5000) * np.exp(-tt[: len(tt) - o] * 700) * 0.6
+    body = np.sin(2 * np.pi * 900 * tt) * np.exp(-tt * 260) * 0.35
+    return norm(a + b + body, 0.6)
+
+
+def toggle():
+    tt = t(0.12)
+    s = np.sin(2 * np.pi * (1300 + 500 * np.exp(-tt * 40)) * tt) * np.exp(-tt * 70)
+    s += bp(rng.standard_normal(len(tt)), 3000, 9000) * np.exp(-tt * 500) * 0.4
+    return norm(s, 0.5)
+
+
+def pop():
+    tt = t(0.18)
+    f = 380 + 520 * np.exp(-tt * 45)
+    s = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt * 28) * env(len(tt), 0.002, 0.05)
+    s += lp(rng.standard_normal(len(tt)), 3000) * np.exp(-tt * 300) * 0.12
+    return norm(reverb(s, 0.5, 0.15), 0.55)
+
+
+def tick_sfx():
+    tt = t(0.05)
+    s = np.sin(2 * np.pi * 2600 * tt) * np.exp(-tt * 300) + bp(rng.standard_normal(len(tt)), 4000, 10000) * np.exp(-tt * 700) * 0.3
+    return norm(s, 0.45)
+
+
+def bell(freqs, secs, decay=2.5):
+    tt = t(secs)
+    s = np.zeros_like(tt)
+    for i, f in enumerate(freqs):
+        for ratio, amp, d in ((1, 1, 1), (2.756, 0.35, 1.8), (5.404, 0.15, 3.2), (8.933, 0.06, 5)):
+            s += np.sin(2 * np.pi * f * ratio * tt) * amp * np.exp(-tt * decay * d) * (0.9 ** i)
+    return s * env(len(tt), 0.002, 0.3)
+
+
+def chime():
+    a = bell([note(86)], 1.6, 2.2)
+    b = np.zeros_like(a)
+    o = int(0.09 * SR)
+    b[o:] = bell([note(93)], 1.6, 2.2)[: len(a) - o] * 0.8
+    return norm(reverb(a + b, 1.6, 0.3), 0.55)
+
+
+def shimmer_sfx():
+    secs = 2.0
+    out = np.zeros(int(secs * SR))
+    for k, n in enumerate((86, 90, 93, 98, 102)):
+        b = bell([note(n)], secs, 3.0) * (0.8 - k * 0.1)
+        o = int(k * 0.06 * SR)
+        out[o:] += b[: len(out) - o]
+    air = bp(rng.standard_normal(len(out)), 6000, 14000) * np.sin(np.pi * np.linspace(0, 1, len(out))) ** 2 * 0.15
+    return norm(reverb(out + air, 2.0, 0.4), 0.45)
+
+
+def whoosh(seed, secs=0.75):
+    r = np.random.default_rng(300 + seed)
+    tt = t(secs)
+    k = tt / secs
+    nz = r.standard_normal(len(tt))
+    lo, hi = r.uniform(500, 800), r.uniform(3500, 6000)
+    s = (lp(nz, lo) * (1 - k) + bp(nz, 900, hi) * k) * np.sin(np.pi * k ** r.uniform(0.7, 1.2)) ** 2.4
+    return norm(reverb(s, 1.0, 0.3), 0.5)
+
+
+def riser_sfx(secs):
+    """Builds over exactly `secs` and stops dead on the hit."""
+    tt = t(secs)
+    k = tt / secs
+    nz = rng.standard_normal(len(tt))
+    noise = (lp(nz, 500) * (1 - k) + bp(nz, 1500, 9000) * k) * k ** 2.6
+    tone = np.sin(2 * np.pi * np.cumsum(110 * 2 ** (2.5 * k)) / SR) * k ** 3 * 0.5
+    shim = sum(np.sin(2 * np.pi * note(m) * tt) for m in (74, 81, 86)) / 3 * k ** 4 * 0.35
+    s = noise + tone + shim
+    s[-int(0.01 * SR):] *= np.linspace(1, 0, int(0.01 * SR))
+    return norm(s, 0.6)
+
+
+def impact_sfx():
+    tt = t(4.0)
+    f = 36 + 50 * np.exp(-tt * 9)
+    low = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt * 1.3)
+    thump = lp(rng.standard_normal(len(tt)), 300) * np.exp(-tt * 14) * 0.8
+    air = bp(rng.standard_normal(len(tt)), 2000, 9000) * np.exp(-tt * 9) * 0.12
+    s = (low + thump + air) * env(len(tt), 0.003, 1.2)
+    return norm(reverb(s, 3.0, 0.3), 0.85)
+
+
+for i in range(8):
+    write(SFX / f'key-{i + 1}.mp3', keystroke(i))
+write(SFX / 'click.mp3', mouse_click())
+write(SFX / 'toggle.mp3', toggle())
+write(SFX / 'pop.mp3', pop())
+write(SFX / 'tick.mp3', tick_sfx())
+write(SFX / 'chime.mp3', chime())
+write(SFX / 'shimmer.mp3', shimmer_sfx())
+for i in range(3):
+    write(SFX / f'whoosh-{i + 1}.mp3', whoosh(i))
+write(SFX / 'riser.mp3', riser_sfx(4 * BEAT))
+write(SFX / 'impact.mp3', impact_sfx())
+for old in ('whoosh.mp3',):
+    (SFX / old).unlink(missing_ok=True)
+print('wrote assets/music.mp3 and', len(list(SFX.glob('*.mp3'))), 'SFX', f'({TOTAL * BEAT:.1f} s)')

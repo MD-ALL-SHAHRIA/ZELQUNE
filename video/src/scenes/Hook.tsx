@@ -4,7 +4,7 @@ import { HERO, Photo } from '../components/Photo';
 import { display } from '../lib/fonts';
 import { useLayout } from '../lib/layout';
 import { mix, springAt, useSpringAt } from '../lib/motion';
-import { colors, copy, springs } from '../video.config';
+import { colors, copy, springs, timing } from '../video.config';
 
 /**
  * 0–3 s: a real room with a bare wall, graded cold. The pain lands in the first second as
@@ -15,7 +15,7 @@ export function Hook() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const push = useSpringAt(0, springs.camera);
-  const sweep = useSpringAt(26, springs.camera);
+  const sweep = useSpringAt(timing.hook.sweep, springs.camera);
   const rule = useSpringAt(30, springs.soft);
   const wide = L.format === 'wide';
   const size = wide ? 190 : L.format === 'story' ? 168 : 156;

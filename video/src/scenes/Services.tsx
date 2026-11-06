@@ -4,7 +4,7 @@ import { KineticText } from '../components/Type';
 import { display, ui } from '../lib/fonts';
 import { useLayout } from '../lib/layout';
 import { mix, springAt, useSpringAt } from '../lib/motion';
-import { colors, copy, screens, springs } from '../video.config';
+import { colors, copy, screens, springs, timing } from '../video.config';
 
 /** Title card that opens the services chapter: "Need a whole space?" and the three services. */
 export function Services() {
@@ -23,7 +23,7 @@ export function Services() {
         <KineticText lines={copy.services.title} accentLine={1} size={L.headline * (wide ? 1.05 : 1)} color={colors.paper} align="center" delay={2} stagger={4} />
         <div style={{ display: 'flex', flexDirection: wide ? 'row' : 'column', gap: wide ? 70 : 34, alignItems: 'center' }}>
           {copy.services.items.map((it, i) => {
-            const p = springAt(frame, fps, 16 + i * 5, springs.snappy);
+            const p = springAt(frame, fps, timing.services.items + i * timing.services.itemStagger, springs.snappy);
             return (
               <div key={it.id} style={{ display: 'flex', alignItems: 'baseline', gap: 18, opacity: p, transform: `translateY(${(1 - p) * 30}px)` }}>
                 <span style={{ fontFamily: ui, fontSize: L.small * 0.9, letterSpacing: '0.2em', color: colors.brass }}>{it.index}</span>

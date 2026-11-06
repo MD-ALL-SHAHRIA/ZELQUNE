@@ -49,6 +49,29 @@ export const scenes = {
 } as const;
 export type SceneId = keyof typeof scenes;
 
+/**
+ * Every on-screen action, in frames from the start of its scene. Animations and their sounds both
+ * read these, so moving a timing moves its sound with it.
+ */
+export const timing = {
+  hook: { sweep: 26 },
+  /** Problem: three cold cuts two beats apart, then the turn to the lit piece. */
+  problem: { cuts: [0, beats(2), beats(4)], turn: beats(6), bloom: beats(6) + 22 },
+  reveal: { logo: 0, laptop: 40, phone: 50 },
+  find: { cursorIn: beats(1), cursorMove: beats(1.8), click: beats(4), cards: beats(4) + 6, cardStagger: 4 },
+  moods: { pill: beats(2), cursorIn: beats(1.5), cursorMove: beats(2.5), click: beats(4.5) },
+  reserve: { card: beats(1.5), count: beats(2), countFrames: 40, dots: beats(3), dotStagger: 8, toast: beats(6.5) },
+  deliver: {
+    cursorIn: beats(0.8), cursorMove: beats(1.2), focus: beats(2),
+    /** Typing: one character every `perChar` frames; the phone number follows after `gap`. */
+    typeStart: beats(2) + 6, perChar: 2, gap: 6,
+    buttonMove: beats(5.8), click: beats(6.5), toast: beats(6.5) + 8,
+  },
+  services: { items: 16, itemStagger: 5 },
+  proof: { cards: 10, cardStagger: 6, count: 14, countFrames: 40 },
+  cta: { logo: 2, button: beats(3), url: beats(4) },
+} as const;
+
 /** Frames the outgoing scene stays mounted under the incoming wipe. */
 export const TRANSITION = 14;
 export const TOTAL_BEATS = 118;
@@ -71,6 +94,7 @@ export const copy = {
   deliver: {
     caption: 'Pay the rest at your door',
     code: 'ZQ-4K7P2M',
+    phone: '01712 345678',
     toast: { title: 'Out for delivery', text: 'Cash on delivery · arriving today' },
   },
   services: {
@@ -125,10 +149,12 @@ export const screens = {
 /** Optional audio: drop the files in assets/ and they are picked up on the next render. */
 export const audio = {
   music: 'music.mp3',
-  musicVolume: 1,
-  whoosh: 'sfx/whoosh.mp3',
-  click: 'sfx/click.mp3',
-  sfxVolume: 0.35,
+  musicVolume: 0.9,
+  /** Music drops by this factor (about -6 dB) under dense SFX moments. */
+  duck: 0.5,
+  fadeIn: 15,
+  fadeOut: 45,
+  sfxVolume: 0.6,
 } as const;
 
 /** Spring presets (the only easing used). */

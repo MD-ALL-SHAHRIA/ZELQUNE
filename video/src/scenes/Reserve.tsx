@@ -3,7 +3,9 @@ import { FeatureStage } from '../components/FeatureStage';
 import { Glass, Toast } from '../components/Ui';
 import { display, ui } from '../lib/fonts';
 import { mix, springAt } from '../lib/motion';
-import { beats, colors, copy, screens, springs } from '../video.config';
+import { colors, copy, screens, springs, timing } from '../video.config';
+
+const T = timing.reserve;
 
 const STEPS = ['Reserve', 'Made in 10 days', 'Pay on delivery'];
 
@@ -11,8 +13,8 @@ const STEPS = ['Reserve', 'Made in 10 days', 'Pay on delivery'];
 export function Reserve() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const count = springAt(frame, fps, beats(2), springs.camera);
-  const draw = springAt(frame, fps, beats(3), springs.camera);
+  const count = springAt(frame, fps, T.count, springs.camera);
+  const draw = springAt(frame, fps, T.dots, springs.camera);
   return (
     <FeatureStage
       eyebrow="Pre-order in three steps"
@@ -25,7 +27,7 @@ export function Reserve() {
         const w = wide ? 700 : story ? 860 : 800;
         const left = wide ? s.device.x - 160 : (1080 - w) / 2;
         const top = wide ? s.device.y + s.device.h - 330 : story ? 1150 : 900;
-        const appear = springAt(frame, fps, beats(1.5), springs.pop);
+        const appear = springAt(frame, fps, T.card, springs.pop);
         const lineW = w - 120;
         return (
           <>
@@ -40,7 +42,7 @@ export function Reserve() {
                 <line x1={10} y1={20} x2={10 + (lineW - 20) * draw} y2={20} stroke={colors.walnut} strokeWidth={4} strokeLinecap="round" />
                 {STEPS.map((t, i) => {
                   const x = 10 + ((lineW - 20) * i) / 2;
-                  const on = springAt(frame, fps, beats(3) + i * 8, springs.pop);
+                  const on = springAt(frame, fps, T.dots + i * T.dotStagger, springs.pop);
                   return (
                     <g key={t} transform={`translate(${x} 20)`}>
                       <circle r={13 * on} fill={i === 0 ? colors.glow : colors.paper} stroke={colors.walnut} strokeWidth={4} />
@@ -55,7 +57,7 @@ export function Reserve() {
             <Toast
               title={copy.reserve.toast.title}
               text={copy.reserve.toast.text}
-              delay={beats(6.5)}
+              delay={T.toast}
               scale={wide ? 1 : 1.1}
               style={wide ? { right: 170, top: s.device.y - 30 } : { left: 110, top: story ? 700 : 450 }}
             />

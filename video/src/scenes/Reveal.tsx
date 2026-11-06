@@ -4,15 +4,15 @@ import { Laptop, Phone } from '../components/Devices';
 import { Logo } from '../components/Ui';
 import { useLayout } from '../lib/layout';
 import { mix, useSpringAt } from '../lib/motion';
-import { colors, screens, springs } from '../video.config';
+import { colors, screens, springs, timing } from '../video.config';
 
 /** 8–12 s: warm light replaces the cold room; the logo draws, then the real home page glides in. */
 export function Reveal() {
   const L = useLayout();
   const glow = useSpringAt(0, springs.soft);
   const lift = useSpringAt(34, springs.soft);
-  const laptopIn = useSpringAt(40, springs.soft);
-  const phoneIn = useSpringAt(50, springs.soft);
+  const laptopIn = useSpringAt(timing.reveal.laptop, springs.soft);
+  const phoneIn = useSpringAt(timing.reveal.phone, springs.soft);
   const drift = useSpringAt(50, springs.camera);
 
   const g = {
@@ -29,7 +29,7 @@ export function Reveal() {
         style={{ background: `radial-gradient(${mix(10, 60, glow)}% ${mix(10, 50, glow)}% at 50% 42%, rgba(233,184,114,0.55), transparent 70%)` }}
       />
       <div style={{ position: 'absolute', left: 0, right: 0, top: mix(g.logoY[0], g.logoY[1], lift), display: 'flex', justifyContent: 'center' }}>
-        <Logo size={logoSize} color={colors.espresso} delay={6} />
+        <Logo size={logoSize} color={colors.espresso} delay={timing.reveal.logo} />
       </div>
       <div style={{ position: 'absolute', left: g.laptop[0], top: g.laptop[1] + (1 - laptopIn) * 500, opacity: Math.min(1, laptopIn * 1.5) }}>
         <Laptop

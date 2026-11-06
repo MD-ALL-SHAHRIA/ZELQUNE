@@ -5,7 +5,7 @@ import { KineticText } from '../components/Type';
 import { display } from '../lib/fonts';
 import { useLayout } from '../lib/layout';
 import { mix, springAt, useSpringAt } from '../lib/motion';
-import { BEAT, colors, copy, springs } from '../video.config';
+import { BEAT, colors, copy, springs, timing } from '../video.config';
 
 const SHOT = BEAT * 2; // one word per two beats
 const shots = [
@@ -59,10 +59,10 @@ export function Problem() {
   const L = useLayout();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const turnAt = SHOT * 3;
+  const turnAt = timing.problem.turn;
   const pan = springAt(frame, fps, turnAt, springs.camera);
   const warm = springAt(frame, fps, turnAt + 16, springs.soft);
-  const bloom = springAt(frame, fps, turnAt + 22, springs.pop);
+  const bloom = springAt(frame, fps, timing.problem.bloom, springs.pop);
   const story = L.format === 'story';
   return (
     <AbsoluteFill style={{ background: colors.night }}>

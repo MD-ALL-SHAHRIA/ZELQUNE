@@ -5,7 +5,9 @@ import { Glass } from '../components/Ui';
 import { display, ui } from '../lib/fonts';
 import { useLayout } from '../lib/layout';
 import { mix, springAt } from '../lib/motion';
-import { colors, copy, springs } from '../video.config';
+import { colors, copy, springs, timing } from '../video.config';
+
+const T = timing.proof;
 
 /** 34–39 s: the real numbers count up on glass cards. */
 export function Proof() {
@@ -35,8 +37,8 @@ export function Proof() {
         />
         <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, ${cardW}px)`, gap: 32 }}>
           {copy.proof.stats.map((s, i) => {
-            const p = springAt(frame, fps, 10 + i * 6, springs.pop);
-            const n = springAt(frame, fps, 14 + i * 6, springs.camera);
+            const p = springAt(frame, fps, T.cards + i * T.cardStagger, springs.pop);
+            const n = springAt(frame, fps, T.count + i * T.cardStagger, springs.camera);
             return (
               <Glass
                 key={s.label}

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { AbsoluteFill, Audio, Sequence, getStaticFiles, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from 'remotion';
+import { Soundtrack } from './audio/Sfx';
 import { Grain } from './components/Backdrop';
 import './lib/fonts';
 import { mix, springAt } from './lib/motion';
@@ -14,7 +15,7 @@ import { Reserve } from './scenes/Reserve';
 import { Reveal } from './scenes/Reveal';
 import { Service } from './scenes/Service';
 import { Services } from './scenes/Services';
-import { TRANSITION, audio, beats, scenes, springs, type SceneId } from './video.config';
+import { TRANSITION, beats, scenes, springs, type SceneId } from './video.config';
 
 type Wipe = 'none' | 'rise' | 'circle' | 'arch' | 'diagonal';
 
@@ -68,8 +69,6 @@ function SceneWrap({ wipe, length, children }: { wipe: Wipe; length: number; chi
 }
 
 export function Main() {
-  const files = new Set(getStaticFiles().map((f) => f.name));
-  const has = (name: string) => files.has(name);
   return (
     <AbsoluteFill style={{ background: '#14110F' }}>
       {timeline.map(({ id, el, wipe }) => {
@@ -83,19 +82,7 @@ export function Main() {
         );
       })}
       <Grain />
-      {has(audio.music) && <Audio src={staticFile(audio.music)} volume={audio.musicVolume} />}
-      {has(audio.whoosh) &&
-        timeline.slice(1).map(({ id }) => (
-          <Sequence key={`w-${id}`} from={Math.max(0, beats(scenes[id].start) - 4)} durationInFrames={30}>
-            <Audio src={staticFile(audio.whoosh)} volume={audio.sfxVolume} />
-          </Sequence>
-        ))}
-      {has(audio.click) &&
-        [beats(scenes.find.start + 4), beats(scenes.moods.start + 4.5), beats(scenes.deliver.start + 2), beats(scenes.deliver.start + 5.5)].map((f) => (
-          <Sequence key={`c-${f}`} from={f} durationInFrames={15}>
-            <Audio src={staticFile(audio.click)} volume={audio.sfxVolume} />
-          </Sequence>
-        ))}
+      <Soundtrack />
     </AbsoluteFill>
   );
 }
