@@ -22,15 +22,16 @@ const origin = (value: string | undefined, fallback: string) => {
 function securityHeaders(dev: boolean) {
   const api = origin(process.env.NEXT_PUBLIC_API_URL, 'http://localhost:3000');
   const site = origin(process.env.NEXT_PUBLIC_SITE_URL, 'http://localhost:3100');
+  // Dev only: localhost:8400 is the Impeccable live-mode picker (never in production builds).
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ''} https://challenges.cloudflare.com https://connect.facebook.net`,
+    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval' http://localhost:8400" : ''} https://challenges.cloudflare.com https://connect.facebook.net`,
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob: ${mediaBase.origin} https://images.unsplash.com https://www.facebook.com`,
     "font-src 'self' data:",
     // The construction film is read into memory (blob:) so the scroll can seek it smoothly.
     `media-src 'self' blob: ${mediaBase.origin}`,
-    `connect-src 'self' ${api} https://www.facebook.com https://connect.facebook.net${dev ? ' ws: wss:' : ''}`,
+    `connect-src 'self' ${api} https://www.facebook.com https://connect.facebook.net${dev ? ' ws: wss: http://localhost:8400' : ''}`,
     'frame-src https://challenges.cloudflare.com https://www.facebook.com',
     "frame-ancestors 'none'",
     "base-uri 'self'",
