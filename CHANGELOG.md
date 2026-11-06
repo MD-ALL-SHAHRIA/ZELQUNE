@@ -6,6 +6,23 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Cancelling a paid order puts its items back in stock (once).
+- Orders with a submitted bKash/Nagad payment are no longer auto-cancelled after 48 h until staff verify or reject the payment.
+- Website visit data (raw events) is deleted after 90 days; order totals stay.
+- Privacy deletion also anonymises the customer's account; orders and financial records are kept.
+- Internal service calls carry a shared secret (`INTERNAL_RPC_SECRET`, ADR 0024): run `pnpm keys:dev` once; required in production.
+
+### Security
+- nodemailer 10.2.1 (clears all high advisories).
+- Production-readiness audit (docs/audit/): next 16.4.1 (fixes two critical RCE advisories), zod 4.6.7, Nest 11.2.8, body-parser/multer overrides; gateway sends security headers (helmet); SMS console log masks the phone and omits the body outside development; SMTP requires STARTTLS when credentials are set.
+
+### Fixed
+- Accounts: an owner adding a team member can no longer promote an existing customer account with that phone (409); a second sign-up for an unverified email resets the credentials when the inbox owner verifies.
+- Inventory: one failing reservation no longer stops all reservation expiry.
+- Shipping: volumetric weight uses integer maths, so a parcel at an exact kg boundary is no longer billed one kg extra.
+- Backend tests: gateway e2e suites no longer time out on busy machines.
+
 ### Changed
 - Cookie notice: the card sits bottom right on wide screens (was bottom left); the WhatsApp button steps aside while it is open and returns after the choice.
 

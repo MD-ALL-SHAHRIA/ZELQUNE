@@ -39,7 +39,10 @@ export class UserRepository {
     await this.prisma.user.update({ where: { id }, data: { lastLoginAt: at } });
   }
 
-  upsertAdmin(data: UpsertAdminData): Promise<UserRecord> {
+  async upsertAdmin(data: UpsertAdminData): Promise<UserRecord> {
+    const existing = await this.prisma.user.findUnique({ where: { phone: data.phone } });
+    if (existing?.role === 'CUSTOMER')
+      throw new Error(`${data.phone} belongs to a customer account; refusing to make it an admin`);
     return this.prisma.user.upsert({
       where: { phone: data.phone },
       create: { ...data, isActive: true },

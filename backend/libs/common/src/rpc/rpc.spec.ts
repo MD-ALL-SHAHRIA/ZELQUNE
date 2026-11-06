@@ -2,6 +2,7 @@ import { type CallHandler, type ExecutionContext } from '@nestjs/common';
 import { type ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom, NEVER, Observable, of, throwError } from 'rxjs';
 import { requestContext } from '../context/request-context';
+import { INTERNAL_AUTH_FAILED, internalRpcSecret } from './internal-auth';
 import { RpcContextInterceptor } from './rpc-context.interceptor';
 import { ServiceClient } from './service-client';
 
@@ -100,5 +101,49 @@ describe('actor propagation', () => {
         .subscribe(resolve),
     );
     expect(seen).toBe('none');
+  });
+});
+
+describe('internal shared secret (INTERNAL_RPC_SECRET)', () => {
+  const SECRET = 's'.repeat(40);
+  const rpc = (meta: object) =>
+    ({
+      getType: () => 'rpc',
+      switchToRpc: () => ({ getData: () => ({ meta, data: {} }) }),
+    }) as unknown as ExecutionContext;
+  const run = (ctx: ExecutionContext) =>
+    lastValueFrom(
+      new RpcContextInterceptor(SECRET).intercept(ctx, { handle: () => of('handled') }),
+    );
+
+  it('rejects calls without or with a wrong secret, before the handler runs', async () => {
+    await expect(run(rpc({ requestId: 'r' }))).rejects.toMatchObject({
+      status: 401,
+      code: INTERNAL_AUTH_FAILED,
+    });
+    await expect(run(rpc({ requestId: 'r', secret: 'wrong' }))).rejects.toMatchObject({
+      status: 401,
+    });
+  });
+
+  it('accepts the right secret, and ServiceClient sends it', async () => {
+    await expect(run(rpc({ requestId: 'r', secret: SECRET }))).resolves.toBe('handled');
+    const send = jest.fn(() => of('ok'));
+    const client = new ServiceClient(
+      'order-service',
+      { send, close: jest.fn() } as unknown as ClientProxy,
+      5000,
+      SECRET,
+    );
+    await client.send('x', {});
+    expect(send).toHaveBeenCalledWith(
+      'x',
+      expect.objectContaining({ meta: expect.objectContaining({ secret: SECRET }) }),
+    );
+  });
+
+  it('is mandatory in production', () => {
+    expect(() => internalRpcSecret({ NODE_ENV: 'production' })).toThrow(/INTERNAL_RPC_SECRET/);
+    expect(internalRpcSecret({ NODE_ENV: 'development' })).toBeUndefined();
   });
 });

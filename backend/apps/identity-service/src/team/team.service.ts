@@ -55,6 +55,14 @@ export class TeamService {
             'This phone already has a dashboard account',
             409,
           );
+        // Customer phones are not verified: anyone can put a future staff member's phone on a
+        // customer account. Promoting that row would hand its sessions and links dashboard access.
+        if (existing)
+          throw new AppError(
+            'PHONE_USED_BY_CUSTOMER',
+            'This phone belongs to a shop customer account. Use another phone, or ask the customer to remove it first',
+            409,
+          );
         const data = {
           name: input.name,
           email: input.email || null,
@@ -62,9 +70,7 @@ export class TeamService {
           passwordHash,
           isActive: true,
         };
-        const row = existing
-          ? await tx.user.update({ where: { id: existing.id }, data })
-          : await tx.user.create({ data: { phone: input.phone, ...data } });
+        const row = await tx.user.create({ data: { phone: input.phone, ...data } });
         await recordAudit(this.outbox, tx, SOURCE, {
           action: 'teamMember.create',
           entityType: 'user',

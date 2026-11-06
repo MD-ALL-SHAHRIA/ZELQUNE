@@ -10,6 +10,9 @@ const shared = {
 };
 
 module.exports = {
+  // Booting the gateway app in an e2e beforeAll takes well over jest's 5 s default when workers
+  // run in parallel (turbo + jest), which made those suites fail on busy machines.
+  testTimeout: 60_000,
   collectCoverageFrom: [
     'apps/**/src/**/*.ts',
     'libs/**/src/**/*.ts',

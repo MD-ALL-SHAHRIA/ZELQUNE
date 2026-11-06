@@ -9,6 +9,7 @@ import {
   REQUEST_ID_HEADER,
 } from '@zelqune/common';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 import { type GatewayEnv } from './config/gateway-env';
 import { TURNSTILE_HEADER } from './turnstile/turnstile';
 
@@ -21,6 +22,9 @@ export function setupGateway(
 ): void {
   // Correct client IPs (rate limits, session metadata) behind the reverse proxy.
   (app as NestExpressApplication).set('trust proxy', config.TRUST_PROXY);
+  // Security headers (nosniff, HSTS, frame/referrer policy, no x-powered-by). CSP is off: the API
+  // serves JSON, and Swagger UI at /docs needs inline scripts.
+  app.use(helmet({ contentSecurityPolicy: false }));
   app.use(cookieParser());
   configureHttpApp(app);
   app.setGlobalPrefix(API_PREFIX, { exclude: [{ path: 'health', method: RequestMethod.GET }] });

@@ -31,6 +31,7 @@ x-service-env: &service-env
   LOG_LEVEL: ${LOG_LEVEL:-info}
   TCP_HOST: 0.0.0.0
   RABBITMQ_URL: amqp://${RABBITMQ_USER:-zelqune}:${RABBITMQ_PASSWORD:-zelqune_dev}@rabbitmq:5672
+  INTERNAL_RPC_SECRET: ${INTERNAL_RPC_SECRET:?INTERNAL_RPC_SECRET missing - run pnpm keys:dev}
 
 x-service-deps: &service-deps
   postgres:
@@ -117,6 +118,7 @@ services:
       FACEBOOK_APP_SECRET: ${FACEBOOK_APP_SECRET:-}
       TRUST_PROXY: 'false'
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY:?JWT keys missing - run pnpm keys:dev}
+      INTERNAL_RPC_SECRET: ${INTERNAL_RPC_SECRET:?INTERNAL_RPC_SECRET missing - run pnpm keys:dev}
       COOKIE_SECURE: 'true'
       IDENTITY_SERVICE_HOST: identity-service
       IDENTITY_SERVICE_PORT: 4001

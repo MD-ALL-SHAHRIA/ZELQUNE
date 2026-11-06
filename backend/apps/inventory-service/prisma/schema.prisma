@@ -75,6 +75,8 @@ model StockReservation {
   status        ReservationStatus @default(PENDING)
   expiresAt     DateTime          @map("expires_at") @db.Timestamptz(3)
   releaseReason String?           @map("release_reason")
+  /// Set when a COMMITTED reservation was returned to stock because its order was cancelled.
+  restockedAt   DateTime?         @map("restocked_at") @db.Timestamptz(3)
   createdAt     DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt     DateTime          @updatedAt @map("updated_at") @db.Timestamptz(3)
 

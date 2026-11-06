@@ -13,6 +13,8 @@ export const serviceEnvSchema = baseEnvSchema.extend({
   DATABASE_URL: z.string().regex(/^postgres(ql)?:\/\//, 'must be a postgres:// URL'),
   DB_SCHEMA: z.string().regex(/^[a-z_]+$/),
   RABBITMQ_URL: z.string().regex(/^amqps?:\/\//, 'must be an amqp:// URL'),
+  /** Shared secret callers must present on TCP calls (required in production). */
+  INTERNAL_RPC_SECRET: z.string().min(32).optional(),
   OUTBOX_POLL_INTERVAL_MS: z.coerce.number().int().positive().default(1000),
   OUTBOX_BATCH_SIZE: z.coerce.number().int().positive().max(500).default(50),
   /** Comma-separated delays (ms) for consumer retries before the DLQ; empty = no retries. */

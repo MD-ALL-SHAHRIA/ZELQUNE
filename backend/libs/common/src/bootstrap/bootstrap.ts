@@ -15,6 +15,7 @@ import { APP_CONFIG } from '../config/config.module';
 import { type ServiceEnv } from '../config/env';
 import { AllExceptionsFilter } from '../errors/all-exceptions.filter';
 import { requestIdMiddleware } from '../http/request-id';
+import { internalRpcSecret } from '../rpc/internal-auth';
 import { RpcContextInterceptor } from '../rpc/rpc-context.interceptor';
 
 /** Loads `apps/<app>/.env` for local runs without overriding real env (absent in containers). */
@@ -40,7 +41,7 @@ export function connectTcpTransport(app: INestApplication, config: ServiceEnv): 
   // so the TCP transport inherits the app's globals instead. Both are context-aware:
   // AllExceptionsFilter answers rpc errors with an RpcErrorPayload, RpcContextInterceptor
   // passes HTTP through untouched. (Verified by test/integration.)
-  app.useGlobalInterceptors(new RpcContextInterceptor());
+  app.useGlobalInterceptors(new RpcContextInterceptor(internalRpcSecret(config)));
   app.connectMicroservice<MicroserviceOptions>(
     { transport: Transport.TCP, options: { host: config.TCP_HOST, port: config.TCP_PORT } },
     { inheritAppConfig: true },

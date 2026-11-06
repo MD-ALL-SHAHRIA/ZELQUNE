@@ -75,6 +75,7 @@ model TrackedEvent {
   @@unique([orderId, type])
   @@index([type, occurredAt])
   @@index([sessionId])
+  @@index([occurredAt])
   @@map("tracked_events")
 }
 

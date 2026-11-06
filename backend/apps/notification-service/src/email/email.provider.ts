@@ -25,22 +25,29 @@ export interface SmtpConfig {
   from: string;
 }
 
+/**
+ * With credentials, STARTTLS is mandatory: otherwise an on-path attacker can strip it and read the
+ * login and the reset links. Without credentials (Mailpit in dev) plain SMTP stays allowed.
+ */
+export function smtpTransportOptions(config: SmtpConfig) {
+  return {
+    host: config.host,
+    port: config.port,
+    secure: config.secure,
+    requireTLS: !config.secure && Boolean(config.user),
+    auth: config.user ? { user: config.user, pass: config.pass } : undefined,
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 20_000,
+  };
+}
+
 export class SmtpEmailProvider implements EmailProvider {
   readonly name = 'smtp';
   private readonly transport: Transporter;
 
   constructor(private readonly config: SmtpConfig) {
-    this.transport = createTransport({
-      host: config.host,
-      port: config.port,
-      secure: config.secure,
-      // Port 587/25: upgrade to TLS whenever the server offers it.
-      requireTLS: false,
-      auth: config.user ? { user: config.user, pass: config.pass } : undefined,
-      connectionTimeout: 10_000,
-      greetingTimeout: 10_000,
-      socketTimeout: 20_000,
-    });
+    this.transport = createTransport(smtpTransportOptions(config));
   }
 
   async send(m: EmailMessage): Promise<{ providerRef: string }> {
