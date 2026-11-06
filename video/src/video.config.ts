@@ -125,10 +125,10 @@ export const screens = {
 /** Optional audio: drop the files in assets/ and they are picked up on the next render. */
 export const audio = {
   music: 'music.mp3',
-  musicVolume: 0.7,
+  musicVolume: 1,
   whoosh: 'sfx/whoosh.mp3',
   click: 'sfx/click.mp3',
-  sfxVolume: 0.5,
+  sfxVolume: 0.35,
 } as const;
 
 /** Spring presets (the only easing used). */
