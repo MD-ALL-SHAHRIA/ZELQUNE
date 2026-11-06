@@ -180,7 +180,11 @@ export class CartService {
           ? { code: coupon.code, description: coupon.description, discountPaisa }
           : null,
       instructions,
-      allowedMethods: allowedPaymentMethods(priced.saleMode, instructions),
+      allowedMethods: allowedPaymentMethods(
+        priced.saleMode,
+        instructions,
+        await this.checkoutSettings.codForAdvanceOrders(),
+      ),
     };
   }
 

@@ -53,15 +53,20 @@ export function computeTotals(input: {
   };
 }
 
-/** Manual methods are only offered when a receiving number is configured. */
+/**
+ * Manual methods are only offered when a receiving number is configured. In-stock carts list
+ * COD first; advance carts list the advance first and add COD when the owner allows it.
+ */
 export function allowedPaymentMethods(
   saleMode: SaleMode,
   instructions: PaymentInstructions,
+  codForAdvanceOrders = false,
 ): PaymentMethod[] {
   const manual = MANUAL_METHODS.filter((m) =>
     m === 'BKASH_MANUAL' ? instructions.bkash : instructions.nagad,
   );
-  return ADVANCE_SALE_MODES.includes(saleMode) ? [...manual] : ['COD', ...manual];
+  if (!ADVANCE_SALE_MODES.includes(saleMode)) return ['COD', ...manual];
+  return codForAdvanceOrders ? [...manual, 'COD'] : [...manual];
 }
 
 /** What gets charged now, and as what. Throws for combinations the shop does not accept. */
@@ -71,7 +76,7 @@ export function paymentPlan(
   totals: Totals,
   allowed: PaymentMethod[],
 ): { kind: PaymentKind; amountPaisa: number } {
-  if (method === 'COD' && ADVANCE_SALE_MODES.includes(saleMode)) {
+  if (method === 'COD' && ADVANCE_SALE_MODES.includes(saleMode) && !allowed.includes('COD')) {
     throw new AppError(
       'ADVANCE_REQUIRED',
       'Pre-orders and made-to-order items need an advance via bKash or Nagad',

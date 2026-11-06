@@ -14575,12 +14575,17 @@
                 "type": "integer",
                 "minimum": 1,
                 "maximum": 100
+              },
+              "codForAdvanceOrders": {
+                "default": true,
+                "type": "boolean"
               }
             },
             "required": [
               "advanceMode",
               "advanceFixedPaisa",
-              "advancePercent"
+              "advancePercent",
+              "codForAdvanceOrders"
             ],
             "additionalProperties": false
           },
@@ -14633,6 +14638,10 @@
             "type": "integer",
             "minimum": 1,
             "maximum": 100
+          },
+          "codForAdvanceOrders": {
+            "default": true,
+            "type": "boolean"
           }
         },
         "required": [

@@ -33,6 +33,9 @@ export const checkoutSettingsSchema = z.object({
   advanceMode: z.enum(['fixed', 'percent']),
   advanceFixedPaisa: paisaSchema.min(100),
   advancePercent: z.number().int().min(1).max(100),
+  /** Offer cash on delivery (no advance) on pre-order and made-to-order items too; staff
+   *  confirm those orders by phone. Missing in rows saved before it existed -> on. */
+  codForAdvanceOrders: z.boolean().default(true),
 });
 export type CheckoutSettings = z.infer<typeof checkoutSettingsSchema>;
 

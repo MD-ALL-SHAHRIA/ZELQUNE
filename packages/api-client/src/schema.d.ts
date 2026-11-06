@@ -4154,6 +4154,8 @@ export interface components {
         /** @example 349000 */
         advanceFixedPaisa: number;
         advancePercent: number;
+        /** @default true */
+        codForAdvanceOrders: boolean;
       };
       meta: {
         updatedAt: string | null;
@@ -4166,6 +4168,8 @@ export interface components {
       /** @example 349000 */
       advanceFixedPaisa: number;
       advancePercent: number;
+      /** @default true */
+      codForAdvanceOrders?: boolean;
     };
     ShippingSettingsViewDto_Output: {
       value: {

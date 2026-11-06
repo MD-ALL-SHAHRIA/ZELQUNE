@@ -6,7 +6,7 @@ import { type OrderEnv } from '../config/order-env';
 import { type AdvancePolicy } from '../domain/pricing';
 import { PrismaService } from '../prisma/prisma.service';
 
-/** The pre-order advance: the owner's saved policy, else ADVANCE_* env. */
+/** The pre-order advance and COD policy: the owner's saved settings, else ADVANCE_* env. */
 @Injectable()
 export class CheckoutSettingsService extends SettingsStore<typeof checkoutSettingsSchema> {
   constructor(prisma: PrismaService, outbox: OutboxService, @Inject(APP_CONFIG) c: OrderEnv) {
@@ -14,7 +14,13 @@ export class CheckoutSettingsService extends SettingsStore<typeof checkoutSettin
       advanceMode: c.ADVANCE_MODE,
       advanceFixedPaisa: c.ADVANCE_FIXED_PAISA,
       advancePercent: c.ADVANCE_PERCENT ?? 100,
+      codForAdvanceOrders: true,
     }));
+  }
+
+  /** Whether pre-order / made-to-order carts may be paid in full on delivery. */
+  async codForAdvanceOrders(): Promise<boolean> {
+    return (await this.value()).codForAdvanceOrders;
   }
 
   async advancePolicy(): Promise<AdvancePolicy> {
