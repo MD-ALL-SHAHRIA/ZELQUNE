@@ -200,6 +200,33 @@ export class InventoryService implements OnApplicationBootstrap, OnModuleDestroy
   }
 
   /**
+   * A cancelled order whose stock was already committed (paid, deducted): put it back on hand
+   * with a RETURN movement. Exactly once per order (restocked_at); other states are no-ops.
+   */
+  async restockCancelled(orderId: string, tx?: Tx): Promise<{ restocked: boolean }> {
+    return this.inTx(tx, async (t) => {
+      const reservation = await this.lockReservation(t, orderId);
+      if (!reservation || reservation.status !== 'COMMITTED' || reservation.restockedAt)
+        return { restocked: false };
+      await this.lockRows(
+        t,
+        reservation.items.map((i) => i.variantId),
+      );
+      for (const { variantId, qty } of reservation.items) {
+        await t.inventoryItem.update({ where: { variantId }, data: { onHand: { increment: qty } } });
+        await t.stockMovement.create({
+          data: { variantId, delta: qty, reason: 'RETURN', refId: orderId, note: 'order cancelled' },
+        });
+      }
+      await t.stockReservation.update({
+        where: { id: reservation.id },
+        data: { restockedAt: new Date() },
+      });
+      return { restocked: true };
+    });
+  }
+
+  /**
    * Releases expired PENDING/HELD reservations. Safe with several replicas: release() locks the
    * reservation row and re-checks its status. One failing reservation is logged and skipped, so it
    * cannot block expiry of every reservation sorted after it.
