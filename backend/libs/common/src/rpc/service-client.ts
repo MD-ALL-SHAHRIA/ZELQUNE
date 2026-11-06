@@ -15,6 +15,7 @@ export class ServiceClient {
     readonly name: ServiceName,
     private readonly proxy: ClientProxy,
     private readonly defaultTimeoutMs = 5000,
+    private readonly internalSecret?: string,
   ) {}
 
   async send<TResult, TData = unknown>(
@@ -26,6 +27,7 @@ export class ServiceClient {
       meta: {
         requestId: requestContext.requestId() ?? randomUUID(),
         ...(requestContext.actor() ? { actor: requestContext.actor() } : {}),
+        ...(this.internalSecret ? { secret: this.internalSecret } : {}),
       },
       data,
     };

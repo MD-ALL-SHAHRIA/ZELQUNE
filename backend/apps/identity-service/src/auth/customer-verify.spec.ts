@@ -39,6 +39,7 @@ function setup() {
       create: jest.fn().mockResolvedValue({}),
     },
     refreshToken: { updateMany: jest.fn().mockResolvedValue({ count: 0 }) },
+    oAuthAccount: { deleteMany: jest.fn().mockResolvedValue({ count: 0 }) },
   };
   const prisma = {
     ...tx,
@@ -67,6 +68,7 @@ describe('email verification sets the password (pre-registration)', () => {
     expect(row.passwordHash).toBe('hash(teak-lamp-quiet-river-91)');
     expect(row.emailVerifiedAt).toBeInstanceOf(Date);
     expect(tx.refreshToken.updateMany).toHaveBeenCalled();
+    expect(tx.oAuthAccount.deleteMany).toHaveBeenCalled();
   });
 
   it('never stores the password typed at sign-up', async () => {

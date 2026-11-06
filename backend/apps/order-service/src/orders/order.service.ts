@@ -10,6 +10,7 @@ import {
   AppError,
   currentActor,
   OutboxService,
+  ServiceRegistry,
   recordAudit,
   requestContext,
 } from '@zelqune/common';
@@ -27,6 +28,8 @@ import {
   type OrderStatus,
   orderStatusChanged,
   type OrderTrackingCore,
+  type PaymentSummary,
+  RPC_PATTERNS,
   transitionOrderInputSchema,
   type TransitionOrderInput,
   type TrackQuery,
@@ -53,6 +56,7 @@ export class OrderService implements OnApplicationBootstrap, OnModuleDestroy {
     private readonly prisma: PrismaService,
     private readonly outbox: OutboxService,
     @Inject(APP_CONFIG) private readonly config: OrderEnv,
+    private readonly services: ServiceRegistry,
   ) {}
 
   onApplicationBootstrap(): void {
@@ -111,16 +115,34 @@ export class OrderService implements OnApplicationBootstrap, OnModuleDestroy {
     const cutoff = new Date(now.getTime() - this.config.ORDER_HOLD_HOURS * 3_600_000);
     const due = await this.prisma.order.findMany({
       where: { status: 'PENDING_PAYMENT', createdAt: { lte: cutoff } },
-      select: { id: true },
+      select: { id: true, paymentMethod: true },
       orderBy: { createdAt: 'asc' },
       take: SWEEP_BATCH,
     });
     let cancelled = 0;
-    for (const { id } of due) {
+    for (const { id, paymentMethod } of due) {
+      if (paymentMethod !== 'COD' && (await this.awaitsPaymentReview(id))) continue;
       if (await this.prisma.$transaction((tx) => this.cancelIfPending(id, 'PAYMENT_TIMEOUT', tx)))
         cancelled++;
     }
     return cancelled;
+  }
+
+  /**
+   * A bKash/Nagad trxId the customer submitted keeps the order until staff verify or reject it:
+   * cancelling would void a payment whose money may already have arrived. When payment-service
+   * cannot answer, keep the order too (the next sweep retries).
+   */
+  private async awaitsPaymentReview(orderId: string): Promise<boolean> {
+    try {
+      const payment = await this.services
+        .get('payment')
+        .send<PaymentSummary | null>(RPC_PATTERNS.payment.summaryByOrder, { orderId });
+      return payment?.status === 'SUBMITTED';
+    } catch (err) {
+      this.logger.warn({ err, orderId }, 'Payment status unavailable; order kept for next sweep');
+      return true;
+    }
   }
 
   /** Admin status change. Audited. */

@@ -31,10 +31,14 @@ export class InventoryEventHandlers implements OnModuleInit {
       orderCancelled.type,
       'inventory.releaseOnOrderCancelled',
       async (event, tx) => {
-        await this.inventory.release(
-          { orderId: orderCancelled.parse(event).payload.orderId, reason: 'ORDER_CANCELLED' },
-          tx as Prisma.TransactionClient,
+        const { orderId } = orderCancelled.parse(event).payload;
+        const t = tx as Prisma.TransactionClient;
+        const { released } = await this.inventory.release(
+          { orderId, reason: 'ORDER_CANCELLED' },
+          t,
         );
+        // Already committed (paid order cancelled): return the units to stock.
+        if (!released) await this.inventory.restockCancelled(orderId, t);
       },
     );
   }

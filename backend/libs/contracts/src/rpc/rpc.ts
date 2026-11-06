@@ -5,6 +5,8 @@ export interface RpcMeta {
   requestId: string;
   /** The authenticated admin making the call (for audit), if any. */
   actor?: Actor;
+  /** Shared internal secret (INTERNAL_RPC_SECRET); services reject calls without it. */
+  secret?: string;
 }
 
 export interface RpcRequest<TData = unknown> {

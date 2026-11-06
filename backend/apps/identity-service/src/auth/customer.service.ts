@@ -122,14 +122,7 @@ export class CustomerService {
         where: { id: u.id },
         data: { emailVerifiedAt: new Date(), passwordHash },
       });
-      await tx.refreshToken.updateMany({
-        where: { userId: u.id, revokedAt: null },
-        data: { revokedAt: new Date(), revokedReason: 'LOGOUT' },
-      });
-      await tx.authToken.updateMany({
-        where: { userId: u.id, usedAt: null },
-        data: { usedAt: new Date() },
-      });
+      await this.resetCredentials(tx, u.id);
     });
     return this.auth.openSession(user, meta);
   }
@@ -403,13 +396,26 @@ export class CustomerService {
     return token;
   }
 
+  /** Ends every session, outstanding link and social login (someone else may have started the sign-up). */
+  private async resetCredentials(tx: Prisma.TransactionClient, userId: string): Promise<void> {
+    await tx.refreshToken.updateMany({
+      where: { userId, revokedAt: null },
+      data: { revokedAt: new Date(), revokedReason: 'LOGOUT' },
+    });
+    await tx.authToken.updateMany({
+      where: { userId, usedAt: null },
+      data: { usedAt: new Date() },
+    });
+    await tx.oAuthAccount.deleteMany({ where: { userId } });
+  }
+
   /** Uses a link exactly once (a conditional update, so two clicks cannot both succeed). */
   private async consume(
     token: string,
     purpose: AuthTokenPurpose,
     apply: (
       tx: Prisma.TransactionClient,
-      user: UserRecord & { emailVerifiedAt: Date | null },
+      user: UserRecord & { emailVerifiedAt: Date | null; signupContestedAt: Date | null },
     ) => Promise<void>,
   ): Promise<UserRecord> {
     return this.prisma.$transaction(async (tx) => {
@@ -417,7 +423,14 @@ export class CustomerService {
         where: { tokenHash: sha256(token) },
         include: { user: true },
       });
-      if (!row || row.purpose !== purpose || row.expiresAt <= new Date() || !row.user.isActive)
+      if (
+        !row ||
+        row.purpose !== purpose ||
+        row.expiresAt <= new Date() ||
+        !row.user.isActive ||
+        // Customer links never act on a dashboard account (defence in depth for promoted rows).
+        row.user.role !== 'CUSTOMER'
+      )
         throw invalidLink();
       const { count } = await tx.authToken.updateMany({
         where: { id: row.id, usedAt: null },

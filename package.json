@@ -25,5 +25,11 @@
   "devDependencies": {
     "prettier": "3.9.10",
     "turbo": "2.11.9"
+  },
+  "pnpm": {
+    "overrides": {
+      "body-parser@2": "^2.4.0",
+      "multer@2": "^2.5.0"
+    }
   }
 }
