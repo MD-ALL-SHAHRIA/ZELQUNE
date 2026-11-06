@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- Content protection: photos, videos and the logo can no longer be saved with right-click or long-press, or dragged out of the page, on every page including images added later (it cannot stop screenshots). Every page carries a copyright meta tag and `robots: noai, noimageai`; robots.txt blocks AI-training crawlers (GPTBot, CCBot, Google-Extended, ClaudeBot and others), not search engines. Terms (EN + BN) get a Copyright section: all rights reserved, no copying, downloading or AI training without written permission, action under the Copyright Act, 2023.
+
+### Added
 - SMS when a shop order is marked delivered: a thank-you that asks the customer to send a photo of the piece on their wall and a few words (by reply, WhatsApp or Facebook), so the shop can collect real reviews and customer photos. Sent once per order; bulk (B2B) orders are skipped. Goes out once an SMS provider is connected.
 
 ### Fixed

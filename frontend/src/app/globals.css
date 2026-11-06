@@ -79,6 +79,15 @@
 }
 
 @layer base {
+  /* Photos and videos can't be dragged out or long-pressed to save (iOS); see
+     features/layout/content-protection.tsx for the right-click menu. */
+  img,
+  video,
+  picture {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
   html {
     background: var(--color-paper);
     color: var(--color-ink);
