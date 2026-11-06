@@ -391,11 +391,12 @@ function CheckoutFormInner({
                       setCoupon(code);
                     }
                   }}
-                  className="uppercase"
+                  className="min-w-0 flex-1 uppercase"
                 />
                 <Button
                   type="button"
                   variant="outline"
+                  className="shrink-0"
                   disabled={normalizeCoupon(couponInput).length < 3}
                   onClick={() => {
                     setCouponError(null);
