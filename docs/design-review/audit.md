@@ -102,3 +102,24 @@ brand rule, not counted as defects.
 You can ask me to run these one at a time, all at once, or in any order you prefer.
 
 Re-run `/impeccable audit` after fixes to see your score improve.
+
+## After the fixes (same day, branch `fix/frontend-ui-polish`)
+
+Detector re-run on the same five pages: **0** contrast, tiny-text, undersized-label or orphan
+warnings (before: 20 / 19 / 15 / 8 / 8 on home / shop / product / checkout / sign-in). The brand
+devices listed above are kept. The look is unchanged: colours, logo, fonts, copy and layouts
+are the same.
+
+| # | Fix | Screenshots |
+|---|---|---|
+| 1 | Bulk & Corporate card stays walnut in the dark band (1.7:1 → 5.9:1) | `01-services-card-*` |
+| 2 | Header language switch, other language readable | `02-language-switch-*` |
+| 3 | Product page cream boxes, small text `ink/80` | `03-cream-boxes-*` |
+| 4 | Footer CTA eyebrow and text on walnut | `04-footer-cta-*` |
+| 5 | "Sample photo" notes 12 px, ivory 80% on photos | `05-sample-note-*` |
+| 6 | Shop filter counts readable over the blurred bar | `06-filter-counts-*` |
+| 7 | Header category tabs 11 px, `ink/75` | `07-header-tabs-*` |
+| 8 | No orphan words (trust band, craft steps) | `08-orphans-*` |
+| 9 | All 0.68 rem labels → 11 px; shop category chips `ink/75` | `09-small-labels-*` |
+
+Estimated score after: Accessibility 4, Theming 3, others unchanged → **17/20 (Good)**.
