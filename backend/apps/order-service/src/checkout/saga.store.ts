@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AppError, OutboxService } from '@zelqune/common';
 import { type EventEnvelope } from '@zelqune/contracts';
 import { Prisma, type SagaStatus } from '../generated/prisma/client';
+import { applyCoupon } from '../domain/coupon';
 import { PrismaService } from '../prisma/prisma.service';
 
 /** Where an order comes from: a storefront cart or an accepted B2B quote. */
@@ -150,11 +151,16 @@ export class PrismaSagaStore implements SagaStore {
         const redeemed = await tx.$executeRaw`
           UPDATE coupons SET used_count = used_count + 1, updated_at = now()
           WHERE code = ${fields.couponCode} AND active
+            AND (ends_at IS NULL OR ends_at > now())
             AND (max_uses IS NULL OR used_count < max_uses)`;
-        if (redeemed !== 1)
+        if (redeemed !== 1) {
+          // Same reason the cart would show (expired, inactive, ...); else it ran out meanwhile.
+          const coupon = await tx.coupon.findUnique({ where: { code: fields.couponCode } });
+          applyCoupon(coupon, Number.MAX_SAFE_INTEGER);
           throw new AppError('COUPON_INVALID', 'This code has been fully used', 422, {
             reason: 'USED_UP',
           });
+        }
       }
       await tx.order.create({
         data: {

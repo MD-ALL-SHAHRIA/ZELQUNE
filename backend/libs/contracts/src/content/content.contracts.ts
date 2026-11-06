@@ -18,7 +18,8 @@ const slug = z
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 /** CSS object-position like "76% 50%". */
 const position = z.string().regex(/^\d{1,3}% \d{1,3}%$/);
-const optionalUrl = z.union([z.url().max(300), z.literal('')]);
+/** http(s) only: a javascript: or data: link would run on the storefront when clicked. */
+const optionalUrl = z.union([z.httpUrl().max(300), z.literal('')]);
 
 export const TRUST_ICONS = [
   'hammer',

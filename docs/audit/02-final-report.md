@@ -60,7 +60,7 @@ password on the verify page (frontend change).
 2. **High once paid SMS or couriers go live (M3).** NOTIF-MSG-1: an SMS sent inside the consumer transaction is re-sent on retry. SHIP-MSG-1: a shipment can be double-booked.
 3. **Medium.** INV-MSG-1: a late `order.placed` can still leave a confirmed order without deducted stock. Fixed in round 2: restock on cancel (INV-MSG-2), auto-cancel vs. payment (PAY-ARCH-1), retention (AN-DB-2). The funnel scan (AN-DB-1) is still open.
 4. **Medium, deploy rule.** TCP now needs the shared secret (ADR 0024), but ports 4001–4008 must still stay private.
-5. **Not audited yet.** order-service (checkout saga, coupons, order lookup IDOR), catalog (uploads, content XSS), gateway routes in depth, frontend, dashboard, infra and DB grants. The audit agents for these stopped at the usage limit, so these need a second pass. That pass matters most for order-service and the gateway.
+5. **Second pass done** for order, catalog, gateway, dashboard and infra: see `services/order-catalog-gateway-dashboard-infra.md`. Before deploy: a separate production compose/env (DEPLOY-1) and the local media secret (CAT-OPS-1).
 
 ## Not verifiable without staging
 - A real broker restart and consumer recovery (the code uses amqp-connection-manager; I didn't test it live).

@@ -79,7 +79,8 @@ export const createShipmentInputSchema = z.object({
   orderId: z.uuid(),
   courier: courierSchema.default('MANUAL'),
   consignmentId: z.string().trim().min(1).max(64).nullable().default(null),
-  trackingUrl: z.url().nullable().default(null),
+  // http(s) only: the link is shown to customers and staff.
+  trackingUrl: z.httpUrl().max(500).nullable().default(null),
 });
 export type CreateShipmentInput = z.input<typeof createShipmentInputSchema>;
 
