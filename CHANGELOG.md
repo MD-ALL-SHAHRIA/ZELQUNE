@@ -7,6 +7,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Added
+- video/: Remotion promo video (Reels 9:16, feed 4:5, web 16:9 and a thumbnail) built from real storefront captures; `pnpm --filter @zelqune/video render`.
 - Cancelling a paid order puts its items back in stock (once).
 - Orders with a submitted bKash/Nagad payment are no longer auto-cancelled after 48 h until staff verify or reject the payment.
 - Website visit data (raw events) is deleted after 90 days; order totals stay.
