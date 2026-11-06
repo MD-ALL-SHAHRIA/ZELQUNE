@@ -6,6 +6,32 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Cancelling a paid order puts its items back in stock (once).
+- Orders with a submitted bKash/Nagad payment are no longer auto-cancelled after 48 h until staff verify or reject the payment.
+- Website visit data (raw events) is deleted after 90 days; order totals stay.
+- Privacy deletion also anonymises the customer's account; orders and financial records are kept.
+- Internal service calls carry a shared secret (`INTERNAL_RPC_SECRET`, ADR 0024): run `pnpm keys:dev` once; required in production.
+
+### Security
+- Customer sign-up: the password is now chosen on the email-confirmation page and the one typed at sign-up is discarded, so someone who signs up with another person's email can never sign in to that account.
+- Audit second pass (docs/audit/services/order-catalog-gateway-dashboard-infra.md): home-page client links and shipment tracking links accept only http(s); the dashboard sends a CSP (no framing, plugins, base or foreign form targets) and nosniff.
+- nodemailer 10.2.1 (clears all high advisories).
+- Production-readiness audit (docs/audit/): next 16.4.1 (fixes two critical RCE advisories), zod 4.6.7, Nest 11.2.8, body-parser/multer overrides; gateway sends security headers (helmet); SMS console log masks the phone and omits the body outside development; SMTP requires STARTTLS when credentials are set.
+
+### Changed
+- Sign-in, sign-up, verify, reset and the other account sign-in pages have no site header or footer; the logo leads back home.
+- Home hero: the slides start moving after the visitor's first scroll, tap, click or key; the photo reveal uses sliding bars, so the photo paints at once (mobile LCP).
+- The cookie settings dialog loads only when opened; the first row of shop photos loads first. Report: docs/audit/frontend-performance.md.
+
+### Fixed
+- Accessibility: hero heading words readable by screen readers without an invalid label; slide counter and small text on product-page boxes meet AA contrast.
+- Checkout: a coupon that expires between the cart and placing the order is no longer applied (shows "expired").
+- Accounts: an owner adding a team member can no longer promote an existing customer account with that phone (409).
+- Inventory: one failing reservation no longer stops all reservation expiry.
+- Shipping: volumetric weight uses integer maths, so a parcel at an exact kg boundary is no longer billed one kg extra.
+- Backend tests: gateway e2e suites no longer time out on busy machines.
+
 ### Changed
 - Cookie notice: the card sits bottom right on wide screens (was bottom left); the WhatsApp button steps aside while it is open and returns after the choice.
 

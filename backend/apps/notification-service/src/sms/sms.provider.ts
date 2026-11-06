@@ -13,13 +13,27 @@ export interface SmsProvider {
 
 export const SMS_PROVIDER = Symbol('SMS_PROVIDER');
 
-/** Dev/test: prints the SMS instead of sending it. */
+/** Keeps the last 3 digits so a log line can be matched to a customer without exposing them. */
+export function maskPhone(phone: string): string {
+  return phone.length <= 3 ? '***' : `${'*'.repeat(phone.length - 3)}${phone.slice(-3)}`;
+}
+
+/**
+ * Prints the SMS instead of sending it (until the M3 gateway). Outside development the phone is
+ * masked and the body omitted: it carries order codes, which public tracking accepts with the phone.
+ */
 export class ConsoleSmsProvider implements SmsProvider {
   readonly name = 'console';
   private readonly logger = new Logger('SMS');
 
+  constructor(private readonly showContent = false) {}
+
   send(to: string, body: string): Promise<SmsResult> {
-    this.logger.log(`[SMS -> ${to}] ${body}`);
+    this.logger.log(
+      this.showContent
+        ? `[SMS -> ${to}] ${body}`
+        : `[SMS -> ${maskPhone(to)}] (${body.length} chars)`,
+    );
     return Promise.resolve({ providerRef: `console-${randomUUID()}` });
   }
 }

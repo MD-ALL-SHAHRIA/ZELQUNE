@@ -18,6 +18,21 @@ const aloArch = {
 };
 
 describe('shipping fees', () => {
+  it('does not bill an extra kg from float rounding at an exact kg boundary', () => {
+    const box = {
+      qty: 1,
+      packageWeightGrams: 500,
+      packageLengthMm: 250,
+      packageWidthMm: 352,
+      packageHeightMm: 500,
+    };
+    // 250 x 352 x 500 mm / 4000 = exactly 11000 g (float cm maths gave 11001 g -> 12 kg)
+    expect(chargeableWeight([box], { ...config, volumetricDivisor: 4000 })).toMatchObject({
+      volumetricWeightGrams: 11000,
+      chargeableWeightGrams: 11000,
+    });
+  });
+
   it('Alo-Arch Panel: 2.5 kg actual vs 5.6 kg volumetric -> 6 kg chargeable', () => {
     expect(chargeableWeight([aloArch], config)).toEqual({
       actualWeightGrams: 2500,

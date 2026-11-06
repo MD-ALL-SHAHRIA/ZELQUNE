@@ -5,11 +5,18 @@ import { ExpenseService } from './finance/expense.service';
 import { PrismaService } from './prisma/prisma.service';
 import { AnalyticsEventHandlers } from './projections/analytics.handlers';
 import { ProjectionsService } from './projections/projections.service';
+import { RetentionService } from './retention/retention.service';
 import { StatsService } from './stats/stats.service';
 
 @Module({
   imports: [ServiceCoreModule.forRoot({ name: 'analytics-service', prisma: PrismaService })],
   controllers: [AnalyticsRpcController],
-  providers: [ProjectionsService, StatsService, ExpenseService, AnalyticsEventHandlers],
+  providers: [
+    ProjectionsService,
+    StatsService,
+    ExpenseService,
+    AnalyticsEventHandlers,
+    RetentionService,
+  ],
 })
 export class AppModule {}

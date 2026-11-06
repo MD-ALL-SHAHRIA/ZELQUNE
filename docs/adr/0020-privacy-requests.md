@@ -31,6 +31,10 @@ notification: order contacts and SMS logs; analytics: a pseudonymous customer ke
   - the `privacy.erased` event makes payment-service clear the payer phone on erased orders,
     notification-service delete their contacts and redact every SMS log to that number, and
     analytics unlink the customer key and visit id (totals stay).
+  - identity-service anonymises the **customer account** with that phone (ADR 0021): name, email,
+    password and phone (replaced by a placeholder) are removed, sessions, links and social logins
+    end, the account is deactivated. The row id stays so kept orders still reference it.
+    Dashboard accounts are never erased this way (added 2026-11-06, audit).
   - The request keeps a masked phone, plus an HMAC so the requester can still check the status.
 - **Consent withdrawal:** there is no marketing list and cookie choices live in the browser, so
   it is recorded with a note of what was done.

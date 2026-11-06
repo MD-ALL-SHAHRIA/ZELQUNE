@@ -239,7 +239,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TokenDto"
+                "$ref": "#/components/schemas/VerifyEmailDto"
               }
             }
           }
@@ -256,7 +256,7 @@
             }
           }
         },
-        "summary": "Confirm the email with the link token, and sign in.",
+        "summary": "Confirm the email with the link token, set the password, and sign in.",
         "tags": [
           "customer auth"
         ]
@@ -5445,17 +5445,23 @@
         ],
         "additionalProperties": false
       },
-      "TokenDto": {
+      "VerifyEmailDto": {
         "type": "object",
         "properties": {
           "token": {
             "type": "string",
             "minLength": 20,
             "maxLength": 200
+          },
+          "password": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 128
           }
         },
         "required": [
-          "token"
+          "token",
+          "password"
         ]
       },
       "EmailDto": {

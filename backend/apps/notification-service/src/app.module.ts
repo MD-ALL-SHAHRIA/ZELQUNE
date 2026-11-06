@@ -28,7 +28,11 @@ import { ConsoleSmsProvider, SMS_PROVIDER } from './sms/sms.provider';
     NotificationSettingsService,
     NotificationEventHandlers,
     // M3: real SMS gateway provider (paid, owner approval).
-    { provide: SMS_PROVIDER, useValue: new ConsoleSmsProvider() },
+    {
+      provide: SMS_PROVIDER,
+      inject: [APP_CONFIG],
+      useFactory: (c: NotificationEnv) => new ConsoleSmsProvider(c.NODE_ENV === 'development'),
+    },
     {
       provide: EMAIL_PROVIDER,
       inject: [APP_CONFIG],

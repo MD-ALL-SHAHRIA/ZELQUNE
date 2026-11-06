@@ -45,6 +45,14 @@ describe('gateway (e2e)', () => {
     );
   });
 
+  it('sends security headers and hides the framework', async () => {
+    const res = await request(h.app.getHttpServer()).get('/health');
+    expect(res.headers['x-content-type-options']).toBe('nosniff');
+    expect(res.headers['strict-transport-security']).toBeDefined();
+    expect(res.headers['x-frame-options']).toBe('SAMEORIGIN');
+    expect(res.headers['x-powered-by']).toBeUndefined();
+  });
+
   it('returns the standard error body for unknown /v1 routes', async () => {
     const res = await request(h.app.getHttpServer()).get('/v1/does-not-exist').expect(404);
     expect(res.body).toEqual({

@@ -335,8 +335,8 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
     expect(res.body.error.code).toBe('MIXED_SALE_MODES');
   });
 
-  it('unpaid orders are cancelled after ORDER_HOLD_HOURS: stock released, payment voided', async () => {
-    // an unverified PRE_ORDER (no stock reservation) must be cancelled too
+  it('a submitted bKash payment keeps the order past ORDER_HOLD_HOURS until staff reject it', async () => {
+    // an unverified PRE_ORDER (no stock reservation) follows the same rule
     const token = await newCart('a');
     await add(token, aloWalnut).expect(200);
     const unpaidPreOrder = await checkout(token, {
@@ -345,23 +345,34 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
     }).expect(201);
 
     const orders = svc(stack.order, OrderService);
-    const cancelled = await orders.cancelUnpaid(new Date(Date.now() + 49 * 3_600_000));
-    expect(cancelled).toBe(2); // the unverified bKash FULL order and the unpaid pre-order
-    const preOrderTrack = await track(unpaidPreOrder.body.orderCode as string).expect(200);
-    expect(preOrderTrack.body.status).toBe('CANCELLED');
+    const later = new Date(Date.now() + 49 * 3_600_000);
+    // both open bKash orders (the FULL one and the pre-order) still await staff review
+    expect(await orders.cancelUnpaid(later)).toBe(0);
+    expect((await track(unpaidPreOrder.body.orderCode as string).expect(200)).body.status).toBe(
+      'PENDING_PAYMENT',
+    );
+
+    const submitted = await svc(stack.payment, PaymentDb).payment.findMany({
+      where: { status: 'SUBMITTED' },
+    });
+    expect(submitted).toHaveLength(2);
+    for (const p of submitted) {
+      await svc(stack.payment, PaymentService).reject({
+        paymentId: p.id,
+        rejectedBy: ADMIN,
+        reason: 'no such trxId',
+      });
+    }
+
+    expect(await orders.cancelUnpaid(later)).toBe(2);
+    expect((await track(unpaidPreOrder.body.orderCode as string).expect(200)).body.status).toBe(
+      'CANCELLED',
+    );
     await eventually(
       () => stock(),
       (s) => s.reserved === 0,
     );
     expect(await stock()).toMatchObject({ onHand: 1, reserved: 0 });
-    const voided = await eventually(
-      () =>
-        svc(stack.payment, PaymentDb).payment.findFirst({
-          where: { trxId: null, voidedTrxId: 'NEW7TRX888' },
-        }),
-      (p) => p?.status === 'VOID',
-    );
-    expect(voided?.voidReason).toBe('ORDER_CANCELLED:PAYMENT_TIMEOUT');
     expect((await track(preOrderCode).expect(200)).body.status).toBe('CONFIRMED');
   });
 

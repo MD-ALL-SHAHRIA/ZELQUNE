@@ -166,7 +166,7 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    /** Confirm the email with the link token, and sign in. */
+    /** Confirm the email with the link token, set the password, and sign in. */
     post: operations['CustomerAuthController_verifyEmail'];
     delete?: never;
     options?: never;
@@ -1807,8 +1807,9 @@ export interface components {
         role: 'CUSTOMER' | 'STAFF' | 'OWNER';
       };
     };
-    TokenDto: {
+    VerifyEmailDto: {
       token: string;
+      password: string;
     };
     EmailDto: {
       email: string;
@@ -4610,7 +4611,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['TokenDto'];
+        'application/json': components['schemas']['VerifyEmailDto'];
       };
     };
     responses: {

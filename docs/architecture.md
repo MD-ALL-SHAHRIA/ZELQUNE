@@ -58,7 +58,8 @@ reverse proxy with HTTPS (step 1.6).
 
 1. Client calls `https://api.../v1/...`. The gateway accepts or generates `x-request-id`.
 2. Gateway validates auth (from step 1.1) and calls the owning service with
-   `{ meta: { requestId }, data }` over TCP.
+   `{ meta: { requestId, secret }, data }` over TCP; services reject calls without the shared
+   `INTERNAL_RPC_SECRET` (ADR 0024).
 3. The service writes its schema and, in the same transaction, any events to `outbox_events`.
 4. `OutboxRelay` publishes to `zelqune.events` (routing key = event type).
 5. Consumers dedupe on `processed_events` and apply the change in one transaction; failures are
