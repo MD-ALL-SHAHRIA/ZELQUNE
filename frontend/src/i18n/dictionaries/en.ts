@@ -150,7 +150,7 @@ export const en = {
       failed: "We couldn't load the delivery fee. Please try again.",
     },
     preOrderNote:
-      "This is a pre-order. Pay a ৳300 advance to confirm, the rest on delivery. If we can't deliver on time, you get your full advance back.",
+      "This is a pre-order, made for you. Pay cash on delivery, or a ৳300 advance and the rest on delivery. If we can't deliver on time, any advance is refunded in full.",
     addToCart: 'Add to cart',
     preOrderNow: 'Pre-order now',
     added: 'Added to cart',
@@ -163,6 +163,7 @@ export const en = {
     sizeLabel: 'Size',
     size: '{w} × {h} cm',
     deliveryHeading: 'Delivery across Bangladesh',
+    arrival: 'Order today, delivered by {date}',
     completeTheWall: 'Complete the wall',
     completeNote: 'Pieces that sit well beside this one',
     add: 'Add',
