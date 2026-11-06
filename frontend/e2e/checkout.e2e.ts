@@ -62,7 +62,9 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await expect(page.getByText(code)).toBeVisible();
 });
 
-test('pre-order with cash on delivery: no advance, the whole total on delivery', async ({ page }) => {
+test('pre-order with cash on delivery: no advance, the whole total on delivery', async ({
+  page,
+}) => {
   await signInCustomer(page);
   await page.goto('/en/products/alo-arch-panel');
   await page.getByRole('button', { name: 'Pre-order now' }).first().click();
@@ -77,7 +79,9 @@ test('pre-order with cash on delivery: no advance, the whole total on delivery',
   await page.getByLabel('Cash on delivery').check();
   await expect(page.getByTestId('advance-instructions')).toHaveCount(0);
   await expect(page.getByTestId('pay-now')).toHaveCount(0);
-  await expect(page.getByTestId('pay-later')).toHaveText(await page.getByTestId('total').innerText());
+  await expect(page.getByTestId('pay-later')).toHaveText(
+    await page.getByTestId('total').innerText(),
+  );
   await page.getByRole('button', { name: 'Place order', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/order\/ZQ-[A-Z0-9]{6}$/);
 });

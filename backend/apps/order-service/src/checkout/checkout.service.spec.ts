@@ -255,7 +255,12 @@ describe('CheckoutService saga', () => {
     const res = await service.checkout('token', request());
     expect(calls).toEqual(['payment']);
     expect(p.createPayment).toHaveBeenCalledWith(
-      expect.objectContaining({ method: 'COD', kind: 'COD', amountPaisa: 366000, payerPhone: null }),
+      expect.objectContaining({
+        method: 'COD',
+        kind: 'COD',
+        amountPaisa: 366000,
+        payerPhone: null,
+      }),
     );
     expect(res.totals).toMatchObject({ totalPaisa: 366000, advanceRequiredPaisa: 0 });
     expect(store.events[0].payload).toMatchObject({ advanceRequiredPaisa: 0 });
