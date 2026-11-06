@@ -5,7 +5,6 @@ import { DayNight } from '@/features/landing/day-night';
 import { FaqPreview } from '@/features/landing/faq-preview';
 import { FeaturedProduct } from '@/features/landing/featured-product';
 import { Hero } from '@/features/landing/hero';
-import { Materials } from '@/features/landing/materials';
 import { ProductRail } from '@/features/landing/product-rail';
 import { Services } from '@/features/landing/services';
 import { ShopTheRoom } from '@/features/landing/shop-the-room';
@@ -32,13 +31,9 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 }
 
 /**
- * Home, paced like an editorial: no two neighbouring sections share a composition.
- * Hero (full-bleed crossfade, ink) → featured piece (arch spread, glow) → shop the room (photo
- * with markers, cream) → categories (staggered tall cards) → day/night (edge-to-edge split) →
- * materials (centred specimen sheet) → the making (full-bleed photo, overlapping card, steps) →
- * collection rail (bleeding scroller) → clients → statement (one sentence on cream, then a
- * walnut ribbon of promises as the seam) → services (dark bento)
- * → buy with confidence (trust band) → FAQ (sticky heading, accordion).
+ * Home: shop first, story after. Hero → trust strip → every piece with its price (rail) →
+ * collections → featured piece → shop the room → day/night → the making → clients → statement
+ * → services → buy with confidence → FAQ. Materials lives on the story page.
  */
 export default async function Home({ params }: { params: PageParams }) {
   const { lang, segment, dict: base } = await resolvePage(params);
@@ -77,15 +72,14 @@ export default async function Home({ params }: { params: PageParams }) {
         content={content}
       />
       <TrustStrip dict={dict} icons={content?.trust.map((t) => t.icon)} />
+      {/* Prices within the first two screens on a phone: visitors who came to buy see the range
+          before the story. */}
+      {products.length > 1 ? <ProductRail products={products} lang={lang} dict={dict} /> : null}
       <CollectionsRow lang={lang} dict={dict} collections={collections} />
       {featured ? <FeaturedProduct product={featured} lang={lang} dict={dict} /> : null}
       <ShopTheRoom products={products} lang={lang} dict={dict} />
-      {/* The whole range with prices comes early (it used to sit ninth); the story follows. Bands
-          alternate paper / cream / espresso: rail, Day & Night, craft, materials, statement. */}
-      {products.length > 1 ? <ProductRail products={products} lang={lang} dict={dict} /> : null}
       <DayNight dict={dict} />
       <Craft dict={dict} lang={lang} />
-      <Materials dict={dict} lang={lang} />
       <ClientsStrip clients={content?.clients ?? []} dict={dict} />
       <Statement dict={dict} />
       <Services lang={lang} dict={dict} />
