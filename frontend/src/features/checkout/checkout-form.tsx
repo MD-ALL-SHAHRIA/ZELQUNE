@@ -220,7 +220,9 @@ function CheckoutFormInner({
   const sorted = [...districts].sort((a, b) =>
     (lang === 'bn' ? a.nameBn : a.nameEn).localeCompare(lang === 'bn' ? b.nameBn : b.nameEn),
   );
-  const payLater = quote ? quote.totalPaisa - quote.advanceRequiredPaisa : 0;
+  // Cash on delivery takes no advance, even on a pre-order: everything is paid on delivery.
+  const payNow = quote && method !== 'COD' ? quote.advanceRequiredPaisa : 0;
+  const payLater = quote ? quote.totalPaisa - payNow : 0;
   const section = (n: number, title: string) => (
     <legend className="mb-6 flex items-baseline gap-4">
       <span className="font-display text-2xl font-medium italic text-walnut">
@@ -312,6 +314,7 @@ function CheckoutFormInner({
                       })}
                     </CopyText>
                   </p>
+                  <CopyNumber number={instructions.number} copy={c} />
                   {field('trxId', c.trxId, { autoComplete: 'off', autoCapitalize: 'characters' })}
                 </div>
               ) : null}
@@ -425,13 +428,15 @@ function CheckoutFormInner({
           </div>
           {quote && quote.advanceRequiredPaisa > 0 ? (
             <>
-              <div className="flex justify-between font-medium">
-                <dt>{c.summary.payNow}</dt>
-                <dd data-testid="pay-now">{formatTaka(quote.advanceRequiredPaisa, lang)}</dd>
-              </div>
+              {payNow > 0 ? (
+                <div className="flex justify-between font-medium">
+                  <dt>{c.summary.payNow}</dt>
+                  <dd data-testid="pay-now">{formatTaka(payNow, lang)}</dd>
+                </div>
+              ) : null}
               <div className="flex justify-between text-stone">
                 <dt>{c.summary.payOnDelivery}</dt>
-                <dd>{formatTaka(payLater, lang)}</dd>
+                <dd data-testid="pay-later">{formatTaka(payLater, lang)}</dd>
               </div>
             </>
           ) : null}
@@ -453,6 +458,33 @@ function CheckoutFormInner({
         </Button>
       </aside>
     </form>
+  );
+}
+
+/** The receiving number with a one-tap copy, so nobody has to retype it in the bKash app. */
+function CopyNumber({ number, copy }: { number: string; copy: Copy['checkout'] }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <span className="text-xl font-medium tracking-wide tabular-nums">{number}</span>
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        aria-live="polite"
+        onClick={() => {
+          void navigator.clipboard
+            ?.writeText(number)
+            .then(() => {
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            })
+            .catch(() => undefined);
+        }}
+      >
+        {copied ? copy.copied : copy.copyNumber}
+      </Button>
+    </div>
   );
 }
 

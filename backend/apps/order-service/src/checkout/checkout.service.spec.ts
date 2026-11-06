@@ -172,12 +172,17 @@ const request = (overrides: Partial<CheckoutRequest> = {}): CheckoutRequest => (
   ...overrides,
 });
 
-function setup(saleMode: SaleMode, overrides: Partial<CheckoutParticipants> = {}) {
+function setup(
+  saleMode: SaleMode,
+  overrides: Partial<CheckoutParticipants> = {},
+  allowedMethods?: PreparedCheckout['allowedMethods'],
+) {
   const store = new FakeStore();
   const { p, calls } = participants(overrides);
+  const ready = prepared(saleMode);
   const carts = {
     loadActive: jest.fn().mockResolvedValue({ id: 'cart-1' }),
-    prepare: jest.fn().mockResolvedValue(prepared(saleMode)),
+    prepare: jest.fn().mockResolvedValue(allowedMethods ? { ...ready, allowedMethods } : ready),
   } as unknown as Pick<CartService, 'loadActive' | 'prepare'>;
   const service = new CheckoutService(carts, p, store, {
     NODE_ENV: 'test',
@@ -243,6 +248,22 @@ describe('CheckoutService saga', () => {
     });
     expect(calls).toEqual([]);
     expect(store.sagas.size).toBe(0);
+  });
+
+  it('PRE_ORDER with COD when the owner allows it: the whole total on delivery, no advance', async () => {
+    const { service, calls, p, store } = setup('PRE_ORDER', {}, ['BKASH_MANUAL', 'COD']);
+    const res = await service.checkout('token', request());
+    expect(calls).toEqual(['payment']);
+    expect(p.createPayment).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'COD',
+        kind: 'COD',
+        amountPaisa: 366000,
+        payerPhone: null,
+      }),
+    );
+    expect(res.totals).toMatchObject({ totalPaisa: 366000, advanceRequiredPaisa: 0 });
+    expect(store.events[0].payload).toMatchObject({ advanceRequiredPaisa: 0 });
   });
 
   it('out of stock: saga FAILED, nothing to compensate', async () => {

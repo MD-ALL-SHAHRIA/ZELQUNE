@@ -29,7 +29,8 @@ recorded without an order.
 - **Unpaid orders** (any sale mode) still `PENDING_PAYMENT` after `ORDER_HOLD_HOURS` are cancelled
   by order-service (`order.cancelled`): inventory releases, payment voids.
 - **Advance**: fixed `ADVANCE_FIXED_PAISA` (৳300) per PRE_ORDER/MADE_TO_ORDER order, capped at
-  the total (`ADVANCE_MODE=percent` optional). COD is not accepted for those orders.
+  the total (`ADVANCE_MODE=percent` optional). COD is not accepted for those orders (amended by
+  0022: COD is allowed when the owner's `codForAdvanceOrders` setting is on, the default).
 - One sale mode per order; random order codes `ZQ-XXXXXX` (no sequential leak of volume).
 - Gateway: cart-scoped `Idempotency-Key`, Turnstile and per-IP rate limits on checkout.
 

@@ -149,6 +149,23 @@ describe('payment rules', () => {
     });
   });
 
+  it('adds COD after the advance methods when the owner allows it for pre-orders', () => {
+    expect(allowedPaymentMethods('PRE_ORDER', both, true)).toEqual([
+      'BKASH_MANUAL',
+      'NAGAD_MANUAL',
+      'COD',
+    ]);
+    expect(allowedPaymentMethods('MADE_TO_ORDER', { bkash: null, nagad: null }, true)).toEqual([
+      'COD',
+    ]);
+    expect(allowedPaymentMethods('IN_STOCK', both, true)[0]).toBe('COD');
+    const allowed = allowedPaymentMethods('PRE_ORDER', both, true);
+    expect(paymentPlan('PRE_ORDER', 'COD', totals, allowed)).toEqual({
+      kind: 'COD',
+      amountPaisa: 366000,
+    });
+  });
+
   it('rejects COD for pre-orders and unconfigured methods', () => {
     expect(() => paymentPlan('PRE_ORDER', 'COD', totals, ['BKASH_MANUAL'])).toThrow(
       expect.objectContaining({ code: 'ADVANCE_REQUIRED', status: 422 }) as Error,

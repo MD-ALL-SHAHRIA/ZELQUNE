@@ -6,6 +6,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Added
+- Cash on delivery for pre-order and made-to-order items (ADR 0022): a new dashboard switch (Settings > Checkout, on by default). Checkout offers "Cash on delivery" beside the bKash/Nagad advance; a COD order takes no advance, the summary shows the whole total as "Pay on delivery", and staff confirm it by phone as before.
+- Checkout: the bKash/Nagad receiving number has a one-tap "Copy number" button, and the advance steps say exactly what to do in the app.
+
+### Changed
+- Storefront copy (EN + BN): the announcement bar, the trust strip and the product page's "Buy with confidence" now lead with cash on delivery.
+
 ### Changed
 - Home (conversion): every piece with its price now follows the trust strip, straight under the hero (products start on the second phone screen instead of about the sixth); Materials moves to the Our story page, shortening the home page by about two phone screens.
 - Phones: the WhatsApp button arrives after the visitor scrolls past most of the first screen, so it no longer covers the hero line, the product title or the shop filters; the cookie banner is a short strip (no heading, tighter spacing, about 110px tall).

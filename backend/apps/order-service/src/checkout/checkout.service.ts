@@ -132,6 +132,10 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       prepared.totals,
       prepared.allowedMethods,
     );
+    // Cash on delivery for a pre-order (owner setting) takes no advance: all of it is due on
+    // delivery, so the order records none.
+    const totals: Totals =
+      plan.kind === 'COD' ? { ...prepared.totals, advanceRequiredPaisa: 0 } : prepared.totals;
     const bucket = prepared.cart.experimentKey;
     const experimentKey = bucket === 'a' || bucket === 'b' ? bucket : null;
 
@@ -153,7 +157,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
         unitPricePaisa: l.unitPricePaisa,
         qty: l.qty,
       })),
-      totals: prepared.totals,
+      totals,
       couponCode: prepared.coupon?.code ?? null,
       shipping: {
         zone: prepared.shipping.zone,
@@ -176,7 +180,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       orderCode: placed.code,
       status: 'PENDING_PAYMENT',
       saleMode: prepared.saleMode,
-      totals: prepared.totals,
+      totals,
       payment: placed.payment,
     };
   }

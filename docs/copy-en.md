@@ -47,8 +47,8 @@
 - **Heading:** Confirm your order
 - **Fields:** Your name · Mobile number (01XXXXXXXXX) · District · Area/Thana · Full address · Delivery note (optional)
 - **Payment:**
-  - **bKash/Nagad advance:** Send ৳300 to the bKash / Nagad number shown at checkout (Send Money), then enter the Transaction ID below.
-  - **Cash on delivery:** Pay when it arrives. (In-stock items only)
+  - **bKash/Nagad advance:** Open bKash or Nagad, choose Send Money and send ৳300 to the number shown at checkout. Then type the Transaction ID from the confirmation message below. · Copy number · Copied
+  - **Cash on delivery:** Pay the full amount in cash when it arrives, no advance. We call you to confirm the order.
 - **Transaction ID field:** Transaction ID (e.g. 9AB1C2D3EF)
 - **Summary:** Items · Delivery · Total · Pay now (advance) · Pay on delivery
 - **Button:** Place order
@@ -184,7 +184,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Footer columns:** Shop · Help · Company
 - **Footer invitation:** Start a project · Let’s bring warmth to your space. · Tell us about your home, shop or café. We design it, make the woodwork and light in our workshop, and install it. · Book a design consultation · Shop the collection
 - **Footer details:** Handcrafted in Dhaka, Bangladesh · Call · Email · Follow · Back to top
-- **Announcement:** Pre-orders are open · ৳300 advance, the rest on delivery
+- **Announcement:** Pre-orders are open · Cash on delivery available
 
 ### Landing page
 - **Hero eyebrow:** Sculptural wall decor · Made to order
@@ -209,7 +209,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
 - **Values:**
   - **Handcrafted:** Made after you order
   - **Safe 5V light:** No 220V inside the wood
-  - **৳300 advance:** The rest on delivery
+  - **Cash on delivery:** Or a ৳300 bKash advance
   - **Across Bangladesh:** Delivered to all 64 districts
 - **Business eyebrow:** For business
 - **Sample photo note:** Sample photo. Real product photos are coming soon.
@@ -396,7 +396,7 @@ SMS stays in Bangla (see copy-bn.md): most customers read SMS in Bangla, and the
   - **Warm 5V light:** Low-voltage LEDs powered by USB, safe to touch.
   - **Glass and detail:** Clear glass and small metal details. Brass-finish fittings.
 - **Trust:** Why Zelqune · Buy with confidence
-  - **Pay the rest on delivery:** Only a ৳300 advance by bKash or Nagad. The rest is cash on delivery.
+  - **Cash on delivery:** Pay in cash when it arrives, or send a ৳300 bKash or Nagad advance and pay the rest on delivery.
   - **Refund if we are late:** If we can't deliver on time, your advance is refunded within 7 days.
   - **Damage covered:** Tell us within 24 hours with a photo and we replace it or refund you.
   - **Made in Dhaka:** Designed and made in our own workshop. Dhaka, Bangladesh.
