@@ -14,6 +14,7 @@ import { type AuthenticatedRequest, type AuthenticatedUser } from './auth.types'
 import { JwtVerifierService } from './jwt-verifier.service';
 
 const ROLES_METADATA = 'zelqune:roles';
+const OPTIONAL_ACCOUNT_METADATA = 'zelqune:optional-account';
 
 /** Restricts a route to the given roles (after authentication). */
 export const Roles = (...roles: Role[]): MethodDecorator & ClassDecorator =>
@@ -25,6 +26,14 @@ export const Roles = (...roles: Role[]): MethodDecorator & ClassDecorator =>
  */
 export const RequireAccount = (): MethodDecorator =>
   applyDecorators(SetMetadata(IS_PUBLIC_METADATA, false), Roles('CUSTOMER'), ApiBearerAuth());
+
+/**
+ * A public route that links a signed-in customer when there is one (guest checkout, ADR 0023):
+ * no token = guest; a valid CUSTOMER token sets the user; an invalid or expired token answers 401
+ * so the storefront refreshes it and retries; other roles are treated as guests.
+ */
+export const OptionalAccount = (): MethodDecorator =>
+  applyDecorators(SetMetadata(OPTIONAL_ACCOUNT_METADATA, true), ApiBearerAuth());
 
 export const CurrentUser = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext): AuthenticatedUser | undefined =>
@@ -45,9 +54,16 @@ export class JwtAuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) return true;
-
     const req = context.switchToHttp().getRequest<AuthenticatedRequest>();
+    if (isPublic) {
+      const optional = this.reflector.get<boolean | undefined>(
+        OPTIONAL_ACCOUNT_METADATA,
+        context.getHandler(),
+      );
+      if (optional && req.headers.authorization) await this.attachCustomer(req);
+      return true;
+    }
+
     const match = /^Bearer ([A-Za-z0-9_\-.]+)$/.exec(req.headers.authorization ?? '');
     if (!match) throw new AppError('UNAUTHENTICATED', 'Authentication required', 401);
     try {
@@ -58,6 +74,18 @@ export class JwtAuthGuard implements CanActivate {
     // Every downstream RPC of this request carries the admin for audit (ADR 0010).
     requestContext.setActor({ id: req.user.id, role: req.user.role });
     return true;
+  }
+
+  private async attachCustomer(req: AuthenticatedRequest): Promise<void> {
+    const match = /^Bearer ([A-Za-z0-9_\-.]+)$/.exec(req.headers.authorization ?? '');
+    if (!match) return;
+    let user: AuthenticatedUser;
+    try {
+      user = await this.verifier.verify(match[1]);
+    } catch {
+      throw new AppError('INVALID_TOKEN', 'Invalid or expired access token', 401);
+    }
+    if (user.role === 'CUSTOMER') req.user = user;
   }
 }
 

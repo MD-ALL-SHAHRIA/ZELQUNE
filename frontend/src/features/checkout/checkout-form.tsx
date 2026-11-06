@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { SAMPLE } from '@/content/sample-images';
 import { checkoutStarted, orderPlaced } from '@/features/analytics/events';
@@ -24,7 +25,9 @@ import { useAppDispatch } from '@/store/hooks';
 import { couponProblem, normalizeCoupon } from './coupon';
 import { FormNotice } from '@/features/legal/form-notice';
 import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
-import { AccountGate, type AccountPrefill } from '@/features/account/account-gate';
+import { type AccountPrefill } from '@/features/account/account-gate';
+import { useCustomer } from '@/features/account/use-customer';
+import { Skeleton } from '@/shared/ui/skeleton';
 
 type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product' | 'offers'>;
 
@@ -488,11 +491,42 @@ function CopyNumber({ number, copy }: { number: string; copy: Copy['checkout'] }
   );
 }
 
-/** Needs a signed-in customer (ADR 0021); the form starts with the account's details. */
+/**
+ * Guests can order with name and phone (ADR 0023); a signed-in customer's form starts with the
+ * account's details and the order is linked to the account.
+ */
 export function CheckoutForm(props: Omit<Parameters<typeof CheckoutFormInner>[0], 'account'>) {
+  const state = useCustomer();
+  const pathname = usePathname();
+  const g = props.copy.checkout.accountGate;
+  if (state.status === 'loading')
+    return (
+      <div className="space-y-5" aria-busy="true">
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-12 w-2/3" />
+      </div>
+    );
+  if (state.status === 'signedOut')
+    return (
+      <>
+        <p className="mb-8 text-sm text-stone" data-testid="guest-hint">
+          {g.guest}{' '}
+          <Link
+            href={`${href(props.lang, '/account/login')}?next=${encodeURIComponent(pathname)}`}
+            className="text-ink underline underline-offset-4"
+          >
+            {g.guestSignIn}
+          </Link>
+        </p>
+        <CheckoutFormInner {...props} />
+      </>
+    );
+  const c = state.customer;
   return (
-    <AccountGate lang={props.lang} copy={props.copy.checkout.accountGate} kind="order">
-      {(account) => <CheckoutFormInner {...props} account={account} />}
-    </AccountGate>
+    <CheckoutFormInner
+      {...props}
+      account={{ name: c.name ?? '', phone: c.phone.replace(/^\+88/, ''), email: c.email ?? '' }}
+    />
   );
 }

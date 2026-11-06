@@ -1,6 +1,7 @@
 # 0021: Customer accounts
 
 Date: 2026-11-01. Status: accepted (backend). Storefront pages and the checkout requirement follow.
+Amended by 0023: shop checkout is open to guests again; accounts are optional there.
 
 ## Context
 The owner wants every order and request tied to a real account (no guest checkout), so the

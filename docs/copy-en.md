@@ -769,6 +769,7 @@ How to cancel an order, return an item or get your money back.
 - **account gate request:** Requests are linked to your account, so you can follow them in one place and we can reach you.
 - **account gate signIn:** Sign in
 - **account gate create:** Create an account
+- **account gate guest:** No account needed. Have one? · Sign in to fill in your details
 - **portal ordersHeading:** Your orders
 - **portal requestsHeading:** Your requests
 - **portal noOrders:** No orders yet. Pieces you order appear here with every step until delivery.

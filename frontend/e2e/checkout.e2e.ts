@@ -91,11 +91,30 @@ test('a visitor with no ?p sees the base price, which equals arm a (৳3,490)', 
   await expect(page.getByTestId('price')).toHaveText('৳3,490');
 });
 
-test('checkout asks a signed-out visitor to sign in first', async ({ page }) => {
-  await page.goto('/en/checkout');
-  await expect(page.getByRole('heading', { name: 'Sign in to continue' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Sign in' })).toHaveAttribute(
+test('a guest orders with name and phone (no account) and tracks the order', async ({ page }) => {
+  const phone = uniquePhone();
+  await page.goto('/en/products/alo-arch-panel');
+  await page.getByRole('button', { name: 'Pre-order now' }).first().click();
+  await expect(page).toHaveURL(/\/en\/checkout$/);
+  // Signing in is offered, never required (ADR 0023).
+  await expect(page.getByTestId('guest-hint').getByRole('link')).toHaveAttribute(
     'href',
     /\/en\/account\/login\?next=%2Fen%2Fcheckout/,
   );
+  await fillCheckout(page, {
+    name: 'E2E Guest',
+    phone,
+    district: 'dhaka',
+    area: 'Mirpur',
+    line: 'House 1, Road 2, Mirpur 10',
+  });
+  await page.getByLabel('Cash on delivery').check();
+  await page.getByRole('button', { name: 'Place order', exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/order\/ZQ-[A-Z0-9]{6}$/);
+  const code = (await page.getByTestId('order-code').textContent())?.trim() ?? '';
+
+  await page.goto(`/en/track?code=${code}`);
+  await page.locator('#t-phone').fill(phone);
+  await page.getByRole('button', { name: 'Track', exact: true }).click();
+  await expect(page.getByTestId('order-status')).toBeVisible();
 });

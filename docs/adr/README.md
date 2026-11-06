@@ -23,5 +23,6 @@ accepted ADR; supersede it with a new one.
 | [0016](0016-marketing-reports-and-finance.md) | Coupons, sales, reports and profit and loss, split by data owner | Accepted |
 | [0017](0017-owner-settings-and-team.md) | Owner-editable settings and the team, stored by the service that uses them | Accepted |
 | [0022](0022-cash-on-delivery-for-pre-orders.md) | Cash on delivery for pre-order and made-to-order items (owner setting) | Accepted |
+| [0023](0023-guest-checkout.md) | Guest checkout; accounts optional for shop orders | Accepted |
 
 Template: copy `0000-template.md`, take the next number, keep it under a page.

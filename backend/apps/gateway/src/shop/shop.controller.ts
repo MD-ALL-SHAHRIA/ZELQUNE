@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from '@nestjs/common';
 import { type AuthenticatedUser } from '../auth/auth.types';
-import { CurrentUser, RequireAccount } from '../auth/guards';
+import { CurrentUser, OptionalAccount } from '../auth/guards';
 import { ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   AppError,
@@ -159,7 +159,7 @@ export class ShopController {
   }
 
   @Post('checkout')
-  @RequireAccount()
+  @OptionalAccount()
   @RouteThrottle('checkout')
   @RequireTurnstile()
   @Idempotent({ scope: 'cart' })
@@ -177,15 +177,15 @@ export class ShopController {
   checkout(
     @CartToken() cartToken: string,
     @Body() body: CheckoutRequestDto,
-    @CurrentUser() user: AuthenticatedUser,
+    @CurrentUser() user: AuthenticatedUser | undefined,
   ): Promise<CheckoutResponse> {
-    // order-service validates again: it never trusts its callers. The account comes from the
-    // verified token, never from the body.
+    // order-service validates again: it never trusts its callers. The account (if any) comes
+    // from the verified token, never from the body; guests order with name and phone.
     return this.services
       .get('order')
       .send(
         RPC_PATTERNS.order.checkout,
-        { cartToken, request: body, customerUserId: user.id },
+        { cartToken, request: body, customerUserId: user?.id ?? null },
         { timeoutMs: 20_000 },
       );
   }

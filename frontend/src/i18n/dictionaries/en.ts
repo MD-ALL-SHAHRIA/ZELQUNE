@@ -177,6 +177,8 @@ export const en = {
         'Requests are linked to your account, so you can follow them in one place and we can reach you.',
       signIn: 'Sign in',
       create: 'Create an account',
+      guest: 'No account needed. Have one?',
+      guestSignIn: 'Sign in to fill in your details',
     },
     privacyNotice: {
       order: 'We use your name, phone and address only to confirm, make and deliver this order.',
