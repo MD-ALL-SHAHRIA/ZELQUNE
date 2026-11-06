@@ -50,7 +50,10 @@ export class RetentionService implements OnApplicationBootstrap, OnModuleDestroy
   private async sweepSafely(): Promise<void> {
     try {
       const n = await this.deleteExpired();
-      if (n > 0) this.logger.log(`Deleted ${n} tracked event(s) older than ${TRACKED_EVENTS_RETENTION_DAYS} days`);
+      if (n > 0)
+        this.logger.log(
+          `Deleted ${n} tracked event(s) older than ${TRACKED_EVENTS_RETENTION_DAYS} days`,
+        );
     } catch (err) {
       this.logger.error({ err }, 'Tracked events retention sweep failed');
     }

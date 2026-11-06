@@ -408,7 +408,10 @@ export class CustomerService {
       where: { userId, revokedAt: null },
       data: { revokedAt: new Date(), revokedReason: 'LOGOUT' },
     });
-    await tx.authToken.updateMany({ where: { userId, usedAt: null }, data: { usedAt: new Date() } });
+    await tx.authToken.updateMany({
+      where: { userId, usedAt: null },
+      data: { usedAt: new Date() },
+    });
     await tx.oAuthAccount.deleteMany({ where: { userId } });
   }
 
