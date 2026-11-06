@@ -62,7 +62,7 @@ export function CookieBanner({ copy, policyHref }: { copy: ConsentCopy; policyHr
     saveConsent(c);
     setOpen(false);
   };
-  const btn = 'h-10 min-w-0 px-2 text-[0.75rem]';
+  const btn = 'h-9 min-w-0 px-2 text-[0.72rem] sm:h-10 sm:text-[0.75rem]';
   const dialogBtn = 'h-11 min-w-[7.5rem] flex-1 px-4 text-[0.85rem] sm:flex-none';
 
   return (
@@ -73,18 +73,19 @@ export function CookieBanner({ copy, policyHref }: { copy: ConsentCopy; policyHr
           aria-labelledby={titleId}
           // Compact: a small corner card on desktop, a short strip on phones, so the page stays
           // the first thing people see.
-          className="fixed inset-x-3 bottom-3 z-[60] border border-line bg-paper/95 p-4 text-ink shadow-[0_12px_40px_rgba(43,30,25,0.18)] backdrop-blur-sm sm:right-auto sm:bottom-5 sm:left-5 sm:w-[24rem]"
+          // Phones: no heading (screen readers still get it) and tighter spacing, about 110px tall.
+          className="fixed inset-x-2 bottom-2 z-[60] border border-line bg-paper/95 p-3 text-ink shadow-[0_12px_40px_rgba(43,30,25,0.18)] backdrop-blur-sm sm:right-auto sm:bottom-5 sm:left-5 sm:w-[24rem] sm:p-4"
         >
-          <h2 id={titleId} className="text-[0.95rem] font-medium">
+          <h2 id={titleId} className="sr-only text-[0.95rem] font-medium sm:not-sr-only">
             {copy.title}
           </h2>
-          <p className="mt-1 text-[0.8rem] leading-relaxed text-stone">
+          <p className="text-[0.75rem] leading-snug text-stone sm:mt-1 sm:text-[0.8rem] sm:leading-relaxed">
             {copy.short}{' '}
             <Link href={policyHref} className="text-ink underline underline-offset-4">
               {copy.policy}
             </Link>
           </p>
-          <div className="mt-3 grid grid-cols-3 gap-2">
+          <div className="mt-2 grid grid-cols-3 gap-2 sm:mt-3">
             <button
               type="button"
               onClick={() => choose(ALL)}

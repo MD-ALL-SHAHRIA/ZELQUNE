@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SAMPLE } from '@/content/sample-images';
 import { Craft } from '@/features/landing/craft';
+import { Materials } from '@/features/landing/materials';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 import { CopyText } from '@/shared/ui/copy-text';
@@ -46,6 +47,7 @@ export default async function StoryPage({ params }: { params: PageParams }) {
         </div>
       </Container>
       <Craft dict={dict} lang={lang} />
+      <Materials dict={dict} lang={lang} />
     </>
   );
 }
