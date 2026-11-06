@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
+import { href } from '@/shared/lib/site';
 import { AuthShell } from './auth-shell';
 import {
   CompleteForm,
@@ -52,7 +53,14 @@ export async function AuthPage({ params, kind }: { params: PageParams; kind: Aut
   const Form = FORMS[kind];
   const { title, lead } = heading(kind, c);
   return (
-    <AuthShell brandTitle={c.brandTitle} brandText={c.brandText} title={title} lead={lead}>
+    <AuthShell
+      brandTitle={c.brandTitle}
+      brandText={c.brandText}
+      brandName={dict.brand.name}
+      homeHref={href(lang)}
+      title={title}
+      lead={lead}
+    >
       <Suspense>
         <Form
           lang={lang}

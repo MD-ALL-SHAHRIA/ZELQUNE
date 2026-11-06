@@ -37,7 +37,7 @@ export function ConfidenceCard({ dict }: { dict: Dictionary }) {
                 <span className="block text-[0.82rem] font-medium leading-snug text-ink">
                   {item.title}
                 </span>
-                <span className="mt-1 block text-xs leading-relaxed text-ink/65">
+                <span className="mt-1 block text-xs leading-relaxed text-ink/80">
                   <CopyText>{item.text}</CopyText>
                 </span>
               </span>

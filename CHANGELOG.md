@@ -19,7 +19,13 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - nodemailer 10.2.1 (clears all high advisories).
 - Production-readiness audit (docs/audit/): next 16.4.1 (fixes two critical RCE advisories), zod 4.6.7, Nest 11.2.8, body-parser/multer overrides; gateway sends security headers (helmet); SMS console log masks the phone and omits the body outside development; SMTP requires STARTTLS when credentials are set.
 
+### Changed
+- Sign-in, sign-up, verify, reset and the other account sign-in pages have no site header or footer; the logo leads back home.
+- Home hero: the slides start moving after the visitor's first scroll, tap, click or key; the photo reveal uses sliding bars, so the photo paints at once (mobile LCP).
+- The cookie settings dialog loads only when opened; the first row of shop photos loads first. Report: docs/audit/frontend-performance.md.
+
 ### Fixed
+- Accessibility: hero heading words readable by screen readers without an invalid label; slide counter and small text on product-page boxes meet AA contrast.
 - Checkout: a coupon that expires between the cart and placing the order is no longer applied (shows "expired").
 - Accounts: an owner adding a team member can no longer promote an existing customer account with that phone (409).
 - Inventory: one failing reservation no longer stops all reservation expiry.

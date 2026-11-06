@@ -217,13 +217,18 @@ function Panels({
             {s.main.caption}
           </Link>
         </figcaption>
+        <span aria-hidden className="reveal-bars">
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
       </figure>
 
       {/* The giant words, over everything, meeting at the photo. */}
-      <p
-        aria-label={`${s.left} ${s.right}`}
-        className="pointer-events-none relative z-10 order-2 flex items-baseline justify-between font-display text-[clamp(3.6rem,15vw,6rem)] leading-[0.9] font-normal tracking-[-0.035em] text-ivory lg:absolute lg:inset-x-10 lg:top-[27%] lg:text-[clamp(6rem,11.5vw,12.5rem)] [:lang(bn)_&]:leading-[1.15] [:lang(bn)_&]:tracking-normal"
-      >
+      <p className="pointer-events-none relative z-10 order-2 flex items-baseline justify-between font-display text-[clamp(3.6rem,15vw,6rem)] leading-[0.9] font-normal tracking-[-0.035em] text-ivory lg:absolute lg:inset-x-10 lg:top-[27%] lg:text-[clamp(6rem,11.5vw,12.5rem)] [:lang(bn)_&]:leading-[1.15] [:lang(bn)_&]:tracking-normal">
+        {/* The letters are aria-hidden; a <p> cannot carry aria-label, so the words are read here. */}
+        <span className="sr-only">{`${s.left} ${s.right}`}</span>
         <span className="rise">
           <Rise text={s.left} lang={lang} />
         </span>
@@ -316,7 +321,7 @@ function Full({ s, lang, load }: { s: FullSlide; lang: string; load: boolean }) 
 /**
  * The home hero: four slides (our panels, then interior design, construction and bulk orders).
  * The first slide renders on the server with its photo preloaded (the LCP image); the other
- * slides' photos load after the page has. Changes every 7 s; pauses on hover, keyboard focus,
+ * slides' photos load after the page has. Changes every 7 s once the visitor scrolls, taps or types; pauses on hover, keyboard focus,
  * the pause button and a hidden tab, and never moves by itself for reduced motion.
  */
 export function HeroSlides({
@@ -342,7 +347,8 @@ export function HeroSlides({
   );
   const root = useRef<HTMLDivElement>(null);
   const swipe = useRef<number | null>(null);
-  const running = ready && !paused && !held && !still && slides.length > 1;
+  const [engaged, setEngaged] = useState(false);
+  const running = ready && engaged && !paused && !held && !still && slides.length > 1;
 
   useEffect(() => {
     let timer = 0;
@@ -354,6 +360,21 @@ export function HeroSlides({
     return () => {
       window.removeEventListener('load', start);
       window.clearTimeout(timer);
+    };
+  }, []);
+
+  // Autoplay starts at the visitor's first scroll, tap, click or key. Until then slide 1 stays,
+  // so a bigger later photo never becomes the page's Largest Contentful Paint (those inputs end
+  // the LCP measurement), and slow phones do not decode a full-screen photo nobody asked for.
+  useEffect(() => {
+    const events = ['scroll', 'wheel', 'pointerdown', 'keydown', 'touchstart'] as const;
+    const engage = () => {
+      setEngaged(true);
+      for (const e of events) window.removeEventListener(e, engage);
+    };
+    for (const e of events) window.addEventListener(e, engage, { passive: true });
+    return () => {
+      for (const e of events) window.removeEventListener(e, engage);
     };
   }, []);
 
@@ -427,7 +448,7 @@ export function HeroSlides({
               <ArrowLeft className="size-3.5" strokeWidth={1.5} />
             </button>
             <span className="px-1.5 text-[0.72rem] tracking-[0.16em] tabular-nums">
-              {pad(index + 1)} <span className="text-ivory/50">/ {pad(slides.length)}</span>
+              {pad(index + 1)} <span className="text-ivory/70">/ {pad(slides.length)}</span>
             </span>
             <ul className="flex gap-1">
               {slides.map((s, i) => (

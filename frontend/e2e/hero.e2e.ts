@@ -35,6 +35,19 @@ test('arrows and bars change the slide; pause holds it', async ({ page }) => {
   await expect(bars.last()).toHaveAttribute('aria-current', 'true');
 });
 
+test('autoplay waits for the first scroll, so slide 1 stays the largest paint', async ({
+  page,
+}) => {
+  await page.goto('/en');
+  const first = await current(page).getAttribute('aria-label');
+  await page.waitForTimeout(8500);
+  await expect(current(page)).toHaveAttribute('aria-label', first ?? '');
+
+  await page.mouse.wheel(0, 40);
+  await page.mouse.move(0, 0);
+  await expect(current(page)).not.toHaveAttribute('aria-label', first ?? '', { timeout: 9000 });
+});
+
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' });
 
@@ -43,7 +56,7 @@ test.describe('reduced motion', () => {
   }) => {
     await page.goto('/en');
     const slide = current(page);
-    await expect(slide.locator('p[aria-label="Wood Light"]')).toBeVisible();
+    await expect(slide.locator('p', { hasText: 'Wood Light' })).toBeVisible();
     await expect(slide.getByRole('link', { name: /Explore the collection/ })).toHaveAttribute(
       'href',
       /\/en\/shop$/,
