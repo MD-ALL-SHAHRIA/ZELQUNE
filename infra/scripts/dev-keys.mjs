@@ -3,6 +3,7 @@
 //   JWT_PRIVATE_KEY / JWT_PUBLIC_KEY  ES256 (P-256) pair, PEM with "\n" escapes
 //   LOCAL_STORAGE_SIGNING_SECRET      signs dev media upload URLs
 //   CUSTOMER_KEY_SECRET               HMAC key for the pseudonymous customerKey (ADR 0010)
+//   INTERNAL_RPC_SECRET               shared secret on internal TCP calls between services
 // Existing non-empty values are kept unless --force. Never use these keys in production.
 import { generateKeyPairSync, randomBytes } from 'node:crypto';
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -46,5 +47,9 @@ if (force || !current('CUSTOMER_KEY_SECRET')) {
 if (force || !current('LOCAL_STORAGE_SIGNING_SECRET')) {
   set('LOCAL_STORAGE_SIGNING_SECRET', randomBytes(32).toString('hex'));
   console.log('LOCAL_STORAGE_SIGNING_SECRET written to infra/.env');
+}
+if (force || !current('INTERNAL_RPC_SECRET')) {
+  set('INTERNAL_RPC_SECRET', randomBytes(32).toString('hex'));
+  console.log('INTERNAL_RPC_SECRET written to infra/.env');
 }
 writeFileSync(envPath, env, { mode: 0o600 });

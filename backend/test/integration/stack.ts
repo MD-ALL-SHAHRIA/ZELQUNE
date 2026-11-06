@@ -112,6 +112,8 @@ const ADDRESSES = Object.fromEntries(
     ];
   }),
 );
+// Every in-process app shares it, so the integration tests exercise the internal auth check.
+ADDRESSES.INTERNAL_RPC_SECRET = 'it-internal-rpc-secret-0123456789abcdef';
 
 /**
  * Each AppConfigModule reads process.env when its app is created, so apps are created one

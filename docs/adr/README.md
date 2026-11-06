@@ -26,3 +26,4 @@ accepted ADR; supersede it with a new one.
 | [0023](0023-guest-checkout.md) | Guest checkout; accounts optional for shop orders | Accepted |
 
 Template: copy `0000-template.md`, take the next number, keep it under a page.
+- [0024](0024-internal-rpc-shared-secret.md) Shared secret on internal TCP calls

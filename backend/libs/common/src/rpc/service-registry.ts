@@ -3,6 +3,7 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { SERVICE_KEYS, SERVICES, type ServiceKey } from '@zelqune/contracts';
 import { z } from 'zod';
 import { APP_CONFIG } from '../config/config.module';
+import { internalRpcSecret } from './internal-auth';
 import { ServiceClient } from './service-client';
 
 const DEFAULT_TCP_PORTS: Record<ServiceKey, number> = {
@@ -24,6 +25,8 @@ export function serviceEnvPrefix(key: ServiceKey): string {
 /** Env shape for calling other services over TCP; merge into an app's env schema. */
 export const serviceAddressEnvShape = {
   RPC_TIMEOUT_MS: z.coerce.number().int().positive().default(5000),
+  /** Presented on every TCP call; the service rejects calls without it (required in production). */
+  INTERNAL_RPC_SECRET: z.string().min(32).optional(),
   ...(Object.fromEntries(
     SERVICE_KEYS.flatMap((key) => [
       [`${serviceEnvPrefix(key)}_HOST`, z.string().min(1).default('localhost')],
@@ -35,7 +38,11 @@ export const serviceAddressEnvShape = {
   ) as Record<string, z.ZodDefault<z.ZodString> | z.ZodDefault<z.ZodCoercedNumber>>),
 };
 
-type AddressConfig = { RPC_TIMEOUT_MS: number } & Record<string, unknown>;
+type AddressConfig = {
+  RPC_TIMEOUT_MS: number;
+  NODE_ENV?: string;
+  INTERNAL_RPC_SECRET?: string;
+} & Record<string, unknown>;
 
 export function serviceAddress(
   config: AddressConfig,
@@ -51,6 +58,7 @@ export class ServiceRegistry implements OnApplicationShutdown {
   private readonly clients: Map<ServiceKey, ServiceClient>;
 
   constructor(@Inject(APP_CONFIG) config: AddressConfig) {
+    const secret = internalRpcSecret(config);
     this.clients = new Map(
       SERVICE_KEYS.map((key) => [
         key,
@@ -61,6 +69,7 @@ export class ServiceRegistry implements OnApplicationShutdown {
             options: serviceAddress(config, key),
           }),
           config.RPC_TIMEOUT_MS,
+          secret,
         ),
       ]),
     );
