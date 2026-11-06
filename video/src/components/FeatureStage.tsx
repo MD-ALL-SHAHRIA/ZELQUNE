@@ -1,18 +1,33 @@
 import type { ReactNode } from 'react';
-import { AbsoluteFill } from 'remotion';
+import { AbsoluteFill, Img, staticFile } from 'remotion';
+import targetsJson from '../../assets/screens/targets.json';
 import { useLayout, type Format } from '../lib/layout';
 import { mix, useSpringAt } from '../lib/motion';
 import { colors, springs } from '../video.config';
 import { Backdrop } from './Backdrop';
-import { Laptop, Phone, phoneWidth, type Camera } from './Devices';
+import { Laptop, Phone, phoneWidth } from './Devices';
 import { Eyebrow, KineticText } from './Type';
 
 export type Box = { x: number; y: number; w: number; h: number };
 export type Stage = { format: Format; device: Box; screen: Box };
 
-/** Where a normalized point of the screenshot lands on screen, given the camera. */
-export function project(p: [number, number], cam: Camera, screen: { w: number; h: number }): [number, number] {
-  return [(cam.x + (p[0] - cam.x) * cam.scale) * screen.w, (cam.y + (p[1] - cam.y) * cam.scale) * screen.h];
+type Target = { x: number; y: number; w: number; h: number; left: number } | null;
+type TargetName = 'themeToggle' | 'preorder' | 'firstCard' | 'orderInput' | 'trackButton';
+
+/** Where a real control sits on the device screen (px), from targets.json written by capture.mjs. */
+export function target(stage: Stage, name: TargetName): { x: number; y: number; w: number; h: number; left: number } | null {
+  const t = (targetsJson as Record<string, Record<string, Target>>)[stage.format === 'wide' ? 'desktop' : 'mobile']?.[name];
+  if (!t) return null;
+  return { x: t.x * stage.screen.w, y: t.y * stage.screen.h, w: t.w * stage.screen.w, h: t.h * stage.screen.h, left: t.left * stage.screen.w };
+}
+
+/** A second screenshot laid exactly over the screen, revealed by a clip-path (day→night, typing). */
+export function ScreenSwap({ src, clip }: { src: string; clip: string }) {
+  return (
+    <AbsoluteFill style={{ clipPath: clip }}>
+      <Img src={staticFile(src)} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+    </AbsoluteFill>
+  );
 }
 
 type Props = {
@@ -20,35 +35,33 @@ type Props = {
   caption: string;
   desktop: string;
   mobile: string;
-  /** Camera move on the desktop shot (wide) and on the mobile shot (feed, story). */
-  cam: { desktop: [Camera, Camera]; mobile: [Camera, Camera] };
-  camAt?: number;
-  screenOverlay?: (stage: Stage, cam: Camera) => ReactNode;
+  screenOverlay?: (stage: Stage) => ReactNode;
   extras?: (stage: Stage) => ReactNode;
-  /** Optional filter on the screen image layer (used by the day/night beat). */
   tone?: 'paper' | 'warm' | 'dark';
 };
 
-export function FeatureStage({ eyebrow, caption, desktop, mobile, cam, camAt = 18, screenOverlay, extras, tone = 'paper' }: Props) {
+/**
+ * One feature beat: benefit caption + the real page on a device. The screenshot is never zoomed
+ * (no text cut off); the camera moves the whole device instead (dolly + tilt).
+ */
+export function FeatureStage({ eyebrow, caption, desktop, mobile, screenOverlay, extras, tone = 'paper' }: Props) {
   const L = useLayout();
   const enter = useSpringAt(0, springs.soft);
-  const camP = useSpringAt(camAt, springs.camera);
+  const dolly = useSpringAt(6, springs.camera);
   const wide = L.format === 'wide';
-  const [c0, c1] = wide ? cam.desktop : cam.mobile;
-  const camera: Camera = { x: mix(c0.x, c1.x, camP), y: mix(c0.y, c1.y, camP), scale: mix(c0.scale, c1.scale, camP) };
 
   let stage: Stage;
   let captionBox: Box;
   if (wide) {
-    const w = 1080;
+    const w = 1120;
     const pad = w * 0.022;
     const sw = w - pad * 2;
     const sh = sw / 1.6;
     const total = sh + pad * 2.2 + w * 0.026;
-    const x = L.w - L.safe.side - w + 40;
-    const y = (L.h - total) / 2;
+    const x = L.w - L.safe.side - w + 60;
+    const y = (L.h - total) / 2 + 10;
     stage = { format: L.format, device: { x, y, w, h: total }, screen: { x: x + pad, y: y + pad, w: sw, h: sh } };
-    captionBox = { x: L.safe.side, y: 0, w: x - L.safe.side - 70, h: L.h };
+    captionBox = { x: L.safe.side, y: 0, w: x - L.safe.side - 60, h: L.h };
   } else {
     const story = L.format === 'story';
     const top = story ? 640 : 400;
@@ -60,10 +73,14 @@ export function FeatureStage({ eyebrow, caption, desktop, mobile, cam, camAt = 1
     captionBox = { x: L.safe.side, y: L.safe.top, w: L.w - L.safe.side * 2, h: top - L.safe.top - 30 };
   }
 
-  const rise = (1 - enter) * 140;
+  const rise = (1 - enter) * 160;
   const tilt = wide
-    ? { rx: mix(14, 6, enter), ry: mix(-26, -12, enter) + camP * 3, rz: mix(2, 0, enter) }
-    : { rx: mix(16, 4, enter), ry: mix(22, 6, enter) - camP * 3 };
+    ? { rx: mix(16, 4, enter), ry: mix(-24, -7, enter) + dolly * 2, rz: mix(2, 0, enter) }
+    : { rx: mix(18, 3, enter), ry: mix(24, 5, enter) - dolly * 3 };
+  // Camera push on the whole stage around the device centre.
+  const cx = stage.device.x + stage.device.w / 2;
+  const cy = stage.device.y + stage.device.h / 2;
+  const zoom = mix(0.96, 1.03, dolly);
 
   return (
     <AbsoluteFill>
@@ -76,23 +93,25 @@ export function FeatureStage({ eyebrow, caption, desktop, mobile, cam, camAt = 1
         }}
       >
         <Eyebrow size={L.small * 0.85} color={tone === 'dark' ? colors.brass : colors.walnut}>{eyebrow}</Eyebrow>
-        <KineticText
-          lines={[caption]}
-          delay={4}
-          size={L.caption * (wide ? 1.12 : 1)}
-          color={tone === 'dark' ? colors.paper : colors.espresso}
-          align={wide ? 'left' : 'center'}
-          lineHeight={1.06}
+        <KineticText lines={[caption]} delay={4} size={L.caption * (wide ? 1.12 : 1)} color={tone === 'dark' ? colors.paper : colors.espresso} align={wide ? 'left' : 'center'} lineHeight={1.06} />
+      </div>
+      <AbsoluteFill style={{ transformOrigin: `${cx}px ${cy}px`, transform: `scale(${zoom})` }}>
+        {/* Soft contact shadow under the device. */}
+        <div
+          style={{
+            position: 'absolute', left: stage.device.x + stage.device.w * 0.08, width: stage.device.w * 0.84, top: stage.device.y + stage.device.h - 30,
+            height: 60, borderRadius: '50%', background: 'rgba(59,41,34,0.35)', filter: 'blur(28px)', opacity: enter,
+          }}
         />
-      </div>
-      <div style={{ position: 'absolute', left: stage.device.x, top: stage.device.y + rise }}>
-        {wide ? (
-          <Laptop src={desktop} width={stage.device.w} camera={camera} tilt={tilt} overlay={screenOverlay?.(stage, camera)} />
-        ) : (
-          <Phone src={mobile} height={stage.device.h} camera={camera} tilt={tilt} overlay={screenOverlay?.(stage, camera)} />
-        )}
-      </div>
-      {extras?.(stage)}
+        <div style={{ position: 'absolute', left: stage.device.x, top: stage.device.y + rise }}>
+          {wide ? (
+            <Laptop src={desktop} width={stage.device.w} tilt={tilt} overlay={screenOverlay?.(stage)} />
+          ) : (
+            <Phone src={mobile} height={stage.device.h} tilt={tilt} overlay={screenOverlay?.(stage)} />
+          )}
+        </div>
+        {extras?.(stage)}
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 }

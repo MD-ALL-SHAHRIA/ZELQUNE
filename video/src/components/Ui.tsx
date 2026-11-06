@@ -85,33 +85,53 @@ export function Toast({ title, text, delay, scale = 1, style }: { title: string;
   );
 }
 
-/**
- * Cursor that springs from `from` to `to` (px in the parent) and clicks at `clickAt`.
- */
-export function Cursor({ from, to, moveAt, clickAt, size = 44 }: { from: [number, number]; to: [number, number]; moveAt: number; clickAt: number; size?: number }) {
+/** One cursor stop: arrive at frame `at` (spring move), optionally click on arrival + `click`. */
+export type CursorStop = { at: number; x: number; y: number; click?: number };
+
+/** Cursor that springs between real UI targets and clicks with a press + ripple. */
+export function Cursor({ stops, size = 44 }: { stops: CursorStop[]; size?: number }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const move = springAt(frame, fps, moveAt, springs.camera);
-  const press = springAt(frame, fps, clickAt, springs.pop);
-  const release = springAt(frame, fps, clickAt + 5, springs.pop);
-  const down = press - release;
-  const ripple = springAt(frame, fps, clickAt, springs.soft);
-  const x = mix(from[0], to[0], move);
-  const y = mix(from[1], to[1], move);
-  const appear = springAt(frame, fps, moveAt - 10, springs.soft);
+  let x = stops[0].x;
+  let y = stops[0].y;
+  for (let i = 1; i < stops.length; i++) {
+    const m = springAt(frame, fps, stops[i].at, springs.camera);
+    x = mix(x, stops[i].x, m);
+    y = mix(y, stops[i].y, m);
+  }
+  const clicks = stops.filter((s) => s.click !== undefined).map((s) => s.click as number);
+  const last = clicks.filter((c) => frame >= c).pop();
+  const down = clicks.reduce((d, c) => d + springAt(frame, fps, c, springs.pop) - springAt(frame, fps, c + 5, springs.pop), 0);
+  const ripple = last === undefined ? 0 : springAt(frame, fps, last, springs.soft);
+  const appear = springAt(frame, fps, stops[0].at, springs.soft);
   return (
-    <div style={{ position: 'absolute', left: x, top: y, opacity: appear, pointerEvents: 'none' }}>
-      {frame >= clickAt && (
+    <div style={{ position: 'absolute', left: x, top: y, opacity: appear, pointerEvents: 'none', zIndex: 5 }}>
+      {last !== undefined && (
         <div
           style={{
             position: 'absolute', left: -size, top: -size, width: size * 2, height: size * 2, borderRadius: '50%',
-            border: `3px solid ${colors.glow}`, transform: `scale(${mix(0.2, 1.6, ripple)})`, opacity: 1 - ripple,
+            border: `3px solid ${colors.glow}`, background: 'rgba(233,184,114,0.18)', transform: `scale(${mix(0.2, 1.6, ripple)})`, opacity: 1 - ripple,
           }}
         />
       )}
-      <svg width={size} height={size} viewBox="0 0 24 24" style={{ transform: `scale(${1 - down * 0.18})`, filter: 'drop-shadow(0 4px 6px rgba(20,17,15,0.35))' }}>
+      <svg width={size} height={size} viewBox="0 0 24 24" style={{ transform: `scale(${1 - down * 0.18})`, transformOrigin: '4px 2px', filter: 'drop-shadow(0 4px 6px rgba(20,17,15,0.35))' }}>
         <path d="M4 2.5 L4 19.5 L8.6 15.4 L11.6 22 L14.6 20.7 L11.7 14.3 L18 14.3 Z" fill={colors.espresso} stroke="#FFFBF5" strokeWidth="1.4" strokeLinejoin="round" />
       </svg>
+    </div>
+  );
+}
+
+/** Finger tap (phones): a soft ring that presses in, no arrow. */
+export function Tap({ x, y, at, size = 70 }: { x: number; y: number; at: number; size?: number }) {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = springAt(frame, fps, at - 8, springs.pop);
+  const r = springAt(frame, fps, at, springs.soft);
+  if (frame < at - 10) return null;
+  return (
+    <div style={{ position: 'absolute', left: x - size / 2, top: y - size / 2, width: size, height: size, pointerEvents: 'none', zIndex: 5 }}>
+      <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(255,251,245,0.55)', border: '2px solid rgba(255,255,255,0.9)', boxShadow: '0 6px 20px rgba(20,17,15,0.3)', transform: `scale(${mix(1.4, 0.8, p) * (1 - r * 0.2)})`, opacity: p * (1 - r) }} />
+      <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: `3px solid ${colors.glow}`, transform: `scale(${mix(0.6, 2.2, r)})`, opacity: frame >= at ? 1 - r : 0 }} />
     </div>
   );
 }

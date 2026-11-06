@@ -19,7 +19,6 @@ export function Reserve() {
       caption={copy.reserve.caption}
       desktop={screens.stepsDesktop}
       mobile={screens.stepsMobile}
-      cam={{ desktop: [{ x: 0.5, y: 0.55, scale: 1 }, { x: 0.5, y: 0.68, scale: 1.12 }], mobile: [{ x: 0.5, y: 0.5, scale: 1 }, { x: 0.3, y: 0.62, scale: 1.12 }] }}
       extras={(s) => {
         const wide = s.format === 'wide';
         const story = s.format === 'story';
@@ -58,7 +57,7 @@ export function Reserve() {
               text={copy.reserve.toast.text}
               delay={beats(6.5)}
               scale={wide ? 1 : 1.1}
-              style={wide ? { right: 90, top: s.device.y - 30 } : { left: (1080 - 680) / 2, top: story ? 700 : 450, width: 680 }}
+              style={wide ? { right: 170, top: s.device.y - 30 } : { left: 110, top: story ? 700 : 450 }}
             />
           </>
         );

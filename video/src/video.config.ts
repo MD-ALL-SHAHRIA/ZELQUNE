@@ -35,25 +35,30 @@ export const fonts = {
 export const scenes = {
   hook: { start: 0, length: 6 },
   problem: { start: 6, length: 10 },
-  reveal: { start: 16, length: 8 },
-  find: { start: 24, length: 11 },
-  moods: { start: 35, length: 11 },
-  reserve: { start: 46, length: 11 },
-  deliver: { start: 57, length: 11 },
-  proof: { start: 68, length: 10 },
-  cta: { start: 78, length: 12 },
+  reveal: { start: 16, length: 10 },
+  find: { start: 26, length: 11 },
+  moods: { start: 37, length: 11 },
+  reserve: { start: 48, length: 10 },
+  deliver: { start: 58, length: 10 },
+  services: { start: 68, length: 4 },
+  design: { start: 72, length: 7 },
+  construction: { start: 79, length: 7 },
+  bulk: { start: 86, length: 7 },
+  proof: { start: 93, length: 11 },
+  cta: { start: 104, length: 14 },
 } as const;
 export type SceneId = keyof typeof scenes;
 
 /** Frames the outgoing scene stays mounted under the incoming wipe. */
 export const TRANSITION = 14;
-export const TOTAL_BEATS = 90;
-export const DURATION = beats(TOTAL_BEATS); // 1350 frames = 45 s
+export const TOTAL_BEATS = 118;
+export const DURATION = beats(TOTAL_BEATS); // 1770 frames = 59 s
 
 export const copy = {
-  hook: ['Your walls', 'feel cold.'],
+  hook: ['Your walls', 'feel empty.'],
   problem: {
-    lines: ['Bare walls.', 'Harsh white light.', 'Decor like everyone else’s.'],
+    words: ['Bare.', 'Cold.', 'Forgettable.'],
+    turn: 'Then the light comes on.',
   },
   reveal: { kicker: 'Meet', wordmark: 'ZELQUNE' },
   find: { caption: 'Find the piece your wall needs', label: 'Handcrafted in Dhaka' },
@@ -67,6 +72,14 @@ export const copy = {
     caption: 'Pay the rest at your door',
     code: 'ZQ-4K7P2M',
     toast: { title: 'Out for delivery', text: 'Cash on delivery · arriving today' },
+  },
+  services: {
+    title: ['Need a whole', 'space?'],
+    items: [
+      { id: 'design', index: '01', name: 'Interior design', caption: 'Rooms designed around light' },
+      { id: 'construction', index: '02', name: 'Construction', caption: 'From the ground to last light' },
+      { id: 'bulk', index: '03', name: 'Bulk & corporate', caption: 'Offices and gifts, made in bulk' },
+    ],
   },
   proof: {
     lines: ['Made by hand.', 'Delivered everywhere.'],
@@ -88,8 +101,18 @@ export const copy = {
 export const screens = {
   homeDesktop: 'screens/home-desktop.png',
   homeMobile: 'screens/home-mobile.png',
+  productNightDesktop: 'screens/product-night-desktop.png',
+  productNightMobile: 'screens/product-night-mobile.png',
+  trackFilledDesktop: 'screens/track-filled-desktop.png',
+  trackFilledMobile: 'screens/track-filled-mobile.png',
+  designDesktop: 'screens/design-desktop.png',
+  designMobile: 'screens/design-mobile.png',
+  constructionDesktop: 'screens/construction-desktop.png',
+  constructionMobile: 'screens/construction-mobile.png',
+  bulkDesktop: 'screens/bulk-desktop.png',
+  bulkMobile: 'screens/bulk-mobile.png',
   shopDesktop: 'screens/shop-desktop.png',
-  shopMobile: 'screens/shop-grid-mobile.png',
+  shopMobile: 'screens/shop-mobile.png',
   productDesktop: 'screens/product-desktop.png',
   productMobile: 'screens/product-mobile.png',
   stepsDesktop: 'screens/home-steps-desktop.png',

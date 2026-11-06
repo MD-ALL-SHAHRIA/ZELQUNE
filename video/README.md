@@ -1,6 +1,6 @@
 # Zelqune promo video (Remotion)
 
-A 45 s story ad ("Switch on the warmth") built from real storefront captures. See PRODUCT_BRIEF.md and SCRIPT.md.
+A 59 s story ad ("Switch on the warmth") built from real storefront captures. See PRODUCT_BRIEF.md and SCRIPT.md.
 
 ## Commands (from video/)
 - `pnpm capture`: re-capture the storefront (needs the dev stack and `pnpm --filter @zelqune/frontend dev` on :3100). Saves 2x screenshots, product cards and scroll recordings to assets/screens/.

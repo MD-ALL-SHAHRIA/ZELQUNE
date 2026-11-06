@@ -12,6 +12,8 @@ import { Problem } from './scenes/Problem';
 import { Proof } from './scenes/Proof';
 import { Reserve } from './scenes/Reserve';
 import { Reveal } from './scenes/Reveal';
+import { Service } from './scenes/Service';
+import { Services } from './scenes/Services';
 import { TRANSITION, audio, beats, scenes, springs, type SceneId } from './video.config';
 
 type Wipe = 'none' | 'rise' | 'circle' | 'arch' | 'diagonal';
@@ -24,6 +26,10 @@ const timeline: { id: SceneId; el: ReactNode; wipe: Wipe }[] = [
   { id: 'moods', el: <Moods />, wipe: 'diagonal' },
   { id: 'reserve', el: <Reserve />, wipe: 'arch' },
   { id: 'deliver', el: <Deliver />, wipe: 'diagonal' },
+  { id: 'services', el: <Services />, wipe: 'circle' },
+  { id: 'design', el: <Service id="design" />, wipe: 'arch' },
+  { id: 'construction', el: <Service id="construction" />, wipe: 'diagonal' },
+  { id: 'bulk', el: <Service id="bulk" />, wipe: 'arch' },
   { id: 'proof', el: <Proof />, wipe: 'circle' },
   { id: 'cta', el: <Cta />, wipe: 'arch' },
 ];
@@ -85,7 +91,7 @@ export function Main() {
           </Sequence>
         ))}
       {has(audio.click) &&
-        [beats(scenes.find.start + 4), beats(scenes.moods.start + 4.5), beats(scenes.deliver.start + 5)].map((f) => (
+        [beats(scenes.find.start + 4), beats(scenes.moods.start + 4.5), beats(scenes.deliver.start + 2), beats(scenes.deliver.start + 5.5)].map((f) => (
           <Sequence key={`c-${f}`} from={f} durationInFrames={15}>
             <Audio src={staticFile(audio.click)} volume={audio.sfxVolume} />
           </Sequence>

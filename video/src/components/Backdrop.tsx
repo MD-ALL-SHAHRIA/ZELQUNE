@@ -52,3 +52,20 @@ export function Vignette({ strength = 0.35 }: { strength?: number }) {
     />
   );
 }
+
+/** Cold window light falling diagonally across the wall, drifting slowly (the "before" world). */
+export function LightShaft({ offset = 0 }: { offset?: number }) {
+  const frame = useCurrentFrame();
+  const x = -15 + Math.sin((frame + offset) / 60) * 6;
+  return (
+    <AbsoluteFill style={{ mixBlendMode: 'screen', pointerEvents: 'none' }}>
+      <AbsoluteFill
+        style={{
+          background: `linear-gradient(115deg, transparent ${32 + x}%, rgba(190,210,230,0.16) ${40 + x}%, rgba(190,210,230,0.05) ${52 + x}%, transparent ${58 + x}%),
+            linear-gradient(115deg, transparent ${58 + x}%, rgba(190,210,230,0.10) ${63 + x}%, transparent ${70 + x}%)`,
+          filter: 'blur(6px)',
+        }}
+      />
+    </AbsoluteFill>
+  );
+}
