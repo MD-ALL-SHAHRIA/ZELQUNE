@@ -70,11 +70,12 @@ export function CookieBanner({ copy, policyHref }: { copy: ConsentCopy; policyHr
       {undecided && !open ? (
         <section
           role="region"
+          data-cookie-banner
           aria-labelledby={titleId}
-          // Compact: a small corner card on desktop, a short strip on phones, so the page stays
+          // Compact: a small bottom-right card on desktop, a short strip on phones, so the page stays
           // the first thing people see.
           // Phones: no heading (screen readers still get it) and tighter spacing, about 110px tall.
-          className="fixed inset-x-2 bottom-2 z-[60] border border-line bg-paper/95 p-3 text-ink shadow-[0_12px_40px_rgba(43,30,25,0.18)] backdrop-blur-sm sm:right-auto sm:bottom-5 sm:left-5 sm:w-[24rem] sm:p-4"
+          className="fixed inset-x-2 bottom-2 z-[60] border border-line bg-paper/95 p-3 text-ink shadow-[0_12px_40px_rgba(43,30,25,0.18)] backdrop-blur-sm sm:right-5 sm:bottom-5 sm:left-auto sm:w-[24rem] sm:p-4"
         >
           <h2 id={titleId} className="sr-only text-[0.95rem] font-medium sm:not-sr-only">
             {copy.title}

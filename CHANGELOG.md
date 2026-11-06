@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Changed
+- Cookie notice: the card sits bottom right on wide screens (was bottom left); the WhatsApp button steps aside while it is open and returns after the choice.
+
 ### Added
 - Product page: "Order today, delivered by 20 November" in the delivery card: the lead time plus the longest courier time we promise (2 days in Dhaka, 4 outside, 4 until a district is chosen), worked out in the browser in Dhaka time. The pre-order note now mentions cash on delivery.
 - SMS when a shop order is marked delivered: a thank-you that asks the customer to send a photo of the piece on their wall and a few words (by reply, WhatsApp or Facebook), so the shop can collect real reviews and customer photos. Sent once per order; bulk (B2B) orders are skipped. Goes out once an SMS provider is connected.

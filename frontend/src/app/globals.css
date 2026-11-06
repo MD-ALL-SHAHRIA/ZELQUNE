@@ -52,6 +52,14 @@
     pointer-events: none;
   }
 }
+/* The cookie card sits where the WhatsApp button does (bottom right): the button steps aside
+   until the visitor has chosen. */
+:root:has([data-cookie-banner]) [data-testid='whatsapp-fab'] {
+  /* !important: it must also win over the phone arrival animation below. */
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none;
+}
 /* Phones: the first screen is the hero, the product title or the shop filters, and a 56px
    button in the corner hides part of them. The button arrives once the visitor has scrolled
    past half a screen (browsers without scroll timelines show it as before). */
