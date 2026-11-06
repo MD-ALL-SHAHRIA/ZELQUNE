@@ -201,7 +201,8 @@ export const bn: Dictionary = {
       'bKash বা Nagad অ্যাপে Send Money দিয়ে {amount} পাঠান এই নম্বরে: {number}। তারপর কনফার্মেশন মেসেজের Transaction ID নিচে লিখুন।',
     copyNumber: 'নম্বর কপি করুন',
     copied: 'কপি হয়েছে',
-    codText: 'পণ্য হাতে পেয়ে পুরো টাকা নগদে দিন, কোনো অগ্রিম লাগবে না। অর্ডার নিশ্চিত করতে আমরা ফোন করব।',
+    codText:
+      'পণ্য হাতে পেয়ে পুরো টাকা নগদে দিন, কোনো অগ্রিম লাগবে না। অর্ডার নিশ্চিত করতে আমরা ফোন করব।',
     trxId: 'Transaction ID (যেমন 9AB1C2D3EF)',
     summary: {
       items: 'পণ্যের দাম',

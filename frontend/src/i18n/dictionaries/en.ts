@@ -209,7 +209,8 @@ export const en = {
       'Open bKash or Nagad, choose Send Money and send {amount} to {number}. Then type the Transaction ID from the confirmation message below.',
     copyNumber: 'Copy number',
     copied: 'Copied',
-    codText: 'Pay the full amount in cash when it arrives, no advance. We call you to confirm the order.',
+    codText:
+      'Pay the full amount in cash when it arrives, no advance. We call you to confirm the order.',
     trxId: 'Transaction ID (e.g. 9AB1C2D3EF)',
     summary: {
       items: 'Items',
