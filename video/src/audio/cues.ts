@@ -55,48 +55,51 @@ export function buildCues(): Cue[] {
     c.push(cue(beats(scenes[id].start) - 4, SFX.whoosh[i % 3], 0.45, `Transition into ${id}`));
   });
 
-  // Hook + problem.
-  c.push(cue(0, SFX.impact, 0.7, 'Headline "Your walls feel empty." lands'));
-  c.push(cue(at('hook', timing.hook.sweep), SFX.shimmer, 0.18, 'Light band sweeps the headline'));
-  copy.problem.words.forEach((w, i) => c.push(cue(at('problem', timing.problem.cuts[i]), SFX.impact, 0.6 + i * 0.1, `Cold cut: "${w}"`)));
-  c.push(cue(at('problem', timing.problem.turn), SFX.riser, 0.55, 'Camera swings to the panel; riser into the reveal'));
-  c.push(cue(at('problem', timing.problem.bloom), SFX.shimmer, 0.25, 'The panel lights up'));
+  // Opening: the arch of light, the panel switching on, a new piece on each word, the room.
+  c.push(cue(0, SFX.impact, 0.45, 'Arch of light ignites in the dark'));
+  c.push(cue(2, SFX.shimmer, 0.3, 'Light point draws the arch'));
+  c.push(cue(timing.hook.light, SFX.shimmer, 0.25, 'Panel inside the arch switches on', 0.9));
+  copy.problem.words.forEach((w, i) => {
+    c.push(cue(at('problem', timing.problem.cuts[i]) - 3, SFX.whoosh[i % 3], 0.3, `New piece rises into the arch: "${w}"`, 1.1));
+    c.push(cue(at('problem', timing.problem.cuts[i]) + 3, SFX.shimmer, 0.16, `Light sweeps the piece ("${w}")`, 1 + i * 0.08));
+  });
+  c.push(cue(at('problem', timing.problem.turn), SFX.riser, 0.5, 'Arch opens into the room; riser into the reveal'));
 
   // Reveal: impact exactly on the logo frame (a bar downbeat).
   c.push(cue(at('reveal', timing.reveal.logo), SFX.impact, 1, 'Logo reveal (downbeat)'));
   c.push(cue(at('reveal', timing.reveal.laptop) - 4, SFX.whoosh[1], 0.35, 'Laptop glides in'));
   c.push(cue(at('reveal', timing.reveal.phone) - 2, SFX.whoosh[2], 0.25, 'Phone glides in'));
 
-  // Website section beats: every camera push, click, lift-out and page flip gets its sound.
-  const beatsWithCamera = ['find', 'moods', 'reserve', 'deliver', 'services', 'design', 'construction', 'bulk'] as const;
-  for (const id of beatsWithCamera) {
-    const B = timing[id];
-    B.pushes.forEach((f) => c.push(cue(at(id, f) - 2, SFX.whoosh[1], 0.22, `${id}: camera push-in`, 1.15)));
-    B.clicks.forEach((f) => c.push(cue(at(id, f), SFX.click, 0.7, `${id}: cursor click`)));
-    B.lifts.forEach((f, i) => {
-      c.push(cue(at(id, f), SFX.pop, 0.38, `${id}: glass card lifts out`, 0.95 + i * 0.06));
-      if (i === 0) c.push(cue(at(id, f) + 4, SFX.shimmer, 0.18, `${id}: light sweeps the glass`, 1.1));
-    });
-    B.flips.forEach((f, i) => c.push(cue(at(id, f) - 2, SFX.whoosh[i % 3], 0.3, `${id}: page flips`, 1.05 + (i % 2) * 0.1)));
-  }
+  // Find.
+  const F = timing.find;
+  c.push(cue(at('find', F.click), SFX.click, 0.7, 'Cursor clicks the first product card'));
+  for (let i = 0; i < 3; i++) c.push(cue(at('find', F.cards + i * F.cardStagger), SFX.pop, 0.45, `Product card ${i + 1} pops out`, 0.95 + i * 0.05));
 
-  // Beat-specific moments.
-  c.push(cue(at('moods', timing.moods.pill), SFX.pop, 0.25, 'Day/Night switch appears (phone formats)'));
-  c.push(cue(at('moods', timing.moods.click) + 1, SFX.toggle, 0.5, 'Toggle flips to Night'));
-  c.push(cue(at('moods', timing.moods.click) + 4, SFX.shimmer, 0.3, 'Real night theme spreads across the page'));
+  // Moods.
+  const M = timing.moods;
+  c.push(cue(at('moods', M.pill), SFX.pop, 0.25, 'Day/Night switch appears (phone formats)'));
+  c.push(cue(at('moods', M.click), SFX.click, 0.7, 'Clicks the dark-mode toggle'));
+  c.push(cue(at('moods', M.click) + 1, SFX.toggle, 0.5, 'Toggle flips to Night'));
+  c.push(cue(at('moods', M.click) + 4, SFX.shimmer, 0.3, 'Night theme spreads across the page'));
 
+  // Reserve.
   const R = timing.reserve;
-  c.push(cue(at('reserve', R.count - 6), SFX.pop, 0.4, 'Advance counter appears'));
+  c.push(cue(at('reserve', R.card), SFX.pop, 0.45, 'Advance card pops in'));
   c.push(...counterCues(at('reserve', R.count), copy.reserve.amount, 10, '৳300', true));
+  for (let i = 0; i < 3; i++) c.push(cue(at('reserve', R.dots + i * R.dotStagger), SFX.pop, 0.3, `Timeline step ${i + 1} draws`, 1.1 + i * 0.06));
   c.push(cue(at('reserve', R.toast), SFX.pop, 0.4, '"Pre-order confirmed" slides in'));
   c.push(cue(at('reserve', R.toast) + 3, SFX.chime, 0.45, 'Pre-order confirmed chime'));
 
+  // Deliver: click the field, type both fields, click Track.
   const D = timing.deliver;
   const sched = typingSchedule();
+  c.push(cue(at('deliver', D.focus), SFX.click, 0.6, 'Clicks the order-code field'));
   sched.fields.forEach((f, i) => c.push(...typingCues(f.text, at('deliver', f.start), sched.perChar, i === 0 ? 'order code' : 'phone')));
+  c.push(cue(at('deliver', D.click), SFX.click, 0.75, 'Clicks Track'));
   c.push(cue(at('deliver', D.toast), SFX.pop, 0.4, '"Out for delivery" slides in'));
   c.push(cue(at('deliver', D.toast) + 3, SFX.chime, 0.45, 'Out for delivery chime', 1.12));
 
+  // Services.
   c.push(cue(at('services', 0), SFX.impact, 0.5, 'Services title "Need a whole space?"'));
   copy.services.items.forEach((it, i) => c.push(cue(at('services', timing.services.items + i * timing.services.itemStagger), SFX.pop, 0.3, `${it.index} ${it.name} appears`, 1 + i * 0.06)));
 
@@ -109,7 +112,8 @@ export function buildCues(): Cue[] {
 
   // CTA.
   c.push(cue(at('cta', 0), SFX.impact, 0.75, 'Final logo lands (downbeat)'));
-  c.push(cue(at('cta', timing.cta.logo) + 4, SFX.shimmer, 0.4, 'CTA shimmer on the logo'));
+  c.push(cue(at('cta', 2), SFX.shimmer, 0.35, 'The opening arch of light draws around the logo (bookend)'));
+  c.push(cue(at('cta', timing.cta.logo) + 14, SFX.shimmer, 0.3, 'CTA shimmer on the logo', 1.1));
   c.push(cue(at('cta', timing.cta.button), SFX.pop, 0.45, '"Shop the collection" button pops in'));
 
   return c.filter((x) => x.frame < DURATION).sort((a, b) => a.frame - b.frame);
@@ -123,7 +127,6 @@ export function duckWindows(): [number, number][] {
   return [
     [typeStart - 6, typeEnd + 6],
     [at('reserve', timing.reserve.count), at('reserve', timing.reserve.count + 45)],
-    [at('services', timing.services.flips[0]), at('services', timing.services.flips[3] + 10)],
     [at('proof', timing.proof.count), at('proof', timing.proof.count + 3 * timing.proof.cardStagger + 45)],
   ];
 }

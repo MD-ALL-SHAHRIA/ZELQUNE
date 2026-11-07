@@ -174,15 +174,20 @@ pads = np.zeros(N)
 reveal, services, design, proof, cta = SC['reveal'], SC['services'], SC['design'], SC['proof'], SC['cta']
 end_beat = cta + 8
 
-# Intro: sub drone + cold glass shimmer; booms on the hook and every cold cut.
+# Intro (warm): strings swell from silence as the arch of light draws; a rolled piano chord as the
+# panel switches on; a rising piano note on each word (Handcrafted. Warm. Yours.); the strings
+# bloom as the arch opens into the room.
 intro_len = reveal * BEAT + 2
 tt = t(intro_len)
-sub_drone = np.sin(2 * np.pi * note(26) * tt) * env(len(tt), 1.5, 2.0) * 0.35
-add(dry, sub_drone, 0)
-add(dry, shimmer(intro_len), 0, 1.0)
-# A lonely piano note answers each cut (cold, high, quiet).
-for b, n in ((0.5, 74), (SC['problem'] + 0.5, 73), (SC['problem'] + 2.5, 71), (SC['problem'] + 4.5, 69)):
-    add(dry, piano(n, 0.35, 3.5), b)
+add(dry, np.sin(2 * np.pi * note(38) * tt) * env(len(tt), 2.0, 2.0) * 0.18, 0)
+add(pads, strings([50, 57, 62, 66, 69], SC['problem'] * BEAT + 1.5, 1600), 0, 0.42)
+add(pads, strings([47, 54, 59, 62, 66], (reveal - SC['problem']) * BEAT + 1.5, 2400), SC['problem'], 0.48)
+for k, n in enumerate((50, 57, 62, 66, 69, 74)):
+    add(dry, piano(n, 0.42, 4.0), 1.4 + k * 0.09)
+for b, n in ((SC['problem'], 78), (SC['problem'] + 2, 81), (SC['problem'] + 4, 86)):
+    add(dry, piano(n, 0.55, 3.5), b)
+    add(dry, piano(n - 12, 0.4, 3.5), b + 0.02)
+add(dry, shimmer(4 * BEAT, 0.05), SC['problem'] + 6)
 
 # Harmony: Dmaj9 · Bm9 · Gmaj7 · Asus, one chord per bar.
 prog = [

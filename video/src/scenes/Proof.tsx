@@ -1,10 +1,10 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { Backdrop } from '../components/Backdrop';
 import { KineticText } from '../components/Type';
 import { Glass } from '../components/Ui';
 import { display, ui } from '../lib/fonts';
 import { useLayout } from '../lib/layout';
-import { mix, springAt } from '../lib/motion';
+import { mix, springAt, useSpringAt } from '../lib/motion';
 import { colors, copy, springs, timing } from '../video.config';
 
 const T = timing.proof;
@@ -15,12 +15,18 @@ export function Proof() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const wide = L.format === 'wide';
+  const push = useSpringAt(0, springs.camera);
   const cols = wide ? 4 : 2;
   const cardW = wide ? 360 : 420;
   const cardH = L.format === 'story' ? 330 : wide ? 300 : 280;
   return (
     <AbsoluteFill>
       <Backdrop tone="dark" />
+      {/* A real piece glowing softly behind the numbers (slow push, defocused). */}
+      <AbsoluteFill style={{ filter: 'blur(26px) brightness(0.42) saturate(1.15)', transform: `scale(${mix(1.3, 1.18, push)})` }}>
+        <Img src={staticFile('images/moon-bonsai-panel.webp')} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </AbsoluteFill>
+      <AbsoluteFill style={{ background: 'radial-gradient(80% 60% at 50% 50%, transparent 30%, rgba(20,17,15,0.75))' }} />
       <AbsoluteFill
         style={{
           padding: `${L.safe.top + (L.format === 'story' ? 80 : 40)}px ${L.safe.side}px ${L.safe.bottom}px`,

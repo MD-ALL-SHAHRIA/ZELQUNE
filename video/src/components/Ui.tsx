@@ -92,18 +92,12 @@ export type CursorStop = { at: number; x: number; y: number; click?: number };
 export function Cursor({ stops, size = 44 }: { stops: CursorStop[]; size?: number }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  // Each move follows a gentle quadratic bezier (an arc), like a real hand, not a straight line.
   let x = stops[0].x;
   let y = stops[0].y;
   for (let i = 1; i < stops.length; i++) {
     const m = springAt(frame, fps, stops[i].at, springs.camera);
-    const [x0, y0, x1, y1] = [stops[i - 1].x, stops[i - 1].y, stops[i].x, stops[i].y];
-    const cx = (x0 + x1) / 2 - (y1 - y0) * 0.28;
-    const cy = (y0 + y1) / 2 + (x1 - x0) * 0.28;
-    const bx = (1 - m) ** 2 * x0 + 2 * (1 - m) * m * cx + m * m * x1;
-    const by = (1 - m) ** 2 * y0 + 2 * (1 - m) * m * cy + m * m * y1;
-    x = m > 0.001 ? bx : x;
-    y = m > 0.001 ? by : y;
+    x = mix(x, stops[i].x, m);
+    y = mix(y, stops[i].y, m);
   }
   const clicks = stops.filter((s) => s.click !== undefined).map((s) => s.click as number);
   const last = clicks.filter((c) => frame >= c).pop();

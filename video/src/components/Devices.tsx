@@ -34,7 +34,7 @@ const tiltStyle = ({ rx = 0, ry = 0, rz = 0 }: Tilt): CSSProperties => ({
 });
 
 /** Laptop with a 16:10 screen (matches the 1440×900 captures). `width` is the lid width. */
-export function Laptop({ src, width, camera, tilt = {}, overlay, style, content }: { src: string; width: number; camera?: Camera; tilt?: Tilt; overlay?: ReactNode; style?: CSSProperties; content?: ReactNode }) {
+export function Laptop({ src, width, camera, tilt = {}, overlay, style }: { src: string; width: number; camera?: Camera; tilt?: Tilt; overlay?: ReactNode; style?: CSSProperties }) {
   const pad = width * 0.022;
   const screenW = width - pad * 2;
   const screenH = screenW / 1.6;
@@ -48,7 +48,7 @@ export function Laptop({ src, width, camera, tilt = {}, overlay, style, content 
         }}
       >
         <div style={{ position: 'relative', width: screenW, height: screenH, borderRadius: width * 0.006, overflow: 'hidden' }}>
-          {content ?? <Screen src={src} camera={camera} overlay={overlay} />}
+          <Screen src={src} camera={camera} overlay={overlay} />
         </div>
       </div>
       <div
@@ -66,7 +66,7 @@ export function Laptop({ src, width, camera, tilt = {}, overlay, style, content 
 }
 
 /** Phone with a 390×844 screen. `height` is the outer height. */
-export function Phone({ src, height, camera, tilt = {}, overlay, style, content }: { src: string; height: number; camera?: Camera; tilt?: Tilt; overlay?: ReactNode; style?: CSSProperties; content?: ReactNode }) {
+export function Phone({ src, height, camera, tilt = {}, overlay, style }: { src: string; height: number; camera?: Camera; tilt?: Tilt; overlay?: ReactNode; style?: CSSProperties }) {
   const pad = height * 0.016;
   const screenH = height - pad * 2;
   const screenW = screenH * (390 / 844);
@@ -81,7 +81,7 @@ export function Phone({ src, height, camera, tilt = {}, overlay, style, content 
         }}
       >
         <div style={{ position: 'relative', width: screenW, height: screenH, borderRadius: height * 0.062, overflow: 'hidden' }}>
-          {content ?? <Screen src={src} camera={camera} overlay={overlay} />}
+          <Screen src={src} camera={camera} overlay={overlay} />
           <div
             style={{
               position: 'absolute', top: height * 0.012, left: '50%', transform: 'translateX(-50%)',

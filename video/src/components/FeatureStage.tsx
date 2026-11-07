@@ -6,6 +6,7 @@ import { mix, useSpringAt } from '../lib/motion';
 import { colors, springs } from '../video.config';
 import { Backdrop } from './Backdrop';
 import { Laptop, Phone, phoneWidth } from './Devices';
+import { ScrollSeq, type ScrollSpec } from './ScrollSeq';
 import { Eyebrow, KineticText } from './Type';
 
 export type Box = { x: number; y: number; w: number; h: number };
@@ -38,13 +39,15 @@ type Props = {
   screenOverlay?: (stage: Stage) => ReactNode;
   extras?: (stage: Stage) => ReactNode;
   tone?: 'paper' | 'warm' | 'dark';
+  /** Real scroll of the page on the device after the beat's action (drawn above the screen overlays). */
+  scroll?: ScrollSpec;
 };
 
 /**
  * One feature beat: benefit caption + the real page on a device. The screenshot is never zoomed
  * (no text cut off); the camera moves the whole device instead (dolly + tilt).
  */
-export function FeatureStage({ eyebrow, caption, desktop, mobile, screenOverlay, extras, tone = 'paper' }: Props) {
+export function FeatureStage({ eyebrow, caption, desktop, mobile, screenOverlay, extras, tone = 'paper', scroll }: Props) {
   const L = useLayout();
   const enter = useSpringAt(0, springs.soft);
   const dolly = useSpringAt(6, springs.camera);
@@ -105,9 +108,9 @@ export function FeatureStage({ eyebrow, caption, desktop, mobile, screenOverlay,
         />
         <div style={{ position: 'absolute', left: stage.device.x, top: stage.device.y + rise }}>
           {wide ? (
-            <Laptop src={desktop} width={stage.device.w} tilt={tilt} overlay={screenOverlay?.(stage)} />
+            <Laptop src={desktop} width={stage.device.w} tilt={tilt} overlay={<>{screenOverlay?.(stage)}{scroll && <ScrollSeq {...scroll} device="desktop" />}</>} />
           ) : (
-            <Phone src={mobile} height={stage.device.h} tilt={tilt} overlay={screenOverlay?.(stage)} />
+            <Phone src={mobile} height={stage.device.h} tilt={tilt} overlay={<>{screenOverlay?.(stage)}{scroll && <ScrollSeq {...scroll} device="mobile" />}</>} />
           )}
         </div>
         {extras?.(stage)}
