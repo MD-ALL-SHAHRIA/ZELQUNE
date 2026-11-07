@@ -16,7 +16,7 @@ const targets = {};
 const browser = await chromium.launch();
 for (const [size, viewport] of Object.entries(sizes)) {
   const ctx = await browser.newContext({
-    viewport, deviceScaleFactor: 2, isMobile: size === 'mobile',
+    viewport, deviceScaleFactor: size === 'mobile' ? 3 : 2, isMobile: size === 'mobile',
     recordVideo: { dir: OUT + 'rec-' + size, size: viewport },
   });
   const page = await ctx.newPage();

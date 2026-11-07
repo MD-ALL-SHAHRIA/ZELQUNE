@@ -58,7 +58,8 @@ export const timing = {
   /** Problem: three cold cuts two beats apart, then the turn to the lit piece. */
   problem: { cuts: [0, beats(2), beats(4)], turn: beats(6), bloom: beats(6) + 22 },
   reveal: { logo: 0, laptop: 40, phone: 50 },
-  find: { cursorIn: beats(1), cursorMove: beats(1.8), click: beats(4), cards: beats(4) + 6, cardStagger: 4 },
+  /** Camera rhythm: wide → scroll → push in → hover → spotlight → click → lift out → fan → hold. */
+  find: { scroll: 8, push: 34, cursorIn: 46, cursorMove: 52, hover: 64, spot: 70, click: 84, lift: 90, cards: 98, cardStagger: 6, callout: 110 },
   moods: { pill: beats(2), cursorIn: beats(1.5), cursorMove: beats(2.5), click: beats(4.5) },
   reserve: { card: beats(1.5), count: beats(2), countFrames: 40, dots: beats(3), dotStagger: 8, toast: beats(6.5) },
   deliver: {
