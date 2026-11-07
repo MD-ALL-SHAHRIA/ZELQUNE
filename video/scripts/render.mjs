@@ -13,6 +13,9 @@ const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
 const out = path.join(root, 'out');
 const [mode, ...rest] = process.argv.slice(2);
 const formats = ['Reels-9x16', 'Feed-4x5', 'Web-16x9'];
+// SCALE=2 renders at double resolution (3840×2160, 2160×3840, 2160×2700) into *-4k files.
+const SCALE = Number(process.env.SCALE ?? 1);
+const SUFFIX = SCALE === 2 ? '-4k' : SCALE !== 1 ? `-x${SCALE}` : '';
 
 // Master the mix: two-pass loudnorm to -14 LUFS integrated, -1 dBTP true peak, AAC 320 kbps.
 // TP target sits 0.5 dB under the -1 dBTP ceiling to absorb AAC encoder overshoot.
@@ -42,13 +45,13 @@ if (mode === 'stills' || mode === 'stills-only') {
   for (const id of mode === 'only' ? rest : formats) {
     const composition = await comp(id);
     await renderMedia({
-      serveUrl, composition, codec: 'h264', crf: 16, audioBitrate: '320k', pixelFormat: 'yuv420p', imageFormat: 'jpeg', jpegQuality: 95,
-      outputLocation: path.join(out, `zelqune-${id.toLowerCase()}.raw.mp4`),
+      serveUrl, composition, codec: 'h264', crf: SCALE > 1 ? 18 : 16, scale: SCALE, audioBitrate: '320k', pixelFormat: 'yuv420p', imageFormat: 'jpeg', jpegQuality: 95,
+      outputLocation: path.join(out, `zelqune-${id.toLowerCase()}${SUFFIX}.raw.mp4`),
       onProgress: ({ progress }) => process.stdout.write(`\r${id} ${Math.round(progress * 100)}%`),
     });
     console.log();
-    master(path.join(out, `zelqune-${id.toLowerCase()}.raw.mp4`), path.join(out, `zelqune-${id.toLowerCase()}.mp4`));
+    master(path.join(out, `zelqune-${id.toLowerCase()}${SUFFIX}.raw.mp4`), path.join(out, `zelqune-${id.toLowerCase()}${SUFFIX}.mp4`));
   }
-  if (mode !== 'only') await renderStill({ serveUrl, composition: await comp('Thumbnail'), output: path.join(out, 'zelqune-thumbnail-1080.png') });
+  if (mode !== 'only') await renderStill({ serveUrl, composition: await comp('Thumbnail'), scale: SCALE, output: path.join(out, SCALE === 2 ? 'zelqune-thumbnail-2160.png' : 'zelqune-thumbnail-1080.png') });
 }
 console.log('done');

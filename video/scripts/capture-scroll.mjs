@@ -1,4 +1,4 @@
-// Records real scrolling of the public site as image sequences (one frame per ~16 CSS px), so
+// Records real scrolling of the public site as image sequences (one frame per 8 CSS px), so
 // scroll-driven sections animate exactly as a visitor sees them. Each sequence starts at the view
 // the video already shows for that beat, then scrolls down.
 //   node scripts/capture-scroll.mjs [baseUrl]  ->  assets/scroll/<name>-<device>/NNNN.jpg + index.json
@@ -8,7 +8,9 @@ import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 
 const BASE = process.argv[2] ?? 'http://localhost:3100';
 const OUT = new URL('../assets/scroll/', import.meta.url).pathname;
-const STEP = 16;
+// Fine steps + settle time per frame: the video blends neighbouring frames for fluid motion.
+const STEP = 8;
+const SETTLE = 180;
 
 /** start: CSS px, or text to scroll to (like capture.mjs does); dist: CSS px to scroll. */
 const SEQS = {
@@ -22,8 +24,9 @@ const SEQS = {
   bulk: { path: '/en/bulk', start: { desktop: 0, mobile: 0 }, dist: { desktop: 1200, mobile: 1200 } },
 };
 const SIZES = {
-  desktop: { viewport: { width: 1440, height: 900 }, dpr: 1 },
-  mobile: { viewport: { width: 390, height: 844 }, dpr: 2 },
+  // 2x desktop / 3x mobile so the scroll stays crisp in 4K renders.
+  desktop: { viewport: { width: 1440, height: 900 }, dpr: 2 },
+  mobile: { viewport: { width: 390, height: 844 }, dpr: 3 },
 };
 const HIDE = 'nextjs-portal,a[href*="wa.me"],a[href*="whatsapp"]{display:none!important}';
 
@@ -55,7 +58,7 @@ for (const [size, cfg] of Object.entries(SIZES)) {
     const n = Math.ceil(s.dist[size] / STEP) + 1;
     for (let i = 0; i < n; i++) {
       await page.evaluate((v) => window.scrollTo(0, v), start + (s.dist[size] * i) / (n - 1));
-      await page.waitForTimeout(i === 0 ? 400 : 70);
+      await page.waitForTimeout(i === 0 ? 400 : SETTLE);
       await page.screenshot({ path: `${dir}${String(i).padStart(4, '0')}.jpg`, type: 'jpeg', quality: 88 });
     }
     index[`${name}-${size}`] = n;
