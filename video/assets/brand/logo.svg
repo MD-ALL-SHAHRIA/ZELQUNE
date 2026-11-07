@@ -1,0 +1,6 @@
+<!-- Placeholder logo: replace with the real file (keep the path assets/brand/logo.svg). -->
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Zelqune">
+  <rect width="120" height="120" rx="24" fill="#F4ECDF"/>
+  <path d="M30 96V58a30 30 0 0 1 60 0v38" fill="none" stroke="#4A3426" stroke-width="10" stroke-linecap="round"/>
+  <path d="M48 96V62a12 12 0 0 1 24 0v34" fill="none" stroke="#E3A857" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -3,3 +3,4 @@ packages:
   - frontend
   - dashboard
   - packages/*
+  - video

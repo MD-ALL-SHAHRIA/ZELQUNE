@@ -1,0 +1,10338 @@
+{
+ "home": {
+  "desktop": {
+   "file": "home-desktop.png",
+   "width": 1440,
+   "height": 7800,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "All products All products",
+     "x": 40,
+     "y": 1221.484375,
+     "w": 261.5,
+     "h": 57.140625
+    },
+    {
+     "text": "Capsule Vase Light",
+     "x": 40,
+     "y": 1796.625,
+     "w": 172.453125,
+     "h": 29
+    },
+    {
+     "text": "Fluted Niche Panel",
+     "x": 424,
+     "y": 1796.625,
+     "w": 172.828125,
+     "h": 29
+    },
+    {
+     "text": "Half-Moon Planter Light",
+     "x": 808,
+     "y": 1796.625,
+     "w": 227.875,
+     "h": 29
+    },
+    {
+     "text": "Wave Shelf",
+     "x": 1192,
+     "y": 1796.625,
+     "w": 99.984375,
+     "h": 29
+    },
+    {
+     "text": "Diamond Shelf (pair)",
+     "x": 1576,
+     "y": 1796.625,
+     "w": 192.5625,
+     "h": 29
+    },
+    {
+     "text": "Alo-Arch Panel",
+     "x": 1960,
+     "y": 1796.625,
+     "w": 141.890625,
+     "h": 29
+    },
+    {
+     "text": "Find your perfect piece Find your perfect piece",
+     "x": 40,
+     "y": 3482.03125,
+     "w": 316.109375,
+     "h": 114.28125
+    },
+    {
+     "text": "Alo-Arch Panel Alo-Arch Panel",
+     "x": 40,
+     "y": 4054.203125,
+     "w": 648.65625,
+     "h": 98.453125
+    },
+    {
+     "text": "One room, lit by Zelqune One room, lit by Zelqune",
+     "x": 40,
+     "y": 5053.953125,
+     "w": 432,
+     "h": 145.28125
+    },
+    {
+     "text": "A vase by day. A soft lamp by night. A vase by day. A soft lamp by night.",
+     "x": 457.203125,
+     "y": 6091.125,
+     "w": 525.59375,
+     "h": 42.234375
+    },
+    {
+     "text": "Made slowly, by hand Made slowly, by hand",
+     "x": 784,
+     "y": 7407.125,
+     "w": 512,
+     "h": 145.28125
+    }
+   ],
+   "buttons": [
+    {
+     "text": "FLUTED NICHE PANEL",
+     "x": 634.40625,
+     "y": 784.515625,
+     "w": 171.15625,
+     "h": 19.96875
+    },
+    {
+     "text": "N\u00b0 01 HALF-MOON PLANTER LIGHT",
+     "x": 40,
+     "y": 617.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "N\u00b0 02 WAVE SHELF",
+     "x": 247.640625,
+     "y": 617.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "Explore the collection",
+     "x": 1097.671875,
+     "y": 700.3125,
+     "w": 230.265625,
+     "h": 56
+    },
+    {
+     "text": "Previous scene",
+     "x": 577.734375,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Show Sculptural wall decor \u00b7 Made to order",
+     "x": 682.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Interior Design",
+     "x": 710.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Construction",
+     "x": 738.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Bulk & Corporate",
+     "x": 766.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Pause the wall",
+     "x": 794.25,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Next scene",
+     "x": 830.25,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light \u09f34,490",
+     "x": 40,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel \u09f38,990",
+     "x": 424,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light \u09f36,990",
+     "x": 808,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf \u09f35,490",
+     "x": 1192,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Diamond Shelf (pair) \u09f33,290",
+     "x": 1576,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Alo-Arch Panel \u09f33,490",
+     "x": 1960,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "All products",
+     "x": 2344,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "VIEW ALL COLLECTIONS",
+     "x": 40,
+     "y": 3624.3125,
+     "w": 201.265625,
+     "h": 23.421875
+    },
+    {
+     "text": "Previous collections",
+     "x": 40,
+     "y": 3671.734375,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "Next collections",
+     "x": 92,
+     "y": 3671.734375,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "LIGHTING 4 pieces",
+     "x": 412.109375,
+     "y": 3391,
+     "w": 391.609375,
+     "h": 316.640625
+    },
+    {
+     "text": "SHELVES 2 pieces",
+     "x": 827.71875,
+     "y": 3391,
+     "w": 391.609375,
+     "h": 316.640625
+    },
+    {
+     "text": "WALL PANELS 4 pieces",
+     "x": 1243.328125,
+     "y": 3391,
+     "w": 391.609375,
+     "h": 316.640625
+    },
+    {
+     "text": "PRE-ORDER NOW",
+     "x": 40,
+     "y": 4551.046875,
+     "w": 203.609375,
+     "h": 56
+    },
+    {
+     "text": "Diamond Shelf (pair)",
+     "x": 1037.53125,
+     "y": 5177.796875,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "Half-Moon Planter Light",
+     "x": 1167.5625,
+     "y": 5286.15625,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "Capsule Vase Light",
+     "x": 944.65625,
+     "y": 5363.546875,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "Fluted Niche Panel",
+     "x": 1087.0625,
+     "y": 5456.4375,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "Diamond Shelf (pair) From \u09f33,290",
+     "x": 40,
+     "y": 5388,
+     "w": 432,
+     "h": 94
+    },
+    {
+     "text": "Half-Moon Planter Light From \u09f36,990",
+     "x": 40,
+     "y": 5483,
+     "w": 432,
+     "h": 94
+    },
+    {
+     "text": "Capsule Vase Light From \u09f34,490",
+     "x": 40,
+     "y": 5578,
+     "w": 432,
+     "h": 94
+    },
+    {
+     "text": "Fluted Niche Panel From \u09f38,990",
+     "x": 40,
+     "y": 5673,
+     "w": 432,
+     "h": 94
+    }
+   ],
+   "cards": [
+    {
+     "text": "N\u00b0 01 HALF-MOON PLANTER LIGHT",
+     "x": 40,
+     "y": 617.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "N\u00b0 02 WAVE SHELF",
+     "x": 247.640625,
+     "y": 617.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light \u09f34,490",
+     "x": 40,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel \u09f38,990",
+     "x": 424,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light \u09f36,990",
+     "x": 808,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf \u09f35,490",
+     "x": 1192,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Diamond Shelf (pair) \u09f33,290",
+     "x": 1576,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Alo-Arch Panel \u09f33,490",
+     "x": 1960,
+     "y": 1326.625,
+     "w": 360,
+     "h": 499
+    },
+    {
+     "text": "Diamond Shelf (pair) From \u09f33,290",
+     "x": 40,
+     "y": 5388,
+     "w": 432,
+     "h": 95
+    },
+    {
+     "text": "Half-Moon Planter Light From \u09f36,990",
+     "x": 40,
+     "y": 5483,
+     "w": 432,
+     "h": 95
+    },
+    {
+     "text": "Capsule Vase Light From \u09f34,490",
+     "x": 40,
+     "y": 5578,
+     "w": 432,
+     "h": 95
+    },
+    {
+     "text": "Fluted Niche Panel From \u09f38,990",
+     "x": 40,
+     "y": 5673,
+     "w": 432,
+     "h": 95
+    },
+    {
+     "text": "Day Fresh or dried flowers in glass tubes, framed in walnut.",
+     "x": 0,
+     "y": 5912,
+     "w": 720,
+     "h": 828
+    },
+    {
+     "text": "Night Switch on the warm 5V glow and the flowers become a lamp.",
+     "x": 720,
+     "y": 5912,
+     "w": 720,
+     "h": 828
+    }
+   ],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 480.81304931640625,
+     "y": 170.8406982421875,
+     "w": 478.3582763671875,
+     "h": 743.287353515625
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 424,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 424,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 808,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 808,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 1192,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 1192,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 1576,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 1576,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 1960,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 1960,
+     "y": 1326.625,
+     "w": 360,
+     "h": 450
+    },
+    {
+     "text": "",
+     "x": 412.109375,
+     "y": 3391,
+     "w": 391.609375,
+     "h": 244.75
+    },
+    {
+     "text": "",
+     "x": 827.71875,
+     "y": 3391,
+     "w": 391.609375,
+     "h": 244.75
+    },
+    {
+     "text": "",
+     "x": 1243.328125,
+     "y": 3391,
+     "w": 391.609375,
+     "h": 244.75
+    },
+    {
+     "text": "",
+     "x": 900,
+     "y": 3971.640625,
+     "w": 500,
+     "h": 700
+    },
+    {
+     "text": "",
+     "x": 738,
+     "y": 4345.640625,
+     "w": 204,
+     "h": 255
+    },
+    {
+     "text": "",
+     "x": 697.027099609375,
+     "y": 4986.60400390625,
+     "w": 625.94580078125,
+     "h": 782.43212890625
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 5912,
+     "w": 720,
+     "h": 828
+    },
+    {
+     "text": "",
+     "x": 720,
+     "y": 5912,
+     "w": 720,
+     "h": 828
+    },
+    {
+     "text": "",
+     "x": -7.8533935546875,
+     "y": 6735.6806640625,
+     "w": 1455.706787109375,
+     "h": 800.638671875
+    }
+   ],
+   "sections": [
+    {
+     "text": "Handcrafted wood and gentle light, for walls that tell a quiet story. Sculptural",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "HANDCRAFTED Made after you order SAFE 5V LIGHT No 220V inside the wood \u09f3300 ADVA",
+     "x": 0,
+     "y": 900.484375,
+     "w": 1440,
+     "h": 104.515625
+    },
+    {
+     "text": "SHOP All products All products PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Lig",
+     "x": 0,
+     "y": 1005,
+     "w": 1440,
+     "h": 2274
+    },
+    {
+     "text": "FEATURED COLLECTIONS Find your perfect piece Find your perfect piece VIEW ALL CO",
+     "x": 0,
+     "y": 3279,
+     "w": 1440,
+     "h": 548.640625
+    },
+    {
+     "text": "Sample photo. Real product photos are coming soon. PRE-ORDER \u00b7 SHIPS WITHIN 10 D",
+     "x": 0,
+     "y": 3827.640625,
+     "w": 1440,
+     "h": 991.1875
+    },
+    {
+     "text": "SHOP THE ROOM One room, lit by Zelqune One room, lit by Zelqune Tap a marker to ",
+     "x": 0,
+     "y": 4818.828125,
+     "w": 1440,
+     "h": 1093.171875
+    },
+    {
+     "text": "Day Fresh or dried flowers in glass tubes, framed in walnut. Night Switch on the",
+     "x": 0,
+     "y": 5912,
+     "w": 1440,
+     "h": 828
+    },
+    {
+     "text": "THE MAKING Made slowly, by hand Made slowly, by hand Each panel is cut, sanded a",
+     "x": 0,
+     "y": 6740,
+     "w": 1440,
+     "h": 1375.953125
+    }
+   ]
+  },
+  "mobile": {
+   "file": "home-mobile.png",
+   "width": 390,
+   "height": 4000,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "All products All products",
+     "x": 20,
+     "y": 1428.0625,
+     "w": 156.09375,
+     "h": 34.09375
+    },
+    {
+     "text": "Capsule Vase Light",
+     "x": 20,
+     "y": 1890.890625,
+     "w": 172.453125,
+     "h": 29
+    },
+    {
+     "text": "Fluted Niche Panel",
+     "x": 328.59375,
+     "y": 1890.890625,
+     "w": 172.828125,
+     "h": 29
+    },
+    {
+     "text": "Half-Moon Planter Light",
+     "x": 637.1875,
+     "y": 1890.890625,
+     "w": 226.703125,
+     "h": 58
+    },
+    {
+     "text": "Wave Shelf",
+     "x": 945.78125,
+     "y": 1890.890625,
+     "w": 99.984375,
+     "h": 29
+    },
+    {
+     "text": "Diamond Shelf (pair)",
+     "x": 1254.375,
+     "y": 1890.890625,
+     "w": 192.5625,
+     "h": 29
+    },
+    {
+     "text": "Alo-Arch Panel",
+     "x": 1562.96875,
+     "y": 1890.890625,
+     "w": 141.890625,
+     "h": 29
+    },
+    {
+     "text": "Find your perfect piece Find your perfect piece",
+     "x": 20,
+     "y": 2168.015625,
+     "w": 350,
+     "h": 34.09375
+    },
+    {
+     "text": "Alo-Arch Panel Alo-Arch Panel",
+     "x": 20,
+     "y": 3261.546875,
+     "w": 350,
+     "h": 46.078125
+    }
+   ],
+   "buttons": [
+    {
+     "text": "FLUTED NICHE PANEL",
+     "x": 109.421875,
+     "y": 882.828125,
+     "w": 171.15625,
+     "h": 19.96875
+    },
+    {
+     "text": "Explore the collection",
+     "x": 20,
+     "y": 427.296875,
+     "w": 230.265625,
+     "h": 56
+    },
+    {
+     "text": "Previous scene",
+     "x": 52.734375,
+     "y": 981.796875,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Show Sculptural wall decor \u00b7 Made to order",
+     "x": 157.25,
+     "y": 985.296875,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Interior Design",
+     "x": 185.25,
+     "y": 985.296875,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Construction",
+     "x": 213.25,
+     "y": 985.296875,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Bulk & Corporate",
+     "x": 241.25,
+     "y": 985.296875,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Pause the wall",
+     "x": 269.25,
+     "y": 981.796875,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Next scene",
+     "x": 305.25,
+     "y": 981.796875,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light \u09f34,490",
+     "x": 20,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 409.734375
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel \u09f38,990",
+     "x": 328.59375,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 409.734375
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light \u09f36,990",
+     "x": 637.1875,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 438.734375
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf \u09f35,490",
+     "x": 945.78125,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 409.734375
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Diamond Shelf (pair) \u09f33,290",
+     "x": 1254.375,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 409.734375
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Alo-Arch Panel \u09f33,490",
+     "x": 1562.96875,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 409.734375
+    },
+    {
+     "text": "All products",
+     "x": 1871.5625,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "VIEW ALL COLLECTIONS",
+     "x": 20,
+     "y": 2240.390625,
+     "w": 201.265625,
+     "h": 23.421875
+    },
+    {
+     "text": "Previous collections",
+     "x": 274,
+     "y": 2230.109375,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "Next collections",
+     "x": 326,
+     "y": 2230.109375,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "LIGHTING 4 pieces",
+     "x": 20,
+     "y": 2286.109375,
+     "w": 287,
+     "h": 251.265625
+    },
+    {
+     "text": "SHELVES 2 pieces",
+     "x": 331,
+     "y": 2286.109375,
+     "w": 287,
+     "h": 251.265625
+    },
+    {
+     "text": "WALL PANELS 4 pieces",
+     "x": 642,
+     "y": 2286.109375,
+     "w": 287,
+     "h": 251.265625
+    },
+    {
+     "text": "PRE-ORDER NOW",
+     "x": 20,
+     "y": 3728.625,
+     "w": 203.609375,
+     "h": 56
+    }
+   ],
+   "cards": [
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light \u09f34,490",
+     "x": 20,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 438.734375
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel \u09f38,990",
+     "x": 328.59375,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 438.734375
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light \u09f36,990",
+     "x": 637.1875,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 438.734375
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf \u09f35,490",
+     "x": 945.78125,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 438.734375
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Diamond Shelf (pair) \u09f33,290",
+     "x": 1254.375,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 438.734375
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Alo-Arch Panel \u09f33,490",
+     "x": 1562.96875,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 438.734375
+    }
+   ],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 12.70782470703125,
+     "y": 480.181640625,
+     "w": 364.5843505859375,
+     "h": 455.73046875
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 328.59375,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 328.59375,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 637.1875,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 637.1875,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 945.78125,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 945.78125,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 1254.375,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 1254.375,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 1562.96875,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 1562.96875,
+     "y": 1510.15625,
+     "w": 288.59375,
+     "h": 360.734375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 2286.109375,
+     "w": 287,
+     "h": 179.375
+    },
+    {
+     "text": "",
+     "x": 331,
+     "y": 2286.109375,
+     "w": 287,
+     "h": 179.375
+    },
+    {
+     "text": "",
+     "x": 642,
+     "y": 2286.109375,
+     "w": 287,
+     "h": 179.375
+    },
+    {
+     "text": "",
+     "x": 97,
+     "y": 2721.375,
+     "w": 273,
+     "h": 382.1875
+    }
+   ],
+   "sections": [
+    {
+     "text": "Handcrafted wood and gentle light, for walls that tell a quiet story. Sculptural",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "HANDCRAFTED Made after you order SAFE 5V LIGHT No 220V inside the wood \u09f3300 ADVA",
+     "x": 0,
+     "y": 1038.796875,
+     "w": 390,
+     "h": 230.140625
+    },
+    {
+     "text": "SHOP All products All products PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Lig",
+     "x": 0,
+     "y": 1268.9375,
+     "w": 390,
+     "h": 755.953125
+    },
+    {
+     "text": "FEATURED COLLECTIONS Find your perfect piece Find your perfect piece VIEW ALL CO",
+     "x": 0,
+     "y": 2024.890625,
+     "w": 390,
+     "h": 600.484375
+    },
+    {
+     "text": "Sample photo. Real product photos are coming soon. PRE-ORDER \u00b7 SHIPS WITHIN 10 D",
+     "x": 0,
+     "y": 2625.375,
+     "w": 390,
+     "h": 1331.25
+    },
+    {
+     "text": "SHOP THE ROOM One room, lit by Zelqune One room, lit by Zelqune Tap a marker to ",
+     "x": 0,
+     "y": 3956.625,
+     "w": 390,
+     "h": 1041.40625
+    }
+   ]
+  }
+ },
+ "shop": {
+  "desktop": {
+   "file": "shop-desktop.png",
+   "width": 1440,
+   "height": 4200,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "All products",
+     "x": 40,
+     "y": 390.8125,
+     "w": 538.65625,
+     "h": 72.640625
+    },
+    {
+     "text": "Capsule Vase Light",
+     "x": 40,
+     "y": 1320.484375,
+     "w": 172.453125,
+     "h": 29
+    },
+    {
+     "text": "Fluted Niche Panel",
+     "x": 504,
+     "y": 1320.484375,
+     "w": 172.828125,
+     "h": 29
+    },
+    {
+     "text": "Half-Moon Planter Light",
+     "x": 968,
+     "y": 1320.484375,
+     "w": 227.875,
+     "h": 29
+    },
+    {
+     "text": "Wave Shelf",
+     "x": 40,
+     "y": 2575.484375,
+     "w": 99.984375,
+     "h": 29
+    },
+    {
+     "text": "Diamond Shelf (pair)",
+     "x": 504,
+     "y": 2575.484375,
+     "w": 192.5625,
+     "h": 29
+    },
+    {
+     "text": "Alo-Arch Panel",
+     "x": 968,
+     "y": 2575.484375,
+     "w": 141.890625,
+     "h": 29
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Home",
+     "x": 40,
+     "y": 211.484375,
+     "w": 30.6875,
+     "h": 18
+    },
+    {
+     "text": "All products",
+     "x": 40,
+     "y": 590.484375,
+     "w": 77.21875,
+     "h": 48
+    },
+    {
+     "text": "Wall panels",
+     "x": 157.21875,
+     "y": 590.484375,
+     "w": 73.796875,
+     "h": 48
+    },
+    {
+     "text": "Shelves",
+     "x": 271.015625,
+     "y": 590.484375,
+     "w": 48.0625,
+     "h": 48
+    },
+    {
+     "text": "Lighting",
+     "x": 359.078125,
+     "y": 590.484375,
+     "w": 51.6875,
+     "h": 48
+    },
+    {
+     "text": "All6",
+     "x": 292.359375,
+     "y": 669.484375,
+     "w": 53.5625,
+     "h": 36
+    },
+    {
+     "text": "Pre-order4",
+     "x": 349.921875,
+     "y": 669.484375,
+     "w": 90.890625,
+     "h": 36
+    },
+    {
+     "text": "Made to order2",
+     "x": 444.8125,
+     "y": 669.484375,
+     "w": 120.203125,
+     "h": 36
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light From \u09f34,490 2 finishes",
+     "x": 40,
+     "y": 760.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel From \u09f38,990 2 finishes",
+     "x": 504,
+     "y": 760.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light From \u09f36,990 2 finishes",
+     "x": 968,
+     "y": 760.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf From \u09f35,490 2 finishes",
+     "x": 40,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Diamond Shelf (pair) From \u09f33,290 2 finishes",
+     "x": 504,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Alo-Arch Panel From \u09f33,490 2 finishes",
+     "x": 968,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "INTERIOR DESIGN Let us design the whole space Homes, offices, restaurants and ca",
+     "x": 40,
+     "y": 1455.484375,
+     "w": 1360,
+     "h": 480
+    }
+   ],
+   "cards": [
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light From \u09f34,490 2 finishes",
+     "x": 40,
+     "y": 760.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel From \u09f38,990 2 finishes",
+     "x": 504,
+     "y": 760.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light From \u09f36,990 2 finishes",
+     "x": 968,
+     "y": 760.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf From \u09f35,490 2 finishes",
+     "x": 40,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Diamond Shelf (pair) From \u09f33,290 2 finishes",
+     "x": 504,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 615
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Alo-Arch Panel From \u09f33,490 2 finishes",
+     "x": 968,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 615
+    }
+   ],
+   "forms": [],
+   "inputs": [
+    {
+     "text": "Featured Price: low to high Price: high to low",
+     "x": 1192,
+     "y": 667.484375,
+     "w": 208,
+     "h": 40
+    }
+   ],
+   "images": [
+    {
+     "text": "",
+     "x": 626.65625,
+     "y": 252.484375,
+     "w": 773.34375,
+     "h": 290
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 760.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 760.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 504,
+     "y": 760.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 504,
+     "y": 760.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 968,
+     "y": 760.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 968,
+     "y": 760.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 504,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 504,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 968,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 968,
+     "y": 2015.484375,
+     "w": 432,
+     "h": 540
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 1455.484375,
+     "w": 781.265625,
+     "h": 480
+    }
+   ],
+   "sections": []
+  },
+  "mobile": {
+   "file": "shop-mobile.png",
+   "width": 390,
+   "height": 4000,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "All products",
+     "x": 20,
+     "y": 242.65625,
+     "w": 350,
+     "h": 40.796875
+    },
+    {
+     "text": "Capsule Vase Light",
+     "x": 20,
+     "y": 782.890625,
+     "w": 169,
+     "h": 23
+    },
+    {
+     "text": "Fluted Niche Panel",
+     "x": 201,
+     "y": 782.890625,
+     "w": 169,
+     "h": 23
+    },
+    {
+     "text": "Half-Moon Planter Light",
+     "x": 20,
+     "y": 1118.890625,
+     "w": 169,
+     "h": 46
+    },
+    {
+     "text": "Wave Shelf",
+     "x": 201,
+     "y": 1118.890625,
+     "w": 169,
+     "h": 23
+    },
+    {
+     "text": "Diamond Shelf (pair)",
+     "x": 20,
+     "y": 2054.03125,
+     "w": 169,
+     "h": 23
+    },
+    {
+     "text": "Alo-Arch Panel",
+     "x": 201,
+     "y": 2054.03125,
+     "w": 169,
+     "h": 23
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Home",
+     "x": 20,
+     "y": 182.53125,
+     "w": 30.6875,
+     "h": 18
+    },
+    {
+     "text": "All products",
+     "x": 20,
+     "y": 377.640625,
+     "w": 77.21875,
+     "h": 48
+    },
+    {
+     "text": "Wall panels",
+     "x": 125.21875,
+     "y": 377.640625,
+     "w": 73.796875,
+     "h": 48
+    },
+    {
+     "text": "Shelves",
+     "x": 227.015625,
+     "y": 377.640625,
+     "w": 48.0625,
+     "h": 48
+    },
+    {
+     "text": "Lighting",
+     "x": 303.078125,
+     "y": 377.640625,
+     "w": 51.6875,
+     "h": 48
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light From \u09f34,490 2 finishes",
+     "x": 20,
+     "y": 559.640625,
+     "w": 169,
+     "h": 296
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel From \u09f38,990 2 finishes",
+     "x": 201,
+     "y": 559.640625,
+     "w": 169,
+     "h": 296
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light From \u09f36,990 2 finishes",
+     "x": 20,
+     "y": 895.640625,
+     "w": 169,
+     "h": 319
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf From \u09f35,490 2 finishes",
+     "x": 201,
+     "y": 895.640625,
+     "w": 169,
+     "h": 296
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Diamond Shelf (pair) From \u09f33,290 2 finishes",
+     "x": 20,
+     "y": 1830.78125,
+     "w": 169,
+     "h": 296
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Alo-Arch Panel From \u09f33,490 2 finishes",
+     "x": 201,
+     "y": 1830.78125,
+     "w": 169,
+     "h": 296
+    },
+    {
+     "text": "INTERIOR DESIGN Let us design the whole space Homes, offices, restaurants and ca",
+     "x": 20,
+     "y": 1254.640625,
+     "w": 350,
+     "h": 536.140625
+    }
+   ],
+   "cards": [
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light From \u09f34,490 2 finishes",
+     "x": 20,
+     "y": 559.640625,
+     "w": 169,
+     "h": 296
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel From \u09f38,990 2 finishes",
+     "x": 201,
+     "y": 559.640625,
+     "w": 169,
+     "h": 296
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light From \u09f36,990 2 finishes",
+     "x": 20,
+     "y": 895.640625,
+     "w": 169,
+     "h": 319
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf From \u09f35,490 2 finishes",
+     "x": 201,
+     "y": 895.640625,
+     "w": 169,
+     "h": 319
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Diamond Shelf (pair) From \u09f33,290 2 finishes",
+     "x": 20,
+     "y": 1830.78125,
+     "w": 169,
+     "h": 296
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Alo-Arch Panel From \u09f33,490 2 finishes",
+     "x": 201,
+     "y": 1830.78125,
+     "w": 169,
+     "h": 296
+    }
+   ],
+   "forms": [],
+   "inputs": [
+    {
+     "text": "All (6) Pre-order (4) Made to order (2)",
+     "x": 20,
+     "y": 478.640625,
+     "w": 174,
+     "h": 56
+    },
+    {
+     "text": "Featured Price: low to high Price: high to low",
+     "x": 211,
+     "y": 478.640625,
+     "w": 159,
+     "h": 56
+    }
+   ],
+   "images": [
+    {
+     "text": "",
+     "x": 20,
+     "y": 1254.640625,
+     "w": 350,
+     "h": 262.5
+    }
+   ],
+   "sections": []
+  }
+ },
+ "product": {
+  "desktop": {
+   "file": "product-desktop.png",
+   "width": 1440,
+   "height": 4132,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Alo-Arch Panel",
+     "x": 855.3125,
+     "y": 287.609375,
+     "w": 425.921875,
+     "h": 72.640625
+    },
+    {
+     "text": "Delivery across Bangladesh",
+     "x": 875.3125,
+     "y": 954.890625,
+     "w": 504.6875,
+     "h": 24.3125
+    },
+    {
+     "text": "Buy with confidence",
+     "x": 875.3125,
+     "y": 1173.296875,
+     "w": 504.6875,
+     "h": 24.3125
+    },
+    {
+     "text": "Complete the wall",
+     "x": 855.3125,
+     "y": 1389.65625,
+     "w": 544.6875,
+     "h": 30
+    },
+    {
+     "text": "You may also like",
+     "x": 40,
+     "y": 2018.0625,
+     "w": 355.859375,
+     "h": 57.140625
+    },
+    {
+     "text": "Capsule Vase Light",
+     "x": 40,
+     "y": 2545.703125,
+     "w": 172.453125,
+     "h": 29
+    },
+    {
+     "text": "Fluted Niche Panel",
+     "x": 386,
+     "y": 2545.703125,
+     "w": 172.828125,
+     "h": 29
+    },
+    {
+     "text": "Half-Moon Planter Light",
+     "x": 732,
+     "y": 2545.703125,
+     "w": 225.296875,
+     "h": 58
+    },
+    {
+     "text": "Wave Shelf",
+     "x": 1078,
+     "y": 2545.703125,
+     "w": 99.984375,
+     "h": 29
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Home",
+     "x": 40,
+     "y": 211.484375,
+     "w": 30.6875,
+     "h": 18
+    },
+    {
+     "text": "Lighting",
+     "x": 92.875,
+     "y": 211.484375,
+     "w": 40.8125,
+     "h": 18
+    },
+    {
+     "text": "Alo-Arch Panel \u00b7 Photo 1 of 3",
+     "x": 40,
+     "y": 256.484375,
+     "w": 735.3125,
+     "h": 505.515625
+    },
+    {
+     "text": "Alo-Arch Panel \u00b7 Photo 2 of 3",
+     "x": 40,
+     "y": 774,
+     "w": 361.65625,
+     "h": 452.0625
+    },
+    {
+     "text": "Alo-Arch Panel \u00b7 Photo 3 of 3",
+     "x": 413.65625,
+     "y": 774,
+     "w": 361.65625,
+     "h": 452.0625
+    },
+    {
+     "text": "LIGHTING",
+     "x": 855.3125,
+     "y": 255.484375,
+     "w": 70.4375,
+     "h": 16
+    },
+    {
+     "text": "Share",
+     "x": 1356,
+     "y": 287.609375,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "SEE IT ON YOUR WALL",
+     "x": 1203.890625,
+     "y": 711.4375,
+     "w": 196.109375,
+     "h": 19.96875
+    },
+    {
+     "text": "PRE-ORDER NOW",
+     "x": 855.3125,
+     "y": 778.890625,
+     "w": 544.6875,
+     "h": 56
+    },
+    {
+     "text": "ADD TO CART",
+     "x": 855.3125,
+     "y": 846.890625,
+     "w": 544.6875,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 866.3125,
+     "y": 1470.65625,
+     "w": 72,
+     "h": 72
+    },
+    {
+     "text": "Capsule Vase Light",
+     "x": 954.3125,
+     "y": 1484.203125,
+     "w": 334.078125,
+     "h": 20.890625
+    },
+    {
+     "text": "ADD",
+     "x": 1304.390625,
+     "y": 1486.65625,
+     "w": 82.609375,
+     "h": 40
+    },
+    {
+     "text": "",
+     "x": 866.3125,
+     "y": 1574.65625,
+     "w": 72,
+     "h": 72
+    },
+    {
+     "text": "Fluted Niche Panel",
+     "x": 954.3125,
+     "y": 1588.203125,
+     "w": 334.078125,
+     "h": 20.890625
+    },
+    {
+     "text": "ADD",
+     "x": 1304.390625,
+     "y": 1590.65625,
+     "w": 82.609375,
+     "h": 40
+    },
+    {
+     "text": "",
+     "x": 866.3125,
+     "y": 1678.65625,
+     "w": 72,
+     "h": 72
+    },
+    {
+     "text": "Half-Moon Planter Light",
+     "x": 954.3125,
+     "y": 1692.203125,
+     "w": 334.078125,
+     "h": 20.890625
+    },
+    {
+     "text": "ADD",
+     "x": 1304.390625,
+     "y": 1694.65625,
+     "w": 82.609375,
+     "h": 40
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 1265.1875,
+     "y": 2053.90625,
+     "w": 134.8125,
+     "h": 21.296875
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light From \u09f34,490 2 finishes",
+     "x": 40,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 477.5
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel From \u09f38,990 2 finishes",
+     "x": 386,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 477.5
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light From \u09f36,990 2 finishes",
+     "x": 732,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 506.5
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf From \u09f35,490 2 finishes",
+     "x": 1078,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 477.5
+    }
+   ],
+   "cards": [
+    {
+     "text": "Capsule Vase Light \u09f34,490 ADD",
+     "x": 855.3125,
+     "y": 1459.65625,
+     "w": 544.6875,
+     "h": 94
+    },
+    {
+     "text": "Fluted Niche Panel \u09f38,990 ADD",
+     "x": 855.3125,
+     "y": 1563.65625,
+     "w": 544.6875,
+     "h": 94
+    },
+    {
+     "text": "Half-Moon Planter Light \u09f36,990 ADD",
+     "x": 855.3125,
+     "y": 1667.65625,
+     "w": 544.6875,
+     "h": 94
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule Vase Light From \u09f34,490 2 finishes",
+     "x": 40,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 506.5
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Fluted Niche Panel From \u09f38,990 2 finishes",
+     "x": 386,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 506.5
+    },
+    {
+     "text": "PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Half-Moon Planter Light From \u09f36,990 2 finishes",
+     "x": 732,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 506.5
+    },
+    {
+     "text": "MADE TO ORDER \u00b7 10 DAYS Wave Shelf From \u09f35,490 2 finishes",
+     "x": 1078,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 506.5
+    }
+   ],
+   "forms": [],
+   "inputs": [
+    {
+     "text": "Choose a district Bagerhat Bandarban Barguna Barishal Bhola Bogura Brahmanbaria ",
+     "x": 1147.65625,
+     "y": 1021.125,
+     "w": 232.34375,
+     "h": 49
+    }
+   ],
+   "images": [
+    {
+     "text": "",
+     "x": 40,
+     "y": 256.484375,
+     "w": 735.3125,
+     "h": 505.515625
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 774,
+     "w": 361.65625,
+     "h": 452.0625
+    },
+    {
+     "text": "",
+     "x": 413.65625,
+     "y": 774,
+     "w": 361.65625,
+     "h": 452.0625
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 402.5
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 402.5
+    },
+    {
+     "text": "",
+     "x": 386,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 402.5
+    },
+    {
+     "text": "",
+     "x": 386,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 402.5
+    },
+    {
+     "text": "",
+     "x": 732,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 402.5
+    },
+    {
+     "text": "",
+     "x": 732,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 402.5
+    },
+    {
+     "text": "",
+     "x": 1078,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 402.5
+    },
+    {
+     "text": "",
+     "x": 1078,
+     "y": 2123.203125,
+     "w": 322,
+     "h": 402.5
+    }
+   ],
+   "sections": [
+    {
+     "text": "LIGHTING You may also like ALL PRODUCTS PRE-ORDER \u00b7 SHIPS WITHIN 10 DAYS Capsule",
+     "x": 0,
+     "y": 1874.9375,
+     "w": 1440,
+     "h": 866.765625
+    }
+   ]
+  },
+  "mobile": {
+   "file": "product-mobile.png",
+   "width": 390,
+   "height": 4000,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Alo-Arch Panel",
+     "x": 20,
+     "y": 746.515625,
+     "w": 239.234375,
+     "h": 40.796875
+    },
+    {
+     "text": "Delivery across Bangladesh",
+     "x": 40,
+     "y": 1400.75,
+     "w": 310,
+     "h": 24.3125
+    },
+    {
+     "text": "Buy with confidence",
+     "x": 40,
+     "y": 1718.078125,
+     "w": 310,
+     "h": 24.3125
+    },
+    {
+     "text": "Complete the wall",
+     "x": 20,
+     "y": 2025.53125,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3103.28125,
+     "w": 212.375,
+     "h": 34.09375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3593.65625,
+     "w": 172.453125,
+     "h": 29
+    },
+    {
+     "text": "",
+     "x": 316.796875,
+     "y": 3593.65625,
+     "w": 172.828125,
+     "h": 29
+    },
+    {
+     "text": "",
+     "x": 613.59375,
+     "y": 3593.65625,
+     "w": 184.09375,
+     "h": 58
+    },
+    {
+     "text": "",
+     "x": 910.390625,
+     "y": 3593.65625,
+     "w": 99.984375,
+     "h": 29
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Home",
+     "x": 20,
+     "y": 182.53125,
+     "w": 30.6875,
+     "h": 18
+    },
+    {
+     "text": "Lighting",
+     "x": 72.875,
+     "y": 182.53125,
+     "w": 40.8125,
+     "h": 18
+    },
+    {
+     "text": "Alo-Arch Panel \u00b7 Photo 1 of 3",
+     "x": 20,
+     "y": 219.53125,
+     "w": 327.59375,
+     "h": 409.484375
+    },
+    {
+     "text": "Alo-Arch Panel \u00b7 Photo 2 of 3",
+     "x": 355.59375,
+     "y": 219.53125,
+     "w": 327.59375,
+     "h": 409.484375
+    },
+    {
+     "text": "Alo-Arch Panel \u00b7 Photo 3 of 3",
+     "x": 691.1875,
+     "y": 219.53125,
+     "w": 327.59375,
+     "h": 409.484375
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 714.390625,
+     "w": 70.4375,
+     "h": 16
+    },
+    {
+     "text": "Share",
+     "x": 326,
+     "y": 746.515625,
+     "w": 44,
+     "h": 44
+    },
+    {
+     "text": "SEE IT ON YOUR WALL",
+     "x": 173.890625,
+     "y": 1157.296875,
+     "w": 196.109375,
+     "h": 19.96875
+    },
+    {
+     "text": "PRE-ORDER NOW",
+     "x": 20,
+     "y": 1224.75,
+     "w": 350,
+     "h": 56
+    },
+    {
+     "text": "ADD TO CART",
+     "x": 20,
+     "y": 1292.75,
+     "w": 350,
+     "h": 56
+    },
+    {
+     "text": "PRE-ORDER NOW",
+     "x": 198.390625,
+     "y": 857,
+     "w": 171.609375,
+     "h": 48
+    },
+    {
+     "text": "",
+     "x": 31,
+     "y": 2106.53125,
+     "w": 72,
+     "h": 72
+    },
+    {
+     "text": "Capsule Vase Light",
+     "x": 119,
+     "y": 2120.078125,
+     "w": 139.390625,
+     "h": 20.890625
+    },
+    {
+     "text": "ADD",
+     "x": 274.390625,
+     "y": 2122.53125,
+     "w": 82.609375,
+     "h": 40
+    },
+    {
+     "text": "",
+     "x": 31,
+     "y": 2210.53125,
+     "w": 72,
+     "h": 72
+    },
+    {
+     "text": "Fluted Niche Panel",
+     "x": 119,
+     "y": 2224.078125,
+     "w": 139.390625,
+     "h": 20.890625
+    },
+    {
+     "text": "ADD",
+     "x": 274.390625,
+     "y": 2226.53125,
+     "w": 82.609375,
+     "h": 40
+    },
+    {
+     "text": "",
+     "x": 31,
+     "y": 2314.53125,
+     "w": 72,
+     "h": 72
+    },
+    {
+     "text": "Half-Moon Planter Light",
+     "x": 119,
+     "y": 2317.640625,
+     "w": 139.390625,
+     "h": 41.78125
+    },
+    {
+     "text": "ADD",
+     "x": 274.390625,
+     "y": 2330.53125,
+     "w": 82.609375,
+     "h": 40
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3161.375,
+     "w": 134.8125,
+     "h": 21.296875
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 425.984375
+    },
+    {
+     "text": "",
+     "x": 316.796875,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 425.984375
+    },
+    {
+     "text": "",
+     "x": 613.59375,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 454.984375
+    },
+    {
+     "text": "",
+     "x": 910.390625,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 425.984375
+    }
+   ],
+   "cards": [
+    {
+     "text": "Capsule Vase Light \u09f34,490 ADD",
+     "x": 20,
+     "y": 2095.53125,
+     "w": 350,
+     "h": 94
+    },
+    {
+     "text": "Fluted Niche Panel \u09f38,990 ADD",
+     "x": 20,
+     "y": 2199.53125,
+     "w": 350,
+     "h": 94
+    },
+    {
+     "text": "Half-Moon Planter Light \u09f36,990 ADD",
+     "x": 20,
+     "y": 2303.53125,
+     "w": 350,
+     "h": 94
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 454.984375
+    },
+    {
+     "text": "",
+     "x": 316.796875,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 454.984375
+    },
+    {
+     "text": "",
+     "x": 613.59375,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 454.984375
+    },
+    {
+     "text": "",
+     "x": 910.390625,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 454.984375
+    }
+   ],
+   "forms": [],
+   "inputs": [
+    {
+     "text": "Choose a district Bagerhat Bandarban Barguna Barishal Bhola Bogura Brahmanbaria ",
+     "x": 40,
+     "y": 1589.578125,
+     "w": 310,
+     "h": 49
+    }
+   ],
+   "images": [
+    {
+     "text": "",
+     "x": 20,
+     "y": 219.53125,
+     "w": 327.59375,
+     "h": 409.484375
+    },
+    {
+     "text": "",
+     "x": 355.59375,
+     "y": 219.53125,
+     "w": 327.59375,
+     "h": 409.484375
+    },
+    {
+     "text": "",
+     "x": 691.1875,
+     "y": 219.53125,
+     "w": 327.59375,
+     "h": 409.484375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 350.984375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 350.984375
+    },
+    {
+     "text": "",
+     "x": 316.796875,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 350.984375
+    },
+    {
+     "text": "",
+     "x": 316.796875,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 350.984375
+    },
+    {
+     "text": "",
+     "x": 613.59375,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 350.984375
+    },
+    {
+     "text": "",
+     "x": 613.59375,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 350.984375
+    },
+    {
+     "text": "",
+     "x": 910.390625,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 350.984375
+    },
+    {
+     "text": "",
+     "x": 910.390625,
+     "y": 3222.671875,
+     "w": 280.796875,
+     "h": 350.984375
+    }
+   ],
+   "sections": [
+    {
+     "text": "",
+     "x": 0,
+     "y": 2992.15625,
+     "w": 390,
+     "h": 765.5
+    }
+   ]
+  }
+ },
+ "design": {
+  "desktop": {
+   "file": "design-desktop.png",
+   "width": 1440,
+   "height": 7800,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Spaces designed around wood and light",
+     "x": 64,
+     "y": 352.1171875,
+     "w": 768,
+     "h": 295.359375
+    },
+    {
+     "text": "How it works How it works",
+     "x": 40,
+     "y": 7021.46875,
+     "w": 628.5625,
+     "h": 57.140625
+    }
+   ],
+   "buttons": [
+    {
+     "text": "LIVING ROOM",
+     "x": 64,
+     "y": 787.484375,
+     "w": 259.1875,
+     "h": 39
+    },
+    {
+     "text": "DINING ROOM",
+     "x": 327.1875,
+     "y": 787.484375,
+     "w": 259.203125,
+     "h": 39
+    },
+    {
+     "text": "KITCHEN",
+     "x": 590.390625,
+     "y": 787.484375,
+     "w": 259.203125,
+     "h": 39
+    },
+    {
+     "text": "BEDROOM",
+     "x": 853.59375,
+     "y": 787.484375,
+     "w": 259.203125,
+     "h": 39
+    },
+    {
+     "text": "BATHROOM",
+     "x": 1116.796875,
+     "y": 787.484375,
+     "w": 259.203125,
+     "h": 39
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "ZELQUNE INTERIOR DESIGN Spaces designed around wood and light From one feature w",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 6615
+    },
+    {
+     "text": "ZELQUNE INTERIOR DESIGN How it works How it works 1 / 4 Consultation We visit or",
+     "x": 0,
+     "y": 6799.484375,
+     "w": 1440,
+     "h": 2644
+    }
+   ]
+  },
+  "mobile": {
+   "file": "design-mobile.png",
+   "width": 390,
+   "height": 4000,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Spaces designed around wood and light",
+     "x": 20,
+     "y": 268.703125,
+     "w": 350,
+     "h": 138.234375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "",
+     "x": 20,
+     "y": 840.53125,
+     "w": 51.59375,
+     "h": 25
+    },
+    {
+     "text": "",
+     "x": 75.59375,
+     "y": 840.53125,
+     "w": 51.609375,
+     "h": 25
+    },
+    {
+     "text": "",
+     "x": 131.203125,
+     "y": 840.53125,
+     "w": 51.59375,
+     "h": 25
+    },
+    {
+     "text": "",
+     "x": 186.796875,
+     "y": 840.53125,
+     "w": 51.609375,
+     "h": 25
+    },
+    {
+     "text": "",
+     "x": 242.40625,
+     "y": 840.53125,
+     "w": 51.59375,
+     "h": 25
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "ZELQUNE INTERIOR DESIGN Spaces designed around wood and light From one feature w",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 6203.390625
+    }
+   ]
+  }
+ },
+ "construction": {
+  "desktop": {
+   "file": "construction-desktop.png",
+   "width": 1440,
+   "height": 7800,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "From the ground up to the last light",
+     "x": 40,
+     "y": 280.4375,
+     "w": 768,
+     "h": 194.4375
+    },
+    {
+     "text": "Plan & design",
+     "x": 40,
+     "y": 303.671875,
+     "w": 576,
+     "h": 89.28125
+    },
+    {
+     "text": "Approvals",
+     "x": 969.703125,
+     "y": 303.671875,
+     "w": 430.296875,
+     "h": 89.28125
+    },
+    {
+     "text": "Structure",
+     "x": 40,
+     "y": 303.671875,
+     "w": 576,
+     "h": 89.28125
+    },
+    {
+     "text": "Finishing",
+     "x": 1068.71875,
+     "y": 303.671875,
+     "w": 331.28125,
+     "h": 89.28125
+    },
+    {
+     "text": "Interiors",
+     "x": 40,
+     "y": 303.671875,
+     "w": 576,
+     "h": 89.28125
+    },
+    {
+     "text": "Handover",
+     "x": 40,
+     "y": 303.671875,
+     "w": 576,
+     "h": 89.28125
+    },
+    {
+     "text": "What we build",
+     "x": 40,
+     "y": 7305.609375,
+     "w": 668,
+     "h": 57.140625
+    }
+   ],
+   "buttons": [],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 40,
+     "y": 7418.75,
+     "w": 322,
+     "h": 429.328125
+    },
+    {
+     "text": "",
+     "x": 386,
+     "y": 7482.75,
+     "w": 322,
+     "h": 429.328125
+    },
+    {
+     "text": "",
+     "x": 732,
+     "y": 7418.75,
+     "w": 322,
+     "h": 429.328125
+    },
+    {
+     "text": "",
+     "x": 1078,
+     "y": 7482.75,
+     "w": 322,
+     "h": 429.328125
+    }
+   ],
+   "sections": [
+    {
+     "text": "ZELQUNE CONSTRUCTION From the ground up to the last light One team from the firs",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 6930
+    },
+    {
+     "text": "ZELQUNE CONSTRUCTION What we build Homes and commercial buildings from the groun",
+     "x": 0,
+     "y": 7114.484375,
+     "w": 1440,
+     "h": 1004.59375
+    }
+   ]
+  },
+  "mobile": {
+   "file": "construction-mobile.png",
+   "width": 390,
+   "height": 4000,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "From the ground up to the last light",
+     "x": 20,
+     "y": 258.09375,
+     "w": 350,
+     "h": 87.78125
+    },
+    {
+     "text": "Plan & design",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "Approvals",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "Structure",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "Finishing",
+     "x": 60.984375,
+     "y": 281.328125,
+     "w": 309.015625,
+     "h": 41.59375
+    },
+    {
+     "text": "Interiors",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "Handover",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    }
+   ],
+   "buttons": [],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "ZELQUNE CONSTRUCTION From the ground up to the last light One team from the firs",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 6498.796875
+    }
+   ]
+  }
+ },
+ "bulk": {
+  "desktop": {
+   "file": "bulk-desktop.png",
+   "width": 1440,
+   "height": 3230,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Bulk orders for offices, businesses and gifting",
+     "x": 40,
+     "y": 448.703125,
+     "w": 896,
+     "h": 145.28125
+    },
+    {
+     "text": "Send request",
+     "x": 40,
+     "y": 895.609375,
+     "w": 430.34375,
+     "h": 57.140625
+    },
+    {
+     "text": "Sign in to continue",
+     "x": 664.34375,
+     "y": 1006.484375,
+     "w": 653.65625,
+     "h": 35.984375
+    },
+    {
+     "text": "Buy with confidence",
+     "x": 40,
+     "y": 1533.46875,
+     "w": 400,
+     "h": 114.28125
+    }
+   ],
+   "buttons": [
+    {
+     "text": "SIGN IN",
+     "x": 664.34375,
+     "y": 1125.125,
+     "w": 115.734375,
+     "h": 48
+    },
+    {
+     "text": "CREATE AN ACCOUNT",
+     "x": 792.078125,
+     "y": 1125.125,
+     "w": 217.515625,
+     "h": 48
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 576
+    }
+   ],
+   "sections": [
+    {
+     "text": "FOR BUSINESS Bulk orders for offices, businesses and gifting Need several pieces",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 576
+    },
+    {
+     "text": "FOR BUSINESS Send request Need several for an office, caf\u00e9, restaurant or corpor",
+     "x": 0,
+     "y": 760.484375,
+     "w": 1440,
+     "h": 661.859375
+    },
+    {
+     "text": "WHY ZELQUNE Buy with confidence Cash on delivery Pay in cash when it arrives, or",
+     "x": 0,
+     "y": 1422.34375,
+     "w": 1440,
+     "h": 417
+    }
+   ]
+  },
+  "mobile": {
+   "file": "bulk-mobile.png",
+   "width": 390,
+   "height": 4000,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Bulk orders for offices, businesses and gifting",
+     "x": 20,
+     "y": 460.09375,
+     "w": 350,
+     "h": 81.59375
+    },
+    {
+     "text": "Send request",
+     "x": 20,
+     "y": 806.8125,
+     "w": 350,
+     "h": 34.09375
+    },
+    {
+     "text": "Sign in to continue",
+     "x": 66,
+     "y": 1380.90625,
+     "w": 258,
+     "h": 35.984375
+    },
+    {
+     "text": "Buy with confidence",
+     "x": 20,
+     "y": 1838,
+     "w": 350,
+     "h": 34.09375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "SIGN IN",
+     "x": 66,
+     "y": 1524.875,
+     "w": 115.734375,
+     "h": 48
+    },
+    {
+     "text": "CREATE AN ACCOUNT",
+     "x": 66,
+     "y": 1584.875,
+     "w": 217.515625,
+     "h": 48
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 540.15625
+    }
+   ],
+   "sections": [
+    {
+     "text": "FOR BUSINESS Bulk orders for offices, businesses and gifting Need several pieces",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 540.15625
+    },
+    {
+     "text": "FOR BUSINESS Send request Need several for an office, caf\u00e9, restaurant or corpor",
+     "x": 0,
+     "y": 703.6875,
+     "w": 390,
+     "h": 1039.1875
+    },
+    {
+     "text": "WHY ZELQUNE Buy with confidence Cash on delivery Pay in cash when it arrives, or",
+     "x": 0,
+     "y": 1742.875,
+     "w": 390,
+     "h": 795.21875
+    }
+   ]
+  }
+ },
+ "story": {
+  "desktop": {
+   "file": "story-desktop.png",
+   "width": 1440,
+   "height": 5619,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Our story",
+     "x": 40,
+     "y": 339.609375,
+     "w": 896,
+     "h": 72.640625
+    },
+    {
+     "text": "Made slowly, by hand Made slowly, by hand",
+     "x": 784,
+     "y": 2260.328125,
+     "w": 512,
+     "h": 145.28125
+    },
+    {
+     "text": "Honest materials, finished by hand Honest materials, finished by hand",
+     "x": 336,
+     "y": 3212.28125,
+     "w": 768,
+     "h": 145.28125
+    }
+   ],
+   "buttons": [],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 40,
+     "y": 701.25,
+     "w": 601.890625,
+     "h": 752.359375
+    },
+    {
+     "text": "",
+     "x": -7.8533935546875,
+     "y": 1588.8837890625,
+     "w": 1455.706787109375,
+     "h": 800.638671875
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 3437.5625,
+     "w": 445.328125,
+     "h": 576
+    },
+    {
+     "text": "",
+     "x": 497.328125,
+     "y": 3437.5625,
+     "w": 445.34375,
+     "h": 576
+    },
+    {
+     "text": "",
+     "x": 954.671875,
+     "y": 3437.5625,
+     "w": 445.328125,
+     "h": 576
+    }
+   ],
+   "sections": [
+    {
+     "text": "THE MAKING Made slowly, by hand Made slowly, by hand Each panel is cut, sanded a",
+     "x": 0,
+     "y": 1593.203125,
+     "w": 1440,
+     "h": 1375.953125
+    },
+    {
+     "text": "MATERIALS Honest materials, finished by hand Honest materials, finished by hand ",
+     "x": 0,
+     "y": 2969.15625,
+     "w": 1440,
+     "h": 1259.59375
+    }
+   ]
+  },
+  "mobile": {
+   "file": "story-mobile.png",
+   "width": 390,
+   "height": 4000,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Our story",
+     "x": 20,
+     "y": 266.65625,
+     "w": 350,
+     "h": 40.796875
+    },
+    {
+     "text": "Made slowly, by hand Made slowly, by hand",
+     "x": 52,
+     "y": 2081.265625,
+     "w": 286,
+     "h": 81.59375
+    },
+    {
+     "text": "Honest materials, finished by hand Honest materials, finished by hand",
+     "x": 20,
+     "y": 3158.859375,
+     "w": 350,
+     "h": 81.59375
+    }
+   ],
+   "buttons": [],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 20,
+     "y": 503.96875,
+     "w": 350,
+     "h": 437.5
+    },
+    {
+     "text": "",
+     "x": -2.12738037109375,
+     "y": 1568.0206298828125,
+     "w": 394.2547607421875,
+     "h": 528.9744873046875
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3296.453125,
+     "w": 350,
+     "h": 288
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3596.453125,
+     "w": 350,
+     "h": 288
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 3896.453125,
+     "w": 350,
+     "h": 288
+    }
+   ],
+   "sections": [
+    {
+     "text": "THE MAKING Made slowly, by hand Made slowly, by hand Each panel is cut, sanded a",
+     "x": 0,
+     "y": 1570.875,
+     "w": 390,
+     "h": 1424.859375
+    },
+    {
+     "text": "MATERIALS Honest materials, finished by hand Honest materials, finished by hand ",
+     "x": 0,
+     "y": 2995.734375,
+     "w": 390,
+     "h": 1299.90625
+    }
+   ]
+  }
+ },
+ "faq": {
+  "desktop": {
+   "file": "faq-desktop.png",
+   "width": 1440,
+   "height": 2637,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Frequently asked questions",
+     "x": 40,
+     "y": 339.609375,
+     "w": 896,
+     "h": 72.640625
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Frequently asked questions",
+     "x": 40,
+     "y": 605.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Returns and refunds",
+     "x": 40,
+     "y": 645.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Terms",
+     "x": 40,
+     "y": 685.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Privacy",
+     "x": 40,
+     "y": 725.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Cookie Policy",
+     "x": 40,
+     "y": 765.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Track order",
+     "x": 40,
+     "y": 805.25,
+     "w": 288,
+     "h": 40
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": []
+  },
+  "mobile": {
+   "file": "faq-mobile.png",
+   "width": 390,
+   "height": 2898,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Frequently asked questions",
+     "x": 20,
+     "y": 266.65625,
+     "w": 350,
+     "h": 81.59375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Frequently asked questions",
+     "x": 20,
+     "y": 461.25,
+     "w": 158.890625,
+     "h": 44
+    },
+    {
+     "text": "Returns and refunds",
+     "x": 202.890625,
+     "y": 461.25,
+     "w": 118.15625,
+     "h": 44
+    },
+    {
+     "text": "Terms",
+     "x": 345.046875,
+     "y": 461.25,
+     "w": 33.6875,
+     "h": 44
+    },
+    {
+     "text": "Privacy",
+     "x": 402.734375,
+     "y": 461.25,
+     "w": 41.59375,
+     "h": 44
+    },
+    {
+     "text": "Cookie Policy",
+     "x": 468.328125,
+     "y": 461.25,
+     "w": 80.703125,
+     "h": 44
+    },
+    {
+     "text": "Track order",
+     "x": 573.03125,
+     "y": 461.25,
+     "w": 66.421875,
+     "h": 44
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": []
+  }
+ },
+ "track": {
+  "desktop": {
+   "file": "track-desktop.png",
+   "width": 1440,
+   "height": 2733,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Where's my order?",
+     "x": 40,
+     "y": 339.609375,
+     "w": 896,
+     "h": 72.640625
+    },
+    {
+     "text": "Buy with confidence",
+     "x": 40,
+     "y": 1036.375,
+     "w": 400,
+     "h": 114.28125
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Frequently asked questions",
+     "x": 40,
+     "y": 605.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Returns and refunds",
+     "x": 40,
+     "y": 645.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Terms",
+     "x": 40,
+     "y": 685.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Privacy",
+     "x": 40,
+     "y": 725.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Cookie Policy",
+     "x": 40,
+     "y": 765.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "Track order",
+     "x": 40,
+     "y": 805.25,
+     "w": 288,
+     "h": 40
+    },
+    {
+     "text": "TRACK",
+     "x": 1073,
+     "y": 628.171875,
+     "w": 103,
+     "h": 48
+    },
+    {
+     "text": "Privacy Policy",
+     "x": 821.484375,
+     "y": 701.171875,
+     "w": 75.34375,
+     "h": 19
+    }
+   ],
+   "cards": [],
+   "forms": [
+    {
+     "text": "ORDER CODE (ZQ-XXXXXX) MOBILE NUMBER TRACK Your code and phone are used only to ",
+     "x": 408,
+     "y": 605.25,
+     "w": 768,
+     "h": 116.25
+    }
+   ],
+   "inputs": [
+    {
+     "text": "",
+     "x": 408,
+     "y": 627.171875,
+     "w": 308.5,
+     "h": 49
+    },
+    {
+     "text": "",
+     "x": 740.5,
+     "y": 627.171875,
+     "w": 308.5,
+     "h": 49
+    }
+   ],
+   "images": [],
+   "sections": [
+    {
+     "text": "WHY ZELQUNE Buy with confidence Cash on delivery Pay in cash when it arrives, or",
+     "x": 0,
+     "y": 925.25,
+     "w": 1440,
+     "h": 417
+    }
+   ]
+  },
+  "mobile": {
+   "file": "track-mobile.png",
+   "width": 390,
+   "height": 3399,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Where's my order?",
+     "x": 20,
+     "y": 266.65625,
+     "w": 350,
+     "h": 40.796875
+    },
+    {
+     "text": "Buy with confidence",
+     "x": 20,
+     "y": 953.078125,
+     "w": 350,
+     "h": 34.09375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Frequently asked questions",
+     "x": 20,
+     "y": 420.453125,
+     "w": 158.890625,
+     "h": 44
+    },
+    {
+     "text": "Returns and refunds",
+     "x": 202.890625,
+     "y": 420.453125,
+     "w": 118.15625,
+     "h": 44
+    },
+    {
+     "text": "Terms",
+     "x": 345.046875,
+     "y": 420.453125,
+     "w": 33.6875,
+     "h": 44
+    },
+    {
+     "text": "Privacy",
+     "x": 402.734375,
+     "y": 420.453125,
+     "w": 41.59375,
+     "h": 44
+    },
+    {
+     "text": "Cookie Policy",
+     "x": 468.328125,
+     "y": 420.453125,
+     "w": 80.703125,
+     "h": 44
+    },
+    {
+     "text": "Track order",
+     "x": 573.03125,
+     "y": 420.453125,
+     "w": 66.421875,
+     "h": 44
+    },
+    {
+     "text": "TRACK",
+     "x": 20,
+     "y": 695.296875,
+     "w": 350,
+     "h": 48
+    },
+    {
+     "text": "Privacy Policy",
+     "x": 83.15625,
+     "y": 789.625,
+     "w": 75.34375,
+     "h": 19
+    }
+   ],
+   "cards": [],
+   "forms": [
+    {
+     "text": "ORDER CODE (ZQ-XXXXXX) MOBILE NUMBER TRACK Your code and phone are used only to ",
+     "x": 20,
+     "y": 505.453125,
+     "w": 350,
+     "h": 304.5
+    }
+   ],
+   "inputs": [
+    {
+     "text": "",
+     "x": 20,
+     "y": 527.375,
+     "w": 350,
+     "h": 49
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 622.296875,
+     "w": 350,
+     "h": 49
+    }
+   ],
+   "images": [],
+   "sections": [
+    {
+     "text": "WHY ZELQUNE Buy with confidence Cash on delivery Pay in cash when it arrives, or",
+     "x": 0,
+     "y": 857.953125,
+     "w": 390,
+     "h": 795.21875
+    }
+   ]
+  }
+ },
+ "home-top": {
+  "desktop": {
+   "file": "home-top-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Designed spaces",
+     "x": 40,
+     "y": 400.484375,
+     "w": 1360,
+     "h": 125.84375
+    },
+    {
+     "text": "Built to last",
+     "x": 40,
+     "y": 400.484375,
+     "w": 1360,
+     "h": 125.84375
+    },
+    {
+     "text": "Panels at scale",
+     "x": 40,
+     "y": 400.484375,
+     "w": 1360,
+     "h": 125.84375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 64.484375,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 620.78125,
+     "y": 67.6875,
+     "w": 198.4375,
+     "h": 33.59375
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "FLUTED NICHE PANEL",
+     "x": 634.40625,
+     "y": 784.515625,
+     "w": 171.15625,
+     "h": 19.96875
+    },
+    {
+     "text": "N\u00b0 01 HALF-MOON PLANTER LIGHT",
+     "x": 40,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "N\u00b0 02 WAVE SHELF",
+     "x": 247.640625,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "Explore the collection",
+     "x": 1097.671875,
+     "y": 682.3125,
+     "w": 230.265625,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 716.484375,
+     "w": 214.0625,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 286.0625,
+     "y": 729.828125,
+     "w": 108.921875,
+     "h": 29.3125
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 716.484375,
+     "w": 199.421875,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 271.421875,
+     "y": 729.828125,
+     "w": 108.921875,
+     "h": 29.3125
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 716.484375,
+     "w": 199.296875,
+     "h": 56
+    },
+    {
+     "text": "Previous scene",
+     "x": 577.734375,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Show Sculptural wall decor \u00b7 Made to order",
+     "x": 682.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Interior Design",
+     "x": 710.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Construction",
+     "x": 738.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Bulk & Corporate",
+     "x": 766.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Pause the wall",
+     "x": 794.25,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Next scene",
+     "x": 830.25,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    }
+   ],
+   "cards": [
+    {
+     "text": "N\u00b0 01 HALF-MOON PLANTER LIGHT",
+     "x": 40,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "N\u00b0 02 WAVE SHELF",
+     "x": 247.640625,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    }
+   ],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 488.548828125,
+     "y": 182.8607177734375,
+     "w": 462.88671875,
+     "h": 719.247314453125
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "",
+     "x": 247.640625,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    }
+   ],
+   "sections": [
+    {
+     "text": "Handcrafted wood and gentle light, for walls that tell a quiet story. Sculptural",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "Sculptural wall pieces, made to order in Dhaka. FLUTED NICHE PANEL Wood Light Wo",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "02 / 04: Interior Design",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "03 / 04: Construction",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "04 / 04: Bulk & Corporate",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    }
+   ],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 1440,
+     "h": 38.484375
+    },
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 71.75,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 661.609375,
+     "y": 72.875,
+     "w": 157.609375,
+     "h": 23.203125
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "FLUTED NICHE PANEL",
+     "x": 634.40625,
+     "y": 784.515625,
+     "w": 171.15625,
+     "h": 19.96875
+    },
+    {
+     "text": "N\u00b0 01",
+     "x": 52,
+     "y": 611.765625,
+     "w": 32.234375,
+     "h": 20.46875
+    },
+    {
+     "text": "HALF-MOON PLANTER LIGHT",
+     "x": 52,
+     "y": 820.984375,
+     "w": 171.546875,
+     "h": 27.5
+    },
+    {
+     "text": "N\u00b0 02",
+     "x": 259.640625,
+     "y": 611.765625,
+     "w": 33.1875,
+     "h": 20.46875
+    },
+    {
+     "text": "WAVE SHELF",
+     "x": 259.640625,
+     "y": 834.734375,
+     "w": 171.546875,
+     "h": 13.75
+    },
+    {
+     "text": "/ 04",
+     "x": 642.109375,
+     "y": 843.265625,
+     "w": 30.140625,
+     "h": 16
+    }
+   ]
+  },
+  "mobile": {
+   "file": "home-top-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Designed spaces",
+     "x": 20,
+     "y": 597.546875,
+     "w": 350,
+     "h": 86.09375
+    },
+    {
+     "text": "Built to last",
+     "x": 20,
+     "y": 685.90625,
+     "w": 350,
+     "h": 43.046875
+    },
+    {
+     "text": "Panels at scale",
+     "x": 20,
+     "y": 642.859375,
+     "w": 350,
+     "h": 86.09375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 122.8125,
+     "y": 73.53125,
+     "w": 144.359375,
+     "h": 24
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "Explore the collection",
+     "x": 20,
+     "y": 409.95648193359375,
+     "w": 230.265625,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 825.484375,
+     "w": 214.0625,
+     "h": 56
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 18.378067016601562,
+     "y": 487.26947021484375,
+     "w": 353.243896484375,
+     "h": 441.5548095703125
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    }
+   ],
+   "sections": [
+    {
+     "text": "Handcrafted wood and gentle light, for walls that tell a quiet story. Sculptural",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "Sculptural wall pieces, made to order in Dhaka. FLUTED NICHE PANEL Wood Light Wo",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "02 / 04: Interior Design",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "03 / 04: Construction",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "04 / 04: Bulk & Corporate",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    }
+   ],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 390,
+     "h": 53.53125
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 151.984375,
+     "y": 77.046875,
+     "w": 115.1875,
+     "h": 16.953125
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    }
+   ]
+  }
+ },
+ "home-menu": {
+  "desktop": {
+   "file": "home-menu-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Designed spaces",
+     "x": 40,
+     "y": 400.484375,
+     "w": 1360,
+     "h": 125.84375
+    },
+    {
+     "text": "Built to last",
+     "x": 40,
+     "y": 400.484375,
+     "w": 1360,
+     "h": 125.84375
+    },
+    {
+     "text": "Panels at scale",
+     "x": 40,
+     "y": 400.484375,
+     "w": 1360,
+     "h": 125.84375
+    },
+    {
+     "text": "Menu",
+     "x": 32,
+     "y": 26.390625,
+     "w": 61.75,
+     "h": 27.203125
+    }
+   ],
+   "buttons": [
+    {
+     "text": "menu",
+     "x": 30,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 64.484375,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 620.78125,
+     "y": 67.6875,
+     "w": 198.4375,
+     "h": 33.59375
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "FLUTED NICHE PANEL",
+     "x": 634.40625,
+     "y": 784.515625,
+     "w": 171.15625,
+     "h": 19.96875
+    },
+    {
+     "text": "N\u00b0 01 HALF-MOON PLANTER LIGHT",
+     "x": 40,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "N\u00b0 02 WAVE SHELF",
+     "x": 247.640625,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "Explore the collection",
+     "x": 1097.671875,
+     "y": 682.3125,
+     "w": 230.265625,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 716.484375,
+     "w": 214.0625,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 286.0625,
+     "y": 729.828125,
+     "w": 108.921875,
+     "h": 29.3125
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 716.484375,
+     "w": 199.421875,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 271.421875,
+     "y": 729.828125,
+     "w": 108.921875,
+     "h": 29.3125
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 716.484375,
+     "w": 199.296875,
+     "h": 56
+    },
+    {
+     "text": "Previous scene",
+     "x": 577.734375,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Show Sculptural wall decor \u00b7 Made to order",
+     "x": 682.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Interior Design",
+     "x": 710.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Construction",
+     "x": 738.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Show Bulk & Corporate",
+     "x": 766.25,
+     "y": 838.984375,
+     "w": 24,
+     "h": 25
+    },
+    {
+     "text": "Pause the wall",
+     "x": 794.25,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Next scene",
+     "x": 830.25,
+     "y": 835.484375,
+     "w": 32,
+     "h": 32
+    },
+    {
+     "text": "Close menu",
+     "x": 384,
+     "y": 20,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Lighting",
+     "x": 32,
+     "y": 142.59375,
+     "w": 384,
+     "h": 53.375
+    },
+    {
+     "text": "Shelves",
+     "x": 32,
+     "y": 195.96875,
+     "w": 384,
+     "h": 53.375
+    },
+    {
+     "text": "Wall panels",
+     "x": 32,
+     "y": 249.34375,
+     "w": 384,
+     "h": 53.375
+    },
+    {
+     "text": "All products",
+     "x": 32,
+     "y": 302.71875,
+     "w": 384,
+     "h": 53.375
+    },
+    {
+     "text": "Interior Design",
+     "x": 32,
+     "y": 449.6875,
+     "w": 384,
+     "h": 44.1875
+    },
+    {
+     "text": "Construction",
+     "x": 32,
+     "y": 493.875,
+     "w": 384,
+     "h": 44.1875
+    }
+   ],
+   "cards": [
+    {
+     "text": "N\u00b0 01 HALF-MOON PLANTER LIGHT",
+     "x": 40,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "N\u00b0 02 WAVE SHELF",
+     "x": 247.640625,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    }
+   ],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 488.83929443359375,
+     "y": 183.31207275390625,
+     "w": 462.3057861328125,
+     "h": 718.3446044921875
+    },
+    {
+     "text": "",
+     "x": 40,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "",
+     "x": 247.640625,
+     "y": 599.765625,
+     "w": 195.546875,
+     "h": 260.71875
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    }
+   ],
+   "sections": [
+    {
+     "text": "Handcrafted wood and gentle light, for walls that tell a quiet story. Sculptural",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "Sculptural wall pieces, made to order in Dhaka. FLUTED NICHE PANEL Wood Light Wo",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "02 / 04: Interior Design",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "03 / 04: Construction",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    },
+    {
+     "text": "04 / 04: Bulk & Corporate",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 716
+    }
+   ],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "Lighting",
+     "x": 32,
+     "y": 142.59375,
+     "w": 384,
+     "h": 53.375
+    },
+    {
+     "text": "Shelves",
+     "x": 32,
+     "y": 195.96875,
+     "w": 384,
+     "h": 53.375
+    },
+    {
+     "text": "Wall panels",
+     "x": 32,
+     "y": 249.34375,
+     "w": 384,
+     "h": 53.375
+    },
+    {
+     "text": "All products",
+     "x": 32,
+     "y": 302.71875,
+     "w": 384,
+     "h": 53.375
+    },
+    {
+     "text": "Interior Design",
+     "x": 32,
+     "y": 449.6875,
+     "w": 384,
+     "h": 44.1875
+    },
+    {
+     "text": "Construction",
+     "x": 32,
+     "y": 493.875,
+     "w": 384,
+     "h": 44.1875
+    },
+    {
+     "text": "Bulk & Corporate",
+     "x": 32,
+     "y": 538.0625,
+     "w": 384,
+     "h": 44.1875
+    },
+    {
+     "text": "Home",
+     "x": 32,
+     "y": 642.25,
+     "w": 180,
+     "h": 35.546875
+    },
+    {
+     "text": "Our story",
+     "x": 236,
+     "y": 642.25,
+     "w": 180,
+     "h": 35.546875
+    },
+    {
+     "text": "Track order",
+     "x": 32,
+     "y": 677.796875,
+     "w": 180,
+     "h": 35.546875
+    },
+    {
+     "text": "FAQ",
+     "x": 236,
+     "y": 677.796875,
+     "w": 180,
+     "h": 35.546875
+    },
+    {
+     "text": "Account",
+     "x": 32,
+     "y": 713.34375,
+     "w": 180,
+     "h": 35.546875
+    },
+    {
+     "text": "English",
+     "x": 32,
+     "y": 848.65625,
+     "w": 46.5625,
+     "h": 27.34375
+    },
+    {
+     "text": "\u09ac\u09be\u0982\u09b2\u09be",
+     "x": 110.390625,
+     "y": 848.65625,
+     "w": 34.515625,
+     "h": 27.34375
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 1440,
+     "h": 38.484375
+    },
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 71.75,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 661.609375,
+     "y": 72.875,
+     "w": 157.609375,
+     "h": 23.203125
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "FLUTED NICHE PANEL",
+     "x": 634.40625,
+     "y": 784.515625,
+     "w": 171.15625,
+     "h": 19.96875
+    },
+    {
+     "text": "N\u00b0 01",
+     "x": 52,
+     "y": 611.765625,
+     "w": 32.234375,
+     "h": 20.46875
+    },
+    {
+     "text": "HALF-MOON PLANTER LIGHT",
+     "x": 52,
+     "y": 820.984375,
+     "w": 171.546875,
+     "h": 27.5
+    },
+    {
+     "text": "N\u00b0 02",
+     "x": 259.640625,
+     "y": 611.765625,
+     "w": 33.1875,
+     "h": 20.46875
+    },
+    {
+     "text": "WAVE SHELF",
+     "x": 259.640625,
+     "y": 834.734375,
+     "w": 171.546875,
+     "h": 13.75
+    },
+    {
+     "text": "/ 04",
+     "x": 642.109375,
+     "y": 843.265625,
+     "w": 30.140625,
+     "h": 16
+    },
+    {
+     "text": "Lighting",
+     "x": 32,
+     "y": 148.984375,
+     "w": 122.15625,
+     "h": 40.59375
+    },
+    {
+     "text": "Shelves",
+     "x": 32,
+     "y": 202.359375,
+     "w": 104.78125,
+     "h": 40.59375
+    },
+    {
+     "text": "Wall panels",
+     "x": 32,
+     "y": 255.734375,
+     "w": 164.296875,
+     "h": 40.59375
+    },
+    {
+     "text": "All products",
+     "x": 32,
+     "y": 309.109375,
+     "w": 180.140625,
+     "h": 40.59375
+    },
+    {
+     "text": "Interior Design",
+     "x": 32,
+     "y": 455.28125,
+     "w": 158.546875,
+     "h": 33
+    },
+    {
+     "text": "Construction",
+     "x": 32,
+     "y": 499.46875,
+     "w": 138.65625,
+     "h": 33
+    },
+    {
+     "text": "Bulk & Corporate",
+     "x": 32,
+     "y": 543.65625,
+     "w": 185.875,
+     "h": 33
+    },
+    {
+     "text": "Home",
+     "x": 32,
+     "y": 648.25,
+     "w": 37.625,
+     "h": 23.546875
+    },
+    {
+     "text": "Our story",
+     "x": 236,
+     "y": 648.25,
+     "w": 58.296875,
+     "h": 23.546875
+    },
+    {
+     "text": "Track order",
+     "x": 32,
+     "y": 683.796875,
+     "w": 69.84375,
+     "h": 23.546875
+    },
+    {
+     "text": "FAQ",
+     "x": 236,
+     "y": 683.796875,
+     "w": 27.234375,
+     "h": 23.546875
+    },
+    {
+     "text": "Account",
+     "x": 32,
+     "y": 719.34375,
+     "w": 50.828125,
+     "h": 23.546875
+    },
+    {
+     "text": "English",
+     "x": 32,
+     "y": 848.65625,
+     "w": 46.5625,
+     "h": 27.34375
+    },
+    {
+     "text": "\u09ac\u09be\u0982\u09b2\u09be",
+     "x": 110.390625,
+     "y": 848.65625,
+     "w": 34.515625,
+     "h": 27.34375
+    },
+    {
+     "text": "Contact: message us on WhatsApp",
+     "x": 238.390625,
+     "y": 859,
+     "w": 177.609375,
+     "h": 18
+    }
+   ]
+  },
+  "mobile": {
+   "file": "home-menu-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Designed spaces",
+     "x": 20,
+     "y": 597.546875,
+     "w": 350,
+     "h": 86.09375
+    },
+    {
+     "text": "Built to last",
+     "x": 20,
+     "y": 685.90625,
+     "w": 350,
+     "h": 43.046875
+    },
+    {
+     "text": "Panels at scale",
+     "x": 20,
+     "y": 642.859375,
+     "w": 350,
+     "h": 86.09375
+    },
+    {
+     "text": "Menu",
+     "x": 24,
+     "y": 26.390625,
+     "w": 61.75,
+     "h": 27.203125
+    }
+   ],
+   "buttons": [
+    {
+     "text": "menu",
+     "x": 10,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 122.8125,
+     "y": 73.53125,
+     "w": 144.359375,
+     "h": 24
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "Explore the collection",
+     "x": 20,
+     "y": 409.296875,
+     "w": 230.265625,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 825.484375,
+     "w": 214.0625,
+     "h": 56
+    },
+    {
+     "text": "Close menu",
+     "x": 334,
+     "y": 20,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Lighting",
+     "x": 24,
+     "y": 142.59375,
+     "w": 342,
+     "h": 53.375
+    },
+    {
+     "text": "Shelves",
+     "x": 24,
+     "y": 195.96875,
+     "w": 342,
+     "h": 53.375
+    },
+    {
+     "text": "Wall panels",
+     "x": 24,
+     "y": 249.34375,
+     "w": 342,
+     "h": 53.375
+    },
+    {
+     "text": "All products",
+     "x": 24,
+     "y": 302.71875,
+     "w": 342,
+     "h": 53.375
+    },
+    {
+     "text": "Interior Design",
+     "x": 24,
+     "y": 449.6875,
+     "w": 342,
+     "h": 44.1875
+    },
+    {
+     "text": "Construction",
+     "x": 24,
+     "y": 493.875,
+     "w": 342,
+     "h": 44.1875
+    },
+    {
+     "text": "Bulk & Corporate",
+     "x": 24,
+     "y": 538.0625,
+     "w": 342,
+     "h": 44.1875
+    },
+    {
+     "text": "Home",
+     "x": 24,
+     "y": 642.25,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "Our story",
+     "x": 207,
+     "y": 642.25,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "Track order",
+     "x": 24,
+     "y": 677.796875,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "FAQ",
+     "x": 207,
+     "y": 677.796875,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "Account",
+     "x": 24,
+     "y": 713.34375,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "English",
+     "x": 24,
+     "y": 760.65625,
+     "w": 46.5625,
+     "h": 27.34375
+    },
+    {
+     "text": "\u09ac\u09be\u0982\u09b2\u09be",
+     "x": 102.390625,
+     "y": 760.65625,
+     "w": 34.515625,
+     "h": 27.34375
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 326,
+     "y": 748,
+     "w": 40,
+     "h": 40
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 19.07635498046875,
+     "y": 488.142333984375,
+     "w": 351.8472900390625,
+     "h": 439.80908203125
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    }
+   ],
+   "sections": [
+    {
+     "text": "Handcrafted wood and gentle light, for walls that tell a quiet story. Sculptural",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "Sculptural wall pieces, made to order in Dhaka. FLUTED NICHE PANEL Wood Light Wo",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "02 / 04: Interior Design",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "03 / 04: Construction",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    },
+    {
+     "text": "04 / 04: Bulk & Corporate",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 875.265625
+    }
+   ],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "Lighting",
+     "x": 24,
+     "y": 142.59375,
+     "w": 342,
+     "h": 53.375
+    },
+    {
+     "text": "Shelves",
+     "x": 24,
+     "y": 195.96875,
+     "w": 342,
+     "h": 53.375
+    },
+    {
+     "text": "Wall panels",
+     "x": 24,
+     "y": 249.34375,
+     "w": 342,
+     "h": 53.375
+    },
+    {
+     "text": "All products",
+     "x": 24,
+     "y": 302.71875,
+     "w": 342,
+     "h": 53.375
+    },
+    {
+     "text": "Interior Design",
+     "x": 24,
+     "y": 449.6875,
+     "w": 342,
+     "h": 44.1875
+    },
+    {
+     "text": "Construction",
+     "x": 24,
+     "y": 493.875,
+     "w": 342,
+     "h": 44.1875
+    },
+    {
+     "text": "Bulk & Corporate",
+     "x": 24,
+     "y": 538.0625,
+     "w": 342,
+     "h": 44.1875
+    },
+    {
+     "text": "Home",
+     "x": 24,
+     "y": 642.25,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "Our story",
+     "x": 207,
+     "y": 642.25,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "Track order",
+     "x": 24,
+     "y": 677.796875,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "FAQ",
+     "x": 207,
+     "y": 677.796875,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "Account",
+     "x": 24,
+     "y": 713.34375,
+     "w": 159,
+     "h": 35.546875
+    },
+    {
+     "text": "English",
+     "x": 24,
+     "y": 760.65625,
+     "w": 46.5625,
+     "h": 27.34375
+    },
+    {
+     "text": "\u09ac\u09be\u0982\u09b2\u09be",
+     "x": 102.390625,
+     "y": 760.65625,
+     "w": 34.515625,
+     "h": 27.34375
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 390,
+     "h": 53.53125
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 151.984375,
+     "y": 77.046875,
+     "w": 115.1875,
+     "h": 16.953125
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "Lighting",
+     "x": 24,
+     "y": 148.984375,
+     "w": 122.15625,
+     "h": 40.59375
+    },
+    {
+     "text": "Shelves",
+     "x": 24,
+     "y": 202.359375,
+     "w": 104.78125,
+     "h": 40.59375
+    },
+    {
+     "text": "Wall panels",
+     "x": 24,
+     "y": 255.734375,
+     "w": 164.296875,
+     "h": 40.59375
+    },
+    {
+     "text": "All products",
+     "x": 24,
+     "y": 309.109375,
+     "w": 180.140625,
+     "h": 40.59375
+    },
+    {
+     "text": "Interior Design",
+     "x": 24,
+     "y": 455.28125,
+     "w": 158.546875,
+     "h": 33
+    },
+    {
+     "text": "Construction",
+     "x": 24,
+     "y": 499.46875,
+     "w": 138.65625,
+     "h": 33
+    },
+    {
+     "text": "Bulk & Corporate",
+     "x": 24,
+     "y": 543.65625,
+     "w": 185.875,
+     "h": 33
+    },
+    {
+     "text": "Home",
+     "x": 24,
+     "y": 648.25,
+     "w": 37.625,
+     "h": 23.546875
+    },
+    {
+     "text": "Our story",
+     "x": 207,
+     "y": 648.25,
+     "w": 58.296875,
+     "h": 23.546875
+    },
+    {
+     "text": "Track order",
+     "x": 24,
+     "y": 683.796875,
+     "w": 69.84375,
+     "h": 23.546875
+    },
+    {
+     "text": "FAQ",
+     "x": 207,
+     "y": 683.796875,
+     "w": 27.234375,
+     "h": 23.546875
+    },
+    {
+     "text": "Account",
+     "x": 24,
+     "y": 719.34375,
+     "w": 50.828125,
+     "h": 23.546875
+    },
+    {
+     "text": "English",
+     "x": 24,
+     "y": 760.65625,
+     "w": 46.5625,
+     "h": 27.34375
+    },
+    {
+     "text": "\u09ac\u09be\u0982\u09b2\u09be",
+     "x": 102.390625,
+     "y": 760.65625,
+     "w": 34.515625,
+     "h": 27.34375
+    },
+    {
+     "text": "Contact: message us on WhatsApp",
+     "x": 24,
+     "y": 803,
+     "w": 177.609375,
+     "h": 18
+    }
+   ]
+  }
+ },
+ "home-steps": {
+  "desktop": {
+   "file": "home-steps-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [],
+   "buttons": [
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 26,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 632.6875,
+     "y": 31.21875,
+     "w": 174.625,
+     "h": 29.5625
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 32.53125,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 32.53125,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 38,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "THE MAKING Made slowly, by hand Made slowly, by hand Each panel is cut, sanded a",
+     "x": 0,
+     "y": -954,
+     "w": 1440,
+     "h": 1375.953125
+    },
+    {
+     "text": "Wood, light and space, made for the way Bangladesh lives. Solid wood Warm LED li",
+     "x": 0,
+     "y": 421.953125,
+     "w": 1440,
+     "h": 477.84375
+    },
+    {
+     "text": "SERVICES From one wall to a whole building From one wall to a whole building Int",
+     "x": 0,
+     "y": 899.796875,
+     "w": 1440,
+     "h": 1380.03125
+    }
+   ],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 38,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "texts": [
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 33.265625,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 668.6162719726562,
+     "y": 35.783748626708984,
+     "w": 138.69622802734375,
+     "h": 20.418750762939453
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 32.53125,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 32.53125,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "HOW PRE-ORDER WORKS",
+     "x": 40,
+     "y": 82,
+     "w": 1360,
+     "h": 15.125
+    },
+    {
+     "text": "Reserve with \u09f3300",
+     "x": 40,
+     "y": 203.125,
+     "w": 426.65625,
+     "h": 37.328125
+    },
+    {
+     "text": "We make yours",
+     "x": 506.65625,
+     "y": 203.125,
+     "w": 426.671875,
+     "h": 37.328125
+    },
+    {
+     "text": "Your panel is made and checked within 10 days.",
+     "x": 506.65625,
+     "y": 249.453125,
+     "w": 285.828125,
+     "h": 20
+    },
+    {
+     "text": "Pay the rest on delivery",
+     "x": 973.328125,
+     "y": 203.125,
+     "w": 426.65625,
+     "h": 37.328125
+    },
+    {
+     "text": "The courier brings it to your door. Pay the rest in cash.",
+     "x": 973.328125,
+     "y": 249.453125,
+     "w": 272.390625,
+     "h": 42.75
+    },
+    {
+     "text": "Wood, light and space, made for the way Bangladesh lives.",
+     "x": 399.453125,
+     "y": 575.953125,
+     "w": 641.078125,
+     "h": 125.4375
+    },
+    {
+     "text": "Solid wood",
+     "x": -121.61719512939453,
+     "y": 837.390625,
+     "w": 221.84375,
+     "h": 38.40625
+    },
+    {
+     "text": "Warm LED light",
+     "x": 106.22655487060547,
+     "y": 837.390625,
+     "w": 299.796875,
+     "h": 38.40625
+    },
+    {
+     "text": "Made in Dhaka",
+     "x": 412.0234375,
+     "y": 837.390625,
+     "w": 283.40625,
+     "h": 38.40625
+    },
+    {
+     "text": "Made to order",
+     "x": 701.4296875,
+     "y": 837.390625,
+     "w": 263.703125,
+     "h": 38.40625
+    },
+    {
+     "text": "Finished by hand",
+     "x": 971.1328125,
+     "y": 837.390625,
+     "w": 307.96875,
+     "h": 38.40625
+    },
+    {
+     "text": "Solid wood",
+     "x": 1285.1015625,
+     "y": 837.390625,
+     "w": 221.84375,
+     "h": 38.40625
+    },
+    {
+     "text": "Warm LED light",
+     "x": 1512.9453125,
+     "y": 837.390625,
+     "w": 299.796875,
+     "h": 38.40625
+    },
+    {
+     "text": "Made in Dhaka",
+     "x": 1818.7421875,
+     "y": 837.390625,
+     "w": 283.40625,
+     "h": 38.40625
+    },
+    {
+     "text": "Made to order",
+     "x": 2108.1484375,
+     "y": 837.390625,
+     "w": 263.703125,
+     "h": 38.40625
+    },
+    {
+     "text": "Finished by hand",
+     "x": 2377.8515625,
+     "y": 837.390625,
+     "w": 307.96875,
+     "h": 38.40625
+    }
+   ]
+  },
+  "mobile": {
+   "file": "home-steps-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [],
+   "buttons": [
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 131.47406005859375,
+     "y": 21.440000534057617,
+     "w": 127.0362548828125,
+     "h": 21.119997024536133
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "THE MAKING Made slowly, by hand Made slowly, by hand Each panel is cut, sanded a",
+     "x": 0,
+     "y": -690.34375,
+     "w": 390,
+     "h": 1424.859375
+    },
+    {
+     "text": "Wood, light and space, made for the way Bangladesh lives. Solid wood Warm LED li",
+     "x": 0,
+     "y": 734.515625,
+     "w": 390,
+     "h": 337.65625
+    }
+   ],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "texts": [
+    {
+     "text": "ZELQUNE",
+     "x": 157.1453094482422,
+     "y": 24.533750534057617,
+     "w": 101.36500549316406,
+     "h": 14.91874885559082
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "HOW PRE-ORDER WORKS",
+     "x": 20,
+     "y": 81.640625,
+     "w": 350,
+     "h": 15.125
+    },
+    {
+     "text": "Reserve with \u09f3300",
+     "x": 20,
+     "y": 194.765625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "text": "We make yours",
+     "x": 20,
+     "y": 385.265625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "text": "Your panel is made and checked within 10 days.",
+     "x": 20,
+     "y": 426.265625,
+     "w": 285.828125,
+     "h": 20
+    },
+    {
+     "text": "Pay the rest on delivery",
+     "x": 20,
+     "y": 553.015625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "text": "The courier brings it to your door. Pay the rest in cash.",
+     "x": 20,
+     "y": 594.015625,
+     "w": 272.390625,
+     "h": 42.75
+    }
+   ]
+  }
+ },
+ "home-values": {
+  "desktop": {
+   "file": "home-values-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Made slowly, by hand Made slowly, by hand",
+     "x": 784,
+     "y": 83.125,
+     "w": 512,
+     "h": 145.28125
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 26,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 632.6875,
+     "y": 31.21875,
+     "w": 174.625,
+     "h": 29.5625
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 32.53125,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 32.53125,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 38,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": -7.8533935546875,
+     "y": -560.3193969726562,
+     "w": 1455.706787109375,
+     "h": 800.6387939453125
+    }
+   ],
+   "sections": [
+    {
+     "text": "THE MAKING Made slowly, by hand Made slowly, by hand Each panel is cut, sanded a",
+     "x": 0,
+     "y": -556,
+     "w": 1440,
+     "h": 1375.953125
+    },
+    {
+     "text": "Wood, light and space, made for the way Bangladesh lives. Solid wood Warm LED li",
+     "x": 0,
+     "y": 819.953125,
+     "w": 1440,
+     "h": 477.84375
+    }
+   ],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 38,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "texts": [
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 33.265625,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 668.6162719726562,
+     "y": 35.783748626708984,
+     "w": 138.69622802734375,
+     "h": 20.418750762939453
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 32.53125,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 32.53125,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "THE MAKING",
+     "x": 784,
+     "y": 44,
+     "w": 512,
+     "h": 15.125
+    },
+    {
+     "text": "HOW PRE-ORDER WORKS",
+     "x": 40,
+     "y": 480,
+     "w": 1360,
+     "h": 15.125
+    },
+    {
+     "text": "Reserve with \u09f3300",
+     "x": 40,
+     "y": 601.125,
+     "w": 426.65625,
+     "h": 37.328125
+    },
+    {
+     "text": "We make yours",
+     "x": 506.65625,
+     "y": 601.125,
+     "w": 426.671875,
+     "h": 37.328125
+    },
+    {
+     "text": "Your panel is made and checked within 10 days.",
+     "x": 506.65625,
+     "y": 647.453125,
+     "w": 285.828125,
+     "h": 20
+    },
+    {
+     "text": "Pay the rest on delivery",
+     "x": 973.328125,
+     "y": 601.125,
+     "w": 426.65625,
+     "h": 37.328125
+    },
+    {
+     "text": "The courier brings it to your door. Pay the rest in cash.",
+     "x": 973.328125,
+     "y": 647.453125,
+     "w": 272.390625,
+     "h": 42.75
+    }
+   ]
+  },
+  "mobile": {
+   "file": "home-values-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Made slowly, by hand Made slowly, by hand",
+     "x": 52,
+     "y": 83.046875,
+     "w": 286,
+     "h": 81.59375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 131.47406005859375,
+     "y": 21.440000534057617,
+     "w": 127.0362548828125,
+     "h": 21.119997024536133
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": -2.12738037109375,
+     "y": -402.1980895996094,
+     "w": 394.2547607421875,
+     "h": 528.974365234375
+    }
+   ],
+   "sections": [
+    {
+     "text": "THE MAKING Made slowly, by hand Made slowly, by hand Each panel is cut, sanded a",
+     "x": 0,
+     "y": -399.34375,
+     "w": 390,
+     "h": 1424.859375
+    }
+   ],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "texts": [
+    {
+     "text": "ZELQUNE",
+     "x": 157.1453094482422,
+     "y": 24.533750534057617,
+     "w": 101.36500549316406,
+     "h": 14.91874885559082
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "THE MAKING",
+     "x": 52,
+     "y": 43.921875,
+     "w": 286,
+     "h": 15.125
+    },
+    {
+     "text": "HOW PRE-ORDER WORKS",
+     "x": 20,
+     "y": 372.640625,
+     "w": 350,
+     "h": 15.125
+    },
+    {
+     "text": "Reserve with \u09f3300",
+     "x": 20,
+     "y": 485.765625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "text": "We make yours",
+     "x": 20,
+     "y": 676.265625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "text": "Your panel is made and checked within 10 days.",
+     "x": 20,
+     "y": 717.265625,
+     "w": 285.828125,
+     "h": 20
+    }
+   ]
+  }
+ },
+ "construction-build": {
+  "desktop": {
+   "file": "construction-build-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "What we build",
+     "x": 40,
+     "y": 81.609375,
+     "w": 668,
+     "h": 57.140625
+    },
+    {
+     "text": "Family home",
+     "x": 88,
+     "y": 669.078125,
+     "w": 206.453125,
+     "h": 34
+    },
+    {
+     "text": "Apartment building",
+     "x": 434,
+     "y": 733.078125,
+     "w": 214.921875,
+     "h": 34
+    },
+    {
+     "text": "Commercial building",
+     "x": 780,
+     "y": 669.078125,
+     "w": 227.328125,
+     "h": 34
+    },
+    {
+     "text": "Restaurant & hospitality",
+     "x": 1126,
+     "y": 733.078125,
+     "w": 261.90625,
+     "h": 34
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 26,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 632.6875,
+     "y": 31.21875,
+     "w": 174.625,
+     "h": 29.5625
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 32.53125,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 32.53125,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 38,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 26,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 40,
+     "y": 194.75,
+     "w": 322,
+     "h": 429.328125
+    },
+    {
+     "text": "",
+     "x": 386,
+     "y": 258.75,
+     "w": 322,
+     "h": 429.328125
+    },
+    {
+     "text": "",
+     "x": 732,
+     "y": 194.75,
+     "w": 322,
+     "h": 429.328125
+    },
+    {
+     "text": "",
+     "x": 1078,
+     "y": 258.75,
+     "w": 322,
+     "h": 429.328125
+    }
+   ],
+   "sections": [
+    {
+     "text": "ZELQUNE CONSTRUCTION What we build Homes and commercial buildings from the groun",
+     "x": 0,
+     "y": -81.515625,
+     "w": 1440,
+     "h": 1004.59375
+    }
+   ],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 38,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "texts": [
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 33.265625,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 668.6162719726562,
+     "y": 35.783748626708984,
+     "w": 138.69622802734375,
+     "h": 20.418750762939453
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 32.53125,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 32.53125,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 38,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 93,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 93,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 93,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 93,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 93,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 93,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "ZELQUNE CONSTRUCTION",
+     "x": 40,
+     "y": 46.484375,
+     "w": 668,
+     "h": 15.125
+    },
+    {
+     "text": "Single-family houses and duplexes.",
+     "x": 88,
+     "y": 711.078125,
+     "w": 206.453125,
+     "h": 20
+    },
+    {
+     "text": "Multi-storey residential buildings.",
+     "x": 434,
+     "y": 775.078125,
+     "w": 214.921875,
+     "h": 20
+    },
+    {
+     "text": "Offices, shops and showrooms.",
+     "x": 780,
+     "y": 711.078125,
+     "w": 227.328125,
+     "h": 20
+    },
+    {
+     "text": "Restaurants, caf\u00e9s and small hotels.",
+     "x": 1126,
+     "y": 775.078125,
+     "w": 261.90625,
+     "h": 20
+    }
+   ]
+  },
+  "mobile": {
+   "file": "construction-build-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "What we build",
+     "x": 20,
+     "y": 82.453125,
+     "w": 350,
+     "h": 34.09375
+    },
+    {
+     "text": "Family home",
+     "x": 68,
+     "y": 653.546875,
+     "w": 206.453125,
+     "h": 34
+    },
+    {
+     "text": "Apartment building",
+     "x": 361,
+     "y": 653.546875,
+     "w": 214.921875,
+     "h": 34
+    },
+    {
+     "text": "Commercial building",
+     "x": 653.71875,
+     "y": 653.546875,
+     "w": 225.28125,
+     "h": 68
+    },
+    {
+     "text": "Restaurant & hospitality",
+     "x": 942.984375,
+     "y": 653.546875,
+     "w": 229.015625,
+     "h": 68
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 131.47406005859375,
+     "y": 21.440000534057617,
+     "w": 127.0362548828125,
+     "h": 21.119997024536133
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 12,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 20,
+     "y": 244.546875,
+     "w": 273,
+     "h": 364
+    },
+    {
+     "text": "",
+     "x": 313,
+     "y": 244.546875,
+     "w": 273,
+     "h": 364
+    },
+    {
+     "text": "",
+     "x": 606,
+     "y": 244.546875,
+     "w": 273,
+     "h": 364
+    },
+    {
+     "text": "",
+     "x": 899,
+     "y": 244.546875,
+     "w": 273,
+     "h": 364
+    }
+   ],
+   "sections": [
+    {
+     "text": "ZELQUNE CONSTRUCTION What we build Homes and commercial buildings from the groun",
+     "x": 0,
+     "y": -48.671875,
+     "w": 390,
+     "h": 894.21875
+    }
+   ],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "texts": [
+    {
+     "text": "ZELQUNE",
+     "x": 157.1453094482422,
+     "y": 24.533750534057617,
+     "w": 101.36500549316406,
+     "h": 14.91874885559082
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 65,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 65,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 65,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 65,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 65,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 65,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "ZELQUNE CONSTRUCTION",
+     "x": 20,
+     "y": 47.328125,
+     "w": 350,
+     "h": 15.125
+    },
+    {
+     "text": "Single-family houses and duplexes.",
+     "x": 68,
+     "y": 695.546875,
+     "w": 206.453125,
+     "h": 20
+    },
+    {
+     "text": "Multi-storey residential buildings.",
+     "x": 361,
+     "y": 695.546875,
+     "w": 214.921875,
+     "h": 20
+    },
+    {
+     "text": "Offices, shops and showrooms.",
+     "x": 653.71875,
+     "y": 729.546875,
+     "w": 225.28125,
+     "h": 20
+    },
+    {
+     "text": "Restaurants, caf\u00e9s and small hotels.",
+     "x": 942.984375,
+     "y": 729.546875,
+     "w": 229.015625,
+     "h": 20
+    }
+   ]
+  }
+ },
+ "story-top": {
+  "desktop": {
+   "file": "story-top-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Our story",
+     "x": 40,
+     "y": 339.609375,
+     "w": 896,
+     "h": 72.640625
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 64.484375,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 620.78125,
+     "y": 67.6875,
+     "w": 198.4375,
+     "h": 33.59375
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 40,
+     "y": 701.25,
+     "w": 601.890625,
+     "h": 752.359375
+    }
+   ],
+   "sections": [],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 1440,
+     "h": 38.484375
+    },
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 71.75,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 661.609375,
+     "y": 72.875,
+     "w": 157.609375,
+     "h": 23.203125
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "The warmth of wood and light, at home.",
+     "x": 40,
+     "y": 444.25,
+     "w": 672,
+     "h": 32
+    }
+   ]
+  },
+  "mobile": {
+   "file": "story-top-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Our story",
+     "x": 20,
+     "y": 266.65625,
+     "w": 350,
+     "h": 40.796875
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 122.8125,
+     "y": 73.53125,
+     "w": 144.359375,
+     "h": 24
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": -345,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": -248.328125,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": -159.65625,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": -7.125,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 124.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 291.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 20,
+     "y": 503.96875,
+     "w": 350,
+     "h": 437.5
+    }
+   ],
+   "sections": [],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": -345,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": -248.328125,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": -159.65625,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": -7.125,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 124.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 291.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 390,
+     "h": 53.53125
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 151.984375,
+     "y": 77.046875,
+     "w": 115.1875,
+     "h": 16.953125
+    },
+    {
+     "text": "LIGHTING",
+     "x": -345,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": -248.328125,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": -159.65625,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": -7.125,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 124.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 291.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "The warmth of wood and light, at home.",
+     "x": 20,
+     "y": 331.453125,
+     "w": 350,
+     "h": 27.515625
+    }
+   ]
+  }
+ },
+ "design-top": {
+  "desktop": {
+   "file": "design-top-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Spaces designed around wood and light",
+     "x": 64,
+     "y": 352.1171875,
+     "w": 768,
+     "h": 295.359375
+    },
+    {
+     "text": "",
+     "x": 64,
+     "y": 633.578125,
+     "w": 576,
+     "h": 86.40625
+    },
+    {
+     "text": "",
+     "x": 64,
+     "y": 633.578125,
+     "w": 576,
+     "h": 86.40625
+    },
+    {
+     "text": "",
+     "x": 64,
+     "y": 662.828125,
+     "w": 576,
+     "h": 86.40625
+    },
+    {
+     "text": "",
+     "x": 64,
+     "y": 633.578125,
+     "w": 576,
+     "h": 86.40625
+    },
+    {
+     "text": "",
+     "x": 64,
+     "y": 662.828125,
+     "w": 576,
+     "h": 86.40625
+    },
+    {
+     "text": "",
+     "x": 64,
+     "y": 662.828125,
+     "w": 576,
+     "h": 86.40625
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 64.484375,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 620.78125,
+     "y": 67.6875,
+     "w": 198.4375,
+     "h": 33.59375
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "BOOK A CONSULTATION \u2193",
+     "x": 64,
+     "y": 753.9765625,
+     "w": 273.578125,
+     "h": 56
+    },
+    {
+     "text": "LIVING ROOM",
+     "x": 64,
+     "y": 787.484375,
+     "w": 259.1875,
+     "h": 39
+    },
+    {
+     "text": "DINING ROOM",
+     "x": 327.1875,
+     "y": 787.484375,
+     "w": 259.203125,
+     "h": 39
+    },
+    {
+     "text": "KITCHEN",
+     "x": 590.390625,
+     "y": 787.484375,
+     "w": 259.203125,
+     "h": 39
+    },
+    {
+     "text": "BEDROOM",
+     "x": 853.59375,
+     "y": 787.484375,
+     "w": 259.203125,
+     "h": 39
+    },
+    {
+     "text": "BATHROOM",
+     "x": 1116.796875,
+     "y": 787.484375,
+     "w": 259.203125,
+     "h": 39
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "ZELQUNE INTERIOR DESIGN Spaces designed around wood and light From one feature w",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 6615
+    }
+   ],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 1440,
+     "h": 38.484375
+    },
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 71.75,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 661.609375,
+     "y": 72.875,
+     "w": 157.609375,
+     "h": 23.203125
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "Stock footage of homes like the ones we design.",
+     "x": 361.578125,
+     "y": 773.6484375,
+     "w": 212.78125,
+     "h": 16.640625
+    },
+    {
+     "text": "LIVING ROOM",
+     "x": 64,
+     "y": 810.484375,
+     "w": 259.1875,
+     "h": 16
+    },
+    {
+     "text": "DINING ROOM",
+     "x": 327.1875,
+     "y": 810.484375,
+     "w": 259.203125,
+     "h": 16
+    },
+    {
+     "text": "KITCHEN",
+     "x": 590.390625,
+     "y": 810.484375,
+     "w": 259.203125,
+     "h": 16
+    },
+    {
+     "text": "BEDROOM",
+     "x": 853.59375,
+     "y": 810.484375,
+     "w": 259.203125,
+     "h": 16
+    },
+    {
+     "text": "BATHROOM",
+     "x": 1116.796875,
+     "y": 810.484375,
+     "w": 259.203125,
+     "h": 16
+    }
+   ]
+  },
+  "mobile": {
+   "file": "design-top-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Spaces designed around wood and light",
+     "x": 20,
+     "y": 268.703125,
+     "w": 350,
+     "h": 138.234375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 705.375,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 705.375,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 705.375,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 705.375,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 705.375,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 705.375,
+     "w": 350,
+     "h": 41.59375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 122.8125,
+     "y": 73.53125,
+     "w": 144.359375,
+     "h": 24
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "BOOK A CONSULTATION \u2193",
+     "x": 20,
+     "y": 532.9375,
+     "w": 273.578125,
+     "h": 56
+    },
+    {
+     "text": "",
+     "x": 20,
+     "y": 840.53125,
+     "w": 51.59375,
+     "h": 25
+    },
+    {
+     "text": "",
+     "x": 75.59375,
+     "y": 840.53125,
+     "w": 51.609375,
+     "h": 25
+    },
+    {
+     "text": "",
+     "x": 131.203125,
+     "y": 840.53125,
+     "w": 51.59375,
+     "h": 25
+    },
+    {
+     "text": "",
+     "x": 186.796875,
+     "y": 840.53125,
+     "w": 51.609375,
+     "h": 25
+    },
+    {
+     "text": "",
+     "x": 242.40625,
+     "y": 840.53125,
+     "w": 51.59375,
+     "h": 25
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "ZELQUNE INTERIOR DESIGN Spaces designed around wood and light From one feature w",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 6203.390625
+    }
+   ],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 390,
+     "h": 53.53125
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 151.984375,
+     "y": 77.046875,
+     "w": 115.1875,
+     "h": 16.953125
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "Stock footage of homes like the ones we design.",
+     "x": 20,
+     "y": 600.9375,
+     "w": 212.78125,
+     "h": 16.640625
+    }
+   ]
+  }
+ },
+ "construction-top": {
+  "desktop": {
+   "file": "construction-top-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "From the ground up to the last light",
+     "x": 40,
+     "y": 280.4375,
+     "w": 768,
+     "h": 194.4375
+    },
+    {
+     "text": "Plan & design",
+     "x": 40,
+     "y": 303.671875,
+     "w": 576,
+     "h": 89.28125
+    },
+    {
+     "text": "Approvals",
+     "x": 969.703125,
+     "y": 303.671875,
+     "w": 430.296875,
+     "h": 89.28125
+    },
+    {
+     "text": "Structure",
+     "x": 40,
+     "y": 303.671875,
+     "w": 576,
+     "h": 89.28125
+    },
+    {
+     "text": "Finishing",
+     "x": 1068.71875,
+     "y": 303.671875,
+     "w": 331.28125,
+     "h": 89.28125
+    },
+    {
+     "text": "Interiors",
+     "x": 40,
+     "y": 303.671875,
+     "w": 576,
+     "h": 89.28125
+    },
+    {
+     "text": "Handover",
+     "x": 40,
+     "y": 303.671875,
+     "w": 576,
+     "h": 89.28125
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 64.484375,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 620.78125,
+     "y": 67.6875,
+     "w": 198.4375,
+     "h": 33.59375
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "Start your project \u2193",
+     "x": 40,
+     "y": 581.375,
+     "w": 185.015625,
+     "h": 52
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "ZELQUNE CONSTRUCTION From the ground up to the last light One team from the firs",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 6930
+    }
+   ],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 1440,
+     "h": 38.484375
+    },
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 71.75,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 661.609375,
+     "y": 72.875,
+     "w": 157.609375,
+     "h": 23.203125
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "STAGE 01 OF 06",
+     "x": 40,
+     "y": 265.25,
+     "w": 576,
+     "h": 18.421875
+    },
+    {
+     "text": "STAGE 02 OF 06",
+     "x": 969.703125,
+     "y": 265.25,
+     "w": 430.296875,
+     "h": 18.421875
+    },
+    {
+     "text": "Help with building approvals (drawings and paperwork).",
+     "x": 969.703125,
+     "y": 412.953125,
+     "w": 430.296875,
+     "h": 29.25
+    },
+    {
+     "text": "STAGE 03 OF 06",
+     "x": 40,
+     "y": 265.25,
+     "w": 576,
+     "h": 18.421875
+    },
+    {
+     "text": "STAGE 04 OF 06",
+     "x": 1068.71875,
+     "y": 265.25,
+     "w": 331.28125,
+     "h": 18.421875
+    },
+    {
+     "text": "Walls, floors, plumbing and electrical work.",
+     "x": 1068.71875,
+     "y": 412.953125,
+     "w": 331.28125,
+     "h": 29.25
+    },
+    {
+     "text": "STAGE 05 OF 06",
+     "x": 40,
+     "y": 265.25,
+     "w": 576,
+     "h": 18.421875
+    },
+    {
+     "text": "Woodwork, lighting and furniture by Zelqune.",
+     "x": 40,
+     "y": 412.953125,
+     "w": 576,
+     "h": 29.25
+    },
+    {
+     "text": "STAGE 06 OF 06",
+     "x": 40,
+     "y": 265.25,
+     "w": 576,
+     "h": 18.421875
+    },
+    {
+     "text": "Zelqune Construction",
+     "x": 66,
+     "y": 865.484375,
+     "w": 129.765625,
+     "h": 18
+    },
+    {
+     "text": "SCROLL TO BUILD",
+     "x": 66,
+     "y": 883.484375,
+     "w": 129.765625,
+     "h": 14
+    }
+   ]
+  },
+  "mobile": {
+   "file": "construction-top-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "From the ground up to the last light",
+     "x": 20,
+     "y": 258.09375,
+     "w": 350,
+     "h": 87.78125
+    },
+    {
+     "text": "Plan & design",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "Approvals",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "Structure",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "Finishing",
+     "x": 60.984375,
+     "y": 281.328125,
+     "w": 309.015625,
+     "h": 41.59375
+    },
+    {
+     "text": "Interiors",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    },
+    {
+     "text": "Handover",
+     "x": 20,
+     "y": 281.328125,
+     "w": 350,
+     "h": 41.59375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 122.8125,
+     "y": 73.53125,
+     "w": 144.359375,
+     "h": 24
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "Start your project \u2193",
+     "x": 20,
+     "y": 475.71875,
+     "w": 185.015625,
+     "h": 52
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [],
+   "sections": [
+    {
+     "text": "ZELQUNE CONSTRUCTION From the ground up to the last light One team from the firs",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 6498.796875
+    }
+   ],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 390,
+     "h": 53.53125
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 151.984375,
+     "y": 77.046875,
+     "w": 115.1875,
+     "h": 16.953125
+    },
+    {
+     "text": "LIGHTING",
+     "x": 20,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": 116.671875,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 205.34375,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 357.875,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 489.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 656.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "STAGE 01 OF 06",
+     "x": 20,
+     "y": 242.90625,
+     "w": 350,
+     "h": 18.421875
+    },
+    {
+     "text": "STAGE 02 OF 06",
+     "x": 20,
+     "y": 242.90625,
+     "w": 350,
+     "h": 18.421875
+    },
+    {
+     "text": "Help with building approvals (drawings and paperwork).",
+     "x": 20,
+     "y": 342.921875,
+     "w": 350,
+     "h": 54.5625
+    },
+    {
+     "text": "STAGE 03 OF 06",
+     "x": 20,
+     "y": 242.90625,
+     "w": 350,
+     "h": 18.421875
+    },
+    {
+     "text": "STAGE 04 OF 06",
+     "x": 60.984375,
+     "y": 242.90625,
+     "w": 309.015625,
+     "h": 18.421875
+    },
+    {
+     "text": "Walls, floors, plumbing and electrical work.",
+     "x": 60.984375,
+     "y": 342.921875,
+     "w": 309.015625,
+     "h": 27.28125
+    },
+    {
+     "text": "STAGE 05 OF 06",
+     "x": 20,
+     "y": 242.90625,
+     "w": 350,
+     "h": 18.421875
+    },
+    {
+     "text": "Woodwork, lighting and furniture by Zelqune.",
+     "x": 20,
+     "y": 342.921875,
+     "w": 350,
+     "h": 27.28125
+    },
+    {
+     "text": "STAGE 06 OF 06",
+     "x": 20,
+     "y": 242.90625,
+     "w": 350,
+     "h": 18.421875
+    },
+    {
+     "text": "Zelqune Construction",
+     "x": 46,
+     "y": 832.53125,
+     "w": 129.765625,
+     "h": 18
+    }
+   ]
+  }
+ },
+ "bulk-top": {
+  "desktop": {
+   "file": "bulk-top-desktop.png",
+   "width": 1440,
+   "height": 900,
+   "dpr": 2,
+   "headings": [
+    {
+     "text": "Bulk orders for offices, businesses and gifting",
+     "x": 40,
+     "y": 448.703125,
+     "w": 896,
+     "h": 145.28125
+    },
+    {
+     "text": "Send request",
+     "x": 40,
+     "y": 895.609375,
+     "w": 430.34375,
+     "h": 57.140625
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 30,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 86,
+     "y": 64.484375,
+     "w": 214.390625,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 620.78125,
+     "y": 67.6875,
+     "w": 198.4375,
+     "h": 33.59375
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "Switch to dark mode",
+     "x": 1274,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Account",
+     "x": 1322,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 1370,
+     "y": 64.484375,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 576
+    }
+   ],
+   "sections": [
+    {
+     "text": "FOR BUSINESS Bulk orders for offices, businesses and gifting Need several pieces",
+     "x": 0,
+     "y": 184.484375,
+     "w": 1440,
+     "h": 576
+    },
+    {
+     "text": "FOR BUSINESS Send request Need several for an office, caf\u00e9, restaurant or corpor",
+     "x": 0,
+     "y": 760.484375,
+     "w": 1440,
+     "h": 661.859375
+    }
+   ],
+   "nav": [
+    {
+     "text": "EN",
+     "x": 1183.03125,
+     "y": 76.484375,
+     "w": 18.78125,
+     "h": 16
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 1440,
+     "h": 38.484375
+    },
+    {
+     "text": "Search",
+     "x": 120.390625,
+     "y": 71.75,
+     "w": 176,
+     "h": 25.46875
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 661.609375,
+     "y": 72.875,
+     "w": 157.609375,
+     "h": 23.203125
+    },
+    {
+     "text": "INTERIOR DESIGN",
+     "x": 846.234375,
+     "y": 71.015625,
+     "w": 125.40625,
+     "h": 28
+    },
+    {
+     "text": "CONSTRUCTION",
+     "x": 1007.640625,
+     "y": 71.015625,
+     "w": 110.390625,
+     "h": 28
+    },
+    {
+     "text": "\u09ac\u09be\u0982",
+     "x": 1225.4375,
+     "y": 76.484375,
+     "w": 16.5625,
+     "h": 16
+    },
+    {
+     "text": "LIGHTING",
+     "x": 278.25,
+     "y": 131.484375,
+     "w": 68.671875,
+     "h": 52
+    },
+    {
+     "text": "SHELVES",
+     "x": 402.921875,
+     "y": 131.484375,
+     "w": 60.671875,
+     "h": 52
+    },
+    {
+     "text": "WALL PANELS",
+     "x": 519.59375,
+     "y": 131.484375,
+     "w": 95.53125,
+     "h": 52
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": 728.125,
+     "y": 131.484375,
+     "w": 103.734375,
+     "h": 52
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 887.859375,
+     "y": 131.484375,
+     "w": 138.84375,
+     "h": 52
+    },
+    {
+     "text": "OUR STORY",
+     "x": 1082.703125,
+     "y": 131.484375,
+     "w": 79.03125,
+     "h": 52
+    },
+    {
+     "text": "Sample photo. Real product photos are coming soon.",
+     "x": 1153.0625,
+     "y": 729.296875,
+     "w": 270.9375,
+     "h": 19.1875
+    },
+    {
+     "text": "FOR BUSINESS",
+     "x": 40,
+     "y": 856.484375,
+     "w": 430.34375,
+     "h": 15.125
+    }
+   ]
+  },
+  "mobile": {
+   "file": "bulk-top-mobile.png",
+   "width": 390,
+   "height": 844,
+   "dpr": 3,
+   "headings": [
+    {
+     "text": "Bulk orders for offices, businesses and gifting",
+     "x": 20,
+     "y": 460.09375,
+     "w": 350,
+     "h": 81.59375
+    },
+    {
+     "text": "Send request",
+     "x": 20,
+     "y": 806.8125,
+     "w": 350,
+     "h": 34.09375
+    }
+   ],
+   "buttons": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "Menu",
+     "x": 10,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Search",
+     "x": 52,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 122.8125,
+     "y": 73.53125,
+     "w": 144.359375,
+     "h": 24
+    },
+    {
+     "text": "Account",
+     "x": 298,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "Cart",
+     "x": 340,
+     "y": 65.53125,
+     "w": 40,
+     "h": 40
+    },
+    {
+     "text": "LIGHTING",
+     "x": -345,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": -248.328125,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": -159.65625,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": -7.125,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 124.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 291.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "cards": [],
+   "forms": [],
+   "inputs": [],
+   "images": [
+    {
+     "text": "",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 540.15625
+    }
+   ],
+   "sections": [
+    {
+     "text": "FOR BUSINESS Bulk orders for offices, businesses and gifting Need several pieces",
+     "x": 0,
+     "y": 163.53125,
+     "w": 390,
+     "h": 540.15625
+    },
+    {
+     "text": "FOR BUSINESS Send request Need several for an office, caf\u00e9, restaurant or corpor",
+     "x": 0,
+     "y": 703.6875,
+     "w": 390,
+     "h": 1039.1875
+    }
+   ],
+   "nav": [
+    {
+     "text": "LIGHTING",
+     "x": -345,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": -248.328125,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": -159.65625,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": -7.125,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 124.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 291.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    }
+   ],
+   "texts": [
+    {
+     "text": "Skip to content",
+     "x": -1,
+     "y": -1,
+     "w": 32,
+     "h": 16
+    },
+    {
+     "text": "PRE-ORDERS ARE OPEN \u00b7 \u09f3300 ADVANCE, THE REST ON DELIVERY",
+     "x": 0,
+     "y": 0,
+     "w": 390,
+     "h": 53.53125
+    },
+    {
+     "text": "ZELQUNE",
+     "x": 151.984375,
+     "y": 77.046875,
+     "w": 115.1875,
+     "h": 16.953125
+    },
+    {
+     "text": "LIGHTING",
+     "x": -345,
+     "y": 118.53125,
+     "w": 68.671875,
+     "h": 44
+    },
+    {
+     "text": "SHELVES",
+     "x": -248.328125,
+     "y": 118.53125,
+     "w": 60.671875,
+     "h": 44
+    },
+    {
+     "text": "WALL PANELS",
+     "x": -159.65625,
+     "y": 118.53125,
+     "w": 95.53125,
+     "h": 44
+    },
+    {
+     "text": "ALL PRODUCTS",
+     "x": -7.125,
+     "y": 118.53125,
+     "w": 103.734375,
+     "h": 44
+    },
+    {
+     "text": "BULK & CORPORATE",
+     "x": 124.609375,
+     "y": 118.53125,
+     "w": 138.84375,
+     "h": 44
+    },
+    {
+     "text": "OUR STORY",
+     "x": 291.453125,
+     "y": 118.53125,
+     "w": 79.03125,
+     "h": 44
+    },
+    {
+     "text": "Sample photo. Real product photos are coming soon.",
+     "x": 103.0625,
+     "y": 672.5,
+     "w": 270.9375,
+     "h": 19.1875
+    },
+    {
+     "text": "FOR BUSINESS",
+     "x": 20,
+     "y": 767.6875,
+     "w": 350,
+     "h": 15.125
+    }
+   ]
+  }
+ }
+}
