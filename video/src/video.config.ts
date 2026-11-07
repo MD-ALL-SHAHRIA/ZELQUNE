@@ -40,12 +40,12 @@ export const scenes = {
   moods: { start: 37, length: 11 },
   reserve: { start: 48, length: 10 },
   deliver: { start: 58, length: 10 },
-  services: { start: 68, length: 4 },
-  design: { start: 72, length: 7 },
-  construction: { start: 79, length: 7 },
-  bulk: { start: 86, length: 7 },
-  proof: { start: 93, length: 11 },
-  cta: { start: 104, length: 14 },
+  services: { start: 68, length: 6 },
+  design: { start: 74, length: 7 },
+  construction: { start: 81, length: 7 },
+  bulk: { start: 88, length: 7 },
+  proof: { start: 95, length: 11 },
+  cta: { start: 106, length: 14 },
 } as const;
 export type SceneId = keyof typeof scenes;
 
@@ -59,24 +59,37 @@ export const timing = {
   problem: { cuts: [0, beats(2), beats(4)], turn: beats(6), bloom: beats(6) + 22 },
   reveal: { logo: 0, laptop: 40, phone: 50 },
   /** Camera rhythm: wide → scroll → push in → hover → spotlight → click → lift out → fan → hold. */
-  find: { scroll: 8, push: 34, cursorIn: 46, cursorMove: 52, hover: 64, spot: 70, click: 84, lift: 90, cards: 98, cardStagger: 6, callout: 110 },
-  moods: { pill: beats(2), cursorIn: beats(1.5), cursorMove: beats(2.5), click: beats(4.5) },
-  reserve: { card: beats(1.5), count: beats(2), countFrames: 40, dots: beats(3), dotStagger: 8, toast: beats(6.5) },
+  /**
+   * Website section beats. pushes = camera push-ins, clicks = cursor clicks, lifts = glass lift-outs,
+   * flips = page changes on the device. Sounds are cued from these same arrays.
+   */
+  find: { scroll: 8, push: 34, cursorIn: 46, cursorMove: 52, hover: 64, spot: 70, click: 84, lift: 90, cards: 98, cardStagger: 6, callout: 110,
+    pushes: [34], clicks: [84], lifts: [90, 98, 104], flips: [] as number[] },
+  moods: { push: 8, cursorMove: 36, toggle: 44, click: 62, pull: 76, lift: 98, callout: 112, pill: 30,
+    pushes: [8, 44, 76], clicks: [62], lifts: [98], flips: [] as number[] },
+  reserve: { push: 8, spot: 26, lift: 52, fanStagger: 6, count: 72, countFrames: 40, toast: 118, callout: 100,
+    pushes: [8], clicks: [] as number[], lifts: [52, 58, 64], flips: [] as number[] },
   deliver: {
-    cursorIn: beats(0.8), cursorMove: beats(1.2), focus: beats(2),
+    push: 8, cursorIn: 14, focus: beats(2),
     /** Typing: one character every `perChar` frames; the phone number follows after `gap`. */
     typeStart: beats(2) + 6, perChar: 2, gap: 6,
-    buttonMove: beats(5.8), click: beats(6.5), toast: beats(6.5) + 8,
-  },
-  services: { items: 16, itemStagger: 5 },
+    buttonPush: 84, buttonMove: 86, click: 98, lift: 106, toast: 112,
+    pushes: [8, 84], clicks: [beats(2), 98], lifts: [106], flips: [] as number[] },
+  services: { items: 16, itemStagger: 5, montage: 46, flipEvery: 11, pushes: [] as number[], clicks: [] as number[], lifts: [] as number[], flips: [46, 57, 68, 79] },
+  design: { menuClick: 16, menuOpen: 18, linkClick: 40, page: 44, push: 52, lift: 74, callout: 86,
+    pushes: [52], clicks: [16, 40], lifts: [74], flips: [18, 44] },
+  construction: { push: 6, page: 34, push2: 40, lift: 58, fanStagger: 6, callout: 80,
+    pushes: [6, 40], clicks: [] as number[], lifts: [58, 64, 70], flips: [34] },
+  bulk: { scroll: 6, push: 38, spot: 54, lift: 66, callout: 82,
+    pushes: [38], clicks: [] as number[], lifts: [66], flips: [] as number[] },
   proof: { cards: 10, cardStagger: 6, count: 14, countFrames: 40 },
   cta: { logo: 2, button: beats(3), url: beats(4) },
 } as const;
 
 /** Frames the outgoing scene stays mounted under the incoming wipe. */
 export const TRANSITION = 14;
-export const TOTAL_BEATS = 118;
-export const DURATION = beats(TOTAL_BEATS); // 1770 frames = 59 s
+export const TOTAL_BEATS = 120;
+export const DURATION = beats(TOTAL_BEATS); // 1800 frames = 60 s
 
 export const copy = {
   hook: ['Your walls', 'feel empty.'],

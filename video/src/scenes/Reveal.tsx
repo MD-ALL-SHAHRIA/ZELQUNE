@@ -1,6 +1,8 @@
 import { AbsoluteFill } from 'remotion';
 import { Backdrop } from '../components/Backdrop';
+import { PageScreen } from '../components/Camera';
 import { Laptop, Phone } from '../components/Devices';
+import { page } from '../lib/site';
 import { Logo } from '../components/Ui';
 import { useLayout } from '../lib/layout';
 import { mix, useSpringAt } from '../lib/motion';
@@ -14,6 +16,10 @@ export function Reveal() {
   const laptopIn = useSpringAt(timing.reveal.laptop, springs.soft);
   const phoneIn = useSpringAt(timing.reveal.phone, springs.soft);
   const drift = useSpringAt(50, springs.camera);
+  // Responsive moment: the same real page scrolls to the same section on laptop and phone together.
+  const scrollP = useSpringAt(62, springs.camera);
+  const deskPg = page('shop', 'desktop');
+  const mobPg = page('shop', 'mobile');
 
   const g = {
     wide: { logoY: [L.h / 2 - 60, 120], logo: [120, 76], laptopW: 1060, laptop: [330, 300], phoneH: 560, phone: [1300, 430] },
@@ -35,6 +41,7 @@ export function Reveal() {
         <Laptop
           src={screens.homeDesktop}
           width={g.laptopW}
+          content={<PageScreen src={deskPg.src} pageWidth={deskPg.width} screenWidth={g.laptopW * 0.956} scroll={mix(0, deskPg.cards[0].y - 120, scrollP)} />}
           camera={{ x: 0.5, y: 0.4, scale: mix(1.08, 1, drift) }}
           tilt={{ rx: mix(28, 10, laptopIn), ry: mix(-30, -14, laptopIn) + drift * 4, rz: mix(4, 1, laptopIn) }}
         />
@@ -43,6 +50,7 @@ export function Reveal() {
         <Phone
           src={screens.homeMobile}
           height={g.phoneH}
+          content={<PageScreen src={mobPg.src} pageWidth={mobPg.width} screenWidth={(g.phoneH * 0.968) * (390 / 844)} scroll={mix(0, mobPg.cards[0].y - 140, scrollP)} />}
           camera={{ x: 0.5, y: 0.3, scale: 1 }}
           tilt={{ rx: mix(20, 6, phoneIn), ry: mix(30, 12, phoneIn) - drift * 4, rz: mix(-6, -2, phoneIn) }}
         />

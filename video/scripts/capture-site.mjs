@@ -16,7 +16,20 @@ const PAGES = {
 };
 const SIZES = {
   desktop: { viewport: { width: 1440, height: 900 }, dpr: 2, maxH: 7800 },
-  mobile: { viewport: { width: 390, height: 844 }, dpr: 3, maxH: 5400 },
+  mobile: { viewport: { width: 390, height: 844 }, dpr: 3, maxH: 4000 }, // 12000 px: browsers cannot draw much taller images
+};
+// Viewport shots at a real scroll position (for scroll-driven sections that a full-page capture
+// renders blank), plus real interaction states. Element boxes are in viewport CSS px.
+const VIEWS = {
+  'home-top': { path: '/en' },
+  'home-menu': { path: '/en', menu: true },
+  'home-steps': { path: '/en', scrollTo: 'How pre-order works' },
+  'home-values': { path: '/en', scrollTo: 'Made slowly, by hand' },
+  'construction-build': { path: '/en/construction', scrollTo: 'What we build' },
+  'story-top': { path: '/en/story' },
+  'design-top': { path: '/en/design' },
+  'construction-top': { path: '/en/construction' },
+  'bulk-top': { path: '/en/bulk' },
 };
 const HIDE = 'nextjs-portal,a[href*="wa.me"],a[href*="whatsapp"]{display:none!important}';
 
@@ -58,6 +71,46 @@ for (const [size, cfg] of Object.entries(SIZES)) {
       };
     }, h);
     (manifest[name] ??= {})[size] = { file, width: cfg.viewport.width, height: h, dpr: cfg.dpr, ...els };
+  }
+
+  for (const [name, v] of Object.entries(VIEWS)) {
+    await page.goto(BASE + v.path, { waitUntil: 'networkidle' });
+    await page.addStyleTag({ content: HIDE });
+    if (v.scrollTo) {
+      const y = await page.evaluate(async (t) => {
+        const el = [...document.querySelectorAll('h1,h2,h3,p,span,div')].find((e) => e.childElementCount === 0 && e.textContent.trim().startsWith(t));
+        return el ? el.getBoundingClientRect().top + scrollY : 0;
+      }, v.scrollTo);
+      // Walk there so scroll-driven sections play in, then settle.
+      for (let s = 0; s < y - 110; s += 500) { await page.evaluate((q) => window.scrollTo(0, q), s); await page.waitForTimeout(100); }
+      await page.evaluate((q) => window.scrollTo(0, q), Math.max(0, y - 110));
+    }
+    let menuButton = null;
+    if (v.menu) {
+      const btn = page.locator('header').getByRole('button', { name: /menu/i }).first();
+      const b = await btn.boundingBox();
+      menuButton = b && { text: 'menu', x: b.x, y: b.y, w: b.width, h: b.height };
+      await btn.click();
+    }
+    await page.waitForTimeout(1600);
+    await page.screenshot({ path: `${OUT}${name}-${size}.png` });
+    const els = await page.evaluate(() => {
+      const box = (el) => { const r = el.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; };
+      const vis = (b) => b.w > 8 && b.h > 8 && b.y > -b.h && b.y < innerHeight;
+      const text = (el) => (el.innerText || el.getAttribute('aria-label') || '').trim().replace(/\s+/g, ' ').slice(0, 80);
+      const pick = (sel) => [...document.querySelectorAll(sel)].map((el) => ({ text: text(el), ...box(el) })).filter(vis).slice(0, 40);
+      return {
+        headings: pick('h1, h2, h3'), buttons: pick('a[href], button'), cards: pick('li:has(a[href*="/products/"]), article'),
+        forms: pick('form'), inputs: pick('input:not([type=hidden]), textarea'), images: pick('img').filter((b) => b.w > 120),
+        sections: pick('section'), nav: pick('nav a, [role=dialog] a, aside a'),
+        // Short leaf text labels (step titles, captions) that are not headings.
+        texts: [...document.querySelectorAll('p, span, div, a, li')]
+          .filter((e) => e.childElementCount === 0 && e.textContent.trim().length > 2 && e.textContent.trim().length < 60)
+          .map((el) => ({ text: text(el), ...box(el) })).filter(vis).slice(0, 120),
+      };
+    });
+    if (menuButton) els.buttons.unshift(menuButton);
+    (manifest[name] ??= {})[size] = { file: `${name}-${size}.png`, width: cfg.viewport.width, height: cfg.viewport.height, dpr: cfg.dpr, ...els };
   }
 
   // Real interaction states for the prototype beat: the first shop card, hovered.

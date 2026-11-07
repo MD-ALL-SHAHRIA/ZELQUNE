@@ -13,7 +13,9 @@ import { Problem } from './scenes/Problem';
 import { Proof } from './scenes/Proof';
 import { Reserve } from './scenes/Reserve';
 import { Reveal } from './scenes/Reveal';
-import { Service } from './scenes/Service';
+import { Bulk } from './scenes/Bulk';
+import { Construction } from './scenes/Construction';
+import { Design } from './scenes/Design';
 import { Services } from './scenes/Services';
 import { TRANSITION, beats, scenes, springs, type SceneId } from './video.config';
 
@@ -28,9 +30,9 @@ const timeline: { id: SceneId; el: ReactNode; wipe: Wipe }[] = [
   { id: 'reserve', el: <Reserve />, wipe: 'arch' },
   { id: 'deliver', el: <Deliver />, wipe: 'diagonal' },
   { id: 'services', el: <Services />, wipe: 'circle' },
-  { id: 'design', el: <Service id="design" />, wipe: 'arch' },
-  { id: 'construction', el: <Service id="construction" />, wipe: 'diagonal' },
-  { id: 'bulk', el: <Service id="bulk" />, wipe: 'arch' },
+  { id: 'design', el: <Design />, wipe: 'arch' },
+  { id: 'construction', el: <Construction />, wipe: 'diagonal' },
+  { id: 'bulk', el: <Bulk />, wipe: 'arch' },
   { id: 'proof', el: <Proof />, wipe: 'circle' },
   { id: 'cta', el: <Cta />, wipe: 'arch' },
 ];
