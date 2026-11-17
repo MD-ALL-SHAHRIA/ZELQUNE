@@ -179,6 +179,9 @@ export class InventoryService implements OnApplicationBootstrap, OnModuleDestroy
   /** order.confirmed: deduct the reserved stock for good and record SALE movements. */
   async commit(orderId: string, tx: Tx): Promise<void> {
     const reservation = await this.lockReservation(tx, orderId);
+    if (reservation?.status === 'RELEASED' && reservation.releaseReason === 'EXPIRED') {
+      return this.commitExpired(orderId, reservation, tx);
+    }
     if (!reservation || !canTransitionReservation(reservation.status, 'COMMITTED')) return;
     await this.lockRows(
       tx,
@@ -197,6 +200,48 @@ export class InventoryService implements OnApplicationBootstrap, OnModuleDestroy
       where: { id: reservation.id },
       data: { status: 'COMMITTED' },
     });
+  }
+
+  /**
+   * The order was confirmed after its hold expired (a late order.placed, or payment verified as
+   * the hold ran out). Deduct the stock directly if it is still free; otherwise sell nothing twice
+   * and tell staff in the audit log that a confirmed order is short.
+   */
+  private async commitExpired(
+    orderId: string,
+    reservation: ReservationWithItems,
+    tx: Tx,
+  ): Promise<void> {
+    const rows = await this.lockRows(
+      tx,
+      reservation.items.map((i) => i.variantId),
+    );
+    const shortages = findShortages(rows, reservation.items);
+    if (shortages.length > 0) {
+      this.logger.error({ orderId, shortages }, 'Confirmed order is short of stock (hold expired)');
+      await recordAudit(this.outbox, tx, SOURCE, {
+        action: 'stock.shortage',
+        entityType: 'order',
+        entityId: orderId,
+        summary: 'Confirmed after its stock hold expired; not enough stock left to deduct',
+        changes: { shortages },
+      });
+      return;
+    }
+    for (const { variantId, qty } of reservation.items) {
+      await tx.inventoryItem.update({
+        where: { variantId },
+        data: { onHand: { decrement: qty } },
+      });
+      await tx.stockMovement.create({
+        data: { variantId, delta: -qty, reason: 'SALE', refId: orderId },
+      });
+    }
+    await tx.stockReservation.update({
+      where: { id: reservation.id },
+      data: { status: 'COMMITTED' },
+    });
+    this.logger.warn({ orderId }, 'Committed stock for an order whose hold had expired');
   }
 
   /**

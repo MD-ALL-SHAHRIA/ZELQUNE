@@ -10,10 +10,14 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Smoother scrolling: the smooth-scroll library (Lenis) is removed, so the browser's own scroll and trackpad momentum are back; the sticky header, cookie bar, purchase bar and shop filter bar no longer blur what passes under them (re-blurred on every scroll frame, costly in Safari); the statement words light up without a blur; the curved product strip measures once per frame.
 - Premium moments: on the first visit of a session an espresso curtain shows the brass mark and the name, then lifts away (about 1.25 s; never with reduced motion); page changes are instant (no transition: it held every click back by about 0.35 s) and a new page's visible content shows at once; the gliding product strip bends into a 3D arc on desktop.
 - Motion, after studying bestwebsitetemplate.com: sections now arrive once, quickly, as they enter the screen (they no longer stay half-faded while you read); the statement is a "workshop table" where product photos drift in from the edges and a brass seal of our promises turns as you scroll, while the sentence lights up word by word; a strip of arch-framed products glides by under Day/Night (holds still on hover or focus, rests off screen); the brand line slides by in giant type above the FAQ; large photos drift with depth. Reduced motion keeps everything still and complete.
+- Shipments: the order's shipment is reserved before the courier is called, so a double click can't book a parcel twice (409 instead of a 500).
+- SMS: the send log is saved on its own right after the gateway accepts a message, so a retried event never sends it again.
+- Stock: an order confirmed after its stock hold expired still deducts stock if it is free; if not, the audit log shows a stock shortage.
 - Code quality audit (docs/audit/code-quality.md): dead code removed, duplicated quote-confirmation panel, WhatsApp link and URL fallbacks merged into shared code; the design consultation confirmation now takes focus like the construction one.
 - Home "Find your perfect piece": collections stand in tall arches (three across, the middle set lower; a swipe row on phones) with each piece centred, instead of a wide-card carousel with arrows. Copying a heading no longer gives its text twice.
 
 ### Added
+- Production deploy kit (docs/deploy.md): `infra/docker-compose.prod.yml` (only Caddy on 80/443, automatic HTTPS, HSTS, gzip/zstd, rotated logs, no dev passwords), Docker images for the storefront and dashboard, `dev-keys.mjs --prod` for fresh production secrets, nightly database + photo backups with a restore script.
 - Cancelling a paid order puts its items back in stock (once).
 - Orders with a submitted bKash/Nagad payment are no longer auto-cancelled after 48 h until staff verify or reject the payment.
 - Website visit data (raw events) is deleted after 90 days; order totals stay.
@@ -21,6 +25,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Internal service calls carry a shared secret (`INTERNAL_RPC_SECRET`, ADR 0024): run `pnpm keys:dev` once; required in production.
 
 ### Security
+- Swagger UI and `/docs-json` can be turned off with `API_DOCS=false` (set it in production).
 - Next.js 16.4.1 → 16.4.6 in the storefront and dashboard (fixes GHSA-mfr8-8qww-v76h and GHSA-vc7v-qv4w-wrv8, 'use cache' data leaking across root params).
 - Customer sign-up: the password is now chosen on the email-confirmation page and the one typed at sign-up is discarded, so someone who signs up with another person's email can never sign in to that account.
 - Audit second pass (docs/audit/services/order-catalog-gateway-dashboard-infra.md): home-page client links and shipment tracking links accept only http(s); the dashboard sends a CSP (no framing, plugins, base or foreign form targets) and nosniff.

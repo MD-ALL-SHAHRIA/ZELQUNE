@@ -37,6 +37,8 @@ export const gatewayEnvSchema = baseEnvSchema
     REFRESH_COOKIE_NAME: z.string().min(1).default('zq_rt'),
     /** Keep true everywhere; browsers accept Secure cookies on http://localhost. */
     COOKIE_SECURE: z.stringbool().default(true),
+    /** Swagger UI at /docs and the spec at /docs-json. Set false in production. */
+    API_DOCS: z.stringbool().default(true),
     /** e.g. ".zelqune.com" so admin.<domain> and api.<domain> share it (ADR 0006). */
     COOKIE_DOMAIN: z.string().optional(),
     RATE_LIMIT_PER_MINUTE: z.coerce.number().int().positive().default(120),

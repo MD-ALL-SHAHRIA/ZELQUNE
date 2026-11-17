@@ -12,6 +12,7 @@ import {
   quoteRequested,
 } from '@zelqune/contracts';
 import { type NotificationEnv } from '../config/notification-env';
+import { PrismaService } from '../prisma/prisma.service';
 import { NotificationSettingsService } from '../settings/notification-settings';
 import { type Prisma } from '../generated/prisma/client';
 import { SMS_PROVIDER, type SmsProvider } from '../sms/sms.provider';
@@ -21,8 +22,10 @@ type Tx = Prisma.TransactionClient;
 
 /**
  * Turns domain events into SMS. One message per (event, template); a failed send throws so the
- * consumer retries it (ADR 0009). Delivery is at-least-once: a crash between sending and
- * committing can repeat a message.
+ * consumer retries it (ADR 0009). The send log is committed on its own right after the gateway
+ * accepts a message, so a rollback or retry of the consumer transaction (e.g. a slow gateway
+ * hitting the transaction timeout) never sends it again. Only a crash between the send and that
+ * write can repeat a message.
  */
 @Injectable()
 export class NotificationService {
@@ -33,6 +36,8 @@ export class NotificationService {
     @Inject(APP_CONFIG) private readonly config: NotificationEnv,
     /** Owner phone saved in the dashboard (ADR 0017); env OWNER_NOTIFY_PHONE without it. */
     @Optional() private readonly settings?: NotificationSettingsService,
+    /** Writes the send log outside the consumer transaction. Unit tests may leave it out. */
+    @Optional() private readonly db?: PrismaService,
   ) {}
 
   private async ownerPhone(): Promise<string | undefined> {
@@ -166,12 +171,13 @@ export class NotificationService {
     to: string,
     body: string,
   ): Promise<void> {
-    const already = await tx.notificationLog.findUnique({
+    const log = (this.db ?? tx).notificationLog;
+    const already = await log.findUnique({
       where: { eventId_template: { eventId, template } },
     });
     if (already?.status === 'SENT') return;
     const { providerRef } = await this.sms.send(to, body);
-    await tx.notificationLog.upsert({
+    await log.upsert({
       where: { eventId_template: { eventId, template } },
       create: {
         eventId,

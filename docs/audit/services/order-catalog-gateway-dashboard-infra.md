@@ -40,7 +40,7 @@ only (money, access, uploads, links), not every file. The frontend got a narrow 
 |---|---|---|---|
 | DEPLOY-1 | High at deploy | `infra/docker-compose.yml` runs every app with `NODE_ENV=production` while it is the dev stack. Production-only checks (e.g. `INTERNAL_RPC_SECRET`) apply in dev too. Production-only guards can't be added without breaking dev. | Before the VPS deploy, write a separate production compose/env: real passwords, no dev defaults, `COOKIE_SECURE=true`, `TRUST_PROXY` set to the proxy hop count. |
 | CAT-OPS-1 | Medium at deploy | With `STORAGE_DRIVER=local`, an unset `LOCAL_STORAGE_SIGNING_SECRET` gives a random secret per process, so upload URLs break after a restart. `MEDIA_PUBLIC_BASE_URL` defaults to localhost. | In production, set both, keep the `media-data` volume and back it up, or switch to R2 (needs approval). |
-| GW-SEC-1 | Low | Swagger UI and `/v1/docs-json` are public in every environment. They list admin routes, which still need auth. | Serve them only when an `API_DOCS=true` flag is set (`pnpm gen:api` uses the script, not the route). |
+| GW-SEC-1 | Fixed | Swagger UI and `/v1/docs-json` are public in every environment. They list admin routes, which still need auth. | Serve them only when an `API_DOCS=true` flag is set (`pnpm gen:api` uses the script, not the route). |
 | ORD-1 | Low | Fixed: the redeem `UPDATE` now also checks `ends_at`; an expired coupon reports EXPIRED (`saga.store.spec.ts`, 2 of 3 fail on old code). | done |
 | GW-AUTH-1 | Low | Deactivating a team member stops refresh, but their access token works for up to 15 min. | Acceptable at this size. Shorten the TTL, or check a deny-list in Redis, if staff grows. |
 

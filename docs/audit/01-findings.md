@@ -18,10 +18,10 @@ Confidence: **C** = Confirmed, **L** = Likely, **R** = Needs runtime check.
 | SEC-003 | Medium | C | notification | SMTP `requireTLS: false` on port 587, so an on-path attacker can strip STARTTLS and read the SMTP login and reset links | no | **fixed** 94e174f |
 | SEC-004 | Medium | C | gateway | No security headers on the public API: no helmet, `x-powered-by: Express` is exposed, no nosniff/HSTS/frame policy | no | **fixed** a3196dd |
 | MSG-001 | Medium | C | inventory | One reservation whose `release()` throws aborts the whole sweep. It sorts first every time, so all reservation expiry stops (`inventory.service.ts:202-214`) | no | **fixed** 696f84d |
-| INV-MSG-1 | Medium | L | inventory | A late `order.placed`, or the 48h hold expiring, can release stock for an order that is later confirmed. `commit()` then silently does nothing | no | open |
+| INV-MSG-1 | Medium | L | inventory | A late `order.placed`, or the 48h hold expiring, can release stock for an order that is later confirmed. `commit()` then silently does nothing | no | fixed (2026-11-18) |
 | INV-MSG-2 | Medium | C | inventory | Cancelling a CONFIRMED order never restocks: `release()` ignores COMMITTED reservations | **yes** (new column) | open |
-| NOTIF-MSG-1 | Medium (High at M3) | C | notification | The SMS is sent inside the consumer DB transaction. A rollback or retry re-sends it, and a slow gateway holds DB connections | no | open (M) |
-| SHIP-MSG-1 | Medium (High at M3) | C | shipping | `createShipment` runs check → `book()` → insert with no reservation. A double-click books twice, and a P2002 error surfaces as a 500 | no | open (M) |
+| NOTIF-MSG-1 | Medium (High at M3) | C | notification | The SMS is sent inside the consumer DB transaction. A rollback or retry re-sends it, and a slow gateway holds DB connections | no | fixed (2026-11-18) |
+| SHIP-MSG-1 | Medium (High at M3) | C | shipping | `createShipment` runs check → `book()` → insert with no reservation. A double-click books twice, and a P2002 error surfaces as a 500 | no | fixed (2026-11-18) |
 | SHIP-ARCH-1 | Medium | C | shipping | Shipment and order status are not linked: a shipment can be booked for a cancelled order, and cancelling an order leaves its shipment BOOKED | partly | open |
 | PAY-ARCH-1 | Medium | C | payment | Auto-cancel after 48h voids a submitted bKash/Nagad trxId, after which admins can no longer see the money received | **yes** | open |
 | AN-DB-1/2/3, AN-SEC-1 | Medium | C | analytics | The funnel query does a full scan of `tracked_events`. Beacon rows are never deleted (retention needs your decision). An erasure leaves the visit id linked to the order. The expense list truncates at 2000 rows, so P&L is wrong | DB-2 yes | open |

@@ -25,5 +25,6 @@ accepted ADR; supersede it with a new one.
 | [0022](0022-cash-on-delivery-for-pre-orders.md) | Cash on delivery for pre-order and made-to-order items (owner setting) | Accepted |
 | [0023](0023-guest-checkout.md) | Guest checkout; accounts optional for shop orders | Accepted |
 | [0024](0024-internal-rpc-shared-secret.md) | Shared secret on internal TCP calls | Accepted |
+| [0025](0025-single-vps-production.md) | Production on one VPS with Docker Compose and Caddy | Accepted |
 
 Template: copy `0000-template.md`, take the next number, keep it under a page.
