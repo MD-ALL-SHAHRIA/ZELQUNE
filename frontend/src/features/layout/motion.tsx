@@ -1,6 +1,5 @@
 'use client';
 
-import Lenis from 'lenis';
 import { useEffect } from 'react';
 
 const REVEAL_STEP_MS = 70;
@@ -8,13 +7,12 @@ const REVEAL_MAX_DELAY_MS = 280;
 
 /**
  * The page's motion runtime (styles in globals.css, "Motion runtime"):
- * - Weighted, gliding scroll for mouse wheels and trackpads (Lenis). Touch keeps the phone's
- *   own scroll. Paused while a dialog or sheet locks the page (Radix sets data-scroll-locked).
  * - `.reveal` elements arrive once, quickly, as they enter the screen; ones that enter together
  *   follow each other. Anything already on screen when a page opens (first load or a click to
  *   another page) is shown at once, so a new page never looks like it is still loading.
  * - `[data-loop]` regions (marquees, the product glide) pause while off screen.
- * With reduced motion none of this runs: content is simply there and the browser scrolls.
+ * Scrolling stays the browser's own (a smooth-scroll library fought trackpad momentum).
+ * With reduced motion none of this runs: content is simply there.
  */
 export function Motion() {
   useEffect(() => {
@@ -65,25 +63,11 @@ export function Motion() {
     });
     added.observe(document.body, { childList: true, subtree: true });
 
-    const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9, anchors: true });
-    let frame = requestAnimationFrame(function raf(time) {
-      lenis.raf(time);
-      frame = requestAnimationFrame(raf);
-    });
-    const lock = new MutationObserver(() => {
-      if (document.body.hasAttribute('data-scroll-locked')) lenis.stop();
-      else lenis.start();
-    });
-    lock.observe(document.body, { attributes: true, attributeFilter: ['data-scroll-locked'] });
-
     return () => {
       reveal.disconnect();
       loops.disconnect();
       added.disconnect();
       cancelAnimationFrame(pending);
-      lock.disconnect();
-      cancelAnimationFrame(frame);
-      lenis.destroy();
       root.classList.remove('motion');
     };
   }, []);

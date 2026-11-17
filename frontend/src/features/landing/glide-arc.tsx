@@ -20,11 +20,15 @@ export function GlideArc({ label, children }: { label: string; children: React.R
     let frame = 0;
     const bend = () => {
       const half = innerWidth / 2;
-      for (const item of items) {
+      // All reads first, then all writes: one style pass per frame, not one per piece.
+      const centres = items.map((item) => {
         const r = item.getBoundingClientRect();
-        const d = Math.max(-1.6, Math.min(1.6, (r.left + r.width / 2 - half) / half));
+        return r.left + r.width / 2;
+      });
+      items.forEach((item, i) => {
+        const d = Math.max(-1.6, Math.min(1.6, (centres[i]! - half) / half));
         item.style.transform = `translate3d(0, ${(d * d * 26).toFixed(1)}px, ${(-d * d * 220).toFixed(1)}px) rotateY(${(-d * 34).toFixed(2)}deg)`;
-      }
+      });
       frame = requestAnimationFrame(bend);
     };
     const seen = new IntersectionObserver(([e]) => {
