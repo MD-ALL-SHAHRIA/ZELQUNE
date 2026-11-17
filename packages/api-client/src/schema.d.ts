@@ -5449,7 +5449,7 @@ export interface operations {
         from?: string;
         to?: string;
         q?: string;
-        isFriend?: unknown;
+        isFriend?: boolean | string;
         page?: number;
         limit?: number;
       };
@@ -5489,7 +5489,7 @@ export interface operations {
         from?: string;
         to?: string;
         q?: string;
-        isFriend?: unknown;
+        isFriend?: boolean | string;
       };
       header?: never;
       path?: never;

@@ -36,8 +36,7 @@ export const templates = {
     return `Zelqune: অর্ডার ${o.code} পৌঁছেছে, ধন্যবাদ! কেমন লাগলো? দেয়ালে লাগানোর পর একটা ছবি আর দুই লাইন মতামত এই নম্বরে রিপ্লাই বা আমাদের WhatsApp/Facebook-এ পাঠালে খুব খুশি হব।`;
   },
   orderCancelled(o: OrderInfo, reason: string): string {
-    const why =
-      reason === 'PAYMENT_TIMEOUT' ? 'নির্দিষ্ট সময়ে পেমেন্ট না পাওয়ায়' : 'অনিবার্য কারণে';
+    const why = reason === 'PAYMENT_TIMEOUT' ? 'নির্দিষ্ট সময়ে পেমেন্ট না পাওয়ায়' : 'অনিবার্য কারণে';
     return `Zelqune: অর্ডার ${o.code} ${why} বাতিল হয়েছে। প্রশ্ন থাকলে আমাদের জানান।`;
   },
   quoteRequested(q: {
