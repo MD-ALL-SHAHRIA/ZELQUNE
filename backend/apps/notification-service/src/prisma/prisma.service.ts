@@ -20,8 +20,9 @@ export class PrismaService extends PrismaClient implements TransactionalDb, OnMo
     });
   }
 
+  /** Handlers call the SMS gateway inside this transaction: allow a slow one (Prisma's default is 5 s). */
   transaction<T>(fn: (tx: SqlExecutor) => Promise<T>): Promise<T> {
-    return this.$transaction((tx) => fn(tx));
+    return this.$transaction((tx) => fn(tx), { maxWait: 5_000, timeout: 30_000 });
   }
 
   async onModuleDestroy(): Promise<void> {
