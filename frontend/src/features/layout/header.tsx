@@ -60,7 +60,7 @@ export function Header({
           {dict.layout.announcement}
         </p>
       )}
-      <header className="site-header sticky top-0 z-30 border-b border-line/90 bg-paper/[0.97] backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-paper/[0.88]">
+      <header className="site-header sticky top-0 z-30 border-b border-line/90 bg-paper/[0.97]">
         <div className="mx-auto grid h-16 w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-5 md:px-10 lg:h-[5.75rem]">
           <div className="flex items-center gap-0.5 lg:gap-4">
             <MenuButton label={dict.layout.menu} />

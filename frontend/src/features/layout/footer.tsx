@@ -227,7 +227,7 @@ export function Footer({
           into the band and running off its lower edge. */}
       <div className="mt-20 sm:mt-28">
         <Container>
-          <svg aria-hidden viewBox="0 0 1000 130" className="block w-full select-none">
+          <svg aria-hidden viewBox="0 0 1000 160" className="block w-full select-none">
             <defs>
               <linearGradient id="footer-wordmark" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0" stopColor="var(--color-brass)" stopOpacity="0.75" />

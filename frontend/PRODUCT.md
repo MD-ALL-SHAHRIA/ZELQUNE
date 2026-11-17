@@ -37,6 +37,9 @@ Never say "in stock" for a pre-order product.
 cream, brass; tokens in `packages/ui-tokens`), the logo, Cormorant Garamond + Jost, all copy and
 all layouts stay. Design work fixes real UI defects only (overflow, spacing, alignment,
 contrast, broken or missing states). It does not restyle or redesign.
+**Update (owner, 2026-11-18): motion and new motion-led moments are allowed** (a gliding product
+strip, a scroll collage around the statement, a brass seal, giant sliding type, staggered menus),
+in the same colours, fonts, logo and copy. Layout order of existing sections stays.
 
 ## Evidence on Hand
 Product photos come from the catalog. Sample and stock imagery are credited in `public/videos/CREDITS.md`

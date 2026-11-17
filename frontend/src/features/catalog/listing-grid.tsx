@@ -179,7 +179,7 @@ export function ListingGrid({
 
       <div
         className={cn(
-          'sticky z-20 -mx-5 border-y border-line bg-paper/95 px-5 backdrop-blur-md supports-[backdrop-filter]:bg-paper/85 md:mx-0 md:px-0',
+          'sticky z-20 -mx-5 border-y border-line bg-paper/95 px-5 md:mx-0 md:px-0',
           STICKY,
         )}
       >
