@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Field, Input } from '@/components/ui/field';
 import { useAuth } from '@/lib/auth';
+import { SITE_URL } from '@/lib/env';
 
-const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+const site = SITE_URL;
 
 export default function LoginPage() {
   const { state, signIn } = useAuth();

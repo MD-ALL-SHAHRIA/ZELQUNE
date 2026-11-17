@@ -15,6 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/lib/auth';
 import { cn } from '@/lib/cn';
 import { ThemeToggle } from './theme-toggle';
+import { SITE_URL } from '@/lib/env';
 
 export interface Inbox {
   /** Orders waiting for an advance check. */
@@ -58,7 +59,7 @@ export function HeaderTools({ inbox, onSearch }: { inbox: Inbox | null; onSearch
   const closeProfile = useCallback(() => setProfileOpen(false), []);
   useDismiss(bellRef, bellOpen, closeBell);
   useDismiss(profileRef, profileOpen, closeProfile);
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const site = SITE_URL;
   const total = (inbox?.payments ?? 0) + (inbox?.quotes ?? 0);
   const initials = (user?.name ?? 'Z')
     .split(/\s+/)

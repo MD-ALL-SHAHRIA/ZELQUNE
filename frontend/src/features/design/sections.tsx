@@ -1,4 +1,3 @@
-import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type Locale } from '@/i18n/config';
@@ -18,6 +17,7 @@ import { ConsultationForm } from './consultation-form';
 import { DesignJourney } from './design-journey.client';
 import { OrbitProcess } from './orbit-process';
 import { SECTORS, sectorImages, type SectorSpace } from './sectors';
+import { ChatLink } from '@/features/chat/chat-link';
 
 /**
  * Full-bleed interior hero (RH Interior Design manner): the room fills the screen, the studio's
@@ -365,17 +365,7 @@ export function ConsultSection({
               </li>
             ))}
           </ol>
-          {chat ? (
-            <a
-              href={chat}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 text-sm underline decoration-ink/30 underline-offset-[6px] transition hover:decoration-ink"
-            >
-              <MessageCircle aria-hidden className="size-4" strokeWidth={1.3} />
-              {dict.premium.chat.label}
-            </a>
-          ) : null}
+          <ChatLink href={chat} label={dict.premium.chat.label} />
         </div>
         <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(43,30,25,0.18)] sm:p-10 lg:p-12">
           <ConsultationForm

@@ -13,6 +13,7 @@ import { HeaderSlot } from './header-slot';
 import { LogoMark } from './logo';
 import { NAV_GROUPS } from './nav';
 import { HeaderTools, type Inbox } from './top-bar';
+import { SITE_URL } from '@/lib/env';
 
 const COLLAPSED_KEY = 'zq-admin-sidebar';
 const sidebarListeners = new Set<() => void>();
@@ -84,7 +85,7 @@ function Sidebar({
     .flatMap((g) => g.items)
     .filter(({ href }) => (href === '/' ? pathname === '/' : pathname.startsWith(href)))
     .sort((a, b) => b.href.length - a.href.length)[0]?.href;
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const site = SITE_URL;
   const item = cn(
     'group flex h-10 items-center gap-3 rounded-xl text-[0.9375rem] transition-colors',
     collapsed ? 'justify-center px-0' : 'px-3',

@@ -10,6 +10,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Shipments: the order's shipment is reserved before the courier is called, so a double click can't book a parcel twice (409 instead of a 500).
 - SMS: the send log is saved on its own right after the gateway accepts a message, so a retried event never sends it again.
 - Stock: an order confirmed after its stock hold expired still deducts stock if it is free; if not, the audit log shows a stock shortage.
+- Code quality audit (docs/audit/code-quality.md): dead code removed, duplicated quote-confirmation panel, WhatsApp link and URL fallbacks merged into shared code; the design consultation confirmation now takes focus like the construction one.
 - Home "Find your perfect piece": collections stand in tall arches (three across, the middle set lower; a swipe row on phones) with each piece centred, instead of a wide-card carousel with arrows. Copying a heading no longer gives its text twice.
 
 ### Added
