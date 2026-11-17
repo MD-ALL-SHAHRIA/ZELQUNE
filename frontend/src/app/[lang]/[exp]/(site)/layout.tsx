@@ -2,7 +2,7 @@ import { ViewTransition } from 'react';
 import { WhatsappFab } from '@/features/chat/whatsapp-fab';
 import { Footer } from '@/features/layout/footer';
 import { Header } from '@/features/layout/header';
-import { SmoothScroll } from '@/features/layout/smooth-scroll';
+import { Motion } from '@/features/layout/motion';
 import { buildSearchIndex } from '@/features/layout/search-index';
 import { getHomeContent, withContent } from '@/shared/api/content';
 import { businessLine } from '@/shared/lib/business';
@@ -50,7 +50,7 @@ export default async function SiteLayout({
         business={businessLine(content?.business, lang, dict.legal.business.licence)}
       />
       <WhatsappFab dict={dict} number={content?.contact.whatsapp} />
-      <SmoothScroll />
+      <Motion />
     </>
   );
 }

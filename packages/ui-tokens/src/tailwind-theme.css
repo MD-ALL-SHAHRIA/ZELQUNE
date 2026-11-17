@@ -37,4 +37,5 @@
   --tracking-eyebrow: 0.22em;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }

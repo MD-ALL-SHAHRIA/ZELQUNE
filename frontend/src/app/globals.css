@@ -241,15 +241,22 @@
   }
 }
 
-/* Scroll reveal with CSS scroll-driven animations only (no JS). Browsers without support, and
-   people who prefer reduced motion, simply see the content. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .reveal {
-      animation: rise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 55%;
-    }
+/* Motion runtime (features/layout/motion.tsx). `.reveal` content arrives once, quickly, as it
+   enters the screen. It is hidden only after the runtime has started (html.motion), so without
+   JS, or with reduced motion, it is simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .reveal {
+    transition:
+      opacity 0.7s var(--ease-out-expo) var(--reveal-delay, 0ms),
+      transform 0.9s var(--ease-out-expo) var(--reveal-delay, 0ms);
+  }
+  html.motion .reveal:not([data-in]) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  /* Loops rest while off screen. */
+  [data-loop][data-offscreen] .loop-run {
+    animation-play-state: paused !important;
   }
 }
 
@@ -533,6 +540,24 @@ html.lenis body {
         entry 0% cover 55%,
         cover 0% cover 100%;
     }
+    /* The workshop table (features/landing/statement.tsx): each piece drifts in from its own
+       side, tilted, and settles as the section crosses the screen; the seal turns. */
+    .table-piece {
+      animation: table-piece linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+    .table-seal {
+      animation: table-seal linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+    /* The giant brand line slides left as it crosses the screen. */
+    .giant-line {
+      animation: giant-line linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
     /* A sentence that lights up word by word as it crosses the screen (--p = word index / count). */
     .lit {
       view-timeline-name: --lit;
@@ -540,7 +565,7 @@ html.lenis body {
     .lit-word {
       animation: lit-word linear both;
       animation-timeline: --lit;
-      animation-range: cover calc(15% + var(--p) * 40%) cover calc(25% + var(--p) * 40%);
+      animation-range: cover calc(10% + var(--p) * 30%) cover calc(20% + var(--p) * 30%);
     }
   }
 }
@@ -552,6 +577,37 @@ html.lenis body {
     translate: 0 9%;
   }
 }
+@keyframes table-piece {
+  from {
+    translate: var(--fx) var(--fy);
+    rotate: var(--fr);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    translate: 0 0;
+    rotate: 0deg;
+    opacity: 1;
+  }
+}
+@keyframes giant-line {
+  from {
+    translate: 4% 0;
+  }
+  to {
+    translate: -38% 0;
+  }
+}
+@keyframes table-seal {
+  from {
+    rotate: -90deg;
+  }
+  to {
+    rotate: 200deg;
+  }
+}
 @keyframes lit-word {
   from {
     opacity: 0.12;
@@ -560,5 +616,29 @@ html.lenis body {
   to {
     opacity: 1;
     filter: blur(0);
+  }
+}
+
+/* Product glide (features/landing/glide-strip.tsx): two identical runs drifting left forever. */
+@keyframes glide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glide .loop-run {
+    animation: glide 70s linear infinite;
+  }
+  .glide:hover .loop-run,
+  .glide:focus-within .loop-run {
+    animation-play-state: paused;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glide {
+    overflow-x: auto;
+  }
+  .glide .loop-run > [aria-hidden] {
+    display: none;
   }
 }

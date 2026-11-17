@@ -4,6 +4,8 @@ import { Craft } from '@/features/landing/craft';
 import { DayNight } from '@/features/landing/day-night';
 import { FaqPreview } from '@/features/landing/faq-preview';
 import { FeaturedProduct } from '@/features/landing/featured-product';
+import { GiantLine } from '@/features/landing/giant-line';
+import { GlideStrip } from '@/features/landing/glide-strip';
 import { Hero } from '@/features/landing/hero';
 import { ProductRail } from '@/features/landing/product-rail';
 import { Services } from '@/features/landing/services';
@@ -79,11 +81,13 @@ export default async function Home({ params }: { params: PageParams }) {
       {featured ? <FeaturedProduct product={featured} lang={lang} dict={dict} /> : null}
       <ShopTheRoom products={products} lang={lang} dict={dict} />
       <DayNight dict={dict} />
+      <GlideStrip products={products} lang={lang} dict={dict} />
       <Craft dict={dict} lang={lang} />
       <ClientsStrip clients={content?.clients ?? []} dict={dict} />
-      <Statement dict={dict} />
+      <Statement dict={dict} lang={lang} products={products} />
       <Services lang={lang} dict={dict} />
       <TrustBand dict={dict} />
+      <GiantLine dict={dict} />
       <FaqPreview lang={lang} dict={dict} />
     </>
   );
