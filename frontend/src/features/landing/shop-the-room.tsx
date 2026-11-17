@@ -72,7 +72,7 @@ export function ShopTheRoom({
         {/* The room. Full bleed on phones, a tall framed photograph on desktop. */}
         <figure className="reveal -mx-5 md:mx-0 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
           <div className="relative aspect-[4/5] bg-sand lg:mx-auto lg:w-[min(100%,720px,calc(86svh*0.8))]">
-            <div className="media-reveal absolute inset-0 overflow-hidden">
+            <div className="media-reveal absolute inset-0 overflow-clip">
               <Image
                 src={ROOM.image.src}
                 alt=""

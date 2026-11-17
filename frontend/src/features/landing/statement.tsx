@@ -4,7 +4,6 @@ import { productName } from '@/features/catalog/product-copy';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { type ProductSummary } from '@/shared/api/types';
-import { cn } from '@/shared/lib/cn';
 import { Container } from '@/shared/ui/typography';
 
 /* The words drift left forever (two identical runs, shifted by half). Paused for reduced motion
@@ -25,15 +24,15 @@ const MARQUEE_CSS = `
 /**
  * The workshop table (desktop): pieces laid around the sentence. Each drifts in from its own
  * side at its own pace as the section crosses the screen (globals.css, .table-piece) and the
- * brass seal turns. Where: left/top in %, width in rem, start offset and tilt, arch or square.
+ * brass seal turns. Three arches a side, mirrored: left/top, width in rem, start offset, tilt.
  */
 const TABLE = [
-  { left: '4%', top: '14%', w: 11, fx: '-40%', fy: '30%', fr: '-8deg', arch: true },
-  { left: '15%', top: '58%', w: 8.5, fx: '-60%', fy: '-10%', fr: '6deg', arch: false },
-  { left: '1%', top: '72%', w: 7, fx: '-30%', fy: '60%', fr: '-4deg', arch: false },
-  { left: '82%', top: '8%', w: 9, fx: '50%', fy: '40%', fr: '7deg', arch: false },
-  { left: '78%', top: '55%', w: 12, fx: '40%', fy: '-20%', fr: '-6deg', arch: true },
-  { left: '64%', top: '70%', w: 7.5, fx: '20%', fy: '70%', fr: '5deg', arch: false },
+  { left: '5%', top: '10%', w: 12, fx: '-45%', fy: '25%', fr: '-5deg' },
+  { left: '19%', top: '50%', w: 8, fx: '-70%', fy: '10%', fr: '4deg' },
+  { left: '4%', top: '62%', w: 10, fx: '-35%', fy: '45%', fr: '-3deg' },
+  { left: 'calc(95% - 12rem)', top: '10%', w: 12, fx: '45%', fy: '25%', fr: '5deg' },
+  { left: 'calc(81% - 8rem)', top: '50%', w: 8, fx: '70%', fy: '10%', fr: '-4deg' },
+  { left: 'calc(96% - 10rem)', top: '62%', w: 10, fx: '35%', fy: '45%', fr: '3deg' },
 ] as const;
 
 export function Statement({
@@ -69,17 +68,14 @@ export function Statement({
   return (
     <section className="bg-cream text-ink">
       <style>{MARQUEE_CSS}</style>
-      <div className="work-table relative w-full overflow-hidden">
+      <div className="work-table relative w-full overflow-clip">
         <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
           {pieces.map((image, i) => {
             const t = TABLE[i]!;
             return (
               <span
                 key={image.src + i}
-                className={cn(
-                  'table-piece absolute block overflow-hidden bg-sand shadow-[0_30px_80px_-40px_rgba(43,30,25,0.35)]',
-                  t.arch ? 'aspect-[3/4] rounded-t-full' : 'aspect-[4/5]',
-                )}
+                className="table-piece absolute block aspect-[3/4] overflow-hidden rounded-t-full bg-sand shadow-[0_30px_80px_-40px_rgba(43,30,25,0.35)]"
                 style={
                   {
                     left: t.left,
@@ -98,7 +94,7 @@ export function Statement({
           {/* The brass seal: the promises on a ring, turning with the scroll. */}
           <svg
             viewBox="0 0 200 200"
-            className="table-seal absolute top-[9%] left-[60%] w-[10.5rem] text-walnut"
+            className="table-seal absolute top-[4%] left-[calc(50%-4.75rem)] w-[9.5rem] text-walnut"
           >
             <defs>
               <path id="seal-ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />

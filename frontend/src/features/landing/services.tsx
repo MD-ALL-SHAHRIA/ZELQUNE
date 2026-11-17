@@ -48,7 +48,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           {/* 01 Interior Design: tall, text at the foot. */}
           <Link
             href={href(lang, '/design')}
-            className="reveal depth group relative isolate flex aspect-[4/5] flex-col justify-end overflow-hidden bg-walnut sm:aspect-[4/3] lg:col-span-7 lg:row-span-2 lg:aspect-auto"
+            className="reveal depth group relative isolate flex aspect-[4/5] flex-col justify-end overflow-clip bg-walnut sm:aspect-[4/3] lg:col-span-7 lg:row-span-2 lg:aspect-auto"
           >
             <Image
               src={SAMPLE.livingNeutral.src}
@@ -79,7 +79,7 @@ export function Services({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           {/* 02 Construction: wide, text at the head. */}
           <Link
             href={href(lang, '/construction')}
-            className="reveal depth group relative isolate flex aspect-square flex-col justify-start sm:aspect-[16/10] overflow-hidden bg-walnut lg:col-span-5 lg:aspect-auto"
+            className="reveal depth group relative isolate flex aspect-square flex-col justify-start sm:aspect-[16/10] overflow-clip bg-walnut lg:col-span-5 lg:aspect-auto"
           >
             <Image
               src={SAMPLE.villa.src}

@@ -619,6 +619,11 @@ html.lenis body {
   }
 }
 
+/* The seal reads in brass on the night ground. */
+:root[data-theme='dark'] .table-seal {
+  color: var(--color-brass);
+}
+
 /* Product glide (features/landing/glide-strip.tsx): two identical runs drifting left forever. */
 @keyframes glide {
   to {
