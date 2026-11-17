@@ -34,10 +34,7 @@ test('a company sends a bulk request and checks its status', async ({ page }) =>
 
 test('the bulk page is linked from the footer in Bangla too', async ({ page }) => {
   await page.goto('/bn');
-  await page
-    .getByRole('contentinfo')
-    .getByRole('link', { name: 'বাল্ক / কর্পোরেট অর্ডার' })
-    .click();
+  await page.getByRole('contentinfo').getByRole('link', { name: 'বাল্ক / কর্পোরেট অর্ডার' }).click();
   await expect(page).toHaveURL(/\/bn\/bulk$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'অফিস, ব্যবসা আর উপহারের জন্য বাল্ক অর্ডার',

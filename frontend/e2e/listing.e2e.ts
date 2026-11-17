@@ -109,9 +109,7 @@ test('each category page has its own hero, active pill and products', async ({ p
 test('Bangla category page: no side scroll, Bangla toolbar', async ({ page }) => {
   await page.goto('/bn/category/lighting');
   await expect(page.getByRole('heading', { level: 1, name: 'আলো' })).toBeVisible();
-  await expect(page.getByTestId('results-count').filter({ visible: true })).toContainText(
-    'টি পণ্য',
-  );
+  await expect(page.getByTestId('results-count').filter({ visible: true })).toContainText('টি পণ্য');
   await noSideScroll(page);
 });
 
