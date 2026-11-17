@@ -94,20 +94,35 @@ export class ShippingService {
     const provider = this.couriers.find((c) => c.courier === input.courier);
     if (!provider)
       throw new AppError('COURIER_NOT_CONFIGURED', `${input.courier} is not configured yet`, 422);
-    if (await this.prisma.shipment.findUnique({ where: { orderId: input.orderId } })) {
-      throw new AppError('SHIPMENT_EXISTS', 'This order already has a shipment', 409);
+    // Reserve the order's shipment row before calling the courier: order_id is unique, so a
+    // double click or a retry stops here instead of booking the parcel twice.
+    try {
+      await this.prisma.shipment.create({
+        data: { orderId: input.orderId, courier: input.courier, status: 'PENDING' },
+      });
+    } catch (err) {
+      if ((err as { code?: string }).code === 'P2002') {
+        throw new AppError('SHIPMENT_EXISTS', 'This order already has a shipment', 409);
+      }
+      throw err;
     }
-    const booking = await provider.book({
-      orderId: input.orderId,
-      consignmentId: input.consignmentId,
-      trackingUrl: input.trackingUrl,
-    });
+    let booking: Awaited<ReturnType<CourierProvider['book']>>;
+    try {
+      booking = await provider.book({
+        orderId: input.orderId,
+        consignmentId: input.consignmentId,
+        trackingUrl: input.trackingUrl,
+      });
+    } catch (err) {
+      // Nothing was booked: free the order so staff can try again.
+      await this.prisma.shipment.delete({ where: { orderId: input.orderId } });
+      throw err;
+    }
     const status = booking.booked ? 'BOOKED' : 'PENDING';
     const shipment = await this.prisma.$transaction(async (tx) => {
-      const created = await tx.shipment.create({
+      const saved = await tx.shipment.update({
+        where: { orderId: input.orderId },
         data: {
-          orderId: input.orderId,
-          courier: input.courier,
           consignmentId: booking.consignmentId,
           trackingUrl: booking.trackingUrl,
           status,
@@ -121,7 +136,7 @@ export class ShippingService {
         summary: `Shipment created: ${input.courier}${booking.consignmentId ? ` ${booking.consignmentId}` : ''} (${status})`,
         changes: { courier: input.courier, consignmentId: booking.consignmentId, status },
       });
-      return created;
+      return saved;
     });
     return {
       courier: shipment.courier,
