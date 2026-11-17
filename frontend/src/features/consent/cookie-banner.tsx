@@ -142,11 +142,7 @@ export function CookieBanner({ copy, policyHref }: { copy: ConsentCopy; policyHr
 /** "Cookie settings" in the footer: reopens the dialog. */
 export function CookieSettingsButton({ label }: { label: string }) {
   return (
-    <button
-      type="button"
-      onClick={openCookieSettings}
-      className="link-reveal text-left"
-    >
+    <button type="button" onClick={openCookieSettings} className="link-reveal text-left">
       {label}
     </button>
   );
