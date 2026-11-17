@@ -1,0 +1,43 @@
+# HTTPS for every site with automatic Let's Encrypt certificates (renewed by Caddy).
+# DOMAIN and ACME_EMAIL come from infra/.env.production. DNS: zelqune.com, www, admin, api and
+# media must all point to this server (docs/deploy.md).
+{
+	email {$ACME_EMAIL}
+}
+
+(common) {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+	log {
+		output stdout
+		format json
+	}
+}
+
+{$DOMAIN} {
+	import common
+	reverse_proxy frontend:3100
+}
+
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri} permanent
+}
+
+admin.{$DOMAIN} {
+	import common
+	reverse_proxy dashboard:3200
+}
+
+api.{$DOMAIN} {
+	import common
+	reverse_proxy gateway:3000
+}
+
+# Product photos when STORAGE_DRIVER=local (signed uploads from the dashboard, public reads).
+media.{$DOMAIN} {
+	import common
+	reverse_proxy catalog-service:3002
+}

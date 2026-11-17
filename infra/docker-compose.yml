@@ -1,5 +1,5 @@
 # Local development stack. Only 127.0.0.1 ports are published, so nothing is reachable from
-# your network. Production compose (only the gateway exposed, behind HTTPS) comes in step 1.6.
+# your network. Production: infra/docker-compose.prod.yml (docs/deploy.md).
 # From the repo root:
 #   pnpm infra:up       build and start everything (docker compose -f infra/docker-compose.yml up -d --build)
 #   pnpm health         curl every /health

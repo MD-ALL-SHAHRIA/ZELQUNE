@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type { NextConfig } from 'next';
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants';
 import { validatePublicEnv } from './src/config/env.schema';
@@ -74,6 +75,9 @@ export default function config(phase: string): NextConfig {
   return {
     reactStrictMode: true,
     poweredByHeader: false,
+    // Docker images (infra/docker/web.Dockerfile) set NEXT_OUTPUT=standalone; `next start` stays as is.
+    output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
+    outputFileTracingRoot: path.join(__dirname, '..'),
     async headers() {
       return [{ source: '/:path*', headers: securityHeaders(phase === PHASE_DEVELOPMENT_SERVER) }];
     },
