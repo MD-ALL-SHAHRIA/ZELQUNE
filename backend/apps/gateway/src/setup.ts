@@ -44,8 +44,11 @@ export function setupGateway(
     ],
   });
 
-  // UI at /docs, spec at /docs-json (packages/api-client generates types from it).
-  SwaggerModule.setup('docs', app, createOpenApiDocument(app), { jsonDocumentUrl: 'docs-json' });
+  // UI at /docs, spec at /docs-json. Off in production (it lists every admin route); `pnpm
+  // gen:api` builds the spec with a script, not this route.
+  if (config.API_DOCS) {
+    SwaggerModule.setup('docs', app, createOpenApiDocument(app), { jsonDocumentUrl: 'docs-json' });
+  }
 }
 
 export function createOpenApiDocument(app: INestApplication): OpenAPIObject {
