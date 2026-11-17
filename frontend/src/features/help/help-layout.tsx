@@ -66,25 +66,6 @@ export function HelpLayout({
   );
 }
 
-/** Numbered policy clauses; [[...]] placeholders stay visible. */
-export function Clauses({ items }: { lang: Locale; items: string[] }) {
-  return (
-    <ol className="border-t border-line">
-      {items.map((item) => (
-        <li
-          key={item}
-          className="grid grid-cols-[2.75rem_1fr] gap-4 border-b border-line py-7 text-[1.05rem] leading-relaxed sm:grid-cols-[4rem_1fr] sm:text-lg"
-        >
-          <span aria-hidden className="block bg-walnut h-px w-8" />
-          <span>
-            <CopyText>{item}</CopyText>
-          </span>
-        </li>
-      ))}
-    </ol>
-  );
-}
-
 interface Policy {
   title: string;
   intro: string;

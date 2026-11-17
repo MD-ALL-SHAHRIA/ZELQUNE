@@ -8,6 +8,7 @@ import { buttonClass } from '@/shared/ui/button';
 import {
   consentSnapshot,
   OPEN_SETTINGS_EVENT,
+  openCookieSettings,
   saveConsent,
   SERVER_SNAPSHOT,
   subscribeConsent,
@@ -143,7 +144,7 @@ export function CookieSettingsButton({ label }: { label: string }) {
   return (
     <button
       type="button"
-      onClick={() => window.dispatchEvent(new Event(OPEN_SETTINGS_EVENT))}
+      onClick={openCookieSettings}
       className="link-reveal text-left"
     >
       {label}

@@ -5,35 +5,6 @@ import { Picture } from '@/shared/ui/image';
 import { GalleryShell } from './product-gallery.client';
 import { type ProductImage } from './product-images';
 
-/** One or more product images; the first can be arch-framed (the brand motif). */
-export function ProductImages({
-  images,
-  arch = false,
-  note,
-  priority = false,
-}: {
-  images: ProductImage[];
-  arch?: boolean;
-  note?: string;
-  priority?: boolean;
-}) {
-  return (
-    <>
-      {images.map((img, i) => (
-        <Picture
-          key={img.src}
-          src={img.src}
-          alt={img.alt}
-          sizes="(min-width: 1024px) 45vw, 100vw"
-          arch={arch && i === 0}
-          priority={priority && i === 0}
-          note={img.sample && i === 0 ? note : undefined}
-        />
-      ))}
-    </>
-  );
-}
-
 /**
  * Product page gallery, one set of images for every screen (each downloaded once): a swipeable
  * scroll-snap strip with a photo counter on phones (the next photo peeks in), and on desktop a

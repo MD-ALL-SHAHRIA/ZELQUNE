@@ -37,7 +37,6 @@ export function StoreDetails({ readOnly }: { readOnly: boolean }) {
       setDraft({ ...EMPTY, ...content.contact });
     });
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- load() awaits the API before setting state
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- load once
   }, []);

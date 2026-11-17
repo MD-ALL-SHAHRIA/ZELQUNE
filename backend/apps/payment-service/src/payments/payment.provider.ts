@@ -46,17 +46,3 @@ export class CodPaymentProvider implements PaymentProvider {
     return { status: 'COD_PENDING' };
   }
 }
-
-/** Test double: records what it was asked to start. */
-export class FakePaymentProvider implements PaymentProvider {
-  readonly started: NewPayment[] = [];
-  constructor(
-    readonly methods: readonly PaymentMethod[],
-    private readonly status: PaymentStatus = 'SUBMITTED',
-  ) {}
-
-  begin(payment: NewPayment): PaymentStart {
-    this.started.push(payment);
-    return { status: this.status };
-  }
-}
