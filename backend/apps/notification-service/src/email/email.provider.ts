@@ -68,12 +68,3 @@ export class ConsoleEmailProvider implements EmailProvider {
     return Promise.resolve({ providerRef: 'console' });
   }
 }
-
-export class FakeEmailProvider implements EmailProvider {
-  readonly name = 'fake';
-  readonly sent: EmailMessage[] = [];
-  send(m: EmailMessage): Promise<{ providerRef: string }> {
-    this.sent.push(m);
-    return Promise.resolve({ providerRef: `fake-${this.sent.length}` });
-  }
-}

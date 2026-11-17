@@ -32,6 +32,7 @@ import { downloadCsv, takaCell } from '@/lib/csv';
 import { ranges, shortDay } from '@/lib/dates';
 import { delta, formatTaka, formatTakaShort, humanize, timeAgo } from '@/lib/format';
 import { PIPELINE, STATUS_LABEL, statusTone, type OrderStatus } from '@/lib/orders';
+import { SITE_URL } from '@/lib/env';
 
 type Stats = Schemas['DashboardStatsDto_Output'];
 type Order = Schemas['AdminOrderListDto_Output']['items'][number];
@@ -127,7 +128,7 @@ export default function HomePage() {
   const [newQuotes, setNewQuotes] = useState<number | null>(null);
   const [slugs, setSlugs] = useState<Record<string, string>>({});
   const [activity, setActivity] = useState<Audit[] | null>(null);
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const site = SITE_URL;
 
   useEffect(() => {
     let live = true;

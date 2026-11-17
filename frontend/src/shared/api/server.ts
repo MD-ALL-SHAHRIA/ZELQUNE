@@ -1,5 +1,6 @@
 import 'server-only';
 import { createApiClient } from '@zelqune/api-client';
+import { env } from '@/config/env';
 import {
   type ActiveSale,
   ApiError,
@@ -16,10 +17,12 @@ import { isExperimentKey, type PriceSegment } from '@/shared/lib/visitor';
  */
 export const REVALIDATE_SECONDS = 60;
 
-const api = createApiClient(
-  process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
-  { fetch: (request) => fetch(request, { next: { revalidate: REVALIDATE_SECONDS } }) },
-);
+/** Server-side API base: the internal URL (API_URL) when set, else the public one. */
+export const SERVER_API_URL = process.env.API_URL || env.NEXT_PUBLIC_API_URL;
+
+const api = createApiClient(SERVER_API_URL, {
+  fetch: (request) => fetch(request, { next: { revalidate: REVALIDATE_SECONDS } }),
+});
 
 const priceQuery = (segment: PriceSegment) => (isExperimentKey(segment) ? { p: segment } : {});
 

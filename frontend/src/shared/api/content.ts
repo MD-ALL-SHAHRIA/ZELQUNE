@@ -2,6 +2,7 @@ import 'server-only';
 import { createApiClient, type Schemas } from '@zelqune/api-client';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
+import { SERVER_API_URL } from '@/shared/api/server';
 import { applyTexts } from '@/content/editable-texts';
 
 export type HomeContent = NonNullable<Schemas['HomeContentResponseDto_Output']['home']>['content'];
@@ -9,10 +10,9 @@ export type HomeContent = NonNullable<Schemas['HomeContentResponseDto_Output']['
 /** Content edits show on the site within a minute (ISR). */
 const CONTENT_REVALIDATE_SECONDS = 60;
 
-const api = createApiClient(
-  process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
-  { fetch: (request) => fetch(request, { next: { revalidate: CONTENT_REVALIDATE_SECONDS } }) },
-);
+const api = createApiClient(SERVER_API_URL, {
+  fetch: (request) => fetch(request, { next: { revalidate: CONTENT_REVALIDATE_SECONDS } }),
+});
 
 /**
  * The owner's home content from the dashboard (ADR 0015), or null before the first save or when

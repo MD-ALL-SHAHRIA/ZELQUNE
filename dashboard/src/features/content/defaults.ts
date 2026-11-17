@@ -1,4 +1,5 @@
 import { type Schemas } from '@/lib/api';
+import { SITE_URL } from '@/lib/env';
 
 export type HomeContent = Schemas['UpdateHomeContentDto']['content'];
 export type Localized = HomeContent['announcement'];
@@ -94,7 +95,7 @@ export const TRUST_ICONS = [
 
 /** The storefront's built-in scene photos, by product (shown until the owner uploads one). */
 export function sampleScene(productSlug: string): string | undefined {
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const site = SITE_URL;
   const file: Record<string, string> = {
     'fluted-niche-panel': 'moon-v2-1200.webp',
     'half-moon-planter-light': 'half-v2-1200.webp',
@@ -115,7 +116,7 @@ export function sampleCover(categorySlug: string): string | undefined {
 
 /** The storefront's sample product photos, by product (until real photos are uploaded). */
 export function sampleProductPhoto(productSlug: string): string | undefined {
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const site = SITE_URL;
   const file: Record<string, string> = {
     'alo-arch-panel': 'terra.webp',
     'diamond-shelf-pair': 'aurora.webp',

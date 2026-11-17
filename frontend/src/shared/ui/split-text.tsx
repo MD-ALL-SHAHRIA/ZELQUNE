@@ -22,7 +22,6 @@ export function SplitText({ text }: { text: string }) {
     const rect = el.getBoundingClientRect();
     // Already on screen when the page loads: leave it be (no flash).
     if (rect.top < window.innerHeight && rect.bottom > 0) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- arm once, off-screen, before it is seen
     setState('armed');
     const io = new IntersectionObserver(
       ([entry]) => {
