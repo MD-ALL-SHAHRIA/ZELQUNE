@@ -6,6 +6,7 @@ import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { type ProductSummary } from '@/shared/api/types';
 import { href } from '@/shared/lib/site';
+import { GlideArc } from './glide-arc';
 
 /**
  * The collection, always quietly on the move: arch-framed pieces glide sideways under the trust
@@ -54,15 +55,11 @@ export function GlideStrip({
     </ul>
   );
   return (
-    <section
-      aria-label={dict.shop.title}
-      data-loop
-      className="glide overflow-hidden py-14 sm:py-20"
-    >
+    <GlideArc label={dict.shop.title}>
       <div className="loop-run flex w-max">
         {run(false)}
         {run(true)}
       </div>
-    </section>
+    </GlideArc>
   );
 }

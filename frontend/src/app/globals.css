@@ -324,16 +324,41 @@
   }
 }
 
-/* Page changes: the content area cross-fades softly (React <ViewTransition> in the site
-   layout); the header and footer stay put. Browsers without the API just swap. */
+/* Page changes open through an arch, the brand's one curve (React <ViewTransition> in the site
+   layout): the page you leave dims and settles back while the next one opens from a doorway at
+   the foot of the screen. Header and footer stay put. Browsers without the API just swap;
+   reduced motion keeps the soft cross-fade. */
 ::view-transition {
   pointer-events: none;
 }
 ::view-transition-old(.zq-page) {
-  animation: 160ms ease-in both vt-fade-out;
+  animation: 420ms var(--ease-out-expo) both vt-recede;
 }
 ::view-transition-new(.zq-page) {
-  animation: 320ms var(--ease-out-soft) 80ms both vt-fade-in;
+  animation: 720ms var(--ease-out-expo) both vt-arch-open;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(.zq-page) {
+    animation: 160ms ease-in both vt-fade-out;
+  }
+  ::view-transition-new(.zq-page) {
+    animation: 320ms var(--ease-out-soft) 80ms both vt-fade-in;
+  }
+}
+@keyframes vt-recede {
+  to {
+    opacity: 0.35;
+    scale: 0.97;
+    filter: blur(3px);
+  }
+}
+@keyframes vt-arch-open {
+  from {
+    clip-path: inset(55vh 34% 0 34% round 30vw 30vw 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0 0 0 0);
+  }
 }
 @keyframes vt-fade-out {
   to {
@@ -639,11 +664,59 @@ html.lenis body {
     animation-play-state: paused;
   }
 }
+/* The arc (glide-arc.tsx): 3D only once the script has taken over. */
+.glide[data-arc] {
+  perspective: 1400px;
+}
+.glide[data-arc] .loop-run,
+.glide[data-arc] .loop-run > ul {
+  transform-style: preserve-3d;
+}
 @media (prefers-reduced-motion: reduce) {
   .glide {
     overflow-x: auto;
   }
   .glide .loop-run > [aria-hidden] {
     display: none;
+  }
+}
+
+/* Intro curtain (features/layout/intro-curtain.tsx), first visit of a session only. The mark
+   rises out of its own line, the name settles from wide tracking, then the curtain lifts away
+   with the page already painted underneath. Never takes clicks. */
+.intro-curtain {
+  display: none;
+}
+html.intro .intro-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: var(--zq-espresso, #3b2922);
+  animation: intro-lift 520ms var(--ease-out-expo) 760ms both;
+}
+html.intro .intro-mark svg {
+  animation: intro-rise 620ms var(--ease-out-expo) both;
+}
+html.intro .intro-name > span {
+  animation: intro-name 700ms var(--ease-out-expo) 140ms both;
+}
+@keyframes intro-rise {
+  from {
+    translate: 0 105%;
+  }
+}
+@keyframes intro-name {
+  from {
+    opacity: 0;
+    letter-spacing: 0.7em;
+  }
+}
+@keyframes intro-lift {
+  to {
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
   }
 }
