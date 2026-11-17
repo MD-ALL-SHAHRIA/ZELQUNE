@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/toast';
 import { api, errorMessage, type Schemas } from '@/lib/api';
+import { SITE_URL } from '@/lib/env';
 
 type Category = Schemas['AdminCategoryListDto_Output']['items'][number];
 interface Form {
@@ -23,7 +24,7 @@ interface Form {
   isActive: boolean;
 }
 
-const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+const site = SITE_URL;
 const slugify = (s: string) =>
   s
     .toLowerCase()

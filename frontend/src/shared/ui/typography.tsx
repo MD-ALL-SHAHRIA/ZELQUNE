@@ -83,10 +83,3 @@ export function Lead({
     />
   );
 }
-
-/** A 1px rule; `fade` softens both ends (between editorial sections). */
-export function Hairline({ className, fade = false }: { className?: string; fade?: boolean }) {
-  return (
-    <div aria-hidden className={cn(fade ? 'hairline-fade' : 'h-px bg-line', 'w-full', className)} />
-  );
-}

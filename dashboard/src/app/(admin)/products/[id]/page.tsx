@@ -16,6 +16,7 @@ import { cn } from '@/lib/cn';
 import { humanize, timeAgo } from '@/lib/format';
 import { checkImage, type ImageType, putFile } from '@/lib/upload';
 import { Finishes } from '@/features/products/finishes';
+import { SITE_URL } from '@/lib/env';
 
 type Product = Schemas['AdminProductDto_Output'];
 type Draft = {
@@ -111,7 +112,7 @@ export default function ProductPage() {
   const saved = toDraft(product);
   const dirty = JSON.stringify(saved) !== JSON.stringify(draft);
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setDraft({ ...draft, [k]: v });
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const site = SITE_URL;
 
   const save = () =>
     void act(
