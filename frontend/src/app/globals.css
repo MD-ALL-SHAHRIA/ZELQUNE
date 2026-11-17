@@ -493,3 +493,86 @@ html[lang='bn'] .font-display .italic {
   --angle: calc(180deg + (var(--i) - var(--t)) * (360deg / var(--n)));
   transform: rotate(var(--angle)) translateX(var(--r)) rotate(calc(-1 * var(--angle)));
 }
+
+/* Smooth scroll (features/layout/smooth-scroll.tsx, Lenis) base rules. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Scroll-linked depth and light, CSS only. Without scroll timelines (or with reduced motion)
+   everything simply stays in place and fully lit. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Large photos drift a little slower than the page. `translate` is its own property, so it
+       adds to the arrival zoom (.media-reveal) and hover zooms instead of replacing them. */
+    .depth > img {
+      /* 12% taller than its frame (next/image sets inline position styles), so the drift
+         never shows an edge; hover zooms keep using `scale`. */
+      top: -6% !important;
+      height: 112% !important;
+      animation: depth linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+    .media-reveal.depth > img {
+      animation:
+        media-settle linear both,
+        depth linear both;
+      animation-timeline: view(), view();
+      animation-range:
+        entry 0% cover 55%,
+        cover 0% cover 100%;
+    }
+    /* A sentence that lights up word by word as it crosses the screen (--p = word index / count). */
+    .lit {
+      view-timeline-name: --lit;
+    }
+    .lit-word {
+      animation: lit-word linear both;
+      animation-timeline: --lit;
+      animation-range: cover calc(20% + var(--p) * 30%) cover calc(27% + var(--p) * 30%);
+    }
+    /* The footer wordmark rises out of the band below it as the footer arrives. */
+    .wordmark-rise {
+      animation: wordmark-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+@keyframes depth {
+  from {
+    translate: 0 -5%;
+  }
+  to {
+    translate: 0 5%;
+  }
+}
+@keyframes lit-word {
+  from {
+    opacity: 0.16;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes wordmark-rise {
+  from {
+    clip-path: inset(100% 0 0 0);
+    translate: 0 40%;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    translate: 0 0;
+  }
+}

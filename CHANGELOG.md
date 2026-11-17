@@ -7,6 +7,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Motion: smooth, weighted scrolling with a mouse or trackpad (Lenis; phones keep their own scroll, off for reduced motion); the home statement lights up word by word as it scrolls past; large photos drift slightly slower than the page; the footer wordmark rises out of the band. All scroll effects are CSS only and stay still for reduced motion.
 - Code quality audit (docs/audit/code-quality.md): dead code removed, duplicated quote-confirmation panel, WhatsApp link and URL fallbacks merged into shared code; the design consultation confirmation now takes focus like the construction one.
 - Home "Find your perfect piece": collections stand in tall arches (three across, the middle set lower; a swipe row on phones) with each piece centred, instead of a wide-card carousel with arrows. Copying a heading no longer gives its text twice.
 

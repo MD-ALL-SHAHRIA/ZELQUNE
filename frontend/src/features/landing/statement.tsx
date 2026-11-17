@@ -18,6 +18,8 @@ const MARQUEE_CSS = `
  */
 export function Statement({ dict }: { dict: Dictionary }) {
   const words = dict.premium.marquee;
+  // Lit word by word as it scrolls past (globals.css, .lit-word); plain text without support.
+  const statement = dict.premium.statement.split(' ');
   const run = (hidden: boolean) => (
     <ul aria-hidden={hidden || undefined} className="flex shrink-0 items-center">
       {words.map((w) => (
@@ -40,8 +42,16 @@ export function Statement({ dict }: { dict: Dictionary }) {
           <span className="size-1.5 rotate-45 bg-current" />
           <span className="h-px w-10 bg-current" />
         </span>
-        <p className="max-w-[24ch] font-display text-[2rem] leading-[1.12] tracking-[-0.01em] text-balance sm:text-[2.8rem] lg:text-[3.5rem] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.35] [:lang(bn)_&]:tracking-normal">
-          {dict.premium.statement}
+        <p className="lit max-w-[24ch] font-display text-[2rem] leading-[1.12] tracking-[-0.01em] text-balance sm:text-[2.8rem] lg:text-[3.5rem] [:lang(bn)_&]:font-normal [:lang(bn)_&]:leading-[1.35] [:lang(bn)_&]:tracking-normal">
+          {statement.map((word, i) => (
+            <span
+              key={i}
+              className="lit-word"
+              style={{ '--p': i / statement.length } as React.CSSProperties}
+            >
+              {word}{' '}
+            </span>
+          ))}
         </p>
       </Container>
       <div className="marquee overflow-hidden bg-walnut py-5 text-paper sm:py-6">
