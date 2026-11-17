@@ -4,67 +4,77 @@
 
 # ZELQUNE
 
-**Handcrafted wood and light for modern homes — e-commerce platform**
+**Handcrafted wood and warm light for the home, made to order in Dhaka.**<br />
+The complete online shop: storefront, admin dashboard and microservice backend.
 
 [![backend](https://github.com/MD-ALL-SHAHRIA/ZELQUNE/actions/workflows/backend.yml/badge.svg)](https://github.com/MD-ALL-SHAHRIA/ZELQUNE/actions/workflows/backend.yml)
 [![frontend](https://github.com/MD-ALL-SHAHRIA/ZELQUNE/actions/workflows/frontend.yml/badge.svg)](https://github.com/MD-ALL-SHAHRIA/ZELQUNE/actions/workflows/frontend.yml)
 [![dashboard](https://github.com/MD-ALL-SHAHRIA/ZELQUNE/actions/workflows/dashboard.yml/badge.svg)](https://github.com/MD-ALL-SHAHRIA/ZELQUNE/actions/workflows/dashboard.yml)
+[![security](https://github.com/MD-ALL-SHAHRIA/ZELQUNE/actions/workflows/security.yml/badge.svg)](https://github.com/MD-ALL-SHAHRIA/ZELQUNE/actions/workflows/security.yml)
 <br />
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
 ![NestJS](https://img.shields.io/badge/NestJS-11-E0234E?logo=nestjs&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-App_Router-000000?logo=nextdotjs&logoColor=white)
-![pnpm](https://img.shields.io/badge/pnpm-9-F69220?logo=pnpm&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9_strict-3178C6?logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-4169E1?logo=postgresql&logoColor=white)
 ![License](https://img.shields.io/badge/license-proprietary-4A3426)
+
+[Status](#project-status) · [Architecture](#architecture) · [Getting started](#getting-started) · [Deploy](docs/deploy.md) · [Roadmap](#roadmap)
 
 </div>
 
 ---
 
-## Table of contents
-
-- [About](#about)
-- [Architecture](#architecture)
-- [Tech stack](#tech-stack)
-- [Repository structure](#repository-structure)
-- [Getting started](#getting-started)
-- [Scripts](#scripts)
-- [Environment variables](#environment-variables)
-- [Testing](#testing)
-- [Git workflow](#git-workflow)
-- [Roadmap](#roadmap)
-- [License](#license)
-
 ## About
 
-Zelqune makes handcrafted wood and light pieces for the home, starting with the Alo-Arch panel.
-This repository holds the complete online shop: a Bangla-first storefront, an admin dashboard,
-and a microservice backend for catalog, stock, orders, payments (COD and bKash/Nagad), delivery,
-notifications and analytics.
+Zelqune makes handcrafted wood and light pieces for the home: wall panels, shelves and lamps.
+This repository is the whole shop: a bilingual storefront (English and Bangla), an admin
+dashboard for the owner and staff, and a microservice backend for catalog, stock, orders,
+payments (cash on delivery and bKash/Nagad), delivery, notifications and analytics.
 
-Products sell in one of three modes — **in stock**, **made to order** or **pre-order** — so the
-first pre-order test runs on the same platform that later becomes the full store.
+Every product sells in one of three modes: **in stock**, **made to order** or **pre-order**
+(a ৳300 advance). The site never invents reviews, ratings, sold counts or countdowns.
 
-- Scope and milestones: [docs/website-build-plan.md](docs/website-build-plan.md)
-- Pre-order test rules: [docs/website-spec.md](docs/website-spec.md)
-- Architecture and decisions: [docs/architecture.md](docs/architecture.md), [docs/adr/](docs/adr/README.md)
+## Project status
+
+> **Ready for launch after the owner's setup steps.** The code has passed a full
+> pre-deployment audit; no critical or high issues are open.
+> Checklist: [docs/audit/pre-deployment-checklist.md](docs/audit/pre-deployment-checklist.md)
+
+| Area | State | Notes |
+|---|---|---|
+| Storefront | ✅ Done | `/en` + `/bn`, shop, filters, search, product pages, cart, guest and account checkout, COD / bKash advance, order tracking, interior design, construction, bulk requests, privacy requests, Google/Facebook sign-in |
+| Admin dashboard | ✅ Done | Orders and payment checks, products, stock, home page editing, coupons and flash sales, customers, quotes, finance (expenses, P&L), analytics, audit log, team and settings |
+| Backend | ✅ Done | Gateway + 8 services, outbox messaging, idempotency, rate limits, signed uploads |
+| Quality | ✅ Audited | Code quality, security, performance and load tests ([docs/audit/](docs/audit)) |
+| Production kit | ✅ Ready | Caddy HTTPS, production compose, backups and restore, deploy guide ([docs/deploy.md](docs/deploy.md)) |
+| Server and domain | 👤 Owner | Buy the VPS, add DNS records, Turnstile keys, email provider |
+| Live payments and couriers | 🔜 M3 | bKash PGW / SSLCommerz and courier APIs (placeholders today) |
+
+**Measured** (local, production build): Lighthouse desktop 99–100, mobile 88–92, accessibility
+100; ~350 pages/s per storefront process and ~2,300 API requests/s with zero errors up to 1,000
+users at once ([load test](docs/audit/load-test.md)).
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  FE[frontend<br/>storefront] -->|REST /v1| GW
-  DB[dashboard<br/>admin] -->|REST /v1| GW
+  U((Visitors)) --> C[Caddy<br/>HTTPS]
+  C --> FE[frontend<br/>storefront]
+  C --> DB[dashboard<br/>admin]
+  C --> GW
+  FE -->|REST /v1| GW
 
   subgraph private[Private network]
-    GW[gateway :3000<br/>Swagger /docs]
-    GW -->|TCP| S1[identity]
-    GW -->|TCP| S2[catalog]
-    GW -->|TCP| S3[inventory]
-    GW -->|TCP| S4[order]
-    GW -->|TCP| S5[payment]
-    GW -->|TCP| S6[shipping]
-    GW -->|TCP| S7[notification]
-    GW -->|TCP| S8[analytics]
+    GW[gateway :3000]
+    GW -->|TCP + shared secret| S1[identity]
+    GW --> S2[catalog]
+    GW --> S3[inventory]
+    GW --> S4[order]
+    GW --> S5[payment]
+    GW --> S6[shipping]
+    GW --> S7[notification]
+    GW --> S8[analytics]
     GW --- R[(Redis)]
     S1 & S2 & S3 & S4 & S5 & S6 -. outbox .-> MQ{{RabbitMQ<br/>zelqune.events}}
     MQ -. events .-> S3 & S4 & S5 & S6 & S7 & S8
@@ -72,80 +82,71 @@ flowchart LR
   end
 ```
 
-- Only the **gateway** is public. Services listen on a private network (TCP) and expose `/health`.
-- Each service owns **one Postgres schema** and connects with its own role, so it cannot read
-  other services' tables.
+- Only Caddy is public (80/443). The gateway is the only API entry; services talk over a private
+  network with a shared secret (ADR 0024) and expose `/health`.
+- Each service owns **one Postgres schema** with its own role, so it cannot read other
+  services' tables.
 - Events use a **transactional outbox** and **idempotent consumers** (at-least-once, no double
   effects). Dead letters go to `<service>.events.dlq`.
-- Every request carries an **`x-request-id`** through HTTP, TCP and events.
+- Every request carries an `x-request-id` through HTTP, TCP and events.
+- Decisions are recorded as ADRs: [docs/adr/](docs/adr/README.md).
 
 ## Tech stack
 
 | Layer | Technology |
 |---|---|
-| Backend | NestJS 11 (monorepo mode), TypeScript 5.9 strict, Prisma 7 + `@prisma/adapter-pg` |
-| Messaging | RabbitMQ 4 (topic exchange, DLQs), `amqp-connection-manager` |
-| Data | PostgreSQL 17 (schema per service), Redis 7 (idempotency, rate limits) |
-| API | REST `/v1`, OpenAPI via `@nestjs/swagger`, zod contracts |
-| Frontend / dashboard | Next.js App Router, Tailwind + shadcn/ui (steps 1.4 / 1.5) |
-| Shared packages | `@zelqune/api-client` (openapi-typescript + openapi-fetch), `@zelqune/ui-tokens` |
-| Tooling | pnpm 9 workspaces, Turborepo, ESLint 9, Prettier, Jest, Supertest |
-| Infra | Docker Compose (dev); single VPS + Vercel planned (step 1.6) |
+| Storefront | Next.js 16 App Router (ISR), React 19, Tailwind CSS 4, Redux Toolkit, CSS scroll-driven motion |
+| Dashboard | Next.js 16, React 19, TanStack Table |
+| Backend | NestJS 11 (monorepo), TypeScript 5.9 strict, Prisma 7 + `@prisma/adapter-pg`, zod contracts |
+| Messaging | RabbitMQ 4 (topic exchange, DLQs) |
+| Data | PostgreSQL 17 (schema per service), Redis 7 (cache, idempotency, rate limits) |
+| Auth | ES256 JWT (15 min) + rotating httpOnly refresh cookies, argon2id passwords, Turnstile |
+| Shared packages | `@zelqune/api-client` (generated from OpenAPI), `@zelqune/ui-tokens` (brand tokens) |
+| Tooling | pnpm 9 workspaces, Turborepo, ESLint 9, Prettier, Jest, Vitest, Playwright |
+| Infra | Docker Compose, Caddy (automatic HTTPS), one VPS ([ADR 0025](docs/adr/0025-single-vps-production.md)) |
 
 ## Repository structure
 
 ```
 ZELQUNE/
-├─ backend/                 NestJS microservices (Nest monorepo)
-│  ├─ apps/gateway/         public REST /v1, Swagger, aggregated /health
-│  ├─ apps/*-service/       identity, catalog, inventory, order, payment,
-│  │                        shipping, notification, analytics (TCP + /health, Prisma)
-│  └─ libs/                 common (config, logger, errors, health, idempotency,
-│                           outbox, messaging), contracts (events, RPC)
-├─ frontend/                Next.js storefront (placeholder)
-├─ dashboard/               Next.js admin (placeholder)
-├─ packages/
-│  ├─ api-client/           types generated from gateway OpenAPI
-│  └─ ui-tokens/            brand colors, typography, Tailwind theme
-├─ infra/                   docker-compose (dev), Dockerfile, Postgres init
-├─ docs/                    build plan, spec, architecture, ADRs
-├─ assets/brand/            logo
-└─ .github/                 CI workflows, templates, CODEOWNERS, Dependabot
+├─ frontend/        Next.js storefront (EN + BN)
+├─ dashboard/       Next.js admin for owner and staff (port 3200)
+├─ backend/         NestJS microservices
+│  ├─ apps/         gateway + identity, catalog, inventory, order, payment,
+│  │                shipping, notification, analytics
+│  └─ libs/         common (config, logging, errors, outbox, messaging), contracts
+├─ packages/        api-client (generated), ui-tokens (brand colours and type)
+├─ infra/           dev and production compose, Dockerfiles, Caddy, backup scripts
+├─ docs/            build plan, architecture, ADRs, audits, deploy guide, copy
+└─ .github/         CI, security audit, templates, Dependabot
 ```
 
 ## Getting started
 
-**Prerequisites:** Node 20 (`nvm use`), pnpm 9 (`corepack enable`), Docker Desktop (about 2 GB free disk).
+**Needs:** Node 20 (`nvm use`), pnpm 9 (`corepack enable`), Docker Desktop.
 
 ```sh
 git clone https://github.com/MD-ALL-SHAHRIA/ZELQUNE.git && cd ZELQUNE
 pnpm install          # all workspaces + Prisma clients
-pnpm keys:dev         # dev-only JWT keys + storage secret into infra/.env (gitignored)
-# set OWNER_PHONE / OWNER_PASSWORD (>= 12 chars) / OWNER_NAME in infra/.env
-pnpm infra:up         # build and start Postgres, RabbitMQ, Redis and all 9 backend apps
-pnpm seed             # OWNER admin + the Alo-Arch Panel pre-order catalog (idempotent)
+pnpm keys:dev         # dev-only secrets into infra/.env (gitignored)
+# set OWNER_PHONE / OWNER_PASSWORD (12+ chars) / OWNER_NAME in infra/.env
+pnpm infra:up         # Postgres, RabbitMQ, Redis and all 9 backend apps
+pnpm seed             # owner account + catalog (safe to rerun)
 pnpm health           # every /health should return 200
+pnpm --filter @zelqune/frontend dev    # storefront  → http://localhost:3100/en
+pnpm --filter @zelqune/dashboard dev   # dashboard   → http://localhost:3200
 ```
 
-Try it: `curl 'http://localhost:3000/v1/catalog/products/alo-arch-panel?p=b'` (price experiment
-b = ৳4,290), sign in with `POST /v1/admin/auth/login`, or walk the storefront flow
-(`POST /v1/carts` -> `PUT /v1/carts/current/items/{variantId}` -> `POST /v1/carts/current/quote`
--> `POST /v1/checkout`) in Swagger at http://localhost:3000/docs. Set `PAYMENT_BKASH_NUMBER` in
-`infra/.env` to offer bKash (needed for pre-orders); in dev any Turnstile token except `fail…`
-passes.
-
 <details>
-<summary><b>URLs and ports (all bound to 127.0.0.1)</b></summary>
+<summary><b>Local URLs and ports (all bound to 127.0.0.1)</b></summary>
 
 | What | URL |
 |---|---|
-| Gateway API | http://localhost:3000/v1 |
-| Swagger UI / OpenAPI JSON | http://localhost:3000/docs · http://localhost:3000/docs-json |
-| Gateway health (includes all services) | http://localhost:3000/health |
-| Service health | http://localhost:3001/health … http://localhost:3008/health |
-| RabbitMQ management | http://localhost:15672 (zelqune / zelqune_dev) |
-| Postgres | localhost:5432, db `zelqune` |
-| Redis | localhost:6379 |
+| Storefront / dashboard | http://localhost:3100/en · http://localhost:3200 |
+| Gateway API · Swagger | http://localhost:3000/v1 · http://localhost:3000/docs |
+| Health (all services) | http://localhost:3000/health |
+| Test inbox (Mailpit) | http://localhost:8025 |
+| RabbitMQ management | http://localhost:15672 |
 
 | Service | HTTP | TCP | Schema |
 |---|---|---|---|
@@ -160,121 +161,66 @@ passes.
 
 </details>
 
-<details>
-<summary><b>Run one backend app outside Docker</b></summary>
-
-```sh
-pnpm infra:up                                    # or just postgres, rabbitmq, redis
-docker compose -f infra/docker-compose.yml stop catalog-service
-cp backend/apps/catalog-service/.env.example backend/apps/catalog-service/.env
-pnpm --filter @zelqune/backend start:dev catalog-service
-```
-
-</details>
-
-Stop everything with `pnpm infra:down` (data is kept; add `-v` to the compose command to wipe it).
+Stop with `pnpm infra:down` (data is kept). To go live, follow [docs/deploy.md](docs/deploy.md).
 
 ## Scripts
 
-| Command | Description |
+| Command | What it does |
 |---|---|
-| `pnpm lint` / `pnpm typecheck` / `pnpm test` | run across all workspaces (Turborepo) |
-| `pnpm build` | build all workspaces |
-| `pnpm format` / `pnpm format:check` | Prettier |
-| `pnpm infra:up` / `pnpm infra:down` / `pnpm infra:logs` | dev stack |
-| `pnpm health` | curl every `/health` |
-| `pnpm keys:dev` | generate dev JWT keys and storage secret into `infra/.env` |
-| `pnpm seed` | seed OWNER admin and catalog in the running stack |
-| `pnpm gen:api` | export gateway OpenAPI and regenerate `@zelqune/api-client` |
-| `pnpm --filter @zelqune/<pkg> <script>` | run a script in one workspace |
+| `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm build` | all workspaces (Turborepo) |
+| `pnpm format` · `pnpm format:check` | Prettier |
+| `pnpm infra:up` · `pnpm infra:down` · `pnpm infra:logs` · `pnpm health` | dev stack |
+| `pnpm keys:dev` | dev secrets into `infra/.env` (`--prod` for a fresh production set) |
+| `pnpm seed` | owner account and catalog |
+| `pnpm gen:api` | regenerate `@zelqune/api-client` after an API change |
 
-## Environment variables
+## Quality and testing
 
-Secrets live only in environment variables; only `.env.example` files are committed.
+- **Every PR:** lint, typecheck, format, unit and e2e tests, builds, OpenAPI drift check,
+  storefront end-to-end flows (Playwright) and a dependency audit.
+- **Backend:** 350+ unit/e2e tests and 64 integration tests on real Postgres, RabbitMQ and Redis.
+- **Storefront:** sign-up, sign-in, password reset, guest and pre-order checkout, tracking,
+  search, filters, consent, requests and the admin flow, end to end.
+- **Audits:** [pre-deployment checklist](docs/audit/pre-deployment-checklist.md),
+  [code quality](docs/audit/code-quality.md), [security](docs/audit/02-final-report.md),
+  [performance](docs/audit/frontend-performance.md), [load test](docs/audit/load-test.md).
 
-- Docker stack overrides: [`infra/.env.example`](infra/.env.example) → copy to `infra/.env`
-- Gateway: [`backend/apps/gateway/.env.example`](backend/apps/gateway/.env.example)
-- Each service: `backend/apps/<service>/.env.example`, e.g. [catalog](backend/apps/catalog-service/.env.example)
-
-All variables are validated at startup with zod; an app refuses to boot with a clear list of
-what is missing or invalid.
-
-## Testing
-
-```sh
-pnpm test                                   # everything
-pnpm --filter @zelqune/backend test:cov     # backend with coverage
-```
-
-- **Unit:** `libs/common` (config, request id, error filter, idempotency, outbox relay, idempotent
-  consumer, RPC client) and `libs/contracts` (event envelope contract).
-- **e2e (mocked services):** every app's `/health`; gateway Swagger, routing, error format,
-  request ids, guards, cookies, rate limits.
-- **End-to-end on real infrastructure** (`pnpm --filter @zelqune/backend test:integration`, needs
-  `pnpm infra:up` locally; service containers in CI): gateway + identity + catalog over TCP on
-  Postgres, RabbitMQ and Redis.
-- CI runs lint, typecheck and tests per area on every PR, plus build and an OpenAPI drift check
-  for the backend.
-
-## Git workflow
-
-<details>
-<summary><b>Branches, commits and pull requests</b></summary>
-
-- Never commit directly to `main`; one branch per task:
-  `feat/<area>-<short-desc>`, `fix/…`, `chore/…`, `docs/…` with area
-  `backend | frontend | dashboard | infra | repo`.
-- Small [Conventional Commits](https://www.conventionalcommits.org/): `feat(backend): …`,
-  `chore(infra): …`.
-- Push and open a PR to `main` with the template; CI must pass; the owner reviews and
-  squash-merges.
-- No force-push to `main`, no rewriting pushed history, no secrets in Git.
-- Significant architecture choices are recorded as ADRs in [docs/adr/](docs/adr/README.md).
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-</details>
+Secrets live only in environment variables; only `.env.example` files are committed, and every
+app validates its config at startup.
 
 ## Roadmap
 
-<details open>
-<summary><b>M1 — Start selling</b> (pre-order test + first sales)</summary>
+**M1 · Start selling**
 
-- [x] 1.0 Monorepo and backend skeleton (gateway, 8 services, outbox, messaging, CI)
-- [x] 1.1 identity and catalog services (admin auth, products, sale modes, price experiment)
-- [x] 1.2 inventory, order, payment, shipping + checkout saga
-- [x] 1.3 analytics, notification and admin API (GO counter, audit log) + B2B quotes (5ক)
-- [x] 1.4 Storefront (/en + /bn, product page, cart, guest checkout, COD / bKash, tracking, bulk RFQ, Pixel flag)
-- [ ] 1.5 Admin dashboard (orders, payment verification, products, GO counter)
-- [ ] 1.6 Production readiness (Dockerfiles, VPS compose, HTTPS, backups, OpenTelemetry, Sentry)
+- [x] Monorepo, gateway and 8 services, outbox messaging, CI
+- [x] Catalog, stock, orders, payments, shipping, checkout saga, analytics, notifications
+- [x] Storefront (EN + BN), guest checkout, COD and bKash advance, tracking, bulk requests
+- [x] Admin dashboard: orders, payment checks, products, home page, coupons, finance, team
+- [x] Pre-deployment audit, production kit, load test
+- [ ] Go live: VPS, DNS, Turnstile, email provider (owner, [docs/deploy.md](docs/deploy.md))
 
-</details>
+**M2 · Full shop**
 
-<details>
-<summary><b>M2 — Full shop</b></summary>
+- [x] Categories, filters, search, coupons, flash sales, reports, B2B quotes
+- [ ] B2B accounts, wholesale price lists, MOQ, PDF quotes and invoices
+- [ ] TOTP 2FA for owner and staff
+- [ ] Error tracking (Sentry) and uptime monitoring (needs the owner's sign-up)
 
-- [ ] B2B accounts (organizations), wholesale price lists, quantity tiers, MOQ, bank transfer, credit terms, PDF quotes/invoices
-- [ ] TOTP 2FA for OWNER/STAFF (#18)
-- [ ] OTP accounts, stock reservations, coupons
-- [ ] Categories, filters and search, CMS
-- [ ] Invoices and reports
+**M3 · Automation**
 
-</details>
+- [ ] bKash PGW / SSLCommerz, courier APIs (Pathao, Steadfast), paid SMS
+- [ ] Verified reviews, Meta Conversions API, returns and refunds flow
 
-<details>
-<summary><b>M3 — Automation</b></summary>
+**M4 · Growth**
 
-- [ ] Payment gateways (SSLCommerz, bKash PGW), courier APIs, SMS notifications
-- [ ] Verified reviews, Conversions API, returns and refunds
+- [ ] International shipping, more languages
 
-</details>
+## Contributing
 
-<details>
-<summary><b>M4 — Growth</b></summary>
-
-- [ ] English edition, international shipping, interior consultation booking
-
-</details>
+One branch per task (`feat|fix|chore|docs/<area>-<desc>`), small
+[Conventional Commits](https://www.conventionalcommits.org/), a PR to `main` with the template,
+CI green, squash merge. No force-push to `main`, no secrets in Git. See
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
