@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { toApiError } from '@/shared/api/errors';
 import { type District } from '@/shared/api/types';
 import { asciiDigits, checkoutErrorText, normalizePhone } from '@/shared/lib/forms';
-import { href } from '@/shared/lib/site';
 import { visitor } from '@/shared/lib/visitor-client';
-import { Button, ButtonLink } from '@/shared/ui/button';
+import { Button } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
 import { Field, Input, Select, Textarea } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
@@ -16,6 +15,7 @@ import { useRequestQuoteMutation } from '@/store/api';
 import { FormNotice } from '@/features/legal/form-notice';
 import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
 import { AccountGate, type AccountPrefill } from '@/features/account/account-gate';
+import { QuoteSubmitted } from '@/features/quotes/quote-submitted';
 
 type BuildingType = keyof Dictionary['build']['types'];
 type Budget = keyof Dictionary['build']['budgets'];
@@ -53,14 +53,6 @@ function BuildFormInner({
   const [turnstileKey, setTurnstileKey] = useState(0);
   const [done, setDone] = useState<string | null>(null);
   const [requestQuote, { isLoading: sending }] = useRequestQuoteMutation();
-  const doneRef = useRef<HTMLDivElement>(null);
-
-  // The confirmation is shorter than the form: bring it into view and move focus to it.
-  useEffect(() => {
-    if (!done) return;
-    doneRef.current?.scrollIntoView({ block: 'center' });
-    doneRef.current?.focus({ preventScroll: true });
-  }, [done]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -110,23 +102,14 @@ function BuildFormInner({
   }
 
   if (done) {
-    const [before, after] = c.after.split('{code}');
     return (
-      <div ref={doneRef} tabIndex={-1} role="status" className="space-y-8 outline-none">
-        <p className="font-display text-3xl font-medium leading-snug">
-          <CopyText>{before ?? ''}</CopyText>
-          <strong
-            data-testid="build-code"
-            className="mx-1 inline-block border border-ink px-3 py-1 font-mono text-lg font-normal tracking-[0.16em]"
-          >
-            {done}
-          </strong>
-          <CopyText>{after ?? ''}</CopyText>
-        </p>
-        <ButtonLink href={`${href(lang, '/bulk/track')}?code=${done}`} size="lg">
-          {copy.bulk.trackHeading}
-        </ButtonLink>
-      </div>
+      <QuoteSubmitted
+        lang={lang}
+        code={done}
+        text={c.after}
+        trackLabel={copy.bulk.trackHeading}
+        testId="build-code"
+      />
     );
   }
 

@@ -1,4 +1,3 @@
-import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { type Locale } from '@/i18n/config';
 import { type Dictionary } from '@/i18n/dictionaries/en';
@@ -11,6 +10,7 @@ import { Picture } from '@/shared/ui/image';
 import { Container, Eyebrow, Heading, Lead } from '@/shared/ui/typography';
 import { ProjectGrid, type Project } from '@/features/showcase/project-grid';
 import { BuildForm } from './build-form';
+import { ChatLink } from '@/features/chat/chat-link';
 
 /** Fine drafting-paper grid: the site plan behind the construction story. */
 const BLUEPRINT =
@@ -201,17 +201,7 @@ export function StartSection({
               </li>
             ))}
           </ol>
-          {chat ? (
-            <a
-              href={chat}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 text-sm underline decoration-ink/30 underline-offset-[6px] transition hover:decoration-ink"
-            >
-              <MessageCircle aria-hidden className="size-4" strokeWidth={1.3} />
-              {dict.premium.chat.label}
-            </a>
-          ) : null}
+          <ChatLink href={chat} label={dict.premium.chat.label} />
         </div>
         <div className="border border-line bg-paper p-6 shadow-[0_30px_80px_-40px_rgba(43,30,25,0.18)] sm:p-10 lg:p-12">
           <BuildForm
