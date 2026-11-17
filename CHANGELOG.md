@@ -17,6 +17,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Internal service calls carry a shared secret (`INTERNAL_RPC_SECRET`, ADR 0024): run `pnpm keys:dev` once; required in production.
 
 ### Security
+- Next.js 16.4.1 → 16.4.6 in the storefront and dashboard (fixes GHSA-mfr8-8qww-v76h and GHSA-vc7v-qv4w-wrv8, 'use cache' data leaking across root params).
 - Customer sign-up: the password is now chosen on the email-confirmation page and the one typed at sign-up is discarded, so someone who signs up with another person's email can never sign in to that account.
 - Audit second pass (docs/audit/services/order-catalog-gateway-dashboard-infra.md): home-page client links and shipment tracking links accept only http(s); the dashboard sends a CSP (no framing, plugins, base or foreign form targets) and nosniff.
 - nodemailer 10.2.1 (clears all high advisories).
