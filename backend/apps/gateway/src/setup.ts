@@ -18,7 +18,7 @@ export const API_PREFIX = 'v1';
 /** Everything main.ts applies, shared with e2e tests. */
 export function setupGateway(
   app: INestApplication,
-  config: Pick<GatewayEnv, 'CORS_ORIGINS' | 'TRUST_PROXY'>,
+  config: Pick<GatewayEnv, 'CORS_ORIGINS' | 'TRUST_PROXY'> & Partial<Pick<GatewayEnv, 'API_DOCS'>>,
 ): void {
   // Correct client IPs (rate limits, session metadata) behind the reverse proxy.
   (app as NestExpressApplication).set('trust proxy', config.TRUST_PROXY);
@@ -46,7 +46,7 @@ export function setupGateway(
 
   // UI at /docs, spec at /docs-json. Off in production (it lists every admin route); `pnpm
   // gen:api` builds the spec with a script, not this route.
-  if (config.API_DOCS) {
+  if (config.API_DOCS ?? true) {
     SwaggerModule.setup('docs', app, createOpenApiDocument(app), { jsonDocumentUrl: 'docs-json' });
   }
 }
