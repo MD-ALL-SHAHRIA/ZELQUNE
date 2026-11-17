@@ -516,10 +516,10 @@ html.lenis body {
     /* Large photos drift a little slower than the page. `translate` is its own property, so it
        adds to the arrival zoom (.media-reveal) and hover zooms instead of replacing them. */
     .depth > img {
-      /* 12% taller than its frame (next/image sets inline position styles), so the drift
+      /* 24% taller than its frame (next/image sets inline position styles), so the drift
          never shows an edge; hover zooms keep using `scale`. */
-      top: -6% !important;
-      height: 112% !important;
+      top: -12% !important;
+      height: 124% !important;
       animation: depth linear both;
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
@@ -540,7 +540,7 @@ html.lenis body {
     .lit-word {
       animation: lit-word linear both;
       animation-timeline: --lit;
-      animation-range: cover calc(20% + var(--p) * 30%) cover calc(27% + var(--p) * 30%);
+      animation-range: cover calc(15% + var(--p) * 40%) cover calc(25% + var(--p) * 40%);
     }
     /* The footer wordmark rises out of the band below it as the footer arrives. */
     .wordmark-rise {
@@ -552,18 +552,20 @@ html.lenis body {
 }
 @keyframes depth {
   from {
-    translate: 0 -5%;
+    translate: 0 -9%;
   }
   to {
-    translate: 0 5%;
+    translate: 0 9%;
   }
 }
 @keyframes lit-word {
   from {
-    opacity: 0.16;
+    opacity: 0.12;
+    filter: blur(2px);
   }
   to {
     opacity: 1;
+    filter: blur(0);
   }
 }
 @keyframes wordmark-rise {
