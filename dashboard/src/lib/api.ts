@@ -1,10 +1,11 @@
 'use client';
 
 import { createApiClient, type Schemas } from '@zelqune/api-client';
+import { API_URL } from './env';
 
 export type { Schemas };
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+const baseUrl = API_URL;
 
 /**
  * The access token lives in memory only; the refresh token is an httpOnly cookie the gateway

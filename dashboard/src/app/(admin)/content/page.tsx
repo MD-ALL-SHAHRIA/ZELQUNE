@@ -30,6 +30,7 @@ import { ImagePicker } from '@/features/content/image-picker';
 import { api, errorCode, errorMessage, type Schemas } from '@/lib/api';
 import { cn } from '@/lib/cn';
 import { humanize, timeAgo } from '@/lib/format';
+import { SITE_URL } from '@/lib/env';
 
 type Product = Schemas['AdminProductListDto_Output']['items'][number];
 type Category = Schemas['AdminCategoryListDto_Output']['items'][number];
@@ -303,7 +304,7 @@ export default function ContentPage() {
   const categoryName = (slug: string) =>
     categories.find((c) => c.slug === slug)?.nameEn ?? humanize(slug);
   const firstScene = hero.scenes[0];
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+  const site = SITE_URL;
 
   return (
     <>

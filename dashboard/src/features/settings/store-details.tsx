@@ -11,11 +11,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/toast';
 import { DEFAULT_HOME } from '@/features/content/defaults';
 import { api, errorCode, errorMessage, type Schemas } from '@/lib/api';
+import { SITE_URL } from '@/lib/env';
 
 type Content = Schemas['UpdateHomeContentDto']['content'];
 type Contact = Required<{ [K in keyof Content['contact']]-?: string }>;
 
-const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
+const site = SITE_URL;
 const EMPTY: Contact = { phone: '', whatsapp: '', email: '', facebook: '', instagram: '' };
 
 /**
