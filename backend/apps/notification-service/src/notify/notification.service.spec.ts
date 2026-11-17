@@ -287,4 +287,14 @@ describe('NotificationService', () => {
     expect(sms.sent[0]?.body).toContain('নির্মাণের অনুরোধ');
     expect(sms.sent[0]?.body).toContain('বাসা');
   });
+
+  it('a rolled-back consumer transaction does not send the SMS again on retry', async () => {
+    const sms = new FakeSmsProvider();
+    const db = fakeTx(); // committed store for the send log
+    const service = new NotificationService(sms, config, undefined, db.tx as never);
+    const event = placed(0, 'COD');
+    await service.onOrderPlaced(event, fakeTx().tx); // tx rolled back after the send
+    await service.onOrderPlaced(event, fakeTx().tx); // the consumer retries with a fresh tx
+    expect(sms.sent.filter((m) => m.to === '+8801712345678')).toHaveLength(1);
+  });
 });

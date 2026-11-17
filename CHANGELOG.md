@@ -7,6 +7,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Shipments: the order's shipment is reserved before the courier is called, so a double click can't book a parcel twice (409 instead of a 500).
+- SMS: the send log is saved on its own right after the gateway accepts a message, so a retried event never sends it again.
+- Stock: an order confirmed after its stock hold expired still deducts stock if it is free; if not, the audit log shows a stock shortage.
 - Code quality audit (docs/audit/code-quality.md): dead code removed, duplicated quote-confirmation panel, WhatsApp link and URL fallbacks merged into shared code; the design consultation confirmation now takes focus like the construction one.
 - Home "Find your perfect piece": collections stand in tall arches (three across, the middle set lower; a swipe row on phones) with each piece centred, instead of a wide-card carousel with arrows. Copying a heading no longer gives its text twice.
 
@@ -19,6 +22,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Internal service calls carry a shared secret (`INTERNAL_RPC_SECRET`, ADR 0024): run `pnpm keys:dev` once; required in production.
 
 ### Security
+- Swagger UI and `/docs-json` can be turned off with `API_DOCS=false` (set it in production).
 - Next.js 16.4.1 → 16.4.6 in the storefront and dashboard (fixes GHSA-mfr8-8qww-v76h and GHSA-vc7v-qv4w-wrv8, 'use cache' data leaking across root params).
 - Customer sign-up: the password is now chosen on the email-confirmation page and the one typed at sign-up is discarded, so someone who signs up with another person's email can never sign in to that account.
 - Audit second pass (docs/audit/services/order-catalog-gateway-dashboard-infra.md): home-page client links and shipment tracking links accept only http(s); the dashboard sends a CSP (no framing, plugins, base or foreign form targets) and nosniff.

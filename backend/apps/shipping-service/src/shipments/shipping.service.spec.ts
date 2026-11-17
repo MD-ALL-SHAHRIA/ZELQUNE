@@ -30,6 +30,10 @@ describe('ShippingService', () => {
       create: jest.fn((args: { data: Record<string, unknown> }) =>
         Promise.resolve({ ...args.data }),
       ),
+      update: jest.fn((args: { data: Record<string, unknown> }) =>
+        Promise.resolve({ courier: 'MANUAL', ...args.data }),
+      ),
+      delete: jest.fn().mockResolvedValue({}),
     },
   } as unknown as PrismaService;
   const fake = new FakeCourierProvider('STEADFAST');
@@ -72,5 +76,27 @@ describe('ShippingService', () => {
     await expect(service.createShipment({ orderId, courier: 'PATHAO' })).rejects.toMatchObject({
       code: 'COURIER_NOT_CONFIGURED',
     });
+  });
+
+  it('a second create for the same order is a 409, and the courier is not booked again', async () => {
+    const create = prisma.shipment.create as jest.Mock;
+    create.mockRejectedValueOnce(Object.assign(new Error('unique'), { code: 'P2002' }));
+    const book = jest.spyOn(fake, 'book');
+    await expect(
+      service.createShipment({
+        orderId: '0b6f0a3e-7f2a-4c35-9a5e-2f1d0c1b2a3e',
+        courier: 'STEADFAST',
+      }),
+    ).rejects.toMatchObject({ code: 'SHIPMENT_EXISTS', status: 409 });
+    expect(book).not.toHaveBeenCalled();
+  });
+
+  it('a failed courier booking frees the order for a retry', async () => {
+    const orderId = '0b6f0a3e-7f2a-4c35-9a5e-2f1d0c1b2a3e';
+    jest.spyOn(fake, 'book').mockRejectedValueOnce(new Error('courier down'));
+    await expect(service.createShipment({ orderId, courier: 'STEADFAST' })).rejects.toThrow(
+      'courier down',
+    );
+    expect(prisma.shipment.delete).toHaveBeenCalledWith({ where: { orderId } });
   });
 });
