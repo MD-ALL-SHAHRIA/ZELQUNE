@@ -9,3 +9,7 @@
 .github
 docs
 assets
+**/.env.*
+!**/.env.example
+video
+marketing

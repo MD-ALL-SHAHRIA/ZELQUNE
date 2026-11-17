@@ -1,8 +1,12 @@
+import path from 'node:path';
 import type { NextConfig } from 'next';
 
 const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Docker images (infra/docker/web.Dockerfile) set NEXT_OUTPUT=standalone; `next start` stays as is.
+  output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
+  outputFileTracingRoot: path.join(__dirname, '..'),
   transpilePackages: ['@zelqune/api-client', '@zelqune/ui-tokens'],
   // The admin is never indexed or framed.
   async headers() {

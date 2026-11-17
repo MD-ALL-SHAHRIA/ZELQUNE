@@ -14,6 +14,7 @@ out/
 .env
 .env.*
 !.env.example
+!.env.production.example
 
 # OS / editor
 .DS_Store
@@ -52,3 +53,4 @@ playwright-report/
 # Impeccable engine binary (downloaded per machine by `npx impeccable install`).
 .claude/skills/impeccable/scripts/bin/
 .claude/settings.local.json
+infra/backups/
