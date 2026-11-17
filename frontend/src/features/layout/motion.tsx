@@ -11,7 +11,8 @@ const REVEAL_MAX_DELAY_MS = 280;
  * - Weighted, gliding scroll for mouse wheels and trackpads (Lenis). Touch keeps the phone's
  *   own scroll. Paused while a dialog or sheet locks the page (Radix sets data-scroll-locked).
  * - `.reveal` elements arrive once, quickly, as they enter the screen; ones that enter together
- *   follow each other. Anything already on screen at load is shown at once (no LCP delay).
+ *   follow each other. Anything already on screen when a page opens (first load or a click to
+ *   another page) is shown at once, so a new page never looks like it is still loading.
  * - `[data-loop]` regions (marquees, the product glide) pause while off screen.
  * With reduced motion none of this runs: content is simply there and the browser scrolls.
  */
@@ -40,21 +41,27 @@ export function Motion() {
       for (const e of entries)
         (e.target as HTMLElement).toggleAttribute('data-offscreen', !e.isIntersecting);
     });
-    const track = (scope: ParentNode) => {
-      for (const el of scope.querySelectorAll<HTMLElement>('.reveal:not([data-in])')) {
+    const seen = new WeakSet<Element>();
+    const track = () => {
+      for (const el of document.querySelectorAll<HTMLElement>('.reveal:not([data-in])')) {
+        if (seen.has(el)) continue;
+        seen.add(el);
         const r = el.getBoundingClientRect();
-        if (!root.classList.contains('motion') && r.top < innerHeight && r.bottom > 0)
-          el.dataset.in = '';
+        if (r.top < innerHeight && r.bottom > 0) el.dataset.in = '';
         else reveal.observe(el);
       }
-      for (const el of scope.querySelectorAll<HTMLElement>('[data-loop]')) loops.observe(el);
+      for (const el of document.querySelectorAll<HTMLElement>('[data-loop]')) {
+        if (seen.has(el)) continue;
+        seen.add(el);
+        loops.observe(el);
+      }
     };
-    track(document);
+    track();
     root.classList.add('motion');
-    // Client-side page changes bring new sections.
-    const added = new MutationObserver((records) => {
-      for (const r of records)
-        for (const node of r.addedNodes) if (node instanceof HTMLElement) track(node);
+    // Client-side page changes bring new sections: one scan per frame, however many nodes.
+    let pending = 0;
+    const added = new MutationObserver(() => {
+      if (!pending) pending = requestAnimationFrame(() => ((pending = 0), track()));
     });
     added.observe(document.body, { childList: true, subtree: true });
 
@@ -73,6 +80,7 @@ export function Motion() {
       reveal.disconnect();
       loops.disconnect();
       added.disconnect();
+      cancelAnimationFrame(pending);
       lock.disconnect();
       cancelAnimationFrame(frame);
       lenis.destroy();

@@ -324,54 +324,6 @@
   }
 }
 
-/* Page changes open through an arch, the brand's one curve (React <ViewTransition> in the site
-   layout): the page you leave dims and settles back while the next one opens from a doorway at
-   the foot of the screen. Header and footer stay put. Browsers without the API just swap;
-   reduced motion keeps the soft cross-fade. */
-::view-transition {
-  pointer-events: none;
-}
-::view-transition-old(.zq-page) {
-  animation: 420ms var(--ease-out-expo) both vt-recede;
-}
-::view-transition-new(.zq-page) {
-  animation: 720ms var(--ease-out-expo) both vt-arch-open;
-}
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(.zq-page) {
-    animation: 160ms ease-in both vt-fade-out;
-  }
-  ::view-transition-new(.zq-page) {
-    animation: 320ms var(--ease-out-soft) 80ms both vt-fade-in;
-  }
-}
-@keyframes vt-recede {
-  to {
-    opacity: 0.35;
-    scale: 0.97;
-    filter: blur(3px);
-  }
-}
-@keyframes vt-arch-open {
-  from {
-    clip-path: inset(55vh 34% 0 34% round 30vw 30vw 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0 round 0 0 0 0);
-  }
-}
-@keyframes vt-fade-out {
-  to {
-    opacity: 0;
-  }
-}
-@keyframes vt-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

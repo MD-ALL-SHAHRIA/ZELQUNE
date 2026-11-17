@@ -1,4 +1,3 @@
-import { ViewTransition } from 'react';
 import { WhatsappFab } from '@/features/chat/whatsapp-fab';
 import { Footer } from '@/features/layout/footer';
 import { Header } from '@/features/layout/header';
@@ -37,11 +36,8 @@ export default async function SiteLayout({
         searchIndex={buildSearchIndex(lang, products)}
         sale={sale}
       />
-      {/* Page changes cross-fade the content softly (globals.css, .zq-page); header and footer
-          stay still. Without View Transitions support the page simply swaps. */}
-      <ViewTransition update="zq-page" default="none">
-        <main id="main">{children}</main>
-      </ViewTransition>
+      {/* Page changes swap at once: a transition here held every click back by about 0.35 s. */}
+      <main id="main">{children}</main>
       <Footer
         lang={lang}
         dict={dict}

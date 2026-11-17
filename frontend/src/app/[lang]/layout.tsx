@@ -50,11 +50,6 @@ const THEME_SCRIPT = `try{if(localStorage.getItem('${THEME_KEY}')==='dark')docum
     reduced motion and automated browsers. */
 const INTRO_SCRIPT = `try{if(!sessionStorage.getItem('zq-intro')&&!navigator.webdriver&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro');sessionStorage.setItem('zq-intro','1')}}catch(e){}`;
 
-/* Page changes fade through the View Transition API (React <ViewTransition>). Browsers refuse a
-   transition while the tab is hidden and React reports that as an error; in a hidden tab we run
-   the DOM update straight away and report the (fade-less) transition as finished. */
-const TRANSITION_GUARD_SCRIPT = `(function(){var d=document,s=d.startViewTransition;if(!s)return;d.startViewTransition=function(a){if(d.visibilityState==='visible')return s.call(d,a);var f=typeof a==='function'?a:a&&a.update,u=Promise.resolve().then(function(){return f&&f()}).then(function(){});return{updateCallbackDone:u,ready:u,finished:u,skipTransition:function(){},types:new Set()}}})();`;
-
 /** Pages without their own description fall back to the brand's SEO line. */
 export async function generateMetadata({
   params,
@@ -101,11 +96,11 @@ export default async function RootLayout({
       className={`${wordmark.variable} ${wordmarkItalic.variable} ${jost.variable}`}
     >
       <head>
-        {/* The visitor's saved theme, applied before the first paint (no flash), and the hidden
-            tab guard for page fades (so a hidden tab never makes React re-render the page). */}
+        {/* The visitor's saved theme, applied before the first paint (no flash), and the
+            first-visit intro flag. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: THEME_SCRIPT + INTRO_SCRIPT + TRANSITION_GUARD_SCRIPT,
+            __html: THEME_SCRIPT + INTRO_SCRIPT,
           }}
         />
         {/* Sample photos come from Unsplash's CDN until real product photos exist. */}
