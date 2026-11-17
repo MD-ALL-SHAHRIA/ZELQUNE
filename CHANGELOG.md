@@ -6,6 +6,9 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 
 ## [Unreleased]
 
+### Security
+- Next.js 16.4.1 → 16.4.6 in the storefront and dashboard (fixes GHSA-mfr8-8qww-v76h and GHSA-vc7v-qv4w-wrv8, 'use cache' data leaking across root params).
+
 ### Changed
 - Home "Find your perfect piece": collections stand in tall arches (three across, the middle set lower; a swipe row on phones) with each piece centred, instead of a wide-card carousel with arrows. Copying a heading no longer gives its text twice.
 
