@@ -43,7 +43,8 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await expect(page.getByLabel('bKash অগ্রিম')).toBeChecked();
   await page.getByLabel('ক্যাশ অন ডেলিভারি').check();
   await expect(page.getByTestId('pay-now')).toHaveCount(0);
-  await expect(page.getByTestId('pay-later')).toHaveText('৳৩,৬৬০');
+  // ৳3,490 panel + ৳80 delivery (৳60 for the first kg, ৳10 for each started extra kg of 2.5 kg).
+  await expect(page.getByTestId('pay-later')).toHaveText('৳৩,৫৭০');
   await page.getByLabel('bKash অগ্রিম').check();
   await expect(page.getByTestId('pay-now')).toHaveText('৳৩০০');
   await expect(page.getByTestId('advance-instructions')).toContainText('৳৩০০');
