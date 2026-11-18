@@ -27,13 +27,25 @@ const track = (base: string, c: { code: string; lang: Lang }) => ({
   label: c.lang === 'bn' ? 'অর্ডার ট্র্যাক করুন' : 'Track your order',
   url: `${site(base)}/${c.lang}/track?code=${c.code}`,
 });
-const hi = (c: { name: string; lang: Lang }) =>
-  c.lang === 'bn' ? `প্রিয় ${c.name || 'গ্রাহক'},` : `Hi ${c.name || 'there'},`;
+const firstName = (name: string) => name.trim().split(/\s+/)[0] ?? '';
 const foot = (lang: Lang) =>
   lang === 'bn'
-    ? 'কোনো প্রশ্ন থাকলে এই ইমেইলের উত্তর দিন অথবা WhatsApp-এ মেসেজ করুন।'
-    : 'Questions? Reply to this email or message us on WhatsApp.';
+    ? 'কোনো প্রশ্ন? এই ইমেইলের উত্তর দিন অথবা WhatsApp-এ মেসেজ করুন, আমরা সাহায্য করব।'
+    : "Questions? Reply to this email or message us on WhatsApp. We're happy to help.";
+const codeLabel = (c: { code: string; lang: Lang }) => ({
+  label: c.lang === 'bn' ? 'অর্ডার কোড' : 'Order',
+  value: c.code,
+});
 const isCod = (c: OrderInfo) => c.paymentMethod === 'COD';
+
+/** The order journey shown in every order email; `at` is the step reached. */
+const journey = (lang: Lang, at: number) => ({
+  steps:
+    lang === 'bn'
+      ? ['অর্ডার', 'নিশ্চিত', 'তৈরি হচ্ছে', 'রওনা', 'পৌঁছেছে']
+      : ['Placed', 'Confirmed', 'Being made', 'Shipped', 'Delivered'],
+  current: at,
+});
 
 /** Order received: the items, the totals and what happens next. */
 export function orderPlacedEmail(
@@ -50,8 +62,8 @@ export function orderPlacedEmail(
         : `We'll confirm your order as soon as we've verified your ${formatTaka(t.advanceRequiredPaisa)} advance. You pay the rest on delivery.`
       : isCod(c)
         ? bn
-          ? `ডেলিভারির সময় ক্যাশে ${formatTaka(t.totalPaisa)} দেবেন। নিশ্চিত করতে আমরা ফোন করব।`
-          : `You'll pay ${formatTaka(t.totalPaisa)} in cash on delivery. We'll call you to confirm.`
+          ? `ডেলিভারির সময় ক্যাশে ${formatTaka(t.totalPaisa)} দেবেন। নিশ্চিত করতে আমরা শিগগিরই ফোন করব।`
+          : `You'll pay ${formatTaka(t.totalPaisa)} in cash on delivery. We'll call you shortly to confirm.`
         : bn
           ? 'পেমেন্ট যাচাই হলেই অর্ডার নিশ্চিত করব।'
           : "We'll confirm your order as soon as we've verified your payment.";
@@ -59,14 +71,17 @@ export function orderPlacedEmail(
   return renderEmail({
     to: c.email,
     lang: c.lang,
+    site: base,
     subject: bn ? `আপনার অর্ডার ${c.code} পেয়েছি` : `We've received your order ${c.code}`,
+    eyebrow: bn ? 'অর্ডার পেয়েছি' : 'Order received',
+    heading: bn ? `ধন্যবাদ, ${firstName(c.name)}।` : `Thank you, ${firstName(c.name)}.`,
     lines: [
-      hi(c),
       bn
-        ? `Zelqune থেকে অর্ডার করার জন্য ধন্যবাদ। আপনার অর্ডার কোড ${c.code}।`
-        : `Thank you for ordering from Zelqune. Your order code is ${c.code}.`,
-      next,
+        ? 'Zelqune থেকে অর্ডার করার জন্য ধন্যবাদ। আপনার পণ্যটি ঢাকায় আমাদের ওয়ার্কশপে যত্ন নিয়ে তৈরি ও প্যাক করা হবে।'
+        : 'Thank you for ordering from Zelqune. Your piece will be made and packed with care in our Dhaka workshop.',
     ],
+    code: codeLabel(c),
+    progress: journey(c.lang, 0),
     rows: [
       ...items.map((i): [string, string] => [
         `${(bn ? i.nameBn : i.nameEn) ?? i.sku} × ${i.qty}`,
@@ -85,6 +100,7 @@ export function orderPlacedEmail(
         : []),
     ],
     total: [bn ? 'মোট' : 'Total', formatTaka(t.totalPaisa)],
+    note: next,
     button: track(base, c),
     foot: foot(c.lang),
   });
@@ -95,18 +111,19 @@ export function paymentVerifiedEmail(c: EmailContact, amountPaisa: number, base:
   return renderEmail({
     to: c.email,
     lang: c.lang,
+    site: base,
     subject: bn
       ? `পেমেন্ট পেয়েছি, অর্ডার ${c.code} নিশ্চিত`
       : `Payment received: order ${c.code} is confirmed`,
+    eyebrow: bn ? 'পেমেন্ট পেয়েছি' : 'Payment received',
+    heading: bn ? 'আপনার অর্ডার নিশ্চিত হয়েছে।' : 'Your order is confirmed.',
     lines: [
-      hi(c),
       bn
-        ? `অর্ডার ${c.code}-এর ${formatTaka(amountPaisa)} পেমেন্ট পেয়েছি। আপনার অর্ডার নিশ্চিত হয়েছে।`
-        : `We've received ${formatTaka(amountPaisa)} for order ${c.code}. Your order is confirmed.`,
-      bn
-        ? 'প্রতিটি ধাপে আমরা আপনাকে জানাব।'
-        : "We'll let you know at every step until it reaches you.",
+        ? `অর্ডার ${c.code}-এর ${formatTaka(amountPaisa)} পেমেন্ট পেয়েছি। প্রতিটি ধাপে আমরা আপনাকে জানাব।`
+        : `We've received ${formatTaka(amountPaisa)} for order ${c.code}. We'll let you know at every step until it reaches you.`,
     ],
+    code: codeLabel(c),
+    progress: journey(c.lang, 1),
     button: track(base, c),
     foot: foot(c.lang),
   });
@@ -117,13 +134,20 @@ export function orderConfirmedEmail(c: EmailContact, base: string) {
   return renderEmail({
     to: c.email,
     lang: c.lang,
+    site: base,
     subject: bn ? `অর্ডার ${c.code} নিশ্চিত হয়েছে` : `Order ${c.code} is confirmed`,
+    eyebrow: bn ? 'অর্ডার নিশ্চিত' : 'Order confirmed',
+    heading: bn ? 'আপনার অর্ডার নিশ্চিত হয়েছে।' : 'Your order is confirmed.',
     lines: [
-      hi(c),
       bn
-        ? `আপনার অর্ডার ${c.code} নিশ্চিত হয়েছে। ডেলিভারির সময় ${formatTaka(c.totalPaisa)} দেবেন।`
-        : `Your order ${c.code} is confirmed. You'll pay ${formatTaka(c.totalPaisa)} on delivery.`,
+        ? 'প্রতিটি ধাপে আমরা আপনাকে জানাব।'
+        : "We'll let you know at every step until it reaches you.",
     ],
+    code: codeLabel(c),
+    progress: journey(c.lang, 1),
+    note: bn
+      ? `ডেলিভারির সময় ক্যাশে ${formatTaka(c.totalPaisa)} দেবেন।`
+      : `You'll pay ${formatTaka(c.totalPaisa)} in cash on delivery.`,
     button: track(base, c),
     foot: foot(c.lang),
   });
@@ -136,39 +160,46 @@ export type EmailedStatus = (typeof EMAILED_STATUSES)[number];
 export function orderStatusEmail(c: EmailContact, status: EmailedStatus, base: string) {
   const bn = c.lang === 'bn';
   const copy = {
-    IN_PRODUCTION: bn
-      ? {
-          subject: `অর্ডার ${c.code}: আপনার পণ্য তৈরি হচ্ছে`,
-          line: 'আমাদের ওয়ার্কশপে আপনার পণ্য হাতে তৈরি হচ্ছে। প্রস্তুত হলেই পাঠিয়ে দেব।',
-        }
-      : {
-          subject: `Order ${c.code}: your piece is being made`,
-          line: "Your piece is being made by hand in our workshop. We'll send it as soon as it's ready.",
-        },
-    SHIPPED: bn
-      ? {
-          subject: `অর্ডার ${c.code} রওনা হয়েছে`,
-          line: 'আপনার অর্ডার কুরিয়ারে দেওয়া হয়েছে। কুরিয়ার পৌঁছানোর আগে ফোন করবে।',
-        }
-      : {
-          subject: `Order ${c.code} is on its way`,
-          line: 'Your order is with the courier. They will call you before they arrive.',
-        },
-    DELIVERED: bn
-      ? {
-          subject: `অর্ডার ${c.code} পৌঁছেছে, ধন্যবাদ!`,
-          line: 'আপনার অর্ডার পৌঁছেছে। দেয়ালে লাগানোর পর একটা ছবি আর দুই লাইন মতামত এই ইমেইলের উত্তরে পাঠালে খুব খুশি হব।',
-        }
-      : {
-          subject: `Order ${c.code} has arrived. Thank you!`,
-          line: "Your order has been delivered. Once it's on your wall, we'd love a photo and a few words: just reply to this email.",
-        },
+    IN_PRODUCTION: {
+      at: 2,
+      subject: bn
+        ? `অর্ডার ${c.code}: আপনার পণ্য তৈরি হচ্ছে`
+        : `Order ${c.code}: your piece is being made`,
+      eyebrow: bn ? 'তৈরি হচ্ছে' : 'In the workshop',
+      heading: bn ? 'আপনার পণ্য তৈরি হচ্ছে।' : 'Your piece is being made.',
+      line: bn
+        ? 'আমাদের ওয়ার্কশপে আপনার পণ্য হাতে তৈরি হচ্ছে। প্রস্তুত হলেই পাঠিয়ে দেব।'
+        : "It's being made by hand in our workshop. We'll send it as soon as it's ready.",
+    },
+    SHIPPED: {
+      at: 3,
+      subject: bn ? `অর্ডার ${c.code} রওনা হয়েছে` : `Order ${c.code} is on its way`,
+      eyebrow: bn ? 'রওনা হয়েছে' : 'On its way',
+      heading: bn ? 'আপনার অর্ডার রওনা হয়েছে।' : 'Your order is on its way.',
+      line: bn
+        ? 'আপনার অর্ডার কুরিয়ারে দেওয়া হয়েছে। পৌঁছানোর আগে কুরিয়ার আপনাকে ফোন করবে।'
+        : 'Your order is with the courier. They will call you before they arrive.',
+    },
+    DELIVERED: {
+      at: 4,
+      subject: bn ? `অর্ডার ${c.code} পৌঁছেছে, ধন্যবাদ!` : `Order ${c.code} has arrived. Thank you!`,
+      eyebrow: bn ? 'পৌঁছেছে' : 'Delivered',
+      heading: bn ? 'আপনার ঘরে স্বাগতম।' : 'Welcome home.',
+      line: bn
+        ? 'আপনার অর্ডার পৌঁছেছে। দেয়ালে লাগানোর পর একটা ছবি আর দুই লাইন মতামত এই ইমেইলের উত্তরে পাঠালে খুব খুশি হব।'
+        : "Your order has been delivered. Once it's on your wall, we'd love a photo and a few words: just reply to this email.",
+    },
   }[status];
   return renderEmail({
     to: c.email,
     lang: c.lang,
+    site: base,
     subject: copy.subject,
-    lines: [hi(c), copy.line],
+    eyebrow: copy.eyebrow,
+    heading: copy.heading,
+    lines: [copy.line],
+    code: codeLabel(c),
+    progress: journey(c.lang, copy.at),
     button: track(base, c),
     foot: foot(c.lang),
   });
@@ -187,14 +218,15 @@ export function orderCancelledEmail(c: EmailContact, reason: string, base: strin
   return renderEmail({
     to: c.email,
     lang: c.lang,
+    site: base,
     subject: bn ? `অর্ডার ${c.code} বাতিল হয়েছে` : `Order ${c.code} was cancelled`,
-    lines: [
-      hi(c),
-      bn ? `অর্ডার ${c.code} ${why} বাতিল হয়েছে।` : `Order ${c.code} was cancelled ${why}.`,
-      bn
-        ? 'কোনো অগ্রিম দিয়ে থাকলে আমাদের নিয়ম অনুযায়ী ফেরত দেওয়া হবে।'
-        : 'If you paid an advance, it is refunded as our refund policy describes.',
-    ],
+    eyebrow: bn ? 'অর্ডার বাতিল' : 'Order cancelled',
+    heading: bn ? 'আপনার অর্ডার বাতিল হয়েছে।' : 'Your order was cancelled.',
+    lines: [bn ? `অর্ডার ${c.code} ${why} বাতিল হয়েছে।` : `Order ${c.code} was cancelled ${why}.`],
+    code: codeLabel(c),
+    note: bn
+      ? 'কোনো অগ্রিম দিয়ে থাকলে আমাদের নিয়ম অনুযায়ী ফেরত দেওয়া হবে।'
+      : 'If you paid an advance, it is refunded as our refund policy describes.',
     button: { label: bn ? 'দোকানে ফিরে যান' : 'Back to the shop', url: `${site(base)}/${c.lang}` },
     foot: foot(c.lang),
   });
@@ -216,14 +248,10 @@ export function ownerNewOrderEmail(
     to,
     lang: 'en',
     subject: `New order ${c.code} · ${formatTaka(t.totalPaisa)}`,
-    lines: [
-      `New order ${c.code} from ${c.name} (${c.phone}).`,
-      `Payment: ${method[c.paymentMethod as keyof typeof method] ?? c.paymentMethod}${
-        t.advanceRequiredPaisa > 0 && c.paymentMethod !== 'COD'
-          ? `, advance ${formatTaka(t.advanceRequiredPaisa)} to verify`
-          : ''
-      }.`,
-    ],
+    eyebrow: 'New order',
+    heading: `${formatTaka(t.totalPaisa)} from ${c.name}`,
+    lines: [`Phone: ${c.phone}`],
+    code: { label: 'Order', value: c.code },
     rows: [
       ...items.map((i): [string, string] => [
         `${i.nameEn ?? i.sku} × ${i.qty}`,
@@ -232,6 +260,11 @@ export function ownerNewOrderEmail(
       ['Delivery', formatTaka(t.shippingFeePaisa)],
     ],
     total: ['Total', formatTaka(t.totalPaisa)],
+    note: `Payment: ${method[c.paymentMethod as keyof typeof method] ?? c.paymentMethod}${
+      t.advanceRequiredPaisa > 0 && c.paymentMethod !== 'COD'
+        ? `. Verify the ${formatTaka(t.advanceRequiredPaisa)} advance in the dashboard.`
+        : '. Call the customer to confirm.'
+    }`,
     foot: 'Open the dashboard to verify the payment and confirm the order.',
   });
 }
@@ -242,7 +275,10 @@ export function ownerNewRequestEmail(to: string, smsText: string, code: string):
     to,
     lang: 'en',
     subject: `New request ${code}`,
+    eyebrow: 'New request',
+    heading: 'Someone asked for a quote.',
     lines: [smsText.replace(/^Zelqune: /, '')],
+    code: { label: 'Request', value: code },
     foot: 'Open the dashboard to reply with a quote.',
   });
 }
@@ -257,13 +293,18 @@ export function requestReceivedEmail(
   return renderEmail({
     to,
     lang: r.lang,
+    site: base,
     subject: bn ? `আপনার অনুরোধ ${r.code} পেয়েছি` : `We've received your request ${r.code}`,
+    eyebrow: bn ? 'অনুরোধ পেয়েছি' : 'Request received',
+    heading: bn
+      ? `ধন্যবাদ, ${firstName(r.contactName)}।`
+      : `Thank you, ${firstName(r.contactName)}.`,
     lines: [
-      hi({ name: r.contactName, lang: r.lang }),
       bn
-        ? `আপনার অনুরোধ পেয়েছি। কোড ${r.code}। এক কর্মদিবসের মধ্যে আমাদের টিম আপনাকে ফোন করবে।`
-        : `Thank you, we've received your request. Your code is ${r.code}. Our team will call you within 1 working day.`,
+        ? 'আপনার অনুরোধ পেয়েছি। এক কর্মদিবসের মধ্যে আমাদের টিম আপনাকে ফোন করবে।'
+        : "We've received your request. Our team will call you within 1 working day.",
     ],
+    code: { label: bn ? 'অনুরোধ কোড' : 'Request', value: r.code },
     button: {
       label: bn ? 'অনুরোধ দেখুন' : 'Check your request',
       url: `${site(base)}/${r.lang}/bulk/track?code=${r.code}`,

@@ -105,6 +105,8 @@ export function authEmail(m: AuthMail, site: string): EmailMessage {
     to: m.to,
     lang: m.lang,
     subject: c.subject,
+    heading: c.subject,
+    site,
     lines: c.lines,
     button: { label: c.button ?? '', url: link(m, site) },
     foot: c.foot,
