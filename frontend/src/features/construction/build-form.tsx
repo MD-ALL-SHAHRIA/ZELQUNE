@@ -77,6 +77,7 @@ function BuildFormInner({
       const res = await requestQuote({
         'cf-turnstile-response': token,
         rfqRequestDto: {
+          lang,
           kind: 'CONSTRUCTION',
           contactName: name.trim(),
           phone: mobile,

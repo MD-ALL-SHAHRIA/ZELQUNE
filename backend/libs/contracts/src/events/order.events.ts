@@ -18,6 +18,9 @@ export const orderPlaced = defineEvent({
         sku: z.string(),
         qty: z.number().int().positive(),
         unitPricePaisa: paisaSchema,
+        /** Product names, for the order emails. */
+        nameEn: z.string().optional(),
+        nameBn: z.string().optional(),
       }),
     ),
     subtotalPaisa: paisaSchema,
@@ -31,7 +34,11 @@ export const orderPlaced = defineEvent({
     // ---- optional, added in step 1.3 (additive, still v1; ADR 0010) ----
     channel: z.enum(['B2C', 'B2B']).default('B2C'),
     /** For notification-service only. Analytics must never store it (ADR 0010). */
-    customer: z.object({ name: z.string(), phone: z.string() }).optional(),
+    customer: z
+      .object({ name: z.string(), phone: z.string(), email: z.string().nullish() })
+      .optional(),
+    /** The language the customer ordered in (order emails). */
+    lang: z.enum(['en', 'bn']).optional(),
     /** HMAC of the phone (CUSTOMER_KEY_SECRET): the only customer identifier analytics keeps. */
     customerKey: z.string().optional(),
     sessionId: z.string().optional(),

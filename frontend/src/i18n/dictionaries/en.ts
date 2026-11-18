@@ -197,6 +197,7 @@ export const en = {
     fields: {
       name: 'Your name',
       phone: 'Mobile number (01XXXXXXXXX)',
+      email: 'Email (optional, for order updates)',
       division: 'Division',
       district: 'District',
       area: 'Area / Thana / Upazila',
@@ -255,6 +256,7 @@ export const en = {
       priceChanged: 'A price in your cart has changed. Please check the total and try again.',
       rateLimited: 'Too many attempts. Please wait a few minutes and try again.',
       area: 'Choose your area from the list.',
+      email: "That email address doesn't look right. Check it, or leave it empty.",
     },
   },
   success: {

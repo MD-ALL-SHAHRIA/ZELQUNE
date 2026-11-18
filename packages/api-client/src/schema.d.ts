@@ -2611,6 +2611,11 @@ export interface components {
         name: string;
         /** @example 01712345678 */
         phone: string;
+        /**
+         * Format: email
+         * @default null
+         */
+        email?: string | null;
       };
       address: {
         district: string;
@@ -2633,6 +2638,11 @@ export interface components {
       };
       /** @enum {string} */
       paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+      /**
+       * @default en
+       * @enum {string}
+       */
+      lang?: 'en' | 'bn';
       /** @example 8N7A6B5C4D */
       trxId?: string | null;
       /** @example 01712345678 */
@@ -2811,6 +2821,11 @@ export interface components {
        * @default null
        */
       email?: string | null;
+      /**
+       * @default en
+       * @enum {string}
+       */
+      lang?: 'en' | 'bn';
       /** @default [] */
       items?: {
         /** @default null */

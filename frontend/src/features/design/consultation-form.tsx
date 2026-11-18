@@ -74,6 +74,7 @@ function ConsultationFormInner({
       const res = await requestQuote({
         'cf-turnstile-response': token,
         rfqRequestDto: {
+          lang,
           kind: 'DESIGN',
           contactName: name.trim(),
           phone: mobile,

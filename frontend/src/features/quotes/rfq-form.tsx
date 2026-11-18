@@ -89,6 +89,7 @@ function RfqFormInner({
       const res = await requestQuote({
         'cf-turnstile-response': token,
         rfqRequestDto: {
+          lang,
           organizationName: org.trim(),
           contactName: contact.trim(),
           phone: mobile,

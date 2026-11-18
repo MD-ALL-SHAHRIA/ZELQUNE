@@ -19,5 +19,8 @@ export const quoteRequested = defineEvent({
     itemCount: z.number().int().nonnegative(),
     totalQty: z.number().int().nonnegative(),
     neededBy: z.string().nullable(),
+    /** For the confirmation email only (notification-service). */
+    contactEmail: z.string().nullish(),
+    lang: z.enum(['en', 'bn']).optional(),
   }),
 });

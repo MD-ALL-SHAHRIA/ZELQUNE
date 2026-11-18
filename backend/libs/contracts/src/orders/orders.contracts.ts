@@ -151,9 +151,16 @@ export const utmSchema = z
 
 export const checkoutRequestSchema = z
   .object({
-    customer: z.object({ name: z.string().trim().min(2).max(100), phone: bdPhoneSchema }),
+    customer: z.object({
+      name: z.string().trim().min(2).max(100),
+      phone: bdPhoneSchema,
+      /** Optional: order updates by email as well as SMS (the account email when signed in). */
+      email: z.email().trim().toLowerCase().max(200).nullable().default(null),
+    }),
     address: addressSchema,
     paymentMethod: paymentMethodSchema,
+    /** The storefront language, for the emails about this order. */
+    lang: z.enum(['en', 'bn']).default('en'),
     /** Required for bKash/Nagad manual payments. */
     trxId: trxIdSchema.nullable().default(null),
     /** The number the customer paid from (defaults to the customer phone). */

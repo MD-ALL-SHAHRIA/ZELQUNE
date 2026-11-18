@@ -56,6 +56,10 @@ model OrderContact {
   paymentMethod        String   @map("payment_method")
   totalPaisa           Int      @map("total_paisa")
   advanceRequiredPaisa Int      @map("advance_required_paisa")
+  /// For order emails (optional at checkout); deleted with the contact on erasure.
+  email                String?
+  /// The language the customer ordered in ("en" or "bn").
+  lang                 String   @default("bn")
   createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
 
   @@map("order_contacts")
