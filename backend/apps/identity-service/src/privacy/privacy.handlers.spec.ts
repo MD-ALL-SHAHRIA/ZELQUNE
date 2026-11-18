@@ -10,6 +10,7 @@ function tx(role: 'CUSTOMER' | 'OWNER') {
     refreshToken: { updateMany: jest.fn().mockResolvedValue({ count: 1 }) },
     authToken: { deleteMany: jest.fn().mockResolvedValue({ count: 1 }) },
     oAuthAccount: { deleteMany: jest.fn().mockResolvedValue({ count: 1 }) },
+    customerAddress: { deleteMany: jest.fn().mockResolvedValue({ count: 2 }) },
   };
 }
 
@@ -32,6 +33,7 @@ describe('privacy erasure of customer accounts', () => {
     expect(t.refreshToken.updateMany).toHaveBeenCalled();
     expect(t.authToken.deleteMany).toHaveBeenCalled();
     expect(t.oAuthAccount.deleteMany).toHaveBeenCalled();
+    expect(t.customerAddress.deleteMany).toHaveBeenCalled();
   });
 
   it('never touches dashboard accounts', async () => {

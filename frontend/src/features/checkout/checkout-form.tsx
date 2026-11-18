@@ -18,7 +18,7 @@ import { href } from '@/shared/lib/site';
 import { visitor } from '@/shared/lib/visitor-client';
 import { Button, ButtonLink } from '@/shared/ui/button';
 import { CopyText } from '@/shared/ui/copy-text';
-import { Field, Input, Select } from '@/shared/ui/field';
+import { Field, Input } from '@/shared/ui/field';
 import { Turnstile } from '@/shared/ui/turnstile';
 import { useCheckoutMutation, useCheckoutQuoteMutation } from '@/store/api';
 import { useAppDispatch } from '@/store/hooks';
@@ -26,8 +26,11 @@ import { couponProblem, normalizeCoupon } from './coupon';
 import { FormNotice } from '@/features/legal/form-notice';
 import { focusFirstInvalid } from '@/shared/lib/focus-invalid';
 import { type AccountPrefill } from '@/features/account/account-gate';
+import { authed } from '@/features/account/session';
 import { useCustomer } from '@/features/account/use-customer';
 import { Skeleton } from '@/shared/ui/skeleton';
+import { type SavedAddress } from '@/shared/api/types';
+import { AreaSelects, divisionOf } from './area-selects';
 
 type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product' | 'offers'>;
 
@@ -79,6 +82,40 @@ function CheckoutFormInner({
   const [fields, setFields] = useState<Fields>(
     account ? { ...EMPTY, name: account.name, phone: account.phone } : EMPTY,
   );
+  // Signed-in customers: their saved addresses (default filled in), or save a new one.
+  const [saved, setSaved] = useState<SavedAddress[]>([]);
+  const [chosen, setChosen] = useState<string | null>(null);
+  const [saveNew, setSaveNew] = useState(true);
+  const applySaved = (a: SavedAddress) => {
+    setChosen(a.id);
+    setFields((f) => ({
+      ...f,
+      name: a.recipientName,
+      phone: a.phone.replace(/^\+88/, ''),
+      division: divisionOf(districts, a.district),
+      district: a.district,
+      area: a.area,
+      line: a.line,
+      landmark: a.landmark ?? '',
+      label: a.label ?? '',
+    }));
+  };
+  useEffect(() => {
+    if (!account) return;
+    void authed<{ items: SavedAddress[] }>('/v1/me/addresses')
+      .then((r) => {
+        setSaved(r.items);
+        const first = r.items.find((a) => a.isDefault);
+        if (first) applySaved(first);
+      })
+      .catch(() => setSaved([]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load once per signed-in visit
+  }, [account]);
+  // Editing the address turns a saved one into a new one.
+  const setAddress = (patch: Partial<Fields>) => {
+    setChosen(null);
+    setFields((f) => ({ ...f, ...patch }));
+  };
   const [quote, setQuote] = useState<CheckoutQuote | null>(null);
   const [method, setMethod] = useState<PaymentMethod | null>(null);
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -160,7 +197,9 @@ function CheckoutFormInner({
   }
 
   const set = (key: keyof Fields) => (e: { target: { value: string } }) =>
-    setFields((f) => ({ ...f, [key]: e.target.value }));
+    key === 'line' || key === 'landmark'
+      ? setAddress({ [key]: e.target.value })
+      : setFields((f) => ({ ...f, [key]: e.target.value }));
   const advanceMethod = method === 'BKASH_MANUAL' || method === 'NAGAD_MANUAL';
   const instructions =
     method === 'BKASH_MANUAL'
@@ -222,6 +261,21 @@ function CheckoutFormInner({
       }).unwrap();
       dispatch(orderPlaced({ code: placed.orderCode, totalPaisa: placed.totals.totalPaisa }));
       dispatch(forgetCart());
+      if (account && !chosen && saveNew && fields.delivery === 'HOME') {
+        // Best effort: a failed save never blocks the placed order.
+        void authed('/v1/me/addresses', {
+          method: 'POST',
+          body: JSON.stringify({
+            recipientName: fields.name.trim(),
+            phone: normalizePhone(fields.phone) ?? fields.phone,
+            district: fields.district,
+            area: fields.area,
+            line: fields.line.trim(),
+            landmark: fields.landmark.trim() || null,
+            label: fields.label || null,
+          }),
+        }).catch(() => undefined);
+      }
       router.push(href(lang, `/order/${placed.orderCode}`));
     } catch (error) {
       setFormError(checkoutErrorText(toApiError(error), c.errors));
@@ -241,48 +295,6 @@ function CheckoutFormInner({
         aria-invalid={!!errors[key]}
         {...props}
       />
-    </Field>
-  );
-  // Division -> district -> area, like a courier label. Changing a level clears the ones below.
-  const name = (x: { nameEn: string; nameBn: string }) => (lang === 'bn' ? x.nameBn : x.nameEn);
-  const byName = <T extends { nameEn: string; nameBn: string }>(a: T, b: T) =>
-    name(a).localeCompare(name(b), lang);
-  const divisions = [
-    ...new Map(districts.map((d) => [d.division, { nameEn: d.division, nameBn: d.divisionBn }])),
-  ]
-    .map(([code, v]) => ({ code, ...v }))
-    .sort(byName);
-  const districtOptions = districts.filter((d) => d.division === fields.division).sort(byName);
-  const areaOptions = [...(districts.find((d) => d.code === fields.district)?.areas ?? [])].sort(
-    byName,
-  );
-  const choose = (key: 'division' | 'district' | 'area') => (e: { target: { value: string } }) =>
-    setFields((f) => ({
-      ...f,
-      [key]: e.target.value,
-      ...(key === 'division' ? { district: '', area: '' } : key === 'district' ? { area: '' } : {}),
-    }));
-  const select = (
-    key: 'division' | 'district' | 'area',
-    label: string,
-    options: { code: string; nameEn: string; nameBn: string }[],
-  ) => (
-    <Field id={`f-${key}`} label={label} error={errors[key]}>
-      <Select
-        id={`f-${key}`}
-        name={key}
-        value={fields[key]}
-        onChange={choose(key)}
-        disabled={!options.length}
-        aria-invalid={!!errors[key]}
-      >
-        <option value="">—</option>
-        {options.map((o) => (
-          <option key={o.code} value={o.code}>
-            {name(o)}
-          </option>
-        ))}
-      </Select>
     </Field>
   );
   // Cash on delivery takes no advance, even on a pre-order: everything is paid on delivery.
@@ -315,6 +327,33 @@ function CheckoutFormInner({
 
         <fieldset className="space-y-6">
           {section(2, c.sections.address)}
+          {saved.length ? (
+            <div className="space-y-3">
+              <p className="text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/80 [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal">
+                {c.savedAddresses}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {saved.map((a) => (
+                  <button
+                    key={a.id}
+                    type="button"
+                    aria-pressed={chosen === a.id}
+                    onClick={() => applySaved(a)}
+                    className="border border-line px-4 py-2.5 text-left text-sm transition hover:border-ink aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper"
+                  >
+                    <span className="block font-medium">
+                      {a.label === 'OFFICE'
+                        ? c.fields.labelOffice
+                        : a.label === 'HOME'
+                          ? c.fields.labelHome
+                          : a.recipientName}
+                    </span>
+                    <span className="block opacity-80">{a.line}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
           <div
             role="radiogroup"
             aria-label={c.sections.address}
@@ -345,11 +384,18 @@ function CheckoutFormInner({
               </label>
             ))}
           </div>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {select('division', c.fields.division, divisions)}
-            {select('district', c.fields.district, districtOptions)}
-            {select('area', c.fields.area, areaOptions)}
-          </div>
+          <AreaSelects
+            lang={lang}
+            districts={districts}
+            value={{ division: fields.division, district: fields.district, area: fields.area }}
+            onChange={setAddress}
+            labels={{
+              division: c.fields.division,
+              district: c.fields.district,
+              area: c.fields.area,
+            }}
+            errors={errors}
+          />
           {field('line', c.fields.line, { autoComplete: 'street-address' })}
           <div className="grid gap-6 sm:grid-cols-2">
             {field('landmark', c.fields.landmark)}
@@ -378,6 +424,17 @@ function CheckoutFormInner({
             </fieldset>
           </div>
           {field('note', c.fields.note)}
+          {account && !chosen && fields.delivery === 'HOME' ? (
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={saveNew}
+                onChange={(e) => setSaveNew(e.target.checked)}
+                className="accent-ink"
+              />
+              {c.saveForLater}
+            </label>
+          ) : null}
         </fieldset>
 
         <fieldset className="space-y-6">

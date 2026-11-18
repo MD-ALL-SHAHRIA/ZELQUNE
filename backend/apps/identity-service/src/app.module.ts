@@ -1,3 +1,4 @@
+import { AddressBookService } from './auth/address-book.service';
 import { Module } from '@nestjs/common';
 import { ServiceCoreModule } from '@zelqune/common';
 import { AccountsRpcController } from './auth/accounts.rpc.controller';
@@ -25,6 +26,7 @@ import { UserRepository } from './users/user.repository';
   ],
   controllers: [AuthRpcController, CustomerRpcController, AccountsRpcController, TeamRpcController],
   providers: [
+    AddressBookService,
     AuthService,
     IdentityPrivacyHandlers,
     CustomerService,

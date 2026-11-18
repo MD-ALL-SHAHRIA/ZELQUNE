@@ -143,6 +143,38 @@ const injectedRtkApi = api.injectEndpoints({
     meControllerRequests: build.query<MeControllerRequestsApiResponse, MeControllerRequestsApiArg>({
       query: () => ({ url: `/v1/me/requests` }),
     }),
+    meControllerAddresses: build.query<
+      MeControllerAddressesApiResponse,
+      MeControllerAddressesApiArg
+    >({
+      query: () => ({ url: `/v1/me/addresses` }),
+    }),
+    meControllerAddAddress: build.mutation<
+      MeControllerAddAddressApiResponse,
+      MeControllerAddAddressApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/me/addresses`,
+        method: 'POST',
+        body: queryArg.savedAddressInputDto,
+      }),
+    }),
+    meControllerUpdateAddress: build.mutation<
+      MeControllerUpdateAddressApiResponse,
+      MeControllerUpdateAddressApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/me/addresses/${queryArg.id}`,
+        method: 'PUT',
+        body: queryArg.savedAddressInputDto,
+      }),
+    }),
+    meControllerRemoveAddress: build.mutation<
+      MeControllerRemoveAddressApiResponse,
+      MeControllerRemoveAddressApiArg
+    >({
+      query: (queryArg) => ({ url: `/v1/me/addresses/${queryArg.id}`, method: 'DELETE' }),
+    }),
     catalogControllerCategories: build.query<
       CatalogControllerCategoriesApiResponse,
       CatalogControllerCategoriesApiArg
@@ -400,6 +432,21 @@ export type MeControllerOrdersApiResponse = /** status 200  */ MyOrdersDtoOutput
 export type MeControllerOrdersApiArg = void;
 export type MeControllerRequestsApiResponse = /** status 200  */ MyRequestsDtoOutput;
 export type MeControllerRequestsApiArg = void;
+export type MeControllerAddressesApiResponse = /** status 200  */ SavedAddressListDtoOutput;
+export type MeControllerAddressesApiArg = void;
+export type MeControllerAddAddressApiResponse = unknown;
+export type MeControllerAddAddressApiArg = {
+  savedAddressInputDto: SavedAddressInputDto;
+};
+export type MeControllerUpdateAddressApiResponse = /** status 200  */ SavedAddressListDtoOutput;
+export type MeControllerUpdateAddressApiArg = {
+  id: string;
+  savedAddressInputDto: SavedAddressInputDto;
+};
+export type MeControllerRemoveAddressApiResponse = /** status 200  */ SavedAddressListDtoOutput;
+export type MeControllerRemoveAddressApiArg = {
+  id: string;
+};
 export type CatalogControllerCategoriesApiResponse =
   /** status 200  */ CategoryListResponseDtoOutput;
 export type CatalogControllerCategoriesApiArg = void;
@@ -599,6 +646,29 @@ export type MyRequestsDtoOutput = {
     status: string;
     createdAt: string;
   }[];
+};
+export type SavedAddressListDtoOutput = {
+  items: {
+    id: string;
+    recipientName: string;
+    phone: string;
+    district: string;
+    area: string;
+    line: string;
+    landmark: string | null;
+    label: ('HOME' | 'OFFICE' | null) | null;
+    isDefault: boolean;
+  }[];
+};
+export type SavedAddressInputDto = {
+  recipientName: string;
+  phone: string;
+  district: string;
+  area: string;
+  line: string;
+  landmark?: string | null;
+  label?: ('HOME' | 'OFFICE' | null) | null;
+  isDefault?: boolean;
 };
 export type CategoryListResponseDtoOutput = {
   items: {
@@ -1258,6 +1328,11 @@ export const {
   useLazyMeControllerOrdersQuery,
   useMeControllerRequestsQuery,
   useLazyMeControllerRequestsQuery,
+  useMeControllerAddressesQuery,
+  useLazyMeControllerAddressesQuery,
+  useMeControllerAddAddressMutation,
+  useMeControllerUpdateAddressMutation,
+  useMeControllerRemoveAddressMutation,
   useCatalogControllerCategoriesQuery,
   useLazyCatalogControllerCategoriesQuery,
   useCatalogControllerSaleQuery,

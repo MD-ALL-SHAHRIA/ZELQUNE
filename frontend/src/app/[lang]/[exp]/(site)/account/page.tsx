@@ -3,6 +3,7 @@ import { AccountPortal } from '@/features/account/account-portal';
 import { resolvePage, type PageParams } from '@/shared/lib/page-params';
 import { alternates } from '@/shared/lib/site';
 import { Container } from '@/shared/ui/typography';
+import { listDistricts } from '@/shared/api/server';
 
 export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
   const { lang, dict } = await resolvePage(params);
@@ -16,6 +17,7 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 /** The signed-in customer's page (ADR 0021); signed-out visitors are sent to sign in. */
 export default async function AccountPage({ params }: { params: PageParams }) {
   const { lang, dict } = await resolvePage(params);
+  const districts = await listDistricts().catch(() => []);
   return (
     <Container className="max-w-4xl py-14 sm:py-20">
       <AccountPortal
@@ -23,6 +25,8 @@ export default async function AccountPage({ params }: { params: PageParams }) {
         copy={dict.auth}
         phoneError={dict.checkout.errors.phone}
         statuses={{ orders: dict.track.statuses, requests: dict.bulk.statuses }}
+        districts={districts}
+        addressCopy={{ ...dict.auth, fields: dict.checkout.fields, errors: dict.checkout.errors }}
       />
     </Container>
   );

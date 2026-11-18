@@ -654,6 +654,144 @@
         ]
       }
     },
+    "/v1/me/addresses": {
+      "get": {
+        "operationId": "MeController_addresses",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedAddressListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "customer auth"
+        ]
+      },
+      "post": {
+        "operationId": "MeController_addAddress",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SavedAddressInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedAddressListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "customer auth"
+        ]
+      }
+    },
+    "/v1/me/addresses/{id}": {
+      "put": {
+        "operationId": "MeController_updateAddress",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SavedAddressInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedAddressListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "customer auth"
+        ]
+      },
+      "delete": {
+        "operationId": "MeController_removeAddress",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedAddressListDto_Output"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "customer auth"
+        ]
+      }
+    },
     "/v1/catalog/categories": {
       "get": {
         "operationId": "CatalogController_categories",
@@ -5807,6 +5945,129 @@
           "items"
         ],
         "additionalProperties": false
+      },
+      "SavedAddressListDto_Output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "recipientName": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "district": {
+                  "type": "string"
+                },
+                "area": {
+                  "type": "string"
+                },
+                "line": {
+                  "type": "string"
+                },
+                "landmark": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "label": {
+                  "type": "string",
+                  "enum": [
+                    "HOME",
+                    "OFFICE",
+                    null
+                  ],
+                  "nullable": true
+                },
+                "isDefault": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "recipientName",
+                "phone",
+                "district",
+                "area",
+                "line",
+                "landmark",
+                "label",
+                "isDefault"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "SavedAddressInputDto": {
+        "type": "object",
+        "properties": {
+          "recipientName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "phone": {
+            "example": "01712345678",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "district": {
+            "type": "string",
+            "maxLength": 40,
+            "pattern": "^[a-z]+(?:-[a-z]+)*$"
+          },
+          "area": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "line": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 300
+          },
+          "landmark": {
+            "type": "string",
+            "maxLength": 120,
+            "default": null,
+            "nullable": true
+          },
+          "label": {
+            "type": "string",
+            "enum": [
+              "HOME",
+              "OFFICE",
+              null
+            ],
+            "default": null,
+            "nullable": true
+          },
+          "isDefault": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "recipientName",
+          "phone",
+          "district",
+          "area",
+          "line"
+        ]
       },
       "CategoryListResponseDto_Output": {
         "type": "object",

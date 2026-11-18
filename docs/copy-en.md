@@ -793,3 +793,12 @@ How to cancel an order, return an item or get your money back.
 - **portal kindPRODUCT:** Bulk order
 - **portal kindDESIGN:** Interior design
 - **portal kindCONSTRUCTION:** Construction
+
+## Address book
+- **Heading:** Saved addresses
+- **Empty:** No saved addresses yet. Save one and checkout fills it in for you.
+- **Buttons:** Add an address · Edit · Delete · Make default · Save address · Cancel
+- **Badge:** Default
+- **Field:** Name of the person receiving
+- **Limit:** You can save up to 10 addresses. Delete one to add another.
+- **Checkout:** Your saved addresses · Save this address to my account

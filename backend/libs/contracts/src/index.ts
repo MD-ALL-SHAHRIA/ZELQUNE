@@ -1,6 +1,7 @@
 export * from './services';
 export * from './phone';
 export * from './auth/auth.contracts';
+export * from './auth/addresses.contracts';
 export * from './catalog/catalog.contracts';
 export * from './content/content.contracts';
 export * from './inventory/inventory.contracts';

@@ -15,6 +15,8 @@ import { Skeleton } from '@/shared/ui/skeleton';
 import { type AuthCopy, errorText, PasswordField } from './auth-ui';
 import { authed, type Customer, setCustomer, signOut } from './session';
 import { useCustomer } from './use-customer';
+import { type District } from '@/shared/api/types';
+import { AddressBook } from './address-book';
 
 type Session = {
   id: string;
@@ -68,11 +70,15 @@ export function AccountPortal({
   copy: c,
   phoneError,
   statuses,
+  districts,
+  addressCopy,
 }: {
   lang: Locale;
   copy: AuthCopy;
   phoneError: string;
   statuses: { orders: Record<string, string>; requests: Record<string, string> };
+  districts: District[];
+  addressCopy: React.ComponentProps<typeof AddressBook>['copy'];
 }) {
   const router = useRouter();
   const state = useCustomer();
@@ -122,6 +128,16 @@ export function AccountPortal({
       </div>
 
       <Activity lang={lang} copy={c} statuses={statuses} />
+
+      <Section title={c.addressesHeading}>
+        <AddressBook
+          lang={lang}
+          districts={districts}
+          copy={addressCopy}
+          name={me.name ?? ''}
+          phone={me.phone ?? ''}
+        />
+      </Section>
 
       <Section title={c.profileHeading}>
         <Profile me={me} copy={c} phoneError={phoneError} />

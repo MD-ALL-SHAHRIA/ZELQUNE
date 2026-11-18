@@ -368,6 +368,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/me/addresses': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['MeController_addresses'];
+    put?: never;
+    post: operations['MeController_addAddress'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/v1/me/addresses/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations['MeController_updateAddress'];
+    post?: never;
+    delete: operations['MeController_removeAddress'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/catalog/categories': {
     parameters: {
       query?: never;
@@ -1891,6 +1923,38 @@ export interface components {
         status: string;
         createdAt: string;
       }[];
+    };
+    SavedAddressListDto_Output: {
+      items: {
+        /** Format: uuid */
+        id: string;
+        recipientName: string;
+        phone: string;
+        district: string;
+        area: string;
+        line: string;
+        landmark: string | null;
+        /** @enum {string|null} */
+        label: 'HOME' | 'OFFICE' | null;
+        isDefault: boolean;
+      }[];
+    };
+    SavedAddressInputDto: {
+      recipientName: string;
+      /** @example 01712345678 */
+      phone: string;
+      district: string;
+      area: string;
+      line: string;
+      /** @default null */
+      landmark?: string | null;
+      /**
+       * @default null
+       * @enum {string|null}
+       */
+      label?: 'HOME' | 'OFFICE' | null;
+      /** @default false */
+      isDefault?: boolean;
     };
     CategoryListResponseDto_Output: {
       items: {
@@ -4939,6 +5003,94 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['MyRequestsDto_Output'];
+        };
+      };
+    };
+  };
+  MeController_addresses: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SavedAddressListDto_Output'];
+        };
+      };
+    };
+  };
+  MeController_addAddress: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SavedAddressInputDto'];
+      };
+    };
+    responses: {
+      default: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SavedAddressListDto_Output'];
+        };
+      };
+    };
+  };
+  MeController_updateAddress: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SavedAddressInputDto'];
+      };
+    };
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SavedAddressListDto_Output'];
+        };
+      };
+    };
+  };
+  MeController_removeAddress: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SavedAddressListDto_Output'];
         };
       };
     };

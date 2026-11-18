@@ -18,6 +18,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - Home "Find your perfect piece": collections stand in tall arches (three across, the middle set lower; a swipe row on phones) with each piece centred, instead of a wide-card carousel with arrows. Copying a heading no longer gives its text twice.
 
 ### Added
+- Saved address book: signed-in customers keep up to 10 delivery addresses on their account page (add, edit, delete, choose the default). Checkout fills in the default, offers the others with one tap, and can save a newly typed address to the account. Addresses are deleted with the account and on privacy erasure.
 - Production deploy kit (docs/deploy.md): `infra/docker-compose.prod.yml` (only Caddy on 80/443, automatic HTTPS, HSTS, gzip/zstd, rotated logs, no dev passwords), Docker images for the storefront and dashboard, `dev-keys.mjs --prod` for fresh production secrets, nightly database + photo backups with a restore script.
 - Cancelling a paid order puts its items back in stock (once).
 - Orders with a submitted bKash/Nagad payment are no longer auto-cancelled after 48 h until staff verify or reject the payment.
