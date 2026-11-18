@@ -25,58 +25,58 @@ Each email is sent at most once per event, even when an event is retried.
 
 The checkout asks for an email as optional; signed-in customers get their account email filled in.
 
-## Switch it on in production (about 20 minutes, once)
+## Switch it on in production: Resend (about 15 minutes, once)
 
-You need: access to Cloudflare (zelqune.com) and an email provider account. Both providers below
-have a free plan that is enough to start; check their current limits when you sign up.
+We use **Resend** (resend.com): made for website emails, free plan to start, and emails come
+from **support@zelqune.com**. Everything on the website side is already set; you only create the
+account, prove you own zelqune.com, and copy one key.
 
-- **Resend** (resend.com): simplest setup.
-- **Brevo** (brevo.com): also has a dashboard to see every email sent.
+### 1. Create the account
+Go to **resend.com** → **Get started** → sign up with the Gmail you use for Zelqune. Confirm the
+email Resend sends you.
 
-### 1. Add the domain at the provider
-Sign up, choose **Add domain**, type `zelqune.com`. The provider shows a few DNS records
-(usually 2–3 TXT/CNAME records for DKIM, plus one for SPF).
+### 2. Add zelqune.com
+In Resend: **Domains** → **Add domain** → type `zelqune.com` → for the region choose the one
+closest to Bangladesh in the list → **Add**.
 
-### 2. Add those records in Cloudflare
-Cloudflare → zelqune.com → **DNS** → **Records** → **Add record**, one per record the provider
-listed. Set them to **DNS only** (grey cloud).
+Resend now shows a short list of DNS records (a few TXT and one MX, mostly on `send` and
+`resend._domainkey`). If Resend offers a button to add them to Cloudflare for you, use it and
+sign in to Cloudflare when asked. Otherwise, for each record:
 
-SPF: if the provider's SPF record is on a subdomain (for example `send.zelqune.com`), add it
-exactly as shown. If it is on `zelqune.com` itself: you already have one TXT record there that
-starts with `v=spf1` (from Email Routing for support@). **Do not add a second one** (two SPF
-records break both). Edit the existing one and add the provider's `include:` before `~all`:
+Cloudflare → **zelqune.com** → **DNS** → **Records** → **Add record** → copy *Type*, *Name* and
+*Content* (and *Priority* for MX) exactly from Resend → proxy status **DNS only** (grey cloud) →
+**Save**.
+
+These records are on sub-names (`send`, `resend._domainkey`), so they do not touch the records
+that forward support@zelqune.com to your Gmail. If Resend ever asks for an SPF record on
+`zelqune.com` itself, do not add a second `v=spf1` record there: edit the existing one and add
+Resend's `include:` before `~all`.
+
+Back in Resend press **Verify DNS records**. It turns **Verified** within minutes (sometimes up to
+an hour).
+
+### 3. Create the key
+Resend → **API Keys** → **Create API key** → name `Zelqune website`, permission **Sending
+access**, domain **zelqune.com** → **Add**. Copy the key (starts with `re_`). It is shown once.
+Do not paste it in a chat; it goes straight into the server settings.
+
+### 4. Put it on the server
+In `infra/.env.production` everything else is already filled in:
 
 ```
-v=spf1 include:_spf.mx.cloudflare.net include:<what the provider shows> ~all
-```
-
-Then add a DMARC record if you have none:
-
-| Type | Name | Content |
-|---|---|---|
-| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:support@zelqune.com` |
-
-Back at the provider, press **Verify**. It can take a few minutes.
-
-### 3. Put the SMTP details on the server
-The provider shows SMTP settings. In `infra/.env.production`:
-
-```
-EMAIL_DRIVER=smtp
-SMTP_HOST=smtp.resend.com        # or smtp-relay.brevo.com
-SMTP_PORT=587
-SMTP_SECURE=false                # 587 upgrades to TLS (required whenever a password is set)
-SMTP_USER=resend                 # what the provider shows
-SMTP_PASS=...                    # the API key / SMTP key
-MAIL_FROM=Zelqune <support@zelqune.com>
+SMTP_PASS=re_...the key...
 OWNER_NOTIFY_EMAIL=your-own@gmail.com
 ```
 
 Restart: `docker compose -f infra/docker-compose.prod.yml --env-file infra/.env.production up -d notification-service`.
 
-### 4. Check
+### 5. Check
 - Create an account on the live site with your own email: the confirmation email arrives.
-- Place a test order with your email: the customer email and the owner email arrive.
-- In Gmail, open the email → **Show original**: SPF, DKIM and DMARC say **PASS**.
+- Place a test order with your email: the order email and the new-order alert arrive.
+- In Resend → **Emails** you can see every email sent and whether it was delivered.
+
+If one day you send more than the free plan allows, upgrade in Resend; nothing in the website
+changes. (Brevo, brevo.com, works the same way if you ever prefer it: change `SMTP_HOST`,
+`SMTP_USER` and `SMTP_PASS`.)
 
 Replies go to support@zelqune.com, which Cloudflare Email Routing already forwards to your Gmail.
