@@ -49,7 +49,7 @@
 - **Address label:** Save this address as · Home · Office
 - **Delivery:**
   - **Home delivery:** A courier brings it to your door.
-  - **Pick up from our workshop:** Free. Collect it from our workshop in Dhaka; we call you when it is ready. · Free
+  - **Pick up from our workshop:** Collect it from our workshop in Dhaka; we call you when it is ready. · Free
 - **Payment:**
   - **bKash/Nagad advance:** Open bKash or Nagad, choose Send Money and send ৳300 to the number shown at checkout. Then type the Transaction ID from the confirmation message below. · Copy number · Copied
   - **Cash on delivery:** Pay the full amount in cash when it arrives, no advance. We call you to confirm the order.

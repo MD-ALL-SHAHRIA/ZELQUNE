@@ -211,7 +211,7 @@ export const en = {
       HOME: 'Home delivery',
       homeText: 'A courier brings it to your door.',
       PICKUP: 'Pick up from our workshop',
-      pickupText: 'Free. Collect it from our workshop in Dhaka; we call you when it is ready.',
+      pickupText: 'Collect it from our workshop in Dhaka; we call you when it is ready.',
       free: 'Free',
     },
     methods: {
