@@ -7,6 +7,7 @@ import {
   type RpcRequest,
   type SessionMeta,
 } from '@zelqune/contracts';
+import { AddressBookService } from './address-book.service';
 import { CustomerService } from './customer.service';
 
 const P = RPC_PATTERNS.identity.customer;
@@ -15,7 +16,25 @@ type ForUser<T = unknown> = RpcRequest<{ userId: string; input?: T; refreshToken
 
 @Controller()
 export class CustomerRpcController {
-  constructor(private readonly customers: CustomerService) {}
+  constructor(
+    private readonly customers: CustomerService,
+    private readonly addresses: AddressBookService,
+  ) {}
+
+  @MessagePattern(P.addresses.list)
+  listAddresses(@Payload() req: ForUser) {
+    return this.addresses.list(req.data.userId);
+  }
+
+  @MessagePattern(P.addresses.save)
+  saveAddress(@Payload() req: RpcRequest<{ userId: string; id: string | null; input: unknown }>) {
+    return this.addresses.save(req.data.userId, req.data.id, req.data.input);
+  }
+
+  @MessagePattern(P.addresses.remove)
+  removeAddress(@Payload() req: RpcRequest<{ userId: string; id: string }>) {
+    return this.addresses.remove(req.data.userId, req.data.id);
+  }
 
   @MessagePattern(P.register)
   register(@Payload() req: WithMeta) {

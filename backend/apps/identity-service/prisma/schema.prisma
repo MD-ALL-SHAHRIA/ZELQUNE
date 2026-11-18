@@ -67,8 +67,33 @@ model User {
   refreshTokens RefreshToken[]
   authTokens    AuthToken[]
   oauthAccounts OAuthAccount[]
+  addresses     CustomerAddress[]
 
   @@map("users")
+}
+
+/// A customer's saved delivery address (address book). At most one isDefault per user,
+/// kept by the service; deleted with the user and on privacy erasure.
+model CustomerAddress {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  recipientName String   @map("recipient_name")
+  phone         String
+  district      String
+  /// Area code from the shipping area list (bd-geo).
+  area          String
+  line          String
+  landmark      String?
+  /// HOME or OFFICE.
+  label         String?
+  isDefault     Boolean  @default(false) @map("is_default")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("customer_addresses")
 }
 
 /// Opaque rotating refresh tokens; only the SHA-256 hash is stored. All tokens of one login

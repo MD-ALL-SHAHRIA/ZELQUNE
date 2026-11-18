@@ -32,6 +32,7 @@ export async function eraseCustomerAccount(
   });
   await tx.authToken.deleteMany({ where: { userId: user.id } });
   await tx.oAuthAccount.deleteMany({ where: { userId: user.id } });
+  await tx.customerAddress.deleteMany({ where: { userId: user.id } });
   await tx.user.update({
     where: { id: user.id },
     data: {

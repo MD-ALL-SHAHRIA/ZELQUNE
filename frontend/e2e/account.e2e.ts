@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { signInCustomer } from './helpers';
 
 const MAILPIT = 'http://localhost:8025';
 
@@ -86,4 +87,28 @@ test('forgot password: the same answer for any email', async ({ page }) => {
   await page.getByLabel('Email').fill('nobody-here@example.com');
   await page.getByRole('button', { name: 'Send link' }).click();
   await expect(page.getByText('If an account uses nobody-here@example.com')).toBeVisible();
+});
+
+test('address book: a saved address is the default and checkout fills it in', async ({ page }) => {
+  await signInCustomer(page);
+  await page.goto('/en/account');
+  await page.getByRole('button', { name: 'Add an address' }).click();
+  await page.locator('#ab-division').selectOption('Dhaka');
+  await page.locator('#ab-district').selectOption('dhaka');
+  await page.locator('#ab-area').selectOption('dhanmondi');
+  await page.locator('#ab-line').fill('House 7, Road 4');
+  await page.locator('#ab-landmark').fill('Near the lake');
+  await page.getByText('Office', { exact: true }).click();
+  await page.getByRole('button', { name: 'Save address' }).click();
+  // The first address saved becomes the default.
+  await expect(page.getByText('Default', { exact: true })).toBeVisible();
+  await expect(page.getByText('Dhanmondi, Dhaka')).toBeVisible();
+
+  await page.goto('/en/products/alo-arch-panel');
+  await page.getByRole('button', { name: 'Pre-order now' }).first().click();
+  await expect(page).toHaveURL(/\/en\/checkout$/);
+  await expect(page.locator('#f-area')).toHaveValue('dhanmondi');
+  await expect(page.locator('#f-line')).toHaveValue('House 7, Road 4');
+  await expect(page.locator('#f-landmark')).toHaveValue('Near the lake');
+  await expect(page.getByTestId('total')).toContainText('৳');
 });

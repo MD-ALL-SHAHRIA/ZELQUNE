@@ -23,6 +23,11 @@ export const RPC_PATTERNS = {
       sessions: 'identity.customer.sessions',
       revokeSession: 'identity.customer.revokeSession',
       revokeOthers: 'identity.customer.revokeOthers',
+      addresses: {
+        list: 'identity.customer.addresses.list',
+        save: 'identity.customer.addresses.save',
+        remove: 'identity.customer.addresses.remove',
+      },
     },
     accounts: {
       list: 'identity.admin.accounts.list',
