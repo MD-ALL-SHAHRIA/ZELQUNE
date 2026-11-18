@@ -1,7 +1,7 @@
 import { type ParcelLine, type ShippingZoneCode } from '@zelqune/contracts';
 
 export interface FeeConfig {
-  feesPaisa: Record<ShippingZoneCode, number>;
+  feesPaisa: Record<Exclude<ShippingZoneCode, 'PICKUP'>, number>;
   baseWeightGrams: number;
   extraPerKgPaisa: number;
   volumetricDivisor: number;
@@ -17,8 +17,9 @@ export interface WeightBreakdown {
 
 /**
  * Chargeable weight = max(actual, volumetric) where volumetric (kg) = L x W x H (cm) / divisor.
- * Lines without packaged dimensions contribute no volumetric weight; lines without a packaged
- * weight use the configured default.
+ * A divisor of 0 turns volumetric weight off (actual weight only), so a large but light panel is
+ * not billed as if it weighed 50 kg. Lines without packaged dimensions contribute no volumetric
+ * weight; lines without a packaged weight use the configured default.
  */
 export function chargeableWeight(lines: ParcelLine[], config: FeeConfig): WeightBreakdown {
   let actual = 0;
@@ -30,7 +31,9 @@ export function chargeableWeight(lines: ParcelLine[], config: FeeConfig): Weight
   }
   // grams = cm³ / divisor * 1000 = mm³ / divisor. Integer maths: float cm conversions could add a
   // stray gram and bill an extra kg at exact kg boundaries.
-  const volumetricWeightGrams = Math.ceil(cubicMm / config.volumetricDivisor);
+  const volumetricWeightGrams = config.volumetricDivisor
+    ? Math.ceil(cubicMm / config.volumetricDivisor)
+    : 0;
   const chargeableKg = Math.max(1, Math.ceil(Math.max(actual, volumetricWeightGrams) / 1000));
   return {
     actualWeightGrams: actual,
@@ -45,6 +48,8 @@ export function shippingFee(
   chargeableWeightGrams: number,
   config: FeeConfig,
 ): number {
+  // Collected from the workshop: no courier, no fee.
+  if (zone === 'PICKUP') return 0;
   const extraKg = Math.max(0, Math.ceil((chargeableWeightGrams - config.baseWeightGrams) / 1000));
   return config.feesPaisa[zone] + extraKg * config.extraPerKgPaisa;
 }

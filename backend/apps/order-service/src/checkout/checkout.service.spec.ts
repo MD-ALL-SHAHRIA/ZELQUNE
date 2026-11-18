@@ -167,7 +167,7 @@ function prepared(saleMode: SaleMode): PreparedCheckout {
 
 const request = (overrides: Partial<CheckoutRequest> = {}): CheckoutRequest => ({
   customer: { name: 'Rahim', phone: '01712345678' },
-  address: { district: 'dhaka', area: 'Mirpur', line: 'House 1, Road 2' },
+  address: { district: 'dhaka', area: 'mirpur', line: 'House 1, Road 2' },
   paymentMethod: 'COD',
   ...overrides,
 });

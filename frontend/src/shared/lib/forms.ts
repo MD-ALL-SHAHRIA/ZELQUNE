@@ -46,6 +46,8 @@ export interface CheckoutErrorCopy {
   priceChanged: string;
   rateLimited: string;
   trxRequired: string;
+  /** Area not in the chosen district (checkout copy only). */
+  area?: string;
 }
 
 /** Gateway error code -> the copy's message for the checkout form. */
@@ -69,6 +71,8 @@ export function checkoutErrorText(error: unknown, copy: CheckoutErrorCopy): stri
       return copy.priceChanged;
     case 'TOO_MANY_REQUESTS':
       return copy.rateLimited;
+    case 'UNKNOWN_AREA':
+      return copy.area ?? copy.generic;
     case 'VALIDATION_FAILED':
       return invalidFields(error).some((f) => f.endsWith('phone')) ? copy.phone : copy.generic;
     default:

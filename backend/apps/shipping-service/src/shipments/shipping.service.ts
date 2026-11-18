@@ -14,7 +14,7 @@ import {
 import { type ShippingEnv } from '../config/shipping-env';
 import { PrismaService } from '../prisma/prisma.service';
 import { ShippingSettingsService } from '../settings/shipping-settings';
-import { DISTRICTS, DISTRICTS_BY_CODE, zoneFor } from '../zones/districts';
+import { DISTRICT_VIEWS, DISTRICTS_BY_CODE, zoneFor } from '../zones/districts';
 import { chargeableWeight, type FeeConfig, shippingFee } from '../zones/shipping-fee';
 import { COURIER_PROVIDERS, type CourierProvider } from './courier.provider';
 import { canTransitionShipment } from './shipment-state';
@@ -47,15 +47,15 @@ export class ShippingService {
   }
 
   districts(): { items: DistrictView[] } {
-    return { items: [...DISTRICTS] };
+    return { items: [...DISTRICT_VIEWS] };
   }
 
   async quote(raw: ShippingQuoteRequest): Promise<ShippingQuote> {
-    const { district, area, lines } = shippingQuoteRequestSchema.parse(raw);
+    const { district, area, delivery, lines } = shippingQuoteRequestSchema.parse(raw);
     if (!DISTRICTS_BY_CODE.has(district))
       throw new AppError('UNKNOWN_DISTRICT', 'Unknown district', 422);
     const fees = await this.currentFees();
-    const zone = zoneFor(district, area);
+    const zone = zoneFor(district, area, delivery);
     const weight = chargeableWeight(lines, fees);
     return {
       zone,

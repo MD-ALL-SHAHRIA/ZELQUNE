@@ -34,9 +34,13 @@ type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product'
 interface Fields {
   name: string;
   phone: string;
+  delivery: 'HOME' | 'PICKUP';
+  division: string;
   district: string;
   area: string;
   line: string;
+  landmark: string;
+  label: '' | 'HOME' | 'OFFICE';
   note: string;
   trxId: string;
 }
@@ -45,9 +49,13 @@ type FieldErrors = Partial<Record<keyof Fields | 'turnstile', string>>;
 const EMPTY: Fields = {
   name: '',
   phone: '',
+  delivery: 'HOME',
+  division: '',
   district: '',
   area: '',
   line: '',
+  landmark: '',
+  label: '',
   note: '',
   trxId: '',
 };
@@ -95,14 +103,15 @@ function CheckoutFormInner({
 
   // Delivery fee, totals, advance and allowed payment methods for the chosen address.
   useEffect(() => {
-    const area = fields.area.trim();
-    if (!token || !fields.district || area.length < 2 || !cart?.items.length) return;
+    const area = fields.area;
+    if (!token || !fields.district || !area || !cart?.items.length) return;
     const timer = setTimeout(() => {
       requestQuote({
         'x-cart-token': token,
         quoteRequestDto: {
           district: fields.district,
           area,
+          delivery: fields.delivery,
           ...(coupon ? { couponCode: coupon } : {}),
         },
       })
@@ -127,7 +136,17 @@ function CheckoutFormInner({
         });
     }, 350);
     return () => clearTimeout(timer);
-  }, [fields.district, fields.area, cart, token, requestQuote, coupon, copy, lang]);
+  }, [
+    fields.district,
+    fields.area,
+    fields.delivery,
+    cart,
+    token,
+    requestQuote,
+    coupon,
+    copy,
+    lang,
+  ]);
 
   if (!cart || !items.length) {
     return (
@@ -154,8 +173,9 @@ function CheckoutFormInner({
     const next: FieldErrors = {};
     if (fields.name.trim().length < 2) next.name = c.errors.required;
     if (!normalizePhone(fields.phone)) next.phone = c.errors.phone;
+    if (!fields.division) next.division = c.errors.required;
     if (!fields.district) next.district = c.errors.required;
-    if (fields.area.trim().length < 2) next.area = c.errors.required;
+    if (!fields.area) next.area = c.errors.area;
     if (fields.line.trim().length < 5) next.line = c.errors.line;
     if (advanceMethod && !normalizeTrxId(fields.trxId)) next.trxId = c.errors.trxRequired;
     if (!turnstileToken) next.turnstile = c.errors.turnstile;
@@ -175,8 +195,11 @@ function CheckoutFormInner({
       customer: { name: fields.name.trim(), phone: normalizePhone(fields.phone) ?? fields.phone },
       address: {
         district: fields.district,
-        area: fields.area.trim(),
+        area: fields.area,
         line: fields.line.trim(),
+        delivery: fields.delivery,
+        ...(fields.landmark.trim() ? { landmark: fields.landmark.trim() } : {}),
+        ...(fields.label ? { label: fields.label } : {}),
         ...(fields.note.trim() ? { note: fields.note.trim() } : {}),
       },
       paymentMethod: method,
@@ -220,8 +243,47 @@ function CheckoutFormInner({
       />
     </Field>
   );
-  const sorted = [...districts].sort((a, b) =>
-    (lang === 'bn' ? a.nameBn : a.nameEn).localeCompare(lang === 'bn' ? b.nameBn : b.nameEn),
+  // Division -> district -> area, like a courier label. Changing a level clears the ones below.
+  const name = (x: { nameEn: string; nameBn: string }) => (lang === 'bn' ? x.nameBn : x.nameEn);
+  const byName = <T extends { nameEn: string; nameBn: string }>(a: T, b: T) =>
+    name(a).localeCompare(name(b), lang);
+  const divisions = [
+    ...new Map(districts.map((d) => [d.division, { nameEn: d.division, nameBn: d.divisionBn }])),
+  ]
+    .map(([code, v]) => ({ code, ...v }))
+    .sort(byName);
+  const districtOptions = districts.filter((d) => d.division === fields.division).sort(byName);
+  const areaOptions = [...(districts.find((d) => d.code === fields.district)?.areas ?? [])].sort(
+    byName,
+  );
+  const choose = (key: 'division' | 'district' | 'area') => (e: { target: { value: string } }) =>
+    setFields((f) => ({
+      ...f,
+      [key]: e.target.value,
+      ...(key === 'division' ? { district: '', area: '' } : key === 'district' ? { area: '' } : {}),
+    }));
+  const select = (
+    key: 'division' | 'district' | 'area',
+    label: string,
+    options: { code: string; nameEn: string; nameBn: string }[],
+  ) => (
+    <Field id={`f-${key}`} label={label} error={errors[key]}>
+      <Select
+        id={`f-${key}`}
+        name={key}
+        value={fields[key]}
+        onChange={choose(key)}
+        disabled={!options.length}
+        aria-invalid={!!errors[key]}
+      >
+        <option value="">—</option>
+        {options.map((o) => (
+          <option key={o.code} value={o.code}>
+            {name(o)}
+          </option>
+        ))}
+      </Select>
+    </Field>
   );
   // Cash on delivery takes no advance, even on a pre-order: everything is paid on delivery.
   const payNow = quote && method !== 'COD' ? quote.advanceRequiredPaisa : 0;
@@ -253,26 +315,68 @@ function CheckoutFormInner({
 
         <fieldset className="space-y-6">
           {section(2, c.sections.address)}
-          <div className="grid gap-6 sm:grid-cols-2">
-            <Field id="f-district" label={c.fields.district} error={errors.district}>
-              <Select
-                id="f-district"
-                name="district"
-                value={fields.district}
-                onChange={set('district')}
-                aria-invalid={!!errors.district}
+          <div
+            role="radiogroup"
+            aria-label={c.sections.address}
+            className="grid gap-3 sm:grid-cols-2"
+          >
+            {(['HOME', 'PICKUP'] as const).map((d) => (
+              <label
+                key={d}
+                className="flex cursor-pointer flex-col gap-1 border border-line bg-surface px-5 py-4 transition has-[:checked]:border-ink"
               >
-                <option value="">—</option>
-                {sorted.map((d) => (
-                  <option key={d.code} value={d.code}>
-                    {lang === 'bn' ? d.nameBn : d.nameEn}
-                  </option>
-                ))}
-              </Select>
-            </Field>
-            {field('area', c.fields.area, { autoComplete: 'address-level3' })}
+                <span className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    value={d}
+                    checked={fields.delivery === d}
+                    onChange={() => setFields((f) => ({ ...f, delivery: d }))}
+                    className="accent-ink"
+                  />
+                  <span className="font-medium">{c.delivery[d]}</span>
+                  {d === 'PICKUP' ? (
+                    <span className="ml-auto text-sm text-walnut">{c.delivery.free}</span>
+                  ) : null}
+                </span>
+                <span className="pl-7 text-sm text-ink/75">
+                  {d === 'HOME' ? c.delivery.homeText : c.delivery.pickupText}
+                </span>
+              </label>
+            ))}
+          </div>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {select('division', c.fields.division, divisions)}
+            {select('district', c.fields.district, districtOptions)}
+            {select('area', c.fields.area, areaOptions)}
           </div>
           {field('line', c.fields.line, { autoComplete: 'street-address' })}
+          <div className="grid gap-6 sm:grid-cols-2">
+            {field('landmark', c.fields.landmark)}
+            <fieldset>
+              <legend className="mb-2 text-[0.74rem] font-medium uppercase tracking-[0.18em] text-ink/80 [:lang(bn)_&]:normal-case [:lang(bn)_&]:tracking-normal">
+                {c.fields.label}
+              </legend>
+              <div className="flex gap-3">
+                {(['HOME', 'OFFICE'] as const).map((l) => (
+                  <label
+                    key={l}
+                    className="flex cursor-pointer items-center gap-2 border border-line px-4 py-2.5 text-sm transition has-[:checked]:border-ink has-[:checked]:bg-ink has-[:checked]:text-paper"
+                  >
+                    <input
+                      type="radio"
+                      name="label"
+                      value={l}
+                      checked={fields.label === l}
+                      onChange={() => setFields((f) => ({ ...f, label: l }))}
+                      className="sr-only"
+                    />
+                    {l === 'HOME' ? c.fields.labelHome : c.fields.labelOffice}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          </div>
           {field('note', c.fields.note)}
         </fieldset>
 

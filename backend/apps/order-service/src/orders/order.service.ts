@@ -33,6 +33,7 @@ import {
   transitionOrderInputSchema,
   type TransitionOrderInput,
   type TrackQuery,
+  findArea,
 } from '@zelqune/contracts';
 import { type OrderEnv } from '../config/order-env';
 import { customerKey } from '../domain/customer-key';
@@ -212,6 +213,9 @@ export class OrderService implements OnApplicationBootstrap, OnModuleDestroy {
       district: string;
       area: string;
       line: string;
+      landmark?: string | null;
+      label?: 'HOME' | 'OFFICE' | null;
+      delivery?: 'HOME' | 'PICKUP';
       note?: string | null;
     };
     return {
@@ -219,7 +223,11 @@ export class OrderService implements OnApplicationBootstrap, OnModuleDestroy {
       address: {
         district: address.district,
         area: address.area,
+        areaName: findArea(address.district, address.area)?.nameEn ?? address.area,
         line: address.line,
+        landmark: address.landmark ?? null,
+        label: address.label ?? null,
+        delivery: address.delivery ?? 'HOME',
         note: address.note ?? null,
       },
       items: this.items(order.items),

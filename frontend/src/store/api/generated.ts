@@ -847,11 +847,18 @@ export type DistrictListDtoOutput = {
     nameBn: string;
     nameEn: string;
     division: string;
+    divisionBn: string;
+    areas: {
+      code: string;
+      nameEn: string;
+      nameBn: string;
+      city: boolean;
+    }[];
   }[];
 };
 export type ShippingEstimateDtoOutput = {
   district: string;
-  zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE';
+  zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE' | 'PICKUP';
   chargeableWeightGrams: number;
   feePaisa: number;
 };
@@ -946,7 +953,7 @@ export type CheckoutQuoteDtoOutput = {
   shippingFeePaisa: number;
   totalPaisa: number;
   advanceRequiredPaisa: number;
-  zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE';
+  zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE' | 'PICKUP';
   chargeableWeightGrams: number;
   allowedPaymentMethods: ('COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL')[];
   paymentInstructions: {
@@ -963,6 +970,7 @@ export type CheckoutQuoteDtoOutput = {
 export type QuoteRequestDto = {
   district: string;
   area: string;
+  delivery?: 'HOME' | 'PICKUP';
   couponCode?: string;
 };
 export type CheckoutResponseDtoOutput = {
@@ -1011,6 +1019,9 @@ export type CheckoutRequestDto = {
     district: string;
     area: string;
     line: string;
+    landmark?: string | null;
+    label?: ('HOME' | 'OFFICE' | null) | null;
+    delivery?: 'HOME' | 'PICKUP';
     note?: string | null;
   };
   paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';

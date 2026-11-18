@@ -7797,13 +7797,45 @@
                 },
                 "division": {
                   "type": "string"
+                },
+                "divisionBn": {
+                  "type": "string"
+                },
+                "areas": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "nameEn": {
+                        "type": "string"
+                      },
+                      "nameBn": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "nameEn",
+                      "nameBn",
+                      "city"
+                    ],
+                    "additionalProperties": false
+                  }
                 }
               },
               "required": [
                 "code",
                 "nameBn",
                 "nameEn",
-                "division"
+                "division",
+                "divisionBn",
+                "areas"
               ],
               "additionalProperties": false
             }
@@ -7825,7 +7857,8 @@
             "enum": [
               "DHAKA",
               "SUBURB",
-              "OUTSIDE"
+              "OUTSIDE",
+              "PICKUP"
             ]
           },
           "chargeableWeightGrams": {
@@ -8297,6 +8330,14 @@
             "minLength": 2,
             "maxLength": 100
           },
+          "delivery": {
+            "default": "HOME",
+            "type": "string",
+            "enum": [
+              "HOME",
+              "PICKUP"
+            ]
+          },
           "couponCode": {
             "type": "string",
             "minLength": 3,
@@ -8380,7 +8421,8 @@
             "enum": [
               "DHAKA",
               "SUBURB",
-              "OUTSIDE"
+              "OUTSIDE",
+              "PICKUP"
             ]
           },
           "chargeableWeightGrams": {
@@ -8500,6 +8542,30 @@
                 "type": "string",
                 "minLength": 5,
                 "maxLength": 300
+              },
+              "landmark": {
+                "type": "string",
+                "maxLength": 120,
+                "default": null,
+                "nullable": true
+              },
+              "label": {
+                "type": "string",
+                "enum": [
+                  "HOME",
+                  "OFFICE",
+                  null
+                ],
+                "default": null,
+                "nullable": true
+              },
+              "delivery": {
+                "default": "HOME",
+                "type": "string",
+                "enum": [
+                  "HOME",
+                  "PICKUP"
+                ]
               },
               "note": {
                 "type": "string",
@@ -9854,8 +9920,31 @@
               "area": {
                 "type": "string"
               },
+              "areaName": {
+                "type": "string"
+              },
               "line": {
                 "type": "string"
+              },
+              "landmark": {
+                "type": "string",
+                "nullable": true
+              },
+              "label": {
+                "type": "string",
+                "enum": [
+                  "HOME",
+                  "OFFICE",
+                  null
+                ],
+                "nullable": true
+              },
+              "delivery": {
+                "type": "string",
+                "enum": [
+                  "HOME",
+                  "PICKUP"
+                ]
               },
               "note": {
                 "type": "string",
@@ -9865,7 +9954,11 @@
             "required": [
               "district",
               "area",
+              "areaName",
               "line",
+              "landmark",
+              "label",
+              "delivery",
               "note"
             ],
             "additionalProperties": false
@@ -12551,6 +12644,30 @@
                 "type": "string",
                 "minLength": 5,
                 "maxLength": 300
+              },
+              "landmark": {
+                "type": "string",
+                "maxLength": 120,
+                "default": null,
+                "nullable": true
+              },
+              "label": {
+                "type": "string",
+                "enum": [
+                  "HOME",
+                  "OFFICE",
+                  null
+                ],
+                "default": null,
+                "nullable": true
+              },
+              "delivery": {
+                "default": "HOME",
+                "type": "string",
+                "enum": [
+                  "HOME",
+                  "PICKUP"
+                ]
               },
               "note": {
                 "type": "string",

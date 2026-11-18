@@ -45,7 +45,11 @@
 
 ## Checkout
 - **Heading:** Confirm your order
-- **Fields:** Your name · Mobile number (01XXXXXXXXX) · District · Area/Thana · Full address · Delivery note (optional)
+- **Fields:** Your name · Mobile number (01XXXXXXXXX) · Division · District · Area / Thana / Upazila · House, road, flat · Nearby landmark (optional) · Delivery note (optional)
+- **Address label:** Save this address as · Home · Office
+- **Delivery:**
+  - **Home delivery:** A courier brings it to your door.
+  - **Pick up from our workshop:** Collect it from our workshop in Dhaka; we call you when it is ready. · Free
 - **Payment:**
   - **bKash/Nagad advance:** Open bKash or Nagad, choose Send Money and send ৳300 to the number shown at checkout. Then type the Transaction ID from the confirmation message below. · Copy number · Copied
   - **Cash on delivery:** Pay the full amount in cash when it arrives, no advance. We call you to confirm the order.
@@ -57,6 +61,7 @@
   - This Transaction ID has already been used. Please check it.
   - This item is out of stock right now.
   - Something went wrong. Please try again shortly, or message us on WhatsApp.
+  - Choose your area from the list.
 
 ## Order placed
 - **Heading:** Thank you! We've received your order

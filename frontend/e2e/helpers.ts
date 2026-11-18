@@ -10,12 +10,21 @@ export function uniqueTrxId(): string {
 
 export async function fillCheckout(
   page: Page,
-  input: { name: string; phone: string; district: string; area: string; line: string },
+  input: {
+    name: string;
+    phone: string;
+    division: string;
+    district: string;
+    area: string;
+    line: string;
+  },
 ) {
   await page.locator('#f-name').fill(input.name);
   await page.locator('#f-phone').fill(input.phone);
+  // Division -> district -> area dropdowns, as on a courier label.
+  await page.locator('#f-division').selectOption(input.division);
   await page.locator('#f-district').selectOption(input.district);
-  await page.locator('#f-area').fill(input.area);
+  await page.locator('#f-area').selectOption(input.area);
   await page.locator('#f-line').fill(input.line);
 }
 

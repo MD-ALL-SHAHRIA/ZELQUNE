@@ -33,8 +33,9 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await fillCheckout(page, {
     name: 'E2E Test',
     phone,
+    division: 'Dhaka',
     district: 'dhaka',
-    area: 'Mirpur',
+    area: 'mirpur',
     line: 'House 1, Road 2, Mirpur 10',
   });
   // Pre-order: the bKash advance comes first and is chosen; cash on delivery is offered too
@@ -42,7 +43,8 @@ test('pre-order with a bKash advance, then track it', async ({ page }) => {
   await expect(page.getByLabel('bKash অগ্রিম')).toBeChecked();
   await page.getByLabel('ক্যাশ অন ডেলিভারি').check();
   await expect(page.getByTestId('pay-now')).toHaveCount(0);
-  await expect(page.getByTestId('pay-later')).toHaveText('৳৩,৬৬০');
+  // ৳3,490 panel + ৳60 flat delivery inside Dhaka.
+  await expect(page.getByTestId('pay-later')).toHaveText('৳৩,৫৫০');
   await page.getByLabel('bKash অগ্রিম').check();
   await expect(page.getByTestId('pay-now')).toHaveText('৳৩০০');
   await expect(page.getByTestId('advance-instructions')).toContainText('৳৩০০');
@@ -75,8 +77,9 @@ test('pre-order with cash on delivery: no advance, the whole total on delivery',
   await fillCheckout(page, {
     name: 'E2E Cod',
     phone: uniquePhone(),
+    division: 'Dhaka',
     district: 'dhaka',
-    area: 'Mirpur',
+    area: 'mirpur',
     line: 'House 1, Road 2, Mirpur 10',
   });
   await page.getByLabel('Cash on delivery').check();
@@ -107,8 +110,9 @@ test('a guest orders with name and phone (no account) and tracks the order', asy
   await fillCheckout(page, {
     name: 'E2E Guest',
     phone,
+    division: 'Dhaka',
     district: 'dhaka',
-    area: 'Mirpur',
+    area: 'mirpur',
     line: 'House 1, Road 2, Mirpur 10',
   });
   await page.getByLabel('Cash on delivery').check();

@@ -69,7 +69,7 @@ describe('privacy requests (ADR 0020) on real infrastructure', () => {
     cartId: randomUUID(),
     customerName: 'Nusrat Jahan',
     customerPhone: E164,
-    address: { district: 'dhaka', area: 'Mirpur', line: 'House 9, Road 3' },
+    address: { district: 'dhaka', area: 'mirpur', line: 'House 9, Road 3' },
     saleMode: 'PRE_ORDER' as const,
     status: status as never,
     paymentMethod: 'BKASH_MANUAL' as const,

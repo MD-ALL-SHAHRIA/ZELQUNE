@@ -15,7 +15,9 @@ import {
 import { appliedCouponSchema, couponCodeSchema } from '../marketing/coupons.contracts';
 import { bdPhoneSchema } from '../phone';
 import {
+  addressLabelSchema,
   areaSchema,
+  deliveryMethodSchema,
   districtCodeSchema,
   shipmentSummarySchema,
   shippingZoneSchema,
@@ -98,8 +100,15 @@ export const setCartItemRequestSchema = z.object({
 
 export const addressSchema = z.object({
   district: districtCodeSchema,
+  /** An area code (shipping BD_AREAS) on the storefront; free text for staff-entered B2B. */
   area: areaSchema,
+  /** House, road, flat. */
   line: z.string().trim().min(5).max(300),
+  /** A nearby place the courier can ask for. */
+  landmark: z.string().trim().max(120).nullable().default(null),
+  label: addressLabelSchema.nullable().default(null),
+  /** Courier to the door, or collected from the workshop (free). */
+  delivery: deliveryMethodSchema.default('HOME'),
   note: z.string().trim().max(300).nullable().default(null),
 });
 export type AddressInput = z.input<typeof addressSchema>;
@@ -108,6 +117,7 @@ export type Address = z.output<typeof addressSchema>;
 export const quoteRequestSchema = z.object({
   district: districtCodeSchema,
   area: areaSchema,
+  delivery: deliveryMethodSchema.default('HOME'),
   couponCode: couponCodeSchema.optional(),
 });
 export type QuoteRequest = z.input<typeof quoteRequestSchema>;
@@ -282,7 +292,12 @@ export const adminOrderDetailSchema = adminOrderSummarySchema.extend({
   address: z.object({
     district: z.string(),
     area: z.string(),
+    /** The area's English name (or the typed text for older and B2B orders). */
+    areaName: z.string(),
     line: z.string(),
+    landmark: z.string().nullable(),
+    label: addressLabelSchema.nullable(),
+    delivery: deliveryMethodSchema,
     note: z.string().nullable(),
   }),
   items: z.array(orderItemViewSchema),
