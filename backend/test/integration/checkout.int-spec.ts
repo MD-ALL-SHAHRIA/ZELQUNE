@@ -166,11 +166,11 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
     expect(quote.body).toMatchObject({
       saleMode: 'PRE_ORDER',
       subtotalPaisa: 429000,
-      shippingFeePaisa: 17000, // 2.5 kg actual vs 5.6 kg volumetric -> 6 kg -> ৳70 + 5 x ৳20
-      totalPaisa: 446000,
+      shippingFeePaisa: 6000, // one flat charge per order inside Dhaka (actual 2.5 kg -> 3 kg)
+      totalPaisa: 435000,
       advanceRequiredPaisa: 30000,
       zone: 'DHAKA',
-      chargeableWeightGrams: 6000,
+      chargeableWeightGrams: 3000,
       // The advance first; cash on delivery too (codForAdvanceOrders defaults on, ADR 0022).
       allowedPaymentMethods: ['BKASH_MANUAL', 'COD'],
       paymentInstructions: {
@@ -189,7 +189,7 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
     expect(placed.body).toMatchObject({
       status: 'PENDING_PAYMENT',
       saleMode: 'PRE_ORDER',
-      totals: { totalPaisa: 446000, advanceRequiredPaisa: 30000 },
+      totals: { totalPaisa: 435000, advanceRequiredPaisa: 30000 },
       payment: {
         method: 'BKASH_MANUAL',
         kind: 'ADVANCE',
