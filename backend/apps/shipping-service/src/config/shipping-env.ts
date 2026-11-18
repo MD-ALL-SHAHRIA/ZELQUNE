@@ -11,7 +11,7 @@ export const shippingEnvSchema = serviceEnvSchema.extend({
   /** Weight included in the base fee. */
   SHIPPING_BASE_WEIGHT_GRAMS: z.coerce.number().int().positive().default(1000),
   /** Per started kg above the base weight. */
-  SHIPPING_EXTRA_PER_KG_PAISA: paisa(1000),
+  SHIPPING_EXTRA_PER_KG_PAISA: paisa(0),
   /** Volumetric weight (kg) = L x W x H (cm) / divisor. */
   /** 0 = charge by actual weight only (default, as Daraz does); e.g. 5000 bills big boxes by size. */
   SHIPPING_VOLUMETRIC_DIVISOR: z.coerce.number().int().min(0).default(0),

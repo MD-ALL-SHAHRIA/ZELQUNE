@@ -98,6 +98,17 @@ describe('zones', () => {
     expect(new Set(DISTRICTS.map((d) => d.code)).size).toBe(64);
   });
 
+  it('with no per-kg charge, every order in a zone pays the same flat fee', () => {
+    const flat = {
+      ...config,
+      extraPerKgPaisa: 0,
+      feesPaisa: { DHAKA: 6000, SUBURB: 9000, OUTSIDE: 12000 },
+    };
+    expect(shippingFee('DHAKA', 1000, flat)).toBe(6000);
+    expect(shippingFee('DHAKA', 62000, flat)).toBe(6000);
+    expect(shippingFee('OUTSIDE', 18000, flat)).toBe(12000);
+  });
+
   it('bills actual weight when volumetric weight is off (a big, light panel stays cheap)', () => {
     // Fluted Niche Panel (190 x 95 x 15 cm, 15 kg) + Capsule Vase Light (76 x 42 x 12 cm, 3 kg):
     // by box size that is 62 kg; by actual weight 18 kg.
