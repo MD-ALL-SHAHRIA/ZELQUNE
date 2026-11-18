@@ -8,7 +8,7 @@ const ORDER_ID = '0b6f0a3e-7f2a-4c35-9a5e-2f1d0c1b2a3e';
 
 const checkoutBody = {
   customer: { name: 'Rahim', phone: '01712345678' },
-  address: { district: 'dhaka', area: 'Mirpur', line: 'House 1, Road 2' },
+  address: { district: 'dhaka', area: 'mirpur', line: 'House 1, Road 2' },
   paymentMethod: 'COD',
 };
 const checkoutResponse = {
@@ -95,7 +95,16 @@ describe('shop routes (e2e, services mocked)', () => {
 
   it('lists districts publicly', async () => {
     h.clients.shipping.send.mockResolvedValueOnce({
-      items: [{ code: 'dhaka', nameBn: 'ঢাকা', nameEn: 'Dhaka', division: 'Dhaka' }],
+      items: [
+        {
+          code: 'dhaka',
+          nameBn: 'ঢাকা',
+          nameEn: 'Dhaka',
+          division: 'Dhaka',
+          divisionBn: 'ঢাকা',
+          areas: [{ code: 'mirpur', nameEn: 'Mirpur', nameBn: 'মিরপুর', city: true }],
+        },
+      ],
     });
     const res = await request(h.app.getHttpServer()).get('/v1/shipping/districts').expect(200);
     expect(res.body.items[0].code).toBe('dhaka');

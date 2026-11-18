@@ -1,7 +1,7 @@
 import { type ParcelLine, type ShippingZoneCode } from '@zelqune/contracts';
 
 export interface FeeConfig {
-  feesPaisa: Record<ShippingZoneCode, number>;
+  feesPaisa: Record<Exclude<ShippingZoneCode, 'PICKUP'>, number>;
   baseWeightGrams: number;
   extraPerKgPaisa: number;
   volumetricDivisor: number;
@@ -45,6 +45,8 @@ export function shippingFee(
   chargeableWeightGrams: number,
   config: FeeConfig,
 ): number {
+  // Collected from the workshop: no courier, no fee.
+  if (zone === 'PICKUP') return 0;
   const extraKg = Math.max(0, Math.ceil((chargeableWeightGrams - config.baseWeightGrams) / 1000));
   return config.feesPaisa[zone] + extraKg * config.extraPerKgPaisa;
 }

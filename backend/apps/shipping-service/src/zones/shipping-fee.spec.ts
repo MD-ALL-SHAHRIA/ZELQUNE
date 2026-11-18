@@ -98,6 +98,16 @@ describe('zones', () => {
     expect(new Set(DISTRICTS.map((d) => d.code)).size).toBe(64);
   });
 
+  it('decides the zone exactly from an area code, and pickup is free', () => {
+    expect(zoneFor('dhaka', 'mirpur')).toBe('DHAKA');
+    expect(zoneFor('dhaka', 'savar')).toBe('SUBURB');
+    expect(zoneFor('dhaka', 'keraniganj')).toBe('SUBURB');
+    expect(zoneFor('gazipur', 'kaliakair')).toBe('SUBURB');
+    expect(zoneFor('sylhet', 'sylhet-sadar')).toBe('OUTSIDE');
+    expect(zoneFor('sylhet', 'sylhet-sadar', 'PICKUP')).toBe('PICKUP');
+    expect(shippingFee('PICKUP', 9000, config)).toBe(0);
+  });
+
   it('maps Dhaka city, its suburbs, Gazipur/Narayanganj and everything else', () => {
     expect(zoneFor('dhaka', 'Dhanmondi')).toBe('DHAKA');
     expect(zoneFor('dhaka', 'Savar')).toBe('SUBURB');

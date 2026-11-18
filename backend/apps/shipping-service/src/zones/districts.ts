@@ -1,7 +1,16 @@
-import { type DistrictView, type ShippingZoneCode } from '@zelqune/contracts';
+import {
+  areasOf,
+  type DeliveryMethod,
+  type DistrictView,
+  divisionBn,
+  findArea,
+  type ShippingZoneCode,
+} from '@zelqune/contracts';
+
+type District = Omit<DistrictView, 'divisionBn' | 'areas'>;
 
 /** The 64 districts of Bangladesh (slug, Bangla, English, division). */
-export const DISTRICTS: readonly DistrictView[] = [
+export const DISTRICTS: readonly District[] = [
   // Dhaka
   { code: 'dhaka', nameBn: 'ঢাকা', nameEn: 'Dhaka', division: 'Dhaka' },
   { code: 'faridpur', nameBn: 'ফরিদপুর', nameEn: 'Faridpur', division: 'Dhaka' },
@@ -88,6 +97,13 @@ export const DISTRICTS: readonly DistrictView[] = [
 
 export const DISTRICTS_BY_CODE = new Map(DISTRICTS.map((d) => [d.code, d]));
 
+/** Districts with their division in Bangla and their areas, for the address dropdowns. */
+export const DISTRICT_VIEWS: readonly DistrictView[] = DISTRICTS.map((d) => ({
+  ...d,
+  divisionBn: divisionBn(d.division),
+  areas: areasOf(d.code),
+}));
+
 /** Districts that are not OUTSIDE (owner-approved placeholders; adjust here). */
 const DISTRICT_ZONES: Record<string, ShippingZoneCode> = {
   dhaka: 'DHAKA',
@@ -95,7 +111,7 @@ const DISTRICT_ZONES: Record<string, ShippingZoneCode> = {
   narayanganj: 'SUBURB',
 };
 
-/** Areas inside Dhaka district that couriers treat as sub-Dhaka (English and Bangla spellings). */
+/** Typed (staff-entered) areas inside Dhaka district that couriers treat as sub-Dhaka. */
 const DHAKA_SUBURB_AREAS = [
   'savar',
   'সাভার',
@@ -111,11 +127,21 @@ const DHAKA_SUBURB_AREAS = [
   'নবাবগঞ্জ',
 ];
 
-export function zoneFor(districtCode: string, area?: string): ShippingZoneCode {
+/**
+ * The delivery zone. A known area code decides it exactly: Dhaka city thanas are DHAKA, Dhaka
+ * district's upazilas (Savar, Keraniganj, ...) are SUBURB. Typed areas (staff-entered B2B
+ * addresses) fall back to matching the suburb names.
+ */
+export function zoneFor(
+  districtCode: string,
+  area?: string,
+  delivery: DeliveryMethod = 'HOME',
+): ShippingZoneCode {
+  if (delivery === 'PICKUP') return 'PICKUP';
   const zone = DISTRICT_ZONES[districtCode] ?? 'OUTSIDE';
-  if (zone === 'DHAKA' && area) {
-    const normalized = area.trim().toLowerCase();
-    if (DHAKA_SUBURB_AREAS.some((a) => normalized.includes(a))) return 'SUBURB';
-  }
-  return zone;
+  if (zone !== 'DHAKA' || !area) return zone;
+  const known = findArea(districtCode, area);
+  if (known) return known.city ? 'DHAKA' : 'SUBURB';
+  const normalized = area.trim().toLowerCase();
+  return DHAKA_SUBURB_AREAS.some((a) => normalized.includes(a)) ? 'SUBURB' : zone;
 }

@@ -16,7 +16,7 @@ import { OWNER, type Stack, startStack } from './stack';
 
 const STAFF = { phone: '01811111111', password: 'integration-staff-pass' };
 const CUSTOMER = { name: 'Karim Ahmed', phone: '01722222222' };
-const DHAKA = { district: 'dhaka', area: 'Dhanmondi', line: 'House 5, Road 7, Dhanmondi' };
+const DHAKA = { district: 'dhaka', area: 'dhanmondi', line: 'House 5, Road 7, Dhanmondi' };
 
 async function expectStatus(
   res: Promise<request.Response>,

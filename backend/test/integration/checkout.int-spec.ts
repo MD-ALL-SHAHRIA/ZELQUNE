@@ -18,7 +18,7 @@ import { type Stack, startStack, TEST_BKASH_NUMBER } from './stack';
 
 const ADMIN = '9d1f6c2e-3b4a-4c5d-8e7f-6a5b4c3d2e1f';
 const CUSTOMER = { name: 'Rahim Uddin', phone: '01712345678' };
-const DHAKA = { district: 'dhaka', area: 'Mirpur', line: 'House 12, Road 3, Mirpur 10' };
+const DHAKA = { district: 'dhaka', area: 'mirpur', line: 'House 12, Road 3, Mirpur 10' };
 
 async function eventually<T>(fn: () => Promise<T>, ok: (v: T) => boolean, ms = 10_000): Promise<T> {
   const end = Date.now() + ms;
@@ -161,7 +161,7 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
     const quote = await http()
       .post('/v1/carts/current/quote')
       .set('x-cart-token', token)
-      .send({ district: 'dhaka', area: 'Mirpur' })
+      .send({ district: 'dhaka', area: 'mirpur' })
       .expect(200);
     expect(quote.body).toMatchObject({
       saleMode: 'PRE_ORDER',
@@ -330,7 +330,7 @@ describe('checkout end-to-end through the gateway on real infrastructure', () =>
     const res = await http()
       .post('/v1/carts/current/quote')
       .set('x-cart-token', token)
-      .send({ district: 'sylhet', area: 'Zindabazar' })
+      .send({ district: 'sylhet', area: 'sylhet-sadar' })
       .expect(422);
     expect(res.body.error.code).toBe('MIXED_SALE_MODES');
   });

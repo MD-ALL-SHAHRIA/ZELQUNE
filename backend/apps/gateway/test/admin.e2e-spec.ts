@@ -130,7 +130,16 @@ describe('admin routes (e2e, services mocked)', () => {
   it('order detail composes payment and shipment', async () => {
     h.clients.order.send.mockResolvedValue({
       ...summary,
-      address: { district: 'dhaka', area: 'Mirpur', line: 'House 1', note: null },
+      address: {
+        district: 'dhaka',
+        area: 'mirpur',
+        areaName: 'Mirpur',
+        line: 'House 1',
+        landmark: null,
+        label: null,
+        delivery: 'HOME',
+        note: null,
+      },
       items: [],
       totals: {
         subtotalPaisa: 429000,

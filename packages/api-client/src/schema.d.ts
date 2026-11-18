@@ -2376,12 +2376,19 @@ export interface components {
         nameBn: string;
         nameEn: string;
         division: string;
+        divisionBn: string;
+        areas: {
+          code: string;
+          nameEn: string;
+          nameBn: string;
+          city: boolean;
+        }[];
       }[];
     };
     ShippingEstimateDto_Output: {
       district: string;
       /** @enum {string} */
-      zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE';
+      zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE' | 'PICKUP';
       chargeableWeightGrams: number;
       /** @example 349000 */
       feePaisa: number;
@@ -2494,6 +2501,11 @@ export interface components {
     QuoteRequestDto: {
       district: string;
       area: string;
+      /**
+       * @default HOME
+       * @enum {string}
+       */
+      delivery?: 'HOME' | 'PICKUP';
       couponCode?: string;
     };
     CheckoutQuoteDto_Output: {
@@ -2516,7 +2528,7 @@ export interface components {
       /** @example 349000 */
       advanceRequiredPaisa: number;
       /** @enum {string} */
-      zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE';
+      zone: 'DHAKA' | 'SUBURB' | 'OUTSIDE' | 'PICKUP';
       chargeableWeightGrams: number;
       allowedPaymentMethods: ('COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL')[];
       paymentInstructions: {
@@ -2540,6 +2552,18 @@ export interface components {
         district: string;
         area: string;
         line: string;
+        /** @default null */
+        landmark?: string | null;
+        /**
+         * @default null
+         * @enum {string|null}
+         */
+        label?: 'HOME' | 'OFFICE' | null;
+        /**
+         * @default HOME
+         * @enum {string}
+         */
+        delivery?: 'HOME' | 'PICKUP';
         /** @default null */
         note?: string | null;
       };
@@ -2970,7 +2994,13 @@ export interface components {
       address: {
         district: string;
         area: string;
+        areaName: string;
         line: string;
+        landmark: string | null;
+        /** @enum {string|null} */
+        label: 'HOME' | 'OFFICE' | null;
+        /** @enum {string} */
+        delivery: 'HOME' | 'PICKUP';
         note: string | null;
       };
       items: {
@@ -3685,6 +3715,18 @@ export interface components {
         district: string;
         area: string;
         line: string;
+        /** @default null */
+        landmark?: string | null;
+        /**
+         * @default null
+         * @enum {string|null}
+         */
+        label?: 'HOME' | 'OFFICE' | null;
+        /**
+         * @default HOME
+         * @enum {string}
+         */
+        delivery?: 'HOME' | 'PICKUP';
         /** @default null */
         note?: string | null;
       };

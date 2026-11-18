@@ -1,7 +1,9 @@
 import { z } from 'zod';
 import { paisaSchema } from '../catalog/catalog.contracts';
+import { BD_AREAS, BD_DIVISIONS } from './bd-geo';
 
-export const SHIPPING_ZONES = ['DHAKA', 'SUBURB', 'OUTSIDE'] as const;
+/** PICKUP: collected from the workshop, no courier and no fee. */
+export const SHIPPING_ZONES = ['DHAKA', 'SUBURB', 'OUTSIDE', 'PICKUP'] as const;
 export const shippingZoneSchema = z.enum(SHIPPING_ZONES);
 export type ShippingZoneCode = z.infer<typeof shippingZoneSchema>;
 
@@ -28,13 +30,61 @@ export const districtCodeSchema = z
   .toLowerCase()
   .regex(/^[a-z]+(?:-[a-z]+)*$/)
   .max(40);
+/** An area code from BD_AREAS (storefront) or, for staff-entered addresses, free text. */
 export const areaSchema = z.string().trim().min(2).max(100);
+
+/** Home delivery by courier, or collected from the workshop (free). */
+export const DELIVERY_METHODS = ['HOME', 'PICKUP'] as const;
+export const deliveryMethodSchema = z.enum(DELIVERY_METHODS);
+export type DeliveryMethod = z.infer<typeof deliveryMethodSchema>;
+
+/** Where the parcel goes, as on a courier label. */
+export const ADDRESS_LABELS = ['HOME', 'OFFICE'] as const;
+export const addressLabelSchema = z.enum(ADDRESS_LABELS);
+export type AddressLabel = z.infer<typeof addressLabelSchema>;
+
+export interface AreaView {
+  code: string;
+  nameEn: string;
+  nameBn: string;
+  /** Dhaka city thana (inside Dhaka) or an upazila. */
+  city: boolean;
+}
+
+/** The areas (upazilas, and Dhaka's city thanas) of one district, or [] for an unknown one. */
+export function areasOf(district: string): AreaView[] {
+  return (BD_AREAS[district] ?? []).map(([code, nameEn, nameBn, kind]) => ({
+    code,
+    nameEn,
+    nameBn,
+    city: kind === 'c',
+  }));
+}
+
+/** The area with this code in this district, if any (codes are unique per district). */
+export function findArea(district: string, area: string): AreaView | undefined {
+  return areasOf(district).find((a) => a.code === area);
+}
+
+/** Bangla name of a division, by its English name. */
+export function divisionBn(division: string): string {
+  return BD_DIVISIONS[division] ?? division;
+}
+
+const areaViewSchema = z.object({
+  code: z.string(),
+  nameEn: z.string(),
+  nameBn: z.string(),
+  city: z.boolean(),
+});
 
 export const districtSchema = z.object({
   code: z.string(),
   nameBn: z.string(),
   nameEn: z.string(),
   division: z.string(),
+  divisionBn: z.string(),
+  areas: z.array(areaViewSchema),
 });
 export type DistrictView = z.infer<typeof districtSchema>;
 export const districtListResponseSchema = z.object({ items: z.array(districtSchema) });
@@ -52,6 +102,7 @@ export type ParcelLine = z.infer<typeof parcelLineSchema>;
 export const shippingQuoteRequestSchema = z.object({
   district: districtCodeSchema,
   area: areaSchema.optional(),
+  delivery: deliveryMethodSchema.default('HOME'),
   lines: z.array(parcelLineSchema).min(1).max(50),
 });
 export type ShippingQuoteRequest = z.input<typeof shippingQuoteRequestSchema>;

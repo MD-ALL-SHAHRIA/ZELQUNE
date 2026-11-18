@@ -12,6 +12,8 @@ import {
   type QuoteRequest,
   type SaleMode,
   type ShippingQuote,
+  type DeliveryMethod,
+  findArea,
 } from '@zelqune/contracts';
 import { createHash, randomBytes } from 'node:crypto';
 import { type OrderEnv } from '../config/order-env';
@@ -126,9 +128,13 @@ export class CartService {
   /** Prices the cart, checks it can be checked out, and quotes shipping and totals. */
   async prepare(
     cart: CartWithItems,
-    address: { district: string; area: string },
+    address: { district: string; area: string; delivery?: DeliveryMethod },
     couponCode?: string,
   ): Promise<PreparedCheckout> {
+    // The storefront picks the area from the list, so its zone (and fee) is exact.
+    if (!findArea(address.district, address.area)) {
+      throw new AppError('UNKNOWN_AREA', 'Choose an area from the list', 422);
+    }
     const priced = await this.price(cart);
     if (cart.items.length === 0) throw new AppError('CART_EMPTY', 'The cart is empty', 422);
     if (!priced.allAvailable) {
@@ -147,6 +153,7 @@ export class CartService {
       this.participants.quoteShipping({
         district: address.district,
         area: address.area,
+        delivery: address.delivery ?? 'HOME',
         lines: priced.lines.map((l) => ({
           qty: l.qty,
           packageWeightGrams: l.snapshot.packageWeightGrams,
