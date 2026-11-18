@@ -98,6 +98,37 @@ describe('zones', () => {
     expect(new Set(DISTRICTS.map((d) => d.code)).size).toBe(64);
   });
 
+  it('bills actual weight when volumetric weight is off (a big, light panel stays cheap)', () => {
+    // Fluted Niche Panel (190 x 95 x 15 cm, 15 kg) + Capsule Vase Light (76 x 42 x 12 cm, 3 kg):
+    // by box size that is 62 kg; by actual weight 18 kg.
+    const lines = [
+      {
+        qty: 1,
+        packageWeightGrams: 15000,
+        packageLengthMm: 1900,
+        packageWidthMm: 950,
+        packageHeightMm: 150,
+      },
+      {
+        qty: 1,
+        packageWeightGrams: 3000,
+        packageLengthMm: 760,
+        packageWidthMm: 420,
+        packageHeightMm: 120,
+      },
+    ];
+    const actualOnly = {
+      ...config,
+      volumetricDivisor: 0,
+      feesPaisa: { DHAKA: 6000, SUBURB: 9000, OUTSIDE: 12000 },
+      extraPerKgPaisa: 1000,
+    };
+    const w = chargeableWeight(lines, actualOnly);
+    expect(w).toMatchObject({ volumetricWeightGrams: 0, chargeableWeightGrams: 18000 });
+    expect(shippingFee('DHAKA', w.chargeableWeightGrams, actualOnly)).toBe(6000 + 17 * 1000);
+    expect(chargeableWeight(lines, config).chargeableWeightGrams).toBe(62000);
+  });
+
   it('decides the zone exactly from an area code, and pickup is free', () => {
     expect(zoneFor('dhaka', 'mirpur')).toBe('DHAKA');
     expect(zoneFor('dhaka', 'savar')).toBe('SUBURB');
