@@ -197,10 +197,22 @@ export const en = {
     fields: {
       name: 'Your name',
       phone: 'Mobile number (01XXXXXXXXX)',
+      division: 'Division',
       district: 'District',
-      area: 'Area/Thana',
-      line: 'Full address',
+      area: 'Area / Thana / Upazila',
+      line: 'House, road, flat',
+      landmark: 'Nearby landmark (optional)',
       note: 'Delivery note (optional)',
+      label: 'Save this address as',
+      labelHome: 'Home',
+      labelOffice: 'Office',
+    },
+    delivery: {
+      HOME: 'Home delivery',
+      homeText: 'A courier brings it to your door.',
+      PICKUP: 'Pick up from our workshop',
+      pickupText: 'Free. Collect it from our workshop in Dhaka; we call you when it is ready.',
+      free: 'Free',
     },
     methods: {
       BKASH_MANUAL: 'bKash advance',
@@ -240,6 +252,7 @@ export const en = {
       turnstile: 'Please complete the security check.',
       priceChanged: 'A price in your cart has changed. Please check the total and try again.',
       rateLimited: 'Too many attempts. Please wait a few minutes and try again.',
+      area: 'Choose your area from the list.',
     },
   },
   success: {

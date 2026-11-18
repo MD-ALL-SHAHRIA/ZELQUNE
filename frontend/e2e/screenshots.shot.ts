@@ -35,7 +35,7 @@ test.beforeAll(async ({ request }) => {
     },
     data: {
       customer: { name: 'Screenshot Demo', phone },
-      address: { district: 'dhaka', area: 'Dhanmondi', line: 'House 7, Road 4, Dhanmondi' },
+      address: { district: 'dhaka', area: 'dhanmondi', line: 'House 7, Road 4, Dhanmondi' },
       paymentMethod: 'BKASH_MANUAL',
       trxId: uniqueTrxId(),
     },
@@ -118,8 +118,9 @@ for (const [device, viewport] of Object.entries(VIEWPORTS)) {
       await fillCheckout(page, {
         name: 'Screenshot Demo',
         phone,
+        division: 'Dhaka',
         district: 'dhaka',
-        area: 'Dhanmondi',
+        area: 'dhanmondi',
         line: 'House 7, Road 4, Dhanmondi',
       });
       await expect(page.getByTestId('total')).toContainText('৳');

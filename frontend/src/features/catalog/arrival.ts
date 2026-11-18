@@ -2,7 +2,7 @@ import { type Locale } from '@/i18n/config';
 import { DEFAULT_LEAD_DAYS } from './product-copy';
 
 type SaleMode = 'IN_STOCK' | 'PRE_ORDER' | 'MADE_TO_ORDER';
-type Zone = 'DHAKA' | 'SUBURB' | 'OUTSIDE';
+type Zone = 'DHAKA' | 'SUBURB' | 'OUTSIDE' | 'PICKUP';
 
 /**
  * The latest day an order placed today should arrive, from the promises in the FAQ: built and
@@ -17,7 +17,8 @@ export function arrivalDate(
   zone: Zone | null,
 ): Date {
   const making = saleMode === 'IN_STOCK' ? 0 : leadTimeDays || DEFAULT_LEAD_DAYS;
-  const courier = zone === 'DHAKA' ? 2 : 4;
+  // Collected from the workshop: no courier days.
+  const courier = zone === 'PICKUP' ? 0 : zone === 'DHAKA' ? 2 : 4;
   const d = new Date(now);
   d.setUTCDate(d.getUTCDate() + making + courier);
   return d;

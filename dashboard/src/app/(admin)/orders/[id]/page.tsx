@@ -409,12 +409,31 @@ export default function OrderPage() {
             </CardBody>
           </Card>
           <Card>
-            <CardHeader title="Delivery address" />
+            <CardHeader
+              title={
+                order.address.delivery === 'PICKUP' ? 'Pickup from workshop' : 'Delivery address'
+              }
+            />
             <CardBody className="text-sm leading-relaxed text-ink/90">
-              <p>{order.address.line}</p>
+              {order.address.delivery === 'PICKUP' ? (
+                <p className="mb-2 rounded-lg bg-cream px-3 py-2 text-[0.8125rem] font-medium">
+                  The customer collects this order at the workshop. No courier needed.
+                </p>
+              ) : null}
               <p>
-                {order.address.area}, {humanize(order.address.district)}
+                {order.address.line}
+                {order.address.label ? (
+                  <span className="ml-2 rounded-full border border-line px-2 py-0.5 text-[0.7rem] uppercase tracking-wide text-stone">
+                    {order.address.label === 'HOME' ? 'Home' : 'Office'}
+                  </span>
+                ) : null}
               </p>
+              <p>
+                {order.address.areaName}, {humanize(order.address.district)}
+              </p>
+              {order.address.landmark ? (
+                <p className="text-stone">Near {order.address.landmark}</p>
+              ) : null}
               {order.address.note ? (
                 <p className="mt-2 rounded-lg bg-cream px-3 py-2 text-[0.8125rem] text-stone">
                   “{order.address.note}”
