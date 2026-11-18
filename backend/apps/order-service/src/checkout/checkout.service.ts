@@ -52,7 +52,9 @@ export interface OrderSpec {
   source: SagaSource;
   channel: OrderChannel;
   saleMode: SaleMode;
-  customer: { name: string; phone: string };
+  customer: { name: string; phone: string; email?: string | null };
+  /** Storefront language, for the order emails (B2B conversions leave it out). */
+  lang?: 'en' | 'bn';
   address: { district: string; area: string; line: string; note: string | null };
   lines: SpecLine[];
   totals: Totals;
@@ -145,6 +147,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       saleMode: prepared.saleMode,
       customerUserId,
       customer: request.customer,
+      lang: request.lang,
       address: request.address,
       lines: prepared.lines.map((l) => ({
         variantId: l.variantId,
@@ -338,6 +341,8 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
           sku: l.sku,
           qty: l.qty,
           unitPricePaisa: l.unitPricePaisa,
+          nameEn: l.nameEn,
+          nameBn: l.nameBn,
         })),
         subtotalPaisa: spec.totals.subtotalPaisa,
         shippingFeePaisa: spec.totals.shippingFeePaisa,
@@ -348,6 +353,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
         stockReserved,
         channel: spec.channel,
         customer: spec.customer,
+        lang: spec.lang,
         customerKey: customerKey(this.config.CUSTOMER_KEY_SECRET, spec.customer.phone),
         sessionId: spec.sessionId,
         utm: spec.utm,

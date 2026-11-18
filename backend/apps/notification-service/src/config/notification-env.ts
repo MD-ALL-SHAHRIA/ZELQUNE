@@ -12,6 +12,8 @@ export const notificationEnvSchema = serviceEnvSchema.extend({
   SMS_DRIVER: z.enum(['console']).default('console'),
   /** Owner's phone for internal alerts (new bulk/corporate requests). */
   OWNER_NOTIFY_PHONE: optional,
+  /** Where new-order and new-request alerts are emailed (empty = no owner emails). */
+  OWNER_NOTIFY_EMAIL: optional,
   /** console = log that nothing was sent; smtp = send (Mailpit in dev, the provider in prod). */
   EMAIL_DRIVER: z.enum(['console', 'smtp']).default('console'),
   SMTP_HOST: optional,

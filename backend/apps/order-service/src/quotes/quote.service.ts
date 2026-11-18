@@ -128,6 +128,8 @@ export class QuoteService implements OnApplicationBootstrap, OnModuleDestroy {
                 itemCount: input.items.length,
                 totalQty: input.items.reduce((n, i) => n + i.qty, 0),
                 neededBy: input.neededBy,
+                contactEmail: input.email,
+                lang: input.lang,
               },
               { source: SOURCE, requestId: requestContext.requestId() },
             ),

@@ -37,6 +37,7 @@ type Copy = Pick<Dictionary, 'checkout' | 'ui' | 'cart' | 'products' | 'product'
 interface Fields {
   name: string;
   phone: string;
+  email: string;
   delivery: 'HOME' | 'PICKUP';
   division: string;
   district: string;
@@ -52,6 +53,7 @@ type FieldErrors = Partial<Record<keyof Fields | 'turnstile', string>>;
 const EMPTY: Fields = {
   name: '',
   phone: '',
+  email: '',
   delivery: 'HOME',
   division: '',
   district: '',
@@ -80,7 +82,7 @@ function CheckoutFormInner({
   const [requestQuote] = useCheckoutQuoteMutation();
   const [placeOrder, { isLoading: sending }] = useCheckoutMutation();
   const [fields, setFields] = useState<Fields>(
-    account ? { ...EMPTY, name: account.name, phone: account.phone } : EMPTY,
+    account ? { ...EMPTY, name: account.name, phone: account.phone, email: account.email } : EMPTY,
   );
   // Signed-in customers: their saved addresses (default filled in), or save a new one.
   const [saved, setSaved] = useState<SavedAddress[]>([]);
@@ -212,6 +214,8 @@ function CheckoutFormInner({
     const next: FieldErrors = {};
     if (fields.name.trim().length < 2) next.name = c.errors.required;
     if (!normalizePhone(fields.phone)) next.phone = c.errors.phone;
+    if (fields.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim()))
+      next.email = c.errors.email;
     if (!fields.division) next.division = c.errors.required;
     if (!fields.district) next.district = c.errors.required;
     if (!fields.area) next.area = c.errors.area;
@@ -231,7 +235,12 @@ function CheckoutFormInner({
 
     const { sessionId, utm } = visitor();
     const body = {
-      customer: { name: fields.name.trim(), phone: normalizePhone(fields.phone) ?? fields.phone },
+      customer: {
+        name: fields.name.trim(),
+        phone: normalizePhone(fields.phone) ?? fields.phone,
+        email: fields.email.trim() || null,
+      },
+      lang,
       address: {
         district: fields.district,
         area: fields.area,
@@ -323,6 +332,11 @@ function CheckoutFormInner({
               placeholder: '01XXXXXXXXX',
             })}
           </div>
+          {field('email', c.fields.email, {
+            type: 'email',
+            inputMode: 'email',
+            autoComplete: 'email',
+          })}
         </fieldset>
 
         <fieldset className="space-y-6">

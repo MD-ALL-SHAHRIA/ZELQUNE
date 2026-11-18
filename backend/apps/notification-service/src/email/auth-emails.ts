@@ -1,11 +1,6 @@
 import { type AuthMail } from '@zelqune/contracts';
 import { type EmailMessage } from './email.provider';
-
-const esc = (s: string) =>
-  s.replace(
-    /[&<>"']/g,
-    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
-  );
+import { renderEmail } from './layout';
 
 type Copy = { subject: string; lines: string[]; button?: string; foot: string };
 
@@ -106,16 +101,12 @@ function link(m: AuthMail, site: string): string {
 
 export function authEmail(m: AuthMail, site: string): EmailMessage {
   const c = copy(m);
-  const url = link(m, site);
-  const text = [...c.lines, '', `${c.button}: ${url}`, '', c.foot, '', 'Zelqune'].join('\n');
-  const html = `<!doctype html><html lang="${m.lang}"><body style="margin:0;background:#F7F1E8;font-family:Arial,Helvetica,sans-serif;color:#3B2922">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
-<table role="presentation" width="100%" style="max-width:520px;background:#FFFDF9;border:1px solid #E6DCCD" cellpadding="0" cellspacing="0">
-<tr><td style="padding:28px 32px 8px;font-family:Georgia,serif;font-size:22px;letter-spacing:6px">ZELQUNE</td></tr>
-<tr><td style="padding:8px 32px 0;font-size:16px;line-height:1.6">${c.lines.map((l) => `<p style="margin:0 0 14px">${esc(l)}</p>`).join('')}</td></tr>
-<tr><td style="padding:8px 32px 24px"><a href="${esc(url)}" style="display:inline-block;background:#3B2922;color:#F7F1E8;text-decoration:none;padding:14px 26px;font-size:14px;letter-spacing:1px">${esc(c.button ?? '')}</a>
-<p style="margin:16px 0 0;font-size:12px;color:#7A6A5F;word-break:break-all">${esc(url)}</p></td></tr>
-<tr><td style="padding:16px 32px 28px;border-top:1px solid #E6DCCD;font-size:13px;color:#7A6A5F">${esc(c.foot)}</td></tr>
-</table></td></tr></table></body></html>`;
-  return { to: m.to, subject: c.subject, html, text };
+  return renderEmail({
+    to: m.to,
+    lang: m.lang,
+    subject: c.subject,
+    lines: c.lines,
+    button: { label: c.button ?? '', url: link(m, site) },
+    foot: c.foot,
+  });
 }

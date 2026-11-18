@@ -83,6 +83,8 @@ export const rfqRequestSchema = z
     contactName: z.string().trim().min(2).max(100),
     phone: bdPhoneSchema,
     email: z.email().max(200).nullable().default(null),
+    /** The storefront language, for the confirmation email. */
+    lang: z.enum(['en', 'bn']).default('en'),
     items: z
       .array(
         z.object({

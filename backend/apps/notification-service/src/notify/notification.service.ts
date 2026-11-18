@@ -12,10 +12,24 @@ import {
   quoteRequested,
 } from '@zelqune/contracts';
 import { type NotificationEnv } from '../config/notification-env';
+import { EMAIL_PROVIDER, type EmailMessage, type EmailProvider } from '../email/email.provider';
 import { PrismaService } from '../prisma/prisma.service';
 import { NotificationSettingsService } from '../settings/notification-settings';
 import { type Prisma } from '../generated/prisma/client';
 import { SMS_PROVIDER, type SmsProvider } from '../sms/sms.provider';
+import {
+  EMAILED_STATUSES,
+  type EmailContact,
+  type EmailedStatus,
+  orderCancelledEmail,
+  orderConfirmedEmail,
+  orderPlacedEmail,
+  orderStatusEmail,
+  ownerNewOrderEmail,
+  ownerNewRequestEmail,
+  paymentVerifiedEmail,
+  requestReceivedEmail,
+} from './order-emails';
 import { type OrderInfo, templates } from './templates';
 
 type Tx = Prisma.TransactionClient;
@@ -38,6 +52,8 @@ export class NotificationService {
     @Optional() private readonly settings?: NotificationSettingsService,
     /** Writes the send log outside the consumer transaction. Unit tests may leave it out. */
     @Optional() private readonly db?: PrismaService,
+    /** Order emails go out next to the SMS when the customer gave an email. */
+    @Optional() @Inject(EMAIL_PROVIDER) private readonly mail?: EmailProvider,
   ) {}
 
   private async ownerPhone(): Promise<string | undefined> {
@@ -52,10 +68,19 @@ export class NotificationService {
    */
   async onPrivacyErased(event: EventEnvelope, tx: Tx): Promise<void> {
     const p = privacyErased.parse(event).payload;
+    // The emails these orders used, so the log forgets them as well as the phone.
+    const emails = p.erasedOrderIds.length
+      ? (
+          await tx.orderContact.findMany({
+            where: { orderId: { in: p.erasedOrderIds }, email: { not: null } },
+            select: { email: true },
+          })
+        ).flatMap((c) => (c.email ? [c.email] : []))
+      : [];
     if (p.erasedOrderIds.length)
       await tx.orderContact.deleteMany({ where: { orderId: { in: p.erasedOrderIds } } });
     await tx.notificationLog.updateMany({
-      where: { recipient: p.phone },
+      where: { recipient: { in: [p.phone, ...emails] } },
       data: { recipient: 'ERASED', body: '[erased on request]' },
     });
   }
@@ -71,6 +96,8 @@ export class NotificationService {
       paymentMethod: p.paymentMethod,
       totalPaisa: p.totalPaisa,
       advanceRequiredPaisa: p.advanceRequiredPaisa,
+      email: p.customer.email ?? null,
+      lang: p.lang ?? 'bn',
     };
     await tx.orderContact.upsert({
       where: { orderId: p.orderId },
@@ -84,6 +111,22 @@ export class NotificationService {
       contact.phone,
       templates.orderPlaced(contact, this.config.STOREFRONT_URL),
     );
+    const site = this.config.STOREFRONT_URL;
+    const asEmail = emailContact(contact);
+    if (asEmail)
+      await this.sendEmail(
+        tx,
+        event.id,
+        'order.placed.email',
+        orderPlacedEmail(asEmail, p.items, p, site),
+      );
+    if (this.config.OWNER_NOTIFY_EMAIL)
+      await this.sendEmail(
+        tx,
+        event.id,
+        'order.placed.owner.email',
+        ownerNewOrderEmail(this.config.OWNER_NOTIFY_EMAIL, contact, p.items, p),
+      );
   }
 
   async onPaymentVerified(event: EventEnvelope, tx: Tx): Promise<void> {
@@ -97,6 +140,14 @@ export class NotificationService {
       contact.phone,
       templates.paymentVerified(contact, p.amountPaisa),
     );
+    const asEmail = emailContact(contact);
+    if (asEmail)
+      await this.sendEmail(
+        tx,
+        event.id,
+        'payment.verified.email',
+        paymentVerifiedEmail(asEmail, p.amountPaisa, this.config.STOREFRONT_URL),
+      );
   }
 
   async onOrderConfirmed(event: EventEnvelope, tx: Tx): Promise<void> {
@@ -111,20 +162,42 @@ export class NotificationService {
       contact.phone,
       templates.orderConfirmedCod(contact),
     );
+    const asEmail = emailContact(contact);
+    if (asEmail)
+      await this.sendEmail(
+        tx,
+        event.id,
+        'order.confirmed.cod.email',
+        orderConfirmedEmail(asEmail, this.config.STOREFRONT_URL),
+      );
   }
 
-  /** Delivered shop orders get a thank-you that asks for a photo and a few words. */
+  /**
+   * Shop orders: an email when the piece goes into production, ships and arrives; on delivery
+   * also the thank-you SMS that asks for a photo and a few words.
+   */
   async onOrderStatusChanged(event: EventEnvelope, tx: Tx): Promise<void> {
     const p = orderStatusChanged.parse(event).payload;
-    if (p.to !== 'DELIVERED' || p.channel !== 'B2C') return;
-    const contact = await this.requireContact(tx, p.orderId);
-    await this.send(
-      tx,
-      event.id,
-      'order.delivered',
-      contact.phone,
-      templates.orderDelivered(contact),
-    );
+    if (p.channel !== 'B2C') return;
+    if (p.to === 'DELIVERED') {
+      const contact = await this.requireContact(tx, p.orderId);
+      await this.send(
+        tx,
+        event.id,
+        'order.delivered',
+        contact.phone,
+        templates.orderDelivered(contact),
+      );
+    }
+    if (!(EMAILED_STATUSES as readonly string[]).includes(p.to)) return;
+    const asEmail = emailContact(await this.contact(tx, p.orderId));
+    if (asEmail)
+      await this.sendEmail(
+        tx,
+        event.id,
+        `order.${p.to.toLowerCase()}.email`,
+        orderStatusEmail(asEmail, p.to as EmailedStatus, this.config.STOREFRONT_URL),
+      );
   }
 
   async onOrderCancelled(event: EventEnvelope, tx: Tx): Promise<void> {
@@ -137,16 +210,40 @@ export class NotificationService {
       contact.phone,
       templates.orderCancelled(contact, p.reason),
     );
+    const asEmail = emailContact(contact);
+    if (asEmail)
+      await this.sendEmail(
+        tx,
+        event.id,
+        'order.cancelled.email',
+        orderCancelledEmail(asEmail, p.reason, this.config.STOREFRONT_URL),
+      );
   }
 
   async onQuoteRequested(event: EventEnvelope, tx: Tx): Promise<void> {
     const p = quoteRequested.parse(event).payload;
+    const alert = templates.quoteRequested(p);
     const owner = await this.ownerPhone();
-    if (!owner) {
-      this.logger.warn(`New bulk request ${p.code}: no owner alert phone set, no alert sent`);
-      return;
-    }
-    await this.send(tx, event.id, 'quote.requested.owner', owner, templates.quoteRequested(p));
+    if (owner) await this.send(tx, event.id, 'quote.requested.owner', owner, alert);
+    else this.logger.warn(`New bulk request ${p.code}: no owner alert phone set, no SMS sent`);
+    if (this.config.OWNER_NOTIFY_EMAIL)
+      await this.sendEmail(
+        tx,
+        event.id,
+        'quote.requested.owner.email',
+        ownerNewRequestEmail(this.config.OWNER_NOTIFY_EMAIL, alert, p.code),
+      );
+    if (p.contactEmail)
+      await this.sendEmail(
+        tx,
+        event.id,
+        'quote.requested.email',
+        requestReceivedEmail(
+          p.contactEmail,
+          { code: p.code, contactName: p.contactName, lang: p.lang ?? 'en' },
+          this.config.STOREFRONT_URL,
+        ),
+      );
   }
 
   /**
@@ -154,14 +251,37 @@ export class NotificationService {
    * a later event can arrive first: retry it (delay queues, ADR 0009) instead of dropping the
    * SMS. Every order has an order.placed, so the contact appears within the retry window.
    */
-  private async requireContact(tx: Tx, orderId: string): Promise<OrderInfo & { phone: string }> {
+  private async requireContact(tx: Tx, orderId: string): Promise<ContactRow> {
     const contact = await this.contact(tx, orderId);
     if (!contact) throw new ContactNotYetKnownError(orderId);
     return contact;
   }
 
-  private contact(tx: Tx, orderId: string): Promise<(OrderInfo & { phone: string }) | null> {
+  private contact(tx: Tx, orderId: string): Promise<ContactRow | null> {
     return tx.orderContact.findUnique({ where: { orderId } });
+  }
+
+  /** Same once-only send log as SMS (channel EMAIL); the log keeps the subject, not the body. */
+  private async sendEmail(tx: Tx, eventId: string, template: string, message: EmailMessage) {
+    if (!this.mail) return;
+    const log = (this.db ?? tx).notificationLog;
+    const already = await log.findUnique({ where: { eventId_template: { eventId, template } } });
+    if (already?.status === 'SENT') return;
+    const { providerRef } = await this.mail.send(message);
+    await log.upsert({
+      where: { eventId_template: { eventId, template } },
+      create: {
+        eventId,
+        template,
+        channel: 'EMAIL',
+        recipient: message.to,
+        body: message.subject,
+        status: 'SENT',
+        provider: this.mail.name,
+        providerRef,
+      },
+      update: { status: 'SENT', providerRef },
+    });
   }
 
   private async send(
@@ -199,4 +319,12 @@ export class ContactNotYetKnownError extends Error {
     super(`Contact for order ${orderId} not known yet (order.placed not processed); retrying`);
     this.name = 'ContactNotYetKnownError';
   }
+}
+
+type ContactRow = OrderInfo & { name: string; phone: string; email?: string | null; lang?: string };
+
+/** The contact as an email recipient, or null when the customer gave no email. */
+function emailContact(c: ContactRow | null): EmailContact | null {
+  if (!c?.email) return null;
+  return { ...c, email: c.email, lang: c.lang === 'en' ? 'en' : 'bn' };
 }

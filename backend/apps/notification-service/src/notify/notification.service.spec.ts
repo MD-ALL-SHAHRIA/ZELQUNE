@@ -297,4 +297,96 @@ describe('NotificationService', () => {
     await service.onOrderPlaced(event, fakeTx().tx); // the consumer retries with a fresh tx
     expect(sms.sent.filter((m) => m.to === '+8801712345678')).toHaveLength(1);
   });
+
+  describe('order emails', () => {
+    const sentMail: { to: string; subject: string; text: string }[] = [];
+    const mail = {
+      name: 'fake',
+      send: (m: { to: string; subject: string; text: string }) => {
+        sentMail.push(m);
+        return Promise.resolve({ providerRef: `m-${sentMail.length}` });
+      },
+    };
+    const withEmail = (email: string | null, lang: 'en' | 'bn') =>
+      orderPlaced.create(
+        {
+          ...placed(30000, 'BKASH_MANUAL').payload,
+          items: [
+            {
+              variantId: randomUUID(),
+              sku: 'ALO-WAL',
+              qty: 1,
+              unitPricePaisa: 349000,
+              nameEn: 'Alo-Arch Panel',
+              nameBn: 'আলো-আর্চ প্যানেল',
+            },
+          ],
+          customer: { name: 'Rahim', phone: '+8801712345678', email },
+          lang,
+        },
+        { source: 'order-service' },
+      );
+
+    beforeEach(() => (sentMail.length = 0));
+
+    it('sends the order email in the order language with items and totals, and alerts the owner', async () => {
+      const { tx } = fakeTx();
+      const service = new NotificationService(
+        new FakeSmsProvider(),
+        { ...config, OWNER_NOTIFY_EMAIL: 'owner@zelqune.com' },
+        undefined,
+        undefined,
+        mail,
+      );
+      const event = withEmail('rahim@example.com', 'en');
+      await service.onOrderPlaced(event, tx);
+      await service.onOrderPlaced(event, tx); // redelivered: nothing twice
+      expect(sentMail.map((m) => m.to)).toEqual(['rahim@example.com', 'owner@zelqune.com']);
+      expect(sentMail[0].subject).toBe("We've received your order ZQ-7K3M9P");
+      expect(sentMail[0].text).toContain('Alo-Arch Panel × 1');
+      expect(sentMail[0].text).toContain('Pay now (advance): ৳300');
+      expect(sentMail[1].subject).toMatch(/^New order ZQ-7K3M9P/);
+    });
+
+    it('emails production, shipping and delivery steps, in Bangla for a Bangla order', async () => {
+      const { tx } = fakeTx();
+      const service = new NotificationService(
+        new FakeSmsProvider(),
+        config,
+        undefined,
+        undefined,
+        mail,
+      );
+      await service.onOrderPlaced(withEmail('rahim@example.com', 'bn'), tx);
+      for (const to of ['IN_PRODUCTION', 'READY_TO_SHIP', 'SHIPPED'] as const)
+        await service.onOrderStatusChanged(
+          orderStatusChanged.create(
+            {
+              orderId,
+              code: 'ZQ-7K3M9P',
+              from: 'CONFIRMED',
+              to,
+              channel: 'B2C',
+              changedAt: new Date().toISOString(),
+            },
+            { source: 'order-service' },
+          ),
+          tx,
+        );
+      expect(sentMail.map((m) => m.subject)).toEqual([
+        'আপনার অর্ডার ZQ-7K3M9P পেয়েছি',
+        'অর্ডার ZQ-7K3M9P: আপনার পণ্য তৈরি হচ্ছে',
+        'অর্ডার ZQ-7K3M9P রওনা হয়েছে',
+      ]);
+    });
+
+    it('sends no email when the customer gave none (SMS still goes)', async () => {
+      const sms = new FakeSmsProvider();
+      const { tx } = fakeTx();
+      const service = new NotificationService(sms, config, undefined, undefined, mail);
+      await service.onOrderPlaced(withEmail(null, 'en'), tx);
+      expect(sentMail).toHaveLength(0);
+      expect(sms.sent).toHaveLength(1);
+    });
+  });
 });

@@ -318,6 +318,7 @@ services:
       <<: *service-env
       APP: notification-service
       OWNER_NOTIFY_PHONE: ${OWNER_NOTIFY_PHONE:-}
+      OWNER_NOTIFY_EMAIL: ${OWNER_NOTIFY_EMAIL:-}
       STOREFRONT_URL: https://${DOMAIN}
       EMAIL_DRIVER: ${EMAIL_DRIVER:?}
       SMTP_HOST: ${SMTP_HOST:-}

@@ -263,6 +263,8 @@ services:
       <<: *service-env
       APP: notification-service
       OWNER_NOTIFY_PHONE: ${OWNER_NOTIFY_PHONE:-}
+      # New-order and new-request alerts (dev: lands in Mailpit too).
+      OWNER_NOTIFY_EMAIL: ${OWNER_NOTIFY_EMAIL:-owner@zelqune.local}
       STOREFRONT_URL: ${STOREFRONT_URL:-http://localhost:3100}
       # Dev: every email lands in Mailpit (http://localhost:8025); nothing leaves this machine.
       EMAIL_DRIVER: ${EMAIL_DRIVER:-smtp}

@@ -1084,6 +1084,7 @@ export type CheckoutRequestDto = {
   customer: {
     name: string;
     phone: string;
+    email?: string | null;
   };
   address: {
     district: string;
@@ -1095,6 +1096,7 @@ export type CheckoutRequestDto = {
     note?: string | null;
   };
   paymentMethod: 'COD' | 'BKASH_MANUAL' | 'NAGAD_MANUAL';
+  lang?: 'en' | 'bn';
   trxId?: string | null;
   payerPhone?: string | null;
   couponCode?: string;
@@ -1191,6 +1193,7 @@ export type RfqRequestDto = {
   contactName: string;
   phone: string;
   email?: string | null;
+  lang?: 'en' | 'bn';
   items?: {
     productSlug?: string | null;
     variantId?: string | null;

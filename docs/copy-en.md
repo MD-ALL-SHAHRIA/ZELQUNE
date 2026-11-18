@@ -45,7 +45,7 @@
 
 ## Checkout
 - **Heading:** Confirm your order
-- **Fields:** Your name · Mobile number (01XXXXXXXXX) · Division · District · Area / Thana / Upazila · House, road, flat · Nearby landmark (optional) · Delivery note (optional)
+- **Fields:** Your name · Mobile number (01XXXXXXXXX) · Email (optional, for order updates) · Division · District · Area / Thana / Upazila · House, road, flat · Nearby landmark (optional) · Delivery note (optional)
 - **Address label:** Save this address as · Home · Office
 - **Delivery:**
   - **Home delivery:** A courier brings it to your door.
@@ -62,6 +62,7 @@
   - This item is out of stock right now.
   - Something went wrong. Please try again shortly, or message us on WhatsApp.
   - Choose your area from the list.
+  - That email address doesn't look right. Check it, or leave it empty.
 
 ## Order placed
 - **Heading:** Thank you! We've received your order
