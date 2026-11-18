@@ -67,11 +67,11 @@ describe('AddressBookService', () => {
     const book = new AddressBookService(fakeDb());
     let list = await book.save(ME, null, home);
     expect(list.items).toHaveLength(1);
-    expect(list.items[0]!.isDefault).toBe(true);
+    expect(list.items[0].isDefault).toBe(true);
 
     list = await book.save(ME, null, { ...home, area: 'mirpur', isDefault: true });
     expect(list.items.filter((a) => a.isDefault)).toHaveLength(1);
-    expect(list.items[0]!.area).toBe('mirpur');
+    expect(list.items[0].area).toBe('mirpur');
   });
 
   it('refuses an area that is not in the district', async () => {
@@ -83,11 +83,11 @@ describe('AddressBookService', () => {
     const db = fakeDb();
     const book = new AddressBookService(db);
     const [mine] = (await book.save(ME, null, home)).items;
-    await expect(book.save(OTHER, mine!.id, home)).rejects.toMatchObject({
+    await expect(book.save(OTHER, mine.id, home)).rejects.toMatchObject({
       code: 'ADDRESS_NOT_FOUND',
       status: 404,
     });
-    await expect(book.remove(OTHER, mine!.id)).rejects.toMatchObject({ status: 404 });
+    await expect(book.remove(OTHER, mine.id)).rejects.toMatchObject({ status: 404 });
     expect((await book.list(OTHER)).items).toHaveLength(0);
   });
 
@@ -97,7 +97,7 @@ describe('AddressBookService', () => {
     await expect(book.save(ME, null, home)).rejects.toMatchObject({ code: 'ADDRESS_LIMIT' });
 
     const before = (await book.list(ME)).items;
-    const after = (await book.remove(ME, before[0]!.id)).items;
+    const after = (await book.remove(ME, before[0].id)).items;
     expect(after).toHaveLength(9);
     expect(after.filter((a) => a.isDefault)).toHaveLength(1);
   });
