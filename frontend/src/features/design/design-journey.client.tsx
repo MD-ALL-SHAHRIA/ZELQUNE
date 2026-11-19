@@ -299,7 +299,7 @@ export function DesignJourney({
           ref={video}
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster={film.poster}
           aria-hidden
           className="absolute inset-0 h-full w-full object-cover"

@@ -329,7 +329,7 @@ export function ConstructionJourney({
             ref={film}
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
             poster={poster}
             className="absolute inset-0 h-full w-full object-cover"
             aria-hidden
