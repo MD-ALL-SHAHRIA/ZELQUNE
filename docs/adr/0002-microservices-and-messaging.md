@@ -19,7 +19,8 @@ an event would corrupt stock or payments.
   One durable queue per consuming service (`<service>.events`) with a dead-letter queue.
 - **Outbox:** events are inserted into the service's `outbox_events` table in the same DB
   transaction as the business change; `OutboxRelay` publishes with broker confirms
-  (`FOR UPDATE SKIP LOCKED`, exponential backoff). Delivery is at-least-once.
+  (`FOR UPDATE SKIP LOCKED`, exponential backoff). A batch is claimed in one statement under a
+  60 s lease, so no transaction stays open while RabbitMQ is called. Delivery is at-least-once.
 - **Idempotent consumers:** `EventConsumer` records `(event_id, handler)` in `processed_events`
   inside the handler's transaction; duplicates are skipped; failures are dead-lettered.
 - **HTTP idempotency:** order/payment creation requires an `Idempotency-Key` (Redis-backed).
