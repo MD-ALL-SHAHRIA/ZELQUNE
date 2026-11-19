@@ -144,7 +144,7 @@ export function AccountPortal({
       </Section>
 
       <Section title={c.securityHeading}>
-        <PasswordChange me={me} copy={c} />
+        <PasswordChange me={me} lang={lang} copy={c} />
         <Devices lang={lang} copy={c} />
       </Section>
     </div>
@@ -238,7 +238,7 @@ function Profile({
   );
 }
 
-function PasswordChange({ me, copy: c }: { me: Customer; copy: AuthCopy }) {
+function PasswordChange({ me, lang, copy: c }: { me: Customer; lang: Locale; copy: AuthCopy }) {
   const [current, setCurrent] = useState('');
   const [next, setNext] = useState('');
   const [error, setError] = useState<string | undefined>();
@@ -258,7 +258,7 @@ function PasswordChange({ me, copy: c }: { me: Customer; copy: AuthCopy }) {
     try {
       await authed('/v1/auth/change-password', {
         method: 'POST',
-        body: JSON.stringify({ currentPassword: current, newPassword: next }),
+        body: JSON.stringify({ currentPassword: current, newPassword: next, lang }),
       });
       setCurrent('');
       setNext('');
