@@ -55,23 +55,25 @@ describe('OutboxRelay', () => {
 
   beforeEach(() => publish.mockReset());
 
-  it('claims rows with SKIP LOCKED, publishes in order and marks them published', async () => {
+  it('claims rows with SKIP LOCKED under a lease, publishes in order, marks them published', async () => {
     const db = new FakeSql();
-    db.queryResults.push([row('a'), row('b')]);
+    db.queryResults.push([row('b'), row('a')]);
     publish.mockResolvedValue();
 
     await expect(new OutboxRelay(db, publisher, options).relayBatch()).resolves.toBe(2);
 
     expect(db.queries[0].sql).toContain('FOR UPDATE SKIP LOCKED');
+    expect(db.queries[0].sql).toMatch(/^UPDATE outbox_events SET next_attempt_at/);
     expect(publish.mock.calls.map(([e]) => e.payload)).toEqual([{ n: 'a' }, { n: 'b' }]);
     expect(publish.mock.calls[0][0]).toMatchObject({ requestId: 'req-1', type: 'sample.created' });
     expect(db.sqlStartingWith('UPDATE outbox_events SET published_at')).toHaveLength(2);
-    expect(db.commits).toBe(1);
+    // No transaction is held open while publishing.
+    expect(db.commits).toBe(0);
   });
 
   it('stops at the first failure and schedules a retry with backoff', async () => {
     const db = new FakeSql();
-    db.queryResults.push([row('a', 2), row('b')]);
+    db.queryResults.push([row('a', 2), row('b'), row('c')]);
     publish.mockRejectedValueOnce(new Error('broker down'));
 
     await expect(new OutboxRelay(db, publisher, options).relayBatch()).resolves.toBe(0);
@@ -80,6 +82,8 @@ describe('OutboxRelay', () => {
     const [failure] = db.sqlStartingWith('UPDATE outbox_events SET attempts');
     expect(failure.values.slice(0, 2)).toEqual([3, 'broker down']);
     expect(db.sqlStartingWith('UPDATE outbox_events SET published_at')).toHaveLength(0);
+    const [rest] = db.sqlStartingWith('UPDATE outbox_events SET next_attempt_at').slice(-1);
+    expect(rest.values[1]).toEqual(['b', 'c']);
   });
 
   it('backs off exponentially up to 5 minutes', () => {
