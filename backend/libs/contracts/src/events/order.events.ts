@@ -18,7 +18,8 @@ export const orderPlaced = defineEvent({
         sku: z.string(),
         qty: z.number().int().positive(),
         unitPricePaisa: paisaSchema,
-        /** Product names, for the order emails. */
+        /** Product names and slug, for the order emails (name, photo). */
+        productSlug: z.string().optional(),
         nameEn: z.string().optional(),
         nameBn: z.string().optional(),
       }),

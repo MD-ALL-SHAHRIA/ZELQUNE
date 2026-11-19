@@ -343,7 +343,7 @@ describe('NotificationService', () => {
       await service.onOrderPlaced(event, tx); // redelivered: nothing twice
       expect(sentMail.map((m) => m.to)).toEqual(['rahim@example.com', 'owner@zelqune.com']);
       expect(sentMail[0].subject).toBe("We've received your order ZQ-7K3M9P");
-      expect(sentMail[0].text).toContain('Alo-Arch Panel × 1');
+      expect(sentMail[0].text).toContain('Alo-Arch Panel (Qty 1): ৳3,490');
       expect(sentMail[0].text).toContain('Pay now (advance): ৳300');
       expect(sentMail[1].subject).toMatch(/^New order ZQ-7K3M9P/);
     });

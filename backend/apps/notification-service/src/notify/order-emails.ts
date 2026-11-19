@@ -7,8 +7,11 @@ export interface EmailContact extends OrderInfo {
   name: string;
   email: string;
   lang: Lang;
+  /** The first product's slug, for the photo at the top. */
+  productSlug?: string | null;
 }
 export interface PlacedItem {
+  productSlug?: string;
   nameEn?: string;
   nameBn?: string;
   sku: string;
@@ -23,6 +26,15 @@ export interface PlacedTotals {
 }
 
 const site = (base: string) => base.replace(/\/$/, '');
+/** Email-sized product photos served by the storefront (frontend/public/email/products). */
+const SIGNATURE_PIECE = 'alo-arch-panel';
+export const productPhoto = (base: string, slug?: string | null) =>
+  `${site(base)}/email/products/${slug || SIGNATURE_PIECE}.jpg`;
+const hero = (base: string, c: { productSlug?: string | null; lang: Lang }) => ({
+  url: productPhoto(base, c.productSlug),
+  alt: c.lang === 'bn' ? 'Zelqune-এর হাতে তৈরি পণ্য' : 'A handcrafted Zelqune piece',
+});
+const qty = (lang: Lang, n: number) => (lang === 'bn' ? `পরিমাণ ${n}` : `Qty ${n}`);
 const track = (base: string, c: { code: string; lang: Lang }) => ({
   label: c.lang === 'bn' ? 'অর্ডার ট্র্যাক করুন' : 'Track your order',
   url: `${site(base)}/${c.lang}/track?code=${c.code}`,
@@ -72,6 +84,7 @@ export function orderPlacedEmail(
     to: c.email,
     lang: c.lang,
     site: base,
+    hero: hero(base, { lang: c.lang, productSlug: items[0]?.productSlug }),
     subject: bn ? `আপনার অর্ডার ${c.code} পেয়েছি` : `We've received your order ${c.code}`,
     eyebrow: bn ? 'অর্ডার পেয়েছি' : 'Order received',
     heading: bn ? `ধন্যবাদ, ${firstName(c.name)}।` : `Thank you, ${firstName(c.name)}.`,
@@ -82,12 +95,16 @@ export function orderPlacedEmail(
     ],
     code: codeLabel(c),
     progress: journey(c.lang, 0),
+    items: {
+      title: bn ? 'আপনার অর্ডার' : 'Your order',
+      list: items.map((i) => ({
+        name: (bn ? i.nameBn : i.nameEn) ?? i.sku,
+        meta: qty(c.lang, i.qty),
+        price: formatTaka(i.unitPricePaisa * i.qty),
+        image: productPhoto(base, i.productSlug),
+      })),
+    },
     rows: [
-      ...items.map((i): [string, string] => [
-        `${(bn ? i.nameBn : i.nameEn) ?? i.sku} × ${i.qty}`,
-        formatTaka(i.unitPricePaisa * i.qty),
-      ]),
-      ['', ''],
       [
         bn ? 'ডেলিভারি' : 'Delivery',
         t.shippingFeePaisa ? formatTaka(t.shippingFeePaisa) : bn ? 'ফ্রি' : 'Free',
@@ -112,6 +129,7 @@ export function paymentVerifiedEmail(c: EmailContact, amountPaisa: number, base:
     to: c.email,
     lang: c.lang,
     site: base,
+    hero: hero(base, c),
     subject: bn
       ? `পেমেন্ট পেয়েছি, অর্ডার ${c.code} নিশ্চিত`
       : `Payment received: order ${c.code} is confirmed`,
@@ -135,6 +153,7 @@ export function orderConfirmedEmail(c: EmailContact, base: string) {
     to: c.email,
     lang: c.lang,
     site: base,
+    hero: hero(base, c),
     subject: bn ? `অর্ডার ${c.code} নিশ্চিত হয়েছে` : `Order ${c.code} is confirmed`,
     eyebrow: bn ? 'অর্ডার নিশ্চিত' : 'Order confirmed',
     heading: bn ? 'আপনার অর্ডার নিশ্চিত হয়েছে।' : 'Your order is confirmed.',
@@ -194,6 +213,7 @@ export function orderStatusEmail(c: EmailContact, status: EmailedStatus, base: s
     to: c.email,
     lang: c.lang,
     site: base,
+    hero: hero(base, c),
     subject: copy.subject,
     eyebrow: copy.eyebrow,
     heading: copy.heading,
@@ -219,6 +239,7 @@ export function orderCancelledEmail(c: EmailContact, reason: string, base: strin
     to: c.email,
     lang: c.lang,
     site: base,
+    hero: hero(base, c),
     subject: bn ? `অর্ডার ${c.code} বাতিল হয়েছে` : `Order ${c.code} was cancelled`,
     eyebrow: bn ? 'অর্ডার বাতিল' : 'Order cancelled',
     heading: bn ? 'আপনার অর্ডার বাতিল হয়েছে।' : 'Your order was cancelled.',
@@ -238,6 +259,7 @@ export function ownerNewOrderEmail(
   c: OrderInfo & { name: string; phone: string },
   items: PlacedItem[],
   t: PlacedTotals,
+  base: string,
 ): EmailMessage {
   const method = {
     COD: 'Cash on delivery',
@@ -252,13 +274,16 @@ export function ownerNewOrderEmail(
     heading: `${formatTaka(t.totalPaisa)} from ${c.name}`,
     lines: [`Phone: ${c.phone}`],
     code: { label: 'Order', value: c.code },
-    rows: [
-      ...items.map((i): [string, string] => [
-        `${i.nameEn ?? i.sku} × ${i.qty}`,
-        formatTaka(i.unitPricePaisa * i.qty),
-      ]),
-      ['Delivery', formatTaka(t.shippingFeePaisa)],
-    ],
+    items: {
+      title: 'Items',
+      list: items.map((i) => ({
+        name: i.nameEn ?? i.sku,
+        meta: `Qty ${i.qty} · ${i.sku}`,
+        price: formatTaka(i.unitPricePaisa * i.qty),
+        image: productPhoto(base, i.productSlug),
+      })),
+    },
+    rows: [['Delivery', formatTaka(t.shippingFeePaisa)]],
     total: ['Total', formatTaka(t.totalPaisa)],
     note: `Payment: ${method[c.paymentMethod as keyof typeof method] ?? c.paymentMethod}${
       t.advanceRequiredPaisa > 0 && c.paymentMethod !== 'COD'
@@ -294,6 +319,7 @@ export function requestReceivedEmail(
     to,
     lang: r.lang,
     site: base,
+    hero: hero(base, { lang: r.lang }),
     subject: bn ? `আপনার অনুরোধ ${r.code} পেয়েছি` : `We've received your request ${r.code}`,
     eyebrow: bn ? 'অনুরোধ পেয়েছি' : 'Request received',
     heading: bn

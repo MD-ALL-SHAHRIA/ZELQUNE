@@ -107,6 +107,10 @@ export function authEmail(m: AuthMail, site: string): EmailMessage {
     subject: c.subject,
     heading: c.subject,
     site,
+    hero: {
+      url: `${site.replace(/\/$/, '')}/email/products/alo-arch-panel.jpg`,
+      alt: m.lang === 'bn' ? 'Zelqune-এর হাতে তৈরি পণ্য' : 'A handcrafted Zelqune piece',
+    },
     lines: c.lines,
     button: { label: c.button ?? '', url: link(m, site) },
     foot: c.foot,
