@@ -587,6 +587,7 @@ export type OkDtoOutput = {
 export type ResetDto = {
   token: string;
   password: string;
+  lang?: 'en' | 'bn';
 };
 export type PendingDtoOutput = {
   email: string;

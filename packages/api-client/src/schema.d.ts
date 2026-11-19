@@ -1854,6 +1854,11 @@ export interface components {
     ResetDto: {
       token: string;
       password: string;
+      /**
+       * @default en
+       * @enum {string}
+       */
+      lang?: 'en' | 'bn';
     };
     OkDto_Output: {
       /** @enum {boolean} */
