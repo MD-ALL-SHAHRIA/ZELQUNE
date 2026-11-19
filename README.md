@@ -43,12 +43,13 @@ Every product sells in one of three modes: **in stock**, **made to order** or **
 
 | Area | State | Notes |
 |---|---|---|
-| Storefront | ✅ Done | `/en` + `/bn`, shop, filters, search, product pages, cart, guest and account checkout, COD / bKash advance, order tracking, interior design, construction, bulk requests, privacy requests, Google/Facebook sign-in |
+| Storefront | ✅ Done | `/en` + `/bn`, shop, filters, search, product pages, cart, guest and account checkout with Daraz-style area lists and saved addresses, COD / bKash advance, order tracking, order and account emails (EN/BN), interior design, construction, bulk requests, privacy requests, Google/Facebook sign-in |
 | Admin dashboard | ✅ Done | Orders and payment checks, products, stock, home page editing, coupons and flash sales, customers, quotes, finance (expenses, P&L), analytics, audit log, team and settings |
 | Backend | ✅ Done | Gateway + 8 services, outbox messaging, idempotency, rate limits, signed uploads |
 | Quality | ✅ Audited | Code quality, security, performance and load tests ([docs/audit/](docs/audit)) |
 | Production kit | ✅ Ready | Caddy HTTPS, production compose, backups and restore, deploy guide ([docs/deploy.md](docs/deploy.md)) |
-| Server and domain | 👤 Owner | Buy the VPS, add DNS records, Turnstile keys, email provider |
+| Email | ✅ Ready | Resend set up and verified for support@zelqune.com; the key goes on the server at deploy ([docs/email.md](docs/email.md)) |
+| Server and domain | 👤 Owner | Buy the VPS, add DNS records, Turnstile keys |
 | Live payments and couriers | 🔜 M3 | bKash PGW / SSLCommerz and courier APIs (placeholders today) |
 
 **Measured** (local, production build): Lighthouse desktop 99–100, mobile 88–92, accessibility
@@ -178,7 +179,7 @@ Stop with `pnpm infra:down` (data is kept). To go live, follow [docs/deploy.md](
 
 - **Every PR:** lint, typecheck, format, unit and e2e tests, builds, OpenAPI drift check,
   storefront end-to-end flows (Playwright) and a dependency audit.
-- **Backend:** 350+ unit/e2e tests and 64 integration tests on real Postgres, RabbitMQ and Redis.
+- **Backend:** 370+ unit/e2e tests and 64 integration tests on real Postgres, RabbitMQ and Redis.
 - **Storefront:** sign-up, sign-in, password reset, guest and pre-order checkout, tracking,
   search, filters, consent, requests and the admin flow, end to end.
 - **Audits:** [pre-deployment checklist](docs/audit/pre-deployment-checklist.md),
@@ -197,7 +198,8 @@ app validates its config at startup.
 - [x] Storefront (EN + BN), guest checkout, COD and bKash advance, tracking, bulk requests
 - [x] Admin dashboard: orders, payment checks, products, home page, coupons, finance, team
 - [x] Pre-deployment audit, production kit, load test
-- [ ] Go live: VPS, DNS, Turnstile, email provider (owner, [docs/deploy.md](docs/deploy.md))
+- [x] Order and account emails (Resend), Daraz-style delivery, saved addresses
+- [ ] Go live: VPS, DNS, Turnstile (owner, [docs/deploy.md](docs/deploy.md))
 
 **M2 · Full shop**
 
