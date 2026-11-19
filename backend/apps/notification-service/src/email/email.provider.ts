@@ -6,6 +6,8 @@ export interface EmailMessage {
   subject: string;
   html: string;
   text: string;
+  /** Inline images (referenced as cid:... in the HTML), e.g. the logo. */
+  attachments?: { filename: string; content: Buffer; contentType: string; cid: string }[];
 }
 
 /** Email delivery integration point (SMTP: Mailpit in dev, the owner's provider in production). */

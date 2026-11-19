@@ -1,3 +1,4 @@
+import { LOGO_CID, logoAttachment } from './brand-logo';
 import { type EmailMessage } from './email.provider';
 
 export const esc = (s: string) =>
@@ -43,7 +44,8 @@ const STONE = '#7A6A5F';
 const BRASS = '#D9B47A';
 const WALNUT = '#7A5C30';
 
-const SERIF = "Georgia,'Times New Roman',serif";
+/** The site's display face where the mail app loads web fonts (Apple Mail, iOS), else Georgia. */
+const SERIF = "'Cormorant Garamond',Georgia,'Times New Roman',serif";
 const SANS = (lang: 'en' | 'bn') =>
   lang === 'bn'
     ? "'Hind Siliguri','Noto Sans Bengali','Segoe UI',Arial,sans-serif"
@@ -90,11 +92,16 @@ export function renderEmail(c: EmailContent): EmailMessage {
   const p = (text: string) =>
     `<p style="margin:0 0 14px;font-family:${sans};font-size:16px;line-height:1.65;color:${ESPRESSO}">${esc(text)}</p>`;
 
+  // The brand's small brass mark: a rule, a diamond, a rule (as above the site's headings).
+  const ornament = `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 22px"><tr>
+<td style="width:28px;border-top:1px solid ${BRASS};font-size:0;line-height:0">&nbsp;</td>
+<td style="padding:0 8px;font-size:9px;line-height:9px;color:${BRASS}">&#9670;</td>
+<td style="width:28px;border-top:1px solid ${BRASS};font-size:0;line-height:0">&nbsp;</td></tr></table>`;
   const eyebrow = c.eyebrow
     ? `<p style="margin:0 0 12px;font-family:${sans};font-size:12px;${tracking('2.5px')}color:${WALNUT}">${esc(c.eyebrow)}</p>`
     : '';
   const heading = c.heading
-    ? `<h1 style="margin:0 0 18px;font-family:${bn ? sans : SERIF};font-weight:normal;font-size:30px;line-height:1.25;color:${ESPRESSO}">${esc(c.heading)}</h1>`
+    ? `<h1 style="margin:0 0 18px;font-family:${bn ? sans : SERIF};font-weight:normal;font-size:${bn ? 28 : 36}px;line-height:1.2;color:${ESPRESSO}">${esc(c.heading)}</h1>`
     : '';
   const code = c.code
     ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 6px"><tr>
@@ -128,26 +135,30 @@ export function renderEmail(c: EmailContent): EmailMessage {
 <td style="background:${ESPRESSO}"><a href="${esc(c.button.url)}" style="display:inline-block;padding:16px 30px;font-family:${sans};font-size:13px;${tracking('2px')}color:${CREAM};text-decoration:none">${esc(c.button.label)}&nbsp;&nbsp;&rarr;</a></td></tr></table></td></tr>`
     : '';
 
+  const signature = c.site
+    ? `<tr><td style="padding:30px 40px 0;font-family:${bn ? sans : SERIF};font-style:${bn ? 'normal' : 'italic'};font-size:${bn ? 16 : 19}px;line-height:1.5;color:${ESPRESSO}">${bn ? 'উষ্ণ শুভেচ্ছায়,<br>Zelqune ওয়ার্কশপ, ঢাকা' : 'With warmth,<br>The Zelqune workshop, Dhaka'}</td></tr>`
+    : '';
   const siteLink = c.site
     ? `<a href="${esc(c.site.replace(/\/$/, ''))}/${c.lang}" style="color:${STONE};text-decoration:underline">zelqune.com</a> &nbsp;·&nbsp; `
     : '';
   const made = bn ? 'ঢাকায় হাতে তৈরি' : 'Handcrafted in Dhaka, Bangladesh';
   const preview = c.lines[1] ?? c.lines[0] ?? '';
 
-  const html = `<!doctype html><html lang="${c.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>${esc(c.subject)}</title></head>
+  const html = `<!doctype html><html lang="${c.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>${esc(c.subject)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"></head>
 <body style="margin:0;padding:0;background:${CREAM}">
 <div style="display:none;max-height:0;overflow:hidden">${esc(preview)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM}"><tr><td align="center" style="padding:28px 12px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:${PAPER}">
-<tr><td align="center" style="background:${ESPRESSO};padding:30px 40px 26px">
-<div style="font-family:${SERIF};font-size:24px;letter-spacing:9px;color:${BRASS}">ZELQUNE</div>
-<div style="margin-top:8px;font-family:${sans};font-size:11px;${tracking('3px')}color:#CDBBA3">${bn ? 'কাঠ আর আলোর উষ্ণতা' : 'The warmth of wood and light'}</div>
+<tr><td align="center" style="background:${ESPRESSO};padding:42px 40px 34px">
+<img src="cid:${LOGO_CID}" width="170" height="111" alt="ZELQUNE" style="display:block;margin:0 auto;border:0;outline:none;width:170px;height:auto;font-family:Georgia,serif;font-size:24px;letter-spacing:9px;color:${BRASS}">
+<div style="margin-top:20px;font-family:${sans};font-size:11px;${tracking('3px')}color:#CDBBA3">${bn ? 'কাঠ আর আলোর উষ্ণতা' : 'The warmth of wood and light'}</div>
 </td></tr>
-<tr><td style="padding:40px 40px 12px">${eyebrow}${heading}${c.lines.map(p).join('')}${code}</td></tr>
-${c.progress ? progressHtml(c.progress, sans) : ''}${summary}${note}${button}
+<tr><td style="padding:46px 40px 12px">${ornament}${eyebrow}${heading}${c.lines.map(p).join('')}${code}</td></tr>
+${c.progress ? progressHtml(c.progress, sans) : ''}${summary}${note}${button}${signature}
 <tr><td style="padding:32px 40px 34px"><div style="border-top:1px solid ${LINE};padding-top:22px;font-family:${sans};font-size:14px;line-height:1.6;color:${STONE}">${esc(c.foot)}<br><a href="mailto:support@zelqune.com" style="color:${ESPRESSO};text-decoration:underline">support@zelqune.com</a></div></td></tr>
 </table>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px"><tr><td align="center" style="padding:22px 12px 8px;font-family:${sans};font-size:12px;line-height:1.7;color:${STONE}">${siteLink}${made}<br>© 2026 Zelqune</td></tr></table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px"><tr><td align="center" style="padding:22px 12px 8px;font-family:${sans};font-size:12px;line-height:1.7;color:${STONE}">${siteLink}${made}<br><span style="color:#A89886">© 2026 Zelqune · ${bn ? 'অর্ডার বা অ্যাকাউন্টের কারণে এই ইমেইল পাঠানো হয়েছে।' : 'You received this email because of an order or account at Zelqune.'}</span></td></tr></table>
 </td></tr></table></body></html>`;
 
   const text = [
@@ -164,5 +175,5 @@ ${c.progress ? progressHtml(c.progress, sans) : ''}${summary}${note}${button}
     '',
     'Zelqune',
   ].join('\n');
-  return { to: c.to, subject: c.subject, html, text };
+  return { to: c.to, subject: c.subject, html, text, attachments: [logoAttachment()] };
 }
