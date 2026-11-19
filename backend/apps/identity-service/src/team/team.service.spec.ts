@@ -80,7 +80,7 @@ describe('TeamService', () => {
     expect(tx.user.create).not.toHaveBeenCalled();
   });
 
-  it('refuses common passwords and ones built from the person\'s own details', async () => {
+  it("refuses common passwords and ones built from the person's own details", async () => {
     const { team, tx } = service([], 0);
     for (const password of ['bangladesh123', 'rahima-01811']) {
       await expect(
