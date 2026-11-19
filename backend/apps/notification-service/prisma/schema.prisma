@@ -60,6 +60,8 @@ model OrderContact {
   email                String?
   /// The language the customer ordered in ("en" or "bn").
   lang                 String   @default("bn")
+  /// The first product's slug: its photo heads every email about this order.
+  productSlug          String?  @map("product_slug")
   createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
 
   @@map("order_contacts")

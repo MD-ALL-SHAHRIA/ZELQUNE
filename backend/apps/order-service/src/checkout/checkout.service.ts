@@ -38,6 +38,8 @@ const isBusinessError = (err: unknown): boolean => err instanceof AppError && er
 export interface SpecLine {
   variantId: string;
   productId: string;
+  /** For the order emails' product photos. */
+  productSlug?: string;
   sku: string;
   nameBn: string;
   nameEn: string;
@@ -152,6 +154,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       lines: prepared.lines.map((l) => ({
         variantId: l.variantId,
         productId: l.snapshot.productId,
+        productSlug: l.snapshot.productSlug,
         sku: l.snapshot.sku,
         nameBn: l.snapshot.nameBn,
         nameEn: l.snapshot.nameEn,
@@ -326,7 +329,11 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       experimentKey: spec.experimentKey,
       couponCode: spec.couponCode ?? null,
       utm: spec.utm ?? undefined,
-      items: spec.lines.map((l) => ({ ...l, lineTotalPaisa: l.unitPricePaisa * l.qty })),
+      // productSlug is for the order emails only; order_items has no such column.
+      items: spec.lines.map(({ productSlug: _slug, ...l }) => ({
+        ...l,
+        lineTotalPaisa: l.unitPricePaisa * l.qty,
+      })),
     };
   }
 
@@ -341,6 +348,7 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
           sku: l.sku,
           qty: l.qty,
           unitPricePaisa: l.unitPricePaisa,
+          productSlug: l.productSlug,
           nameEn: l.nameEn,
           nameBn: l.nameBn,
         })),

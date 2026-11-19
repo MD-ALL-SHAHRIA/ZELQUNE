@@ -98,6 +98,7 @@ export class NotificationService {
       advanceRequiredPaisa: p.advanceRequiredPaisa,
       email: p.customer.email ?? null,
       lang: p.lang ?? 'bn',
+      productSlug: p.items[0]?.productSlug ?? null,
     };
     await tx.orderContact.upsert({
       where: { orderId: p.orderId },
@@ -125,7 +126,7 @@ export class NotificationService {
         tx,
         event.id,
         'order.placed.owner.email',
-        ownerNewOrderEmail(this.config.OWNER_NOTIFY_EMAIL, contact, p.items, p),
+        ownerNewOrderEmail(this.config.OWNER_NOTIFY_EMAIL, contact, p.items, p, site),
       );
   }
 
@@ -321,10 +322,21 @@ export class ContactNotYetKnownError extends Error {
   }
 }
 
-type ContactRow = OrderInfo & { name: string; phone: string; email?: string | null; lang?: string };
+type ContactRow = OrderInfo & {
+  name: string;
+  phone: string;
+  email?: string | null;
+  lang?: string;
+  productSlug?: string | null;
+};
 
 /** The contact as an email recipient, or null when the customer gave no email. */
 function emailContact(c: ContactRow | null): EmailContact | null {
   if (!c?.email) return null;
-  return { ...c, email: c.email, lang: c.lang === 'en' ? 'en' : 'bn' };
+  return {
+    ...c,
+    email: c.email,
+    lang: c.lang === 'en' ? 'en' : 'bn',
+    productSlug: c.productSlug ?? null,
+  };
 }
