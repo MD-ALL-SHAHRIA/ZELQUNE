@@ -329,7 +329,11 @@ export class CheckoutService implements OnApplicationBootstrap, OnModuleDestroy 
       experimentKey: spec.experimentKey,
       couponCode: spec.couponCode ?? null,
       utm: spec.utm ?? undefined,
-      items: spec.lines.map((l) => ({ ...l, lineTotalPaisa: l.unitPricePaisa * l.qty })),
+      // productSlug is for the order emails only; order_items has no such column.
+      items: spec.lines.map(({ productSlug: _slug, ...l }) => ({
+        ...l,
+        lineTotalPaisa: l.unitPricePaisa * l.qty,
+      })),
     };
   }
 
