@@ -653,3 +653,26 @@ html.intro .intro-name > span {
     visibility: hidden;
   }
 }
+
+/* Promise ribbon (features/trust/trust-strip.tsx): two identical runs gliding left, soft at the
+   edges, still under the pointer. Reduced motion: a still row you swipe. */
+.ribbon-track {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ribbon .loop-run {
+    animation: glide 60s linear infinite;
+  }
+  .ribbon:hover .loop-run {
+    animation-play-state: paused;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-track {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
+.ribbon-lamp {
+  filter: drop-shadow(0 0 2px var(--color-glow));
+}

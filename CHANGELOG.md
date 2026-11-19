@@ -11,6 +11,7 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 - The design and construction films download once instead of twice (the player no longer buffers its own copy while the full film loads): 17 MB instead of 35 MB on desktop.
 - Browsers keep photos, films and fonts for a week (they were re-checked on every visit).
 - The header is solid again; scrolled content no longer shows through it.
+- The promise strip under the hero is now a ribbon in the hero's espresso: the four promises glide by in large serif with the owner's icons, between small brass arches with a lamp in them. It pauses on hover, rests off screen, and holds still with reduced motion; screen readers get the promises once as a list.
 - No more console error when switching between English and Bangla.
 - Cancelling an order now cancels its shipment too if the parcel has not left (pending or booked); the audit log names the consignment to cancel in the courier's panel. A parcel already with the courier is left for staff to handle as a return.
 - Owner and staff passwords get the same check as customers': common passwords and ones containing the person's name, email or phone are refused (creating, resetting and changing a team password, and `OWNER_PASSWORD` at start).
