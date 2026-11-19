@@ -7,6 +7,7 @@ import { getDictionary } from '@/i18n';
 import { jsonForScript, siteJsonLd } from '@/shared/lib/json-ld';
 import { SITE_URL } from '@/shared/lib/site';
 import { BanglaDisplayFont } from '@/features/layout/bangla-display-font';
+import { BootScript } from '@/features/layout/boot-script';
 import { THEME_KEY } from '@/features/layout/theme';
 import { IntroCurtain } from '@/features/layout/intro-curtain';
 import { StoreProvider } from '@/store/provider';
@@ -98,11 +99,7 @@ export default async function RootLayout({
       <head>
         {/* The visitor's saved theme, applied before the first paint (no flash), and the
             first-visit intro flag. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: THEME_SCRIPT + INTRO_SCRIPT,
-          }}
-        />
+        <BootScript code={THEME_SCRIPT + INTRO_SCRIPT} />
         {/* Sample photos come from Unsplash's CDN until real product photos exist. */}
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         {lang === 'bn'
