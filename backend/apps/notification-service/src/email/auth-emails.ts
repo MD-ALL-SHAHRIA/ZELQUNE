@@ -65,6 +65,28 @@ function copy(m: AuthMail): Copy {
             button: 'Sign in',
             foot: "If this wasn't you, you don't need to do anything.",
           };
+    case 'passwordChanged':
+      return bn
+        ? {
+            subject: 'আপনার Zelqune পাসওয়ার্ড বদলানো হয়েছে',
+            lines: [
+              hi,
+              'আপনার অ্যাকাউন্টের পাসওয়ার্ড এইমাত্র বদলানো হয়েছে, এবং অন্য সব ডিভাইস থেকে সাইন আউট করা হয়েছে।',
+              'এটি আপনি করে থাকলে কিছু করতে হবে না।',
+            ],
+            button: 'পাসওয়ার্ড রিসেট করুন',
+            foot: 'আপনি না করে থাকলে এখনই পাসওয়ার্ড রিসেট করুন এবং WhatsApp-এ আমাদের জানান।',
+          }
+        : {
+            subject: 'Your Zelqune password was changed',
+            lines: [
+              hi,
+              'The password for your account was just changed, and every other device was signed out.',
+              'If this was you, there is nothing else to do.',
+            ],
+            button: 'Reset my password',
+            foot: "If this wasn't you, reset your password now and message us on WhatsApp.",
+          };
     case 'phoneTaken':
       return bn
         ? {
@@ -96,6 +118,7 @@ function link(m: AuthMail, site: string): string {
   const base = `${site.replace(/\/$/, '')}/${m.lang}/account`;
   if (m.kind === 'verify') return `${base}/verify#token=${m.token}`;
   if (m.kind === 'reset') return `${base}/reset-password#token=${m.token}`;
+  if (m.kind === 'passwordChanged') return `${base}/forgot-password`;
   return `${base}/login`;
 }
 

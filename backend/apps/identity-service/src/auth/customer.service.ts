@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { AppError } from '@zelqune/common';
 import {
+  type AuthMail,
   type AuthMailResult,
+  type PasswordChangedResult,
   type Customer,
   customerChangePasswordSchema,
   customerLoginSchema,
@@ -144,15 +146,17 @@ export class CustomerService {
   }
 
   /** New password; the link also proves the email. Every session is signed out. */
-  async resetPassword(raw: unknown): Promise<{ ok: true }> {
-    const { token, password } = customerResetPasswordSchema.parse(raw);
+  async resetPassword(raw: unknown): Promise<PasswordChangedResult> {
+    const { token, password, lang } = customerResetPasswordSchema.parse(raw);
     const row = await this.prisma.authToken.findUnique({
       where: { tokenHash: sha256(token) },
       include: { user: true },
     });
     if (row) assertStrongPassword(password, [row.user.name, row.user.email, row.user.phone]);
     const passwordHash = await this.passwords.hash(password);
+    let mail: AuthMail | null = null;
     await this.consume(token, 'RESET_PASSWORD', async (tx, u) => {
+      mail = passwordChangedMail(u, lang);
       await tx.user.update({
         where: { id: u.id },
         data: { passwordHash, emailVerifiedAt: u.emailVerifiedAt ?? new Date() },
@@ -162,7 +166,7 @@ export class CustomerService {
         data: { revokedAt: new Date(), revokedReason: 'LOGOUT' },
       });
     });
-    return { ok: true };
+    return { ok: true, mail };
   }
 
   /**
@@ -292,7 +296,7 @@ export class CustomerService {
     userId: string,
     raw: unknown,
     currentRefresh?: string,
-  ): Promise<{ ok: true }> {
+  ): Promise<PasswordChangedResult> {
     const input = customerChangePasswordSchema.parse(raw);
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || user.role !== 'CUSTOMER')
@@ -308,7 +312,7 @@ export class CustomerService {
       data: { passwordHash: await this.passwords.hash(input.newPassword) },
     });
     await this.revokeOthers(userId, currentRefresh);
-    return { ok: true };
+    return { ok: true, mail: passwordChangedMail(user, input.lang) };
   }
 
   /** Signed-in devices: one row per session family. */
@@ -441,4 +445,14 @@ export class CustomerService {
       return row.user;
     });
   }
+}
+
+/** Security notice after a reset or change, so the owner notices one they did not make. */
+function passwordChangedMail(
+  user: { email: string | null; name: string | null },
+  lang: 'en' | 'bn',
+): AuthMail | null {
+  return user.email
+    ? { kind: 'passwordChanged', to: user.email, name: user.name ?? '', lang }
+    : null;
 }

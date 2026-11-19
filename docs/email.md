@@ -11,6 +11,7 @@ goes through an email provider you sign up for once (below).
 | Sign-up | Customer | Confirm your email (link sets the password) |
 | Sign-up with an email that already has an account | That inbox | You already have an account (sign-in link) |
 | Forgot password | Customer | Reset your password |
+| Password reset or changed | Customer | Your password was changed (reset link if it wasn't them) |
 | Order placed | Customer (if they gave an email) | Order received: items, delivery, total, what to pay now and on delivery, track link |
 | Order placed | Owner (`OWNER_NOTIFY_EMAIL`) | New order: customer, phone, items, payment, total |
 | bKash/Nagad advance verified | Customer | Payment received, order confirmed |

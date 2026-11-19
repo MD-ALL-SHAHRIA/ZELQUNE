@@ -173,6 +173,7 @@ describe('customer accounts (ADR 0021) on real infrastructure', () => {
     await post('/v1/auth/reset-password')
       .send({ token, password: 'brass hinge walnut shelf' })
       .expect(200);
+    await mailTo(PERSON.email, /Your Zelqune password was changed/);
     await post('/v1/auth/reset-password')
       .send({ token, password: 'another long passphrase' })
       .expect(400);

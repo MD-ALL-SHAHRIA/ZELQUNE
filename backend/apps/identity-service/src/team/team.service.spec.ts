@@ -79,4 +79,14 @@ describe('TeamService', () => {
     expect(tx.user.update).not.toHaveBeenCalled();
     expect(tx.user.create).not.toHaveBeenCalled();
   });
+
+  it("refuses common passwords and ones built from the person's own details", async () => {
+    const { team, tx } = service([], 0);
+    for (const password of ['bangladesh123', 'rahima-01811']) {
+      await expect(
+        team.create({ phone: '01811999888', name: 'Rahima Akter', role: 'STAFF', password }),
+      ).rejects.toMatchObject({ code: 'WEAK_PASSWORD', status: 400 });
+    }
+    expect(tx.user.create).not.toHaveBeenCalled();
+  });
 });

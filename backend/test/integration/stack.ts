@@ -25,7 +25,11 @@ import { AppModule as PaymentModule } from '../../apps/payment-service/src/app.m
 import { AppModule as ShippingModule } from '../../apps/shipping-service/src/app.module';
 import { IT, type SchemaName, serviceDbUrl } from './it-env';
 
-export const OWNER = { phone: '01712345678', password: 'integration-owner-pass', name: 'IT Owner' };
+export const OWNER = {
+  phone: '01712345678',
+  password: 'integration-walnut-pass',
+  name: 'IT Owner',
+};
 export const ALLOWED_ORIGIN = 'http://localhost:3200';
 export const TEST_BKASH_NUMBER = '01711111111';
 

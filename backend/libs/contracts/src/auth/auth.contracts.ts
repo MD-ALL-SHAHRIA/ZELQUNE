@@ -101,6 +101,7 @@ export const tokenOnlySchema = z.object({ token: z.string().min(20).max(200) });
 export const customerResetPasswordSchema = z.object({
   token: z.string().min(20).max(200),
   password: newPasswordSchema,
+  lang: localeSchema,
 });
 /**
  * Verifying an email sets the password: whoever controls the inbox chooses it, so a password
@@ -113,6 +114,7 @@ export const customerVerifyEmailSchema = z.object({
 export const customerChangePasswordSchema = z.object({
   currentPassword: z.string().max(256).default(''),
   newPassword: newPasswordSchema,
+  lang: localeSchema,
 });
 export const customerProfileSchema = z.object({
   name: z.string().trim().min(2).max(80),
@@ -152,8 +154,14 @@ export type AuthMail =
   | { kind: 'verify'; to: string; name: string; token: string; lang: 'en' | 'bn' }
   | { kind: 'reset'; to: string; name: string; token: string; lang: 'en' | 'bn' }
   | { kind: 'exists'; to: string; name: string; lang: 'en' | 'bn' }
-  | { kind: 'phoneTaken'; to: string; name: string; lang: 'en' | 'bn' };
+  | { kind: 'phoneTaken'; to: string; name: string; lang: 'en' | 'bn' }
+  | { kind: 'passwordChanged'; to: string; name: string; lang: 'en' | 'bn' };
 export interface AuthMailResult {
+  mail: AuthMail | null;
+}
+/** Reset / change password: the security notice to send, if the account has an email. */
+export interface PasswordChangedResult {
+  ok: true;
   mail: AuthMail | null;
 }
 

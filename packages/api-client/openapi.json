@@ -5632,6 +5632,14 @@
             "type": "string",
             "minLength": 10,
             "maxLength": 128
+          },
+          "lang": {
+            "default": "en",
+            "type": "string",
+            "enum": [
+              "en",
+              "bn"
+            ]
           }
         },
         "required": [

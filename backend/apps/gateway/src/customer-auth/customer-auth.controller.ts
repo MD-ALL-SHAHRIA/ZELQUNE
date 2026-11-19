@@ -28,6 +28,7 @@ import {
   type AccessTokenResponse,
   type AuthMail,
   type AuthMailResult,
+  type PasswordChangedResult,
   completeSignupSchema,
   type Customer,
   customerChangePasswordSchema,
@@ -292,10 +293,13 @@ export class CustomerAuthController {
   @HttpCode(200)
   @RouteThrottle('track')
   @ZodResponse({ status: 200, type: OkDto })
-  reset(@Body() body: ResetDto) {
-    return this.identity<{ ok: true }>(RPC_PATTERNS.identity.customer.resetPassword, {
-      input: body,
-    });
+  async reset(@Body() body: ResetDto) {
+    const { mail } = await this.identity<PasswordChangedResult>(
+      RPC_PATTERNS.identity.customer.resetPassword,
+      { input: body },
+    );
+    this.mail(mail);
+    return { ok: true as const };
   }
 
   /* ---------------------------------- Google / Facebook ---------------------------------- */
@@ -443,16 +447,17 @@ export class CustomerAuthController {
   @ApiBearerAuth()
   @RouteThrottle('customerLogin')
   @ZodResponse({ status: 200, type: OkDto })
-  changePassword(
+  async changePassword(
     @CurrentUser() user: AuthenticatedUser,
     @Body() body: ChangePasswordDto,
     @Req() req: Request,
   ) {
-    return this.identity<{ ok: true }>(RPC_PATTERNS.identity.customer.changePassword, {
-      userId: user.id,
-      input: body,
-      refreshToken: this.refreshCookie(req),
-    });
+    const { mail } = await this.identity<PasswordChangedResult>(
+      RPC_PATTERNS.identity.customer.changePassword,
+      { userId: user.id, input: body, refreshToken: this.refreshCookie(req) },
+    );
+    this.mail(mail);
+    return { ok: true as const };
   }
 
   @Get('sessions')

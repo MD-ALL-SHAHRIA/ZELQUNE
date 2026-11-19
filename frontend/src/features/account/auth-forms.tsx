@@ -351,7 +351,7 @@ export function VerifyView({ lang, copy: c }: Props) {
       await signedIn(
         await publicCall<TokenReply>('/v1/auth/verify-email', {
           method: 'POST',
-          body: JSON.stringify({ token, password }),
+          body: JSON.stringify({ token, password, lang }),
         }),
       );
       setDone(true);
@@ -483,7 +483,7 @@ export function ResetForm({ lang, copy: c }: Props) {
     try {
       await publicCall('/v1/auth/reset-password', {
         method: 'POST',
-        body: JSON.stringify({ token, password }),
+        body: JSON.stringify({ token, password, lang }),
       });
       setDone(true);
     } catch (err) {
