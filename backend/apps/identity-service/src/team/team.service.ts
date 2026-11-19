@@ -13,6 +13,7 @@ import {
   type UpdateTeamMemberInput,
 } from '@zelqune/contracts';
 import { type Prisma } from '../generated/prisma/client';
+import { assertStrongPassword } from '../auth/password-policy';
 import { PasswordService } from '../auth/password.service';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -45,6 +46,7 @@ export class TeamService {
   async create(raw: CreateTeamMemberInput): Promise<TeamMember> {
     const parsed = createTeamMemberSchema.parse(raw);
     const input = { ...parsed, phone: normalizeBdPhone(parsed.phone) ?? parsed.phone };
+    assertStrongPassword(input.password, [input.name, input.email, input.phone]);
     const passwordHash = await this.passwords.hash(input.password);
     return this.prisma
       .$transaction(async (tx) => {
@@ -133,6 +135,8 @@ export class TeamService {
   /** Owner sets a new password for someone (they are signed out everywhere). */
   async resetPassword(id: string, raw: unknown): Promise<{ ok: true }> {
     const { password } = resetPasswordSchema.parse(raw);
+    const target = await this.prisma.user.findFirst({ where: { id, ...TEAM } });
+    if (target) assertStrongPassword(password, [target.name, target.email, target.phone]);
     const passwordHash = await this.passwords.hash(password);
     await this.prisma.$transaction(async (tx) => {
       const user = await tx.user.findFirst({ where: { id, ...TEAM } });
@@ -155,6 +159,7 @@ export class TeamService {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || !(await this.passwords.verify(user.passwordHash, input.currentPassword)))
       throw new AppError('WRONG_PASSWORD', 'The current password is not right', 422);
+    assertStrongPassword(input.newPassword, [user.name, user.email, user.phone]);
     const passwordHash = await this.passwords.hash(input.newPassword);
     await this.prisma.$transaction(async (tx) => {
       await tx.user.update({ where: { id: userId }, data: { passwordHash } });

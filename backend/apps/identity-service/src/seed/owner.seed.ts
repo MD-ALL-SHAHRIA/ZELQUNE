@@ -1,6 +1,7 @@
 import { type INestApplicationContext, Logger } from '@nestjs/common';
 import { APP_CONFIG } from '@zelqune/common';
 import { normalizeBdPhone } from '@zelqune/contracts';
+import { assertStrongPassword } from '../auth/password-policy';
 import { MIN_ADMIN_PASSWORD_LENGTH, PasswordService } from '../auth/password.service';
 import { type IdentityEnv } from '../config/identity-env';
 import { UserRepository } from '../users/user.repository';
@@ -14,6 +15,11 @@ export async function seedOwner(app: INestApplicationContext): Promise<void> {
   if (!phone) throw new Error('OWNER_PHONE must be set to a Bangladeshi mobile number');
   if (password.length < MIN_ADMIN_PASSWORD_LENGTH) {
     throw new Error(`OWNER_PASSWORD must be at least ${MIN_ADMIN_PASSWORD_LENGTH} characters`);
+  }
+  try {
+    assertStrongPassword(password, [config.OWNER_NAME, phone]);
+  } catch {
+    throw new Error('OWNER_PASSWORD is too common or contains the owner name or phone');
   }
 
   const users = app.get(UserRepository);
