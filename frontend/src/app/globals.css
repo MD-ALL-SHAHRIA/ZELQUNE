@@ -260,8 +260,8 @@
   }
 }
 
-/* Header: once the page scrolls, the bar firms up (more opaque, a soft shadow) and the logo
-   settles a touch smaller. Transforms and colours only, so nothing below it moves. */
+/* Header: always solid (nothing shows through it); once the page scrolls it gains a soft shadow
+   and the logo settles a touch smaller. Transforms and shadows only, so nothing below it moves. */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
     .site-header {
@@ -278,11 +278,9 @@
 }
 @keyframes header-firm {
   from {
-    background-color: color-mix(in oklab, var(--color-paper) 88%, transparent);
     box-shadow: 0 0 0 0 transparent;
   }
   to {
-    background-color: color-mix(in oklab, var(--color-paper) 94%, transparent);
     box-shadow: 0 10px 30px -18px color-mix(in oklab, var(--color-ink) 35%, transparent);
   }
 }
