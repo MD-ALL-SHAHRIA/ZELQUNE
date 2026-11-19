@@ -79,13 +79,33 @@ export default function config(phase: string): NextConfig {
     output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
     outputFileTracingRoot: path.join(__dirname, '..'),
     async headers() {
-      return [{ source: '/:path*', headers: securityHeaders(phase === PHASE_DEVELOPMENT_SERVER) }];
+      // Files in public/ keep their names when replaced, so not "immutable": browsers keep them
+      // a week and refresh quietly in the background for a month after that (no round trip per
+      // photo on repeat visits).
+      const publicCache = [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=604800, stale-while-revalidate=2592000',
+        },
+      ];
+      return [
+        { source: '/:path*', headers: securityHeaders(phase === PHASE_DEVELOPMENT_SERVER) },
+        ...['images', 'videos', 'fonts', 'email'].map((dir) => ({
+          source: `/${dir}/:path*`,
+          headers: publicCache,
+        })),
+      ];
     },
     transpilePackages: ['@zelqune/api-client', '@zelqune/ui-tokens'],
+    // Next's optimizer resizes every photo (uploads, samples) to the width each screen needs,
+    // as AVIF or WebP, and caches the result (.next/cache/images, a volume in production).
     images: {
-      loader: 'custom',
-      loaderFile: './src/shared/lib/image-loader.ts',
-      formats: ['image/webp'],
+      formats: ['image/avif', 'image/webp'],
+      qualities: [60, 75, 80],
+      // Upload URLs never change content (a new photo gets a new key), so cache for 30 days.
+      minimumCacheTTL: 60 * 60 * 24 * 30,
+      // Development and e2e read the media store on localhost.
+      dangerouslyAllowLocalIP: ['localhost', '127.0.0.1'].includes(mediaBase.hostname),
       remotePatterns: [
         {
           protocol: mediaBase.protocol.replace(':', '') as 'http' | 'https',

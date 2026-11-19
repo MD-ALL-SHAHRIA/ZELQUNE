@@ -6,7 +6,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { SAMPLE } from '@/content/sample-images';
 import { type Dictionary } from '@/i18n/dictionaries/en';
 import { cn } from '@/shared/lib/cn';
-import imageLoader from '@/shared/lib/image-loader';
+import { optimizedImage } from '@/shared/lib/optimized-image';
 import { buttonClass } from '@/shared/ui/button';
 import {
   clampPlacement,
@@ -47,9 +47,9 @@ const btn =
 /** The saved image's longest edge. */
 const SAVE_MAX = 2000;
 
-/** Same-origin (Next's optimizer) or CORS-enabled (Unsplash) URL, so the canvas stays clean. */
+/** Same-origin (Next's optimizer), so the canvas stays clean. */
 const sized = (src: string, width: number) =>
-  src.startsWith('blob:') ? src : imageLoader({ src, width, quality: 80 });
+  src.startsWith('blob:') ? src : optimizedImage(src, width, 80);
 
 interface Wall {
   src: string;
@@ -266,7 +266,7 @@ export default function VisualizerDialog({
                   <img
                     ref={wallImg}
                     key={wall.src}
-                    src={sized(wall.src, 1600)}
+                    src={sized(wall.src, 1920)}
                     crossOrigin={wall.own ? undefined : 'anonymous'}
                     alt=""
                     draggable={false}

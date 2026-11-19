@@ -7,6 +7,12 @@ uses [Semantic Versioning](https://semver.org/) once it ships.
 ## [Unreleased]
 
 ### Changed
+- Faster pages: every photo (uploads and samples) is now resized by Next's image optimizer to the width each screen needs, as AVIF or WebP, and cached for 30 days (a volume in production). Uploaded product photos used to be sent at full size. Home page photos: 525 → 221 KB on phones, 983 → 408 KB on desktop; product page 127 → 49 KB.
+- The design and construction films download once instead of twice (the player no longer buffers its own copy while the full film loads): 17 MB instead of 35 MB on desktop.
+- Browsers keep photos, films and fonts for a week (they were re-checked on every visit).
+- The header is solid again; scrolled content no longer shows through it.
+- The promise strip under the hero is now a brass ribbon (the logo's gold): the four promises drift by in large espresso serif with the owner's icons, between small arches with a lamp in them. It answers the visitor: scrolling pushes it (and turns it round when scrolling up) and it leans with its speed, it can be grabbed and thrown by mouse or finger, and under the pointer it eases to a stop while that promise stays bright. Still with reduced motion (a row you swipe); screen readers get the promises once as a list.
+- No more console error when switching between English and Bangla.
 - Cancelling an order now cancels its shipment too if the parcel has not left (pending or booked); the audit log names the consignment to cancel in the courier's panel. A parcel already with the courier is left for staff to handle as a return.
 - Owner and staff passwords get the same check as customers': common passwords and ones containing the person's name, email or phone are refused (creating, resetting and changing a team password, and `OWNER_PASSWORD` at start).
 - The event relay no longer keeps a database transaction open while it talks to RabbitMQ: it claims a batch under a 60-second lease, publishes, then marks each event sent (#4).

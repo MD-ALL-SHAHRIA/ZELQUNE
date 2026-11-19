@@ -260,8 +260,8 @@
   }
 }
 
-/* Header: once the page scrolls, the bar firms up (more opaque, a soft shadow) and the logo
-   settles a touch smaller. Transforms and colours only, so nothing below it moves. */
+/* Header: always solid (nothing shows through it); once the page scrolls it gains a soft shadow
+   and the logo settles a touch smaller. Transforms and shadows only, so nothing below it moves. */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
     .site-header {
@@ -278,11 +278,9 @@
 }
 @keyframes header-firm {
   from {
-    background-color: color-mix(in oklab, var(--color-paper) 88%, transparent);
     box-shadow: 0 0 0 0 transparent;
   }
   to {
-    background-color: color-mix(in oklab, var(--color-paper) 94%, transparent);
     box-shadow: 0 10px 30px -18px color-mix(in oklab, var(--color-ink) 35%, transparent);
   }
 }
@@ -654,4 +652,45 @@ html.intro .intro-name > span {
     clip-path: inset(0 0 100% 0);
     visibility: hidden;
   }
+}
+
+/* Promise ribbon (features/trust/trust-strip.tsx, ribbon-motion.tsx). Brass in both themes: the
+   logo's gold, set apart from the espresso hero and the paper page. */
+.ribbon {
+  color-scheme: light;
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, #fff 35%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, var(--zq-espresso) 25%, transparent);
+}
+.ribbon-track {
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ribbon-track::-webkit-scrollbar {
+  display: none;
+}
+.ribbon-track[data-live] {
+  overflow: clip;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+.ribbon-track[data-dragging] {
+  cursor: grabbing;
+}
+.ribbon-item {
+  transition: opacity 0.5s var(--ease-out-soft);
+}
+.ribbon-run:has(.ribbon-item:hover) .ribbon-item:not(:hover) {
+  opacity: 0.38;
+}
+.ribbon-lamp {
+  transition:
+    fill 0.4s var(--ease-out-soft),
+    filter 0.4s var(--ease-out-soft);
+}
+.ribbon-item:hover .ribbon-lamp {
+  fill: #fff6e6;
+  filter: drop-shadow(0 0 3px #fff6e6) drop-shadow(0 0 6px var(--zq-glow));
 }

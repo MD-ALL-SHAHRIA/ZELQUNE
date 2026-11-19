@@ -27,6 +27,8 @@ WORKDIR /app
 COPY --from=build --chown=node:node /repo/${APP}/.next/standalone ./
 COPY --from=build --chown=node:node /repo/${APP}/.next/static ./${APP}/.next/static
 COPY --from=build --chown=node:node /repo/${APP}/public ./${APP}/public
+# Resized photos are cached here (a volume in production, so a redeploy keeps them).
+RUN mkdir -p "${APP}/.next/cache/images" && chown -R node:node "${APP}/.next/cache"
 USER node
 ENV APP=${APP}
 EXPOSE ${PORT}
