@@ -92,7 +92,7 @@ jobs:
           pnpm keys:dev
           {
             echo "OWNER_PHONE=01700000001"
-            echo "OWNER_PASSWORD=ci-only-owner-password-$(openssl rand -hex 8)"
+            echo "OWNER_PASSWORD=ci-only-walnut-password-$(openssl rand -hex 8)"
             echo "OWNER_NAME=CI Owner"
             echo "OWNER_NOTIFY_PHONE=01900000000"
             echo "PAYMENT_BKASH_NUMBER=01700000002"
