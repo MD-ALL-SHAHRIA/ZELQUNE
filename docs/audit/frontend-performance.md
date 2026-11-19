@@ -1,5 +1,25 @@
 # Storefront and dashboard performance pass (2026-11-06)
 
+## Update 2026-11-19
+
+Measured with Playwright on the production build (phone: 390 px, 4x CPU slowdown, 1.6 Mbps,
+150 ms latency; desktop: unthrottled).
+
+| Change | Before | After |
+|---|---|---|
+| Photos through Next's optimizer (AVIF/WebP, right width, cached 30 days) instead of a custom loader that sent uploads at full size | Home photos 525 KB phone / 983 KB desktop; product 127 KB | **221 KB / 408 KB; 49 KB** |
+| Design/construction film: the `<video>` no longer buffers (`preload="metadata"`) while `fetch` loads the film into memory | Desktop design page 35 MB (the film twice) | **17.3 MB** (once) |
+| `Cache-Control` for `public/` (images, videos, fonts, email) | `max-age=0` (a round trip per file on every visit) | a week, then refreshed in the background |
+
+Phone timings after: first paint and LCP 0.9–1.3 s, CLS 0–0.06. The home page's ~350 ms of
+blocking time on a 4x slower CPU is almost all React, Next's router and the module runtime
+starting up; the site's own code is about 50 ms of it.
+
+The biggest remaining step is on the server side: Cloudflare in front of the VPS (free, with an
+edge in Dhaka) caches pages for 60 s and photos for longer, so visitors in Bangladesh do not
+wait for a round trip to the data centre (`docs/deploy.md` §2).
+
+
 Lighthouse 12.8.2, production build (`next build && next start`) on localhost, default mobile
 (simulated slow 4G, 4x CPU) and desktop presets. Warm server, median of 2–3 runs.
 
@@ -37,7 +57,7 @@ The 38 KB gz chunk shared by both apps is `noModule` polyfills: modern browsers 
 - Dependencies are lean: React, Next, Redux Toolkit, Radix Dialog, lucide, clsx, tailwind-merge,
   zod. No duplicates. zod does not ship to the browser.
 - `"use client"`: 56 of 130 components, each using state, effects, events or browser APIs. The 3
-  without hooks need it anyway (`useParams`, the image-loader file, browser session).
+  without hooks need it anyway (`useParams`, browser session).
 - Fonts: variable files, `display: swap`. The italic is not preloaded. Bangla faces load only on
   `/bn` (unicode-range), and Tiro Bangla after load.
 - Images: next/image with AVIF/WebP, `sizes` set, and the hero preloaded with
