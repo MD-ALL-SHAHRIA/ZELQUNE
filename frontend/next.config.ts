@@ -79,7 +79,22 @@ export default function config(phase: string): NextConfig {
     output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
     outputFileTracingRoot: path.join(__dirname, '..'),
     async headers() {
-      return [{ source: '/:path*', headers: securityHeaders(phase === PHASE_DEVELOPMENT_SERVER) }];
+      // Files in public/ keep their names when replaced, so not "immutable": browsers keep them
+      // a week and refresh quietly in the background for a month after that (no round trip per
+      // photo on repeat visits).
+      const publicCache = [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=604800, stale-while-revalidate=2592000',
+        },
+      ];
+      return [
+        { source: '/:path*', headers: securityHeaders(phase === PHASE_DEVELOPMENT_SERVER) },
+        ...['images', 'videos', 'fonts', 'email'].map((dir) => ({
+          source: `/${dir}/:path*`,
+          headers: publicCache,
+        })),
+      ];
     },
     transpilePackages: ['@zelqune/api-client', '@zelqune/ui-tokens'],
     // Next's optimizer resizes every photo (uploads, samples) to the width each screen needs,
