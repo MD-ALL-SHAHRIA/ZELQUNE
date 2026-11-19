@@ -76,6 +76,8 @@ services:
       # Server-side rendering calls the gateway on the private network.
       API_URL: http://gateway:3000
       PRICE_EXPERIMENT: ${PRICE_EXPERIMENT:-}
+    volumes:
+      - image-cache:/app/frontend/.next/cache/images
     networks: [edge]
     healthcheck:
       test:
@@ -352,6 +354,7 @@ networks:
 volumes:
   caddy-data:
   caddy-config:
+  image-cache:
   media-data:
   postgres-data:
   rabbitmq-data:

@@ -82,10 +82,15 @@ export default function config(phase: string): NextConfig {
       return [{ source: '/:path*', headers: securityHeaders(phase === PHASE_DEVELOPMENT_SERVER) }];
     },
     transpilePackages: ['@zelqune/api-client', '@zelqune/ui-tokens'],
+    // Next's optimizer resizes every photo (uploads, samples) to the width each screen needs,
+    // as AVIF or WebP, and caches the result (.next/cache/images, a volume in production).
     images: {
-      loader: 'custom',
-      loaderFile: './src/shared/lib/image-loader.ts',
-      formats: ['image/webp'],
+      formats: ['image/avif', 'image/webp'],
+      qualities: [60, 75, 80],
+      // Upload URLs never change content (a new photo gets a new key), so cache for 30 days.
+      minimumCacheTTL: 60 * 60 * 24 * 30,
+      // Development and e2e read the media store on localhost.
+      dangerouslyAllowLocalIP: ['localhost', '127.0.0.1'].includes(mediaBase.hostname),
       remotePatterns: [
         {
           protocol: mediaBase.protocol.replace(':', '') as 'http' | 'https',
