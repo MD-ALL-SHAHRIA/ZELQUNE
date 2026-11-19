@@ -12,6 +12,7 @@ import {
   type UpdateShipmentStatusInput,
 } from '@zelqune/contracts';
 import { type ShippingEnv } from '../config/shipping-env';
+import { type Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ShippingSettingsService } from '../settings/shipping-settings';
 import { DISTRICT_VIEWS, DISTRICTS_BY_CODE, zoneFor } from '../zones/districts';
@@ -178,5 +179,36 @@ export class ShippingService {
         trackingUrl: s.trackingUrl,
       };
     });
+  }
+
+  /**
+   * order.cancelled: a shipment that has not left the workshop (PENDING or BOOKED) is cancelled
+   * with the order. One already with the courier is left alone; staff handle it as a return.
+   * Returns the shipment's status after the call, or null when the order had no shipment.
+   */
+  async cancelForOrder(
+    { orderId, reason }: { orderId: string; reason: string },
+    tx: Prisma.TransactionClient,
+  ): Promise<string | null> {
+    await tx.$queryRaw`SELECT id FROM shipments WHERE order_id = ${orderId}::uuid FOR UPDATE`;
+    const current = await tx.shipment.findUnique({ where: { orderId } });
+    if (!current) return null;
+    if (!canTransitionShipment(current.status, 'CANCELLED')) return current.status;
+    await tx.shipment.update({
+      where: { orderId },
+      data: { status: 'CANCELLED', history: { create: { from: current.status, to: 'CANCELLED' } } },
+    });
+    await recordAudit(this.outbox, tx, SOURCE, {
+      action: 'shipment.cancelWithOrder',
+      entityType: 'order',
+      entityId: orderId,
+      summary: `Shipment ${current.status} -> CANCELLED (order cancelled: ${reason})${
+        current.consignmentId
+          ? `; cancel consignment ${current.consignmentId} with ${current.courier}`
+          : ''
+      }`,
+      changes: { from: current.status, to: 'CANCELLED', reason },
+    });
+    return 'CANCELLED';
   }
 }

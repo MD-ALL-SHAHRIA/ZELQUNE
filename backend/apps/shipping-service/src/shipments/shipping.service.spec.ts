@@ -99,4 +99,42 @@ describe('ShippingService', () => {
     );
     expect(prisma.shipment.delete).toHaveBeenCalledWith({ where: { orderId } });
   });
+
+  describe('cancelForOrder', () => {
+    const orderId = '0b6f0a3e-7f2a-4c35-9a5e-2f1d0c1b2a3e';
+    const txWith = (shipment: Record<string, unknown> | null) => {
+      const update = jest.fn().mockResolvedValue({});
+      const tx = {
+        $queryRaw: jest.fn().mockResolvedValue([]),
+        shipment: { findUnique: jest.fn().mockResolvedValue(shipment), update },
+      };
+      return { tx: tx as never, update };
+    };
+
+    it('cancels a booked shipment that has not left', async () => {
+      const { tx, update } = txWith({ status: 'BOOKED', courier: 'MANUAL', consignmentId: 'C1' });
+      expect(await service.cancelForOrder({ orderId, reason: 'ADMIN' }, tx)).toBe('CANCELLED');
+      expect(update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ status: 'CANCELLED' }) as object,
+        }),
+      );
+    });
+
+    it('leaves a parcel already with the courier alone', async () => {
+      const { tx, update } = txWith({
+        status: 'IN_TRANSIT',
+        courier: 'MANUAL',
+        consignmentId: 'C1',
+      });
+      expect(await service.cancelForOrder({ orderId, reason: 'ADMIN' }, tx)).toBe('IN_TRANSIT');
+      expect(update).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when the order has no shipment', async () => {
+      const { tx, update } = txWith(null);
+      expect(await service.cancelForOrder({ orderId, reason: 'PAYMENT_TIMEOUT' }, tx)).toBeNull();
+      expect(update).not.toHaveBeenCalled();
+    });
+  });
 });

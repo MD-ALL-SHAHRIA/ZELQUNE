@@ -7,6 +7,7 @@ import {
   ShippingSettingsService,
 } from './settings/shipping-settings';
 import { COURIER_PROVIDERS, ManualCourierProvider } from './shipments/courier.provider';
+import { ShippingEventHandlers } from './shipments/shipping.handlers';
 import { ShippingRpcController } from './shipments/shipping.rpc.controller';
 import { ShippingService } from './shipments/shipping.service';
 
@@ -22,6 +23,7 @@ import { ShippingService } from './shipments/shipping.service';
   providers: [
     ShippingService,
     ShippingSettingsService,
+    ShippingEventHandlers,
     // Add courier API providers here in M3.
     { provide: COURIER_PROVIDERS, useValue: [new ManualCourierProvider()] },
   ],
